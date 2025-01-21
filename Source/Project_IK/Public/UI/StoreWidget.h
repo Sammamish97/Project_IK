@@ -53,7 +53,7 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHorizontalBox> item_container_;
 	UPROPERTY()
-	TArray < TObjectPtr<UStoreSlot>> item_slots_;
+	TArray<TObjectPtr<UStoreSlot>> item_slots_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHorizontalBox> dp_container_;
@@ -62,6 +62,9 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> total_cost_text_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> casher_text_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> pay_button_;

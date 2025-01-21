@@ -99,6 +99,7 @@ void UStoreWidget::NativeDestruct()
 
 void UStoreWidget::OnPayButtonClicked()
 {
+
 }
 
 void UStoreWidget::OnStoreSlotClicked()
