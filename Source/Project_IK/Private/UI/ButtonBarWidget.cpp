@@ -221,6 +221,7 @@ void UButtonBarWidget::SynchroItemButtons()
 		return ;
 	}
 
+	FButtonStyle button_style;
 	FSlateBrush normal_brush;
 	normal_brush.DrawAs = ESlateBrushDrawType::Type::Image;
 	normal_brush.SetImageSize(FVector2D(128.0, 128.0));
@@ -232,56 +233,61 @@ void UButtonBarWidget::SynchroItemButtons()
 	FSlateBrush disabled_brush = pressed_brush;
 	disabled_brush.SetResourceObject(empty_item_icon);
 
+	button_style.SetDisabled(disabled_brush);
+
 	if (item_inventory_->GetItem(0) != nullptr)
 	{
 		UTexture2D* item_icon = item_inventory_->GetItem(0)->GetData().item_icon_;
 		normal_brush.SetResourceObject(item_icon);
+		button_style.SetNormal(normal_brush);
 		hovered_brush.SetResourceObject(item_icon);
+		button_style.SetHovered(hovered_brush);
 		pressed_brush.SetResourceObject(item_icon);
+		button_style.SetPressed(pressed_brush);
 
 		item_button_0_->SetIsEnabled(true);
-		item_button_0_->WidgetStyle.SetNormal(normal_brush);
-		item_button_0_->WidgetStyle.SetHovered(hovered_brush);
-		item_button_0_->WidgetStyle.SetPressed(pressed_brush);
+		item_button_0_->SetStyle(button_style);
 	}
 	else
 	{
 		item_button_0_->SetIsEnabled(false);
-		item_button_0_->WidgetStyle.SetDisabled(disabled_brush);
+		item_button_0_->SetStyle(button_style);
 	}
 	if (item_inventory_->GetItem(1) != nullptr)
 	{
 		UTexture2D* item_icon = item_inventory_->GetItem(1)->GetData().item_icon_;
 		normal_brush.SetResourceObject(item_icon);
+		button_style.SetNormal(normal_brush);
 		hovered_brush.SetResourceObject(item_icon);
+		button_style.SetHovered(hovered_brush);
 		pressed_brush.SetResourceObject(item_icon);
+		button_style.SetPressed(pressed_brush);
 
+		item_button_1_->SetStyle(button_style);
 		item_button_1_->SetIsEnabled(true);
-		item_button_1_->WidgetStyle.SetNormal(normal_brush);
-		item_button_1_->WidgetStyle.SetHovered(hovered_brush);
-		item_button_1_->WidgetStyle.SetPressed(pressed_brush);
 	}
 	else
 	{
 		item_button_1_->SetIsEnabled(false);
-		item_button_1_->WidgetStyle.SetDisabled(disabled_brush);
+		item_button_1_->SetStyle(button_style);
 	}
 	if (item_inventory_->GetItem(2) != nullptr)
 	{
 		UTexture2D* item_icon = item_inventory_->GetItem(2)->GetData().item_icon_;
 		normal_brush.SetResourceObject(item_icon);
+		button_style.SetNormal(normal_brush);
 		hovered_brush.SetResourceObject(item_icon);
+		button_style.SetHovered(hovered_brush);
 		pressed_brush.SetResourceObject(item_icon);
+		button_style.SetPressed(pressed_brush);
 
 		item_button_2_->SetIsEnabled(true);
-		item_button_2_->WidgetStyle.SetNormal(normal_brush);
-		item_button_2_->WidgetStyle.SetHovered(hovered_brush);
-		item_button_2_->WidgetStyle.SetPressed(pressed_brush);
+		item_button_2_->SetStyle(button_style);
 	}
 	else
 	{
 		item_button_2_->SetIsEnabled(false);
-		item_button_2_->WidgetStyle.SetDisabled(disabled_brush);
+		item_button_2_->SetStyle(button_style);
 	}
 }
 

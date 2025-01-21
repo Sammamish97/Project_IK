@@ -106,7 +106,7 @@ void UItemPickerUI::InitializeChildWidgets()
 
 	title_ = NewObject<UTextBlock>();
 	title_->SetText(FText::FromString("Take one of items"));
-	FSlateFontInfo magnified_font = title_->Font;
+	FSlateFontInfo magnified_font = title_->GetFont();
 	magnified_font.Size = 48;
 	title_->SetFont(magnified_font);
 	UVerticalBoxSlot* title_slot = widgets_holder_->AddChildToVerticalBox(title_.Get());
@@ -145,16 +145,18 @@ void UItemPickerUI::InitializeChildWidgets()
 	for (int32 i = 0; i < 3; i++)
 	{	
 		TWeakObjectPtr<UButton> button = NewObject<UButton>();
+		FButtonStyle button_style;
 		FSlateBrush new_brush;
 		new_brush.SetResourceObject(item_candidates_[i]->item_icon_);
 		new_brush.DrawAs = ESlateBrushDrawType::Type::Image;
 		new_brush.TintColor = FSlateColor(FLinearColor(0.69f, 0.69f, 0.69f));
 		new_brush.SetImageSize(FVector2D(128.0, 128.0));
-		button->WidgetStyle.SetNormal(new_brush);
+		button_style.SetNormal(new_brush);
 		new_brush.TintColor = FSlateColor(FLinearColor(0.95f, 0.95f, 0.95f));
-		button->WidgetStyle.SetHovered(new_brush);
+		button_style.SetHovered(new_brush);
 		new_brush.TintColor = FSlateColor(FLinearColor(0.5f, 0.5f, 0.5f));
-		button->WidgetStyle.SetPressed(new_brush);
+		button_style.SetPressed(new_brush);
+		button->SetStyle(button_style);
 		button->OnClicked.AddDynamic(this, & UItemPickerUI::ItemButtonOnClicked);
 		UHorizontalBoxSlot* button_slot = buttons_holder_->AddChildToHorizontalBox(button.Get());
 
@@ -167,16 +169,18 @@ void UItemPickerUI::InitializeChildWidgets()
 
 	UTexture2D* select_texture = game_instance->GetTextureManager()->GetTexture("take_it_button");
 	select_button_ = NewObject<UButton>();
+	FButtonStyle button_style;
 	FSlateBrush select_brush;
 	select_brush.SetResourceObject(select_texture);
 	select_brush.DrawAs = ESlateBrushDrawType::Type::Image;
 	select_brush.TintColor = FSlateColor(FLinearColor(0.69f, 0.69f, 0.69f));
 	select_brush.SetImageSize(FVector2D(256.0, 64.0));
-	select_button_->WidgetStyle.SetNormal(select_brush);
+	button_style.SetNormal(select_brush);
 	select_brush.TintColor = FSlateColor(FLinearColor(0.95f, 0.95f, 0.95f));
-	select_button_->WidgetStyle.SetHovered(select_brush);
+	button_style.SetHovered(select_brush);
 	select_brush.TintColor = FSlateColor(FLinearColor(0.5f, 0.5f, 0.5f));
-	select_button_->WidgetStyle.SetPressed(select_brush);
+	button_style.SetPressed(select_brush);
+	select_button_->SetStyle(button_style);
 	select_button_->OnClicked.AddDynamic(this, &UItemPickerUI::SelectButtonBindingFunc);
 	select_button_->SetIsEnabled(false);
 	UVerticalBoxSlot* select_button_slot = widgets_holder_->AddChildToVerticalBox(select_button_.Get());
