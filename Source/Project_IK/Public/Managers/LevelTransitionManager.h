@@ -44,8 +44,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetActorBlueprints(TSubclassOf<AActor> hero_blueprint, TSubclassOf<AActor> enemy_blueprint);
-	
+
+	UFUNCTION(BlueprintCallable)
 	const TArray<FCharacterData>& GetSavedData() const;
+
 	FCharacterData GetSavedData(int idx) const;
 
 	UFUNCTION(BlueprintCallable)

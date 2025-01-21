@@ -64,6 +64,10 @@ public:
 	EDPType periodic_dp_;
 	UPROPERTY(VisibleAnywhere, Category = "Data")
 	EDPType general_dp_;
+
+	//Hero Upgrade
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Data")
+	int upgrade_level_;
 };
 
 UCLASS()
