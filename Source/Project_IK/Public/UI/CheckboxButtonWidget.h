@@ -19,6 +19,8 @@ class UImage;
 class FOnButtonClickedEvent;
 struct FItemData;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCheckboxButtonClickedDelegate);
+
 /**
  * 
  */
@@ -36,7 +38,9 @@ public:
 	void SetIsChecked(bool flag);
 	void ToggleChecked();
 	inline bool IsChecked() const;
-	FOnButtonClickedEvent& GetButtonOnClicked();
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnCheckboxButtonClickedDelegate OnCheckboxButtonClickedDelegate;
 
 	static constexpr FLinearColor normal_color = FLinearColor(0.69f, 0.69f, 0.69f);
 	static constexpr FLinearColor hovered_color = FLinearColor(0.95f, 0.95f, 0.95f);

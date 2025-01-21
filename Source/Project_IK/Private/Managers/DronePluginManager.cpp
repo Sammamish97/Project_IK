@@ -54,6 +54,24 @@ FDPData UDronePluginManager::GetDPDataRandomly(ERarity weight_rarity) const
 	}
 }
 
+TArray<FDPData> UDronePluginManager::GetUniqueDPDataRandomly(int32 n, ERarity rarity) const
+{
+	TArray<FDPData> return_array;
+	if (!dp_table_)
+	{
+		return return_array;
+	}
+
+	TArray<FRarityData*> raw_array = GetUniqueRandomData(GetRaritiesRandomly(rarity, n));
+	return_array.Reserve(raw_array.Num());
+	for (FRarityData* raw_data : raw_array)
+	{
+		return_array.Add(*reinterpret_cast<FDPData*>(raw_data));
+	}
+
+	return return_array;
+}
+
 FString UDronePluginManager::EnumToString(EDPType dp_type) const
 {
 	FString dp_string;

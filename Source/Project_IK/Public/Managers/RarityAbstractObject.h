@@ -38,9 +38,17 @@ class PROJECT_IK_API URarityAbstractObject : public UObject
 	
 protected:
 	ERarity GetRarityRandomly(ERarity weight_rarity) const;
+	// Return data contains how many rarity produced.
+	TMap<ERarity, int32> GetRaritiesRandomly(ERarity weight_rarity, int32 n) const;
 	void CategorizeByRarity(UDataTable* data_table);
 	FRarityData* GetRandomDataByRarity(ERarity rarity) const;
+	TArray<FRarityData*> GetUniqueRandomData(TMap<ERarity, int32> rarity_count) const;
+
+private:
+	TArray<TPair<ERarity, int32>> GetRarityWeights(ERarity weight_rarity) const;
 
 protected:
+
+
 	TArray<FRarityData*> rarity_B, rarity_A, rarity_S;
 };

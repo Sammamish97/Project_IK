@@ -80,11 +80,6 @@ bool UCheckboxButtonWidget::IsChecked() const
 	return is_checked_;
 }
 
-FOnButtonClickedEvent& UCheckboxButtonWidget::GetButtonOnClicked()
-{
-	return button_->OnClicked;
-}
-
 void UCheckboxButtonWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -104,6 +99,7 @@ void UCheckboxButtonWidget::NativeDestruct()
 	{
 		button_->OnClicked.Clear();
 	}
+	OnCheckboxButtonClickedDelegate.Clear();
 }
 
 void UCheckboxButtonWidget::UpdateImageColor()
@@ -133,4 +129,9 @@ void UCheckboxButtonWidget::UpdateImageColor()
 void UCheckboxButtonWidget::OnButtonClicked()
 {
 	ToggleChecked();
+
+	if (OnCheckboxButtonClickedDelegate.IsBound())
+	{
+		OnCheckboxButtonClickedDelegate.Broadcast();
+	}
 }

@@ -25,6 +25,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "DronePluginManager")
 	FDPData GetDPDataRandomly(ERarity weight_rarity = ERarity::B) const;
+
+	TArray<FDPData> GetUniqueDPDataRandomly(int32 n = 1, ERarity rarity = ERarity::B) const;
 	
 	FString EnumToString(EDPType dp_type) const;
 	

@@ -22,7 +22,7 @@ UItemDataManager::UItemDataManager()
 	{
 		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a game file data (IK_Proto_ItemData)"));
 	}
-	item_table_= dt_item_data.Object;
+	item_table_ = dt_item_data.Object;
 
 	CategorizeByRarity(item_table_);
 }
@@ -44,4 +44,22 @@ FItemData* UItemDataManager::GetItemDataRandomly(ERarity weight_rarity) const
 	}
 
 	return reinterpret_cast<FItemData*>(GetRandomDataByRarity(GetRarityRandomly(weight_rarity)));
+}
+
+TArray<FItemData*> UItemDataManager::GetUniqueItemDataRandomly(int32 n, ERarity rarity) const
+{
+	TArray<FItemData*> return_array;
+	if (!item_table_)
+	{
+		return return_array;
+	}
+
+	TArray<FRarityData*> raw_array = GetUniqueRandomData(GetRaritiesRandomly(rarity, n));
+	return_array.Reserve(raw_array.Num());
+	for (FRarityData* raw_data : raw_array)
+	{
+		return_array.Add(reinterpret_cast<FItemData*>(raw_data));
+	}
+
+	return return_array;
 }

@@ -44,7 +44,7 @@ protected:
 
 	UFUNCTION()
 	void ContinueAnimation();
-	void StartAnimationSquence();
+	void StartAnimationSquence(int32 animation_max_);
 	void PlayNextAnimation();
 	void StopAllAnimations();
 
@@ -55,6 +55,7 @@ protected:
 	TArray<TWeakObjectPtr<UGotchaSlot>> slots_;
 
 	static constexpr int32 MAX_IMAGE = 10;
+	int32 animation_max;
 
 	int32 current_animation_index_;
 

@@ -58,6 +58,7 @@ public:
 
 	FItemData* GetItemData(int32 item_id) const;
 	FItemData* GetItemDataRandomly(ERarity rarity = ERarity::B) const;
+	TArray<FItemData*> GetUniqueItemDataRandomly(int32 n = 1, ERarity rarity = ERarity::B) const;
 
 protected:
 	class UDataTable* item_table_;

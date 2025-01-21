@@ -57,15 +57,11 @@ void UItemKeepOrDiscardWidget::NativeConstruct()
 
 	for (UCheckboxButtonWidget* widget : candidates_items_widgets_)
 	{
-		FOnButtonClickedEvent& on_clicked = widget->GetButtonOnClicked();
-		on_clicked.Clear();
-		on_clicked.AddDynamic(this, &UItemKeepOrDiscardWidget::OnCheckboxButtonClicked);
+		widget->OnCheckboxButtonClickedDelegate.AddDynamic(this, &UItemKeepOrDiscardWidget::OnCheckboxButtonClicked);
 	}
 	for (UCheckboxButtonWidget* widget : inventory_items_widgets_)
 	{
-		FOnButtonClickedEvent& on_clicked = widget->GetButtonOnClicked();
-		on_clicked.Clear();
-		on_clicked.AddDynamic(this, &UItemKeepOrDiscardWidget::OnCheckboxButtonClicked);
+		widget->OnCheckboxButtonClickedDelegate.AddDynamic(this, &UItemKeepOrDiscardWidget::OnCheckboxButtonClicked);
 	}
 }
 
@@ -130,16 +126,22 @@ bool UItemKeepOrDiscardWidget::ToggleCheckboxButton(UCheckboxButtonWidget* widge
 		item_text_->SetText(FText::FromString(widget->GetItem()->item_description_));
 		if (widget->IsChecked())
 		{
-			widget->ToggleChecked();
-			--checked_items_num_;
-			return true;
+			if (checked_items_num_ < UItemInventory::INVENTORY_CAPACITY)
+			{
+				++checked_items_num_;
+			}
+			else
+			{
+				// When user tries selecting items more than inventory capacity,
+				// Toggle again to make it not pressed. 
+				widget->ToggleChecked();
+			}
 		}
-		else if(checked_items_num_ < UItemInventory::INVENTORY_CAPACITY)
+		else
 		{
-			widget->ToggleChecked();
-			++checked_items_num_;
-			return true;
+			--checked_items_num_;
 		}
+		return true;
 	}
 	return false;
 }
