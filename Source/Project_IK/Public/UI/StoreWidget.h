@@ -22,6 +22,7 @@ class UHorizontalBox;
 class UTextBlock;
 class UButton;
 class UStoreSlot;
+class UConfirmationWidget;
 
 /**
  * 
@@ -39,6 +40,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UStoreSlot> store_widget_class_;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UConfirmationWidget> confirmation_widget_class_;
+
 protected:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
@@ -49,6 +53,9 @@ protected:
 	void OnStoreSlotClicked();
 
 	int32 GetPriceByRarity(ERarity rarity);
+
+	UFUNCTION()
+	void GoToNextLevel();
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHorizontalBox> item_container_;
@@ -69,9 +76,13 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> pay_button_;
 
+	UPROPERTY()
+	TObjectPtr<UConfirmationWidget> confirmation_widget_;
+
 	TArray<FItemData*> items_;
 	TArray<FDPData> dps_;
 
 	UPROPERTY()
 	int32 total_cost_;
+	int32 money_;
 };

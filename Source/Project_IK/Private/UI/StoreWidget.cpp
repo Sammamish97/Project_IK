@@ -15,9 +15,13 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/ItemDataManager.h"
 #include "Managers/DronePluginManager.h"
+#include "Abilities/ItemInventory.h"
+
+#include "WorldSettings/StoreLevel/IKStoreHUD.h"
 
 #include "Blueprint/WidgetTree.h"
 #include "UI/StoreSlot.h"
+#include "UI/ConfirmationWidget.h"
 #include "Components/HorizontalBox.h"
 #include "Components/HorizontalBoxSlot.h"
 #include "Components/Button.h"
@@ -27,6 +31,7 @@ bool UStoreWidget::Initialize()
 {
 	Super::Initialize();
 	total_cost_ = 0;
+	money_ = 500;
 	return true;
 }
 
@@ -84,6 +89,12 @@ void UStoreWidget::NativeConstruct()
 		}
 	}
 
+	if (confirmation_widget_class_)
+	{
+		confirmation_widget_ = WidgetTree->ConstructWidget<UConfirmationWidget>(confirmation_widget_class_);
+		confirmation_widget_->OnConfirmation.AddDynamic(this, &UStoreWidget::GoToNextLevel);
+	}
+
 	pay_button_->OnClicked.AddDynamic(this, &UStoreWidget::OnPayButtonClicked);
 }
 
@@ -99,7 +110,27 @@ void UStoreWidget::NativeDestruct()
 
 void UStoreWidget::OnPayButtonClicked()
 {
+	if (!confirmation_widget_)
+	{
+		return;
+	}
 
+	if (total_cost_ <= 0)
+	{
+		confirmation_widget_->SetText(FText::FromString("Are you sure you want to leave? This action cannot be undone."));
+		confirmation_widget_->AddToViewport();
+	}
+	else if (total_cost_ <= money_)
+	{
+		// Are you sure you want to purchase this item? This action cannot be undone.
+		FText confirm_text = FText::Format(NSLOCTEXT("NameSpace", "StoreConfirmationMessage", "Do you want to complete your purchase of items for {0}?"), FText::AsNumber(total_cost_));
+		confirmation_widget_->SetText(confirm_text);
+		confirmation_widget_->AddToViewport();
+	}
+	else
+	{
+		casher_text_->SetText(FText::FromString("Not enough money, huh? Maybe try picking something that actually fits your purse."));
+	}
 }
 
 void UStoreWidget::OnStoreSlotClicked()
@@ -135,4 +166,42 @@ int32 UStoreWidget::GetPriceByRarity(ERarity rarity)
 		return 50;
 		break;
 	}
+}
+
+void UStoreWidget::GoToNextLevel()
+{
+	UE_LOG(LogTemp, Display, TEXT("UStoreWidget::GoToNextLevel has been called!"));
+
+	// Save purchased items and dps
+	money_ -= total_cost_;
+
+	TArray<FItemData*> selected_items;
+	TArray<FDPData> selected_dps;
+	for (int32 i = 0; i < STOCK; i++)
+	{
+		if (item_slots_[i]->IsChecked())
+		{
+			selected_items.Add(items_[i]);
+		}
+		if (dp_slots_[i]->IsChecked())
+		{
+			selected_dps.Add(dps_[i]);
+		}
+	}
+
+
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	// @@ TODO: Add DPs.
+	game_instance->GetItemInventory()->AddItems(selected_items, [this]() {
+		// Update HUD status
+		AIKStoreHUD* hud = Cast<AIKStoreHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+		if (hud)
+		{
+			hud->DisplayMapWidget();
+		}
+		}
+	);
+
+	// Pop up map widget to go to next levels.
 }
