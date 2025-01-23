@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/ItemDataManager.h"
 #include "Managers/DronePluginManager.h"
 #include "Abilities/ItemInventory.h"
+#include "Managers/InventoryManager.h"
 
 #include "WorldSettings/StoreLevel/IKStoreHUD.h"
 
@@ -31,7 +32,7 @@ bool UStoreWidget::Initialize()
 {
 	Super::Initialize();
 	total_cost_ = 0;
-	money_ = 500;
+	credits_ = 0;
 	return true;
 }
 
@@ -56,6 +57,8 @@ void UStoreWidget::NativeConstruct()
 	dps_ = drone_plugin_manager->GetUniqueDPDataRandomly(STOCK);
 	item_slots_.Empty();
 	dp_slots_.Empty();
+	
+	credits_ = game_instance->GetInventoryManager()->GetCredits();
 
 
 	if (store_widget_class_)
@@ -120,7 +123,7 @@ void UStoreWidget::OnPayButtonClicked()
 		confirmation_widget_->SetText(FText::FromString("Are you sure you want to leave? This action cannot be undone."));
 		confirmation_widget_->AddToViewport();
 	}
-	else if (total_cost_ <= money_)
+	else if (total_cost_ <= credits_)
 	{
 		// Are you sure you want to purchase this item? This action cannot be undone.
 		FText confirm_text = FText::Format(NSLOCTEXT("NameSpace", "StoreConfirmationMessage", "Do you want to complete your purchase of items for {0}?"), FText::AsNumber(total_cost_));
@@ -129,7 +132,7 @@ void UStoreWidget::OnPayButtonClicked()
 	}
 	else
 	{
-		casher_text_->SetText(FText::FromString("Not enough money, huh? Maybe try picking something that actually fits your purse."));
+		casher_text_->SetText(FText::FromString("Not enough money, huh? Try picking something that actually fits your purse."));
 	}
 }
 
@@ -170,10 +173,12 @@ int32 UStoreWidget::GetPriceByRarity(ERarity rarity)
 
 void UStoreWidget::GoToNextLevel()
 {
-	UE_LOG(LogTemp, Display, TEXT("UStoreWidget::GoToNextLevel has been called!"));
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
 	// Save purchased items and dps
-	money_ -= total_cost_;
+	UInventoryManager* inventory_manager = game_instance->GetInventoryManager();
+	inventory_manager->SetCredits(credits_ - total_cost_);
+	
 
 	TArray<FItemData*> selected_items;
 	TArray<FDPData> selected_dps;
@@ -189,10 +194,10 @@ void UStoreWidget::GoToNextLevel()
 		}
 	}
 
-
-	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
-	// @@ TODO: Add DPs.
+	for (int32 i = 0; i < selected_dps.Num(); i++)
+	{
+		inventory_manager->AddDP(selected_dps[i].dp_type_);
+	}
 	game_instance->GetItemInventory()->AddItems(selected_items, [this]() {
 		// Update HUD status
 		AIKStoreHUD* hud = Cast<AIKStoreHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());

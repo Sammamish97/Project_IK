@@ -84,5 +84,5 @@ protected:
 
 	UPROPERTY()
 	int32 total_cost_;
-	int32 money_;
+	int32 credits_;
 };

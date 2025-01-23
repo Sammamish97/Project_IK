@@ -31,10 +31,18 @@ public:
 	TArray<FDPData>& GetInventory();
 	int GetInventorySize();
 
+	UFUNCTION(BlueprintCallable)
+	void SetCredits(int32 currency);
+	UFUNCTION(BlueprintCallable)
+	int32 GetCredits() const;
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	TArray<FDPData> inventory_;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	int inventory_size_;
+
+	UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	int credits_;
 };
