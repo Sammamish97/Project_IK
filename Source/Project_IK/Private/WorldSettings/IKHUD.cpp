@@ -17,6 +17,8 @@ See LICENSE file in the project root for full license information.
 #include "UI/CombatResultUI.h"
 #include "Managers/LevelEndUIManager.h"
 #include "UI/ButtonBarWidget.h"
+#include "UI/InventoryWidget.h"
+#include "WorldSettings/IKGameInstance.h"
 
 void AIKHUD::DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map)
 {
@@ -95,4 +97,35 @@ void AIKHUD::BeginPlay()
 	{
 		level_end_ui_manager_->InitializeUI(combat_result_widget_class_, item_picker_widget_class_, map_widget_class_, world);
 	}
+
+	if(inventory_widget_class_)
+	{
+		inventory_widget_ = CreateWidget<UInventoryWidget>(GetWorld(), inventory_widget_class_);
+		if(inventory_widget_)
+		{
+			auto instance = UGameplayStatics::GetGameInstance(GetWorld());
+			auto ik_instance = Cast<UIKGameInstance>(instance);
+			if(ik_instance)
+			{
+                inventory_widget_->Initialize(ik_instance->GetInventoryManager());
+                inventory_widget_->LoadInventoryComponent();
+			}
+		}
+	}
+}
+
+void AIKHUD::PopUpInventory()
+{
+	inventory_widget_->LoadInventoryComponent();
+	inventory_widget_->AddToViewport();
+	auto controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	controller->bShowMouseCursor = true;
+}
+
+void AIKHUD::RemoveInventory()
+{
+	inventory_widget_->RemoveFromParent();
+	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;
+	inventory_widget_->ApplyHeroDP();
+	inventory_widget_->ApplyInventoryComponent();
 }

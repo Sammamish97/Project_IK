@@ -54,6 +54,8 @@ public:
 	const class UTextureManager* GetTextureManager() const noexcept;
 	UFUNCTION(BlueprintPure)
 	const class UDialogueEventManager* GetDialogueEventManager() const noexcept;
+	UFUNCTION(BlueprintPure)
+	UInventoryManager* GetInventoryManager() const noexcept;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelTransition")
@@ -74,6 +76,7 @@ private:
 	void InitializeDronePluginManager();
 	void InitializeTextureManager();
 	void InitializeDialogueEventManager();
+	void InitInventoryManager();
 	
 	UPROPERTY()
 	class UItemDataManager* item_data_manager_;
@@ -97,4 +100,7 @@ private:
 
 	UPROPERTY()
 	class UTextureManager* texture_manager_;
+
+	UPROPERTY()
+	class UInventoryManager* inventory_manager_;
 };

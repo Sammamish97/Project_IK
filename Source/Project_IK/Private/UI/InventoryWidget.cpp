@@ -13,13 +13,13 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 #include "Components/Button.h"
 #include "Components/CharacterStatComponent.h"
-#include "Components/InventoryComponent.h"
 #include "Components/WrapBox.h"
 #include "Components/ScrollBox.h"
 #include "Components/TextBlock.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DronePluginManager.h"
 #include "Managers/LevelTransitionManager.h"
+#include "Managers/InventoryManager.h"
 #include "UI/DPSlot.h"
 #include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKGameModeBase.h"
@@ -30,9 +30,9 @@ void UInventoryWidget::NativeConstruct()
 	switch_hero_right_button_->OnClicked.AddDynamic(this, &UInventoryWidget::UInventoryWidget::SwitchToRightHero);
 }
 
-void UInventoryWidget::Initialize(UInventoryComponent* inventory_component)
+void UInventoryWidget::Initialize(UInventoryManager* inventory_component)
 {
-	inventory_component_ref_ = inventory_component;
+	inventory_manager_ref_ = inventory_component;
 	heroDP_generic_->slot_type_ = EDPSlotType::HeroGeneral;
 	heroDP_periodic_->slot_type_ = EDPSlotType::HeroPeriodic;
 	scroll_box_->AddChild(wrap_box_);
@@ -57,8 +57,8 @@ void UInventoryWidget::LoadInventoryComponent()
 	
 	wrap_box_->ClearChildren();
 	inventory_slots_.Reset();
-	inventory_slots_.Init(nullptr, inventory_component_ref_->GetInventorySize());
-	auto inventory_data = inventory_component_ref_->GetInventory();
+	inventory_slots_.Init(nullptr, inventory_manager_ref_->GetInventorySize());
+	auto inventory_data = inventory_manager_ref_->GetInventory();
 	for(int i = 0; i < inventory_data.Num(); i++)
 	{
 		inventory_slots_[i] = Cast<UDPSlot>(CreateWidget(GetWorld(), slot_BP_class_));
@@ -98,7 +98,7 @@ void UInventoryWidget::ApplyHeroDP()
 
 void UInventoryWidget::ApplyInventoryComponent()
 {
-	auto& inven_data = inventory_component_ref_->GetInventory();
+	auto& inven_data = inventory_manager_ref_->GetInventory();
 	for(int i = 0; i < inventory_slots_.Num(); i++)
 	{
 		inven_data[i] = inventory_slots_[i]->dp_data_;
