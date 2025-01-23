@@ -18,7 +18,7 @@ class UDPSlot;
 class UWrapBox;
 class UButton;
 class UTextBlock;
-class UInventoryComponent;
+class UInventoryManager;
 UCLASS()
 class PROJECT_IK_API UInventoryWidget : public UUserWidget
 {
@@ -26,7 +26,7 @@ class PROJECT_IK_API UInventoryWidget : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 	
-	void Initialize(UInventoryComponent* inventory_component);
+	void Initialize(UInventoryManager* inventory_component);
 	void LoadInventoryComponent();
 	void ApplyHeroDP();
 	void ApplyInventoryComponent();
@@ -38,7 +38,7 @@ public:
 
 
 private:
-	UInventoryComponent* inventory_component_ref_;
+	UInventoryManager* inventory_manager_ref_;
 	int cur_hero_idx_;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
