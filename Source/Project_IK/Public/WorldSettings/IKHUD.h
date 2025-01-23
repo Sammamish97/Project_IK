@@ -18,7 +18,7 @@ class UButtonBarWidget;
 class UCombatResultUI;
 class UItemPickerUI;
 class ULevelEndUIManager;
-
+class UInventoryWidget;
 
 enum class ELevelEndState : uint8;
 
@@ -48,6 +48,11 @@ public:
 	UFUNCTION()
 	void UnmuteItems();
 
+	UFUNCTION(BlueprintCallable)
+	void PopUpInventory();
+	UFUNCTION(BlueprintCallable)
+	void RemoveInventory();
+	
 protected:
 	// Reference to the Widget Blueprint class to create
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
@@ -68,6 +73,12 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	ULevelEndUIManager* level_end_ui_manager_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<class UInventoryWidget> inventory_widget_class_;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	UInventoryWidget* inventory_widget_;
 
 	virtual void BeginPlay() override;
 };

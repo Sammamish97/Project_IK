@@ -19,6 +19,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/DronePluginManager.h"
 #include "Managers/TextureManager.h"
 #include "Managers/DialogueEventManager.h"
+#include "Managers/InventoryManager.h"
 
 #include "Characters/HeroBase.h"
 #include "Characters/EnemyBase.h"
@@ -34,13 +35,13 @@ void UIKGameInstance::Init()
 
 	InitializeCharacterDataManager();
 	InitializeItemDataManager();
-
 	InitializeItemInventory();
 	InitializeMaps();
 	InitializeLevelTransitionManager();
 	InitializeDronePluginManager();
 	InitializeTextureManager();
 	InitializeDialogueEventManager();
+	InitInventoryManager();
 
 	item_inventory_->AddItem(item_data_manager_->GetItemDataRandomly());
 }
@@ -73,6 +74,11 @@ ULevelTransitionManager* UIKGameInstance::GetLevelTransitionManager() noexcept
 const UDronePluginManager* UIKGameInstance::GetDronePluginManager() noexcept
 {
 	return drone_plugin_manager_; 
+}
+
+UInventoryManager* UIKGameInstance::GetInventoryManager() const noexcept
+{
+	return inventory_manager_;
 }
 
 const UTextureManager* UIKGameInstance::GetTextureManager() const noexcept
@@ -127,4 +133,10 @@ void UIKGameInstance::InitializeTextureManager()
 void UIKGameInstance::InitializeDialogueEventManager()
 {
 	dialogue_event_manager_ = NewObject<UDialogueEventManager>();
+}
+
+void UIKGameInstance::InitInventoryManager()
+{
+	inventory_manager_ = NewObject<UInventoryManager>(this);
+	inventory_manager_->InitInventory();
 }
