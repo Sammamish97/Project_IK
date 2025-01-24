@@ -23,6 +23,7 @@ class UTextBlock;
 class UButton;
 class UStoreSlot;
 class UConfirmationWidget;
+class UCreditWidget;
 
 /**
  * 
@@ -42,6 +43,13 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UConfirmationWidget> confirmation_widget_class_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	FButtonStyle purchase_style_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	FButtonStyle leave_style_;
+
 
 protected:
 	virtual void NativeConstruct() override;
@@ -78,6 +86,9 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UConfirmationWidget> confirmation_widget_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UCreditWidget> credit_widget_;
 
 	TArray<FItemData*> items_;
 	TArray<FDPData> dps_;

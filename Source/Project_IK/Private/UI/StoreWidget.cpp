@@ -23,6 +23,7 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/WidgetTree.h"
 #include "UI/StoreSlot.h"
 #include "UI/ConfirmationWidget.h"
+#include "UI/CreditWidget.h"
 #include "Components/HorizontalBox.h"
 #include "Components/HorizontalBoxSlot.h"
 #include "Components/Button.h"
@@ -99,6 +100,7 @@ void UStoreWidget::NativeConstruct()
 	}
 
 	pay_button_->OnClicked.AddDynamic(this, &UStoreWidget::OnPayButtonClicked);
+	pay_button_->SetStyle(leave_style_);
 }
 
 void UStoreWidget::NativeDestruct()
@@ -152,6 +154,16 @@ void UStoreWidget::OnStoreSlotClicked()
 	}
 
 	total_cost_text_->SetText(FText::FromString(FString::FromInt(total_cost_)));
+
+	// Update button style
+	if (total_cost_ <= 0)
+	{
+		pay_button_->SetStyle(leave_style_);
+	}
+	else
+	{
+		pay_button_->SetStyle(purchase_style_);
+	}
 }
 
 int32 UStoreWidget::GetPriceByRarity(ERarity rarity)
@@ -178,6 +190,7 @@ void UStoreWidget::GoToNextLevel()
 	// Save purchased items and dps
 	UInventoryManager* inventory_manager = game_instance->GetInventoryManager();
 	inventory_manager->SetCredits(credits_ - total_cost_);
+	credit_widget_->UpdateCreditText();
 	
 
 	TArray<FItemData*> selected_items;
