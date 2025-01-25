@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/CharacterDataManager.h"
 #include "Characters/Unit.h"
+#include "Structs/CharacterData.h"
 
 UCharacterDataManager::UCharacterDataManager()
 	: Super::UObject()

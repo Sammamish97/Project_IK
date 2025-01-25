@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "EnumCluster.h"
+#include "Structs/SpawnData.h"
 
 #include "LevelTransitionManager.generated.h"
 
@@ -65,9 +66,9 @@ protected:
 
 	UPROPERTY()
 	UGameInstance* instance_cache_;
-	
+
 	UPROPERTY()
-	TArray<FCharacterData> data_;
+	FSpawnData spawn_data_;
 
 	UPROPERTY()
 	TSubclassOf<AActor> enemy_blueprint_;
