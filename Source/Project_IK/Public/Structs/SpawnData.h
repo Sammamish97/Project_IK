@@ -14,11 +14,11 @@ See LICENSE file in the project root for full license information.
 #include "Structs/CharacterData.h"
 #include "SpawnData.generated.h"
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct PROJECT_IK_API FSpawnData
 {
 	GENERATED_BODY()
 
-	UPROPERTY()
-	TArray<FCharacterData> character_data_;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
+	FCharacterData character_data_;
 };

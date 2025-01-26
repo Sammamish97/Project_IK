@@ -47,9 +47,9 @@ public:
 	void SetActorBlueprints(TSubclassOf<AActor> hero_blueprint, TSubclassOf<AActor> enemy_blueprint);
 
 	UFUNCTION(BlueprintCallable)
-	const TArray<FCharacterData>& GetSavedData() const;
+	const TArray<FSpawnData>& GetSavedData() const;
 
-	FCharacterData GetSavedData(int idx) const;
+	FSpawnData GetSavedData(int idx) const;
 
 	UFUNCTION(BlueprintCallable)
 	void SetHeroPeriodicDPData(EDPType type, int idx);
@@ -68,7 +68,7 @@ protected:
 	UGameInstance* instance_cache_;
 
 	UPROPERTY()
-	FSpawnData spawn_data_;
+	TArray<FSpawnData> spawn_data_;
 
 	UPROPERTY()
 	TSubclassOf<AActor> enemy_blueprint_;
