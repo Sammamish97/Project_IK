@@ -105,7 +105,7 @@ void UCheckboxButtonWidget::NativeDestruct()
 void UCheckboxButtonWidget::UpdateImageColor()
 {
 	// Retrieve the button's current state from its style
-	const FButtonStyle& ButtonStyle = button_->WidgetStyle;
+	const FButtonStyle& ButtonStyle = button_->GetStyle();
 
 	// Determine the appropriate color based on the button's state
 	FSlateColor CurrentColor;

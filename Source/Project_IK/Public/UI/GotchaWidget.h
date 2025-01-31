@@ -66,7 +66,7 @@ protected:
 
 	TArray<FItemData*> pulled_items_;
 	TArray<FDPData> pulled_dps_;
-	int32 pulled_currency_;
+	int32 pulled_credits_;
 
 	int32 tickets_;
 };

@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/StoreLevel/IKStoreHUD.h"
 
 #include "UI/StoreWidget.h"
+#include "UI/MapWidget.h"
 
 void AIKStoreHUD::BeginPlay()
 {
@@ -25,4 +26,14 @@ void AIKStoreHUD::BeginPlay()
 			store_widget_->AddToViewport();
 		}
 	}
+
+	if (map_widget_class_)
+	{
+		map_widget_ = CreateWidget<UMapWidget>(GetWorld(), map_widget_class_);
+	}
+}
+
+void AIKStoreHUD::DisplayMapWidget()
+{
+	map_widget_->AddToViewport();
 }

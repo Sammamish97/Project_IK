@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "IKStoreHUD.generated.h"
 
 class UStoreWidget;
+class UMapWidget;
 
 /**
  * 
@@ -25,12 +26,20 @@ class PROJECT_IK_API AIKStoreHUD : public AHUD
 	GENERATED_BODY()
 public:
 
+	void DisplayMapWidget();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UStoreWidget> store_widget_class_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UMapWidget> map_widget_class_;
 
 protected:
 	virtual void BeginPlay() override;
 	
 	UPROPERTY()
 	TObjectPtr<UStoreWidget> store_widget_;
+
+	UPROPERTY()
+	TObjectPtr<UMapWidget> map_widget_;
 };

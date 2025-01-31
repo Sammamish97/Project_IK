@@ -19,7 +19,7 @@ class USkillContainer;
 class UItemInventory;
 struct FTargetResult;
 class UTexture2D;
-class UCurrencyWidget;
+class UCreditWidget;
 
 /**
  * 
@@ -94,7 +94,7 @@ private:
 	UButton* item_button_2_;
 
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	UCurrencyWidget* currency_widget_;
+	UCreditWidget* credit_widget_;
 
 	UPROPERTY(VisibleAnywhere)
 	class UTargetingComponent* targeting_component_;

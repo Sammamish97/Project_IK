@@ -16,6 +16,8 @@ void UInventoryManager::InitInventory()
 {
 	inventory_size_ = 20;
 	inventory_.Init(FDPData(), inventory_size_);
+	
+	credits_ = 0;
 
 	AddDP(EDPType::FireRange);
 	AddDP(EDPType::FireRateBurst);
@@ -64,4 +66,14 @@ TArray<FDPData>& UInventoryManager::GetInventory()
 int UInventoryManager::GetInventorySize()
 {
 	return inventory_size_;
+}
+
+void UInventoryManager::SetCredits(int32 credits)
+{
+	credits_ = credits;
+}
+
+int32 UInventoryManager::GetCredits() const
+{
+	return credits_;
 }

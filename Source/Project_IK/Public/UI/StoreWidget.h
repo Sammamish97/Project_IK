@@ -22,6 +22,8 @@ class UHorizontalBox;
 class UTextBlock;
 class UButton;
 class UStoreSlot;
+class UConfirmationWidget;
+class UCreditWidget;
 
 /**
  * 
@@ -39,6 +41,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UStoreSlot> store_widget_class_;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UConfirmationWidget> confirmation_widget_class_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	FButtonStyle purchase_style_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	FButtonStyle leave_style_;
+
+
 protected:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
@@ -50,10 +62,13 @@ protected:
 
 	int32 GetPriceByRarity(ERarity rarity);
 
+	UFUNCTION()
+	void GoToNextLevel();
+
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHorizontalBox> item_container_;
 	UPROPERTY()
-	TArray < TObjectPtr<UStoreSlot>> item_slots_;
+	TArray<TObjectPtr<UStoreSlot>> item_slots_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHorizontalBox> dp_container_;
@@ -64,11 +79,21 @@ protected:
 	TObjectPtr<UTextBlock> total_cost_text_;
 
 	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> casher_text_;
+
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> pay_button_;
+
+	UPROPERTY()
+	TObjectPtr<UConfirmationWidget> confirmation_widget_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UCreditWidget> credit_widget_;
 
 	TArray<FItemData*> items_;
 	TArray<FDPData> dps_;
 
 	UPROPERTY()
 	int32 total_cost_;
+	int32 credits_;
 };

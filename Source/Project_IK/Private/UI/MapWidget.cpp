@@ -152,16 +152,18 @@ void UMapWidget::InitializeButtons()
 
 					// Init buttons
 					UButton* button = NewObject<UButton>();
+					FButtonStyle button_style;
 					FSlateBrush new_brush;
 					new_brush.SetResourceObject(enemy_icon_texture);
 					new_brush.DrawAs = ESlateBrushDrawType::Type::Image;
 					new_brush.TintColor = FSlateColor(FLinearColor(0.69f, 0.69f, 0.69f));
 					new_brush.SetImageSize(FDeprecateSlateVector2D(128.f, 128.f));
-					button->WidgetStyle.SetNormal(new_brush);
+					button_style.SetNormal(new_brush);
 					new_brush.TintColor = FSlateColor(FLinearColor(0.95f, 0.95f, 0.95f));
-					button->WidgetStyle.SetHovered(new_brush);
+					button_style.SetHovered(new_brush);
 					new_brush.TintColor = FSlateColor(FLinearColor(0.5f, 0.5f, 0.5f));
-					button->WidgetStyle.SetPressed(new_brush);
+					button_style.SetPressed(new_brush);
+					button->SetStyle(button_style);
 					UGridSlot* button_slot = buttons_holder_->AddChildToGrid(button);
 					if (button_slot)
 					{
@@ -206,7 +208,9 @@ void UMapWidget::InitializeButtons()
 		}
 
 		TWeakObjectPtr<UButton> visited_button = buttons_[visited_nodes[i]];
-		visited_button->WidgetStyle.Disabled = visited_button->WidgetStyle.Normal;
+		FButtonStyle visited_style = visited_button->GetStyle();
+		visited_style.SetDisabled(visited_style.Normal);
+		visited_button->SetStyle(visited_style);
 	}
 }
 

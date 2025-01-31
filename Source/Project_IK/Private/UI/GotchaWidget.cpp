@@ -18,6 +18,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/DronePluginManager.h"
 #include "Managers/TextureManager.h"
 #include "Abilities/ItemInventory.h"
+#include "Managers/InventoryManager.h"
 
 #include "Blueprint/WidgetTree.h"
 #include "Components/Button.h"
@@ -137,7 +138,7 @@ void UGotchaWidget::Gotcha(int32 pulls)
 			break;
 		default:
 			textures.Add(texture_manager->GetTexture("currency"));
-			pulled_currency_ += 10;
+			pulled_credits_ += 20;
 			break;
 		}
 	}
@@ -153,7 +154,7 @@ void UGotchaWidget::Gotcha(int32 pulls)
 
 void UGotchaWidget::ClearContainers()
 {
-	pulled_currency_ = 0;
+	pulled_credits_ = 0;
 	pulled_dps_.Empty();
 	pulled_items_.Empty();
 }
@@ -162,6 +163,13 @@ void UGotchaWidget::StorePulledData()
 {
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	game_instance->GetItemInventory()->AddItems(pulled_items_);
-	// @@ TODO: Add DPs.
-	// @@ TODO: Add currency.
+	
+	UInventoryManager* inventory_manager = game_instance->GetInventoryManager();
+	for (int32 i = 0; i < pulled_dps_.Num(); i++)
+	{
+		inventory_manager->AddDP(pulled_dps_[i].dp_type_);
+	}
+	
+	inventory_manager->SetCredits(inventory_manager->GetCredits() + pulled_credits_);
+	
 }
