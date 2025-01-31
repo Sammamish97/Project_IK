@@ -44,15 +44,15 @@ void UInventoryWidget::LoadInventoryComponent()
 	ULevelTransitionManager* transition_manager = ik_instance->GetLevelTransitionManager();
 	if(transition_manager->GetSavedData().IsEmpty() == false)
 	{
-		auto char_stat_cache = transition_manager->GetSavedData(cur_hero_idx_);
+		auto data_cache = transition_manager->GetSavedData(cur_hero_idx_);
 		const UDronePluginManager* dp_manager = ik_instance->GetDronePluginManager();
 	
-		heroDP_generic_->dp_data_ = dp_manager->GetDPData(char_stat_cache.general_dp_);
+		heroDP_generic_->dp_data_ = dp_manager->GetDPData(data_cache.character_data_.general_dp_);
 		heroDP_generic_->SetImageTexture();
-		heroDP_periodic_->dp_data_ = dp_manager->GetDPData(char_stat_cache.periodic_dp_);
+		heroDP_periodic_->dp_data_ = dp_manager->GetDPData(data_cache.character_data_.periodic_dp_);
 		heroDP_periodic_->SetImageTexture();
 
-		hero_name_text_->SetText(FText::FromName(char_stat_cache.character_name_));
+		hero_name_text_->SetText(FText::FromName(data_cache.character_data_.character_name_));
 	}
 	
 	wrap_box_->ClearChildren();

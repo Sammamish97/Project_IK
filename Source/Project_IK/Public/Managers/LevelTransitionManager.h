@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "EnumCluster.h"
+#include "Structs/SpawnData.h"
 
 #include "LevelTransitionManager.generated.h"
 
@@ -46,9 +47,9 @@ public:
 	void SetActorBlueprints(TSubclassOf<AActor> hero_blueprint, TSubclassOf<AActor> enemy_blueprint);
 
 	UFUNCTION(BlueprintCallable)
-	const TArray<FCharacterData>& GetSavedData() const;
+	const TArray<FSpawnData>& GetSavedData() const;
 
-	FCharacterData GetSavedData(int idx) const;
+	FSpawnData GetSavedData(int idx) const;
 
 	UFUNCTION(BlueprintCallable)
 	void SetHeroPeriodicDPData(EDPType type, int idx);
@@ -65,9 +66,9 @@ protected:
 
 	UPROPERTY()
 	UGameInstance* instance_cache_;
-	
+
 	UPROPERTY()
-	TArray<FCharacterData> data_;
+	TArray<FSpawnData> spawn_data_;
 
 	UPROPERTY()
 	TSubclassOf<AActor> enemy_blueprint_;

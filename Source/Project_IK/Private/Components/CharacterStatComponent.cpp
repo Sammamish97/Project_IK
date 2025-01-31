@@ -19,6 +19,9 @@ See LICENSE file in the project root for full license information.
 #include "UI/DamageUI.h"
 #include "Components/ObjectPoolComponent.h"
 
+#include "Managers/CharacterDataManager.h"
+#include "Structs/CharacterData.h"
+
 
 // Sets default values
 UCharacterStatComponent::UCharacterStatComponent()

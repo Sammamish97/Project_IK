@@ -44,7 +44,10 @@ void ULevelTransitionManager::InitHeroData(const TArray<EHeroType>& hero_types)
 	UIKGameInstance* instance = Cast<UIKGameInstance>(instance_cache_);
 	for(const auto& type : hero_types)
 	{
-		data_.Add(*instance->GetCharacterDataManager()->GetCharacterData(type));
+		// @@ TODO: After completing structure design, created contructors.
+		FSpawnData spawn_data;
+		spawn_data.character_data_ = *instance->GetCharacterDataManager()->GetCharacterData(type);
+		spawn_data_.Add(spawn_data);
 	}
 }
 
@@ -81,7 +84,7 @@ void ULevelTransitionManager::SaveData(UWorld* world)
 			const UCharacterStatComponent* stat_component = hero->GetCharacterStat();
 
 			// @@ TODO: Need to save proper data.
-			data_[i] = stat_component->GetCharacterData();
+			spawn_data_[i].character_data_ = stat_component->GetCharacterData();
 		}
 	}
 }
@@ -97,24 +100,24 @@ void ULevelTransitionManager::SetActorBlueprints(TSubclassOf<AActor> hero_bluepr
 	enemy_blueprint_ = enemy_blueprint;
 }
 
-const TArray<FCharacterData>& ULevelTransitionManager::GetSavedData() const
+const TArray<FSpawnData>& ULevelTransitionManager::GetSavedData() const
 {
-	return data_;
+	return spawn_data_;
 }
 
-FCharacterData ULevelTransitionManager::GetSavedData(int idx) const
+FSpawnData ULevelTransitionManager::GetSavedData(int idx) const
 {
-	return data_[idx];
+	return spawn_data_[idx];
 }
 
 void ULevelTransitionManager::SetHeroPeriodicDPData(EDPType type, int idx)
 {
-	data_[idx].periodic_dp_ = type;
+	spawn_data_[idx].character_data_.periodic_dp_ = type;
 }
 
 void ULevelTransitionManager::SetHeroGenericDPData(EDPType type, int idx)
 {
-	data_[idx].general_dp_ = type;
+	spawn_data_[idx].character_data_.general_dp_ = type;
 }
 
 void ULevelTransitionManager::SpawnHeroes(UWorld* world)
@@ -129,12 +132,12 @@ void ULevelTransitionManager::SpawnHeroes(UWorld* world)
 		spawn_rotation = marker[0]->GetActorRotation();
 	}
 
-	for (int32 i = 0; i < data_.Num(); ++i)
+	for (int32 i = 0; i < spawn_data_.Num(); ++i)
 	{
-		AHeroBase* hero = world->SpawnActor<AHeroBase>(data_[i].unit_class_, spawn_position + FVector(0, (300.f * (data_.Num() - 1) / -2.f ) + (i * 300), 90), spawn_rotation);
+		AHeroBase* hero = world->SpawnActor<AHeroBase>(spawn_data_[i].character_data_.unit_class_, spawn_position + FVector(0, (300.f * (spawn_data_.Num() - 1) / -2.f ) + (i * 300), 90), spawn_rotation);
 		hero->SpawnDefaultController();
 		hero->GetComponentByClass<USkillContainer>()->SetSkill(UMyTestSkill::StaticClass());
-		hero->GetComponentByClass<UCharacterStatComponent>()->SetCharacterData(data_[0]);
+		hero->GetComponentByClass<UCharacterStatComponent>()->SetCharacterData(spawn_data_[0].character_data_);
 		hero->Initialize();
 	}
 }
