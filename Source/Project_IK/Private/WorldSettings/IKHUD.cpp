@@ -107,7 +107,7 @@ void AIKHUD::BeginPlay()
 			auto ik_instance = Cast<UIKGameInstance>(instance);
 			if(ik_instance)
 			{
-                inventory_widget_->Initialize(ik_instance->GetInventoryManager());
+                inventory_widget_->InitInventoryWidget(ik_instance->GetInventoryManager());
                 inventory_widget_->LoadInventoryComponent();
 			}
 		}

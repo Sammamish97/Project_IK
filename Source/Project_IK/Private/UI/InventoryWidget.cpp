@@ -30,7 +30,7 @@ void UInventoryWidget::NativeConstruct()
 	switch_hero_right_button_->OnClicked.AddDynamic(this, &UInventoryWidget::UInventoryWidget::SwitchToRightHero);
 }
 
-void UInventoryWidget::Initialize(UInventoryManager* inventory_component)
+void UInventoryWidget::InitInventoryWidget(UInventoryManager* inventory_component)
 {
 	inventory_manager_ref_ = inventory_component;
 	heroDP_generic_->slot_type_ = EDPSlotType::HeroGeneral;

@@ -26,7 +26,7 @@ class PROJECT_IK_API UInventoryWidget : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 	
-	void Initialize(UInventoryManager* inventory_component);
+	void InitInventoryWidget(UInventoryManager* inventory_component);
 	void LoadInventoryComponent();
 	void ApplyHeroDP();
 	void ApplyInventoryComponent();

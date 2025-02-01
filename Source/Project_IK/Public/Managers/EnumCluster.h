@@ -132,3 +132,23 @@ enum class EDPSlotType : uint8
 	HeroGeneral UMETA(DisplayName = "HeroGeneral"),
 	INVALID UMETA(DisplayName = "INVALID")
 };
+
+UENUM(BlueprintType)
+enum class EArmorType : uint8
+{
+	TestHealth UMETA(DisplayName = "TestHealth"),
+	TestArmor UMETA(DisplayName = "TestArmor"),
+	TestDodge UMETA(DisplayName = "TestDodge"),
+	TestSkillArmor UMETA(DisplayName = "TestSkillArmor"),
+	Empty UMETA(DisplayName = "Empty")
+};
+
+UENUM(BlueprintType)
+enum class EDamageType : uint8
+{
+	Projectile UMETA(DisplayName = "Projectile"),
+	Explosive UMETA(DisplayName = "Explosive"),
+	Melee UMETA(DisplayName = "Melee"),
+	Dot UMETA(DisplayName = "Dot"),
+	INVALID UMETA(DisplayName = "INVALID")
+};
