@@ -15,27 +15,13 @@ See LICENSE file in the project root for full license information.
 #include "Structs/CharacterData.h"
 #include "CharacterStatComponent.generated.h"
 
+enum class ECharacterStatType : uint8;
 class ADamageUI;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDieDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHPChangedDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnShieldChangedDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnBuffChangedDelegate);
-
-UENUM(BlueprintType)
-enum class ECharacterStatType : uint8
-{
-	AbillityPower UMETA(DisplayName = "AbilityPower"),
-	Attack UMETA(DisplayName = "Attack"),
-	AttackSpeed UMETA(DisplayName = "AttackSpeed"),
-	HitPoints UMETA(DisplayName = "HitPoints"),
-	Magazine UMETA(DisplayName = "Magazine"),
-	FireRange UMETA(DisplayName = "FireRange"),
-	MoveSpeed UMETA(DisplayName = "MoveSpeed"),
-	SightRange UMETA(DisplayName = "SightRange"),
-	Evasion UMETA(DisplayName = "Evasion"),
-	Shield UMETA(DisplayName = "Shield"),
-};
 
 USTRUCT(BlueprintType)
 struct FBuff
@@ -67,7 +53,7 @@ public:
 
 
 	FBuff()
-		: stat_type_(ECharacterStatType::Attack), value_(0.f), is_percentage_(false), is_permanent_(false), duration_(0.f), time_remaining_(0.f)
+		: stat_type_(ECharacterStatType::AttackPower), value_(0.f), is_percentage_(false), is_permanent_(false), duration_(0.f), time_remaining_(0.f)
 	{}
 
 	FBuff(FName Name, ECharacterStatType StatType, float Value, bool IsPercentage, float Duration)
@@ -103,23 +89,43 @@ public:
 
 	// Getters&Setters of member variables
 	UFUNCTION(BlueprintPure)
-	float GetAbilityPower() const noexcept;
-	UFUNCTION(BlueprintPure)
-	float GetAttack() const noexcept;
+	float GetAttackPower() const noexcept;
 	UFUNCTION(BlueprintPure)
 	float GetAttackSpeed() const noexcept;
 	UFUNCTION(BlueprintPure)
+	float GetCriticalHitRate() const noexcept;
+	UFUNCTION(BlueprintPure)
+	float GetAccuracy() const noexcept;
+	UFUNCTION(BlueprintPure)
+	float GetMagazineBonus() const noexcept;
+	UFUNCTION(BlueprintPure)
+	float GetLifeSteal() const noexcept;
+
+
+	UFUNCTION(BlueprintPure)
 	float GetHitPoint() const noexcept;
 	UFUNCTION(BlueprintPure)
-	float GetMagazine() const noexcept;
+	float GetEvasionRate() const noexcept;
 	UFUNCTION(BlueprintPure)
-	float GetFireRange() const noexcept;
+	float GetArmor() const noexcept;
+	UFUNCTION(BlueprintPure)
+	float GetSurvivability() const noexcept;
+
+
 	UFUNCTION(BlueprintPure)
 	float GetMoveSpeed() const noexcept;
+
+
 	UFUNCTION(BlueprintPure)
-	float GetSightRange() const noexcept;
+	float GetActiveSkillPower() const noexcept;
 	UFUNCTION(BlueprintPure)
-	float GetEvasion() const noexcept;
+	float GetActiveSkillCooldown() const noexcept;
+	UFUNCTION(BlueprintPure)
+	float GetPassiveSkillPower() const noexcept;
+	UFUNCTION(BlueprintPure)
+	float GetPassiveSkillCooldown() const noexcept;
+
+
 	UFUNCTION(BlueprintPure)
 	float GetShield() const noexcept;
 
@@ -139,19 +145,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetCharacterData(const FCharacterData& character_data) noexcept;
 	
-	//Getter & Setter for Drone Plugins.
-	UFUNCTION(BlueprintPure)
-	EDPType GetPeriodicDP() const noexcept;
-
-	UFUNCTION(BlueprintCallable)
-	void SetPeriodicDP(const EDPType& dp_data) noexcept;
-
-	UFUNCTION(BlueprintPure)
-	EDPType GetGeneralDP() const noexcept;
-
-	UFUNCTION(BlueprintCallable)
-	void SetGeneralDP(const EDPType& dp_data) noexcept;
-
 	UFUNCTION(BlueprintCallable)
 	float CalculateStat(ECharacterStatType StatType) const;
 
@@ -189,21 +182,42 @@ protected:
 	EHeroType character_id_;
 	
 	UFUNCTION(BlueprintCallable)
-	void SetAbilityPower(float ability_power) noexcept;
-	UFUNCTION(BlueprintCallable)
-	void SetAttack(float attack) noexcept;
+	void SetAttackPower(float attack_power) noexcept;
 	UFUNCTION(BlueprintCallable)
 	void SetAttackSpeed(float attack_speed) noexcept;
 	UFUNCTION(BlueprintCallable)
+	void SetCriticalHitRate(float critical_hit_rate) noexcept;
+	UFUNCTION(BlueprintCallable)
+	void SetAccuracy(float accuracy) noexcept;
+	UFUNCTION(BlueprintCallable)
+	void SetMagazineBonus(float magazine_bonus) noexcept;
+	UFUNCTION(BlueprintCallable)
+	void SetLifeSteal(float life_steal) noexcept;
+
+	UFUNCTION(BlueprintCallable)
 	void SetHitPoint(float hit_point) noexcept;
 	UFUNCTION(BlueprintCallable)
-	void SetMagazine(float magazine) noexcept;
+	void SetEvasionRate(float evasion_rate) noexcept;
 	UFUNCTION(BlueprintCallable)
-	void SetFireRange(float fire_range) noexcept;
+	void SetArmor(float armor) noexcept;
+	UFUNCTION(BlueprintCallable)
+	void SetSurvivability(float survivability) noexcept;
+
+
 	UFUNCTION(BlueprintCallable)
 	void SetMoveSpeed(float move_speed) noexcept;
+
+
 	UFUNCTION(BlueprintCallable)
-	void SetSightRange(float sight_range) noexcept;
+	void SetActiveSkillPower(float active_skill_power) noexcept;
+	UFUNCTION(BlueprintCallable)
+	void SetActiveSkillCooldown(float active_skill_cooldown) noexcept;
+	UFUNCTION(BlueprintCallable)
+	void SetPassiveSkillPower(float passive_skill_power) noexcept;
+	UFUNCTION(BlueprintCallable)
+	void SetPassiveSkillCooldown(float passive_skill_cooldown) noexcept;
+
+
 	UFUNCTION(BlueprintCallable)
 	void SetShield(float shield) noexcept;
 private:

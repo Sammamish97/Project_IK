@@ -47,10 +47,12 @@ void UInventoryWidget::LoadInventoryComponent()
 		auto data_cache = transition_manager->GetSavedData(cur_hero_idx_);
 		const UDronePluginManager* dp_manager = ik_instance->GetDronePluginManager();
 	
-		heroDP_generic_->dp_data_ = dp_manager->GetDPData(data_cache.character_data_.general_dp_);
-		heroDP_generic_->SetImageTexture();
-		heroDP_periodic_->dp_data_ = dp_manager->GetDPData(data_cache.character_data_.periodic_dp_);
-		heroDP_periodic_->SetImageTexture();
+		// Load equiped drone plug-ins.
+		// @@ TODO: Implement it again when equipment system has fully constructed.
+		//heroDP_generic_->dp_data_ = dp_manager->GetDPData(data_cache.character_data_.general_dp_);
+		//heroDP_generic_->SetImageTexture();
+		//heroDP_periodic_->dp_data_ = dp_manager->GetDPData(data_cache.character_data_.periodic_dp_);
+		//heroDP_periodic_->SetImageTexture();
 
 		hero_name_text_->SetText(FText::FromName(data_cache.character_data_.character_name_));
 	}
@@ -87,13 +89,7 @@ void UInventoryWidget::SwitchToRightHero()
 
 void UInventoryWidget::ApplyHeroDP()
 {
-	UIKGameInstance* ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	ULevelTransitionManager* transition_manager = ik_instance->GetLevelTransitionManager();
-	if(transition_manager->GetSavedData().IsEmpty() == false)
-	{
-		transition_manager->SetHeroGenericDPData(heroDP_generic_->dp_data_.dp_type_, cur_hero_idx_);
-		transition_manager->SetHeroPeriodicDPData(heroDP_periodic_->dp_data_.dp_type_, cur_hero_idx_);
-	}
+	// @@ TODO: Implement it again when equipment system has fully constructed.
 }
 
 void UInventoryWidget::ApplyInventoryComponent()

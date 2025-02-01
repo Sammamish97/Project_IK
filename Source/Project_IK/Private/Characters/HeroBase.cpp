@@ -68,7 +68,8 @@ void AHeroBase::Initialize()
 {
 	if(drone_)
 	{
-		drone_->SetPlugins(character_stat_component_->GetPeriodicDP(), character_stat_component_->GetGeneralDP());
+		// @@ TODO: Implement it again when equipment system has fully constructed.
+		//drone_->SetPlugins(character_stat_component_->GetPeriodicDP(), character_stat_component_->GetGeneralDP());
 	}
 }
 
@@ -103,10 +104,12 @@ void AHeroBase::OnStunned()
 
 void AHeroBase::SetPeriodicDP(EDPType dp_type)
 {
-	character_stat_component_->SetPeriodicDP(dp_type);
+	// @@ TODO: Implement it again when equipment system has fully constructed.
+	//character_stat_component_->SetPeriodicDP(dp_type);
 }
 
 void AHeroBase::SetGenericDP(EDPType dp_type)
 {
-	character_stat_component_->SetGeneralDP(dp_type);
+	// @@ TODO: Implement it again when equipment system has fully constructed.
+	//character_stat_component_->SetGeneralDP(dp_type);
 }
