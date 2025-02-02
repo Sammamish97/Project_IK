@@ -44,7 +44,7 @@ void ACover::BeginPlay()
 
 void ACover::GetDamage(FDamageData data)
 {
-	character_stat_component_->GetDamage(data);
+	character_stat_component_->GetDamage(data.damage);
 
 	// Do not record damages worked on covers...
 }

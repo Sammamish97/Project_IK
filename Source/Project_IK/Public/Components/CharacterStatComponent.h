@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Structs/CharacterData.h"
+#include <optional>
 #include "CharacterStatComponent.generated.h"
 
 class ADamageUI;
@@ -93,7 +94,9 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunctionoverride);
 
 	UFUNCTION(BlueprintCallable)
-	bool GetDamage(FDamageData data);
+	float CalcDamage(FDamageData data);
+	UFUNCTION(BlueprintCallable)
+	void GetDamage(float damage);
 	UFUNCTION(BlueprintCallable)
 	void Heal(float HealAmount);
 	UFUNCTION(BlueprintCallable)

@@ -28,15 +28,18 @@ UCLASS()
 class PROJECT_IK_API AUnit : public ACharacter, public IDamageable, public IUnitInterface
 {
 	GENERATED_BODY()
-
+	
 public:
 	// Sets default values for this character's properties
 	AUnit();
 	const UCharacterStatComponent* GetCharacterStat() const;
 	FVector GetForwardDir() const;
 	void SetForwardDir(const FVector& Forward_Dir);
-
+	
 	UFUNCTION()
+	void SetDamageUI(float dmg);
+	
+	UFUNCTION(BlueprintCallable)
 	virtual void GetDamage(FDamageData data) override;
 
 	UFUNCTION(BlueprintCallable)

@@ -32,7 +32,8 @@ public:
 public:
 	virtual void Initialize();
 	virtual void Die() override;
-	
+
+	virtual void GetDamage(FDamageData data) override;
 	virtual void GetStunned(float stun_duration) override;
 	virtual void OnStunned() override;
 

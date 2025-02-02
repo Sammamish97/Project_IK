@@ -69,21 +69,24 @@ void AUnit::BeginPlay()
 	Cast<UHitPointsUI>(hp_UI_->GetWidget())->BindNecessaryComponents(character_stat_component_, cc_component_);
 }
 
+void AUnit::SetDamageUI(float dmg)
+{
+	ADamageUI* ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
+    	if (ui)
+    	{
+    		if (dmg > 0.f)
+    		{
+    			ui->SetDamageAmount(dmg);
+    		}
+    		else
+    		{
+    			ui->SetMissed();
+    		}
+    	}
+}
+
 void AUnit::GetDamage(FDamageData data)
 {
-	bool is_damaged = character_stat_component_->GetDamage(data);
-	ADamageUI* ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
-	if (ui)
-	{
-		if (is_damaged)
-		{
-			ui->SetDamageAmount(data.damage);
-		}
-		else
-		{
-			ui->SetMissed();
-		}
-	}
 }
 
 void AUnit::Heal(float heal)

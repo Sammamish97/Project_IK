@@ -104,7 +104,7 @@ void UCharacterStatComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	}
 }
 
-bool UCharacterStatComponent::GetDamage(FDamageData data)
+float UCharacterStatComponent::CalcDamage(FDamageData data)
 {
 	float evasion_rand = FMath::RandRange(0.f, 1.f);
 	bool is_evaded = evasion_rand < GetEvasion();
@@ -117,7 +117,7 @@ bool UCharacterStatComponent::GetDamage(FDamageData data)
 
 	if (is_evaded)
 	{
-		return false;
+		return -1.f;
 	}
 
 	// Calculation of shields
@@ -134,13 +134,13 @@ bool UCharacterStatComponent::GetDamage(FDamageData data)
 			DestroyShield();
 			GetWorld()->GetTimerManager().ClearTimer(shield_timer_);
 		}
-
 	}
+	return remaining_damage;
+}
 
-	SetHitPoint(GetHitPoint() - remaining_damage);
-
-
-	return true;
+void UCharacterStatComponent::GetDamage(float damage)
+{
+	SetHitPoint(GetHitPoint() - damage);
 }
 
 void UCharacterStatComponent::Heal(float HealAmount)

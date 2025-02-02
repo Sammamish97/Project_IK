@@ -19,6 +19,7 @@ class PROJECT_IK_API AEnemyBase : public AUnit
 	GENERATED_BODY()
 public:
 	AEnemyBase();
+	virtual void GetDamage(FDamageData data) override;
 protected:
 	virtual void Die() override;
 };

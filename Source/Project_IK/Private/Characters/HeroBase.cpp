@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/PassiveMechanics.h"
 #include "Abilities/SkillContainer.h"
 #include "AI/GunnerAIController.h"
+#include "Components/ArmorMechanics.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/CharacterStatComponent.h"
 #include "Components/SphereComponent.h"
@@ -72,8 +73,6 @@ void AHeroBase::Initialize()
 	}
 }
 
-	
-
 void AHeroBase::Die()
 {
 	weapon_mechanics_->OnDestroy();
@@ -88,6 +87,23 @@ void AHeroBase::Die()
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if(casted_mode) casted_mode->RemoveHero(this);
 	Super::Die();
+}
+
+void AHeroBase::GetDamage(FDamageData data)
+{
+	Super::GetDamage(data);
+	float calculated_dmg = character_stat_component_->CalcDamage(data);
+	data.damage = calculated_dmg;
+	UArmorMechanics* armor_mechanics = Cast<UArmorMechanics>(GetComponentByClass(UArmorMechanics::StaticClass()));
+	if (armor_mechanics)
+	{
+		if (armor_mechanics->OnArmorHitFunction != nullptr)
+		{
+			data = armor_mechanics->OnArmorHitFunction(armor_mechanics, data);
+		}
+	}
+	character_stat_component_->GetDamage(data.damage);
+	SetDamageUI(data.damage);
 }
 
 void AHeroBase::GetStunned(float stun_duration)
