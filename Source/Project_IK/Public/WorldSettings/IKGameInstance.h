@@ -55,7 +55,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	const class UDialogueEventManager* GetDialogueEventManager() const noexcept;
 	UFUNCTION(BlueprintPure)
-	UInventoryManager* GetInventoryManager() const noexcept;
+	class UInventoryManager* GetInventoryManager() const noexcept;
+	UFUNCTION(BlueprintPure)
+	class UArmorManager* GetArmorManager() const noexcept;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelTransition")
@@ -77,9 +79,11 @@ private:
 	void InitializeTextureManager();
 	void InitializeDialogueEventManager();
 	void InitInventoryManager();
+	void InitArmorManager();
 	
 	UPROPERTY()
 	class UItemDataManager* item_data_manager_;
+	
 	UPROPERTY()
 	class UCharacterDataManager* character_data_manager_;
 
@@ -103,4 +107,7 @@ private:
 
 	UPROPERTY()
 	class UInventoryManager* inventory_manager_;
+
+	UPROPERTY()
+	class UArmorManager* armor_manager_;
 };

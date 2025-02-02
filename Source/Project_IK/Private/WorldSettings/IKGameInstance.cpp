@@ -20,6 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/TextureManager.h"
 #include "Managers/DialogueEventManager.h"
 #include "Managers/InventoryManager.h"
+#include "Managers/ArmorManager.h"
 
 #include "Characters/HeroBase.h"
 #include "Characters/EnemyBase.h"
@@ -42,6 +43,7 @@ void UIKGameInstance::Init()
 	InitializeTextureManager();
 	InitializeDialogueEventManager();
 	InitInventoryManager();
+	InitArmorManager();
 
 	item_inventory_->AddItem(item_data_manager_->GetItemDataRandomly());
 }
@@ -89,6 +91,11 @@ const UTextureManager* UIKGameInstance::GetTextureManager() const noexcept
 const UDialogueEventManager* UIKGameInstance::GetDialogueEventManager() const noexcept
 {
 	return dialogue_event_manager_;
+}
+
+UArmorManager* UIKGameInstance::GetArmorManager() const noexcept
+{
+	return armor_manager_;
 }
 
 void UIKGameInstance::InitializeItemDataManager()
@@ -139,4 +146,10 @@ void UIKGameInstance::InitInventoryManager()
 {
 	inventory_manager_ = NewObject<UInventoryManager>(this);
 	inventory_manager_->InitInventory();
+}
+
+void UIKGameInstance::InitArmorManager()
+{
+	armor_manager_ = NewObject<UArmorManager>();
+	armor_manager_->InitArmorManager();
 }

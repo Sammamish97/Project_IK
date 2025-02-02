@@ -20,23 +20,20 @@ struct PROJECT_IK_API FArmorData : public FTableRowBase
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
-	EArmorType type_ = EArmorType::Empty;
+	EArmorType type = EArmorType::Empty;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
-	UTexture2D* thumbnail_ = nullptr;
+	UTexture2D* thumbnail = nullptr;
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
-	int armor_;
+	int armor;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
-	int health_;
+	int hit_point;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
-	int evasion_rate_;
+	int evasion_rate;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
-	bool has_skill_;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
-	int skill_index_;
+	bool has_skill;
 };

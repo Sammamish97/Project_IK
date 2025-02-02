@@ -72,6 +72,8 @@ void AHeroBase::Initialize()
 	}
 }
 
+	
+
 void AHeroBase::Die()
 {
 	weapon_mechanics_->OnDestroy();

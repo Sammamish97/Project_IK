@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "AIController.h"
 #include "AI/MeleeAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Components/ArmorMechanics.h"
 #include "Components/CharacterStatComponent.h"
 #include "Components/CrowdControlComponent.h"
 #include "Components/WidgetComponent.h"
@@ -71,7 +72,6 @@ void AUnit::BeginPlay()
 void AUnit::GetDamage(float damage, TWeakObjectPtr<AActor> attacker)
 {
 	bool is_damaged = character_stat_component_->GetDamage(damage, attacker);
-
 	ADamageUI* ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
 	if (ui)
 	{
