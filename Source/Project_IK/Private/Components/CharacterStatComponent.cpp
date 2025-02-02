@@ -21,6 +21,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/CharacterDataManager.h"
 #include "Structs/CharacterData.h"
+#include "Structs/DamageData.h"
 
 
 // Sets default values
@@ -103,20 +104,15 @@ void UCharacterStatComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	}
 }
 
-bool UCharacterStatComponent::GetDamage(float DamageAmount, AActor* Attacker)
-{
-	return GetDamage(DamageAmount, TWeakObjectPtr<AActor>(Attacker));
-}
-
-bool UCharacterStatComponent::GetDamage(float DamageAmount, TWeakObjectPtr<AActor> Attacker)
+bool UCharacterStatComponent::GetDamage(FDamageData data)
 {
 	float evasion_rand = FMath::RandRange(0.f, 1.f);
 	bool is_evaded = evasion_rand < GetEvasion();
 
-	if (!is_evaded && Attacker.IsValid())
+	if (!is_evaded && data.attacker.IsValid())
 	{
 		AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-		game_mode->RecordDamage(DamageAmount, Attacker);
+		game_mode->RecordDamage(data.damage, data.attacker);
 	}
 
 	if (is_evaded)
@@ -125,7 +121,7 @@ bool UCharacterStatComponent::GetDamage(float DamageAmount, TWeakObjectPtr<AActo
 	}
 
 	// Calculation of shields
-	float remaining_damage = DamageAmount;
+	float remaining_damage = data.damage;
 
 	if (shield_ > 0.f)
 	{

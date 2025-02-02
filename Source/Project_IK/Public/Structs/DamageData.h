@@ -17,11 +17,9 @@ USTRUCT(BlueprintType)
 struct PROJECT_IK_API FDamageData
 {
 GENERATED_BODY()
-	//FDamageData operator=(const FDamageData& rhs) = default;
-	int damage;
-	EDamageType dmg_type;
-	//TWeakObjectPtr<AActor> attacker;
+	float damage;
+	EDamageType damage_type;
+	TWeakObjectPtr<AActor> attacker;
 	//다음의 정보도 사용될 가능성이 있다.
 	//FVector hit_pos_;
-	//FVector velocity_;
 };

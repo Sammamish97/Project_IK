@@ -54,7 +54,8 @@ void ABullet::SetInUse(bool in_use)
 void ABullet::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	IDamageable* casted_damage_logic = Cast<IDamageable>(OtherActor);
-	if(casted_damage_logic) casted_damage_logic->GetDamage(damage_, shooter_);
+	FDamageData data = {damage_, EDamageType::Projectile, shooter_};
+	if(casted_damage_logic) casted_damage_logic->GetDamage(data);
 	ReturnToPool();
 }
 

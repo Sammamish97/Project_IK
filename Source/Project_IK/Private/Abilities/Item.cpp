@@ -124,7 +124,8 @@ void UItem::LaunchMissile(TArray<AActor*> actors)
 			IDamageable* damageable_actor = Cast<IDamageable>(actors[i]);
 			if (damageable_actor)
 			{
-				damageable_actor->GetDamage(50.f, nullptr);
+				FDamageData data = {50.f, EDamageType::Explosive, nullptr	};
+				damageable_actor->GetDamage(data);
 			}
 		}
 	}

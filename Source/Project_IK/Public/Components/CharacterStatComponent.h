@@ -93,8 +93,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunctionoverride);
 
 	UFUNCTION(BlueprintCallable)
-	bool GetDamage(float DamageAmount, AActor* Attacker);
-	bool GetDamage(float DamageAmount, TWeakObjectPtr <AActor> Attacker = nullptr);
+	bool GetDamage(FDamageData data);
 	UFUNCTION(BlueprintCallable)
 	void Heal(float HealAmount);
 	UFUNCTION(BlueprintCallable)

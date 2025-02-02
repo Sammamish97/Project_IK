@@ -37,7 +37,7 @@ public:
 	void SetForwardDir(const FVector& Forward_Dir);
 
 	UFUNCTION()
-	virtual void GetDamage(float damage, TWeakObjectPtr<AActor> attacker) override;
+	virtual void GetDamage(FDamageData data) override;
 
 	UFUNCTION(BlueprintCallable)
 	void Heal(float heal);

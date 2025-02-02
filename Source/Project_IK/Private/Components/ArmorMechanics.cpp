@@ -27,8 +27,7 @@ void UArmorMechanics::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	armor_manager_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetArmorManager();
 }
 
 FDamageData UArmorMechanics::TestSkill_1(UArmorMechanics* target, FDamageData dmg_input)
@@ -57,17 +56,11 @@ FArmorData UArmorMechanics::GetEquippedArmorData()
 
 void UArmorMechanics::EquipArmor(EArmorType type)
 {
-	if (UIKGameInstance* instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
-	{
-		equipped_armor_data_ = instance->GetArmorManager()->GetArmorData(type);
-	}
+	equipped_armor_data_ = armor_manager_cache_->GetArmorData(type);
 }
 
 void UArmorMechanics::UnEquipArmor()
 {
-	if (UIKGameInstance* instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
-	{
-		equipped_armor_data_ = instance->GetArmorManager()->GetArmorData(EArmorType::Empty);
-	}
+	equipped_armor_data_ = armor_manager_cache_->GetArmorData(EArmorType::Empty);
 	OnArmorHitFunction = nullptr;
 }

@@ -42,7 +42,7 @@ public:
 	std::function<FDamageData(UArmorMechanics*, FDamageData)> OnArmorHealFunction;
 	std::function<FDamageData(UArmorMechanics*, FDamageData)> OnArmorHPChangedFunction;
 
-
 private:
 	FArmorData equipped_armor_data_;
+	class UArmorManager* armor_manager_cache_;
 };
