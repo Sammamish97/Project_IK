@@ -20,6 +20,7 @@ class PROJECT_IK_API UArmorManager : public UObject
 {
 	GENERATED_BODY()
 public:
+	UArmorManager();
 	void InitArmorManager();
 	FArmorData GetArmorData(EArmorType type);
 	FString EnumToString(EArmorType armor_type);

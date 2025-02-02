@@ -42,7 +42,6 @@ void UArmorMechanics::TestSkill_1_Prepare()
 	OnArmorHitFunction = &UArmorMechanics::TestSkill_1;
 }
 
-
 void UArmorMechanics::TestSkill_1_Terminate()
 {
 	//Terminate를 통해 bind해준 함수를 해제하거나 소멸시킬 것들을 소멸시킨다.
@@ -57,6 +56,14 @@ FArmorData UArmorMechanics::GetEquippedArmorData()
 void UArmorMechanics::EquipArmor(EArmorType type)
 {
 	equipped_armor_data_ = armor_manager_cache_->GetArmorData(type);
+	switch (type)
+	{
+	case EArmorType::TestSkillArmor:
+		TestSkill_1_Prepare();
+		break;
+	default:
+		break;
+	}
 }
 
 void UArmorMechanics::UnEquipArmor()

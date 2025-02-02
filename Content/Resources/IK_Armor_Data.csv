@@ -1,0 +1,5 @@
+---,type,thumbnail,armor,hit_point,evasion_rate,has_skill
+TestHealth,"TestHealth","None","0","50","0","False"
+TestArmor,"TestArmor","None","50","0","0","False"
+TestDodge,"Empty","None","0","0","30","False"
+TestSkillArmor,"TestSkillArmor","None","0","0","0","True"

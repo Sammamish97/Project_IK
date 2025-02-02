@@ -14,12 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "HeroBase.generated.h"
 
-class ADrone;
-class USphereComponent;
-class UPassiveMechanics;
-class UWeaponMechanics;
-class USkillContainer;
-
 UCLASS()
 class PROJECT_IK_API AHeroBase : public AUnit
 {
@@ -43,20 +37,23 @@ public:
 	void SetGenericDP(EDPType dp_type);
 
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
-	USkillContainer* skill_container_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
+	class USkillContainer* skill_container_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
-	UWeaponMechanics* weapon_mechanics_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
+	class UWeaponMechanics* weapon_mechanics_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
-	UPassiveMechanics* passive_mechanics_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
+	class UPassiveMechanics* passive_mechanics_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
+	class UArmorMechanics* armor_mechanics_;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", AllowedClass = "Drone", BindWidget))
 	UClass* drone_bp_class_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	USphereComponent* drone_location_;
+	class USphereComponent* drone_location_;
 	
-	ADrone* drone_;
+	class ADrone* drone_;
 };

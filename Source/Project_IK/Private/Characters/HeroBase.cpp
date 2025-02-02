@@ -29,6 +29,7 @@ AHeroBase::AHeroBase()
 	skill_container_ = CreateDefaultSubobject<USkillContainer>(TEXT("SkillContainer"));
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
 	passive_mechanics_ = CreateDefaultSubobject<UPassiveMechanics>(TEXT("PassiveMechanics"));
+	armor_mechanics_ = CreateDefaultSubobject<UArmorMechanics>(TEXT("ArmorMechanics"));
 	drone_location_ = CreateDefaultSubobject<USphereComponent>("Drone Location");
 
 	drone_location_->SetCollisionProfileName(TEXT("NoCollision"));
@@ -46,7 +47,9 @@ void AHeroBase::BeginPlay()
 	Super::BeginPlay();
 
 	drone_ = GetWorld()->SpawnActor<ADrone>(drone_bp_class_, drone_location_->GetComponentTransform());
-	weapon_mechanics_->SetWeaponOwner(this);		
+	weapon_mechanics_->SetWeaponOwner(this);
+	//TODO: Test purpose. Need to remove later.
+	armor_mechanics_->EquipArmor(EArmorType::TestSkillArmor);
 
 	if(drone_ == nullptr)
 	{

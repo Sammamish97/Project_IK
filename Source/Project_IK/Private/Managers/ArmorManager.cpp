@@ -9,7 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Managers/ArmorManager.h"
 
-void UArmorManager::InitArmorManager()
+UArmorManager::UArmorManager()
 {
 	FString armor_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/IK_Armor_Data.IK_Armor_Data'");
 	static ConstructorHelpers::FObjectFinder<UDataTable> dt_armor_data(*armor_data_path);
@@ -18,6 +18,11 @@ void UArmorManager::InitArmorManager()
 		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a armor file data (IK_Armor_Data)"));
 	}
 	armor_table_= dt_armor_data.Object;
+}
+
+void UArmorManager::InitArmorManager()
+{
+	
 }
 
 FArmorData UArmorManager::GetArmorData(EArmorType type)
