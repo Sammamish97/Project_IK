@@ -156,4 +156,7 @@ private:
 
 	bool IsWithinSector(const FVector& origin, const FVector& direction, float range, float angle, const FVector& actor_location);
 
+
+	void StartFocus();
+	void EndFocus();
 };

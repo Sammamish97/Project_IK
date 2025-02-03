@@ -35,27 +35,40 @@ UTexture2D* UTextureManager::GetBuffTexture(ECharacterStatType StatType) const
 {
 	switch (StatType)
 	{
-	case ECharacterStatType::AbillityPower:
-		break;
-	case ECharacterStatType::Attack:
+	case ECharacterStatType::AttackPower:
 		break;
 	case ECharacterStatType::AttackSpeed:
 		return textures_["fire_rate_burst"];
 		break;
+	case ECharacterStatType::CriticalHitRate:
+		break;
+	case ECharacterStatType::Accuracy:
+		break;
+	case ECharacterStatType::MagazineBonus:
+		break;
+	case ECharacterStatType::LifeSteal:
+		break;
 	case ECharacterStatType::HitPoints:
 		break;
-	case ECharacterStatType::Magazine:
+	case ECharacterStatType::EvasionRate:
+		return textures_["evasion"];
 		break;
-	case ECharacterStatType::FireRange:
-		return textures_["fire_range"];
+	case ECharacterStatType::Armor:
+		break;
+	case ECharacterStatType::Survivability:
 		break;
 	case ECharacterStatType::MoveSpeed:
 		return textures_["move_speed"];
 		break;
-	case ECharacterStatType::SightRange:
+	case ECharacterStatType::ActiveSkillPower:
 		break;
-	case ECharacterStatType::Evasion:
-		return textures_["evasion"];
+	case ECharacterStatType::ActiveSkillCooldown:
+		break;
+	case ECharacterStatType::PassiveSkillPower:
+		break;
+	case ECharacterStatType::PassiveSkillCooldown:
+		break;
+	case ECharacterStatType::Shield:
 		break;
 	default:
 		break;

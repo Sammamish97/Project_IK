@@ -98,7 +98,7 @@ void ASmokeRegion::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComp, AActo
 
 void ASmokeRegion::ApplyEvasionBuff(AUnit* unit)
 {
-	unit->ApplyBuff(FBuff(TEXT("SmokeRegion"), ECharacterStatType::Evasion, 0.5f, false, true));
+	unit->ApplyBuff(FBuff(TEXT("SmokeRegion"), ECharacterStatType::EvasionRate, 0.5f, false, true));
 }
 
 void ASmokeRegion::RemoveEvasionBuff(AUnit* unit)

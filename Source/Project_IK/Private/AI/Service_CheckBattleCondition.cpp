@@ -51,9 +51,12 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 	}
 
 	//적이 시야 밖으로 사라지면 state변경.
+	// @@ TODO: Replace deprecated sight range.
+	// @@ TODO: Then REMOVE this comment and the variable
+	const float DEPRECATED_SIGHT_RANGE = 1000.f;
 	AActor* casted_target = Cast<AActor>(attack_target);
 	if(FVector::Dist2D(casted_target->GetActorLocation(), casted_unit->GetActorLocation()) >
-		casted_unit->GetCharacterStat()->GetSightRange())
+		DEPRECATED_SIGHT_RANGE)
 	{
 		blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Forwarding));
 		casted_component->FinishFire();
@@ -81,13 +84,18 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 		TArray<TEnumAsByte<EObjectTypeQuery>> traceObjectTypes;
 		traceObjectTypes.Add(UEngineTypes::ConvertToObjectType(ECC_WorldStatic));
 			
+
+		// @@ TODO: Then REMOVE this comment and the variable
 		UKismetSystemLibrary::SphereOverlapActors(GetWorld(), casted_unit->GetActorLocation(),
-			casted_unit->GetCharacterStat()->GetSightRange(),
+			DEPRECATED_SIGHT_RANGE,
 			traceObjectTypes, ACover::StaticClass(), ignore_actors, out_actors);
 
+		// @@ TODO: Replace deprecated fire range.
+			// @@ TODO: Then REMOVE this comment and the variable
+		const float DEPRECATED_FIRE_RANGE = 600.f;
 		//만약 사용 가능한 엄폐물을 찾으면 해당 엄폐물로 향한다.
 		if(ACover* best_cover = CommonFunctions::FindBestCover(out_actors, casted_target->GetActorLocation(),
-			casted_unit->GetCharacterStat()->GetFireRange()))
+			DEPRECATED_FIRE_RANGE))
 		{
 			best_cover->SetCoveringOwner(true);
 			blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, best_cover);

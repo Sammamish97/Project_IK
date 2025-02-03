@@ -132,3 +132,24 @@ enum class EDPSlotType : uint8
 	HeroGeneral UMETA(DisplayName = "HeroGeneral"),
 	INVALID UMETA(DisplayName = "INVALID")
 };
+
+UENUM(BlueprintType)
+enum class ECharacterStatType : uint8
+{
+	AttackPower UMETA(DisplayName = "AttackPower"),
+	AttackSpeed UMETA(DisplayName = "AttackSpeed"),
+	CriticalHitRate UMETA(DisplayName = "CriticalHitRate"),
+	Accuracy UMETA(DisplayName = "Accuracy"),
+	MagazineBonus UMETA(DisplayName = "MagazineBonus"),
+	LifeSteal UMETA(DisplayName = "LifeSteal"),
+	HitPoints UMETA(DisplayName = "HitPoints"),
+	EvasionRate UMETA(DisplayName = "EvasionRate"),
+	Armor UMETA(DisplayName = "Armor"),
+	Survivability UMETA(DisplayName = "Survivability"),
+	MoveSpeed UMETA(DisplayName = "MoveSpeed"),
+	ActiveSkillPower UMETA(DisplayName = "ActiveSkillPower"),
+	ActiveSkillCooldown UMETA(DisplayName = "ActiveSkillCooldown"),
+	PassiveSkillPower UMETA(DisplayName = "PassiveSkillPower"),
+	PassiveSkillCooldown UMETA(DisplayName = "PassiveSkillCooldown"),
+	Shield UMETA(DisplayName = "Shield"),
+};

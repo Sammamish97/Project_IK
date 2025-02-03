@@ -76,7 +76,7 @@ void UWeaponMechanics::FireWeapon(AActor* target)
 {
 	if(weapon_ref_ && IsValid(target))
 	{
-		int damage = gunner_ref_->GetCharacterStat()->GetAttack();
+		int damage = gunner_ref_->GetCharacterStat()->GetAttackPower();
 		ACharacter* casted_target = Cast<ACharacter>(target);
 		if(UBlackboardComponent* blackboard = Cast<AAIController>(casted_target->GetController())->GetBlackboardComponent())
 		{

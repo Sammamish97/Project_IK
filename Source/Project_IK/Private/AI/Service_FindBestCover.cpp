@@ -49,12 +49,18 @@ void UService_FindBestCover::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 			TArray<AActor*> out_actors;
 			TArray<TEnumAsByte<EObjectTypeQuery>> traceObjectTypes;
 			traceObjectTypes.Add(UEngineTypes::ConvertToObjectType(ECC_WorldStatic));
-			
+
+			// @@ TODO: Replace deprecated sight range.
+			// @@ TODO: Then REMOVE this comment and the variable
+			const float DEPRECATED_SIGHT_RANGE = 1000.f;
 			UKismetSystemLibrary::SphereOverlapActors(GetWorld(), casted_gunner->GetActorLocation(),
-				casted_gunner->GetCharacterStat()->GetSightRange(),
+				DEPRECATED_SIGHT_RANGE,
 				traceObjectTypes, ACover::StaticClass(), ignore_actors, out_actors);
-			
-			if(ACover* best_cover = CommonFunctions::FindBestCover(out_actors, attack_target_pos, casted_gunner->GetCharacterStat()->GetFireRange()))
+
+			// @@ TODO: Replace deprecated fire range.
+			// @@ TODO: Then REMOVE this comment and the variable
+			const float DEPRECATED_FIRE_RANGE = 600.f;
+			if(ACover* best_cover = CommonFunctions::FindBestCover(out_actors, attack_target_pos, DEPRECATED_FIRE_RANGE))
 			{
 				best_cover->SetCoveringOwner(true);
 				blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, best_cover);
