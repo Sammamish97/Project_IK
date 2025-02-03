@@ -95,18 +95,15 @@ void AHeroBase::Die()
 void AHeroBase::GetDamage(FDamageData data)
 {
 	Super::GetDamage(data);
-	float calculated_dmg = character_stat_component_->CalcDamage(data);
-	data.damage = calculated_dmg;
+	bool is_evaded = false;
+	character_stat_component_->CalcDamage(data, is_evaded);
 	UArmorMechanics* armor_mechanics = Cast<UArmorMechanics>(GetComponentByClass(UArmorMechanics::StaticClass()));
 	if (armor_mechanics)
 	{
-		if (armor_mechanics->OnArmorHitFunction != nullptr)
-		{
-			data = armor_mechanics->OnArmorHitFunction(armor_mechanics, data);
-		}
+		data = OnArmorHit.Execute(data);
 	}
 	character_stat_component_->GetDamage(data.damage);
-	SetDamageUI(data.damage);
+	SetDamageUI(data, is_evaded);
 }
 
 void AHeroBase::GetStunned(float stun_duration)

@@ -104,24 +104,25 @@ void UCharacterStatComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	}
 }
 
-float UCharacterStatComponent::CalcDamage(FDamageData data)
+void UCharacterStatComponent::CalcDamage(FDamageData& data_ref, bool& is_evaded_out)
 {
 	float evasion_rand = FMath::RandRange(0.f, 1.f);
 	bool is_evaded = evasion_rand < GetEvasion();
 
-	if (!is_evaded && data.attacker.IsValid())
+	if (!is_evaded && data_ref.attacker.IsValid())
 	{
 		AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-		game_mode->RecordDamage(data.damage, data.attacker);
+		game_mode->RecordDamage(data_ref.damage, data_ref.attacker);
 	}
 
 	if (is_evaded)
 	{
-		return -1.f;
+		is_evaded_out = true;
+		return;
 	}
 
 	// Calculation of shields
-	float remaining_damage = data.damage;
+	float remaining_damage = data_ref.damage;
 
 	if (shield_ > 0.f)
 	{
@@ -135,7 +136,7 @@ float UCharacterStatComponent::CalcDamage(FDamageData data)
 			GetWorld()->GetTimerManager().ClearTimer(shield_timer_);
 		}
 	}
-	return remaining_damage;
+	data_ref.damage = remaining_damage;
 }
 
 void UCharacterStatComponent::GetDamage(float damage)

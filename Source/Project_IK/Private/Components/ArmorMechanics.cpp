@@ -9,6 +9,8 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Components/ArmorMechanics.h"
+
+#include "Characters/HeroBase.h"
 #include "WorldSettings/IKGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/ArmorManager.h"
@@ -28,24 +30,7 @@ void UArmorMechanics::BeginPlay()
 	Super::BeginPlay();
 
 	armor_manager_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetArmorManager();
-}
-
-FDamageData UArmorMechanics::TestSkill_1(UArmorMechanics* target, FDamageData dmg_input)
-{
-	dmg_input.damage -= 3;
-	return dmg_input;
-}
-
-void UArmorMechanics::TestSkill_1_Prepare()
-{
-	//Prepare를 통해 event와 bind하거나 특수효과에 준비가 필요하다면 준비한다.
-	OnArmorHitFunction = &UArmorMechanics::TestSkill_1;
-}
-
-void UArmorMechanics::TestSkill_1_Terminate()
-{
-	//Terminate를 통해 bind해준 함수를 해제하거나 소멸시킬 것들을 소멸시킨다.
-	OnArmorHitFunction = nullptr;
+	hero_cache_ = Cast<AHeroBase>(GetOwner());
 }
 
 FArmorData UArmorMechanics::GetEquippedArmorData()
@@ -53,21 +38,20 @@ FArmorData UArmorMechanics::GetEquippedArmorData()
 	return equipped_armor_data_;
 }
 
+//TODO: 아머를 장착하는 부분과 delegate를 bind하는 부분을 분리해야 한다. 장착은 inventory에서 할 수 있지만, inventory에서 장착했을 때 delegate를 bind할 필요는 없기 때문.
+//TODO: Delegate를 bind하는 시점은, hero가 spawn되는 시점이다.
 void UArmorMechanics::EquipArmor(EArmorType type)
 {
 	equipped_armor_data_ = armor_manager_cache_->GetArmorData(type);
-	switch (type)
+	const ArmorSkillMap& armor_skill_map = armor_manager_cache_->GetArmorSkillMap();
+	if (armor_skill_map.Find(type))
 	{
-	case EArmorType::TestSkillArmor:
-		TestSkill_1_Prepare();
-		break;
-	default:
-		break;
+		hero_cache_->OnArmorHit.BindLambda(armor_skill_map[type]);
 	}
 }
 
 void UArmorMechanics::UnEquipArmor()
 {
 	equipped_armor_data_ = armor_manager_cache_->GetArmorData(EArmorType::Empty);
-	OnArmorHitFunction = nullptr;
+	hero_cache_->OnArmorHit.Unbind();
 }
