@@ -354,26 +354,6 @@ void UCharacterStatComponent::SetCharacterData(const FCharacterData& character_d
 	OnHPChanged.Broadcast();
 }
 
-EDPType UCharacterStatComponent::GetPeriodicDP() const noexcept
-{
-	return stat_.periodic_dp_;
-}
-
-void UCharacterStatComponent::SetPeriodicDP(const EDPType& dp_data) noexcept
-{
-	stat_.periodic_dp_ = dp_data;
-}
-
-EDPType UCharacterStatComponent::GetGeneralDP() const noexcept
-{
-	return stat_.general_dp_;
-}
-
-void UCharacterStatComponent::SetGeneralDP(const EDPType& dp_data) noexcept
-{
-	stat_.general_dp_ = dp_data;
-}
-
 float UCharacterStatComponent::CalculateStat(ECharacterStatType StatType) const
 {
 	float stat = GetBaseStat(StatType);

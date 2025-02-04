@@ -126,6 +126,5 @@ void AIKHUD::RemoveInventory()
 {
 	inventory_widget_->RemoveFromParent();
 	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;
-	inventory_widget_->ApplyHeroDP();
 	inventory_widget_->ApplyInventoryComponent();
 }

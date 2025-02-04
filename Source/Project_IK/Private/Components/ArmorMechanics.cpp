@@ -10,12 +10,11 @@ See LICENSE file in the project root for full license information.
 
 #include "Components/ArmorMechanics.h"
 
+#include "Abilities/EquipmentSkills/EquipmentSkillBase.h"
 #include "Characters/HeroBase.h"
 #include "WorldSettings/IKGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/ArmorManager.h"
-
-
 // Sets default values for this component's properties
 UArmorMechanics::UArmorMechanics()
 {
@@ -43,9 +42,11 @@ FArmorData UArmorMechanics::GetEquippedArmorData()
 void UArmorMechanics::EquipArmor(EArmorType type)
 {
 	equipped_armor_data_ = armor_manager_cache_->GetArmorData(type);
-	const ArmorSkillMap& armor_skill_map = armor_manager_cache_->GetArmorSkillMap();
-	if (armor_skill_map.Find(type))
+	if (equipped_armor_data_.has_skill)
 	{
+		auto armor_equipment_skill = GetWorld()->SpawnActor<AEquipmentSkillBase>(equipped_armor_data_.equipment_skill_class);
+		armor_equipment_skill->AttachToActor(hero_cache_, FAttachmentTransformRules::KeepRelativeTransform);
+		armor_equipment_skill->InitEquipmentSkill(hero_cache_	);
 	}
 }
 

@@ -45,13 +45,6 @@ void UInventoryWidget::LoadInventoryComponent()
 	if(transition_manager->GetSavedData().IsEmpty() == false)
 	{
 		auto data_cache = transition_manager->GetSavedData(cur_hero_idx_);
-		const UDronePluginManager* dp_manager = ik_instance->GetDronePluginManager();
-	
-		heroDP_generic_->dp_data_ = dp_manager->GetDPData(data_cache.character_data_.general_dp_);
-		heroDP_generic_->SetImageTexture();
-		heroDP_periodic_->dp_data_ = dp_manager->GetDPData(data_cache.character_data_.periodic_dp_);
-		heroDP_periodic_->SetImageTexture();
-
 		hero_name_text_->SetText(FText::FromName(data_cache.character_data_.character_name_));
 	}
 	
@@ -71,7 +64,6 @@ void UInventoryWidget::LoadInventoryComponent()
 
 void UInventoryWidget::SwitchToLeftHero()
 {
-	ApplyHeroDP();
 	ApplyInventoryComponent();
 	cur_hero_idx_ = FMath::Max(0, cur_hero_idx_ - 1);
 	LoadInventoryComponent();
@@ -79,21 +71,9 @@ void UInventoryWidget::SwitchToLeftHero()
 
 void UInventoryWidget::SwitchToRightHero()
 {
-	ApplyHeroDP();
 	ApplyInventoryComponent();
 	cur_hero_idx_ = FMath::Min(cur_hero_idx_ + 1, 3);
 	LoadInventoryComponent();
-}
-
-void UInventoryWidget::ApplyHeroDP()
-{
-	UIKGameInstance* ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	ULevelTransitionManager* transition_manager = ik_instance->GetLevelTransitionManager();
-	if(transition_manager->GetSavedData().IsEmpty() == false)
-	{
-		transition_manager->SetHeroGenericDPData(heroDP_generic_->dp_data_.dp_type_, cur_hero_idx_);
-		transition_manager->SetHeroPeriodicDPData(heroDP_periodic_->dp_data_.dp_type_, cur_hero_idx_);
-	}
 }
 
 void UInventoryWidget::ApplyInventoryComponent()

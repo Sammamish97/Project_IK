@@ -53,14 +53,4 @@ public:
 	float sight_range_;
 	UPROPERTY(VisibleAnywhere, Category = "Data")
 	float evasion_;
-
-	//Drone Plugins
-	UPROPERTY(VisibleAnywhere, Category = "Data")
-	EDPType periodic_dp_;
-	UPROPERTY(VisibleAnywhere, Category = "Data")
-	EDPType general_dp_;
-
-	//Hero Upgrade
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Data")
-	int upgrade_level_;
 };

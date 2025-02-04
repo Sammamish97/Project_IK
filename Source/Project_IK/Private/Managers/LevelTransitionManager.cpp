@@ -110,16 +110,6 @@ FSpawnData ULevelTransitionManager::GetSavedData(int idx) const
 	return spawn_data_[idx];
 }
 
-void ULevelTransitionManager::SetHeroPeriodicDPData(EDPType type, int idx)
-{
-	spawn_data_[idx].character_data_.periodic_dp_ = type;
-}
-
-void ULevelTransitionManager::SetHeroGenericDPData(EDPType type, int idx)
-{
-	spawn_data_[idx].character_data_.general_dp_ = type;
-}
-
 void ULevelTransitionManager::SpawnHeroes(UWorld* world)
 {
 	TArray<AActor*> marker;

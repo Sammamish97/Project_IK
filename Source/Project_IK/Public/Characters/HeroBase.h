@@ -32,12 +32,6 @@ public:
 	virtual void GetDamage(FDamageData data) override;
 	virtual void GetStunned(float stun_duration) override;
 	virtual void OnStunned() override;
-
-	UFUNCTION(BlueprintCallable)
-	void SetPeriodicDP(EDPType dp_type);
-	UFUNCTION(BlueprintCallable)
-	void SetGenericDP(EDPType dp_type);
-
 public:
 	TMap<EHeroEvent, FOnDamage> hero_dmg_event_map_;
 
@@ -52,13 +46,5 @@ protected:
 	class UPassiveMechanics* passive_mechanics_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
-	class UArmorMechanics* armor_mechanics_;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", AllowedClass = "Drone", BindWidget))
-	UClass* drone_bp_class_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	class USphereComponent* drone_location_;
-	
-	class ADrone* drone_;
+	class UArmorMechanics* armor_mechanics_;;
 };

@@ -28,7 +28,6 @@ public:
 	
 	void InitInventoryWidget(UInventoryManager* inventory_component);
 	void LoadInventoryComponent();
-	void ApplyHeroDP();
 	void ApplyInventoryComponent();
 
 	UFUNCTION()

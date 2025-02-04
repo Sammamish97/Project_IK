@@ -15,8 +15,6 @@ See LICENSE file in the project root for full license information.
 #include "Structs/DamageData.h"
 #include "EnumCluster.h"
 #include "ArmorManager.generated.h"
-typedef TMap<EArmorType, TFunctionRef<FDamageData(FDamageData)>> ArmorSkillMap;
-
 UCLASS()
 class PROJECT_IK_API UArmorManager : public UObject
 {
@@ -25,12 +23,9 @@ class PROJECT_IK_API UArmorManager : public UObject
 public:
 	UArmorManager();
 	void InitArmorManager();
-	void InitArmorSkillMap();
 	FArmorData GetArmorData(EArmorType type);
-	const ArmorSkillMap& GetArmorSkillMap() const;
  	FString EnumToString(EArmorType armor_type);
 	
 private:
 	UDataTable* armor_table_;
-	ArmorSkillMap armor_skill_map_;
 };

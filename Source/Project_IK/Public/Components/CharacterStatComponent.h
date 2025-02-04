@@ -140,19 +140,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetCharacterData(const FCharacterData& character_data) noexcept;
-	
-	//Getter & Setter for Drone Plugins.
-	UFUNCTION(BlueprintPure)
-	EDPType GetPeriodicDP() const noexcept;
-
-	UFUNCTION(BlueprintCallable)
-	void SetPeriodicDP(const EDPType& dp_data) noexcept;
-
-	UFUNCTION(BlueprintPure)
-	EDPType GetGeneralDP() const noexcept;
-
-	UFUNCTION(BlueprintCallable)
-	void SetGeneralDP(const EDPType& dp_data) noexcept;
 
 	UFUNCTION(BlueprintCallable)
 	float CalculateStat(ECharacterStatType StatType) const;

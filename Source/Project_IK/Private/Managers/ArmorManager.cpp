@@ -22,11 +22,6 @@ UArmorManager::UArmorManager()
 
 void UArmorManager::InitArmorManager()
 {
-	InitArmorSkillMap();
-}
-
-void UArmorManager::InitArmorSkillMap()
-{
 }
 
 FArmorData UArmorManager::GetArmorData(EArmorType type)
@@ -37,12 +32,6 @@ FArmorData UArmorManager::GetArmorData(EArmorType type)
 	}
 	return *armor_table_->FindRow<FArmorData>(*EnumToString(EArmorType::Empty), TEXT(""));
 }
-
-const ArmorSkillMap& UArmorManager::GetArmorSkillMap() const
-{
-	return armor_skill_map_;
-}
-
 FString UArmorManager::EnumToString(EArmorType armor_type)
 {
 	FString string;

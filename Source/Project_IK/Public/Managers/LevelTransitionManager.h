@@ -51,13 +51,6 @@ public:
 
 	FSpawnData GetSavedData(int idx) const;
 
-	UFUNCTION(BlueprintCallable)
-	void SetHeroPeriodicDPData(EDPType type, int idx);
-
-	UFUNCTION(BlueprintCallable)
-	void SetHeroGenericDPData(EDPType type, int idx);
-	
-
 protected:
 	void SpawnHeroes(UWorld* world);
 	void SpawnEnemies(UWorld* world);
