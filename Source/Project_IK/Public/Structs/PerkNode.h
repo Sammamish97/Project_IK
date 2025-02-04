@@ -21,8 +21,8 @@ USTRUCT(BlueprintType)
 struct FPerkNode
 {
 	GENERATED_BODY()
-
 public:
+
 	UPROPERTY(VisibleAnywhere, Category = "PerkData")
 	ECharacterStatType stat_;
 

@@ -28,12 +28,13 @@ class PROJECT_IK_API UPerkTree : public UObject
 public:
 	static UPerkTree* Get();
 
+	void Initialize();
 	// Need to call it to clean instance at the end of the world EndPlay()
 	void Destroy();
 
 
 	UPROPERTY(VisibleAnywhere, Category = "PerkData")
-	TMap<int32, FPerkNode> perks_;
+	TArray<FPerkNode> perks_;
 
 private:
 	// Private constructor to prevent multiple instancings.
