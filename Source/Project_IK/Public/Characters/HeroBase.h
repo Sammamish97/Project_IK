@@ -14,8 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "HeroBase.generated.h"
 
-DECLARE_DELEGATE_RetVal_OneParam(FDamageData, FOnArmorHit, FDamageData);
-
+DECLARE_DELEGATE_RetVal_OneParam(FDamageData, FOnDamage, FDamageData);
 
 UCLASS()
 class PROJECT_IK_API AHeroBase : public AUnit
@@ -40,7 +39,7 @@ public:
 	void SetGenericDP(EDPType dp_type);
 
 public:
-	FOnArmorHit OnArmorHit;
+	TMap<EHeroEvent, FOnDamage> hero_dmg_event_map_;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))

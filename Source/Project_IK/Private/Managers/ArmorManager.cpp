@@ -8,7 +8,6 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Managers/ArmorManager.h"
-#include "Abilities/ArmorSkillCluster.h"
 
 UArmorManager::UArmorManager()
 {
@@ -28,8 +27,6 @@ void UArmorManager::InitArmorManager()
 
 void UArmorManager::InitArmorSkillMap()
 {
-	//TODO: 여기서 특수 효과를 가진 방어구의 스킬을 직접 enum type과 함께 map에 넣어줘야 한다.
-	armor_skill_map_.Add(EArmorType::TestSkillArmor, ArmorSkillCluster::TestSkill_1);
 }
 
 FArmorData UArmorManager::GetArmorData(EArmorType type)

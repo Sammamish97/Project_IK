@@ -152,3 +152,18 @@ enum class EDamageType : uint8
 	Dot UMETA(DisplayName = "Dot"),
 	INVALID UMETA(DisplayName = "INVALID")
 };
+
+UENUM(BlueprintType)
+enum class EHeroEvent : uint8
+{
+	OnHitBeforeCalc UMETA(DisplayName = "OnHitBeforeCalc"),
+	OnHitAfterCalc UMETA(DisplayName = "OnHitAfterCalc"),
+	OnHeal UMETA(DisplayName = "OnHeal"),
+	OnHPChanged UMETA(DisplayName = "OnHPChanged"),
+	OnDie UMETA(DisplayName = "OnDie"),
+	OnStun UMETA(DisplayName = "OnStun"),
+	OnReload UMETA(DisplayName = "OnReload"),
+	OnFire UMETA(DisplayName = "OnFire"),
+	OnActiveSkill UMETA(DisplayName = "OnActiveSkill"),
+	NONE
+};

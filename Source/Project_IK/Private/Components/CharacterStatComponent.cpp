@@ -104,7 +104,7 @@ void UCharacterStatComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	}
 }
 
-void UCharacterStatComponent::CalcDamage(FDamageData& data_ref, bool& is_evaded_out)
+bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 {
 	float evasion_rand = FMath::RandRange(0.f, 1.f);
 	bool is_evaded = evasion_rand < GetEvasion();
@@ -117,8 +117,7 @@ void UCharacterStatComponent::CalcDamage(FDamageData& data_ref, bool& is_evaded_
 
 	if (is_evaded)
 	{
-		is_evaded_out = true;
-		return;
+		return is_evaded;
 	}
 
 	// Calculation of shields
@@ -137,6 +136,7 @@ void UCharacterStatComponent::CalcDamage(FDamageData& data_ref, bool& is_evaded_
 		}
 	}
 	data_ref.damage = remaining_damage;
+	return is_evaded;
 }
 
 void UCharacterStatComponent::GetDamage(float damage)

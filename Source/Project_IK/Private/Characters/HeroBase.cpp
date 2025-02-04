@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/PassiveMechanics.h"
 #include "Abilities/SkillContainer.h"
+#include "Abilities/EquipmentSkills/EquipmentSkillBase.h"
 #include "AI/GunnerAIController.h"
 #include "Components/ArmorMechanics.h"
 #include "Components/CapsuleComponent.h"
@@ -60,6 +61,14 @@ void AHeroBase::BeginPlay()
 		Cast<ADrone>(drone_)->Initialize(this	);
 		drone_->AttachToComponent(drone_location_, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 	}
+	FArmorData armor_data = armor_mechanics_->GetEquippedArmorData();
+	if (armor_data.has_skill)
+	{
+		drone_ = GetWorld()->SpawnActor<ADrone>(drone_bp_class_, drone_location_->GetComponentTransform());
+		auto armor_equipment_skill = GetWorld()->SpawnActor<AEquipmentSkillBase>(armor_data.equipment_skill_class);
+		armor_equipment_skill->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
+		armor_equipment_skill->InitEquipmentSkill(this	);
+	}
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -95,12 +104,15 @@ void AHeroBase::Die()
 void AHeroBase::GetDamage(FDamageData data)
 {
 	Super::GetDamage(data);
-	bool is_evaded = false;
-	character_stat_component_->CalcDamage(data, is_evaded);
-	UArmorMechanics* armor_mechanics = Cast<UArmorMechanics>(GetComponentByClass(UArmorMechanics::StaticClass()));
-	if (armor_mechanics)
+	if (hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc].IsBound())
 	{
-		data = OnArmorHit.Execute(data);
+		data = hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc].Execute(data);
+	}
+	
+	bool is_evaded = character_stat_component_->CalcDamage(data);
+	if (is_evaded == false && hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc].IsBound())
+	{
+		data = hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc].Execute(data);
 	}
 	character_stat_component_->GetDamage(data.damage);
 	SetDamageUI(data, is_evaded);

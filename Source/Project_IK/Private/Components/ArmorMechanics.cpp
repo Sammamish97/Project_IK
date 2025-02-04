@@ -46,12 +46,10 @@ void UArmorMechanics::EquipArmor(EArmorType type)
 	const ArmorSkillMap& armor_skill_map = armor_manager_cache_->GetArmorSkillMap();
 	if (armor_skill_map.Find(type))
 	{
-		hero_cache_->OnArmorHit.BindLambda(armor_skill_map[type]);
 	}
 }
 
 void UArmorMechanics::UnEquipArmor()
 {
 	equipped_armor_data_ = armor_manager_cache_->GetArmorData(EArmorType::Empty);
-	hero_cache_->OnArmorHit.Unbind();
 }

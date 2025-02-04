@@ -94,7 +94,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunctionoverride);
 
 	UFUNCTION(BlueprintCallable)
-	void CalcDamage(FDamageData& data_ref, bool& is_evaded);
+	bool CalcDamage(FDamageData& data_ref);
 	UFUNCTION(BlueprintCallable)
 	void GetDamage(float damage);
 	UFUNCTION(BlueprintCallable)

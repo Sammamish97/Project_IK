@@ -21,7 +21,7 @@ struct PROJECT_IK_API FArmorData : public FTableRowBase
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
 	EArmorType type = EArmorType::Empty;
-
+	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
 	UTexture2D* thumbnail = nullptr;
 	
@@ -36,4 +36,7 @@ struct PROJECT_IK_API FArmorData : public FTableRowBase
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
 	bool has_skill;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
+	TSubclassOf<class AEquipmentSkillBase> equipment_skill_class = nullptr;
 };
