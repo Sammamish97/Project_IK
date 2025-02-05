@@ -144,6 +144,16 @@ enum class EArmorType : uint8
 };
 
 UENUM(BlueprintType)
+enum class ETrinketType : uint8
+{
+	TestAttack UMETA(DisplayName = "TestAttack"),
+	TestAttackSpeed UMETA(DisplayName = "TestAttackSpeed"),
+	TestCrit UMETA(DisplayName = "TestCrit"),
+	TestSkillTrinket UMETA(DisplayName = "TestSkillTrinket"),
+	Empty UMETA(DisplayName = "Empty")
+};
+
+UENUM(BlueprintType)
 enum class EDamageType : uint8
 {
 	Projectile UMETA(DisplayName = "Projectile"),

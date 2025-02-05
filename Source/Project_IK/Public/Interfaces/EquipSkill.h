@@ -1,8 +1,8 @@
 /******************************************************************************
-Copyright(C) 2025
+Copyright(C) 2024
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 2.4.2025
-Summary : Header file for equipment skill interface.
+Creation Date : 2.5.2025
+Summary : Header file for the equip skill interface.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -12,16 +12,16 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
 #include "Structs/DamageData.h"
-#include "EquipmentSkill.generated.h"
+#include "EquipSkill.generated.h"
 
 // This class does not need to be modified.
 UINTERFACE()
-class UEquipmentSkill : public UInterface
+class UEquipSkill : public UInterface
 {
 	GENERATED_BODY()
 };
 
-class PROJECT_IK_API IEquipmentSkill
+class PROJECT_IK_API IEquipSkill
 {
 	GENERATED_BODY()
 

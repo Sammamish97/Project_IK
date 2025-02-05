@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Managers/EnumCluster.h"
-
+#include "Abilities/EquipSkills/EquipSkillBase.h"
 #include "ArmorData.generated.h"
 
 USTRUCT(BlueprintType)
@@ -38,5 +38,5 @@ struct PROJECT_IK_API FArmorData : public FTableRowBase
 	bool has_skill;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
-	TSubclassOf<class AEquipmentSkillBase> equipment_skill_class = nullptr;
+	TSubclassOf<UEquipSkillBase> equipment_skill_class = nullptr;
 };

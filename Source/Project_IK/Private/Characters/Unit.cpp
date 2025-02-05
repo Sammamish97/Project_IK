@@ -10,10 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/Unit.h"
 
-#include "AIController.h"
 #include "AI/MeleeAIController.h"
-#include "BehaviorTree/BlackboardComponent.h"
-#include "Components/ArmorMechanics.h"
 #include "Components/CharacterStatComponent.h"
 #include "Components/CrowdControlComponent.h"
 #include "Components/WidgetComponent.h"

@@ -12,25 +12,21 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/PassiveMechanics.h"
 #include "Abilities/SkillContainer.h"
-#include "Abilities/EquipmentSkills/EquipmentSkillBase.h"
+#include "Abilities/EquipSkills/EquipSkillBase.h"
 #include "AI/GunnerAIController.h"
-#include "Components/ArmorMechanics.h"
+#include "Components/EquipMechanics.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/CharacterStatComponent.h"
-#include "Components/SphereComponent.h"
 #include "Components/WeaponMechanics.h"
-#include "Components/CharacterStatComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Weapons/Drone.h"
 #include "WorldSettings/IKGameModeBase.h"
-#include "Weapons/Drone.h"
 
 AHeroBase::AHeroBase()
 {
 	skill_container_ = CreateDefaultSubobject<USkillContainer>(TEXT("SkillContainer"));
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
 	passive_mechanics_ = CreateDefaultSubobject<UPassiveMechanics>(TEXT("PassiveMechanics"));
-	armor_mechanics_ = CreateDefaultSubobject<UArmorMechanics>(TEXT("ArmorMechanics"));
+	equip_mechanics_ = CreateDefaultSubobject<UEquipMechanics>(TEXT("EquipMechanics"));
 	
 	GetMesh()->SetCollisionProfileName(TEXT("NoCollision"));
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("HeroPreset"));
@@ -42,8 +38,9 @@ void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
 	weapon_mechanics_->SetWeaponOwner(this);
-	//TODO: Test purpose. Need to remove later.
-	armor_mechanics_->EquipArmor(EArmorType::TestSkillArmor);
+	//TODO: Two lines are Test purpose. Need to remove later.
+	equip_mechanics_->EquipArmor(EArmorType::TestSkillArmor);
+	equip_mechanics_->EquipTrinket(ETrinketType::TestAttack);
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -65,6 +62,10 @@ void AHeroBase::Die()
 	}
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if(casted_mode) casted_mode->RemoveHero(this);
+	for (auto& delegate : hero_dmg_event_map_)
+	{
+		delegate.Value.Unbind();
+	}
 	Super::Die();
 }
 

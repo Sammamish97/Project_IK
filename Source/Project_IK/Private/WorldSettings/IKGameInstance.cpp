@@ -20,10 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/TextureManager.h"
 #include "Managers/DialogueEventManager.h"
 #include "Managers/InventoryManager.h"
-#include "Managers/ArmorManager.h"
-
-#include "Characters/HeroBase.h"
-#include "Characters/EnemyBase.h"
+#include "Managers/EquipManager.h"
 
 UIKGameInstance::UIKGameInstance()
 	:Super::UGameInstance()
@@ -43,7 +40,7 @@ void UIKGameInstance::Init()
 	InitializeTextureManager();
 	InitializeDialogueEventManager();
 	InitInventoryManager();
-	InitArmorManager();
+	InitEquipManager();
 
 	item_inventory_->AddItem(item_data_manager_->GetItemDataRandomly());
 }
@@ -93,9 +90,9 @@ const UDialogueEventManager* UIKGameInstance::GetDialogueEventManager() const no
 	return dialogue_event_manager_;
 }
 
-UArmorManager* UIKGameInstance::GetArmorManager() const noexcept
+UEquipManager* UIKGameInstance::GetEquipManager() const noexcept
 {
-	return armor_manager_;
+	return equip_manager_;
 }
 
 void UIKGameInstance::InitializeItemDataManager()
@@ -148,8 +145,7 @@ void UIKGameInstance::InitInventoryManager()
 	inventory_manager_->InitInventory();
 }
 
-void UIKGameInstance::InitArmorManager()
+void UIKGameInstance::InitEquipManager()
 {
-	armor_manager_ = NewObject<UArmorManager>();
-	armor_manager_->InitArmorManager();
+	equip_manager_ = NewObject<UEquipManager>(this);
 }

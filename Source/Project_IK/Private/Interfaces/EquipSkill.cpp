@@ -1,14 +1,14 @@
 /******************************************************************************
-Copyright(C) 2025
+Copyright(C) 2024
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 2.4.2025
-Summary : Source file for equipment skill interface.
+Creation Date : 2.5.2025
+Summary : Source file for the equip skill interface.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "Interfaces/EquipmentSkill.h"
+#include "Interfaces/EquipSkill.h"
 
 
-// Add default functionality here for any IEquipmentSkill functions that are not pure virtual.
+// Add default functionality here for any IEquipSkill functions that are not pure virtual.
