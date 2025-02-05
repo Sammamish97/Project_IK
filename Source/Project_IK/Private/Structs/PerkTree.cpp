@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/PerkNode.h"
 #include "Managers/EnumCluster.h"
 
-static UPerkTree* instance = nullptr;
+static UPerkTree* perk_tree_instance = nullptr;
 
 UPerkTree::UPerkTree()
 	:Super::UObject()
@@ -24,14 +24,14 @@ UPerkTree::UPerkTree()
 
 UPerkTree* UPerkTree::Get()
 {
-	if (instance == nullptr)
+	if (perk_tree_instance == nullptr)
 	{
-		instance = NewObject<UPerkTree>();
-		instance->Initialize();
-		instance->AddToRoot();
+		perk_tree_instance = NewObject<UPerkTree>();
+		perk_tree_instance->Initialize();
+		perk_tree_instance->AddToRoot();
 	}
 
-	return instance;
+	return perk_tree_instance;
 }
 
 void UPerkTree::Initialize()
@@ -44,9 +44,9 @@ void UPerkTree::Initialize()
 
 void UPerkTree::Destroy()
 {
-	if (instance)
+	if (perk_tree_instance)
 	{
-		instance->RemoveFromRoot();
-		instance = nullptr;
+		perk_tree_instance->RemoveFromRoot();
+		perk_tree_instance = nullptr;
 	}
 }

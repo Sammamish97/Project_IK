@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/UserWidget.h"
 #include "PerkUnlockWidget.generated.h"
 
+class UCanvasPanel;
+
 /**
  * 
  */
@@ -21,5 +23,12 @@ UCLASS()
 class PROJECT_IK_API UPerkUnlockWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	
+public:
+
+protected:
+	virtual void NativeConstruct() override;
+	virtual void NativeDestruct() override;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UCanvasPanel> scroll_panel_;
 };

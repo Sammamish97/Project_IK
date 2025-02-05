@@ -19,3 +19,10 @@ void AIKPerkUnlockGameMode::BeginPlay()
 
 	UPerkTree::Get();
 }
+
+void AIKPerkUnlockGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	UPerkTree::Get()->Destroy();
+}
