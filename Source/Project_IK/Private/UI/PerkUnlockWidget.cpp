@@ -22,65 +22,156 @@ See LICENSE file in the project root for full license information.
 #include "Components/HorizontalBoxSlot.h"
 #include "Components/Button.h"
 
+#include "Structs/PerkTree.h"
 
 
 void UPerkUnlockWidget::NativeConstruct()
 {
-	UProgressBar* progress_bar = WidgetTree->ConstructWidget<UProgressBar>();
-	// @@ TODO: Calculate angle between nodes
-	progress_bar->SetRenderTransformAngle(90.f);
-	progress_bar->SetRenderTransformPivot(FVector2D(0.0, 0.5));
-	// @@ TODO: Set percent.
-	progress_bar->SetPercent(0.f);
-	UCanvasPanelSlot* progress_slot = scroll_panel_->AddChildToCanvas(progress_bar);
-	if (progress_slot)
-	{
-		// Top-center anchor
-		progress_slot->SetAnchors(FAnchors(0.5f, 0.f));
-		progress_slot->SetSize(FVector2D(300.f, 15.f));
-		progress_slot->SetPosition(FVector2D(0.f));
-	}
+	Super::NativeConstruct();
 
-
-	UVerticalBox* vertical_box = WidgetTree->ConstructWidget<UVerticalBox>();
-	UCanvasPanelSlot* vertical_slot = scroll_panel_->AddChildToCanvas(vertical_box);
-	if (vertical_slot)
-	{
-		// Full stretch anchor
-		vertical_slot->SetAnchors(FAnchors(0.f, 0.f, 1.f, 1.f));
-		vertical_slot->SetOffsets(FMargin(0.f));
-		vertical_slot->SetAutoSize(true);
-	}
-
-	UHorizontalBox* level_0_box = WidgetTree->ConstructWidget<UHorizontalBox>();
-	UVerticalBoxSlot* level_0_box_slot = vertical_box->AddChildToVerticalBox(level_0_box);
-	if (level_0_box_slot)
-	{
-		level_0_box_slot->SetHorizontalAlignment(EHorizontalAlignment::HAlign_Center);
-		level_0_box_slot->SetVerticalAlignment(EVerticalAlignment::VAlign_Center);
-	}
-
-	UButton* node0 = WidgetTree->ConstructWidget<UButton>();
-	FButtonStyle style;
-	FSlateBrush normal_brush;
-	normal_brush.SetImageSize(FVector2D(128.f, 128.f));
-	normal_brush.DrawAs = ESlateBrushDrawType::Type::Image;
-	normal_brush.TintColor = FSlateColor(FLinearColor(0.69f, 0.69f, 0.69f));
-	style.SetNormal(normal_brush);
-	FSlateBrush hovered_brush = normal_brush;
-	hovered_brush.TintColor = FSlateColor(FLinearColor(0.95f, 0.95f, 0.95f));
-	style.SetHovered(hovered_brush);
-	FSlateBrush pressed_brush = normal_brush;
-	pressed_brush.TintColor = FSlateColor(FLinearColor(0.5f, 0.5f, 0.5f));
-	style.SetPressed(pressed_brush);
-	node0->SetStyle(style);
-	UHorizontalBoxSlot* node0_slot = level_0_box->AddChildToHorizontalBox(node0);
-	if (node0_slot)
-	{
-		node0_slot->SetPadding(FMargin(64.f));
-	}
+	ConstructPerkTree();
+	//GetWorld()->GetTimerManager().SetTimerForNextTick(this, &UPerkUnlockWidget::ConstructLinks);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UPerkUnlockWidget::ConstructLinks, 0.1f, false);
+	//ConstructLinks();
 }
 
 void UPerkUnlockWidget::NativeDestruct()
 {
+	Super::NativeDestruct();
+}
+
+void UPerkUnlockWidget::ConstructPerkTree()
+{
+	UPerkTree* perk_tree = UPerkTree::Get();
+	TArray<FPerkNode> tree = perk_tree->GetTree();
+
+	// Initialize button array with nullptr
+	buttons_.Init(nullptr, tree.Num());
+
+	UVerticalBox* tree_box = ConstructNewTreeBox();
+
+	// node on 0 index in tree is root node of the tree
+	TArray<FPerkNode> current_level_nodes({ tree[0]});
+	TArray<TObjectPtr<UButton>*> pointer_to_content_of_button_array({ &buttons_[0]});
+	while (!current_level_nodes.IsEmpty())
+	{
+		UHorizontalBox* tree_level = ConstructNewTreeLevel(tree_box);
+
+		// Temporary data
+		TArray<FPerkNode> next_level_nodes;
+		TArray<TObjectPtr<UButton>*> next_pointers;
+
+		for (int32 i = 0; i < current_level_nodes.Num(); i++)
+		{
+			// Save created node to array
+			UButton* button = ConstructNewTreeNode(tree_level);
+			// @@ TODO: Customize button by current node
+			*pointer_to_content_of_button_array[i] = button;
+
+			for (int32 next_index = 0; next_index < current_level_nodes[i].next_.Num(); next_index++)
+			{
+				next_level_nodes.Add(tree[current_level_nodes[i].next_[next_index]]);
+				next_pointers.Add(&buttons_[current_level_nodes[i].next_[next_index]]);
+			}
+		}
+
+		current_level_nodes = MoveTemp(next_level_nodes);
+		pointer_to_content_of_button_array = MoveTemp(next_pointers);
+	}
+}
+
+void UPerkUnlockWidget::ConstructLinks()
+{
+	TArray<FPerkNode> tree = UPerkTree::Get()->GetTree();
+
+	for (int32 i = 0; i < tree.Num(); i++)
+	{
+		for (int32 j = 0; j < tree[i].next_.Num(); j++)
+		{
+			ConstructLink(buttons_[i], buttons_[tree[i].next_[j]]);
+		}
+	}
+}
+
+UVerticalBox* UPerkUnlockWidget::ConstructNewTreeBox()
+{
+	UVerticalBox* tree_box = WidgetTree->ConstructWidget<UVerticalBox>();
+	UCanvasPanelSlot* tree_box_slot = scroll_panel_->AddChildToCanvas(tree_box);
+	if (tree_box_slot)
+	{
+		// Full stretch anchor
+		tree_box_slot->SetAnchors(FAnchors(0.f, 0.f, 1.f, 1.f));
+		tree_box_slot->SetOffsets(FMargin(0.f));
+		tree_box_slot->SetAutoSize(true);
+	}
+	return tree_box;
+}
+
+UHorizontalBox* UPerkUnlockWidget::ConstructNewTreeLevel(UVerticalBox* tree_box)
+{
+	if (tree_box == nullptr)
+	{
+		return nullptr;
+	}
+
+	UHorizontalBox* level_box = WidgetTree->ConstructWidget<UHorizontalBox>();
+	UVerticalBoxSlot* level_box_slot = tree_box->AddChildToVerticalBox(level_box);
+	if (level_box_slot)
+	{
+		level_box_slot->SetHorizontalAlignment(EHorizontalAlignment::HAlign_Center);
+		level_box_slot->SetVerticalAlignment(EVerticalAlignment::VAlign_Center);
+	}
+
+	return level_box;
+}
+
+UButton* UPerkUnlockWidget::ConstructNewTreeNode(UHorizontalBox* level_box)
+{
+	if (level_box == nullptr)
+	{
+		return nullptr;
+	}
+
+	UButton* node = WidgetTree->ConstructWidget<UButton>();
+	// Default node style does not have image info
+	node->SetStyle(default_node_style);
+	UHorizontalBoxSlot* node_slot = level_box->AddChildToHorizontalBox(node);
+	if (node_slot)
+	{
+		node_slot->SetPadding(FMargin(64.f));
+	}
+
+	return node;
+}
+
+void UPerkUnlockWidget::ConstructLink(UButton* start, UButton* end)
+{
+	if (start == nullptr || end == nullptr)
+	{
+		return;
+	}
+
+	FVector2D start_position = start->GetParent()->GetCachedGeometry().GetLocalPositionAtCoordinates(FVector2D(0.0))
+		+ start->GetCachedGeometry().GetLocalPositionAtCoordinates(FVector2D(0.5, 0.5));
+	start_position.X -= start->GetParent()->GetParent()->GetCachedGeometry().GetLocalPositionAtCoordinates(FVector2D(0.5)).X;
+
+	FVector2D end_position = end->GetParent()->GetCachedGeometry().GetLocalPositionAtCoordinates(FVector2D(0.0))	// Position of level box(horizontal box)
+		+ end->GetCachedGeometry().GetLocalPositionAtCoordinates(FVector2D(0.5, 0.5)); // Points to center of nodes (size / 2)
+	end_position.X -= end->GetParent()->GetParent()->GetCachedGeometry().GetLocalPositionAtCoordinates(FVector2D(0.5)).X; // Center alignment (offset to follow top-center anchor)
+
+	FVector2D direction = end_position - start_position;
+	float angle = FMath::RadiansToDegrees(FMath::Atan2(direction.Y, direction.X));
+
+	UProgressBar* link = WidgetTree->ConstructWidget<UProgressBar>();
+	link->SetRenderTransformAngle(angle);
+	link->SetRenderTransformPivot(FVector2D(0.0, 0.5));
+	link->SetPercent(0.f);
+	UCanvasPanelSlot* link_slot = scroll_panel_->AddChildToCanvas(link);
+	if (link_slot)
+	{
+		// Top-center anchor
+		link_slot->SetAnchors(FAnchors(0.5f, 0.f));
+		link_slot->SetSize(FVector2D(direction.Size(), 15.f));
+		link_slot->SetPosition(start_position);
+	}
 }

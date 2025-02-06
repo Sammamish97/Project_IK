@@ -34,11 +34,28 @@ UPerkTree* UPerkTree::Get()
 	return perk_tree_instance;
 }
 
+const TArray<FPerkNode>& UPerkTree::GetTree() const
+{
+	return perks_;
+}
+
 void UPerkTree::Initialize()
 {
+	// Rule: Index 0 must be root of a tree.
+
 	// Initialize Tree in here.
-	perks_.Add(FPerkNode(ECharacterStatType::AttackPower, 1.f, {1}));
+
+	//perks_.Add(FPerkNode(ECharacterStatType::AttackPower, 1.f, { 1 }));
+	perks_.Add(FPerkNode(ECharacterStatType::AttackPower, 1.f, {1, 3}));
 	perks_.Add(FPerkNode(ECharacterStatType::Armor, 1.f, { 2 }));
+	perks_.Add(FPerkNode(ECharacterStatType::ActiveSkillPower, 1.f));
+
+	perks_.Add(FPerkNode(ECharacterStatType::ActiveSkillPower, 1.f, { 4 }));
+	perks_.Add(FPerkNode(ECharacterStatType::ActiveSkillPower, 1.f, {5, 6, 7}));
+
+
+	perks_.Add(FPerkNode(ECharacterStatType::ActiveSkillPower, 1.f));
+	perks_.Add(FPerkNode(ECharacterStatType::ActiveSkillPower, 1.f));
 	perks_.Add(FPerkNode(ECharacterStatType::ActiveSkillPower, 1.f));
 }
 

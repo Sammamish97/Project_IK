@@ -28,6 +28,8 @@ class PROJECT_IK_API UPerkTree : public UObject
 public:
 	static UPerkTree* Get();
 
+	const TArray<FPerkNode>& GetTree() const;
+
 	void Initialize();
 	// Need to call it to clean instance at the end of the world EndPlay()
 	void Destroy();
