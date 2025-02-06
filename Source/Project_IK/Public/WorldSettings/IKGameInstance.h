@@ -51,7 +51,7 @@ public:
 	UFUNCTION(BlueprintPure)
 	const class UDialogueEventManager* GetDialogueEventManager() const noexcept;
 	UFUNCTION(BlueprintPure)
-	class UInventoryManager* GetInventoryManager() const noexcept;
+	class UHeroInventoryManager* GetInventoryManager() const noexcept;
 	UFUNCTION(BlueprintPure)
 	class UEquipManager* GetEquipManager() const noexcept;
 
@@ -101,7 +101,7 @@ private:
 	class UTextureManager* texture_manager_;
 
 	UPROPERTY()
-	class UInventoryManager* inventory_manager_;
+	class UHeroInventoryManager* inventory_manager_;
 	
 	UPROPERTY()
 	class UEquipManager* equip_manager_;

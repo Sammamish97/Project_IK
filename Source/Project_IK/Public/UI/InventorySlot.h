@@ -35,13 +35,16 @@ private:
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	class UImage* image_;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TSubclassOf<UUserWidget> dragdrop_image_class_;
 	
 public:
 	UPROPERTY()
-	EInventorySlotType slot_type_;
-
-	UPROPERTY()
 	FInventorySlotData slot_data_;
+	
+	UPROPERTY()
+	EInventorySlotType slot_type_= EInventorySlotType::Inventory;
 
 	UPROPERTY()
 	int grid_idx_;

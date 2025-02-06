@@ -1,5 +1,5 @@
 ---,type,thumbnail,armor,hit_point,evasion_rate,has_skill,equipment_skill_class
-TestHealth,"TestHealth","None","0","50","0","False","None"
-TestArmor,"TestArmor","None","50","0","0","False","None"
-TestDodge,"Empty","None","0","0","30","False","None"
-TestSkillArmor,"TestSkillArmor","None","0","0","0","True","/Script/CoreUObject.Class'/Script/Project_IK.FixedDmgReduceSkill'"
+TestHealth,"TestHealth","/Script/Engine.Texture2D'/Game/Images/Gears/cloth_armor.cloth_armor'","0","50","0","False","None"
+TestArmor,"TestArmor","/Script/Engine.Texture2D'/Game/Images/Gears/cloth_armor.cloth_armor'","50","0","0","False","None"
+TestDodge,"Empty","/Script/Engine.Texture2D'/Game/Images/Gears/cloth_armor.cloth_armor'","0","0","30","False","None"
+TestSkillArmor,"TestSkillArmor","/Script/Engine.Texture2D'/Game/Images/Gears/cloth_armor.cloth_armor'","0","0","0","True","/Script/CoreUObject.Class'/Script/Project_IK.FixedDmgReduceSkill'"

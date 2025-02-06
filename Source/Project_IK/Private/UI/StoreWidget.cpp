@@ -16,7 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/ItemDataManager.h"
 #include "Managers/DronePluginManager.h"
 #include "Abilities/ItemInventory.h"
-#include "Managers/InventoryManager.h"
+#include "Managers/HeroInventoryManager.h"
 
 #include "WorldSettings/StoreLevel/IKStoreHUD.h"
 
@@ -188,7 +188,7 @@ void UStoreWidget::GoToNextLevel()
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
 	// Save purchased items and dps
-	UInventoryManager* inventory_manager = game_instance->GetInventoryManager();
+	UHeroInventoryManager* inventory_manager = game_instance->GetInventoryManager();
 	inventory_manager->SetCredits(credits_ - total_cost_);
 	credit_widget_->UpdateCreditText();
 	
@@ -206,11 +206,11 @@ void UStoreWidget::GoToNextLevel()
 			selected_dps.Add(dps_[i]);
 		}
 	}
-
-	for (int32 i = 0; i < selected_dps.Num(); i++)
-	{
-		inventory_manager->AddDP(selected_dps[i].dp_type_);
-	}
+	//TODO: 사라진 DP에 대응하기 위해 주석 처리.
+	// for (int32 i = 0; i < selected_dps.Num(); i++)
+	// {
+	// 	inventory_manager->AddDP(selected_dps[i].dp_type_);
+	// }
 	game_instance->GetItemInventory()->AddItems(selected_items, [this]() {
 		// Update HUD status
 		AIKStoreHUD* hud = Cast<AIKStoreHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());

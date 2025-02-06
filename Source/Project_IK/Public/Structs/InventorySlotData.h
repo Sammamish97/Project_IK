@@ -19,7 +19,7 @@ struct PROJECT_IK_API FInventorySlotData
 	GENERATED_BODY();
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	bool is_empty;
+	bool is_empty = true;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
 	EGearType gear_type;

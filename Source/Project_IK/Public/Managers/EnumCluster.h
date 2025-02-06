@@ -189,3 +189,16 @@ enum class EGearType : uint8
 	Oopart UMETA(DisplayName = "Oopart"),
 	INVALID UMETA(DisplayName = "INVALID")
 };
+
+UENUM(BlueprintType)
+enum class EInventorySlotType : uint8
+{
+	Armor UMETA(DisplayName = "Armor"),
+	Trinket UMETA(DisplayName = "Trinket"),
+	Weapon UMETA(DisplayName = "Weapon"),
+	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
+	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
+	Oopart UMETA(DisplayName = "Oopart"),
+	Inventory UMETA(DisplayName = "Inventory"),
+	INVALID UMETA(DisplayName = "INVALID")
+};

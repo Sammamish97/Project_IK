@@ -12,6 +12,11 @@ See LICENSE file in the project root for full license information.
 
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
+#include "Kismet/GameplayStatics.h"
+#include "Managers/EquipManager.h"
+#include "UI/DPDragDropImage.h"
+#include "UI/SlotDragDropImage.h"
+#include "WorldSettings/IKGameInstance.h"
 
 FReply UInventorySlot::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
@@ -28,43 +33,45 @@ void UInventorySlot::NativeOnDragDetected(const FGeometry& InGeometry, const FPo
 	UDragDropOperation*& OutOperation)
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
-	// if(dp_data_.dp_type_==EDPType::Empty) return;
-	//
-	// UDPDragDropOperation* dragdrop_operation = Cast<UDPDragDropOperation>(UWidgetBlueprintLibrary::CreateDragDropOperation(dragdrop_class_));
-	// dragdrop_operation->dragged_slot_data_ = this;
-	//
-	// auto dragged_image_widget = CreateWidget(GetWorld(), dragdrop_image_class_);
-	//
-	// Cast<UDPDragDropImage>(dragged_image_widget)->SetImage(dp_data_.dp_icon_);
-	// dragdrop_operation->DefaultDragVisual = dragged_image_widget;
-	// dragdrop_operation->Pivot = EDragPivot::CenterCenter;
-	//
-	// OutOperation = dragdrop_operation;
+	if(slot_data_.is_empty == true) return;
+	
+	UDragDropOperation* dragdrop_operation = UWidgetBlueprintLibrary::CreateDragDropOperation(UDragDropOperation::StaticClass());
+	dragdrop_operation->Payload = this;
+	
+	auto dragged_image_widget = CreateWidget(GetWorld(), dragdrop_image_class_);
+	Cast<USlotDragDropImage>(dragged_image_widget)->image_->
+	SetBrushFromTexture(UWidgetBlueprintLibrary::GetBrushResourceAsTexture2D(image_->GetBrush()));
+	
+	dragdrop_operation->DefaultDragVisual = dragged_image_widget;
+	dragdrop_operation->Pivot = EDragPivot::CenterCenter;
+	
+	OutOperation = dragdrop_operation;
 }
 
 bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
 	UDragDropOperation* InOperation)
 {
 	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
-	// UDPDragDropOperation* casted_operation = Cast<UDPDragDropOperation>(InOperation);
-	// if(casted_operation->dragged_slot_data_ == this) return false;
-	// if(slot_type_ == EDPSlotType::HeroPeriodic)
-	// {
-	// 	if(casted_operation->dragged_slot_data_->dp_data_.is_periodic_ == false)
-	// 	{
-	// 		return false;
-	// 	}
-	// }
-	// if(slot_type_ == EDPSlotType::HeroGeneral)
-	// {
-	// 	if(casted_operation->dragged_slot_data_->dp_data_.is_periodic_ == true)
-	// 	{
-	// 		return false;
-	// 	}
-	// }
-	// Swap(dp_data_, casted_operation->dragged_slot_data_->dp_data_);
-	// SetImageTexture();
-	// casted_operation->dragged_slot_data_->SetImageTexture();
+	if(InOperation->Payload == this) return false;
+
+	UInventorySlot* slot_from = Cast<UInventorySlot>(InOperation->Payload);
+	if(slot_type_ == EInventorySlotType::Armor)
+	{
+		if(slot_from->slot_data_.gear_type == EGearType::Armor)
+		{
+			return false;
+		}
+	}
+	if(slot_type_ == EInventorySlotType::Trinket)
+	{
+		if(slot_from->slot_data_.gear_type == EGearType::Trinket)
+		{
+			return false;
+		}
+	}
+	Swap(slot_data_, slot_from->slot_data_);
+	SetImageTexture();
+	slot_from->SetImageTexture();
 	return true;
 }
 
@@ -77,5 +84,23 @@ void UInventorySlot::ClearData()
 
 void UInventorySlot::SetImageTexture()
 {
-	//image_->SetBrushFromTexture(dp_data_.dp_icon_);
+	if(slot_data_.is_empty == true)
+	{
+		image_->SetBrushFromTexture(nullptr);
+		return;
+	}
+	//TODO: 마음에 안드는 부분이다. 더 좋은 방법이 있을것이다.
+	UIKGameInstance* instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	UEquipManager* equip_manager = instance->GetEquipManager();
+	UTexture2D* new_texture = nullptr;
+	if(slot_data_.gear_type == EGearType::Armor)
+	{
+		new_texture = equip_manager->GetArmorData(slot_data_.armor_type).thumbnail;
+	}
+	else if(slot_data_.gear_type == EGearType::Trinket)
+	{
+		new_texture = equip_manager->GetTrinketData(slot_data_.trinket_type).thumbnail;
+	}
+	//
+	image_->SetBrushFromTexture(new_texture);
 }
