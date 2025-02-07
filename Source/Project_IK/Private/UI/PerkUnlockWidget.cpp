@@ -29,10 +29,8 @@ void UPerkUnlockWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
+	ConstructLinks();
 	ConstructPerkTree();
-	//GetWorld()->GetTimerManager().SetTimerForNextTick(this, &UPerkUnlockWidget::ConstructLinks);
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UPerkUnlockWidget::ConstructLinks, 0.1f, false);
-	//ConstructLinks();
 }
 
 void UPerkUnlockWidget::NativeDestruct()
@@ -84,12 +82,48 @@ void UPerkUnlockWidget::ConstructLinks()
 {
 	TArray<FPerkNode> tree = UPerkTree::Get()->GetTree();
 
-	for (int32 i = 0; i < tree.Num(); i++)
+
+	int32 level = 0;
+	TArray<FPerkNode> current_level_nodes({tree[0]});
+	TArray<int32> current_indices({ 0 });
+	while(current_level_nodes.IsEmpty() == false)
 	{
-		for (int32 j = 0; j < tree[i].next_.Num(); j++)
+		TArray<FPerkNode> next_level_nodes;
+		TArray<int32> next_indices;
+
+		// A loop to create next level data
+		const int32 current_size = current_level_nodes.Num();
+		for (int32 current_index = 0; current_index < current_size; current_index++)
 		{
-			ConstructLink(buttons_[i], buttons_[tree[i].next_[j]]);
+			const int32 next_size = current_level_nodes[current_index].next_.Num();
+
+			for (int32 next_index = 0; next_index < next_size; next_index++)
+			{
+				// Update next nodes
+				next_level_nodes.Add(tree[current_level_nodes[current_index].next_[next_index]]);
+				next_indices.Add(current_level_nodes[current_index].next_[next_index]);
+			}
 		}
+
+		// A loop creating links using both current node data and next node data.
+		int32 index = 0;
+		for (int32 current_index = 0; current_index < current_size; current_index++)
+		{
+			for (int32 iterator : current_level_nodes[current_index].next_)
+			{
+				UProgressBar* link = ConstructLink(current_index, current_size, index, next_level_nodes.Num(), level);
+				if (link)
+				{
+					links_.Add(FIntPoint(current_indices[current_index], next_indices[index]), link);
+				}
+
+				++index;
+			}
+		}
+
+		current_level_nodes = MoveTemp(next_level_nodes);
+		current_indices = MoveTemp(next_indices);
+		++level;
 	}
 }
 
@@ -134,30 +168,20 @@ UButton* UPerkUnlockWidget::ConstructNewTreeNode(UHorizontalBox* level_box)
 
 	UButton* node = WidgetTree->ConstructWidget<UButton>();
 	// Default node style does not have image info
-	node->SetStyle(default_node_style);
+	node->SetStyle(default_node_style_);
 	UHorizontalBoxSlot* node_slot = level_box->AddChildToHorizontalBox(node);
 	if (node_slot)
 	{
-		node_slot->SetPadding(FMargin(64.f));
+		node_slot->SetPadding(node_margin_);
 	}
 
 	return node;
 }
 
-void UPerkUnlockWidget::ConstructLink(UButton* start, UButton* end)
+UProgressBar* UPerkUnlockWidget::ConstructLink(int32 start_index, int32 start_max_index, int32 end_index, int32 end_max_index, int32 level)
 {
-	if (start == nullptr || end == nullptr)
-	{
-		return;
-	}
-
-	FVector2D start_position = start->GetParent()->GetCachedGeometry().GetLocalPositionAtCoordinates(FVector2D(0.0))
-		+ start->GetCachedGeometry().GetLocalPositionAtCoordinates(FVector2D(0.5, 0.5));
-	start_position.X -= start->GetParent()->GetParent()->GetCachedGeometry().GetLocalPositionAtCoordinates(FVector2D(0.5)).X;
-
-	FVector2D end_position = end->GetParent()->GetCachedGeometry().GetLocalPositionAtCoordinates(FVector2D(0.0))	// Position of level box(horizontal box)
-		+ end->GetCachedGeometry().GetLocalPositionAtCoordinates(FVector2D(0.5, 0.5)); // Points to center of nodes (size / 2)
-	end_position.X -= end->GetParent()->GetParent()->GetCachedGeometry().GetLocalPositionAtCoordinates(FVector2D(0.5)).X; // Center alignment (offset to follow top-center anchor)
+	FVector2D start_position = CalculateNodePosition(start_index, start_max_index, level);
+	FVector2D end_position = CalculateNodePosition(end_index, end_max_index, level + 1);
 
 	FVector2D direction = end_position - start_position;
 	float angle = FMath::RadiansToDegrees(FMath::Atan2(direction.Y, direction.X));
@@ -174,4 +198,19 @@ void UPerkUnlockWidget::ConstructLink(UButton* start, UButton* end)
 		link_slot->SetSize(FVector2D(direction.Size(), 15.f));
 		link_slot->SetPosition(start_position);
 	}
+
+	return link;
+}
+
+FVector2D UPerkUnlockWidget::CalculateNodePosition(int32 index, int32 size, int32 level)
+{
+	FVector2D node_size = default_node_style_.Normal.GetImageSize() + node_margin_.GetDesiredSize2f();
+
+	FVector2D result;
+	result.X = index * node_size.X - ((node_size.X * size) / 2.f);
+	result.Y = node_size.Y * level;
+
+	result += node_size / 2.f;
+
+	return result;
 }

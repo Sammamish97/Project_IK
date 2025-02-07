@@ -18,8 +18,10 @@ class UCanvasPanel;
 class UVerticalBox;
 class UHorizontalBox;
 class UButton;
+class UProgressBar;
+
 /**
- * 
+ *
  */
 UCLASS()
 class PROJECT_IK_API UPerkUnlockWidget : public UUserWidget
@@ -28,7 +30,9 @@ class PROJECT_IK_API UPerkUnlockWidget : public UUserWidget
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	FButtonStyle default_node_style;
+	FButtonStyle default_node_style_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	FMargin node_margin_;
 
 protected:
 	virtual void NativeConstruct() override;
@@ -41,7 +45,8 @@ protected:
 	UHorizontalBox* ConstructNewTreeLevel(UVerticalBox* tree_box);
 	UButton* ConstructNewTreeNode(UHorizontalBox* level_box);
 
-	void ConstructLink(UButton* start, UButton* end);
+	UProgressBar* ConstructLink(int32 start_index, int32 start_max_index, int32 end_index, int32 end_max_index, int32 level);
+	FVector2D CalculateNodePosition(int32 index, int32 size, int32 level);
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UCanvasPanel> scroll_panel_;
@@ -49,5 +54,7 @@ protected:
 	UPROPERTY()
 	TArray<TObjectPtr<UButton>> buttons_;
 
-	FTimerHandle TimerHandle;
+	UPROPERTY()
+	// FIntPoint<StartIndex, EndIndex>
+	TMap < FIntPoint, TObjectPtr<UProgressBar>> links_;
 };
