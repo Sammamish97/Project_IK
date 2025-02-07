@@ -51,6 +51,11 @@ void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AHeroBase::Initialize()
 {
+	if(drone_)
+	{
+		// @@ TODO: Implement it again when equipment system has fully constructed.
+		//drone_->SetPlugins(character_stat_component_->GetPeriodicDP(), character_stat_component_->GetGeneralDP());
+	}
 }
 
 void AHeroBase::Die()

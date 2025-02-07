@@ -15,6 +15,8 @@ See LICENSE file in the project root for full license information.
 
 #include "IKGameModeBase.generated.h"
 
+class UTimeDilationManager;
+
 /**
  * 
  */
@@ -51,6 +53,15 @@ public:
 	UFUNCTION()
 	void RecordDamage(float damage, TWeakObjectPtr<AActor> attacker);
 
+	UFUNCTION(BlueprintCallable)
+	void SetGlobalTimeDilation(float time_dilation);
+	UFUNCTION(BlueprintCallable)
+	float GetGlobalTimeDilation() const;
+	UFUNCTION(BlueprintCallable)
+	void SlowGlobalTimeDilation();
+	UFUNCTION(BlueprintCallable)
+	void RestoreGlobalTimeDilation();
+
 protected:
 	void PopulateContainers();
 	void DisplayCombatResult();
@@ -62,4 +73,7 @@ protected:
 
 	UPROPERTY()
 	TMap<TWeakObjectPtr<AActor>, float> gunner_damage_map_;
+
+	UPROPERTY()
+	TObjectPtr<UTimeDilationManager> time_dilation_manager;
 };

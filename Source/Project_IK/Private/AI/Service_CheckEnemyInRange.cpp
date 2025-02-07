@@ -34,7 +34,11 @@ void UService_CheckEnemyInRange::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 	{
 		AActor* casted_actor = Cast<AActor>(target);
 		float distance = FVector::Distance(casted_gunner->GetActorLocation(), casted_actor->GetActorLocation());
-		if(casted_gunner->GetCharacterStat()->GetFireRange() > distance)
+
+		// @@ TODO: Replace deprecated fire range.
+			// @@ TODO: Then REMOVE this comment and the variable
+		const float DEPRECATED_FIRE_RANGE = 600.f;
+		if(DEPRECATED_FIRE_RANGE > distance)
 		{
 			blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Attacking));
 		}

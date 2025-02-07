@@ -44,7 +44,6 @@ void ULevelTransitionManager::InitHeroData(const TArray<EHeroType>& hero_types)
 	UIKGameInstance* instance = Cast<UIKGameInstance>(instance_cache_);
 	for(const auto& type : hero_types)
 	{
-		// @@ TODO: After completing structure design, created contructors.
 		FSpawnData spawn_data;
 		spawn_data.character_data_ = *instance->GetCharacterDataManager()->GetCharacterData(type);
 		spawn_data_.Add(spawn_data);

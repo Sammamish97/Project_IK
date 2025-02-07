@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKPlayerController.h"
 #include "Components/TargetingComponent.h"
 #include "Managers/LevelTransitionManager.h"
+#include "Managers/TimeDilationManager.h"
 
 #include "WorldSettings/IKHUD.h"
 
@@ -31,6 +32,8 @@ AIKGameModeBase::AIKGameModeBase()
 void AIKGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	time_dilation_manager = NewObject<UTimeDilationManager>(this);
 
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(this));
 	if (game_instance)
@@ -108,6 +111,39 @@ void AIKGameModeBase::RecordDamage(float damage, TWeakObjectPtr<AActor> attacker
 		{
 			gunner_damage_map_.Add(attacker, damage);
 		}
+	}
+}
+
+void AIKGameModeBase::SetGlobalTimeDilation(float time_dilation)
+{
+	if (time_dilation_manager)
+	{
+		time_dilation_manager->SetGlobalTimeDilation(GetWorld(), time_dilation);
+	}
+}
+
+inline float AIKGameModeBase::GetGlobalTimeDilation() const
+{
+	if (time_dilation_manager)
+	{
+		return time_dilation_manager->GetGlobalTimeDilation(GetWorld());
+	}
+	return 0.f;
+}
+
+void AIKGameModeBase::SlowGlobalTimeDilation()
+{
+	if (time_dilation_manager)
+	{
+		time_dilation_manager->SlowGlobalTimeDilation(GetWorld());
+	}
+}
+
+void AIKGameModeBase::RestoreGlobalTimeDilation()
+{
+	if (time_dilation_manager)
+	{
+		time_dilation_manager->RestoreGlobalTimeDilation(GetWorld());
 	}
 }
 

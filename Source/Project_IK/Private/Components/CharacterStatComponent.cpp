@@ -43,15 +43,7 @@ void UCharacterStatComponent::InitializeComponent()
 	{
 		FCharacterData* character_data = ik_game_instance->GetCharacterDataManager()->GetCharacterData(character_id_);
 
-		stat_.ability_power_ = character_data->ability_power_;
-		stat_.attack_ = character_data->attack_;
-		stat_.attack_speed_ = character_data->attack_speed_;
-		stat_.hit_point_ = character_data->hit_point_;
-		stat_.magazine_ = character_data->magazine_;
-
-		stat_.fire_range_ = character_data->fire_range_;
-		stat_.move_speed_ = character_data->move_speed_;
-		stat_.sight_range_ = character_data->sight_range_;
+		stat_= *character_data;
 
 
 		// They are initial data of each attributes. Theoretical limitation will be implemented later
@@ -107,7 +99,7 @@ void UCharacterStatComponent::TickComponent(float DeltaTime, ELevelTick TickType
 bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 {
 	float evasion_rand = FMath::RandRange(0.f, 1.f);
-	bool is_evaded = evasion_rand < GetEvasion();
+	bool is_evaded = evasion_rand < GetEvasionRate();
 
 	if (!is_evaded && data_ref.attacker.IsValid())
 	{
@@ -168,14 +160,9 @@ void UCharacterStatComponent::DestroyShield()
 	SetShield(0.f);
 }
 
-float UCharacterStatComponent::GetAbilityPower() const noexcept
+float UCharacterStatComponent::GetAttackPower() const noexcept
 {
-	return CalculateStat(ECharacterStatType::AbillityPower);
-}
-
-float UCharacterStatComponent::GetAttack() const noexcept
-{
-	return CalculateStat(ECharacterStatType::Attack);
+	return CalculateStat(ECharacterStatType::AttackPower);
 }
 
 float UCharacterStatComponent::GetAttackSpeed() const noexcept
@@ -183,19 +170,29 @@ float UCharacterStatComponent::GetAttackSpeed() const noexcept
 	return CalculateStat(ECharacterStatType::AttackSpeed);
 }
 
+float UCharacterStatComponent::GetCriticalHitRate() const noexcept
+{
+	return CalculateStat(ECharacterStatType::CriticalHitRate);
+}
+
+float UCharacterStatComponent::GetAccuracy() const noexcept
+{
+	return CalculateStat(ECharacterStatType::Accuracy);
+}
+
+float UCharacterStatComponent::GetLifeSteal() const noexcept
+{
+	return CalculateStat(ECharacterStatType::LifeSteal);
+}
+
 float UCharacterStatComponent::GetHitPoint() const noexcept
 {
 	return CalculateStat(ECharacterStatType::HitPoints);
 }
 
-float UCharacterStatComponent::GetMagazine() const noexcept
+float UCharacterStatComponent::GetMagazineBonus() const noexcept
 {
-	return CalculateStat(ECharacterStatType::Magazine);
-}
-
-float UCharacterStatComponent::GetFireRange() const noexcept
-{
-	return CalculateStat(ECharacterStatType::FireRange);
+	return CalculateStat(ECharacterStatType::MagazineBonus);
 }
 
 float UCharacterStatComponent::GetMoveSpeed() const noexcept
@@ -203,14 +200,39 @@ float UCharacterStatComponent::GetMoveSpeed() const noexcept
 	return CalculateStat(ECharacterStatType::MoveSpeed);
 }
 
-float UCharacterStatComponent::GetSightRange() const noexcept
+float UCharacterStatComponent::GetEvasionRate() const noexcept
 {
-	return CalculateStat(ECharacterStatType::SightRange);
+	return CalculateStat(ECharacterStatType::EvasionRate);
 }
 
-float UCharacterStatComponent::GetEvasion() const noexcept
+float UCharacterStatComponent::GetArmor() const noexcept
 {
-	return CalculateStat(ECharacterStatType::Evasion);
+	return CalculateStat(ECharacterStatType::Armor);
+}
+
+float UCharacterStatComponent::GetSurvivability() const noexcept
+{
+	return CalculateStat(ECharacterStatType::Survivability);
+}
+
+float UCharacterStatComponent::GetActiveSkillPower() const noexcept
+{
+	return CalculateStat(ECharacterStatType::ActiveSkillPower);
+}
+
+float UCharacterStatComponent::GetActiveSkillCooldown() const noexcept
+{
+	return CalculateStat(ECharacterStatType::ActiveSkillCooldown);
+}
+
+float UCharacterStatComponent::GetPassiveSkillPower() const noexcept
+{
+	return CalculateStat(ECharacterStatType::PassiveSkillPower);
+}
+
+float UCharacterStatComponent::GetPassiveSkillCooldown() const noexcept
+{
+	return CalculateStat(ECharacterStatType::PassiveSkillCooldown);
 }
 
 float UCharacterStatComponent::GetShield() const noexcept
@@ -218,19 +240,34 @@ float UCharacterStatComponent::GetShield() const noexcept
 	return CalculateStat(ECharacterStatType::Shield);
 }
 
-void UCharacterStatComponent::SetAbilityPower(float ability_power) noexcept
+void UCharacterStatComponent::SetAttackPower(float attack_power) noexcept
 {
-	stat_.ability_power_ = ability_power;
-}
-
-void UCharacterStatComponent::SetAttack(float attack) noexcept
-{
-	stat_.attack_ = attack;
+	stat_.attack_power_ = attack_power;
 }
 
 void UCharacterStatComponent::SetAttackSpeed(float attack_speed) noexcept
 {
 	stat_.attack_speed_ = attack_speed;
+}
+
+void UCharacterStatComponent::SetCriticalHitRate(float critical_hit_rate) noexcept
+{
+	stat_.critical_hit_rate_= critical_hit_rate;
+}
+
+void UCharacterStatComponent::SetAccuracy(float accuracy) noexcept
+{
+	stat_.accuracy_= accuracy;
+}
+
+void UCharacterStatComponent::SetMagazineBonus(float magazine_bonus) noexcept
+{
+	stat_.magazine_bonus_= magazine_bonus;
+}
+
+void UCharacterStatComponent::SetLifeSteal(float life_steal) noexcept
+{
+	stat_.life_steal_ = life_steal;
 }
 
 void UCharacterStatComponent::SetHitPoint(float hit_point) noexcept
@@ -245,14 +282,19 @@ void UCharacterStatComponent::SetHitPoint(float hit_point) noexcept
 	}
 }
 
-void UCharacterStatComponent::SetMagazine(float magazine) noexcept
+void UCharacterStatComponent::SetEvasionRate(float evasion_rate) noexcept
 {
-	stat_.magazine_ = magazine;
+	stat_.evasion_rate_= evasion_rate;
 }
 
-void UCharacterStatComponent::SetFireRange(float fire_range) noexcept
+void UCharacterStatComponent::SetArmor(float armor) noexcept
 {
-	stat_.fire_range_ = fire_range;
+	stat_.armor_= armor;
+}
+
+void UCharacterStatComponent::SetSurvivability(float survivability) noexcept
+{
+	stat_.survivability_ = survivability;
 }
 
 void UCharacterStatComponent::SetMoveSpeed(float move_speed) noexcept
@@ -260,9 +302,24 @@ void UCharacterStatComponent::SetMoveSpeed(float move_speed) noexcept
 	stat_.move_speed_ = move_speed;
 }
 
-void UCharacterStatComponent::SetSightRange(float sight_range) noexcept
+void UCharacterStatComponent::SetActiveSkillPower(float active_skill_power) noexcept
 {
-	stat_.sight_range_ = sight_range;
+	stat_.active_skill_power_= active_skill_power;
+}
+
+void UCharacterStatComponent::SetActiveSkillCooldown(float active_skill_cooldown) noexcept
+{
+	stat_.active_skill_cooldown_= active_skill_cooldown;
+}
+
+void UCharacterStatComponent::SetPassiveSkillPower(float passive_skill_power) noexcept
+{
+	stat_.passive_skill_power_= passive_skill_power;
+}
+
+void UCharacterStatComponent::SetPassiveSkillCooldown(float passive_skill_cooldown) noexcept
+{
+	stat_.passive_skill_cooldown_= passive_skill_cooldown;
 }
 
 void UCharacterStatComponent::SetShield(float shield) noexcept
@@ -383,34 +440,54 @@ float UCharacterStatComponent::GetBaseStat(ECharacterStatType StatType) const
 {
 	switch (StatType)
 	{
-	case ECharacterStatType::AbillityPower:
-		return stat_.ability_power_;
-		break;
-	case ECharacterStatType::Attack:
-		return stat_.attack_;
+	case ECharacterStatType::AttackPower:
+		return stat_.attack_power_;
 		break;
 	case ECharacterStatType::AttackSpeed:
 		return stat_.attack_speed_;
 		break;
+	case ECharacterStatType::CriticalHitRate:
+		return stat_.critical_hit_rate_;
+		break;
+	case ECharacterStatType::Accuracy:
+		return stat_.accuracy_;
+		break;
+	case ECharacterStatType::MagazineBonus:
+		return stat_.magazine_bonus_;
+		break;
+	case ECharacterStatType::LifeSteal:
+		return stat_.life_steal_;
+		break;
 	case ECharacterStatType::HitPoints:
 		return stat_.hit_point_;
 		break;
-	case ECharacterStatType::Magazine:
-		return stat_.magazine_;
+	case ECharacterStatType::EvasionRate:
+		return stat_.evasion_rate_;
 		break;
-	case ECharacterStatType::FireRange:
-		return stat_.fire_range_;
+	case ECharacterStatType::Armor:
+		return stat_.armor_;
+		break;
+	case ECharacterStatType::Survivability:
+		return stat_.survivability_;
 		break;
 	case ECharacterStatType::MoveSpeed:
 		return stat_.move_speed_;
 		break;
-	case ECharacterStatType::SightRange:
-		return stat_.sight_range_;
+	case ECharacterStatType::ActiveSkillPower:
+		return stat_.active_skill_power_;
 		break;
-	case ECharacterStatType::Evasion:
-		return stat_.evasion_;
+	case ECharacterStatType::ActiveSkillCooldown:
+		return stat_.active_skill_cooldown_;
+		break;
+	case ECharacterStatType::PassiveSkillPower:
+		return stat_.passive_skill_power_;
+		break;
+	case ECharacterStatType::PassiveSkillCooldown:
+		return stat_.passive_skill_cooldown_;
+		break;
 	case ECharacterStatType::Shield:
 		return shield_;
+		break;
 	default:
 		break;
 	}

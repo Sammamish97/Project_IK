@@ -98,6 +98,8 @@ void UTargetingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UTargetingComponent::StartSkillTargeting(AActor* invoker, FTargetParameters TargetParams)
 {
+	StartFocus();
+
 	is_targeting_ = true;
 	invoker_ = invoker;
 	target_parameters_ = TargetParams;
@@ -143,6 +145,8 @@ void UTargetingComponent::StartSkillTargeting(AActor* invoker, FTargetParameters
 
 void UTargetingComponent::StartItemTargeting(FTargetParameters TargetParams)
 {
+	StartFocus();
+
 	is_targeting_ = true;
 	invoker_ = nullptr;
 	target_parameters_ = TargetParams;
@@ -185,6 +189,7 @@ void UTargetingComponent::StartItemTargeting(FTargetParameters TargetParams)
 
 void UTargetingComponent::StopTargeting()
 {
+	EndFocus();
 	is_targeting_ = false;
 	target_parameters_.current_mode_ = ETargetingMode::None;
 	player_controller_->CurrentMouseCursor = EMouseCursor::Default;
@@ -605,4 +610,23 @@ bool UTargetingComponent::IsWithinSector(const FVector& origin, const FVector& d
 	float dot_product = FVector::DotProduct(normalized_direction, normalized_actor);
 
 	return dot_product >= cos_half_radian;
+}
+
+void UTargetingComponent::StartFocus()
+{
+	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (game_mode)
+	{
+		game_mode->SlowGlobalTimeDilation();
+	}
+}
+
+void UTargetingComponent::EndFocus()
+{
+	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	if (game_mode)
+	{
+		game_mode->RestoreGlobalTimeDilation();
+	}
 }
