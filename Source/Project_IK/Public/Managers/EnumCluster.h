@@ -134,6 +134,76 @@ enum class EDPSlotType : uint8
 };
 
 UENUM(BlueprintType)
+enum class EArmorType : uint8
+{
+	TestHealth UMETA(DisplayName = "TestHealth"),
+	TestArmor UMETA(DisplayName = "TestArmor"),
+	TestDodge UMETA(DisplayName = "TestDodge"),
+	TestSkillArmor UMETA(DisplayName = "TestSkillArmor"),
+	Empty UMETA(DisplayName = "Empty")
+};
+
+UENUM(BlueprintType)
+enum class ETrinketType : uint8
+{
+	TestAttack UMETA(DisplayName = "TestAttack"),
+	TestAttackSpeed UMETA(DisplayName = "TestAttackSpeed"),
+	TestCrit UMETA(DisplayName = "TestCrit"),
+	TestSkillTrinket UMETA(DisplayName = "TestSkillTrinket"),
+	Empty UMETA(DisplayName = "Empty")
+};
+
+UENUM(BlueprintType)
+enum class EDamageType : uint8
+{
+	Projectile UMETA(DisplayName = "Projectile"),
+	Explosive UMETA(DisplayName = "Explosive"),
+	Melee UMETA(DisplayName = "Melee"),
+	Dot UMETA(DisplayName = "Dot"),
+	INVALID UMETA(DisplayName = "INVALID")
+};
+
+UENUM(BlueprintType)
+enum class EHeroEvent : uint8
+{
+	OnHitBeforeCalc UMETA(DisplayName = "OnHitBeforeCalc"),
+	OnHitAfterCalc UMETA(DisplayName = "OnHitAfterCalc"),
+	OnHeal UMETA(DisplayName = "OnHeal"),
+	OnHPChanged UMETA(DisplayName = "OnHPChanged"),
+	OnDie UMETA(DisplayName = "OnDie"),
+	OnStun UMETA(DisplayName = "OnStun"),
+	OnReload UMETA(DisplayName = "OnReload"),
+	OnFire UMETA(DisplayName = "OnFire"),
+	OnActiveSkill UMETA(DisplayName = "OnActiveSkill"),
+	NONE
+};
+
+UENUM(BlueprintType)
+enum class EGearType : uint8
+{
+	Armor UMETA(DisplayName = "Armor"),
+	Trinket UMETA(DisplayName = "Trinket"),
+	Weapon UMETA(DisplayName = "Weapon"),
+	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
+	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
+	Oopart UMETA(DisplayName = "Oopart"),
+	INVALID UMETA(DisplayName = "INVALID")
+};
+
+UENUM(BlueprintType)
+enum class EInventorySlotType : uint8
+{
+	Armor UMETA(DisplayName = "Armor"),
+	Trinket UMETA(DisplayName = "Trinket"),
+	Weapon UMETA(DisplayName = "Weapon"),
+	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
+	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
+	Oopart UMETA(DisplayName = "Oopart"),
+	Inventory UMETA(DisplayName = "Inventory"),
+	INVALID UMETA(DisplayName = "INVALID")
+};
+
+UENUM(BlueprintType)
 enum class ECharacterStatType : uint8
 {
 	AttackPower UMETA(DisplayName = "AttackPower"),

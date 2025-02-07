@@ -21,13 +21,9 @@ class UIKMaps;
 class UCharacterDataManager;
 class UItemDataManager;
 class ULevelTransitionManager;
-class UDronePluginManager;
 class UTextureManager;
 class UDialogueEventManager;
 
-/**
- * 
- */
 UCLASS(Blueprintable)
 class PROJECT_IK_API UIKGameInstance : public UGameInstance
 {
@@ -55,8 +51,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	const class UDialogueEventManager* GetDialogueEventManager() const noexcept;
 	UFUNCTION(BlueprintPure)
-	UInventoryManager* GetInventoryManager() const noexcept;
-
+	class UHeroInventoryManager* GetInventoryManager() const noexcept;
+	UFUNCTION(BlueprintPure)
+	class UEquipManager* GetEquipManager() const noexcept;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelTransition")
 	TSubclassOf<AActor> hero_blueprint_;
@@ -77,9 +74,11 @@ private:
 	void InitializeTextureManager();
 	void InitializeDialogueEventManager();
 	void InitInventoryManager();
+	void InitEquipManager();
 	
 	UPROPERTY()
 	class UItemDataManager* item_data_manager_;
+	
 	UPROPERTY()
 	class UCharacterDataManager* character_data_manager_;
 
@@ -102,5 +101,8 @@ private:
 	class UTextureManager* texture_manager_;
 
 	UPROPERTY()
-	class UInventoryManager* inventory_manager_;
+	class UHeroInventoryManager* inventory_manager_;
+	
+	UPROPERTY()
+	class UEquipManager* equip_manager_;
 };

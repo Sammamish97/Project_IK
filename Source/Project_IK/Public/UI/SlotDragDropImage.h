@@ -1,8 +1,8 @@
 /******************************************************************************
-Copyright(C) 2024
+Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 1.10.2025
-Summary : Header file for the Drag Drop image for inventory.
+Creation Date : 2.6.2025
+Summary : Header file for the Slot drag drop image.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -11,19 +11,15 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/Image.h"
-#include "DPDragDropImage.generated.h"
-
+#include "SlotDragDropImage.generated.h"
 UCLASS()
-class PROJECT_IK_API UDPDragDropImage : public UUserWidget
+class PROJECT_IK_API USlotDragDropImage : public UUserWidget
 {
 	GENERATED_BODY()
-	virtual void NativePreConstruct() override;
-	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 public:
-	void SetImage(UTexture2D* InImage);
-
-private:
+	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	
+public:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	UImage* dragged_image_;
+	class UImage* image_;
 };

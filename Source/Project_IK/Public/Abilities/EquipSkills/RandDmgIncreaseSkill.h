@@ -1,8 +1,8 @@
 /******************************************************************************
 Copyright(C) 2024
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 11.20.2024
-Summary : Header file for enemy base. All enemy should inherit this class.
+Creation Date : 2.5.2025
+Summary : Header file for the random damage increase skill.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -10,16 +10,14 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Characters/Unit.h"
-#include "EnemyBase.generated.h"
+#include "EquipSkillBase.h"
+#include "RandDmgIncreaseSkill.generated.h"
 
 UCLASS()
-class PROJECT_IK_API AEnemyBase : public AUnit
+class PROJECT_IK_API URandDmgIncreaseSkill : public UEquipSkillBase
 {
 	GENERATED_BODY()
 public:
-	AEnemyBase();
-	virtual void GetDamage(FDamageData data) override;
-protected:
-	virtual void Die() override;
+	virtual void InitEquipmentSkill(AActor* hero_ref) override;
+	virtual FDamageData OnEquipmentSkill(FDamageData dmg_data) override;
 };

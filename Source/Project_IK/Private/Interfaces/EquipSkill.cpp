@@ -1,16 +1,14 @@
 /******************************************************************************
 Copyright(C) 2024
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 1.10.2025
-Summary : Header file for the Drag Drop operation for the inventory.
+Creation Date : 2.5.2025
+Summary : Source file for the equip skill interface.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "UI/DPDragDropOperation.h"
+#include "Interfaces/EquipSkill.h"
 
-UDPDragDropOperation::UDPDragDropOperation()
-{
-	DefaultDragVisual = nullptr;
-}
+
+// Add default functionality here for any IEquipSkill functions that are not pure virtual.

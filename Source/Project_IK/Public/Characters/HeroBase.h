@@ -14,11 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "HeroBase.generated.h"
 
-class ADrone;
-class USphereComponent;
-class UPassiveMechanics;
-class UWeaponMechanics;
-class USkillContainer;
+DECLARE_DELEGATE_RetVal_OneParam(FDamageData, FOnDamage, FDamageData);
 
 UCLASS()
 class PROJECT_IK_API AHeroBase : public AUnit
@@ -32,30 +28,23 @@ public:
 public:
 	virtual void Initialize();
 	virtual void Die() override;
-	
+
+	virtual void GetDamage(FDamageData data) override;
 	virtual void GetStunned(float stun_duration) override;
 	virtual void OnStunned() override;
-
-	UFUNCTION(BlueprintCallable)
-	void SetPeriodicDP(EDPType dp_type);
-	UFUNCTION(BlueprintCallable)
-	void SetGenericDP(EDPType dp_type);
+public:
+	TMap<EHeroEvent, FOnDamage> hero_dmg_event_map_;
 
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
-	USkillContainer* skill_container_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
+	class USkillContainer* skill_container_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
-	UWeaponMechanics* weapon_mechanics_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
+	class UWeaponMechanics* weapon_mechanics_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
-	UPassiveMechanics* passive_mechanics_;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", AllowedClass = "Drone", BindWidget))
-	UClass* drone_bp_class_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
+	class UPassiveMechanics* passive_mechanics_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	USphereComponent* drone_location_;
-	
-	ADrone* drone_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
+	class UEquipMechanics* equip_mechanics_;
 };

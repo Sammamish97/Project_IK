@@ -1,23 +1,18 @@
 /******************************************************************************
-Copyright(C) 2024
+Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 1.10.2025
-Summary : Source file for the Drag Drop image for inventory.
+Creation Date : 2.6.2025
+Summary : Source file for the Slot drag drop image.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-#include "UI/DPDragDropImage.h"
 
-#include "Components/Image.h"
+#include "UI/SlotDragDropImage.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 
-void UDPDragDropImage::NativePreConstruct()
-{
-	Super::NativePreConstruct();
-}
-
-FReply UDPDragDropImage::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+FReply USlotDragDropImage::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry,
+                                                          const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnPreviewMouseButtonDown(InGeometry, InMouseEvent);
 	if(InMouseEvent.IsMouseButtonDown(EKeys::LeftMouseButton))
@@ -26,9 +21,4 @@ FReply UDPDragDropImage::NativeOnPreviewMouseButtonDown(const FGeometry& InGeome
 		return ReplyResult.NativeReply;
 	}
 	return FReply::Unhandled();
-}
-
-void UDPDragDropImage::SetImage(UTexture2D* input_texture)
-{
-	dragged_image_->SetBrushFromTexture(input_texture);
 }

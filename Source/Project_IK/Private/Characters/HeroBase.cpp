@@ -12,50 +12,35 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/PassiveMechanics.h"
 #include "Abilities/SkillContainer.h"
+#include "Abilities/EquipSkills/EquipSkillBase.h"
 #include "AI/GunnerAIController.h"
+#include "Components/EquipMechanics.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/CharacterStatComponent.h"
-#include "Components/SphereComponent.h"
 #include "Components/WeaponMechanics.h"
-#include "Components/CharacterStatComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Weapons/Drone.h"
 #include "WorldSettings/IKGameModeBase.h"
-#include "Weapons/Drone.h"
 
 AHeroBase::AHeroBase()
 {
 	skill_container_ = CreateDefaultSubobject<USkillContainer>(TEXT("SkillContainer"));
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
 	passive_mechanics_ = CreateDefaultSubobject<UPassiveMechanics>(TEXT("PassiveMechanics"));
-	drone_location_ = CreateDefaultSubobject<USphereComponent>("Drone Location");
-
-	drone_location_->SetCollisionProfileName(TEXT("NoCollision"));
+	equip_mechanics_ = CreateDefaultSubobject<UEquipMechanics>(TEXT("EquipMechanics"));
+	
 	GetMesh()->SetCollisionProfileName(TEXT("NoCollision"));
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("HeroPreset"));
 	
-	drone_location_->SetupAttachment(RootComponent);
-	drone_location_->SetRelativeLocation({0, -49, 90});
-
 	forward_dir_ = {1,0, 0};
 }
 
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	drone_ = GetWorld()->SpawnActor<ADrone>(drone_bp_class_, drone_location_->GetComponentTransform());
-	weapon_mechanics_->SetWeaponOwner(this);		
-
-	if(drone_ == nullptr)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Failed To create Drone!"));
-	}
-	else
-	{
-		Cast<ADrone>(drone_)->Initialize(this	);
-		drone_->AttachToComponent(drone_location_, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-	}
+	weapon_mechanics_->SetWeaponOwner(this);
+	//TODO: Two lines are Test purpose. Need to remove later.
+	equip_mechanics_->EquipArmor(EArmorType::TestSkillArmor);
+	equip_mechanics_->EquipTrinket(ETrinketType::TestAttack);
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -66,11 +51,7 @@ void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AHeroBase::Initialize()
 {
-	if(drone_)
-	{
-		// @@ TODO: Implement it again when equipment system has fully constructed.
-		//drone_->SetPlugins(character_stat_component_->GetPeriodicDP(), character_stat_component_->GetGeneralDP());
-	}
+	
 }
 
 void AHeroBase::Die()
@@ -80,13 +61,36 @@ void AHeroBase::Die()
 	{
 		casted_gunner_aic->OnDie();
 	}
-	if(auto casted_drone = Cast<ADrone>(drone_))
-	{
-		casted_drone->Die();
-	}
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if(casted_mode) casted_mode->RemoveHero(this);
+	for (auto& delegate : hero_dmg_event_map_)
+	{
+		delegate.Value.Unbind();
+	}
 	Super::Die();
+}
+
+void AHeroBase::GetDamage(FDamageData data)
+{
+	Super::GetDamage(data);
+	if (hero_dmg_event_map_.Find(EHeroEvent::OnHitBeforeCalc))
+	{
+		if (hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc].IsBound())
+		{
+			data = hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc].Execute(data);
+		}
+	}
+	
+	bool is_evaded = character_stat_component_->CalcDamage(data);
+	if (hero_dmg_event_map_.Find(EHeroEvent::OnHitAfterCalc))
+	{
+		if (is_evaded == false && hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc].IsBound())
+		{
+			data = hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc].Execute(data);
+		}
+	}
+	character_stat_component_->GetDamage(data.damage);
+	SetDamageUI(data, is_evaded);
 }
 
 void AHeroBase::GetStunned(float stun_duration)
@@ -100,16 +104,4 @@ void AHeroBase::OnStunned()
 	Super::OnStunned();
 	weapon_mechanics_->OnStunned();
 	passive_mechanics_->OnStunned();
-}
-
-void AHeroBase::SetPeriodicDP(EDPType dp_type)
-{
-	// @@ TODO: Implement it again when equipment system has fully constructed.
-	//character_stat_component_->SetPeriodicDP(dp_type);
-}
-
-void AHeroBase::SetGenericDP(EDPType dp_type)
-{
-	// @@ TODO: Implement it again when equipment system has fully constructed.
-	//character_stat_component_->SetGeneralDP(dp_type);
 }

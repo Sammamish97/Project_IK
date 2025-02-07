@@ -1,8 +1,8 @@
 /******************************************************************************
-Copyright(C) 2024
+Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 1.10.2025
-Summary : Header file for the Inventory Widget.
+Creation Date : 2.06.2025
+Summary : Header file for inventory widget.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -11,38 +11,31 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "InventoryWidget.generated.h"
+#include "HeroInventoryWidget.generated.h"
 
-class UScrollBox;
-class UDPSlot;
-class UWrapBox;
 class UButton;
-class UTextBlock;
-class UInventoryManager;
+class UInventorySlot;
+class UHeroInventoryManager;
 UCLASS()
-class PROJECT_IK_API UInventoryWidget : public UUserWidget
+class PROJECT_IK_API UHeroInventoryWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
 	virtual void NativeConstruct() override;
-	
-	void Initialize(UInventoryManager* inventory_component);
+	void InitInventoryWidget(UHeroInventoryManager* inventory_component);
 	void LoadInventoryComponent();
-	void ApplyHeroDP();
 	void ApplyInventoryComponent();
 
 	UFUNCTION()
 	void SwitchToLeftHero();
 	UFUNCTION()
 	void SwitchToRightHero();
-
-
 private:
-	UInventoryManager* inventory_manager_ref_;
+	UHeroInventoryManager* inventory_manager_ref_;
 	int cur_hero_idx_;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	UTextBlock* hero_name_text_;
+	class UTextBlock* hero_name_text_;
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	FName cur_hero_name_;
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
@@ -51,17 +44,17 @@ private:
 	UButton* switch_hero_right_button_;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TSubclassOf<UDPSlot> slot_BP_class_;
+	TSubclassOf<class UInventorySlot> slot_BP_class_;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	UDPSlot* heroDP_periodic_;
+	UInventorySlot* hero_armor_;
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	UDPSlot* heroDP_generic_;
+	UInventorySlot* hero_trinket_;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	UWrapBox* wrap_box_;
+	class UWrapBox* wrap_box_;
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	UScrollBox* scroll_box_;
+	class UScrollBox* scroll_box_;
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true))
-	TArray<UDPSlot*> inventory_slots_;
+	TArray<UInventorySlot*> inventory_slots_;
 };

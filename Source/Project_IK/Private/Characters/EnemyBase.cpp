@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/EnemyBase.h"
 
 #include "Components/CapsuleComponent.h"
+#include "Components/CharacterStatComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameModeBase.h"
 
@@ -19,6 +20,12 @@ AEnemyBase::AEnemyBase()
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("EnemyPreset"));
 	GetMesh()->SetCollisionProfileName(TEXT("NoCollision"));
 	forward_dir_ = {-1,0, 0};
+}
+
+void AEnemyBase::GetDamage(FDamageData data)
+{
+	Super::GetDamage(data);
+	character_stat_component_->GetDamage(data.damage);
 }
 
 void AEnemyBase::Die()
