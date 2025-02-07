@@ -201,7 +201,7 @@ enum class EInventorySlotType : uint8
 	Oopart UMETA(DisplayName = "Oopart"),
 	Inventory UMETA(DisplayName = "Inventory"),
 	INVALID UMETA(DisplayName = "INVALID")
-}
+};
 
 UENUM(BlueprintType)
 enum class ECharacterStatType : uint8
