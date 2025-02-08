@@ -11,6 +11,8 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/PerkUnlockWidget.h"
 
+#include "Subsystems/PerkProgressSubsystem.h"
+
 #include "Blueprint/WidgetTree.h"
 
 #include "Components/CanvasPanel.h"
@@ -31,11 +33,25 @@ void UPerkUnlockWidget::NativeConstruct()
 
 	ConstructLinks();
 	ConstructPerkTree();
+
+
+	// @@ TODO: Connect this UI to Perk Progress system.
+	UPerkProgressSubsystem* perk_progress_system = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
+	if (perk_progress_system)
+	{
+		TSet<int32> progress = perk_progress_system->GetProgress(EHeroType::Hero1);
+	}
+
+	link_animation_percent_ = 0.f;
 }
 
 void UPerkUnlockWidget::NativeDestruct()
 {
 	Super::NativeDestruct();
+
+	ClearButtonDelegates();
+
+	GetWorld()->GetTimerManager().ClearTimer(link_animation_timer_handle_);
 }
 
 void UPerkUnlockWidget::ConstructPerkTree()
@@ -169,6 +185,7 @@ UButton* UPerkUnlockWidget::ConstructNewTreeNode(UHorizontalBox* level_box)
 	UButton* node = WidgetTree->ConstructWidget<UButton>();
 	// Default node style does not have image info
 	node->SetStyle(default_node_style_);
+	node->OnClicked.AddDynamic(this, &UPerkUnlockWidget::OnButtonClicked);
 	UHorizontalBoxSlot* node_slot = level_box->AddChildToHorizontalBox(node);
 	if (node_slot)
 	{
@@ -187,6 +204,7 @@ UProgressBar* UPerkUnlockWidget::ConstructLink(int32 start_index, int32 start_ma
 	float angle = FMath::RadiansToDegrees(FMath::Atan2(direction.Y, direction.X));
 
 	UProgressBar* link = WidgetTree->ConstructWidget<UProgressBar>();
+	link->SetFillColorAndOpacity(link_fill_color_);
 	link->SetRenderTransformAngle(angle);
 	link->SetRenderTransformPivot(FVector2D(0.0, 0.5));
 	link->SetPercent(0.f);
@@ -213,4 +231,71 @@ FVector2D UPerkUnlockWidget::CalculateNodePosition(int32 index, int32 size, int3
 	result += node_size / 2.f;
 
 	return result;
+}
+
+void UPerkUnlockWidget::OnButtonClicked()
+{
+	for (int32 i = 0; i < buttons_.Num(); ++i)
+	{
+		if (buttons_[i]->IsHovered())
+		{
+			TArray<FPerkNode> tree = UPerkTree::Get()->GetTree();
+			TArray<TWeakObjectPtr<UProgressBar>> links;
+			for (int32 next_index : tree[i].next_)
+			{
+				links.Add(links_[FIntPoint(i, next_index)]);
+			}
+			StartLinkAnimation(links);
+		}
+	}
+
+}
+
+void UPerkUnlockWidget::ClearButtonDelegates()
+{
+	for (UButton* button : buttons_)
+	{
+		if (button->OnClicked.IsBound())
+		{
+			button->OnClicked.Clear();
+		}
+	}
+}
+
+void UPerkUnlockWidget::StartLinkAnimation(TArray<TWeakObjectPtr<UProgressBar>> links)
+{
+	if (!links_animating_.IsEmpty())
+	{
+		// Clean up not yet fully animated links
+		for (TWeakObjectPtr<UProgressBar> link : links_animating_)
+		{
+			link->SetPercent(1.f);
+		}
+	}
+
+	links_animating_ = MoveTemp(links);
+	link_animation_percent_ = 0.f;
+
+	for (TWeakObjectPtr<UProgressBar> link : links_animating_)
+	{
+		link->SetPercent(link_animation_percent_);
+	}
+
+	GetWorld()->GetTimerManager().SetTimer(link_animation_timer_handle_, this, &UPerkUnlockWidget::UpdateLinkAnimation, link_animation_interval_, true);
+}
+
+void UPerkUnlockWidget::UpdateLinkAnimation()
+{
+	link_animation_percent_ += link_animation_interval_;
+
+	for (TWeakObjectPtr<UProgressBar> link : links_animating_)
+	{
+		link->SetPercent(link_animation_percent_);
+	}
+
+	if (link_animation_percent_ >= 1.f)
+	{
+		links_animating_.Empty();
+		GetWorld()->GetTimerManager().ClearTimer(link_animation_timer_handle_);
+	}
 }

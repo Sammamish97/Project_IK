@@ -33,6 +33,10 @@ public:
 	FButtonStyle default_node_style_;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	FMargin node_margin_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	FLinearColor link_fill_color_;
+
+	static constexpr float link_animation_interval_ = 0.01f;
 
 protected:
 	virtual void NativeConstruct() override;
@@ -48,6 +52,13 @@ protected:
 	UProgressBar* ConstructLink(int32 start_index, int32 start_max_index, int32 end_index, int32 end_max_index, int32 level);
 	FVector2D CalculateNodePosition(int32 index, int32 size, int32 level);
 
+	UFUNCTION()
+	void OnButtonClicked();
+
+	void ClearButtonDelegates();
+	void StartLinkAnimation(TArray<TWeakObjectPtr<UProgressBar>> links);
+	void UpdateLinkAnimation();
+
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UCanvasPanel> scroll_panel_;
 
@@ -57,4 +68,8 @@ protected:
 	UPROPERTY()
 	// FIntPoint<StartIndex, EndIndex>
 	TMap < FIntPoint, TObjectPtr<UProgressBar>> links_;
+
+	FTimerHandle link_animation_timer_handle_;
+	TArray<TWeakObjectPtr<UProgressBar>> links_animating_;
+	float link_animation_percent_;
 };
