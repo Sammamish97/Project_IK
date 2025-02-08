@@ -37,8 +37,8 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
-	weapon_mechanics_->SetWeaponOwner(this);
 	//TODO: Two lines are Test purpose. Need to remove later.
+	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle);
 	equip_mechanics_->EquipArmor(EArmorType::TestSkillArmor);
 	equip_mechanics_->EquipTrinket(ETrinketType::TestAttack);
 }

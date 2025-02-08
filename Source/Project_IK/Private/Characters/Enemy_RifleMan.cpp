@@ -18,6 +18,12 @@ AEnemy_RifleMan::AEnemy_RifleMan()
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
 }
 
+void AEnemy_RifleMan::BeginPlay()
+{
+	Super::BeginPlay();
+	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle);
+}
+
 void AEnemy_RifleMan::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);

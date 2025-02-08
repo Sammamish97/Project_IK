@@ -27,6 +27,14 @@ UEquipManager::UEquipManager()
 		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a Trinket file data (IK_Trinket_Data)"));
 	}
 	trinket_table_= dt_trinket_data.Object;
+
+	FString weapon_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/IK_Weapon_Data.IK_Weapon_Data'");
+	static ConstructorHelpers::FObjectFinder<UDataTable> dt_weapon_data(*weapon_data_path);
+	if (dt_weapon_data.Succeeded() == false)
+	{
+		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a Weapon file data (IK_Weapon_Data)"));
+	}
+	weapon_table_= dt_weapon_data.Object;
 }
 
 FArmorData UEquipManager::GetArmorData(EArmorType type)
@@ -87,6 +95,39 @@ FString UEquipManager::TrinketEnumToString(ETrinketType trinket_type)
 		break;
 	case ETrinketType::TestSkillTrinket:
 		string = TEXT("TestSkillTrinket");
+		break;
+	default:
+		string = TEXT("Empty");
+		break;
+	}
+	return string;
+}
+
+FWeaponData UEquipManager::GetWeaponData(EWeaponType type)
+{
+	if (weapon_table_)
+	{
+		return *weapon_table_->FindRow<FWeaponData>(*WeaponEnumToString(type), TEXT(""));
+	}
+	return *weapon_table_->FindRow<FWeaponData>(*WeaponEnumToString(EWeaponType::Empty), TEXT(""));
+}
+
+FString UEquipManager::WeaponEnumToString(EWeaponType weapon_type)
+{
+	FString string;
+	switch (weapon_type)
+	{
+	case EWeaponType::Pistol:
+		string = TEXT("Pistol");
+		break;
+	case EWeaponType::AssaultRifle:
+		string = TEXT("AssaultRifle");
+		break;
+	case EWeaponType::ShotGun:
+		string = TEXT("ShotGun");
+		break;
+	case EWeaponType::SniperRifle:
+		string = TEXT("SniperRifle");
 		break;
 	default:
 		string = TEXT("Empty");

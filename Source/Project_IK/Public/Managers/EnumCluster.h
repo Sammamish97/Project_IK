@@ -125,15 +125,6 @@ enum class ERarity : uint8
 };
 
 UENUM(BlueprintType)
-enum class EDPSlotType : uint8
-{
-	Inventory UMETA(DisplayName = "Inventory"),
-	HeroPeriodic UMETA(DisplayName = "HeroPeriodic"),
-	HeroGeneral UMETA(DisplayName = "HeroGeneral"),
-	INVALID UMETA(DisplayName = "INVALID")
-};
-
-UENUM(BlueprintType)
 enum class EArmorType : uint8
 {
 	TestHealth UMETA(DisplayName = "TestHealth"),
@@ -222,4 +213,14 @@ enum class ECharacterStatType : uint8
 	PassiveSkillPower UMETA(DisplayName = "PassiveSkillPower"),
 	PassiveSkillCooldown UMETA(DisplayName = "PassiveSkillCooldown"),
 	Shield UMETA(DisplayName = "Shield"),
+};
+
+UENUM(BlueprintType)
+enum class EWeaponType : uint8
+{
+	Pistol UMETA(DisplayName = "Pistol"),
+	AssaultRifle UMETA(DisplayName = "AssaultRifle"),
+	ShotGun UMETA(DisplayName = "ShotGun"),
+	SniperRifle UMETA(DisplayName = "SniperRifle"),
+	Empty UMETA(DisplayName = "Empty")
 };

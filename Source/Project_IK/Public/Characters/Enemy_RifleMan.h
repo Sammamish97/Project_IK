@@ -20,6 +20,7 @@ class PROJECT_IK_API AEnemy_RifleMan : public AEnemyBase
 	GENERATED_BODY()
 public:
 	AEnemy_RifleMan();
+	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	virtual void OnStunned() override;

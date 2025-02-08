@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "Structs/ArmorData.h"
 #include "Structs/TrinketData.h"
+#include "Structs/WeaponData.h"
 #include "EquipManager.generated.h"
 
 UCLASS()
@@ -28,7 +29,11 @@ public:
 	FTrinketData GetTrinketData(ETrinketType type);
 	FString TrinketEnumToString(ETrinketType trinket_type);
 
+	FWeaponData GetWeaponData(EWeaponType type);
+	FString WeaponEnumToString(EWeaponType weapon_type);
+
 private:
 	UDataTable* armor_table_;
 	UDataTable* trinket_table_;
+	UDataTable* weapon_table_;
 };
