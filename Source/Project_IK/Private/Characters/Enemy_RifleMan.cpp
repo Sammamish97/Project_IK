@@ -21,7 +21,7 @@ AEnemy_RifleMan::AEnemy_RifleMan()
 void AEnemy_RifleMan::BeginPlay()
 {
 	Super::BeginPlay();
-	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle);
+	weapon_mechanics_->EquipWeapon(EWeaponType::Pistol);
 }
 
 void AEnemy_RifleMan::EndPlay(const EEndPlayReason::Type EndPlayReason)

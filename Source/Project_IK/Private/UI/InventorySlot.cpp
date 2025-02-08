@@ -56,14 +56,21 @@ bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 	UInventorySlot* slot_from = Cast<UInventorySlot>(InOperation->Payload);
 	if(slot_type_ == EInventorySlotType::Armor)
 	{
-		if(slot_from->slot_data_.gear_type == EGearType::Armor)
+		if(slot_from->slot_data_.gear_type != EGearType::Armor)
 		{
 			return false;
 		}
 	}
 	if(slot_type_ == EInventorySlotType::Trinket)
 	{
-		if(slot_from->slot_data_.gear_type == EGearType::Trinket)
+		if(slot_from->slot_data_.gear_type != EGearType::Trinket)
+		{
+			return false;
+		}
+	}
+	if(slot_type_ == EInventorySlotType::Weapon)
+	{
+		if(slot_from->slot_data_.gear_type != EGearType::Weapon)
 		{
 			return false;
 		}
@@ -99,6 +106,10 @@ void UInventorySlot::SetImageTexture()
 	else if(slot_data_.gear_type == EGearType::Trinket)
 	{
 		new_texture = equip_manager->GetTrinketData(slot_data_.trinket_type).thumbnail;
+	}
+	else if(slot_data_.gear_type == EGearType::Weapon)
+	{
+		new_texture = equip_manager->GetWeaponData(slot_data_.weapon_type).thumbnail;
 	}
 	//
 	image_->SetBrushFromTexture(new_texture);

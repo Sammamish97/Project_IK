@@ -33,6 +33,7 @@ void UHeroInventoryWidget::InitInventoryWidget(UHeroInventoryManager* inventory_
 	inventory_manager_ref_ = inventory_component;
 	hero_armor_->slot_type_ = EInventorySlotType::Armor;
 	hero_trinket_->slot_type_ = EInventorySlotType::Trinket;
+	hero_weapon_->slot_type_ = EInventorySlotType::Weapon;
 	scroll_box_->AddChild(wrap_box_);
 }
 

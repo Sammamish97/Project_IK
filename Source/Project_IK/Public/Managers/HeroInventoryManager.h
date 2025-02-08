@@ -25,7 +25,8 @@ public:
 	void InitInventory();
 	bool AddItem(EGearType type, EArmorType armor_type);
 	bool AddItem(EGearType type, ETrinketType trinket_type);
-
+	bool AddItem(EGearType type, EWeaponType weapon_type);
+	
 	void RemoveItem(int index);
 	
 	TArray<FInventorySlotData>& GetInventory();
