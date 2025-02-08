@@ -9,6 +9,8 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Weapons/Rifle.h"
+
+#include "Characters/HeroBase.h"
 #include "Weapons/Bullet.h"
 #include "Components/ObjectPoolComponent.h"
 #include "Components/SphereComponent.h"
@@ -39,6 +41,16 @@ void ARifle::FireWeapon(FVector target_pos, float damage)
 		FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
 		FTransform spawn_transform(rotation, muzzle_->GetComponentLocation(), scale);
 		ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(spawn_transform));
+		//TODO: 이 과정은 비효율적이다. 일단 테스트를 위해 구현되었으며, 이후 무기 발사 과정의 리펙토링과 함께 반드시 제거되어야 한다.
+		if (gun_owner_->IsA(AHeroBase::StaticClass()))
+		{
+			bullet->SetCollisionPreset(true	);
+		}
+		else
+		{
+			bullet->SetCollisionPreset(false	);
+		}
+		//
 		if (bullet)
 		{
 			bullet->SetShooter(gun_owner_);

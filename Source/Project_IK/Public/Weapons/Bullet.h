@@ -32,6 +32,7 @@ public:
 
 	UFUNCTION()
 	void SetDamage(float damage);
+	void SetCollisionPreset(bool is_hero);
 
 protected:
 	// Called when the game starts or when spawned

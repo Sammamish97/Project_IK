@@ -51,6 +51,18 @@ void ABullet::SetInUse(bool in_use)
 	}
 }
 
+void ABullet::SetCollisionPreset(bool is_hero)
+{
+	if (is_hero)
+	{
+		collision_->SetCollisionProfileName(FName("HeroBulletPreset"));
+	}
+	else
+	{
+		collision_->SetCollisionProfileName(FName("EnemyBulletPreset"));
+	}
+}
+
 void ABullet::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	IDamageable* casted_damage_logic = Cast<IDamageable>(OtherActor);
