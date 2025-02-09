@@ -10,6 +10,8 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/EquipManager.h"
 
+#include "Structs/PassiveSkillData.h"
+
 UEquipManager::UEquipManager()
 {
 	FString armor_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/IK_Armor_Data.IK_Armor_Data'");
@@ -35,6 +37,14 @@ UEquipManager::UEquipManager()
 		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a Weapon file data (IK_Weapon_Data)"));
 	}
 	weapon_table_= dt_weapon_data.Object;
+
+	FString passive_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/IK_Passive_Skill_Data.IK_Passive_Skill_Data'");
+	static ConstructorHelpers::FObjectFinder<UDataTable> dt_passive_skill_data(*passive_data_path);
+	if (dt_passive_skill_data.Succeeded() == false)
+	{
+		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a passive skill file data (IK_Passive_Skill_Data)"));
+	}
+	passive_skill_table_= dt_passive_skill_data.Object;
 }
 
 FArmorData UEquipManager::GetArmorData(EArmorType type)
@@ -128,6 +138,33 @@ FString UEquipManager::WeaponEnumToString(EWeaponType weapon_type)
 		break;
 	case EWeaponType::SniperRifle:
 		string = TEXT("SniperRifle");
+		break;
+	default:
+		string = TEXT("Empty");
+		break;
+	}
+	return string;
+}
+
+FPassiveSkillData UEquipManager::GetPassiveSkillData(EPassiveSkillType type)
+{
+	if (passive_skill_table_)
+	{
+		return *passive_skill_table_->FindRow<FPassiveSkillData>(*PassiveSkillEnumToString(type), TEXT(""));
+	}
+	return *passive_skill_table_->FindRow<FPassiveSkillData>(*PassiveSkillEnumToString(EPassiveSkillType::Empty), TEXT(""));
+}
+
+FString UEquipManager::PassiveSkillEnumToString(EPassiveSkillType weapon_type)
+{
+	FString string;
+	switch (weapon_type)
+	{
+	case EPassiveSkillType::FixedDmgReduce:
+		string = TEXT("FixedDmgReduce");
+		break;
+	case EPassiveSkillType::RandDmgIncrease:
+		string = TEXT("RandDmgIncrease");
 		break;
 	default:
 		string = TEXT("Empty");

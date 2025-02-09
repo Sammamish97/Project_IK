@@ -43,7 +43,7 @@ protected:
 	class UWeaponMechanics* weapon_mechanics_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
-	class UPassiveMechanics* passive_mechanics_;
+	class UPassiveSkillMechanics* passive_skill_mechanics_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
 	class UEquipMechanics* equip_mechanics_;

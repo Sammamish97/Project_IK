@@ -224,3 +224,11 @@ enum class EWeaponType : uint8
 	SniperRifle UMETA(DisplayName = "SniperRifle"),
 	Empty UMETA(DisplayName = "Empty")
 };
+
+UENUM(BlueprintType)
+enum class EPassiveSkillType : uint8
+{
+	FixedDmgReduce UMETA(DisplayName = "FixedDmgReduce"),
+	RandDmgIncrease UMETA(DisplayName = "RandDmgIncrease"),
+	Empty UMETA(DisplayName = "Empty")
+};

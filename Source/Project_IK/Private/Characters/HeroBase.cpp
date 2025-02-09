@@ -10,13 +10,13 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 
-#include "Abilities/PassiveMechanics.h"
 #include "Abilities/SkillContainer.h"
 #include "Abilities/EquipSkills/EquipSkillBase.h"
 #include "AI/GunnerAIController.h"
 #include "Components/EquipMechanics.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/CharacterStatComponent.h"
+#include "Components/PassiveSkillMechanics.h"
 #include "Components/WeaponMechanics.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameModeBase.h"
@@ -25,7 +25,7 @@ AHeroBase::AHeroBase()
 {
 	skill_container_ = CreateDefaultSubobject<USkillContainer>(TEXT("SkillContainer"));
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
-	passive_mechanics_ = CreateDefaultSubobject<UPassiveMechanics>(TEXT("PassiveMechanics"));
+	passive_skill_mechanics_ = CreateDefaultSubobject<UPassiveSkillMechanics>(TEXT("PassiveMechanics"));
 	equip_mechanics_ = CreateDefaultSubobject<UEquipMechanics>(TEXT("EquipMechanics"));
 	
 	GetMesh()->SetCollisionProfileName(TEXT("NoCollision"));
@@ -41,6 +41,7 @@ void AHeroBase::BeginPlay()
 	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle);
 	equip_mechanics_->EquipArmor(EArmorType::TestSkillArmor);
 	equip_mechanics_->EquipTrinket(ETrinketType::TestAttack);
+	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::FixedDmgReduce);
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -103,5 +104,4 @@ void AHeroBase::OnStunned()
 	UE_LOG(LogTemp, Warning, TEXT("Hero Stunned"));
 	Super::OnStunned();
 	weapon_mechanics_->OnStunned();
-	passive_mechanics_->OnStunned();
 }

@@ -26,6 +26,8 @@ public:
 	bool AddItem(EGearType type, EArmorType armor_type);
 	bool AddItem(EGearType type, ETrinketType trinket_type);
 	bool AddItem(EGearType type, EWeaponType weapon_type);
+	bool AddItem(EGearType type, EPassiveSkillType passive_skill_type);
+
 	
 	void RemoveItem(int index);
 	

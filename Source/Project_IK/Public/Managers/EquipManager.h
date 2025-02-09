@@ -17,6 +17,8 @@ See LICENSE file in the project root for full license information.
 #include "Structs/WeaponData.h"
 #include "EquipManager.generated.h"
 
+struct FPassiveSkillData;
+
 UCLASS()
 class PROJECT_IK_API UEquipManager : public UObject
 {
@@ -32,8 +34,12 @@ public:
 	FWeaponData GetWeaponData(EWeaponType type);
 	FString WeaponEnumToString(EWeaponType weapon_type);
 
+	FPassiveSkillData GetPassiveSkillData(EPassiveSkillType type);
+	FString PassiveSkillEnumToString(EPassiveSkillType weapon_type);
+
 private:
 	UDataTable* armor_table_;
 	UDataTable* trinket_table_;
 	UDataTable* weapon_table_;
+	UDataTable* passive_skill_table_;
 };

@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/Image.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/EquipManager.h"
+#include "Structs/PassiveSkillData.h"
 #include "UI/SlotDragDropImage.h"
 #include "WorldSettings/IKGameInstance.h"
 
@@ -75,6 +76,13 @@ bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 			return false;
 		}
 	}
+	if(slot_type_ == EInventorySlotType::PassiveSkill)
+	{
+		if(slot_from->slot_data_.gear_type != EGearType::PassiveSkill)
+		{
+			return false;
+		}
+	}
 	Swap(slot_data_, slot_from->slot_data_);
 	SetImageTexture();
 	slot_from->SetImageTexture();
@@ -110,6 +118,10 @@ void UInventorySlot::SetImageTexture()
 	else if(slot_data_.gear_type == EGearType::Weapon)
 	{
 		new_texture = equip_manager->GetWeaponData(slot_data_.weapon_type).thumbnail;
+	}
+	else if(slot_data_.gear_type == EGearType::PassiveSkill)
+	{
+		new_texture = equip_manager->GetPassiveSkillData(slot_data_.passive_skill_type).thumbnail;
 	}
 	//
 	image_->SetBrushFromTexture(new_texture);

@@ -34,6 +34,8 @@ void UHeroInventoryWidget::InitInventoryWidget(UHeroInventoryManager* inventory_
 	hero_armor_->slot_type_ = EInventorySlotType::Armor;
 	hero_trinket_->slot_type_ = EInventorySlotType::Trinket;
 	hero_weapon_->slot_type_ = EInventorySlotType::Weapon;
+	hero_passive_skill_->slot_type_ = EInventorySlotType::PassiveSkill;
+
 	scroll_box_->AddChild(wrap_box_);
 }
 

@@ -19,6 +19,8 @@ void UHeroInventoryManager::InitInventory()
 	AddItem(EGearType::Trinket, ETrinketType::TestAttack);
 	AddItem(EGearType::Weapon, EWeaponType::Pistol);
 	AddItem(EGearType::Weapon, EWeaponType::AssaultRifle);
+	AddItem(EGearType::PassiveSkill, EPassiveSkillType::FixedDmgReduce);
+	AddItem(EGearType::PassiveSkill, EPassiveSkillType::RandDmgIncrease);
 
 	credits_ = 0;
 }
@@ -72,6 +74,21 @@ bool UHeroInventoryManager::AddItem(EGearType type, EWeaponType weapon_type)
 	{
 		FInventorySlotData data;
 		data.weapon_type = weapon_type;
+		data.gear_type = type;
+		data.is_empty = false;
+		inventory_[index] = data;
+		return true;
+	}
+	return false;
+}
+
+bool UHeroInventoryManager::AddItem(EGearType type, EPassiveSkillType passive_skill_type)
+{
+	int index = GetEmptyIndex();
+	if (index != -1)
+	{
+		FInventorySlotData data;
+		data.passive_skill_type = passive_skill_type;
 		data.gear_type = type;
 		data.is_empty = false;
 		inventory_[index] = data;

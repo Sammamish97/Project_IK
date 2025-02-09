@@ -33,5 +33,8 @@ struct PROJECT_IK_API FInventorySlotData
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
 	EWeaponType weapon_type;
 
-	//TODO: OopartType, ActiveType, PassiveType이 추가되어야 함.
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
+	EPassiveSkillType passive_skill_type;
+
+	//TODO: OopartType, ActiveType이 추가되어야 함.
 };
