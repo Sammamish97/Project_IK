@@ -24,7 +24,6 @@ public:
 public:
 	virtual FDamageData OnEquipmentSkill(FDamageData dmg_data) override;
 	virtual void InitEquipmentSkill(AActor* hero_ref) override;
-	virtual void ClearEquipmentSkill() override;
 
 protected:
 	class AHeroBase* hero_cache_;

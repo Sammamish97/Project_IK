@@ -29,5 +29,4 @@ class PROJECT_IK_API IEquipSkill
 public:
 	virtual void InitEquipmentSkill(AActor* hero_ref) = 0;
 	virtual FDamageData OnEquipmentSkill(FDamageData dmg_data) = 0;
-	virtual void ClearEquipmentSkill() = 0;
 };

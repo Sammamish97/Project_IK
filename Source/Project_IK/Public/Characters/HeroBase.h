@@ -33,7 +33,7 @@ public:
 	virtual void GetStunned(float stun_duration) override;
 	virtual void OnStunned() override;
 public:
-	TMap<EHeroEvent, FOnDamage> hero_dmg_event_map_;
+	TMap<EHeroEvent, TArray<FOnDamage>> hero_dmg_event_map_;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))

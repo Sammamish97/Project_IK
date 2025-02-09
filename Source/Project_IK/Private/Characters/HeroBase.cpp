@@ -64,9 +64,12 @@ void AHeroBase::Die()
 	}
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if(casted_mode) casted_mode->RemoveHero(this);
-	for (auto& delegate : hero_dmg_event_map_)
+	for (auto& delegate_array : hero_dmg_event_map_)
 	{
-		delegate.Value.Unbind();
+		for (auto& delegate_elem : delegate_array.Value)
+		{
+			delegate_elem.Unbind();
+		}
 	}
 	Super::Die();
 }
@@ -76,18 +79,24 @@ void AHeroBase::GetDamage(FDamageData data)
 	Super::GetDamage(data);
 	if (hero_dmg_event_map_.Find(EHeroEvent::OnHitBeforeCalc))
 	{
-		if (hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc].IsBound())
+		if (hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc].IsEmpty() == false)
 		{
-			data = hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc].Execute(data);
+			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc])
+			{
+				data = delegate.Execute(data);
+			}
 		}
 	}
 	
 	bool is_evaded = character_stat_component_->CalcDamage(data);
 	if (hero_dmg_event_map_.Find(EHeroEvent::OnHitAfterCalc))
 	{
-		if (is_evaded == false && hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc].IsBound())
+		if (hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc].IsEmpty() == false)
 		{
-			data = hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc].Execute(data);
+			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc])
+			{
+				data = delegate.Execute(data);
+			}
 		}
 	}
 	character_stat_component_->GetDamage(data.damage);
