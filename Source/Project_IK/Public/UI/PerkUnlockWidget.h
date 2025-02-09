@@ -19,6 +19,10 @@ class UVerticalBox;
 class UHorizontalBox;
 class UButton;
 class UProgressBar;
+class UImage;
+class UTextBlock;
+
+enum class EHeroType : uint8;
 
 /**
  *
@@ -59,6 +63,18 @@ protected:
 	void StartLinkAnimation(TArray<TWeakObjectPtr<UProgressBar>> links);
 	void UpdateLinkAnimation();
 
+	UFUNCTION()
+	void OnLeftButtonClicked();
+	UFUNCTION()
+	void OnRightButtonClicked();
+
+	void UpdateHeroData();
+
+	bool ButtonClicked(int32 clicked_index);
+	void ClearWidgets();
+
+	int32 GetPerkCost(int32 perk_index);
+
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UCanvasPanel> scroll_panel_;
 
@@ -69,7 +85,23 @@ protected:
 	// FIntPoint<StartIndex, EndIndex>
 	TMap < FIntPoint, TObjectPtr<UProgressBar>> links_;
 
+
 	FTimerHandle link_animation_timer_handle_;
+	UPROPERTY(Transient)
 	TArray<TWeakObjectPtr<UProgressBar>> links_animating_;
+	UPROPERTY(Transient)
 	float link_animation_percent_;
+
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> left_button_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UImage> portrait_image_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> right_button_;
+
+	EHeroType current_hero_type_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> perk_points_text_;
 };

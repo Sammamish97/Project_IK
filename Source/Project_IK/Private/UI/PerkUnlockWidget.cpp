@@ -23,6 +23,13 @@ See LICENSE file in the project root for full license information.
 #include "Components/HorizontalBox.h"
 #include "Components/HorizontalBoxSlot.h"
 #include "Components/Button.h"
+#include "Components/Image.h"
+#include "Components/TextBlock.h"
+
+#include "WorldSettings/IKGameInstance.h"
+#include "Managers/EnumCluster.h"
+#include "Managers/TextureManager.h"
+#include "Managers/InventoryManager.h"
 
 #include "Structs/PerkTree.h"
 
@@ -34,15 +41,16 @@ void UPerkUnlockWidget::NativeConstruct()
 	ConstructLinks();
 	ConstructPerkTree();
 
-
-	// @@ TODO: Connect this UI to Perk Progress system.
-	UPerkProgressSubsystem* perk_progress_system = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
-	if (perk_progress_system)
-	{
-		TSet<int32> progress = perk_progress_system->GetProgress(EHeroType::Hero1);
-	}
-
 	link_animation_percent_ = 0.f;
+	current_hero_type_ = EHeroType::Hero1;
+	left_button_->OnClicked.AddDynamic(this, &UPerkUnlockWidget::OnLeftButtonClicked);
+	right_button_->OnClicked.AddDynamic(this, &UPerkUnlockWidget::OnRightButtonClicked);
+
+	UpdateHeroData();
+
+	perk_points_text_->SetText(FText::FromString(FString::FromInt(
+		Cast<UIKGameInstance>(GetGameInstance())->GetInventoryManager()->GetPerkPoints()
+	)));
 }
 
 void UPerkUnlockWidget::NativeDestruct()
@@ -65,8 +73,8 @@ void UPerkUnlockWidget::ConstructPerkTree()
 	UVerticalBox* tree_box = ConstructNewTreeBox();
 
 	// node on 0 index in tree is root node of the tree
-	TArray<FPerkNode> current_level_nodes({ tree[0]});
-	TArray<TObjectPtr<UButton>*> pointer_to_content_of_button_array({ &buttons_[0]});
+	TArray<FPerkNode> current_level_nodes({ tree[0] });
+	TArray<TObjectPtr<UButton>*> pointer_to_content_of_button_array({ &buttons_[0] });
 	while (!current_level_nodes.IsEmpty())
 	{
 		UHorizontalBox* tree_level = ConstructNewTreeLevel(tree_box);
@@ -100,9 +108,9 @@ void UPerkUnlockWidget::ConstructLinks()
 
 
 	int32 level = 0;
-	TArray<FPerkNode> current_level_nodes({tree[0]});
+	TArray<FPerkNode> current_level_nodes({ tree[0] });
 	TArray<int32> current_indices({ 0 });
-	while(current_level_nodes.IsEmpty() == false)
+	while (current_level_nodes.IsEmpty() == false)
 	{
 		TArray<FPerkNode> next_level_nodes;
 		TArray<int32> next_indices;
@@ -239,16 +247,29 @@ void UPerkUnlockWidget::OnButtonClicked()
 	{
 		if (buttons_[i]->IsHovered())
 		{
-			TArray<FPerkNode> tree = UPerkTree::Get()->GetTree();
-			TArray<TWeakObjectPtr<UProgressBar>> links;
-			for (int32 next_index : tree[i].next_)
+			UIKGameInstance* game_instance = Cast<UIKGameInstance>(GetGameInstance());
+			const int32 perk_points = game_instance->GetInventoryManager()->GetPerkPoints();
+			const int32 clicked_perk_points = GetPerkCost(i);
+			if (clicked_perk_points <= perk_points)
 			{
-				links.Add(links_[FIntPoint(i, next_index)]);
+				bool successfully_clicked = ButtonClicked(i);
+				if (successfully_clicked)
+				{
+					game_instance->GetInventoryManager()->SetPerkPoints(perk_points - clicked_perk_points);
+
+					perk_points_text_->SetText(FText::FromString(FString::FromInt(
+						perk_points - clicked_perk_points
+					)));
+				}
 			}
-			StartLinkAnimation(links);
+			else
+			{
+				// @@ TODO: Add VFX/SFX to indicate insufficient perk points.
+			}
+
+			break;
 		}
 	}
-
 }
 
 void UPerkUnlockWidget::ClearButtonDelegates()
@@ -259,6 +280,15 @@ void UPerkUnlockWidget::ClearButtonDelegates()
 		{
 			button->OnClicked.Clear();
 		}
+	}
+
+	if (left_button_->OnClicked.IsBound())
+	{
+		left_button_->OnClicked.Clear();
+	}
+	if (right_button_->OnClicked.IsBound())
+	{
+		right_button_->OnClicked.Clear();
 	}
 }
 
@@ -298,4 +328,165 @@ void UPerkUnlockWidget::UpdateLinkAnimation()
 		links_animating_.Empty();
 		GetWorld()->GetTimerManager().ClearTimer(link_animation_timer_handle_);
 	}
+}
+
+void UPerkUnlockWidget::OnLeftButtonClicked()
+{
+	switch (current_hero_type_)
+	{
+	case EHeroType::Hero1:
+		current_hero_type_ = EHeroType::Hero4;
+		break;
+	case EHeroType::Hero2:
+		current_hero_type_ = EHeroType::Hero1;
+		break;
+	case EHeroType::Hero3:
+		current_hero_type_ = EHeroType::Hero2;
+		break;
+	case EHeroType::Hero4:
+		current_hero_type_ = EHeroType::Hero3;
+		break;
+	case EHeroType::INVALID:
+	default:
+		current_hero_type_ = EHeroType::Hero1;
+		break;
+	}
+
+	UpdateHeroData();
+}
+
+void UPerkUnlockWidget::OnRightButtonClicked()
+{
+	switch (current_hero_type_)
+	{
+	case EHeroType::Hero1:
+		current_hero_type_ = EHeroType::Hero2;
+		break;
+	case EHeroType::Hero2:
+		current_hero_type_ = EHeroType::Hero3;
+		break;
+	case EHeroType::Hero3:
+		current_hero_type_ = EHeroType::Hero4;
+		break;
+	case EHeroType::Hero4:
+	case EHeroType::INVALID:
+	default:
+		current_hero_type_ = EHeroType::Hero1;
+		break;
+	}
+
+	UpdateHeroData();
+}
+
+void UPerkUnlockWidget::UpdateHeroData()
+{
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(GetGameInstance());
+	if (!game_instance)
+	{
+		return;
+	}
+
+	FString text_name;
+	// @@ TODO: set appropriate text name by Enum
+	switch (current_hero_type_)
+	{
+	case EHeroType::Hero1:
+		text_name = "default_portrait";
+		break;
+	case EHeroType::Hero2:
+		text_name = "default_portrait";
+		break;
+	case EHeroType::Hero3:
+		text_name = "default_portrait";
+		break;
+	case EHeroType::Hero4:
+		text_name = "default_portrait";
+		break;
+	default:
+		// Error text
+		text_name = "default_portrait";
+		break;
+	}
+
+	portrait_image_->SetBrushFromTexture(game_instance->GetTextureManager()->GetTexture(text_name));
+
+
+	ClearWidgets();
+
+	// @@ TODO: Connect this UI to Perk Progress system.
+	UPerkProgressSubsystem* perk_progress_system = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
+	if (perk_progress_system)
+	{
+		TSet<int32> progress = perk_progress_system->GetProgress(current_hero_type_);
+		for (int32 activated_node : progress)
+		{
+			ButtonClicked(activated_node);
+		}
+	}
+
+	// Reset activated animation quieried by ButtonClicked. 
+	GetWorld()->GetTimerManager().ClearTimer(link_animation_timer_handle_);
+	// Update last queried not animated links.
+	for (TWeakObjectPtr<UProgressBar> link_animating : links_animating_)
+	{
+		link_animating->SetPercent(1.f);
+	}
+	links_animating_.Empty();
+}
+
+// It returns false when progress already recorded.
+// However, system calls it a lot when focused hero changed.
+// That's a reason why the button marked to unlocked even the perk locked.
+// When this function made a bug, you may consider the above fact. 
+	// Then consider to create another function that make buttons look unlocked(only appearence).
+	// One is actually logically unlocked it.
+bool UPerkUnlockWidget::ButtonClicked(int32 clicked_index)
+{
+	TArray<FPerkNode> tree = UPerkTree::Get()->GetTree();
+	TArray<TWeakObjectPtr<UProgressBar>> links;
+	for (int32 next_index : tree[clicked_index].next_)
+	{
+		links.Add(links_[FIntPoint(clicked_index, next_index)]);
+	}
+	StartLinkAnimation(links);
+
+	buttons_[clicked_index]->SetIsEnabled(false);
+
+	// @@ TODO: Connect this UI to Perk Progress system.
+	UPerkProgressSubsystem* perk_progress_system = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
+	if (!perk_progress_system)
+	{
+		return false;
+	}
+	bool successfully_added = perk_progress_system->AddProgress(current_hero_type_, clicked_index);
+	if (!successfully_added)
+	{
+		return false;
+	}
+
+	// @@ TODO: Call InvestPerks to enhance CharacterData
+
+	return true;
+}
+
+void UPerkUnlockWidget::ClearWidgets()
+{
+	for (TObjectPtr<UButton> button : buttons_)
+	{
+		button->SetIsEnabled(true);
+	}
+	for (TPair<FIntPoint, TObjectPtr<UProgressBar>> link : links_)
+	{
+		link.Value->SetPercent(0.f);
+	}
+
+	links_animating_.Empty();
+}
+
+int32 UPerkUnlockWidget::GetPerkCost(int32 perk_index)
+{
+	// @@ TODO: Need to calculate perk cost
+	TArray<FPerkNode> tree = UPerkTree::Get()->GetTree();
+
+	return tree[perk_index].cost_;
 }

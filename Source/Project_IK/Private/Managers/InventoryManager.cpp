@@ -18,6 +18,7 @@ void UInventoryManager::InitInventory()
 	inventory_.Init(FDPData(), inventory_size_);
 	
 	credits_ = 0;
+	perk_points_ = 100;
 
 	AddDP(EDPType::FireRange);
 	AddDP(EDPType::FireRateBurst);
@@ -26,9 +27,9 @@ void UInventoryManager::InitInventory()
 	RemoveDP(2);
 }
 
-int UInventoryManager::GetEmptyIndex() const
+int32 UInventoryManager::GetEmptyIndex() const
 {
-	for (int i = 0; i < inventory_size_; ++i)
+	for (int32 i = 0; i < inventory_size_; ++i)
 	{
 		if (inventory_[i].dp_type_ == EDPType::Empty)
 		{
@@ -43,7 +44,7 @@ bool UInventoryManager::AddDP(EDPType type)
 	auto instance = GetWorld()->GetGameInstance();
 	if (auto IK_instance = Cast<UIKGameInstance>(instance))
 	{
-		int index = GetEmptyIndex();
+		int32 index = GetEmptyIndex();
 		if (index != -1)
 		{
 			inventory_[index] = IK_instance->GetDronePluginManager()->GetDPData(type);
@@ -76,4 +77,14 @@ void UInventoryManager::SetCredits(int32 credits)
 int32 UInventoryManager::GetCredits() const
 {
 	return credits_;
+}
+
+void UInventoryManager::SetPerkPoints(int32 points)
+{
+	perk_points_ = points;
+}
+
+int32 UInventoryManager::GetPerkPoints() const
+{
+	return perk_points_;
 }

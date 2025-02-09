@@ -30,5 +30,8 @@ public:
 	float modifier_;	
 
 	UPROPERTY(VisibleAnywhere, Category = "PerkData")
+	int32 cost_;
+
+	UPROPERTY(VisibleAnywhere, Category = "PerkData")
 	TArray<int32> next_;
 };
