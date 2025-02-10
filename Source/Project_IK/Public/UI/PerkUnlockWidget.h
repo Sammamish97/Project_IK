@@ -23,6 +23,9 @@ class UImage;
 class UTextBlock;
 
 enum class EHeroType : uint8;
+struct FPerkNode;
+
+class UConfirmationWidget;
 
 /**
  *
@@ -34,11 +37,22 @@ class PROJECT_IK_API UPerkUnlockWidget : public UUserWidget
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	FButtonStyle default_node_style_;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UConfirmationWidget> confirmation_widget_class_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")
+	FButtonStyle lockable_node_style_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")
+	FSlateBrush unlocked_disabled_brush_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")
+	FSlateBrush locked_disabled_brush_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")
 	FMargin node_margin_;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Link")
 	FLinearColor link_fill_color_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Link")
+	FProgressBarStyle lockable_progress_bar_style_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Link")
+	FProgressBarStyle locked_progress_bar_style_;
 
 	static constexpr float link_animation_interval_ = 0.01f;
 
@@ -58,6 +72,8 @@ protected:
 
 	UFUNCTION()
 	void OnButtonClicked();
+	UFUNCTION()
+	void OnConfirmed();
 
 	void ClearButtonDelegates();
 	void StartLinkAnimation(TArray<TWeakObjectPtr<UProgressBar>> links);
@@ -70,16 +86,31 @@ protected:
 
 	void UpdateHeroData();
 
-	bool ButtonClicked(int32 clicked_index);
+	// A function invoked when users actually clicked the button.
+	bool UnlockPerk(int32 clicked_index);
+	// A function to make the button looks clicked.
+	void MakeButtonUnlockedVisually(int32 clicked_index, bool is_animate_links = false);
+
 	void ClearWidgets();
 
-	int32 GetPerkCost(int32 perk_index);
+	int32 GetAccumulatedPerkCost(int32 perk_index);
+
+	// A function starts recursive function.
+	void UpdateCosts(const TSet<int32>& progress);
+	// A helper recursive function.
+	void AccumulateCost(const TArray<FPerkNode>& tree, const TSet<int32>& progress, int32 current_node_index, int32 accumulated_cost);
+	void LockUnpayableButtons();
+
+	bool OnButtonClickedDFS(const TArray<FPerkNode>& tree, int32 current_node_index, TArray<int32>& path);
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UCanvasPanel> scroll_panel_;
 
 	UPROPERTY()
 	TArray<TObjectPtr<UButton>> buttons_;
+
+	UPROPERTY()
+	TArray<int32> costs_;
 
 	UPROPERTY()
 	// FIntPoint<StartIndex, EndIndex>
@@ -93,6 +124,9 @@ protected:
 	float link_animation_percent_;
 
 
+	TArray<int32> path_to_selected_node_;
+
+
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> left_button_;
 	UPROPERTY(meta = (BindWidget))
@@ -104,4 +138,7 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> perk_points_text_;
+
+	UPROPERTY()
+	TObjectPtr<UConfirmationWidget> confirmation_widget_;
 };

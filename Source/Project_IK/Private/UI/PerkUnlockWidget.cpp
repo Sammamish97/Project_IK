@@ -31,6 +31,8 @@ See LICENSE file in the project root for full license information.
 #include "Managers/TextureManager.h"
 #include "Managers/InventoryManager.h"
 
+#include "UI/ConfirmationWidget.h"
+
 #include "Structs/PerkTree.h"
 
 
@@ -46,11 +48,20 @@ void UPerkUnlockWidget::NativeConstruct()
 	left_button_->OnClicked.AddDynamic(this, &UPerkUnlockWidget::OnLeftButtonClicked);
 	right_button_->OnClicked.AddDynamic(this, &UPerkUnlockWidget::OnRightButtonClicked);
 
+	path_to_selected_node_.Empty();
+
 	UpdateHeroData();
 
 	perk_points_text_->SetText(FText::FromString(FString::FromInt(
 		Cast<UIKGameInstance>(GetGameInstance())->GetInventoryManager()->GetPerkPoints()
 	)));
+
+
+	if (confirmation_widget_class_)
+	{
+		confirmation_widget_ = WidgetTree->ConstructWidget<UConfirmationWidget>(confirmation_widget_class_);
+		confirmation_widget_->OnConfirmation.AddDynamic(this, &UPerkUnlockWidget::OnConfirmed);
+	}
 }
 
 void UPerkUnlockWidget::NativeDestruct()
@@ -60,6 +71,11 @@ void UPerkUnlockWidget::NativeDestruct()
 	ClearButtonDelegates();
 
 	GetWorld()->GetTimerManager().ClearTimer(link_animation_timer_handle_);
+
+	if (confirmation_widget_->OnConfirmation.IsBound())
+	{
+		confirmation_widget_->OnConfirmation.Clear();
+	}
 }
 
 void UPerkUnlockWidget::ConstructPerkTree()
@@ -192,7 +208,7 @@ UButton* UPerkUnlockWidget::ConstructNewTreeNode(UHorizontalBox* level_box)
 
 	UButton* node = WidgetTree->ConstructWidget<UButton>();
 	// Default node style does not have image info
-	node->SetStyle(default_node_style_);
+	node->SetStyle(lockable_node_style_);
 	node->OnClicked.AddDynamic(this, &UPerkUnlockWidget::OnButtonClicked);
 	UHorizontalBoxSlot* node_slot = level_box->AddChildToHorizontalBox(node);
 	if (node_slot)
@@ -212,6 +228,7 @@ UProgressBar* UPerkUnlockWidget::ConstructLink(int32 start_index, int32 start_ma
 	float angle = FMath::RadiansToDegrees(FMath::Atan2(direction.Y, direction.X));
 
 	UProgressBar* link = WidgetTree->ConstructWidget<UProgressBar>();
+	link->SetWidgetStyle(lockable_progress_bar_style_);
 	link->SetFillColorAndOpacity(link_fill_color_);
 	link->SetRenderTransformAngle(angle);
 	link->SetRenderTransformPivot(FVector2D(0.0, 0.5));
@@ -230,7 +247,7 @@ UProgressBar* UPerkUnlockWidget::ConstructLink(int32 start_index, int32 start_ma
 
 FVector2D UPerkUnlockWidget::CalculateNodePosition(int32 index, int32 size, int32 level)
 {
-	FVector2D node_size = default_node_style_.Normal.GetImageSize() + node_margin_.GetDesiredSize2f();
+	FVector2D node_size = lockable_node_style_.Normal.GetImageSize() + node_margin_.GetDesiredSize2f();
 
 	FVector2D result;
 	result.X = index * node_size.X - ((node_size.X * size) / 2.f);
@@ -243,32 +260,34 @@ FVector2D UPerkUnlockWidget::CalculateNodePosition(int32 index, int32 size, int3
 
 void UPerkUnlockWidget::OnButtonClicked()
 {
-	for (int32 i = 0; i < buttons_.Num(); ++i)
+	path_to_selected_node_.Empty();
+	OnButtonClickedDFS(UPerkTree::Get()->GetTree(), 0, path_to_selected_node_);
+}
+
+void UPerkUnlockWidget::OnConfirmed()
+{
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(GetGameInstance());
+	const int32 perk_points = game_instance->GetInventoryManager()->GetPerkPoints();
+	const int32 clicked_perk_points = GetAccumulatedPerkCost(path_to_selected_node_.Top());
+	if (clicked_perk_points <= perk_points)
 	{
-		if (buttons_[i]->IsHovered())
+		for (int32 node_index : path_to_selected_node_)
 		{
-			UIKGameInstance* game_instance = Cast<UIKGameInstance>(GetGameInstance());
-			const int32 perk_points = game_instance->GetInventoryManager()->GetPerkPoints();
-			const int32 clicked_perk_points = GetPerkCost(i);
-			if (clicked_perk_points <= perk_points)
-			{
-				bool successfully_clicked = ButtonClicked(i);
-				if (successfully_clicked)
-				{
-					game_instance->GetInventoryManager()->SetPerkPoints(perk_points - clicked_perk_points);
-
-					perk_points_text_->SetText(FText::FromString(FString::FromInt(
-						perk_points - clicked_perk_points
-					)));
-				}
-			}
-			else
-			{
-				// @@ TODO: Add VFX/SFX to indicate insufficient perk points.
-			}
-
-			break;
+			UnlockPerk(node_index);
 		}
+		game_instance->GetInventoryManager()->SetPerkPoints(perk_points - clicked_perk_points);
+
+		perk_points_text_->SetText(FText::FromString(FString::FromInt(
+			perk_points - clicked_perk_points
+		)));
+
+
+		UpdateCosts(GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>()->GetProgress(current_hero_type_));
+		LockUnpayableButtons();
+	}
+	else
+	{
+		// @@ TODO: Add VFX/SFX to indicate insufficient perk points.
 	}
 }
 
@@ -418,41 +437,23 @@ void UPerkUnlockWidget::UpdateHeroData()
 	if (perk_progress_system)
 	{
 		TSet<int32> progress = perk_progress_system->GetProgress(current_hero_type_);
+		// Unlock buttons by recorded progress
 		for (int32 activated_node : progress)
 		{
-			ButtonClicked(activated_node);
+			MakeButtonUnlockedVisually(activated_node);
 		}
-	}
 
-	// Reset activated animation quieried by ButtonClicked. 
-	GetWorld()->GetTimerManager().ClearTimer(link_animation_timer_handle_);
-	// Update last queried not animated links.
-	for (TWeakObjectPtr<UProgressBar> link_animating : links_animating_)
-	{
-		link_animating->SetPercent(1.f);
+		// Lock unpayable buttons by using both progress and tree costs.
+		UpdateCosts(progress);
+		LockUnpayableButtons();
 	}
-	links_animating_.Empty();
 }
 
 // It returns false when progress already recorded.
-// However, system calls it a lot when focused hero changed.
-// That's a reason why the button marked to unlocked even the perk locked.
-// When this function made a bug, you may consider the above fact. 
-	// Then consider to create another function that make buttons look unlocked(only appearence).
-	// One is actually logically unlocked it.
-bool UPerkUnlockWidget::ButtonClicked(int32 clicked_index)
+bool UPerkUnlockWidget::UnlockPerk(int32 clicked_index)
 {
-	TArray<FPerkNode> tree = UPerkTree::Get()->GetTree();
-	TArray<TWeakObjectPtr<UProgressBar>> links;
-	for (int32 next_index : tree[clicked_index].next_)
-	{
-		links.Add(links_[FIntPoint(clicked_index, next_index)]);
-	}
-	StartLinkAnimation(links);
+	MakeButtonUnlockedVisually(clicked_index, true);
 
-	buttons_[clicked_index]->SetIsEnabled(false);
-
-	// @@ TODO: Connect this UI to Perk Progress system.
 	UPerkProgressSubsystem* perk_progress_system = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
 	if (!perk_progress_system)
 	{
@@ -469,6 +470,37 @@ bool UPerkUnlockWidget::ButtonClicked(int32 clicked_index)
 	return true;
 }
 
+void UPerkUnlockWidget::MakeButtonUnlockedVisually(int32 clicked_index, bool is_animate_links)
+{
+	if (buttons_[clicked_index]->GetIsEnabled() == false)
+	{
+		return;
+	}
+
+	TArray<FPerkNode> tree = UPerkTree::Get()->GetTree();
+	if (is_animate_links)
+	{
+		TArray<TWeakObjectPtr<UProgressBar>> links;
+		for (int32 next_index : tree[clicked_index].next_)
+		{
+			links.Add(links_[FIntPoint(clicked_index, next_index)]);
+		}
+		StartLinkAnimation(links);
+	}
+	else
+	{
+		for (int32 next_index : tree[clicked_index].next_)
+		{
+			links_[FIntPoint(clicked_index, next_index)]->SetPercent(1.f);
+		}
+	}
+
+	FButtonStyle unlocked_button_style = buttons_[clicked_index]->GetStyle();
+	unlocked_button_style.SetDisabled(unlocked_disabled_brush_);
+	buttons_[clicked_index]->SetStyle(unlocked_button_style);
+	buttons_[clicked_index]->SetIsEnabled(false);
+}
+
 void UPerkUnlockWidget::ClearWidgets()
 {
 	for (TObjectPtr<UButton> button : buttons_)
@@ -478,15 +510,96 @@ void UPerkUnlockWidget::ClearWidgets()
 	for (TPair<FIntPoint, TObjectPtr<UProgressBar>> link : links_)
 	{
 		link.Value->SetPercent(0.f);
+		link.Value->SetWidgetStyle(lockable_progress_bar_style_);
 	}
 
 	links_animating_.Empty();
 }
 
-int32 UPerkUnlockWidget::GetPerkCost(int32 perk_index)
+int32 UPerkUnlockWidget::GetAccumulatedPerkCost(int32 perk_index)
 {
-	// @@ TODO: Need to calculate perk cost
-	TArray<FPerkNode> tree = UPerkTree::Get()->GetTree();
+	return costs_[perk_index];
+}
 
-	return tree[perk_index].cost_;
+void UPerkUnlockWidget::UpdateCosts(const TSet<int32>& progress)
+{
+	UPerkTree* perk_tree = UPerkTree::Get();
+	TArray<FPerkNode> tree = perk_tree->GetTree();
+
+	if (costs_.Num() < tree.Num())
+	{
+		costs_.Init(0, tree.Num());
+	}
+
+	AccumulateCost(tree, progress, 0, 0);
+}
+
+void UPerkUnlockWidget::AccumulateCost(const TArray<FPerkNode>& tree, const TSet<int32>& progress, int32 current_node_index, int32 accumulated_cost)
+{
+	if (!progress.Contains(current_node_index))
+	{
+		accumulated_cost += tree[current_node_index].cost_;
+	}
+
+	costs_[current_node_index] = accumulated_cost;
+
+	for (int32 next_index : tree[current_node_index].next_)
+	{
+		AccumulateCost(tree, progress, next_index, accumulated_cost);
+	}
+}
+
+void UPerkUnlockWidget::LockUnpayableButtons()
+{
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(GetGameInstance());
+	const int32 perk_points = game_instance->GetInventoryManager()->GetPerkPoints();
+	UPerkTree* perk_tree = UPerkTree::Get();
+	TArray<FPerkNode> tree = perk_tree->GetTree();
+
+	for (int32 i = 0; i < tree.Num(); i++)
+	{
+		if (perk_points < costs_[i] && buttons_[i]->GetIsEnabled())
+		{
+			// It is Unpayable. Lock them all.
+			FButtonStyle style = buttons_[i]->GetStyle();
+			style.SetDisabled(locked_disabled_brush_);
+			buttons_[i]->SetStyle(style);
+			buttons_[i]->SetIsEnabled(false);
+
+			for (int32 next_index : tree[i].next_)
+			{
+				links_[FIntPoint(i, next_index)]->SetWidgetStyle(locked_progress_bar_style_);
+			}
+		}
+	}
+}
+
+bool UPerkUnlockWidget::OnButtonClickedDFS(const TArray<FPerkNode>& tree, int32 current_node_index, TArray<int32>& path)
+{
+	path.Add(current_node_index);
+
+	if (buttons_[current_node_index]->IsHovered())
+	{
+		if (confirmation_widget_)
+		{
+			const int32 clicked_perk_points = GetAccumulatedPerkCost(current_node_index);
+			FText confirm_text = FText::Format(FText::FromString("Are you sure you want to unlock the perk? It costs {0}"), FText::AsNumber(clicked_perk_points));
+			confirmation_widget_->SetText(confirm_text);
+			confirmation_widget_->AddToViewport();
+		}
+
+		return true;
+	}
+
+	for (int32 next_node_index : tree[current_node_index].next_)
+	{
+		if (OnButtonClickedDFS(tree, next_node_index, path))
+		{
+			return true;
+		}
+	}
+
+	path.Pop();
+
+	return false;
 }

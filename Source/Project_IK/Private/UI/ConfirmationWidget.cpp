@@ -48,10 +48,6 @@ void UConfirmationWidget::NativeDestruct()
 	{
 		button_->OnClicked.Clear();
 	}
-	if (OnConfirmation.IsBound())
-	{
-		OnConfirmation.Clear();
-	}
 }
 
 FReply UConfirmationWidget::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)

@@ -109,6 +109,11 @@ void UStoreWidget::NativeDestruct()
 
 	pay_button_->OnClicked.Clear();
 
+	if (confirmation_widget_->OnConfirmation.IsBound())
+	{
+		confirmation_widget_->OnConfirmation.Clear();
+	}
+
 	item_slots_.Empty();
 	dp_slots_.Empty();
 }

@@ -18,7 +18,7 @@ void UInventoryManager::InitInventory()
 	inventory_.Init(FDPData(), inventory_size_);
 	
 	credits_ = 0;
-	perk_points_ = 100;
+	perk_points_ = 13;
 
 	AddDP(EDPType::FireRange);
 	AddDP(EDPType::FireRateBurst);
