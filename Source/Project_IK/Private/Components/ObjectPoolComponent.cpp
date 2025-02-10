@@ -71,3 +71,8 @@ TSubclassOf<APooledActor> UObjectPoolComponent::GetObjectClass() const
 {
 	return pooled_actor_class_;
 }
+
+TArray<APooledActor*>& UObjectPoolComponent::GetObjectPool()
+{
+	return object_pool_;
+}

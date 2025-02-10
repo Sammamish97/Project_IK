@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "AIController.h"
 #include "AI/GunnerAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "Components/WeaponMechanics.h"
+#include "Interfaces/Attackable.h"
 
 UTask_BeginFire::UTask_BeginFire()
 {
@@ -26,12 +26,11 @@ EBTNodeResult::Type UTask_BeginFire::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 	UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
 
 	auto casted_pawn = OwnerComp.GetAIOwner()->GetPawn();
-	auto component = casted_pawn->GetComponentByClass(UWeaponMechanics::StaticClass()); 
-	if(auto casted_component = Cast<UWeaponMechanics>(component))
+	if(auto casted_attackable_unit = Cast<IAttackable>(casted_pawn))
 	{
 		if(	AActor* casted_target = Cast<AActor>(blackboard->GetValueAsObject(attack_target_key_.SelectedKeyName)))
 		{
-			casted_component->BeginFire(casted_target);
+			casted_attackable_unit->Attack(casted_target);
 			return EBTNodeResult::Succeeded;
 		}
 	}

@@ -21,6 +21,7 @@ GENERATED_BODY()
 	EDamageType damage_type;
 	TWeakObjectPtr<AActor> attacker;
 	TWeakObjectPtr<AActor> attack_target;
+	TArray<EAttackEffect> effects;
 	//다음의 정보도 사용될 가능성이 있다.
 	//FVector hit_pos_;
 };

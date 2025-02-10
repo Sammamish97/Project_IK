@@ -232,3 +232,13 @@ enum class EPassiveSkillType : uint8
 	RandDmgIncrease UMETA(DisplayName = "RandDmgIncrease"),
 	Empty UMETA(DisplayName = "Empty")
 };
+
+//TODO: 총알에 치유감소/도트딜/도탄 같은 효과를 실을 때 사용한다.
+UENUM(BlueprintType)
+enum class EAttackEffect : uint8
+{
+	Test1 UMETA(DisplayName = "Test1"),
+	Test2 UMETA(DisplayName = "Test2"),
+	Test3 UMETA(DisplayName = "Test3"),
+	Empty UMETA(DisplayName = "Empty")
+};

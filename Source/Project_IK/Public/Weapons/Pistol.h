@@ -21,7 +21,7 @@ class PROJECT_IK_API APistol : public AGun
 public:
 	// Sets default values for this actor's properties
 	APistol();
-	virtual void FireWeapon(FVector target_pos, float damage) override;
+	virtual void FireWeapon(FVector target_pos, FDamageData damage) override;
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bullet", meta = (AllowPrivateAccess = "true", AllowedClass = "Bullet"))

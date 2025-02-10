@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Structs/DamageData.h"
 #include "Gun.generated.h"
 
 class UObjectPoolComponent;
@@ -33,7 +34,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 		
 	virtual void Reload();
-	virtual void FireWeapon(FVector target_pos, float damage);
+	virtual void FireWeapon(FVector target_pos, FDamageData damage);
 
 	bool IsMagazineEmpty() const;
 	float GetFireInterval() const;

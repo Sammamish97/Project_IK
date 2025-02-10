@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/DamageData.h"
 #include "Structs/WeaponData.h"
 #include "WeaponMechanics.generated.h"
 
@@ -34,6 +35,8 @@ public:
 
 public:
 	void OnDestroy();
+
+	void SetDamageData(FDamageData dmg_data);
 	
 	void BeginFire(AActor* target);
 	void OnFire(AActor* target);
@@ -56,6 +59,9 @@ public:
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
 	FWeaponData equipped_weapon_data_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
+	FDamageData damage_data_;
 
 	UPROPERTY(Transient)
 	AGun* equipped_weapon_actor_ = nullptr;

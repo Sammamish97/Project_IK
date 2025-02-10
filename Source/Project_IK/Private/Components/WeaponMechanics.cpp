@@ -64,6 +64,11 @@ void UWeaponMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
+void UWeaponMechanics::SetDamageData(FDamageData dmg_data)
+{
+	damage_data_ = dmg_data;
+}
+
 void UWeaponMechanics::BeginFire(AActor* target)
 {
 	float gun_as = 1.f / equipped_weapon_actor_->GetFireInterval();
@@ -90,7 +95,6 @@ void UWeaponMechanics::FireWeapon(AActor* target)
 {
 	if(equipped_weapon_actor_ && IsValid(target))
 	{
-		int damage = gunner_ref_->GetCharacterStat()->GetAttackPower();
 		ACharacter* casted_target = Cast<ACharacter>(target);
 		if(UBlackboardComponent* blackboard = Cast<AAIController>(casted_target->GetController())->GetBlackboardComponent())
 		{
@@ -99,16 +103,16 @@ void UWeaponMechanics::FireWeapon(AActor* target)
 			{
 				if(FMath::RandRange(0, 100) > 50)
 				{
-					equipped_weapon_actor_->FireWeapon(casted_target->GetMesh()->GetSocketLocation(head_socket_name_), damage);
+					equipped_weapon_actor_->FireWeapon(casted_target->GetMesh()->GetSocketLocation(head_socket_name_), damage_data_);
 				}
 				else
 				{
-					equipped_weapon_actor_->FireWeapon(target->GetActorLocation() - FVector(0, 0, 50), damage);
+					equipped_weapon_actor_->FireWeapon(target->GetActorLocation() - FVector(0, 0, 50), damage_data_);
 				}
 			}
 			else
 			{
-				equipped_weapon_actor_->FireWeapon(target->GetActorLocation(), damage);
+				equipped_weapon_actor_->FireWeapon(target->GetActorLocation(), damage_data_);
 			}
 		}
 	}
