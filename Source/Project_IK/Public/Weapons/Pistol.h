@@ -1,8 +1,8 @@
 /******************************************************************************
-Copyright(C) 2024
+Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 11.03.2024
-Summary : Header file for Rifle.
+Creation Date : 2.08.2025
+Summary : Header file for Pistol.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -11,14 +11,16 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Gun.h"
-#include "Rifle.generated.h"
+#include "Pistol.generated.h"
 
 UCLASS()
-class PROJECT_IK_API ARifle : public AGun
+class PROJECT_IK_API APistol : public AGun
 {
 	GENERATED_BODY()
+
 public:
-	ARifle();
+	// Sets default values for this actor's properties
+	APistol();
 	virtual void FireWeapon(FVector target_pos, FDamageData damage) override;
 
 private:

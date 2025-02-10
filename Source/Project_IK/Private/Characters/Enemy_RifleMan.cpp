@@ -18,6 +18,12 @@ AEnemy_RifleMan::AEnemy_RifleMan()
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
 }
 
+void AEnemy_RifleMan::BeginPlay()
+{
+	Super::BeginPlay();
+	weapon_mechanics_->EquipWeapon(EWeaponType::Pistol);
+}
+
 void AEnemy_RifleMan::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
@@ -34,4 +40,20 @@ void AEnemy_RifleMan::OnStunned()
 	UE_LOG(LogTemp, Warning, TEXT("AEnemy_RifleMan Stunned"));
 	Super::OnStunned();
 	weapon_mechanics_->OnStunned();
+}
+
+FDamageData AEnemy_RifleMan::Attack(AActor* target)
+{
+	FDamageData damage_data;
+	damage_data.attacker = this;
+	damage_data.attack_target = target;
+	damage_data.damage = GetCharacterStat()->GetAttackPower();
+	if (FMath::RandRange(0.f, 100.f) < GetCharacterStat()->GetCriticalHitRate())
+	{
+		damage_data.damage *= 2;
+	}
+	weapon_mechanics_->SetDamageData(damage_data);
+	weapon_mechanics_->BeginFire(target);
+	
+	return damage_data;
 }

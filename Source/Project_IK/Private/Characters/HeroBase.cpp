@@ -10,13 +10,13 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 
-#include "Abilities/PassiveMechanics.h"
 #include "Abilities/SkillContainer.h"
 #include "Abilities/EquipSkills/EquipSkillBase.h"
 #include "AI/GunnerAIController.h"
 #include "Components/EquipMechanics.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/CharacterStatComponent.h"
+#include "Components/PassiveSkillMechanics.h"
 #include "Components/WeaponMechanics.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameModeBase.h"
@@ -25,7 +25,7 @@ AHeroBase::AHeroBase()
 {
 	skill_container_ = CreateDefaultSubobject<USkillContainer>(TEXT("SkillContainer"));
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
-	passive_mechanics_ = CreateDefaultSubobject<UPassiveMechanics>(TEXT("PassiveMechanics"));
+	passive_skill_mechanics_ = CreateDefaultSubobject<UPassiveSkillMechanics>(TEXT("PassiveMechanics"));
 	equip_mechanics_ = CreateDefaultSubobject<UEquipMechanics>(TEXT("EquipMechanics"));
 	
 	GetMesh()->SetCollisionProfileName(TEXT("NoCollision"));
@@ -37,10 +37,11 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
-	weapon_mechanics_->SetWeaponOwner(this);
 	//TODO: Two lines are Test purpose. Need to remove later.
+	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle);
 	equip_mechanics_->EquipArmor(EArmorType::TestSkillArmor);
-	equip_mechanics_->EquipTrinket(ETrinketType::TestAttack);
+	equip_mechanics_->EquipTrinket(ETrinketType::TestSkillTrinket);
+	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::FixedDmgReduce);
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -63,11 +64,40 @@ void AHeroBase::Die()
 	}
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if(casted_mode) casted_mode->RemoveHero(this);
-	for (auto& delegate : hero_dmg_event_map_)
+	for (auto& delegate_array : hero_dmg_event_map_)
 	{
-		delegate.Value.Unbind();
+		for (auto& delegate_elem : delegate_array.Value)
+		{
+			delegate_elem.Unbind();
+		}
 	}
 	Super::Die();
+}
+
+FDamageData AHeroBase::Attack(AActor* target)
+{
+	FDamageData damage_data;
+	damage_data.attacker = this;
+	damage_data.attack_target = target;
+	damage_data.damage = GetCharacterStat()->GetAttackPower();
+	if (hero_dmg_event_map_.Find(EHeroEvent::OnFire))
+	{
+		if (hero_dmg_event_map_[EHeroEvent::OnFire].IsEmpty() == false)
+		{
+			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnFire])
+			{
+				damage_data = delegate.Execute(damage_data);
+			}
+		}
+	}
+	if (FMath::RandRange(0.f, 100.f) < GetCharacterStat()->GetCriticalHitRate())
+	{
+		damage_data.damage *= 2;
+	}
+	weapon_mechanics_->SetDamageData(damage_data);
+	weapon_mechanics_->BeginFire(target);
+	
+	return damage_data;
 }
 
 void AHeroBase::GetDamage(FDamageData data)
@@ -75,18 +105,24 @@ void AHeroBase::GetDamage(FDamageData data)
 	Super::GetDamage(data);
 	if (hero_dmg_event_map_.Find(EHeroEvent::OnHitBeforeCalc))
 	{
-		if (hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc].IsBound())
+		if (hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc].IsEmpty() == false)
 		{
-			data = hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc].Execute(data);
+			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc])
+			{
+				data = delegate.Execute(data);
+			}
 		}
 	}
 	
 	bool is_evaded = character_stat_component_->CalcDamage(data);
 	if (hero_dmg_event_map_.Find(EHeroEvent::OnHitAfterCalc))
 	{
-		if (is_evaded == false && hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc].IsBound())
+		if (hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc].IsEmpty() == false)
 		{
-			data = hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc].Execute(data);
+			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc])
+			{
+				data = delegate.Execute(data);
+			}
 		}
 	}
 	character_stat_component_->GetDamage(data.damage);
@@ -103,5 +139,9 @@ void AHeroBase::OnStunned()
 	UE_LOG(LogTemp, Warning, TEXT("Hero Stunned"));
 	Super::OnStunned();
 	weapon_mechanics_->OnStunned();
-	passive_mechanics_->OnStunned();
+}
+
+EHeroType AHeroBase::GetHeroType() const
+{
+	return hero_type_;
 }

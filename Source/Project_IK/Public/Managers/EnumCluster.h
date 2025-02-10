@@ -125,15 +125,6 @@ enum class ERarity : uint8
 };
 
 UENUM(BlueprintType)
-enum class EDPSlotType : uint8
-{
-	Inventory UMETA(DisplayName = "Inventory"),
-	HeroPeriodic UMETA(DisplayName = "HeroPeriodic"),
-	HeroGeneral UMETA(DisplayName = "HeroGeneral"),
-	INVALID UMETA(DisplayName = "INVALID")
-};
-
-UENUM(BlueprintType)
 enum class EArmorType : uint8
 {
 	TestHealth UMETA(DisplayName = "TestHealth"),
@@ -222,4 +213,32 @@ enum class ECharacterStatType : uint8
 	PassiveSkillPower UMETA(DisplayName = "PassiveSkillPower"),
 	PassiveSkillCooldown UMETA(DisplayName = "PassiveSkillCooldown"),
 	Shield UMETA(DisplayName = "Shield"),
+};
+
+UENUM(BlueprintType)
+enum class EWeaponType : uint8
+{
+	Pistol UMETA(DisplayName = "Pistol"),
+	AssaultRifle UMETA(DisplayName = "AssaultRifle"),
+	ShotGun UMETA(DisplayName = "ShotGun"),
+	SniperRifle UMETA(DisplayName = "SniperRifle"),
+	Empty UMETA(DisplayName = "Empty")
+};
+
+UENUM(BlueprintType)
+enum class EPassiveSkillType : uint8
+{
+	FixedDmgReduce UMETA(DisplayName = "FixedDmgReduce"),
+	RandDmgIncrease UMETA(DisplayName = "RandDmgIncrease"),
+	Empty UMETA(DisplayName = "Empty")
+};
+
+//TODO: 총알에 치유감소/도트딜/도탄 같은 효과를 실을 때 사용한다.
+UENUM(BlueprintType)
+enum class EAttackEffect : uint8
+{
+	Test1 UMETA(DisplayName = "Test1"),
+	Test2 UMETA(DisplayName = "Test2"),
+	Test3 UMETA(DisplayName = "Test3"),
+	Empty UMETA(DisplayName = "Empty")
 };

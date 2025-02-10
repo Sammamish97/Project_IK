@@ -13,8 +13,10 @@ See LICENSE file in the project root for full license information.
 void URandDmgIncreaseSkill::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
-	bound_target_ = EHeroEvent::OnHitAfterCalc;
-	hero_cache_->hero_dmg_event_map_.FindOrAdd(bound_target_).BindUObject(this, &URandDmgIncreaseSkill::OnEquipmentSkill);
+	bound_target_ = EHeroEvent::OnFire;
+	auto& delegate_array = hero_cache_->hero_dmg_event_map_.FindOrAdd(bound_target_);
+	delegate_array.AddDefaulted();
+	delegate_array.Last().BindUObject(this, &URandDmgIncreaseSkill::OnEquipmentSkill);
 }
 
 FDamageData URandDmgIncreaseSkill::OnEquipmentSkill(FDamageData dmg_data)

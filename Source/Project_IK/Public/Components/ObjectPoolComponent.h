@@ -30,6 +30,7 @@ public:
 	void InitializePool();
 	APooledActor* SpawnFromPool(FTransform spawn_transform);
 	TSubclassOf<APooledActor> GetObjectClass() const;
+	TArray<APooledActor*>& GetObjectPool();
 
 private:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = true))

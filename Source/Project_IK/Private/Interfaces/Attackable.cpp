@@ -1,15 +1,14 @@
 /******************************************************************************
-Copyright(C) 2024
+Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 11.20.2024
-Summary : Source file for default hero.
+Creation Date : 02.10.2025
+Summary : Source file for Attackable interface.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "Characters/Hero_Default.h"
+#include "Interfaces/Attackable.h"
 
-AHero_Default::AHero_Default()
-{
-}
+
+// Add default functionality here for any IAttackable functions that are not pure virtual.
