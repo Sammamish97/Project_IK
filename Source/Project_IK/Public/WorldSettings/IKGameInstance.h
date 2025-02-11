@@ -41,7 +41,7 @@ public:
 	UFUNCTION(BlueprintPure)
 	const class UItemDataManager* GetItemDataManager() noexcept;
 	UFUNCTION(BlueprintPure)
-	const class UCharacterDataManager* GetCharacterDataManager() noexcept;
+	class UCharacterDataManager* GetCharacterDataManager() noexcept;
 	UFUNCTION(BlueprintPure)
 	class UItemInventory* GetItemInventory() const noexcept;
 	UFUNCTION(BlueprintPure)

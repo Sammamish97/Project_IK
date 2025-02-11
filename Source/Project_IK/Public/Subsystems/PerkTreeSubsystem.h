@@ -11,9 +11,9 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+#include "Subsystems/GameInstanceSubsystem.h"
 #include "Structs/PerkNode.h"
-#include "PerkTree.generated.h"
+#include "PerkTreeSubsystem.generated.h"
 
 struct FPerkNode;
 
@@ -21,24 +21,21 @@ struct FPerkNode;
  * 
  */
 UCLASS()
-class PROJECT_IK_API UPerkTree : public UObject
+class PROJECT_IK_API UPerkTreeSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 
 public:
-	static UPerkTree* Get();
-
 	const TArray<FPerkNode>& GetTree() const;
 
-	void Initialize();
-	// Need to call it to clean instance at the end of the world EndPlay()
-	void Destroy();
 
+	virtual void Initialize(FSubsystemCollectionBase& collection) override;
+
+	virtual void Deinitialize() override;
+
+
+private:
 
 	UPROPERTY(VisibleAnywhere, Category = "PerkData")
 	TArray<FPerkNode> perks_;
-
-private:
-	// Private constructor to prevent multiple instancings.
-	UPerkTree();
 };

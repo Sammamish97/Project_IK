@@ -66,6 +66,7 @@ protected:
 	UVerticalBox* ConstructNewTreeBox();
 	UHorizontalBox* ConstructNewTreeLevel(UVerticalBox* tree_box);
 	UButton* ConstructNewTreeNode(UHorizontalBox* level_box);
+	void CustomizeButtonByNode(UButton* button, const FPerkNode& node);
 
 	UProgressBar* ConstructLink(int32 start_index, int32 start_max_index, int32 end_index, int32 end_max_index, int32 level);
 	FVector2D CalculateNodePosition(int32 index, int32 size, int32 level);

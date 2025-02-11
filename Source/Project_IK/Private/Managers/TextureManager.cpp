@@ -43,6 +43,7 @@ UTexture2D* UTextureManager::GetBuffTexture(ECharacterStatType StatType) const
 	case ECharacterStatType::CriticalHitRate:
 		break;
 	case ECharacterStatType::Accuracy:
+		return textures_["accuracy"];
 		break;
 	case ECharacterStatType::MagazineBonus:
 		break;

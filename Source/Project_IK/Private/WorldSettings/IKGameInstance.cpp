@@ -21,6 +21,9 @@ See LICENSE file in the project root for full license information.
 #include "Managers/DialogueEventManager.h"
 #include "Managers/InventoryManager.h"
 
+#include "Subsystems/PerkProgressSubsystem.h"
+#include "Subsystems/PerkTreeSubsystem.h"
+
 #include "Characters/HeroBase.h"
 #include "Characters/EnemyBase.h"
 
@@ -51,7 +54,7 @@ const UItemDataManager* UIKGameInstance::GetItemDataManager() noexcept
 	return item_data_manager_;
 }
 
-const UCharacterDataManager* UIKGameInstance::GetCharacterDataManager() noexcept
+UCharacterDataManager* UIKGameInstance::GetCharacterDataManager() noexcept
 {
 	return character_data_manager_;
 }
@@ -99,6 +102,20 @@ void UIKGameInstance::InitializeItemDataManager()
 void UIKGameInstance::InitializeCharacterDataManager()
 {
 	character_data_manager_ = NewObject<UCharacterDataManager>();
+	
+	// Enhance data by recorded progress.
+	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
+	const TArray<FPerkNode>& tree = GetSubsystem<UPerkTreeSubsystem>()->GetTree();
+
+	TArray<EHeroType> types{ EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4 };
+	for (EHeroType type : types)
+	{
+		const TSet<int32>& progress = progress_system->GetProgress(type);
+		for (int32 p : progress)
+		{
+			character_data_manager_->EnhanceCharacterData(type, tree[p].stat_, tree[p].modifier_);
+		}
+	}
 }
 
 void UIKGameInstance::InitializeItemInventory()

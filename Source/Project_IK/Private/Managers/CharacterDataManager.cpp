@@ -56,3 +56,62 @@ FString UCharacterDataManager::EnumToString(EHeroType char_type) const
 	}
 	return char_string;
 }
+
+void UCharacterDataManager::EnhanceCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float increase_amount)
+{
+	FCharacterData* data = GetCharacterData(hero_type);
+	if (data)
+	{
+		switch (stat_type)
+		{
+		case ECharacterStatType::AttackPower:
+			data->attack_power_ += increase_amount;
+			break;
+		case ECharacterStatType::AttackSpeed:
+			data->attack_speed_ += increase_amount;
+			break;
+		case ECharacterStatType::CriticalHitRate:
+			data->critical_hit_rate_ += increase_amount;
+			break;
+		case ECharacterStatType::Accuracy:
+			data->accuracy_ += increase_amount;
+			break;
+		case ECharacterStatType::MagazineBonus:
+			data->magazine_bonus_ += increase_amount;
+			break;
+		case ECharacterStatType::LifeSteal:
+			data->life_steal_ += increase_amount;
+			break;
+		case ECharacterStatType::HitPoints:
+			data->hit_point_ += increase_amount;
+			break;
+		case ECharacterStatType::EvasionRate:
+			data->evasion_rate_ += increase_amount;
+			break;
+		case ECharacterStatType::Armor:
+			data->armor_ += increase_amount;
+			break;
+		case ECharacterStatType::Survivability:
+			data->survivability_ += increase_amount;
+			break;
+		case ECharacterStatType::MoveSpeed:
+			data->move_speed_ += increase_amount;
+			break;
+		case ECharacterStatType::ActiveSkillPower:
+			data->active_skill_power_ += increase_amount;
+			break;
+		case ECharacterStatType::ActiveSkillCooldown:
+			data->active_skill_cooldown_ += increase_amount;
+			break;
+		case ECharacterStatType::PassiveSkillPower:
+			data->passive_skill_power_ += increase_amount;
+			break;
+		case ECharacterStatType::PassiveSkillCooldown:
+			data->passive_skill_cooldown_ += increase_amount;
+			break;
+		case ECharacterStatType::Shield:
+		default:
+			break;
+		}
+	}
+}
