@@ -10,9 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/Unit.h"
 
-#include "AIController.h"
 #include "AI/MeleeAIController.h"
-#include "BehaviorTree/BlackboardComponent.h"
 #include "Components/CharacterStatComponent.h"
 #include "Components/CrowdControlComponent.h"
 #include "Components/WidgetComponent.h"
@@ -68,22 +66,24 @@ void AUnit::BeginPlay()
 	Cast<UHitPointsUI>(hp_UI_->GetWidget())->BindNecessaryComponents(character_stat_component_, cc_component_);
 }
 
-void AUnit::GetDamage(float damage, TWeakObjectPtr<AActor> attacker)
+void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 {
-	bool is_damaged = character_stat_component_->GetDamage(damage, attacker);
-
 	ADamageUI* ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
-	if (ui)
-	{
-		if (is_damaged)
-		{
-			ui->SetDamageAmount(damage);
-		}
-		else
-		{
-			ui->SetMissed();
-		}
-	}
+    	if (ui)
+    	{
+    		if (is_evaded)
+    		{
+    			ui->SetMissed();
+    		}
+    		else
+    		{
+    			ui->SetDamageAmount(data.damage);
+    		}
+    	}
+}
+
+void AUnit::GetDamage(FDamageData data)
+{
 }
 
 void AUnit::Heal(float heal)

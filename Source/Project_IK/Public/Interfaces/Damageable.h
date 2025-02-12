@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "Structs/DamageData.h"
 #include "Damageable.generated.h"
 
 // This class does not need to be modified.
@@ -26,6 +27,6 @@ class PROJECT_IK_API IDamageable
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual void GetDamage(float damage, TWeakObjectPtr<AActor> attacker) = 0;
+	virtual void GetDamage(FDamageData data) = 0;
 	virtual void Die() = 0;
 };

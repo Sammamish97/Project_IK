@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Structs/DamageData.h"
 #include "Weapons/PooledActor.h"
 #include "Bullet.generated.h"
 
@@ -31,7 +32,8 @@ public:
 	void SetShooter(TWeakObjectPtr<AActor> shooter);
 
 	UFUNCTION()
-	void SetDamage(float damage);
+	void SetDamageData(FDamageData data);
+	void SetCollisionPreset(bool is_hero);
 
 protected:
 	// Called when the game starts or when spawned
@@ -53,5 +55,5 @@ protected:
 	TWeakObjectPtr<AActor> shooter_;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
-	float damage_;
+	FDamageData dmg_data_;
 };

@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Structs/CharacterData.h"
+#include <optional>
 #include "CharacterStatComponent.generated.h"
 
 enum class ECharacterStatType : uint8;
@@ -79,8 +80,9 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunctionoverride);
 
 	UFUNCTION(BlueprintCallable)
-	bool GetDamage(float DamageAmount, AActor* Attacker);
-	bool GetDamage(float DamageAmount, TWeakObjectPtr <AActor> Attacker = nullptr);
+	bool CalcDamage(FDamageData& data_ref);
+	UFUNCTION(BlueprintCallable)
+	void GetDamage(float damage);
 	UFUNCTION(BlueprintCallable)
 	void Heal(float HealAmount);
 	UFUNCTION(BlueprintCallable)
@@ -144,7 +146,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetCharacterData(const FCharacterData& character_data) noexcept;
-	
+
 	UFUNCTION(BlueprintCallable)
 	float CalculateStat(ECharacterStatType StatType) const;
 

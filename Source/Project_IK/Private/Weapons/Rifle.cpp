@@ -9,6 +9,8 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Weapons/Rifle.h"
+
+#include "Characters/HeroBase.h"
 #include "Weapons/Bullet.h"
 #include "Components/ObjectPoolComponent.h"
 #include "Components/SphereComponent.h"
@@ -22,7 +24,7 @@ ARifle::ARifle()
 	reload_duration_ = 1.5;
 }
 
-void ARifle::FireWeapon(FVector target_pos, float damage)
+void ARifle::FireWeapon(FVector target_pos, FDamageData damage)
 {
 	Super::FireWeapon(target_pos, damage);
 	if(cur_megazine_ > 0)
@@ -42,7 +44,7 @@ void ARifle::FireWeapon(FVector target_pos, float damage)
 		if (bullet)
 		{
 			bullet->SetShooter(gun_owner_);
-			bullet->SetDamage(damage);
+			bullet->SetDamageData(damage);
 			cur_megazine_--;
 		}
 		else
