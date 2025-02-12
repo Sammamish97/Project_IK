@@ -34,7 +34,7 @@ float UTimeDilationManager::GetGlobalTimeDilation(UObject* world) const
 void UTimeDilationManager::SlowGlobalTimeDilation(UObject* world)
 {
 	float time_dilation = UGameplayStatics::GetGlobalTimeDilation(world);
-	if (!FMath::IsNearlyEqual(time_dilation, last_time_dilation_))
+	if (!FMath::IsNearlyEqual(time_dilation, SLOW_SPEED))
 	{
 		UGameplayStatics::SetGlobalTimeDilation(world, SLOW_SPEED);
 	}

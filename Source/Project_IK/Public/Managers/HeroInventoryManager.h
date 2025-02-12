@@ -38,6 +38,10 @@ public:
 	void SetCredits(int32 currency);
 	UFUNCTION(BlueprintCallable)
 	int32 GetCredits() const;
+
+	UFUNCTION(BlueprintCallable)
+	void SetPerkPoints(int32 points);
+	int32 GetPerkPoints() const;
 	
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
@@ -48,4 +52,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	int32 credits_;
+
+	UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	int32 perk_points_;
 };

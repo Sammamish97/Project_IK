@@ -241,7 +241,11 @@ void UMapWidget::InitializeWidgets()
 
 FVector2D UMapWidget::GetButtonPosition(TWeakObjectPtr<UButton> button) const
 {
-	return background_border_->GetPaintSpaceGeometry().GetLocalPositionAtCoordinates(FVector2D(0.0f)) + scroll_box_->GetPaintSpaceGeometry().GetLocalPositionAtCoordinates(FVector2D(0.0f)) + button->GetPaintSpaceGeometry().GetLocalPositionAtCoordinates(FVector2D(0.0)) - FVector2D(0.0, scroll_box_->GetScrollOffset()) + (button->GetPaintSpaceGeometry().GetLocalSize() / 2.f);
+	return background_border_->GetPaintSpaceGeometry().GetLocalPositionAtCoordinates(FVector2D(0.0f)) + 
+		scroll_box_->GetPaintSpaceGeometry().GetLocalPositionAtCoordinates(FVector2D(0.0f)) + 
+		button->GetPaintSpaceGeometry().GetLocalPositionAtCoordinates(FVector2D(0.0)) - 
+		FVector2D(0.0, scroll_box_->GetScrollOffset()) + 
+		(button->GetPaintSpaceGeometry().GetLocalSize() / 2.f);
 }
 
 void UMapWidget::EnableReachableButtons()

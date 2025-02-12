@@ -23,11 +23,13 @@ void UHeroInventoryManager::InitInventory()
 	AddItem(EGearType::PassiveSkill, EPassiveSkillType::RandDmgIncrease);
 
 	credits_ = 0;
+
+	perk_points_ = 12;
 }
 
-int UHeroInventoryManager::GetEmptyIndex() const
+int32 UHeroInventoryManager::GetEmptyIndex() const
 {
-	for (int i = 0; i < inventory_size_; ++i)
+	for (int32 i = 0; i < inventory_size_; ++i)
 	{
 		if (inventory_[i].is_empty == true)
 		{
@@ -39,7 +41,7 @@ int UHeroInventoryManager::GetEmptyIndex() const
 
 bool UHeroInventoryManager::AddItem(EGearType gear_type, EArmorType armor_type)
 {
-	int index = GetEmptyIndex();
+	int32 index = GetEmptyIndex();
 	if (index != -1)
 	{
 		FInventorySlotData data;
@@ -54,7 +56,7 @@ bool UHeroInventoryManager::AddItem(EGearType gear_type, EArmorType armor_type)
 
 bool UHeroInventoryManager::AddItem(EGearType gear_type, ETrinketType trinket_type)
 {
-	int index = GetEmptyIndex();
+	int32 index = GetEmptyIndex();
 	if (index != -1)
 	{
 		FInventorySlotData data;
@@ -69,7 +71,7 @@ bool UHeroInventoryManager::AddItem(EGearType gear_type, ETrinketType trinket_ty
 
 bool UHeroInventoryManager::AddItem(EGearType type, EWeaponType weapon_type)
 {
-	int index = GetEmptyIndex();
+	int32 index = GetEmptyIndex();
 	if (index != -1)
 	{
 		FInventorySlotData data;
@@ -84,7 +86,7 @@ bool UHeroInventoryManager::AddItem(EGearType type, EWeaponType weapon_type)
 
 bool UHeroInventoryManager::AddItem(EGearType type, EPassiveSkillType passive_skill_type)
 {
-	int index = GetEmptyIndex();
+	int32 index = GetEmptyIndex();
 	if (index != -1)
 	{
 		FInventorySlotData data;
@@ -120,4 +122,14 @@ void UHeroInventoryManager::SetCredits(int32 credits)
 int32 UHeroInventoryManager::GetCredits() const
 {
 	return credits_;
+}
+
+void UHeroInventoryManager::SetPerkPoints(int32 points)
+{
+	perk_points_ = points;
+}
+
+int32 UHeroInventoryManager::GetPerkPoints() const
+{
+	return perk_points_;
 }

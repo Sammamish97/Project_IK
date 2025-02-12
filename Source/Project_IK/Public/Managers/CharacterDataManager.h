@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 #include "CharacterDataManager.generated.h"
 
 struct FCharacterData;
+enum class ECharacterStatType : uint8;
 
 UCLASS()
 class PROJECT_IK_API UCharacterDataManager : public UObject
@@ -25,8 +26,11 @@ class PROJECT_IK_API UCharacterDataManager : public UObject
 public:
 	UCharacterDataManager();
 
-	FCharacterData* GetCharacterData(EHeroType char_id) const;
+	FCharacterData* GetCharacterData(EHeroType hero_type) const;
 	FString EnumToString(EHeroType dp_type) const;
+
+	void EnhanceCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float increase_amount);
+
 protected:
 	class UDataTable* character_table;
 };
