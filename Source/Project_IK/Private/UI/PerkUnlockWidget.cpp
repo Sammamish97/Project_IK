@@ -231,7 +231,15 @@ void UPerkUnlockWidget::CustomizeButtonByNode(UButton* button, const FPerkNode& 
 	if (texture)
 	{
 		FButtonStyle style = button->GetStyle();
-		style.Normal.SetResourceObject(texture);
+		// Currently, it uses resource object of Nomral to every other brushes. 
+		// When we use different resource object to hovered or pressed, I need to fix the code.
+		UMaterialInstanceDynamic* material = UMaterialInstanceDynamic::Create(Cast<UMaterialInterface>(style.Normal.GetResourceObject()), this);
+		material->SetTextureParameterValue(TEXT("texture"), texture);
+		material->SetVectorParameterValue(TEXT("background"), FLinearColor::White);
+		style.Normal.SetResourceObject(material);
+		style.Hovered.SetResourceObject(material);
+		style.Pressed.SetResourceObject(material);
+		style.Disabled.SetResourceObject(material);
 		button->SetStyle(style);
 	}
 }
@@ -517,7 +525,9 @@ void UPerkUnlockWidget::MakeButtonUnlockedVisually(int32 clicked_index, bool is_
 	}
 
 	FButtonStyle unlocked_button_style = buttons_[clicked_index]->GetStyle();
+	UObject* resource_object = unlocked_button_style.Disabled.GetResourceObject();
 	unlocked_button_style.SetDisabled(unlocked_disabled_brush_);
+	unlocked_button_style.Disabled.SetResourceObject(resource_object);
 	buttons_[clicked_index]->SetStyle(unlocked_button_style);
 	buttons_[clicked_index]->SetIsEnabled(false);
 }
@@ -580,9 +590,11 @@ void UPerkUnlockWidget::LockUnpayableButtons()
 		if (perk_points < costs_[i] && buttons_[i]->GetIsEnabled())
 		{
 			// It is Unpayable. Lock them all.
-			FButtonStyle style = buttons_[i]->GetStyle();
-			style.SetDisabled(locked_disabled_brush_);
-			buttons_[i]->SetStyle(style);
+			FButtonStyle locked_button_style = buttons_[i]->GetStyle();
+			UObject* resource_object = locked_button_style.Disabled.GetResourceObject();
+			locked_button_style.SetDisabled(locked_disabled_brush_);
+			locked_button_style.Disabled.SetResourceObject(resource_object);
+			buttons_[i]->SetStyle(locked_button_style);
 			buttons_[i]->SetIsEnabled(false);
 
 			for (int32 next_index : tree[i].next_)

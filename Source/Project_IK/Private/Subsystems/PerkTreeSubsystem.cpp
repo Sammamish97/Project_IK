@@ -28,16 +28,16 @@ void UPerkTreeSubsystem::Initialize(FSubsystemCollectionBase& collection)
 	// Initialize Tree in here.
 
 	perks_.Add(FPerkNode(ECharacterStatType::AttackPower, 2.f, 1, { 1, 3 }));
-	perks_.Add(FPerkNode(ECharacterStatType::AttackPower, 2.f, 1, { 2 }));
-	perks_.Add(FPerkNode(ECharacterStatType::AttackPower, 2.f, 1));
+	perks_.Add(FPerkNode(ECharacterStatType::AttackSpeed, 2.f, 1, { 2 }));
+	perks_.Add(FPerkNode(ECharacterStatType::CriticalHitRate, 2.f, 1));
 
-	perks_.Add(FPerkNode(ECharacterStatType::ActiveSkillPower, 1.f, 1, { 4 }));
-	perks_.Add(FPerkNode(ECharacterStatType::ActiveSkillPower, 1.f, 1, { 5, 6, 7 }));
+	perks_.Add(FPerkNode(ECharacterStatType::Accuracy, 1.f, 1, { 4 }));
+	perks_.Add(FPerkNode(ECharacterStatType::HitPoints, 1.f, 1, { 5, 6, 7 }));
 
 
-	perks_.Add(FPerkNode(ECharacterStatType::ActiveSkillPower, 1, 1.f));
-	perks_.Add(FPerkNode(ECharacterStatType::ActiveSkillPower, 1, 1.f));
-	perks_.Add(FPerkNode(ECharacterStatType::ActiveSkillPower, 1, 1.f));
+	perks_.Add(FPerkNode(ECharacterStatType::HitPoints, 1, 1.f));
+	perks_.Add(FPerkNode(ECharacterStatType::MoveSpeed, 1, 1.f));
+	perks_.Add(FPerkNode(ECharacterStatType::Armor, 1, 1.f));
 }
 
 void UPerkTreeSubsystem::Deinitialize()
