@@ -35,7 +35,7 @@ public:
 	void SetCoveringOwner(bool bHas_Covering_Owner);
 	bool IsBroken() const;
 	void SetIsBroken(bool bIs_Broken);
-	virtual void GetDamage(float damage, TWeakObjectPtr<AActor> attacker) override;
+	virtual void GetDamage(FDamageData data) override;
 
 	UFUNCTION()
 	virtual void Die() override;

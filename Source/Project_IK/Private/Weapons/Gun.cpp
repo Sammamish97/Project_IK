@@ -9,8 +9,12 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Weapons/Gun.h"
+
+#include "Characters/HeroBase.h"
 #include "Components/SphereComponent.h"
 #include "Components/ObjectPoolComponent.h"
+#include "Structs/DamageData.h"
+#include "Weapons/Bullet.h"
 
 // Sets default values
 AGun::AGun()
@@ -49,7 +53,7 @@ void AGun::Reload()
 	cur_megazine_ = max_megazine_;
 }
 
-void AGun::FireWeapon(FVector target_pos, float damage)
+void AGun::FireWeapon(FVector target_pos, FDamageData damage)
 {
 }
 
@@ -81,4 +85,10 @@ void AGun::SetReloadDuration(float Reload_Duration)
 void AGun::SetGunOwner(TWeakObjectPtr<AActor> gun_owner)
 {
 	gun_owner_ = gun_owner;
+	//TODO: Gun이 AHeroBase 알아야 할까? 이게 최선은 아닐 것이다.
+	bool is_hero = gun_owner_->IsA(AHeroBase::StaticClass());
+	for (auto elem : object_pool_component_->GetObjectPool())
+	{
+		Cast<ABullet>(elem)->SetCollisionPreset(is_hero);
+	}
 }

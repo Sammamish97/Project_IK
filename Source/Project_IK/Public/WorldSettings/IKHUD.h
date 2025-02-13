@@ -18,13 +18,9 @@ class UButtonBarWidget;
 class UCombatResultUI;
 class UItemPickerUI;
 class ULevelEndUIManager;
-class UInventoryWidget;
 
 enum class ELevelEndState : uint8;
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API AIKHUD : public AHUD
 {
@@ -75,10 +71,10 @@ protected:
 	ULevelEndUIManager* level_end_ui_manager_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<class UInventoryWidget> inventory_widget_class_;
+	TSubclassOf<class UHeroInventoryWidget> inventory_widget_class_;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
-	UInventoryWidget* inventory_widget_;
+	class UHeroInventoryWidget* inventory_widget_;
 
 	virtual void BeginPlay() override;
 };

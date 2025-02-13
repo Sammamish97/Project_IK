@@ -10,52 +10,38 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 
-#include "Abilities/PassiveMechanics.h"
 #include "Abilities/SkillContainer.h"
+#include "Abilities/EquipSkills/EquipSkillBase.h"
 #include "AI/GunnerAIController.h"
+#include "Components/EquipMechanics.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/CharacterStatComponent.h"
-#include "Components/SphereComponent.h"
+#include "Components/PassiveSkillMechanics.h"
 #include "Components/WeaponMechanics.h"
-#include "Components/CharacterStatComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Weapons/Drone.h"
 #include "WorldSettings/IKGameModeBase.h"
-#include "Weapons/Drone.h"
 
 AHeroBase::AHeroBase()
 {
 	skill_container_ = CreateDefaultSubobject<USkillContainer>(TEXT("SkillContainer"));
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
-	passive_mechanics_ = CreateDefaultSubobject<UPassiveMechanics>(TEXT("PassiveMechanics"));
-	drone_location_ = CreateDefaultSubobject<USphereComponent>("Drone Location");
-
-	drone_location_->SetCollisionProfileName(TEXT("NoCollision"));
+	passive_skill_mechanics_ = CreateDefaultSubobject<UPassiveSkillMechanics>(TEXT("PassiveMechanics"));
+	equip_mechanics_ = CreateDefaultSubobject<UEquipMechanics>(TEXT("EquipMechanics"));
+	
 	GetMesh()->SetCollisionProfileName(TEXT("NoCollision"));
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("HeroPreset"));
 	
-	drone_location_->SetupAttachment(RootComponent);
-	drone_location_->SetRelativeLocation({0, -49, 90});
-
 	forward_dir_ = {1,0, 0};
 }
 
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	drone_ = GetWorld()->SpawnActor<ADrone>(drone_bp_class_, drone_location_->GetComponentTransform());
-	weapon_mechanics_->SetWeaponOwner(this);		
-
-	if(drone_ == nullptr)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Failed To create Drone!"));
-	}
-	else
-	{
-		Cast<ADrone>(drone_)->Initialize(this	);
-		drone_->AttachToComponent(drone_location_, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-	}
+	//TODO: Two lines are Test purpose. Need to remove later.
+	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle);
+	equip_mechanics_->EquipArmor(EArmorType::TestSkillArmor);
+	equip_mechanics_->EquipTrinket(ETrinketType::TestSkillTrinket);
+	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::FixedDmgReduce);
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -66,11 +52,7 @@ void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AHeroBase::Initialize()
 {
-	if(drone_)
-	{
-		// @@ TODO: Implement it again when equipment system has fully constructed.
-		//drone_->SetPlugins(character_stat_component_->GetPeriodicDP(), character_stat_component_->GetGeneralDP());
-	}
+	
 }
 
 void AHeroBase::Die()
@@ -80,13 +62,71 @@ void AHeroBase::Die()
 	{
 		casted_gunner_aic->OnDie();
 	}
-	if(auto casted_drone = Cast<ADrone>(drone_))
-	{
-		casted_drone->Die();
-	}
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if(casted_mode) casted_mode->RemoveHero(this);
+	for (auto& delegate_array : hero_dmg_event_map_)
+	{
+		for (auto& delegate_elem : delegate_array.Value)
+		{
+			delegate_elem.Unbind();
+		}
+	}
 	Super::Die();
+}
+
+FDamageData AHeroBase::Attack(AActor* target)
+{
+	FDamageData damage_data;
+	damage_data.attacker = this;
+	damage_data.attack_target = target;
+	damage_data.damage = GetCharacterStat()->GetAttackPower();
+	if (hero_dmg_event_map_.Find(EHeroEvent::OnFire))
+	{
+		if (hero_dmg_event_map_[EHeroEvent::OnFire].IsEmpty() == false)
+		{
+			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnFire])
+			{
+				damage_data = delegate.Execute(damage_data);
+			}
+		}
+	}
+	if (FMath::RandRange(0.f, 100.f) < GetCharacterStat()->GetCriticalHitRate())
+	{
+		damage_data.damage *= 2;
+	}
+	weapon_mechanics_->SetDamageData(damage_data);
+	weapon_mechanics_->BeginFire(target);
+	
+	return damage_data;
+}
+
+void AHeroBase::GetDamage(FDamageData data)
+{
+	Super::GetDamage(data);
+	if (hero_dmg_event_map_.Find(EHeroEvent::OnHitBeforeCalc))
+	{
+		if (hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc].IsEmpty() == false)
+		{
+			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc])
+			{
+				data = delegate.Execute(data);
+			}
+		}
+	}
+	
+	bool is_evaded = character_stat_component_->CalcDamage(data);
+	if (hero_dmg_event_map_.Find(EHeroEvent::OnHitAfterCalc))
+	{
+		if (hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc].IsEmpty() == false)
+		{
+			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc])
+			{
+				data = delegate.Execute(data);
+			}
+		}
+	}
+	character_stat_component_->GetDamage(data.damage);
+	SetDamageUI(data, is_evaded);
 }
 
 void AHeroBase::GetStunned(float stun_duration)
@@ -99,17 +139,9 @@ void AHeroBase::OnStunned()
 	UE_LOG(LogTemp, Warning, TEXT("Hero Stunned"));
 	Super::OnStunned();
 	weapon_mechanics_->OnStunned();
-	passive_mechanics_->OnStunned();
 }
 
-void AHeroBase::SetPeriodicDP(EDPType dp_type)
+EHeroType AHeroBase::GetHeroType() const
 {
-	// @@ TODO: Implement it again when equipment system has fully constructed.
-	//character_stat_component_->SetPeriodicDP(dp_type);
-}
-
-void AHeroBase::SetGenericDP(EDPType dp_type)
-{
-	// @@ TODO: Implement it again when equipment system has fully constructed.
-	//character_stat_component_->SetGeneralDP(dp_type);
+	return hero_type_;
 }

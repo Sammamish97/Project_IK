@@ -26,8 +26,7 @@ public:
 		hit_point_(0.f), evasion_rate_(0.f), armor_(0.f), survivability_(0.f),
 		move_speed_(0.f), 
 		active_skill_power_(0.f), active_skill_cooldown_(0.f),
-		passive_skill_power_(0.f), passive_skill_cooldown_(0.f),
-		upgrade_level_(0.f)
+		passive_skill_power_(0.f), passive_skill_cooldown_(0.f)
 	{};
 
 	// Unit Type
@@ -71,8 +70,4 @@ public:
 	float passive_skill_power_;
 	UPROPERTY(VisibleAnywhere, Category = "SkillData")
 	float passive_skill_cooldown_;
-
-	//Hero Upgrade
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Data")
-	int upgrade_level_;
 };

@@ -50,7 +50,8 @@ void ASelfExplosionEnemy::Explosion()
 	for (AActor* overlappedActor : out_actors) {
 		if(auto casted = Cast<IDamageable>(overlappedActor))
 		{
-			casted->GetDamage(GetCharacterStat()->GetAttackPower(), this);
+			//FDamageData data = {GetCharacterStat()->GetAttack(), EDamageType::Explosive, this};
+			//casted->GetDamage(data);
 		}
 	}
 

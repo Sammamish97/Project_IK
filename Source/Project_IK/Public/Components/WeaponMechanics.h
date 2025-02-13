@@ -11,6 +11,9 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Managers/EnumCluster.h"
+#include "Structs/DamageData.h"
+#include "Structs/WeaponData.h"
 #include "WeaponMechanics.generated.h"
 
 class AUnit;
@@ -32,6 +35,8 @@ public:
 
 public:
 	void OnDestroy();
+
+	void SetDamageData(FDamageData dmg_data);
 	
 	void BeginFire(AActor* target);
 	void OnFire(AActor* target);
@@ -49,14 +54,18 @@ public:
 	
 	UFUNCTION()
 	void SetWeaponOwner(TWeakObjectPtr<AActor> gun_owner);
-	
-private:
-	void EquipWeapon();
-	
-private:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true", AllowedClasses = "Gun"))
-	UClass* weapon_class_;
+	void EquipWeapon(EWeaponType type);
 
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
+	FWeaponData equipped_weapon_data_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
+	FDamageData damage_data_;
+
+	UPROPERTY(Transient)
+	AGun* equipped_weapon_actor_ = nullptr;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
 	FName head_socket_name_;
 
@@ -71,16 +80,10 @@ private:
 
 	UPROPERTY(Transient)
 	FTimerHandle reload_timer_handle_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
-	UAnimMontage* fire_montage_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
-	UAnimMontage* reload_montage_;
-	
-	UPROPERTY(Transient)
-	AGun* weapon_ref_ = nullptr;
 	
 	UPROPERTY(Transient)
 	AUnit* gunner_ref_ = nullptr;
+
+	UPROPERTY(Transient)
+	class UEquipManager* equip_manager_cache_ = nullptr;
 };

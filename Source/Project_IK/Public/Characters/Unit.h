@@ -15,8 +15,6 @@ See LICENSE file in the project root for full license information.
 #include "Interfaces/UnitInterface.h"
 
 #include "Unit.generated.h"
-
-
 class UHitPointsUI;
 class UObjectPoolComponent;
 class UWidgetComponent;
@@ -24,20 +22,24 @@ class UCharacterStatComponent;
 class UCrowdControlComponent;
 class UDamageUI;
 
+
 UCLASS()
 class PROJECT_IK_API AUnit : public ACharacter, public IDamageable, public IUnitInterface
 {
 	GENERATED_BODY()
-
+	
 public:
 	// Sets default values for this character's properties
 	AUnit();
 	const UCharacterStatComponent* GetCharacterStat() const;
 	FVector GetForwardDir() const;
 	void SetForwardDir(const FVector& Forward_Dir);
-
+	
 	UFUNCTION()
-	virtual void GetDamage(float damage, TWeakObjectPtr<AActor> attacker) override;
+	void SetDamageUI(FDamageData data, bool is_evaded);
+	
+	UFUNCTION(BlueprintCallable)
+	virtual void GetDamage(FDamageData data) override;
 
 	UFUNCTION(BlueprintCallable)
 	void Heal(float heal);

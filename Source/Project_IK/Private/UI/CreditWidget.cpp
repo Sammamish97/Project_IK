@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "WorldSettings/IKGameInstance.h"
 #include "Kismet/GameplayStatics.h"
-#include "Managers/InventoryManager.h"
+#include "Managers/HeroInventoryManager.h"
 
 #include "Components/TextBlock.h"
 
