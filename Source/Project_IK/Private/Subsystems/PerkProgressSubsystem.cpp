@@ -17,7 +17,7 @@ void UPerkProgressSubsystem::Initialize(FSubsystemCollectionBase& collection)
 {
 	Super::Initialize(collection);
 
-	progresses_.Add(EHeroType::Hero1, TSet<int32>({ 0, 1, 2 }));
+	progresses_.Add(EHeroType::Hero1, TSet<int32>());
 	progresses_.Add(EHeroType::Hero2, TSet<int32>());
 	progresses_.Add(EHeroType::Hero3, TSet<int32>());
 	progresses_.Add(EHeroType::Hero4, TSet<int32>());

@@ -126,7 +126,7 @@ void UIKGameInstance::InitializeItemInventory()
 void UIKGameInstance::InitializeMaps()
 {
 	maps_ = NewObject<UIKMaps>();
-	maps_->GenerateMaps(7, 4);
+	maps_->GenerateMaps(10, 5);
 }
 
 void UIKGameInstance::InitializeLevelTransitionManager()
