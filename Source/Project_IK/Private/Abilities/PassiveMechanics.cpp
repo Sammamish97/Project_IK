@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "AIController.h"
 #include "Abilities/PassiveSkill.h"
-#include "AI/PassiveGunnerAIController.h"
+//#include "AI/PassiveGunnerAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Characters/HeroBase.h"
 
@@ -88,7 +88,7 @@ void UPassiveMechanics::BanPassive(float duration)
 
 void UPassiveMechanics::OnFinishHoldTime()
 {
-	Cast<AMeleeAIController>(Cast<APawn>(GetOwner())->Controller)->SetUnitState(EUnitState::Forwarding);
+	//Cast<AMeleeAIController>(Cast<APawn>(GetOwner())->Controller)->SetUnitState(EUnitState::Forwarding);
 }
 
 void UPassiveMechanics::ActivatePassiveSkill()

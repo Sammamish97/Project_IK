@@ -20,6 +20,7 @@ UDecorator_IsPassiveAvailable::UDecorator_IsPassiveAvailable()
 
 bool UDecorator_IsPassiveAvailable::CalculateRawConditionValue(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) const
 {
+	//TODO: 현재 주기적으로 발동되는 패시브 기능은 오파츠로 넘어간 상태이다.
 	auto casted_pawn = OwnerComp.GetAIOwner()->GetPawn();
 	auto component = casted_pawn->GetComponentByClass(UPassiveMechanics::StaticClass()); 
 	if(auto casted_component = Cast<UPassiveMechanics>(component))

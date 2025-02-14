@@ -66,6 +66,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true"))
 	float fire_interval_ = 0;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true"))
 	float reload_duration_ = 0;
 };
