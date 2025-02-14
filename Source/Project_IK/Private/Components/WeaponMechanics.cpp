@@ -129,6 +129,7 @@ void UWeaponMechanics::Reload()
 	{
 		if(GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false)
 		{
+			Cast<AMeleeAIController>(gunner_ref_->Controller)->SetUnitState(EUnitState::Reloading);
 			gunner_ref_->PlayAnimMontage(equipped_weapon_data_.reload_montage_);
 			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &UWeaponMechanics::OnReload, GetReloadDuration());
 		}

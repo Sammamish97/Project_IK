@@ -90,7 +90,7 @@ FDamageData AHeroBase::Attack(AActor* target)
 		{
 			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnFire])
 			{
-				damage_data = delegate.Execute(damage_data);
+				if(delegate.IsBound()) damage_data = delegate.Execute(damage_data);
 			}
 		}
 	}
@@ -113,7 +113,7 @@ void AHeroBase::GetDamage(FDamageData data)
 		{
 			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc])
 			{
-				data = delegate.Execute(data);
+				if(delegate.IsBound())data = delegate.Execute(data);
 			}
 		}
 	}
@@ -125,7 +125,7 @@ void AHeroBase::GetDamage(FDamageData data)
 		{
 			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc])
 			{
-				data = delegate.Execute(data);
+				if(delegate.IsBound()) data = delegate.Execute(data);
 			}
 		}
 	}
