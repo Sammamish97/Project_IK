@@ -38,7 +38,6 @@ AGun::AGun()
 void AGun::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -91,4 +90,7 @@ void AGun::SetGunOwner(TWeakObjectPtr<AActor> gun_owner)
 	{
 		Cast<ABullet>(elem)->SetCollisionPreset(is_hero);
 	}
+	//TODO: 무기별로 애니메이션을 세팅하는 부분 역시 refactoring이 필요하다.
+	//TODO: 그리고 이 코드는 의도대로 작동하지 않는다.
+	Cast<ACharacter>(gun_owner_)->GetMesh()->AnimClass = anim_instance_class_;
 }

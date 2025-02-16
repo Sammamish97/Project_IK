@@ -18,6 +18,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/CharacterStatComponent.h"
 #include "Components/PassiveSkillMechanics.h"
 #include "Components/WeaponMechanics.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameModeBase.h"
 
@@ -27,7 +28,10 @@ AHeroBase::AHeroBase()
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
 	passive_skill_mechanics_ = CreateDefaultSubobject<UPassiveSkillMechanics>(TEXT("PassiveMechanics"));
 	equip_mechanics_ = CreateDefaultSubobject<UEquipMechanics>(TEXT("EquipMechanics"));
-	
+
+	GetCharacterMovement()->bUseRVOAvoidance = true;
+	GetCharacterMovement()->AvoidanceConsiderationRadius = 100;
+
 	GetMesh()->SetCollisionProfileName(TEXT("NoCollision"));
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("HeroPreset"));
 	
@@ -86,7 +90,7 @@ FDamageData AHeroBase::Attack(AActor* target)
 		{
 			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnFire])
 			{
-				damage_data = delegate.Execute(damage_data);
+				if(delegate.IsBound()) damage_data = delegate.Execute(damage_data);
 			}
 		}
 	}
@@ -109,7 +113,7 @@ void AHeroBase::GetDamage(FDamageData data)
 		{
 			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc])
 			{
-				data = delegate.Execute(data);
+				if(delegate.IsBound())data = delegate.Execute(data);
 			}
 		}
 	}
@@ -121,7 +125,7 @@ void AHeroBase::GetDamage(FDamageData data)
 		{
 			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc])
 			{
-				data = delegate.Execute(data);
+				if(delegate.IsBound()) data = delegate.Execute(data);
 			}
 		}
 	}

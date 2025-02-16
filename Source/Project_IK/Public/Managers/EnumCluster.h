@@ -31,6 +31,7 @@ enum class EUnitState  : uint8
 	HeadingToEnemy UMETA(DisplayName = "Heading To Enemy"),
 	HeadingToCover UMETA(DisplayName = "Heading To Cover"),
 	Attacking UMETA(DisplayName = "Attacking"),
+	Reloading UMETA(DisplayName = "Reloading"),
 	Stunned UMETA(DisplayName = "Stunned"),
 };
 

@@ -30,15 +30,17 @@ void UService_CheckGunnerArrivedCover::TickNode(UBehaviorTreeComponent& OwnerCom
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
 	UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
 	APawn* casted_gunner = OwnerComp.GetAIOwner()->GetPawn();
-	AActor* cover_actor = Cast<AActor>(blackboard->GetValueAsObject(owned_cover_key_.SelectedKeyName));
-	float cover_owner_dist = FVector::Dist2D(cover_actor->GetActorLocation(), casted_gunner->GetActorLocation());
-	//TODO: 플레이어-엄폐물 사이 위치 threshold를 하드코딩이 아닌 적절한 값으로 대체해야 한다. 
-	if(cover_owner_dist <= 50.0)
+	if(AActor* cover_actor = Cast<AActor>(blackboard->GetValueAsObject(owned_cover_key_.SelectedKeyName)))
 	{
-		blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Attacking));
-	}
-	else
-	{
-		blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::HeadingToCover));
+		float cover_owner_dist = FVector::Dist2D(cover_actor->GetActorLocation(), casted_gunner->GetActorLocation());
+		//TODO: 플레이어-엄폐물 사이 위치 threshold를 하드코딩이 아닌 적절한 값으로 대체해야 한다. 
+		if(cover_owner_dist <= 50.0)
+		{
+			blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Attacking));
+		}
+		else
+		{
+			blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::HeadingToCover));
+		}
 	}
 }
