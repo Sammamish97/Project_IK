@@ -137,7 +137,7 @@ void UGotchaWidget::Gotcha(int32 pulls)
 			textures.Add(data_dp.dp_icon_);
 			break;
 		default:
-			textures.Add(texture_manager->GetTexture("currency"));
+			textures.Add(texture_manager->GetTexture("credits"));
 			pulled_credits_ += 20;
 			break;
 		}
