@@ -25,7 +25,9 @@ AEnemyBase::AEnemyBase()
 void AEnemyBase::GetDamage(FDamageData data)
 {
 	Super::GetDamage(data);
+	bool is_evaded = character_stat_component_->CalcDamage(data);
 	character_stat_component_->GetDamage(data.damage);
+	SetDamageUI(data, is_evaded);
 }
 
 void AEnemyBase::Die()
