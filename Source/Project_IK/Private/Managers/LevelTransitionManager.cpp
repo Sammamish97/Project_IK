@@ -133,9 +133,9 @@ void ULevelTransitionManager::SpawnHeroes(UWorld* world)
 
 void ULevelTransitionManager::SpawnEnemies(UWorld* world)
 {
-	for (int32 i = 0; i < 2; i++)
+	for (int32 i = 0; i < 4; i++)
 	{
-		AEnemyBase* enemy = world->SpawnActor<AEnemyBase>(enemy_blueprint_, FVector(600, 0 + (200.f * i), 90), FRotator(0, 180, 0));
+		AEnemyBase* enemy = world->SpawnActor<AEnemyBase>(enemy_blueprint_, FVector(800, -600.f + (300.f * i), 90), FRotator(0, 180, 0));
 		enemy->SpawnDefaultController();
 	}
 }

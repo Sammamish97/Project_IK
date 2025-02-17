@@ -22,7 +22,7 @@ void UHeroInventoryManager::InitInventory()
 	AddItem(EGearType::PassiveSkill, EPassiveSkillType::FixedDmgReduce);
 	AddItem(EGearType::PassiveSkill, EPassiveSkillType::RandDmgIncrease);
 
-	credits_ = 0;
+	credits_ = 200;
 
 	perk_points_ = 12;
 }

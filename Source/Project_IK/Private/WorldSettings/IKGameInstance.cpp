@@ -48,7 +48,7 @@ void UIKGameInstance::Init()
 	InitInventoryManager();
 	InitEquipManager();
 
-	item_inventory_->AddItem(item_data_manager_->GetItemDataRandomly());
+	item_inventory_->AddItem(item_data_manager_->GetItemData(3));
 }
 
 const UItemDataManager* UIKGameInstance::GetItemDataManager() noexcept

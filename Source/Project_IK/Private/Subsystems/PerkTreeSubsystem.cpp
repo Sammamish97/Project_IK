@@ -27,8 +27,8 @@ void UPerkTreeSubsystem::Initialize(FSubsystemCollectionBase& collection)
 
 	// Initialize Tree in here.
 
-	perks_.Add(FPerkNode(ECharacterStatType::AttackPower, 2.f, 1, { 1, 3 }));
-	perks_.Add(FPerkNode(ECharacterStatType::AttackSpeed, 2.f, 1, { 2 }));
+	perks_.Add(FPerkNode(ECharacterStatType::AttackPower, 10.f, 1, { 1, 3 }));
+	perks_.Add(FPerkNode(ECharacterStatType::HitPoints, 50.f, 1, { 2 }));
 	perks_.Add(FPerkNode(ECharacterStatType::CriticalHitRate, 2.f, 1));
 
 	perks_.Add(FPerkNode(ECharacterStatType::Accuracy, 1.f, 1, { 4 }));
