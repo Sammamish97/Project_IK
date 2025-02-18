@@ -8,13 +8,13 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "Weapons/Gun.h"
+#include "Weapons/Guns/Gun.h"
 
 #include "Characters/HeroBase.h"
 #include "Components/SphereComponent.h"
 #include "Components/ObjectPoolComponent.h"
 #include "Structs/DamageData.h"
-#include "Weapons/Bullet.h"
+#include "Weapons/Guns/Bullet.h"
 
 // Sets default values
 AGun::AGun()

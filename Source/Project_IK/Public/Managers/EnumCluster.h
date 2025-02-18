@@ -243,3 +243,19 @@ enum class EAttackEffect : uint8
 	Test3 UMETA(DisplayName = "Test3"),
 	Empty UMETA(DisplayName = "Empty")
 };
+
+UENUM(BlueprintType)
+enum class EOopartType : uint8
+{
+	HealingWaves UMETA(DisplayName = "HealingWaves"),
+	AttackSpeedBoost UMETA(DisplayName = "AttackSpeedBoost"),
+	Empty UMETA(DisplayName = "Empty")
+};
+
+UENUM(BlueprintType)
+enum class EActiveSkillType : uint8
+{
+	Thunder UMETA(DisplayName = "Thunder"),
+	RapidFire UMETA(DisplayName = "RapidFire"),
+	Empty UMETA(DisplayName = "Empty")
+};

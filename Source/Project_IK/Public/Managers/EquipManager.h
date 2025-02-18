@@ -12,7 +12,9 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/ActiveSkillData.h"
 #include "Structs/ArmorData.h"
+#include "Structs/OopartData.h"
 #include "Structs/TrinketData.h"
 #include "Structs/WeaponData.h"
 #include "EquipManager.generated.h"
@@ -37,9 +39,17 @@ public:
 	FPassiveSkillData GetPassiveSkillData(EPassiveSkillType type);
 	FString PassiveSkillEnumToString(EPassiveSkillType weapon_type);
 
+	FActiveSkillData GetActiveSkillData(EActiveSkillType type);
+	FString ActiveSkillEnumToString(EActiveSkillType weapon_type);
+
+	FOopartData GetOopartData(EOopartType type);
+	FString OopartEnumToString(EOopartType oopart_type);
+
 private:
 	UDataTable* armor_table_;
 	UDataTable* trinket_table_;
 	UDataTable* weapon_table_;
 	UDataTable* passive_skill_table_;
+	UDataTable* active_skill_table_;
+	UDataTable* oopart_table_;
 };

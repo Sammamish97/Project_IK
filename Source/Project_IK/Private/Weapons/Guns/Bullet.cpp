@@ -7,7 +7,7 @@ Summary : Source file for Bullet.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-#include "Weapons/Bullet.h"
+#include "Weapons/Guns/Bullet.h"
 #include "Interfaces/Damageable.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"

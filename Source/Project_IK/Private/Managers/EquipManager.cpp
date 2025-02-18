@@ -45,6 +45,22 @@ UEquipManager::UEquipManager()
 		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a passive skill file data (IK_Passive_Skill_Data)"));
 	}
 	passive_skill_table_= dt_passive_skill_data.Object;
+
+	FString active_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/IK_Active_Skill_Data.IK_Active_Skill_Data'");
+	static ConstructorHelpers::FObjectFinder<UDataTable> dt_active_skill_data(*active_data_path);
+	if (dt_active_skill_data.Succeeded() == false)
+	{
+		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a active skill file data (IK_Active_Skill_Data)"));
+	}
+	active_skill_table_= dt_active_skill_data.Object;
+
+	FString oopart_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/IK_Oopart_Data.IK_Oopart_Data'");
+	static ConstructorHelpers::FObjectFinder<UDataTable> dt_oopart_data(*active_data_path);
+	if (dt_oopart_data.Succeeded() == false)
+	{
+		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a Oopart file data (IK_Oopart_Data)"));
+	}
+	oopart_table_= dt_oopart_data.Object;
 }
 
 FArmorData UEquipManager::GetArmorData(EArmorType type)
@@ -165,6 +181,60 @@ FString UEquipManager::PassiveSkillEnumToString(EPassiveSkillType weapon_type)
 		break;
 	case EPassiveSkillType::RandDmgIncrease:
 		string = TEXT("RandDmgIncrease");
+		break;
+	default:
+		string = TEXT("Empty");
+		break;
+	}
+	return string;
+}
+
+FActiveSkillData UEquipManager::GetActiveSkillData(EActiveSkillType type)
+{
+	if (active_skill_table_)
+	{
+		return *active_skill_table_->FindRow<FActiveSkillData>(*ActiveSkillEnumToString(type), TEXT(""));
+	}
+	return *active_skill_table_->FindRow<FActiveSkillData>(*ActiveSkillEnumToString(EActiveSkillType::Empty), TEXT(""));
+}
+
+FString UEquipManager::ActiveSkillEnumToString(EActiveSkillType active_skill_type)
+{
+	FString string;
+	switch (active_skill_type)
+	{
+	case EActiveSkillType::Thunder:
+		string = TEXT("Thunder");
+		break;
+	case EActiveSkillType::RapidFire:
+		string = TEXT("RapidFire");
+		break;
+	default:
+		string = TEXT("Empty");
+		break;
+	}
+	return string;
+}
+
+FOopartData UEquipManager::GetOopartData(EOopartType type)
+{
+	if (oopart_table_)
+	{
+		return *oopart_table_->FindRow<FOopartData>(*OopartEnumToString(type), TEXT(""));
+	}
+	return *oopart_table_->FindRow<FOopartData>(*OopartEnumToString(EOopartType::Empty), TEXT(""));
+}
+
+FString UEquipManager::OopartEnumToString(EOopartType oopart_type)
+{
+	FString string;
+	switch (oopart_type)
+	{
+	case EOopartType::HealingWaves:
+		string = TEXT("HealingWaves");
+		break;
+	case EOopartType::AttackSpeedBoost:
+		string = TEXT("AttackSpeedBoost");
 		break;
 	default:
 		string = TEXT("Empty");

@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "AI/GunnerAIController.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Character.h"
-#include "Weapons/Gun.h"
+#include "Weapons/Guns/Gun.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"

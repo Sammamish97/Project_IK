@@ -54,6 +54,10 @@ private:
 	UInventorySlot* hero_weapon_;
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	UInventorySlot* hero_passive_skill_;
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UInventorySlot* hero_active_skill_;
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UInventorySlot* hero_oopart_;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	class UWrapBox* wrap_box_;

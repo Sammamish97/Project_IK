@@ -83,6 +83,20 @@ bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 			return false;
 		}
 	}
+	if(slot_type_ == EInventorySlotType::ActiveSkill)
+	{
+		if(slot_from->slot_data_.gear_type != EGearType::ActiveSkill)
+		{
+			return false;
+		}
+	}
+	if(slot_type_ == EInventorySlotType::Oopart)
+	{
+		if(slot_from->slot_data_.gear_type != EGearType::Oopart)
+		{
+			return false;
+		}
+	}
 	Swap(slot_data_, slot_from->slot_data_);
 	SetImageTexture();
 	slot_from->SetImageTexture();
@@ -120,6 +134,14 @@ void UInventorySlot::SetImageTexture()
 		new_texture = equip_manager->GetWeaponData(slot_data_.weapon_type).thumbnail;
 	}
 	else if(slot_data_.gear_type == EGearType::PassiveSkill)
+	{
+		new_texture = equip_manager->GetPassiveSkillData(slot_data_.passive_skill_type).thumbnail;
+	}
+	else if(slot_data_.gear_type == EGearType::ActiveSkill)
+	{
+		new_texture = equip_manager->GetPassiveSkillData(slot_data_.passive_skill_type).thumbnail;
+	}
+	else if(slot_data_.gear_type == EGearType::Oopart)
 	{
 		new_texture = equip_manager->GetPassiveSkillData(slot_data_.passive_skill_type).thumbnail;
 	}
