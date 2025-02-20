@@ -29,7 +29,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/EnumCluster.h"
 #include "Managers/TextureManager.h"
-#include "Managers/HeroInventoryManager.h"
+#include "Managers/InventoryManager.h"
 #include "Managers/CharacterDataManager.h"
 
 #include "UI/ConfirmationWidget.h"

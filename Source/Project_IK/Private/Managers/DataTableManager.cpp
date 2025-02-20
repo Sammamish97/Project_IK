@@ -8,11 +8,11 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "Managers/EquipManager.h"
+#include "Managers/DataTableManager.h"
 
 #include "Structs/PassiveSkillData.h"
 
-UEquipManager::UEquipManager()
+UDataTableManager::UDataTableManager()
 {
 	FString armor_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/IK_Armor_Data.IK_Armor_Data'");
 	static ConstructorHelpers::FObjectFinder<UDataTable> dt_armor_data(*armor_data_path);
@@ -63,7 +63,7 @@ UEquipManager::UEquipManager()
 	oopart_table_= dt_oopart_data.Object;
 }
 
-FArmorData UEquipManager::GetArmorData(EArmorType type)
+FArmorData UDataTableManager::GetArmorData(EArmorType type)
 {
 	if (armor_table_)
 	{
@@ -72,7 +72,7 @@ FArmorData UEquipManager::GetArmorData(EArmorType type)
 	return *armor_table_->FindRow<FArmorData>(*ArmorEnumToString(EArmorType::Empty), TEXT(""));
 }
 
-FString UEquipManager::ArmorEnumToString(EArmorType armor_type)
+FString UDataTableManager::ArmorEnumToString(EArmorType armor_type)
 {
 	FString string;
 	switch (armor_type)
@@ -96,7 +96,7 @@ FString UEquipManager::ArmorEnumToString(EArmorType armor_type)
 	return string;
 }
 
-FTrinketData UEquipManager::GetTrinketData(ETrinketType type)
+FTrinketData UDataTableManager::GetTrinketData(ETrinketType type)
 {
 	if (trinket_table_)
 	{
@@ -105,7 +105,7 @@ FTrinketData UEquipManager::GetTrinketData(ETrinketType type)
 	return *trinket_table_->FindRow<FTrinketData>(*TrinketEnumToString(ETrinketType::Empty), TEXT(""));
 }
 
-FString UEquipManager::TrinketEnumToString(ETrinketType trinket_type)
+FString UDataTableManager::TrinketEnumToString(ETrinketType trinket_type)
 {
 	FString string;
 	switch (trinket_type)
@@ -129,7 +129,7 @@ FString UEquipManager::TrinketEnumToString(ETrinketType trinket_type)
 	return string;
 }
 
-FWeaponData UEquipManager::GetWeaponData(EWeaponType type)
+FWeaponData UDataTableManager::GetWeaponData(EWeaponType type)
 {
 	if (weapon_table_)
 	{
@@ -138,7 +138,7 @@ FWeaponData UEquipManager::GetWeaponData(EWeaponType type)
 	return *weapon_table_->FindRow<FWeaponData>(*WeaponEnumToString(EWeaponType::Empty), TEXT(""));
 }
 
-FString UEquipManager::WeaponEnumToString(EWeaponType weapon_type)
+FString UDataTableManager::WeaponEnumToString(EWeaponType weapon_type)
 {
 	FString string;
 	switch (weapon_type)
@@ -162,7 +162,7 @@ FString UEquipManager::WeaponEnumToString(EWeaponType weapon_type)
 	return string;
 }
 
-FPassiveSkillData UEquipManager::GetPassiveSkillData(EPassiveSkillType type)
+FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type)
 {
 	if (passive_skill_table_)
 	{
@@ -171,7 +171,7 @@ FPassiveSkillData UEquipManager::GetPassiveSkillData(EPassiveSkillType type)
 	return *passive_skill_table_->FindRow<FPassiveSkillData>(*PassiveSkillEnumToString(EPassiveSkillType::Empty), TEXT(""));
 }
 
-FString UEquipManager::PassiveSkillEnumToString(EPassiveSkillType weapon_type)
+FString UDataTableManager::PassiveSkillEnumToString(EPassiveSkillType weapon_type)
 {
 	FString string;
 	switch (weapon_type)
@@ -189,7 +189,7 @@ FString UEquipManager::PassiveSkillEnumToString(EPassiveSkillType weapon_type)
 	return string;
 }
 
-FActiveSkillData UEquipManager::GetActiveSkillData(EActiveSkillType type)
+FActiveSkillData UDataTableManager::GetActiveSkillData(EActiveSkillType type)
 {
 	if (active_skill_table_)
 	{
@@ -198,7 +198,7 @@ FActiveSkillData UEquipManager::GetActiveSkillData(EActiveSkillType type)
 	return *active_skill_table_->FindRow<FActiveSkillData>(*ActiveSkillEnumToString(EActiveSkillType::Empty), TEXT(""));
 }
 
-FString UEquipManager::ActiveSkillEnumToString(EActiveSkillType active_skill_type)
+FString UDataTableManager::ActiveSkillEnumToString(EActiveSkillType active_skill_type)
 {
 	FString string;
 	switch (active_skill_type)
@@ -216,7 +216,7 @@ FString UEquipManager::ActiveSkillEnumToString(EActiveSkillType active_skill_typ
 	return string;
 }
 
-FOopartData UEquipManager::GetOopartData(EOopartType type)
+FOopartData UDataTableManager::GetOopartData(EOopartType type)
 {
 	if (oopart_table_)
 	{
@@ -225,7 +225,7 @@ FOopartData UEquipManager::GetOopartData(EOopartType type)
 	return *oopart_table_->FindRow<FOopartData>(*OopartEnumToString(EOopartType::Empty), TEXT(""));
 }
 
-FString UEquipManager::OopartEnumToString(EOopartType oopart_type)
+FString UDataTableManager::OopartEnumToString(EOopartType oopart_type)
 {
 	FString string;
 	switch (oopart_type)

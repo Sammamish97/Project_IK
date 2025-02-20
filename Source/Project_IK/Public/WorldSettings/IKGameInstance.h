@@ -51,9 +51,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	const class UDialogueEventManager* GetDialogueEventManager() const noexcept;
 	UFUNCTION(BlueprintPure)
-	class UHeroInventoryManager* GetInventoryManager() const noexcept;
+	class UInventoryManager* GetInventoryManager() const noexcept;
 	UFUNCTION(BlueprintPure)
-	class UEquipManager* GetEquipManager() const noexcept;
+	class UDataTableManager* GetEquipManager() const noexcept;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelTransition")
 	TSubclassOf<AActor> hero_blueprint_;
@@ -101,8 +101,8 @@ private:
 	class UTextureManager* texture_manager_;
 
 	UPROPERTY()
-	class UHeroInventoryManager* inventory_manager_;
+	class UInventoryManager* inventory_manager_;
 	
 	UPROPERTY()
-	class UEquipManager* equip_manager_;
+	class UDataTableManager* equip_manager_;
 };

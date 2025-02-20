@@ -8,9 +8,9 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "Managers/HeroInventoryManager.h"
+#include "Managers/InventoryManager.h"
 
-void UHeroInventoryManager::InitInventory()
+void UInventoryManager::InitInventory()
 {
 	inventory_size_ = 20;
 	inventory_.Init(FInventorySlotData(), inventory_size_);
@@ -27,7 +27,7 @@ void UHeroInventoryManager::InitInventory()
 	perk_points_ = 12;
 }
 
-int32 UHeroInventoryManager::GetEmptyIndex() const
+int32 UInventoryManager::GetEmptyIndex() const
 {
 	for (int32 i = 0; i < inventory_size_; ++i)
 	{
@@ -39,7 +39,7 @@ int32 UHeroInventoryManager::GetEmptyIndex() const
 	return -1;
 }
 
-bool UHeroInventoryManager::AddItem(EGearType gear_type, EArmorType armor_type)
+bool UInventoryManager::AddItem(EGearType gear_type, EArmorType armor_type)
 {
 	int32 index = GetEmptyIndex();
 	if (index != -1)
@@ -54,7 +54,7 @@ bool UHeroInventoryManager::AddItem(EGearType gear_type, EArmorType armor_type)
 	return false;
 }
 
-bool UHeroInventoryManager::AddItem(EGearType gear_type, ETrinketType trinket_type)
+bool UInventoryManager::AddItem(EGearType gear_type, ETrinketType trinket_type)
 {
 	int32 index = GetEmptyIndex();
 	if (index != -1)
@@ -69,7 +69,7 @@ bool UHeroInventoryManager::AddItem(EGearType gear_type, ETrinketType trinket_ty
 	return false;
 }
 
-bool UHeroInventoryManager::AddItem(EGearType type, EWeaponType weapon_type)
+bool UInventoryManager::AddItem(EGearType type, EWeaponType weapon_type)
 {
 	int32 index = GetEmptyIndex();
 	if (index != -1)
@@ -84,7 +84,7 @@ bool UHeroInventoryManager::AddItem(EGearType type, EWeaponType weapon_type)
 	return false;
 }
 
-bool UHeroInventoryManager::AddItem(EGearType type, EPassiveSkillType passive_skill_type)
+bool UInventoryManager::AddItem(EGearType type, EPassiveSkillType passive_skill_type)
 {
 	int32 index = GetEmptyIndex();
 	if (index != -1)
@@ -99,37 +99,37 @@ bool UHeroInventoryManager::AddItem(EGearType type, EPassiveSkillType passive_sk
 	return false;
 }
 
-void UHeroInventoryManager::RemoveItem(int index)
+void UInventoryManager::RemoveItem(int index)
 {
 	inventory_[index] = FInventorySlotData();
 }
 
-TArray<FInventorySlotData>& UHeroInventoryManager::GetInventory()
+TArray<FInventorySlotData>& UInventoryManager::GetInventory()
 {
 	return inventory_;
 }
 
-int32 UHeroInventoryManager::GetInventorySize()
+int32 UInventoryManager::GetInventorySize()
 {
 	return inventory_size_;
 }
 
-void UHeroInventoryManager::SetCredits(int32 credits)
+void UInventoryManager::SetCredits(int32 credits)
 {
 	credits_ = credits;
 }
 
-int32 UHeroInventoryManager::GetCredits() const
+int32 UInventoryManager::GetCredits() const
 {
 	return credits_;
 }
 
-void UHeroInventoryManager::SetPerkPoints(int32 points)
+void UInventoryManager::SetPerkPoints(int32 points)
 {
 	perk_points_ = points;
 }
 
-int32 UHeroInventoryManager::GetPerkPoints() const
+int32 UInventoryManager::GetPerkPoints() const
 {
 	return perk_points_;
 }

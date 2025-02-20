@@ -17,16 +17,16 @@ See LICENSE file in the project root for full license information.
 #include "Structs/OopartData.h"
 #include "Structs/TrinketData.h"
 #include "Structs/WeaponData.h"
-#include "EquipManager.generated.h"
+#include "DataTableManager.generated.h"
 
 struct FPassiveSkillData;
 
 UCLASS()
-class PROJECT_IK_API UEquipManager : public UObject
+class PROJECT_IK_API UDataTableManager : public UObject
 {
 	GENERATED_BODY()
 public:
-	UEquipManager();
+	UDataTableManager();
 	FArmorData GetArmorData(EArmorType type);
 	FString ArmorEnumToString(EArmorType armor_type);
 

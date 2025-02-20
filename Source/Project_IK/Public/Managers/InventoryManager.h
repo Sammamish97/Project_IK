@@ -12,10 +12,10 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Structs/InventorySlotData.h"
 #include "UObject/Object.h"
-#include "HeroInventoryManager.generated.h"
+#include "InventoryManager.generated.h"
 
 UCLASS()
-class PROJECT_IK_API UHeroInventoryManager : public UObject
+class PROJECT_IK_API UInventoryManager : public UObject
 {
 	GENERATED_BODY()
 private:

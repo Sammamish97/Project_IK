@@ -37,6 +37,6 @@ public:
 private:
 	FPassiveSkillData equipped_passiev_skill_data_;
 	
-	class UEquipManager* equip_manager_cache_;
+	class UDataTableManager* equip_manager_cache_;
 	class AHeroBase* hero_cache_;
 };

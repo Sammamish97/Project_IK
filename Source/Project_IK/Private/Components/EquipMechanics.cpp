@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/EquipMechanics.h"
 
 #include "Abilities/EquipSkills/EquipSkillBase.h"
-#include "Managers/EquipManager.h"
+#include "Managers/DataTableManager.h"
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameInstance.h"

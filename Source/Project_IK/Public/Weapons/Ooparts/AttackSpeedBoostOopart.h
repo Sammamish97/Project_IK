@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "OopartBase.h"
-#include "AttackSpeedBoost.generated.h"
+#include "AttackSpeedBoostOopart.generated.h"
 
 UCLASS()
-class PROJECT_IK_API AAttackSpeedBoost : public AOopartBase
+class PROJECT_IK_API AAttackSpeedBoostOopart : public AOopartBase
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	AAttackSpeedBoost();
+	AAttackSpeedBoostOopart();
 
 protected:
 	// Called when the game starts or when spawned

@@ -16,7 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/ItemDataManager.h"
 #include "Managers/DronePluginManager.h"
 #include "Abilities/ItemInventory.h"
-#include "Managers/HeroInventoryManager.h"
+#include "Managers/InventoryManager.h"
 
 #include "WorldSettings/StoreLevel/IKStoreHUD.h"
 
@@ -193,7 +193,7 @@ void UStoreWidget::GoToNextLevel()
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
 	// Save purchased items and dps
-	UHeroInventoryManager* inventory_manager = game_instance->GetInventoryManager();
+	UInventoryManager* inventory_manager = game_instance->GetInventoryManager();
 	inventory_manager->SetCredits(credits_ - total_cost_);
 	credit_widget_->UpdateCreditText();
 	

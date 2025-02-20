@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
 #include "Kismet/GameplayStatics.h"
-#include "Managers/EquipManager.h"
+#include "Managers/DataTableManager.h"
 #include "Structs/PassiveSkillData.h"
 #include "UI/SlotDragDropImage.h"
 #include "WorldSettings/IKGameInstance.h"
@@ -119,7 +119,7 @@ void UInventorySlot::SetImageTexture()
 	}
 	//TODO: 마음에 안드는 부분이다. 더 좋은 방법이 있을것이다.
 	UIKGameInstance* instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	UEquipManager* equip_manager = instance->GetEquipManager();
+	UDataTableManager* equip_manager = instance->GetEquipManager();
 	UTexture2D* new_texture = nullptr;
 	if(slot_data_.gear_type == EGearType::Armor)
 	{

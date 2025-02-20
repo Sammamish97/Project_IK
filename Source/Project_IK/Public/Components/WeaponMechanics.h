@@ -85,5 +85,5 @@ private:
 	AUnit* gunner_ref_ = nullptr;
 
 	UPROPERTY(Transient)
-	class UEquipManager* equip_manager_cache_ = nullptr;
+	class UDataTableManager* equip_manager_cache_ = nullptr;
 };

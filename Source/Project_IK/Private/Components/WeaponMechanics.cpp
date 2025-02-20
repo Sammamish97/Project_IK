@@ -17,7 +17,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Managers/EquipManager.h"
+#include "Managers/DataTableManager.h"
 #include "WorldSettings/IKGameInstance.h"
 
 // Sets default values for this component's properties

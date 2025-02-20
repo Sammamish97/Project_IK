@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "CreditWidget.generated.h"
 
 class UTextBlock;
-class UHeroInventoryManager;
+class UInventoryManager;
 
 /**
  * 
@@ -36,5 +36,5 @@ protected:
 	TWeakObjectPtr<UTextBlock> credit_text_;
 
 	UPROPERTY()
-	TWeakObjectPtr<UHeroInventoryManager> inventory_manager_;
+	TWeakObjectPtr<UInventoryManager> inventory_manager_;
 };

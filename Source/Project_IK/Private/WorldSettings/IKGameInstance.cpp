@@ -19,8 +19,8 @@ See LICENSE file in the project root for full license information.
 #include "Managers/DronePluginManager.h"
 #include "Managers/TextureManager.h"
 #include "Managers/DialogueEventManager.h"
-#include "Managers/HeroInventoryManager.h"
-#include "Managers/EquipManager.h"
+#include "Managers/InventoryManager.h"
+#include "Managers/DataTableManager.h"
 
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "Subsystems/PerkTreeSubsystem.h"
@@ -81,7 +81,7 @@ const UDronePluginManager* UIKGameInstance::GetDronePluginManager() noexcept
 	return drone_plugin_manager_; 
 }
 
-UHeroInventoryManager* UIKGameInstance::GetInventoryManager() const noexcept
+UInventoryManager* UIKGameInstance::GetInventoryManager() const noexcept
 {
 	return inventory_manager_;
 }
@@ -96,7 +96,7 @@ const UDialogueEventManager* UIKGameInstance::GetDialogueEventManager() const no
 	return dialogue_event_manager_;
 }
 
-UEquipManager* UIKGameInstance::GetEquipManager() const noexcept
+UDataTableManager* UIKGameInstance::GetEquipManager() const noexcept
 {
 	return equip_manager_;
 }
@@ -161,11 +161,11 @@ void UIKGameInstance::InitializeDialogueEventManager()
 
 void UIKGameInstance::InitInventoryManager()
 {
-	inventory_manager_ = NewObject<UHeroInventoryManager>(this);
+	inventory_manager_ = NewObject<UInventoryManager>(this);
 	inventory_manager_->InitInventory();
 }
 
 void UIKGameInstance::InitEquipManager()
 {
-	equip_manager_ = NewObject<UEquipManager>(this);
+	equip_manager_ = NewObject<UDataTableManager>(this);
 }

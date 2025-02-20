@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
-#include "Managers/EquipManager.h"
+#include "Managers/DataTableManager.h"
 #include "WorldSettings/IKGameInstance.h"
 
 

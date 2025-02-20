@@ -11,18 +11,18 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "HeroInventoryWidget.generated.h"
+#include "InventoryWidget.generated.h"
 
 class UButton;
 class UInventorySlot;
-class UHeroInventoryManager;
+class UInventoryManager;
 UCLASS()
-class PROJECT_IK_API UHeroInventoryWidget : public UUserWidget
+class PROJECT_IK_API UInventoryWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
 	virtual void NativeConstruct() override;
-	void InitInventoryWidget(UHeroInventoryManager* inventory_component);
+	void InitInventoryWidget(UInventoryManager* inventory_component);
 	void LoadInventoryComponent();
 	void ApplyInventoryComponent();
 
@@ -31,7 +31,7 @@ public:
 	UFUNCTION()
 	void SwitchToRightHero();
 private:
-	UHeroInventoryManager* inventory_manager_ref_;
+	UInventoryManager* inventory_manager_ref_;
 	int cur_hero_idx_;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))

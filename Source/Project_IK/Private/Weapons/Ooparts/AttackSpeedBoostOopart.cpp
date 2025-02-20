@@ -8,25 +8,25 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "Weapons/Ooparts/AttackSpeedBoost.h"
+#include "Weapons/Ooparts/AttackSpeedBoostOopart.h"
 
 
 // Sets default values
-AAttackSpeedBoost::AAttackSpeedBoost()
+AAttackSpeedBoostOopart::AAttackSpeedBoostOopart()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
 
 // Called when the game starts or when spawned
-void AAttackSpeedBoost::BeginPlay()
+void AAttackSpeedBoostOopart::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void AAttackSpeedBoost::Tick(float DeltaTime)
+void AAttackSpeedBoostOopart::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }

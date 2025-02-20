@@ -8,7 +8,7 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "UI/HeroInventoryWidget.h"
+#include "UI/InventoryWidget.h"
 #include "Components/Button.h"
 #include "Components/ScrollBox.h"
 #include "Components/WrapBox.h"
@@ -16,19 +16,19 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 
 #include "Managers/EnumCluster.h"
-#include "Managers/HeroInventoryManager.h"
+#include "Managers/InventoryManager.h"
 #include "Managers/LevelTransitionManager.h"
 #include "UI/InventorySlot.h"
 #include "WorldSettings/IKGameInstance.h"
 
-void UHeroInventoryWidget::NativeConstruct()
+void UInventoryWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	switch_hero_left_button_->OnClicked.AddDynamic(this, &UHeroInventoryWidget::SwitchToLeftHero);
-	switch_hero_right_button_->OnClicked.AddDynamic(this, &UHeroInventoryWidget::SwitchToRightHero);
+	switch_hero_left_button_->OnClicked.AddDynamic(this, &UInventoryWidget::SwitchToLeftHero);
+	switch_hero_right_button_->OnClicked.AddDynamic(this, &UInventoryWidget::SwitchToRightHero);
 }
 
-void UHeroInventoryWidget::InitInventoryWidget(UHeroInventoryManager* inventory_component)
+void UInventoryWidget::InitInventoryWidget(UInventoryManager* inventory_component)
 {
 	inventory_manager_ref_ = inventory_component;
 	hero_armor_->slot_type_ = EInventorySlotType::Armor;
@@ -41,7 +41,7 @@ void UHeroInventoryWidget::InitInventoryWidget(UHeroInventoryManager* inventory_
 	scroll_box_->AddChild(wrap_box_);
 }
 
-void UHeroInventoryWidget::LoadInventoryComponent()
+void UInventoryWidget::LoadInventoryComponent()
 {
 	UIKGameInstance* ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	ULevelTransitionManager* transition_manager = ik_instance->GetLevelTransitionManager();
@@ -66,7 +66,7 @@ void UHeroInventoryWidget::LoadInventoryComponent()
 	}
 }
 
-void UHeroInventoryWidget::ApplyInventoryComponent()
+void UInventoryWidget::ApplyInventoryComponent()
 {
 	auto& inven_data = inventory_manager_ref_->GetInventory();
 	for(int i = 0; i < inventory_slots_.Num(); i++)
@@ -75,14 +75,14 @@ void UHeroInventoryWidget::ApplyInventoryComponent()
 	}
 }
 
-void UHeroInventoryWidget::SwitchToLeftHero()
+void UInventoryWidget::SwitchToLeftHero()
 {
 	ApplyInventoryComponent();
 	cur_hero_idx_ = FMath::Max(0, cur_hero_idx_ - 1);
 	LoadInventoryComponent();
 }
 
-void UHeroInventoryWidget::SwitchToRightHero()
+void UInventoryWidget::SwitchToRightHero()
 {
 	ApplyInventoryComponent();
 	cur_hero_idx_ = FMath::Min(cur_hero_idx_ + 1, 3);
