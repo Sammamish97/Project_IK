@@ -83,7 +83,14 @@ void ULevelTransitionManager::SaveData(UWorld* world)
 			const UCharacterStatComponent* stat_component = hero->GetCharacterStat();
 
 			// @@ TODO: Need to save proper data.
-			spawn_data_[i].character_data_ = stat_component->GetCharacterData();
+			if (spawn_data_.IsValidIndex(i))
+			{
+				spawn_data_[i].character_data_ = stat_component->GetCharacterData();
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("SaveData has failed because spawn index of spawn_data_ is invalid."));
+			}
 		}
 	}
 }
@@ -126,7 +133,7 @@ void ULevelTransitionManager::SpawnHeroes(UWorld* world)
 		AHeroBase* hero = world->SpawnActor<AHeroBase>(spawn_data_[i].character_data_.unit_class_, spawn_position + FVector(0, (300.f * (spawn_data_.Num() - 1) / -2.f ) + (i * 300), 90), spawn_rotation);
 		hero->SpawnDefaultController();
 		hero->GetComponentByClass<USkillContainer>()->SetSkill(UMyTestSkill::StaticClass());
-		hero->GetComponentByClass<UCharacterStatComponent>()->SetCharacterData(spawn_data_[0].character_data_);
+		hero->GetComponentByClass<UCharacterStatComponent>()->SetCharacterData(spawn_data_[i].character_data_);
 		hero->Initialize();
 	}
 }
