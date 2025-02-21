@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "OopartBase.generated.h"
 
-UCLASS()
+UCLASS(Blueprintable)
 class PROJECT_IK_API AOopartBase : public AActor
 {
 	GENERATED_BODY()
@@ -31,14 +31,15 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void SetOwner(TWeakObjectPtr<AActor> owner);
+	void SetOopartOwner(TWeakObjectPtr<AActor> owner);
 	
-protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Oopart", meta = (AllowPrivateAccess = "true", BindWidget))
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Oopart", meta = (AllowPrivateAccess = "true", BindWidget))
 	UStaticMeshComponent* oopart_mesh_;
 
-	UPROPERTY(VisibleAnywhere, Category = "Oopart")
+	UPROPERTY(Transient)
 	TWeakObjectPtr<AActor> oopart_owner_;
-
+	
+	UPROPERTY(Transient)
 	EOopartType oopart_type_;
 };

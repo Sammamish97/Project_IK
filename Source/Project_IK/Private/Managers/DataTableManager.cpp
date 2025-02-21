@@ -55,7 +55,7 @@ UDataTableManager::UDataTableManager()
 	active_skill_table_= dt_active_skill_data.Object;
 
 	FString oopart_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/IK_Oopart_Data.IK_Oopart_Data'");
-	static ConstructorHelpers::FObjectFinder<UDataTable> dt_oopart_data(*active_data_path);
+	static ConstructorHelpers::FObjectFinder<UDataTable> dt_oopart_data(*oopart_data_path);
 	if (dt_oopart_data.Succeeded() == false)
 	{
 		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a Oopart file data (IK_Oopart_Data)"));

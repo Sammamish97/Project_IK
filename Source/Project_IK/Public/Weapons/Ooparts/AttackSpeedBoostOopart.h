@@ -6,7 +6,7 @@
 #include "OopartBase.h"
 #include "AttackSpeedBoostOopart.generated.h"
 
-UCLASS()
+UCLASS(Blueprintable)
 class PROJECT_IK_API AAttackSpeedBoostOopart : public AOopartBase
 {
 	GENERATED_BODY()
@@ -18,12 +18,15 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	void AttackSpeedBuff();
 
 private:
+	FTimerHandle cool_time_handle_;
 	float cool_down_;
 	float duration_;
 	float boost_amount_;
