@@ -27,8 +27,6 @@ void ULevelEndUIManager::InitializeUI(TSubclassOf<class UCombatResultUI> combat_
 		if (combat_result_widget_.IsValid())
 		{
 			combat_result_widget_->AddToViewport();
-			int32 hero_size = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(world))->GetHeroContainers().Num();
-			combat_result_widget_->SetHeroNumbers(hero_size);
 			combat_result_widget_->SetVisibility(ESlateVisibility::Hidden);
 		}
 	}

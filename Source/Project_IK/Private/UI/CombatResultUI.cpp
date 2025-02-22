@@ -132,6 +132,11 @@ void UCombatResultUI::NativeConstruct()
 			// It is not ratio at this point. It contains initial hit points.
 			hp_ratio_before_.Add(hero->GetCharacterStat()->GetHPRatio());
 		}
+
+		int32 hero_size = game_mode->GetHeroContainers().Num();
+		// @@ TODO: In this code, it is possible to have multiple blocks because of multiple NativeConstruct calls.
+							// Need to delete data in NativeDestruct.
+		SetHeroNumbers(hero_size);
 	}
 
 }
