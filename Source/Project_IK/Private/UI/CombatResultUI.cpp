@@ -57,7 +57,7 @@ void UCombatResultUI::SetHeroNumbers(int32 num)
 
 	for (int32 i = 0; i < num; i++)
 	{
-		UCombatResultBlock* block = CreateWidget<UCombatResultBlock>(this);
+		UCombatResultBlock* block = CreateWidget<UCombatResultBlock>(this, combat_result_block_widget_class_);
 		FString block_unique_name = MakeUniqueObjectName(GetOuter(), block->GetClass(), TEXT("Block")).ToString();
 		block->Rename(*block_unique_name);
 		UHorizontalBoxSlot* block_slot = blocks_holder_->AddChildToHorizontalBox(block);

@@ -31,9 +31,10 @@ class PROJECT_IK_API UCombatResultUI : public UUserWidget
 public:
 	virtual bool Initialize() override;
 
-	void SetHeroNumbers(int32 num);
-
 	void UpdateResults(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UCombatResultBlock> combat_result_block_widget_class_;
 
 protected:
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
@@ -41,6 +42,8 @@ protected:
 
 	void InitializeRootWidget();
 	void InitializeChildWidgets();
+
+	void SetHeroNumbers(int32 num);
 
 	void UpdateHPBars(float InDeltaTime);
 
