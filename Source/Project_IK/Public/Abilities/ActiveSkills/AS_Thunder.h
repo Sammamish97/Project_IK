@@ -1,8 +1,8 @@
 /******************************************************************************
 Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 2.09.2025
-Summary : Header file for active Skill base class.
+Creation Date : 2.22.2025
+Summary : Header file for Thunder Active Skill.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -10,19 +10,17 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/Object.h"
-#include "ActiveSkillBase.generated.h"
-
+#include "ActiveSkillBase.h"
+#include "AS_Thunder.generated.h"
 UCLASS()
-class PROJECT_IK_API UActiveSkillBase : public UObject
+class PROJECT_IK_API UAS_Thunder : public UActiveSkillBase
 {
 	GENERATED_BODY()
-
-public:
-	void InitActiveSkill(AActor* hero);	
-	virtual void RunActiveSkill();
+	void RunActiveSkill() override;
+	void Thunder(AActor* target);
 	
-protected:
-	AActor* skill_owner_;
-	float cool_time_;
+private:
+	float damage_;
+	float range_;
+	//VFX & SFX
 };
