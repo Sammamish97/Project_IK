@@ -54,6 +54,7 @@ void AHeroBase::BeginPlay()
 	equip_mechanics_->EquipTrinket(ETrinketType::TestSkillTrinket);
 	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::FixedDmgReduce);
 	oopart_mechanics_->EquipOopart(EOopartType::AttackSpeedBoost);
+	skill_container_->EquipActiveSkill(EActiveSkillType::Thunder);
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)

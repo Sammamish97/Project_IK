@@ -21,7 +21,7 @@ struct PROJECT_IK_API FActiveSkillData : public FTableRowBase
 	EActiveSkillType type;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	TSubclassOf<class UActiveSkillBase> active_skill_class;
+	TSubclassOf<class USkillBase> active_skill_class;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	UTexture2D* thumbnail = nullptr;

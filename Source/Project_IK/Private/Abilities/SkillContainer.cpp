@@ -12,6 +12,12 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/SkillContainer.h"
 
+#include "Abilities/SkillBase.h"
+#include "Characters/HeroBase.h"
+#include "Kismet/GameplayStatics.h"
+#include "Managers/DataTableManager.h"
+#include "WorldSettings/IKGameInstance.h"
+
 // Sets default values for this component's properties
 USkillContainer::USkillContainer()
 	: Super::UActorComponent()
@@ -23,35 +29,44 @@ USkillContainer::USkillContainer()
 	bWantsInitializeComponent = true;
 }
 
+void USkillContainer::BeginPlay()
+{
+	Super::BeginPlay();
+	hero_cache_ = Cast<AHeroBase>(GetOwner());
+	equip_manager_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetEquipManager();
+}
+
 void USkillContainer::InitializeComponent()
 {
-	if (skill_class_)
+	Super::InitializeComponent();
+}
+
+FActiveSkillData USkillContainer::GetEquippedActiveSkillData()
+{
+	return equipped_active_skill_data_;
+}
+
+void USkillContainer::EquipActiveSkill(EActiveSkillType type)
+{
+	equipped_active_skill_data_ = equip_manager_cache_->GetActiveSkillData(type);
+	active_skill_cache_ = NewObject<USkillBase>(this, equipped_active_skill_data_.active_skill_class);
+	active_skill_cache_->InitActiveSkill(hero_cache_);
+}
+
+void USkillContainer::UnEquipActiveSkill()
+{
+	equipped_active_skill_data_ = equip_manager_cache_->GetActiveSkillData(EActiveSkillType::Empty);
+	if(active_skill_cache_)
 	{
-		skill_ = NewObject<USkillBase>(this, skill_class_);
+		//UObject는 명시적으로 Destroy할 수 없다!
+		//active_skill_cache_->Destroy();
 	}
 }
 
 void USkillContainer::InvokeSkills(const FTargetResult& TargetResult)
 {
-	if (skill_)
+	if (active_skill_cache_)
 	{
-		skill_->ActivateSkill(TargetResult);
+		active_skill_cache_->ActivateSkill_Implementation(TargetResult);
 	}
-}
-
-void USkillContainer::SetSkill(TSubclassOf<class USkillBase> skill)
-{
-	skill_class_ = skill;
-
-	InitializeComponent();
-}
-
-
-// Called when the game starts
-void USkillContainer::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-	
 }

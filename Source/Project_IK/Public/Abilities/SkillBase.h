@@ -18,27 +18,23 @@ See LICENSE file in the project root for full license information.
 
 #include "SkillBase.generated.h"
 
-/**
- * 
- */
 UCLASS(Blueprintable)
 class PROJECT_IK_API USkillBase : public UObject
 {
 	GENERATED_BODY()
 	
 public:
-	USkillBase();
-	USkillBase(float cost);
-
-	UFUNCTION(BlueprintCallable)
-	bool SpendCost();
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	bool ActivateSkill(const FTargetResult& TargetResult);
-
+	USkillBase() = default;
+	void InitActiveSkill(AActor* skill_owner);	
 	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) PURE_VIRTUAL(USkillBase::ActivateSkill_Implementation, return true;);
 
 protected:
 	UPROPERTY(VisibleAnywhere)
-	float cost_;
+	FTargetParameters target_param_;
+
+	UPROPERTY(VisibleAnywhere)
+	float cool_time_;
+
+	UPROPERTY(VisibleAnywhere)
+	AActor* skill_owner_;
 };

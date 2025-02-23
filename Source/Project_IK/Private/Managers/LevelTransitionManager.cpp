@@ -125,7 +125,6 @@ void ULevelTransitionManager::SpawnHeroes(UWorld* world)
 	{
 		AHeroBase* hero = world->SpawnActor<AHeroBase>(spawn_data_[i].character_data_.unit_class_, spawn_position + FVector(0, (300.f * (spawn_data_.Num() - 1) / -2.f ) + (i * 300), 90), spawn_rotation);
 		hero->SpawnDefaultController();
-		hero->GetComponentByClass<USkillContainer>()->SetSkill(UMyTestSkill::StaticClass());
 		hero->GetComponentByClass<UCharacterStatComponent>()->SetCharacterData(spawn_data_[0].character_data_);
 		hero->Initialize();
 	}

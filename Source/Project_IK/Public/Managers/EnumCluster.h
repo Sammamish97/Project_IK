@@ -152,6 +152,7 @@ enum class EDamageType : uint8
 	Explosive UMETA(DisplayName = "Explosive"),
 	Melee UMETA(DisplayName = "Melee"),
 	Dot UMETA(DisplayName = "Dot"),
+	Magic UMETA(DisplayName = "Magic"),
 	INVALID UMETA(DisplayName = "INVALID")
 };
 

@@ -18,9 +18,6 @@ See LICENSE file in the project root for full license information.
 
 #include "MyTestSkill.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API UMyTestSkill : public USkillBase
 {

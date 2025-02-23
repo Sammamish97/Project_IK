@@ -36,17 +36,17 @@ void UPassiveSkillMechanics::BeginPlay()
 
 FPassiveSkillData UPassiveSkillMechanics::GetEquippedPassiveSkillData()
 {
-	return equipped_passiev_skill_data_;
+	return equipped_passive_skill_data_;
 }
 
 void UPassiveSkillMechanics::EquipPassiveSkill(EPassiveSkillType type)
 {
-	equipped_passiev_skill_data_ = equip_manager_cache_->GetPassiveSkillData(type);
-	passive_skill_cache_ = NewObject<UEquipSkillBase>(this, equipped_passiev_skill_data_.passive_skill_class);
+	equipped_passive_skill_data_ = equip_manager_cache_->GetPassiveSkillData(type);
+	passive_skill_cache_ = NewObject<UEquipSkillBase>(this, equipped_passive_skill_data_.passive_skill_class);
 	passive_skill_cache_->InitEquipmentSkill(hero_cache_);
 }
 
 void UPassiveSkillMechanics::UnEquipPassiveSkill()
 {
-	equipped_passiev_skill_data_ = equip_manager_cache_->GetPassiveSkillData(EPassiveSkillType::Empty);
+	equipped_passive_skill_data_ = equip_manager_cache_->GetPassiveSkillData(EPassiveSkillType::Empty);
 }
