@@ -53,9 +53,6 @@ void UIKGameInstance::Init()
 
 void UIKGameInstance::Shutdown()
 {
-	Super::Shutdown();
-
-
 	// Enhance data by recorded progress.
 	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
 	const TArray<FPerkNode>& tree = GetSubsystem<UPerkTreeSubsystem>()->GetTree();
@@ -69,6 +66,8 @@ void UIKGameInstance::Shutdown()
 			character_data_manager_->DiminishCharacterData(type, tree[p].stat_, tree[p].modifier_);
 		}
 	}
+
+	Super::Shutdown();
 }
 
 const UItemDataManager* UIKGameInstance::GetItemDataManager() noexcept
