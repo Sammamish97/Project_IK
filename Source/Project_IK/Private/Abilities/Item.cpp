@@ -138,7 +138,7 @@ void UItem::AttackSpeedStimuli(TArray<AActor*> actors)
 		AUnit* unit = Cast<AUnit>(actors[i]);
 		if (unit)
 		{
-			unit->ApplyBuff(FBuff(TEXT("Item_Stimuli"), ECharacterStatType::AttackSpeed, -0.25f, false, 10.f));
+			unit->ApplyBuff(FBuff(TEXT("Item_Stimuli"), ECharacterStatType::AttackSpeed, 1.2f, true, 10.f));
 		}
 	}
 

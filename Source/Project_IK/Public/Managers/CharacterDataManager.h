@@ -30,6 +30,7 @@ public:
 	FString EnumToString(EHeroType dp_type) const;
 
 	void EnhanceCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float increase_amount);
+	void DiminishCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float diminish_amount);
 
 protected:
 	class UDataTable* character_table;
