@@ -31,8 +31,6 @@ class PROJECT_IK_API UCombatResultBlock : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	virtual bool Initialize() override;
-
 	UFUNCTION(BlueprintCallable)
 	void SetHPPercent(float ratio);
 
@@ -48,33 +46,15 @@ public:
 protected:
 	virtual void NativeConstruct() override;
 
-	void InitializeRootWidget();
-	void InitializeChildWidgets();
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UImage> hero_portrait_;
 
-	UPROPERTY()
-	TWeakObjectPtr<UVerticalBox> root_vertical_box_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UProgressBar> hp_;
 
-	UPROPERTY()
-	TWeakObjectPtr<UImage> hero_portrait_;
-	
-	UPROPERTY()
-	TWeakObjectPtr<USpacer> spacer_hero_hp_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UImage> deal_icon_;
 
-	UPROPERTY()
-	TWeakObjectPtr<USizeBox> hp_holder_;
-
-	UPROPERTY()
-	TWeakObjectPtr<UProgressBar> hp_;
-
-	UPROPERTY()
-	TWeakObjectPtr<USpacer> spacer_hp_deal_;
-
-	UPROPERTY()
-	TWeakObjectPtr<UHorizontalBox> deal_holder_;
-
-	UPROPERTY()
-	TWeakObjectPtr<UImage> deal_icon_;
-
-	UPROPERTY()
-	TWeakObjectPtr<UTextBlock> deal_text_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> deal_text_;
 };

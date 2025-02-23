@@ -75,11 +75,6 @@ void UCheckboxButtonWidget::ToggleChecked()
 	selection_indicator_image_->SetVisibility(is_checked_ ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Hidden);
 }
 
-bool UCheckboxButtonWidget::IsChecked() const
-{
-	return is_checked_;
-}
-
 void UCheckboxButtonWidget::NativeConstruct()
 {
 	Super::NativeConstruct();

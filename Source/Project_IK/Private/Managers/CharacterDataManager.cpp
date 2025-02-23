@@ -115,3 +115,62 @@ void UCharacterDataManager::EnhanceCharacterData(EHeroType hero_type, ECharacter
 		}
 	}
 }
+
+void UCharacterDataManager::DiminishCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float diminish_amount)
+{
+	FCharacterData* data = GetCharacterData(hero_type);
+	if (data)
+	{
+		switch (stat_type)
+		{
+		case ECharacterStatType::AttackPower:
+			data->attack_power_ -= diminish_amount;
+			break;
+		case ECharacterStatType::AttackSpeed:
+			data->attack_speed_ -= diminish_amount;
+			break;
+		case ECharacterStatType::CriticalHitRate:
+			data->critical_hit_rate_ -= diminish_amount;
+			break;
+		case ECharacterStatType::Accuracy:
+			data->accuracy_ -= diminish_amount;
+			break;
+		case ECharacterStatType::MagazineBonus:
+			data->magazine_bonus_ -= diminish_amount;
+			break;
+		case ECharacterStatType::LifeSteal:
+			data->life_steal_ -= diminish_amount;
+			break;
+		case ECharacterStatType::HitPoints:
+			data->hit_point_ -= diminish_amount;
+			break;
+		case ECharacterStatType::EvasionRate:
+			data->evasion_rate_ -= diminish_amount;
+			break;
+		case ECharacterStatType::Armor:
+			data->armor_ -= diminish_amount;
+			break;
+		case ECharacterStatType::Survivability:
+			data->survivability_ -= diminish_amount;
+			break;
+		case ECharacterStatType::MoveSpeed:
+			data->move_speed_ -= diminish_amount;
+			break;
+		case ECharacterStatType::ActiveSkillPower:
+			data->active_skill_power_ -= diminish_amount;
+			break;
+		case ECharacterStatType::ActiveSkillCooldown:
+			data->active_skill_cooldown_ -= diminish_amount;
+			break;
+		case ECharacterStatType::PassiveSkillPower:
+			data->passive_skill_power_ -= diminish_amount;
+			break;
+		case ECharacterStatType::PassiveSkillCooldown:
+			data->passive_skill_cooldown_ -= diminish_amount;
+			break;
+		case ECharacterStatType::Shield:
+		default:
+			break;
+		}
+	}
+}

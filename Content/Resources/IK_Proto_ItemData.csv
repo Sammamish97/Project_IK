@@ -1,6 +1,6 @@
 RowName,item_name_,item_icon_,item_description_,item_logic_,targeting_mode_,target_type_,range_,radius_,rarity_
-0,HP Potion,/Game/Images/HP_potion.HP_potion,Restores 50 HP,RestoreHP,Location,All,500,450,B
-1,Missile,/Game/Images/missile_item.missile_item,Attack an area using missile,LaunchMissile,Location,All,1000,900,B
-2,Stimuli,/Game/Images/stimuli_icon.stimuli_icon,Inject stimuli into heroes within the area. Temporarily enhancing their attack speed.,AttackSpeedStimuli,Location,All,500,450,S
-3,Smoke Grenade,/Game/Images/smoke_grenade.smoke_grenade,Cover an area with smokes. Increase evasion rate heroes in an area.,SmokeGrenade,Location,All,1000,900,S
-4,Flashbangs,/Game/Images/flashbang_icon.flashbang_icon,Throw a flashbang to stun enemies.,Flashbang,Location,All,1000,900,A
+0,HP Potion,/Game/Images/HP_potion.HP_potion,Restores 50 HP,RestoreHP,Location,All,300,250,B
+1,Missile,/Game/Images/missile_item.missile_item,Attack an area using missile,LaunchMissile,Location,All,300,250,B
+2,Stimuli,/Game/Images/stimuli_icon.stimuli_icon,Inject stimuli into heroes within the area. Temporarily enhancing their attack speed.,AttackSpeedStimuli,Location,All,300,250,S
+3,Smoke Grenade,/Game/Images/smoke_grenade.smoke_grenade,Cover an area with smokes. Increase evasion rate heroes in an area.,SmokeGrenade,Location,All,300,250,S
+4,Flashbangs,/Game/Images/flashbang_icon.flashbang_icon,Throw a flashbang to stun enemies.,Flashbang,Location,All,300,250,A

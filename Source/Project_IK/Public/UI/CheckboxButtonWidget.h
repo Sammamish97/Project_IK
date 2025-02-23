@@ -37,7 +37,10 @@ public:
 
 	void SetIsChecked(bool flag);
 	void ToggleChecked();
-	inline bool IsChecked() const;
+	inline bool IsChecked() const
+	{
+		return is_checked_;
+	}
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnCheckboxButtonClickedDelegate OnCheckboxButtonClickedDelegate;
