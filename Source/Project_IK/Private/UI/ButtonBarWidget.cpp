@@ -391,7 +391,8 @@ void UButtonBarWidget::InvokeSkills(const FTargetResult& TargetResult)
 void UButtonBarWidget::FindCharacters()
 {
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-
+	TArray<UButton*> temp_array = {skill_button_0_, skill_button_1_, skill_button_2_, skill_button_3_};
+	int counter = 0;
 	if (game_mode)
 	{
 		characters_ = game_mode->GetHeroContainers();
@@ -400,10 +401,12 @@ void UButtonBarWidget::FindCharacters()
 		{
 			if (actor)
 			{
-				if (auto skill_container = actor->FindComponentByClass<USkillContainer>();
-					skill_container)
+				if (auto skill_container = actor->FindComponentByClass<USkillContainer>())
 				{
 					skill_containers_.Add(skill_container);
+					FButtonStyle button_style;
+					button_style.Normal.SetResourceObject(skill_container->GetEquippedActiveSkillData().thumbnail);
+					temp_array[counter++]->SetStyle(button_style);
 				}
 			}
 		}

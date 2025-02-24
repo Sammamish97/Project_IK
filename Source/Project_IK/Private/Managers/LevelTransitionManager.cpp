@@ -36,9 +36,9 @@ ULevelTransitionManager::ULevelTransitionManager()
 void ULevelTransitionManager::SetInstanceCache(UGameInstance* game_instance)
 {
 	instance_cache_ = game_instance;
+	InitHeroData({EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4});
 }
 
-//
 void ULevelTransitionManager::InitHeroData(const TArray<EHeroType>& hero_types)
 {
 	UIKGameInstance* instance = Cast<UIKGameInstance>(instance_cache_);

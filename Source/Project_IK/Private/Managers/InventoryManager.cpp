@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 
 void UInventoryManager::InitInventory()
 {
-	inventory_size_ = 20;
+	inventory_size_ = 21;
 	inventory_.Init(FInventorySlotData(), inventory_size_);
 
 	AddItem(EGearType::Armor, EArmorType::TestSkillArmor);
@@ -21,6 +21,8 @@ void UInventoryManager::InitInventory()
 	AddItem(EGearType::Weapon, EWeaponType::AssaultRifle);
 	AddItem(EGearType::PassiveSkill, EPassiveSkillType::FixedDmgReduce);
 	AddItem(EGearType::PassiveSkill, EPassiveSkillType::RandDmgIncrease);
+	AddItem(EGearType::ActiveSkill, EActiveSkillType::Thunder);
+	AddItem(EGearType::Oopart, EOopartType::AttackSpeedBoost);
 
 	credits_ = 0;
 
@@ -91,6 +93,36 @@ bool UInventoryManager::AddItem(EGearType type, EPassiveSkillType passive_skill_
 	{
 		FInventorySlotData data;
 		data.passive_skill_type = passive_skill_type;
+		data.gear_type = type;
+		data.is_empty = false;
+		inventory_[index] = data;
+		return true;
+	}
+	return false;
+}
+
+bool UInventoryManager::AddItem(EGearType type, EActiveSkillType active_skill_type)
+{
+	int32 index = GetEmptyIndex();
+	if (index != -1)
+	{
+		FInventorySlotData data;
+		data.active_skill_type = active_skill_type;
+		data.gear_type = type;
+		data.is_empty = false;
+		inventory_[index] = data;
+		return true;
+	}
+	return false;
+}
+
+bool UInventoryManager::AddItem(EGearType type, EOopartType oopart_type)
+{
+	int32 index = GetEmptyIndex();
+	if (index != -1)
+	{
+		FInventorySlotData data;
+		data.oopart_type = oopart_type;
 		data.gear_type = type;
 		data.is_empty = false;
 		inventory_[index] = data;

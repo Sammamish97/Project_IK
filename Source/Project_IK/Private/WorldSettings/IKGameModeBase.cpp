@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "WorldSettings/IKGameModeBase.h"
 
+#include "Characters/EnemyBase.h"
 #include "Kismet/GameplayStatics.h"
 
 #include "WorldSettings/IKGameInstance.h"
@@ -154,10 +155,10 @@ void AIKGameModeBase::PopulateContainers()
 	if (game_instance)
 	{
 		// Populate a hero container
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), game_instance->hero_blueprint_, heroes_);
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AHeroBase::StaticClass(), heroes_);
 
 		// Populate an enemy container
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), game_instance->enemy_blueprint_, enemies_);
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AEnemyBase::StaticClass(), enemies_);
 	}
 }
 

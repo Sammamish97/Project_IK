@@ -139,11 +139,11 @@ void UInventorySlot::SetImageTexture()
 	}
 	else if(slot_data_.gear_type == EGearType::ActiveSkill)
 	{
-		new_texture = equip_manager->GetPassiveSkillData(slot_data_.passive_skill_type).thumbnail;
+		new_texture = equip_manager->GetActiveSkillData(slot_data_.active_skill_type).thumbnail;
 	}
 	else if(slot_data_.gear_type == EGearType::Oopart)
 	{
-		new_texture = equip_manager->GetPassiveSkillData(slot_data_.passive_skill_type).thumbnail;
+		new_texture = equip_manager->GetOopartData(slot_data_.oopart_type).thumbnail;
 	}
 	//
 	image_->SetBrushFromTexture(new_texture);
