@@ -126,7 +126,9 @@ void UMapWidget::InitializeButtons()
 	auto ik_game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
 	UTexture2D* enemy_icon_texture = ik_game_instance->GetTextureManager()->GetTexture("enemy_icon");
-	if (!enemy_icon_texture)
+	UTexture2D* store_icon_texture = ik_game_instance->GetTextureManager()->GetTexture("store_icon");
+	UTexture2D* event_icon_texture = ik_game_instance->GetTextureManager()->GetTexture("event_icon");
+	if (!enemy_icon_texture || !enemy_icon_texture || !event_icon_texture)
 	{
 		return;
 	}
@@ -154,7 +156,20 @@ void UMapWidget::InitializeButtons()
 					UButton* button = NewObject<UButton>();
 					FButtonStyle button_style;
 					FSlateBrush new_brush;
-					new_brush.SetResourceObject(enemy_icon_texture);
+					switch (node.type)
+					{
+					case NodeType::Enemy:
+						new_brush.SetResourceObject(enemy_icon_texture);
+						break;
+					case NodeType::Merchant:
+						new_brush.SetResourceObject(store_icon_texture);
+						break;
+					case NodeType::Event:
+						new_brush.SetResourceObject(event_icon_texture);
+						break;
+					default:
+						break;
+					}
 					new_brush.DrawAs = ESlateBrushDrawType::Type::Image;
 					new_brush.TintColor = FSlateColor(FLinearColor(0.69f, 0.69f, 0.69f));
 					new_brush.SetImageSize(FDeprecateSlateVector2D(128.f, 128.f));

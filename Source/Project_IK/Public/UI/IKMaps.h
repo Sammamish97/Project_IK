@@ -45,6 +45,7 @@ class PROJECT_IK_API UIKMaps : public UObject
 public:
 	UIKMaps();
 
+	// Call the function with at least 3 level of rows.
 	UFUNCTION(BlueprintCallable, Category="Map")
 	void GenerateMaps(int32 row, int32 col);
 	UFUNCTION(BlueprintCallable, Category="Map")
@@ -78,6 +79,11 @@ protected:
 
 	void ClearMaps();
 	bool IsPathCrossed(int32 row, int32 col, int32 path_to) const;
-	NodeType QueryNodeType() const;
+	NodeType QueryNodeType(const TArray<NodeType>& excluded_types = {}) const;
 	int32 AvaiableBranchNum(int32 row, int32 col) const;
+	void CorrectInvalidNodes();
+	void ApplyRule1(int32 row, int32 col);
+	void ApplyRule2(int32 row, int32 col);
+	void ApplyRule3(int32 row, int32 col);
+	void ApplyRule4(int32 row, int32 col);
 };

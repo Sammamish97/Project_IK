@@ -58,6 +58,8 @@ enum class NodeType : uint8
 {
 	None UMETA(DisplayName = "None"),
 	Enemy UMETA(DisplayName = "Enemy"),
+	Merchant UMETA(DisplayName = "Enemy"),
+	Event UMETA(DisplayName = "Enemy"),
 };
 
 UENUM(BlueprintType)
