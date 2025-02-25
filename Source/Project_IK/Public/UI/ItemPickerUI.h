@@ -21,6 +21,7 @@ class UTextBlock;
 class UHorizontalBox;
 class UButton;
 class UImage;
+class UCheckBox;
 struct FItemData;
 
 /**
@@ -51,6 +52,12 @@ protected:
 	UFUNCTION()
 	FVector2D GetButtonPosition(int32 ButtonIndex) const;
 
+	UFUNCTION()
+	void OnSkipCheckedStateChanged(bool bIsChecked);
+
+	UFUNCTION()
+	void GoToNextStep() const;
+
 	TWeakObjectPtr<UCanvasPanel> root_canvas_panel_;
 	TWeakObjectPtr<UBorder> background_;
 	TWeakObjectPtr<UVerticalBox> widgets_holder_;
@@ -58,6 +65,9 @@ protected:
 	TWeakObjectPtr<UTextBlock> description_;
 	TWeakObjectPtr<UHorizontalBox> buttons_holder_;
 	TArray<UButton*> buttons_;
+	TObjectPtr<UVerticalBox> skip_holder_;
+	TObjectPtr<UCheckBox> skip_checkbox_;
+	TObjectPtr<UTextBlock> skip_text_;
 	TWeakObjectPtr<UButton> select_button_;
 	TWeakObjectPtr<UImage> highlight_image_;
 

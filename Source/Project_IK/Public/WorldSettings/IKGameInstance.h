@@ -34,7 +34,7 @@ public:
 
 	virtual void Init() override;
 	virtual void Shutdown() override;
-	
+
 	UFUNCTION(BlueprintPure)
 	const class UItemDataManager* GetItemDataManager() noexcept;
 	UFUNCTION(BlueprintPure)

@@ -24,7 +24,7 @@ void UInventoryManager::InitInventory()
 	AddItem(EGearType::ActiveSkill, EActiveSkillType::Thunder);
 	AddItem(EGearType::Oopart, EOopartType::AttackSpeedBoost);
 
-	credits_ = 0;
+	credits_ = 200;
 
 	perk_points_ = 12;
 }

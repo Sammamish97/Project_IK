@@ -25,6 +25,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/HorizontalBoxSlot.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
+#include "Components/CheckBox.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameInstance.h"
@@ -72,6 +73,10 @@ void UItemPickerUI::NativeDestruct()
 	for (UButton* button : buttons_)
 	{
 		button->OnClicked.Clear();
+	}
+	if (skip_checkbox_->OnCheckStateChanged.IsBound())
+	{
+		skip_checkbox_->OnCheckStateChanged.Clear();
 	}
 
 	select_button_->OnClicked.Clear();
@@ -167,6 +172,38 @@ void UItemPickerUI::InitializeChildWidgets()
 		buttons_.Add(button.Get());
 	}
 
+	skip_holder_ = NewObject<UVerticalBox>();
+	UVerticalBoxSlot* skip_holder_slot = widgets_holder_->AddChildToVerticalBox(skip_holder_);
+	if (skip_holder_slot)
+	{
+		skip_holder_slot->SetPadding(FMargin(0.f, 0.f, 0.f, 32.f));
+		skip_holder_slot->SetHorizontalAlignment(EHorizontalAlignment::HAlign_Center);
+		skip_holder_slot->SetVerticalAlignment(EVerticalAlignment::VAlign_Center);
+	}
+
+	skip_checkbox_ = NewObject<UCheckBox>();
+	skip_checkbox_->HorizontalAlignment = EHorizontalAlignment::HAlign_Center;
+	skip_checkbox_->OnCheckStateChanged.AddDynamic(this, &UItemPickerUI::OnSkipCheckedStateChanged);
+	UVerticalBoxSlot* skip_checkbox_slot = skip_holder_->AddChildToVerticalBox(skip_checkbox_);
+	if (skip_checkbox_slot)
+	{
+		skip_checkbox_slot->SetHorizontalAlignment(EHorizontalAlignment::HAlign_Center);
+		skip_checkbox_slot->SetVerticalAlignment(EVerticalAlignment::VAlign_Center);
+	}
+	
+	skip_text_ = NewObject<UTextBlock>();
+	skip_text_->SetText(FText::FromString("Ignore them."));
+	skip_text_->SetColorAndOpacity(FLinearColor(0.65f, 0.65f, 0.65f));
+	FSlateFontInfo skip_text_font_info = skip_text_->GetFont();
+	skip_text_font_info.Size = 16;
+	skip_text_->SetFont(skip_text_font_info);
+	UVerticalBoxSlot* skip_text_slot = skip_holder_->AddChildToVerticalBox(skip_text_);
+	if (skip_text_slot)
+	{
+		skip_text_slot->SetHorizontalAlignment(EHorizontalAlignment::HAlign_Center);
+		skip_text_slot->SetVerticalAlignment(EVerticalAlignment::VAlign_Center);
+	}
+
 	UTexture2D* select_texture = game_instance->GetTextureManager()->GetTexture("take_it_button");
 	select_button_ = NewObject<UButton>();
 	FButtonStyle button_style;
@@ -237,17 +274,15 @@ void UItemPickerUI::SelectButtonBindingFunc()
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	if (game_instance)
 	{
-		if (selected_button_index_ >= 0 && selected_button_index_ < item_candidates_.Num())
+		if (skip_checkbox_->IsChecked())
+		{
+			GoToNextStep();
+		}
+		else if (selected_button_index_ >= 0 && selected_button_index_ < item_candidates_.Num())
 		{
 			game_instance->GetItemInventory()->AddItem(item_candidates_[selected_button_index_], [this]() 
 				{
-					// Update HUD status
-					AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
-					if (hud)
-					{
-						hud->SynchroItemButtons();
-						hud->SwitchUIByState(ELevelEndState::ShowingMapUI);
-					}
+					GoToNextStep();
 				}
 			);
 		}
@@ -283,4 +318,30 @@ FVector2D UItemPickerUI::GetButtonPosition(int32 ButtonIndex) const
 {
 	// Border -> VerticalBox -> HorizontalBox -> Button
 	return background_->GetPaintSpaceGeometry().GetLocalPositionAtCoordinates(FVector2D(0.0)) + widgets_holder_->GetPaintSpaceGeometry().GetLocalPositionAtCoordinates(FVector2D(0.0)) + buttons_holder_->GetPaintSpaceGeometry().GetLocalPositionAtCoordinates(FVector2D(0.0)) + buttons_[ButtonIndex]->GetPaintSpaceGeometry().GetLocalPositionAtCoordinates(FVector2D(0.0));
+}
+
+void UItemPickerUI::OnSkipCheckedStateChanged(bool bIsChecked)
+{
+	selected_button_index_ = -1;
+	highlight_image_->SetVisibility(ESlateVisibility::Hidden);
+
+	if (bIsChecked)
+	{
+		select_button_->SetIsEnabled(true);
+	}
+	else
+	{
+		select_button_->SetIsEnabled(false);
+	}
+}
+
+void UItemPickerUI::GoToNextStep() const
+{
+	// Update HUD status
+	AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+	if (hud)
+	{
+		hud->SynchroItemButtons();
+		hud->SwitchUIByState(ELevelEndState::ShowingMapUI);
+	}
 }

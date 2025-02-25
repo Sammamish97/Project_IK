@@ -27,7 +27,7 @@ public:
 	UFUNCTION()
 	void SetGlobalTimeDilation(UObject* world, float time_dilation);
 	UFUNCTION()
-	inline float GetGlobalTimeDilation(UObject* world) const;
+	float GetGlobalTimeDilation(UObject* world) const;
 	
 	UFUNCTION()
 	void SlowGlobalTimeDilation(UObject* world);

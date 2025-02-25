@@ -95,21 +95,6 @@ void UIKMaps::GenerateMaps(int32 row, int32 col)
 	}
 }
 
-int32 UIKMaps::GetMaxNode() const
-{
-	return GetWidth() * GetHeight();
-}
-
-int32 UIKMaps::GetWidth() const
-{
-	return map[0].Num();
-}
-
-int32 UIKMaps::GetHeight() const
-{
-	return map.Num();
-}
-
 const FMapNode& UIKMaps::GetNode(int32 row, int32 col) const
 {
 	return map[row][col];

@@ -128,17 +128,20 @@ void AHeroBase::GetDamage(FDamageData data)
 	}
 	
 	bool is_evaded = character_stat_component_->CalcDamage(data);
-	if (hero_dmg_event_map_.Find(EHeroEvent::OnHitAfterCalc))
+	if (is_evaded == false)
 	{
-		if (hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc].IsEmpty() == false)
+		if (hero_dmg_event_map_.Find(EHeroEvent::OnHitAfterCalc))
 		{
-			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc])
+			if (hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc].IsEmpty() == false)
 			{
-				if(delegate.IsBound()) data = delegate.Execute(data);
+				for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnHitAfterCalc])
+				{
+					if (delegate.IsBound()) data = delegate.Execute(data);
+				}
 			}
 		}
+		character_stat_component_->GetDamage(data.damage);
 	}
-	character_stat_component_->GetDamage(data.damage);
 	SetDamageUI(data, is_evaded);
 }
 

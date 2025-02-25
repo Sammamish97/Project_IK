@@ -22,11 +22,14 @@ void UTextureManager::InitializeTextures()
 	GetAllTexturesInFolder("/Game/Images");
 }
 
-UTexture2D* UTextureManager::GetTexture(FString Key) const
+UTexture2D* UTextureManager::GetTexture(const FString& Key) const
 {
 	if (textures_.Contains(Key))
 	{
-		return textures_[Key];
+		TSoftObjectPtr<UTexture2D> soft_texture = textures_[Key];
+		// In the case you want it to be asynchronously, call LoadAssetAsync with 
+		// a passed callback function that takes pointer to UTexture2D.
+		return soft_texture.LoadSynchronous();
 	}
 	return nullptr;
 }
@@ -36,34 +39,34 @@ UTexture2D* UTextureManager::GetBuffTexture(ECharacterStatType StatType) const
 	switch (StatType)
 	{
 	case ECharacterStatType::AttackPower:
-		return textures_["attack_power"];
+		return GetTexture("attack_power");
 		break;
 	case ECharacterStatType::AttackSpeed:
-		return textures_["fire_rate_burst"];
+		return GetTexture("fire_rate_burst");
 		break;
 	case ECharacterStatType::CriticalHitRate:
-		return textures_["critical_hit_rate"];
+		return GetTexture("critical_hit_rate");
 		break;
 	case ECharacterStatType::Accuracy:
-		return textures_["accuracy"];
+		return GetTexture("accuracy");
 		break;
 	case ECharacterStatType::MagazineBonus:
 		break;
 	case ECharacterStatType::LifeSteal:
 		break;
 	case ECharacterStatType::HitPoints:
-		return textures_["hit_points"];
+		return GetTexture("hit_points");
 		break;
 	case ECharacterStatType::EvasionRate:
-		return textures_["evasion"];
+		return GetTexture("evasion");
 		break;
 	case ECharacterStatType::Armor:
-		return textures_["armor"];
+		return GetTexture("armor");
 		break;
 	case ECharacterStatType::Survivability:
 		break;
 	case ECharacterStatType::MoveSpeed:
-		return textures_["move_speed"];
+		return GetTexture("move_speed");
 		break;
 	case ECharacterStatType::ActiveSkillPower:
 		break;
@@ -86,16 +89,16 @@ UTexture2D* UTextureManager::GetCCTexture(ECCType CCType) const
 	switch (CCType)
 	{
 	case ECCType::DroneJamming:
-		return textures_["drone_jamming"];
+		return GetTexture("drone_jamming");
 		break;
 	case ECCType::Silence:
-		return textures_["silence"];
+		return GetTexture("silence");
 		break;
 	case ECCType::MuteItems:
-		return textures_["mute_items"];
+		return GetTexture("mute_items");
 		break;
 	case ECCType::Stun:
-		return textures_["stun"];
+		return GetTexture("stun");
 		break;
 	default:
 		break;
@@ -107,30 +110,19 @@ void UTextureManager::GetAllTexturesInFolder(const FString& FolderPath)
 {
 	FAssetRegistryModule& asset_registry_module = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
 
-	if (!asset_registry_module.Get().IsLoadingAssets())
-	{
-		asset_registry_module.Get().SearchAllAssets(true);
-	}
-
 	FARFilter filter;
 	filter.PackagePaths.Add(*FolderPath);
 	// Include subfolders
 	filter.bRecursivePaths = true;
+	// Ensures retrieving only texture assets.
+	filter.ClassPaths.Add(UTexture2D::StaticClass()->GetClassPathName());
 
 	TArray<FAssetData> asset_data_list;
 	asset_registry_module.Get().GetAssets(filter, asset_data_list);
 
 	for (const FAssetData& data : asset_data_list)
 	{
-		// Synchronously load the texture asset
-		UTexture2D* texture = Cast<UTexture2D>(data.GetAsset());
-		if (texture)
-		{
-			textures_.Add(texture->GetName(), texture);
-		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("Failed to load texture: %s"), *data.ObjectPath.ToString());
-		}
+		TSoftObjectPtr<UTexture2D> soft_texture(data.ToSoftObjectPath());
+		textures_.Add(data.AssetName.ToString(), soft_texture);
 	}
 }

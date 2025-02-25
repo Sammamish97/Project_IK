@@ -43,7 +43,26 @@ void UIKGameInstance::Init()
 	InitDataTableManager();
 	InitSpawnData();
 
-	item_inventory_->AddItem(item_data_manager_->GetItemDataRandomly());
+	item_inventory_->AddItem(item_data_manager_->GetItemData(3));
+}
+
+void UIKGameInstance::Shutdown()
+{
+	// Enhance data by recorded progress.
+	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
+	const TArray<FPerkNode>& tree = GetSubsystem<UPerkTreeSubsystem>()->GetTree();
+
+	TArray<EHeroType> types{ EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4 };
+	for (EHeroType type : types)
+	{
+		const TSet<int32>& progress = progress_system->GetProgress(type);
+		for (int32 p : progress)
+		{
+			character_data_manager_->DiminishCharacterData(type, tree[p].stat_, tree[p].modifier_);
+		}
+	}
+
+	Super::Shutdown();
 }
 
 void UIKGameInstance::Shutdown()

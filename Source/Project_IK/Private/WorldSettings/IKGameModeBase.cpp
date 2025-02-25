@@ -151,7 +151,7 @@ void AIKGameModeBase::SetGlobalTimeDilation(float time_dilation)
 	}
 }
 
-inline float AIKGameModeBase::GetGlobalTimeDilation() const
+float AIKGameModeBase::GetGlobalTimeDilation() const
 {
 	if (time_dilation_manager)
 	{

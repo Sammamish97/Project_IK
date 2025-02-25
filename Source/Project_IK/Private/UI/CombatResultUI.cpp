@@ -56,7 +56,7 @@ void UCombatResultUI::SetHeroNumbers(int32 num)
 
 	for (int32 i = 0; i < num; i++)
 	{
-		UCombatResultBlock* block = CreateWidget<UCombatResultBlock>(this);
+		UCombatResultBlock* block = CreateWidget<UCombatResultBlock>(this, combat_result_block_widget_class_);
 		FString block_unique_name = MakeUniqueObjectName(GetOuter(), block->GetClass(), TEXT("Block")).ToString();
 		block->Rename(*block_unique_name);
 		UHorizontalBoxSlot* block_slot = blocks_holder_->AddChildToHorizontalBox(block);
@@ -131,6 +131,11 @@ void UCombatResultUI::NativeConstruct()
 			// It is not ratio at this point. It contains initial hit points.
 			hp_ratio_before_.Add(hero->GetCharacterStat()->GetHPRatio());
 		}
+
+		int32 hero_size = game_mode->GetHeroContainers().Num();
+		// @@ TODO: In this code, it is possible to have multiple blocks because of multiple NativeConstruct calls.
+							// Need to delete data in NativeDestruct.
+		SetHeroNumbers(hero_size);
 	}
 
 }

@@ -48,11 +48,20 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Map")
 	void GenerateMaps(int32 row, int32 col);
 	UFUNCTION(BlueprintCallable, Category="Map")
-	inline int32 GetMaxNode() const;
+	inline int32 GetMaxNode() const
+	{
+		return GetWidth() * GetHeight();
+	}
 	UFUNCTION(BlueprintCallable, Category = "Map")
-	inline int32 GetWidth() const;
+	inline int32 GetWidth() const
+	{
+		return map[0].Num();
+	}
 	UFUNCTION(BlueprintCallable, Category = "Map")
-	inline int32 GetHeight() const;
+	inline int32 GetHeight() const
+	{
+		return map.Num();
+	}
 	UFUNCTION(BlueprintCallable, Category = "Map")
 	const FMapNode& GetNode(int32 row, int32 col) const;
 
@@ -69,6 +78,6 @@ protected:
 
 	void ClearMaps();
 	bool IsPathCrossed(int32 row, int32 col, int32 path_to) const;
-	inline NodeType QueryNodeType() const;
+	NodeType QueryNodeType() const;
 	int32 AvaiableBranchNum(int32 row, int32 col) const;
 };
