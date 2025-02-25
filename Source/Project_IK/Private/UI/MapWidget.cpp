@@ -156,23 +156,29 @@ void UMapWidget::InitializeButtons()
 					UButton* button = NewObject<UButton>();
 					FButtonStyle button_style;
 					FSlateBrush new_brush;
+					new_brush.DrawAs = ESlateBrushDrawType::Type::Image;
+					new_brush.TintColor = FSlateColor(FLinearColor(0.69f, 0.69f, 0.69f));
 					switch (node.type)
 					{
 					case NodeType::Enemy:
 						new_brush.SetResourceObject(enemy_icon_texture);
+						new_brush.SetImageSize(FDeprecateSlateVector2D(128.f, 128.f));
 						break;
 					case NodeType::Merchant:
 						new_brush.SetResourceObject(store_icon_texture);
+						new_brush.SetImageSize(FDeprecateSlateVector2D(128.f, 128.f));
 						break;
 					case NodeType::Event:
 						new_brush.SetResourceObject(event_icon_texture);
+						new_brush.SetImageSize(FDeprecateSlateVector2D(128.f, 128.f));
+						break;
+					case NodeType::Boss:
+						new_brush.SetResourceObject(enemy_icon_texture);
+						new_brush.SetImageSize(FDeprecateSlateVector2D(128.f, 128.f) * 3);
 						break;
 					default:
 						break;
 					}
-					new_brush.DrawAs = ESlateBrushDrawType::Type::Image;
-					new_brush.TintColor = FSlateColor(FLinearColor(0.69f, 0.69f, 0.69f));
-					new_brush.SetImageSize(FDeprecateSlateVector2D(128.f, 128.f));
 					button_style.SetNormal(new_brush);
 					new_brush.TintColor = FSlateColor(FLinearColor(0.95f, 0.95f, 0.95f));
 					button_style.SetHovered(new_brush);
@@ -299,7 +305,17 @@ void UMapWidget::EnableZeroLevelButtons()
 
 void UMapWidget::SetSlotRowCol(UGridSlot* GridSlot, int32 Row, int32 Column)
 {
-	GridSlot->SetRow(maps_->GetHeight() - 1 - Row);
+	// If the slot is for Boss level
+	const int32 height = maps_->GetHeight();
+	if (Row >= height - 1)
+	{
+		GridSlot->SetRow(0);
+		GridSlot->SetColumn(0);
+		GridSlot->SetColumnSpan(height);
+		GridSlot->SetHorizontalAlignment(EHorizontalAlignment::HAlign_Center);
+		return;
+	}
+	GridSlot->SetRow(height - 1 - Row);
 	GridSlot->SetColumn(Column);
 }
 

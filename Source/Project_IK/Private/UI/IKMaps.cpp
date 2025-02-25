@@ -97,7 +97,7 @@ void UIKMaps::GenerateMaps(int32 row, int32 col)
 	}
 
 	// Set Boss node
-	map[row - 1][0].type = NodeType::Enemy;
+	map[row - 1][0].type = NodeType::Boss;
 
 	CorrectInvalidNodes();
 }
