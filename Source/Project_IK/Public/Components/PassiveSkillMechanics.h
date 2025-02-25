@@ -35,8 +35,8 @@ public:
 	void UnEquipPassiveSkill();
 	
 private:
-	FPassiveSkillData equipped_passiev_skill_data_;
-	
-	class UEquipManager* equip_manager_cache_;
+	FPassiveSkillData equipped_passive_skill_data_;
+	UEquipSkillBase* passive_skill_cache_;
+	class UDataTableManager* data_table_cache_;
 	class AHeroBase* hero_cache_;
 };

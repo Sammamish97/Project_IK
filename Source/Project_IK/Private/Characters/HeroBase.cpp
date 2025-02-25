@@ -16,8 +16,10 @@ See LICENSE file in the project root for full license information.
 #include "Components/EquipMechanics.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/CharacterStatComponent.h"
+#include "Components/OopartMechanics.h"
 #include "Components/PassiveSkillMechanics.h"
 #include "Components/WeaponMechanics.h"
+#include "Components/SphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameModeBase.h"
@@ -28,6 +30,11 @@ AHeroBase::AHeroBase()
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
 	passive_skill_mechanics_ = CreateDefaultSubobject<UPassiveSkillMechanics>(TEXT("PassiveMechanics"));
 	equip_mechanics_ = CreateDefaultSubobject<UEquipMechanics>(TEXT("EquipMechanics"));
+	oopart_mechanics_ = CreateDefaultSubobject<UOopartMechanics>(TEXT("OopartMechanics"));
+	
+	oopart_pos_ = CreateDefaultSubobject<USphereComponent>(TEXT("Oopart Pos"));
+	oopart_pos_->SetupAttachment(GetRootComponent());
+	oopart_pos_->SetRelativeLocation({0, -49, 90});
 
 	GetCharacterMovement()->bUseRVOAvoidance = true;
 	GetCharacterMovement()->AvoidanceConsiderationRadius = 100;
@@ -46,6 +53,8 @@ void AHeroBase::BeginPlay()
 	equip_mechanics_->EquipArmor(EArmorType::TestSkillArmor);
 	equip_mechanics_->EquipTrinket(ETrinketType::TestSkillTrinket);
 	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::FixedDmgReduce);
+	oopart_mechanics_->EquipOopart(EOopartType::AttackSpeedBoost);
+	skill_container_->EquipActiveSkill(EActiveSkillType::Thunder);
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)

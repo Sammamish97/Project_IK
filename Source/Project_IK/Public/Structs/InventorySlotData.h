@@ -36,5 +36,9 @@ struct PROJECT_IK_API FInventorySlotData
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
 	EPassiveSkillType passive_skill_type;
 
-	//TODO: OopartType, ActiveType이 추가되어야 함.
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
+	EActiveSkillType active_skill_type;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
+	EOopartType oopart_type;
 };

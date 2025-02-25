@@ -13,13 +13,12 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "SkillBase.h"
-
 #include "components/TargetingComponent.h"
-
+#include "Structs/ActiveSkillData.h"
 #include "SkillContainer.generated.h"
 
 
+class USkillBase;
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECT_IK_API USkillContainer : public UActorComponent
 {
@@ -29,21 +28,20 @@ public:
 	// Sets default values for this component's properties
 	USkillContainer();
 
+	virtual void BeginPlay() override;
 	virtual void InitializeComponent() override;
 
 	UFUNCTION(BlueprintCallable)
 	void InvokeSkills(const FTargetResult& TargetResult);
 
-	UFUNCTION(BlueprintCallable)
-	void SetSkill(TSubclassOf<class USkillBase> skill);
+	FActiveSkillData GetEquippedActiveSkillData();
+	void EquipActiveSkill(EActiveSkillType type);
+	void UnEquipActiveSkill();
+	
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skills")
-	TSubclassOf<class USkillBase> skill_class_;
-
-	UPROPERTY()
-	USkillBase* skill_;
+private:
+	FActiveSkillData equipped_active_skill_data_;
+	class UDataTableManager* data_table_cache_;
+	USkillBase* active_skill_cache_;
+	class AHeroBase* hero_cache_;
 };

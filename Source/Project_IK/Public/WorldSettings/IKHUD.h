@@ -71,10 +71,10 @@ protected:
 	ULevelEndUIManager* level_end_ui_manager_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<class UHeroInventoryWidget> inventory_widget_class_;
+	TSubclassOf<class UInventoryWidget> inventory_widget_class_;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
-	class UHeroInventoryWidget* inventory_widget_;
+	class UInventoryWidget* inventory_widget_;
 
 	virtual void BeginPlay() override;
 };

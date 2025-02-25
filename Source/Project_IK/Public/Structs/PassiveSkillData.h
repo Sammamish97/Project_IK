@@ -18,15 +18,15 @@ USTRUCT(BlueprintType)
 struct PROJECT_IK_API FPassiveSkillData : public FTableRowBase
 {
 	GENERATED_BODY();
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
 	EPassiveSkillType type;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
 	TSubclassOf<class UEquipSkillBase> passive_skill_class;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
 	UTexture2D* thumbnail = nullptr;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
 	FString flavor_text;
 };

@@ -39,6 +39,9 @@ public:
 public:
 	TMap<EHeroEvent, TArray<FOnDamage>> hero_dmg_event_map_;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
+	class USphereComponent* oopart_pos_;
+	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
 	class USkillContainer* skill_container_;
@@ -51,6 +54,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
 	class UEquipMechanics* equip_mechanics_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
+	class UOopartMechanics* oopart_mechanics_;
 
 private:
 	EHeroType hero_type_;

@@ -152,6 +152,7 @@ enum class EDamageType : uint8
 	Explosive UMETA(DisplayName = "Explosive"),
 	Melee UMETA(DisplayName = "Melee"),
 	Dot UMETA(DisplayName = "Dot"),
+	Magic UMETA(DisplayName = "Magic"),
 	INVALID UMETA(DisplayName = "INVALID")
 };
 
@@ -241,5 +242,21 @@ enum class EAttackEffect : uint8
 	Test1 UMETA(DisplayName = "Test1"),
 	Test2 UMETA(DisplayName = "Test2"),
 	Test3 UMETA(DisplayName = "Test3"),
+	Empty UMETA(DisplayName = "Empty")
+};
+
+UENUM(BlueprintType)
+enum class EOopartType : uint8
+{
+	HealingWaves UMETA(DisplayName = "HealingWaves"),
+	AttackSpeedBoost UMETA(DisplayName = "AttackSpeedBoost"),
+	Empty UMETA(DisplayName = "Empty")
+};
+
+UENUM(BlueprintType)
+enum class EActiveSkillType : uint8
+{
+	Thunder UMETA(DisplayName = "Thunder"),
+	RapidFire UMETA(DisplayName = "RapidFire"),
 	Empty UMETA(DisplayName = "Empty")
 };

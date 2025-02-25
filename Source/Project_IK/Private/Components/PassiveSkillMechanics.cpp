@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
-#include "Managers/EquipManager.h"
+#include "Managers/DataTableManager.h"
 #include "WorldSettings/IKGameInstance.h"
 
 
@@ -31,22 +31,22 @@ void UPassiveSkillMechanics::BeginPlay()
 {
 	Super::BeginPlay();
 	hero_cache_ = Cast<AHeroBase>(GetOwner());
-	equip_manager_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetEquipManager();
+	data_table_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 }
 
 FPassiveSkillData UPassiveSkillMechanics::GetEquippedPassiveSkillData()
 {
-	return equipped_passiev_skill_data_;
+	return equipped_passive_skill_data_;
 }
 
 void UPassiveSkillMechanics::EquipPassiveSkill(EPassiveSkillType type)
 {
-	equipped_passiev_skill_data_ = equip_manager_cache_->GetPassiveSkillData(type);
-	UEquipSkillBase* equip_skill = NewObject<UEquipSkillBase>(this, equipped_passiev_skill_data_.passive_skill_class);
-	equip_skill->InitEquipmentSkill(hero_cache_);
+	equipped_passive_skill_data_ = data_table_cache_->GetPassiveSkillData(type);
+	passive_skill_cache_ = NewObject<UEquipSkillBase>(this, equipped_passive_skill_data_.passive_skill_class);
+	passive_skill_cache_->InitEquipmentSkill(hero_cache_);
 }
 
 void UPassiveSkillMechanics::UnEquipPassiveSkill()
 {
-	equipped_passiev_skill_data_ = equip_manager_cache_->GetPassiveSkillData(EPassiveSkillType::Empty);
+	equipped_passive_skill_data_ = data_table_cache_->GetPassiveSkillData(EPassiveSkillType::Empty);
 }

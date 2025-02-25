@@ -10,19 +10,20 @@ See LICENSE file in the project root for full license information.
 
 
 #include "WorldSettings/IKGameModeBase.h"
-
 #include "Kismet/GameplayStatics.h"
 
 #include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKPlayerController.h"
 #include "Components/TargetingComponent.h"
-#include "Managers/LevelTransitionManager.h"
 #include "Managers/TimeDilationManager.h"
 
 #include "WorldSettings/IKHUD.h"
 
-
 #include "Characters/HeroBase.h"
+#include "Components/CharacterStatComponent.h"
+#include "Environments/SpawnMarker.h"
+#include "Structs/SpawnData.h"
+#include "Subsystems/LevelTransitionSubsystem.h"
 
 AIKGameModeBase::AIKGameModeBase()
 	: Super::AGameModeBase()
@@ -32,19 +33,46 @@ AIKGameModeBase::AIKGameModeBase()
 void AIKGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
-
 	time_dilation_manager = NewObject<UTimeDilationManager>(this);
+	SpawnHeroes();
+}
 
-	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(this));
-	if (game_instance)
+
+void AIKGameModeBase::SpawnHeroes()
+{
+	TArray<AActor*> marker;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASpawnMarker::StaticClass(), marker);
+	FVector spawn_position = FVector();
+	FRotator spawn_rotation = FRotator();
+	if (marker.Num() > 0)
 	{
-		ULevelTransitionManager* level_transition_manager = game_instance->GetLevelTransitionManager();
-		if (level_transition_manager)
-		{
-			level_transition_manager->PrepareLevel(GetWorld());
-		}
+		spawn_position = marker[0]->GetActorLocation();
+		spawn_rotation = marker[0]->GetActorRotation();
 	}
-	PopulateContainers();
+
+	ULevelTransitionSubsystem* subsystem = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
+	auto save_data_array = subsystem->GetSpawnData();
+	
+	for (int32 i = 0; i < save_data_array.Num(); ++i)
+	{
+		AHeroBase* hero = GetWorld()->SpawnActor<AHeroBase>(save_data_array[i].character_data_.unit_class_, spawn_position + FVector(0, (300.f * (save_data_array.Num() - 1) / -2.f ) + (i * 300), 90), spawn_rotation);
+		hero->SpawnDefaultController();
+		hero->GetComponentByClass<UCharacterStatComponent>()->SetCharacterData(save_data_array[0].character_data_);
+		hero->Initialize();
+		heroes_.Add(hero);
+	}
+}
+
+void AIKGameModeBase::SaveHeroSpawnData()
+{
+	TArray<FSpawnData> spawn_data;
+	for(auto hero : heroes_)
+	{
+		FSpawnData cur_data;
+		cur_data.character_data_ = Cast<AHeroBase>(hero)->GetCharacterStat()->GetCharacterData();
+		spawn_data.Add(cur_data);
+	}
+	GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->UpdateSpawnData(spawn_data);
 }
 
 TArray<AActor*> AIKGameModeBase::GetHeroContainers() const noexcept
@@ -92,6 +120,7 @@ void AIKGameModeBase::CheckWinLoseCondition()
 	if (enemies_.Num() <= 0)
 	{
 		OnGameWin();
+		SaveHeroSpawnData();
 	}
 	else if (heroes_.Num() <= 0)
 	{
@@ -144,20 +173,6 @@ void AIKGameModeBase::RestoreGlobalTimeDilation()
 	if (time_dilation_manager)
 	{
 		time_dilation_manager->RestoreGlobalTimeDilation(GetWorld());
-	}
-}
-
-void AIKGameModeBase::PopulateContainers()
-{
-	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(this));
-	
-	if (game_instance)
-	{
-		// Populate a hero container
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), game_instance->hero_blueprint_, heroes_);
-
-		// Populate an enemy container
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), game_instance->enemy_blueprint_, enemies_);
 	}
 }
 

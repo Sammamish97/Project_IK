@@ -1,0 +1,64 @@
+/******************************************************************************
+Copyright(C) 2024
+Author: sinil.kang(rtd99062@gmail.com)
+Creation Date : 11.10.2024
+Summary : Source file for managing trasition between levels.
+
+Licensed under the MIT License.
+See LICENSE file in the project root for full license information.
+******************************************************************************/
+
+#include "Subsystems/LevelTransitionSubsystem.h"
+#include "WorldSettings/IKGameInstance.h"
+#include "Structs/SpawnData.h"
+#include "Kismet/GameplayStatics.h"
+#include "UI/IKMaps.h"
+
+class UIKGameInstance;
+
+void ULevelTransitionSubsystem::Initialize(FSubsystemCollectionBase& Collection)
+{
+	Super::Initialize(Collection);
+}
+
+void ULevelTransitionSubsystem::Deinitialize()
+{
+	Super::Deinitialize();
+}
+
+void ULevelTransitionSubsystem::UpdateSpawnData(const TArray<FSpawnData>& data)
+{
+	spawn_data_.Empty();
+	for(auto elem : data)
+	{
+		spawn_data_.Add(elem);
+	}
+}
+
+void ULevelTransitionSubsystem::OpenLevel(UWorld* world, FIntPoint map_position)
+{
+	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+	FMapNode node = instance->GetMapPtr()->GetNode(map_position.X, map_position.Y);
+	switch (node.type)
+	{
+	case NodeType::None:
+		UE_LOG(LogTemp, Warning, TEXT("ULevelTransitionManager::OpenLevel -> Tried to go to invalid map node"));
+		break;
+	case NodeType::Enemy:
+		UGameplayStatics::OpenLevel(world, FName("CombatLevel"));
+		instance->GetMapPtr()->SetPlayerGridPosition(map_position);
+		break;
+	default:
+		break;
+	}
+}
+
+const TArray<FSpawnData>& ULevelTransitionSubsystem::GetSpawnData() const
+{
+	return spawn_data_;
+}
+
+FSpawnData ULevelTransitionSubsystem::GetSpawnData(int idx) const
+{
+	return spawn_data_[idx];
+}

@@ -27,8 +27,8 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/WidgetTree.h"
 #include "Rendering/DrawElements.h"
 
-#include "Managers/LevelTransitionManager.h"
 #include "Managers/TextureManager.h"
+#include "Subsystems/LevelTransitionSubsystem.h"
 
 #include "UI/IKMaps.h"
 
@@ -296,7 +296,7 @@ void UMapWidget::OpenLevel()
 	{
 		if (pair.Value->IsHovered())
 		{
-			Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(world))->GetLevelTransitionManager()->OpenLevel(world, pair.Key);
+			Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(world))->GetLevelTransitionSubsystem()->OpenLevel(world, pair.Key);
 		}
 	}
 

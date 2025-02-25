@@ -7,26 +7,21 @@ Summary : Source file for game instance.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
-
 #include "WorldSettings/IKGameInstance.h"
 
 #include "Abilities/ItemInventory.h"
 #include "UI/IKMaps.h"
 #include "Managers/ItemDataManager.h"
-#include "Managers/CharacterDataManager.h"
-#include "Managers/LevelTransitionManager.h"
 #include "Managers/DronePluginManager.h"
 #include "Managers/TextureManager.h"
 #include "Managers/DialogueEventManager.h"
-#include "Managers/HeroInventoryManager.h"
-#include "Managers/EquipManager.h"
+#include "Managers/InventoryManager.h"
+#include "Structs/SpawnData.h"
 
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "Subsystems/PerkTreeSubsystem.h"
+#include "Subsystems/LevelTransitionSubsystem.h"
 
-#include "Characters/HeroBase.h"
-#include "Characters/EnemyBase.h"
 
 UIKGameInstance::UIKGameInstance()
 	:Super::UGameInstance()
@@ -41,12 +36,12 @@ void UIKGameInstance::Init()
 	InitializeItemDataManager();
 	InitializeItemInventory();
 	InitializeMaps();
-	InitializeLevelTransitionManager();
 	InitializeDronePluginManager();
 	InitializeTextureManager();
 	InitializeDialogueEventManager();
 	InitInventoryManager();
-	InitEquipManager();
+	InitDataTableManager();
+	InitSpawnData();
 
 	item_inventory_->AddItem(item_data_manager_->GetItemData(3));
 }
@@ -70,14 +65,27 @@ void UIKGameInstance::Shutdown()
 	Super::Shutdown();
 }
 
+void UIKGameInstance::Shutdown()
+{
+	//TODO: 여기서 ULevelTransitionSubsystem의 저장이 필요한 data들을 disk에 write해야 함.
+	Super::Shutdown();
+}
+
+void UIKGameInstance::InitSpawnData()
+{
+	TArray<FSpawnData> result;
+	for(const auto& type : { EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4 })
+	{
+		FSpawnData spawn_data;
+		spawn_data.character_data_ = *(data_table_manager_->GetCharacterData(type));
+		result.Add(spawn_data);
+	}
+	GetSubsystem<ULevelTransitionSubsystem>()->UpdateSpawnData(result);
+}
+
 const UItemDataManager* UIKGameInstance::GetItemDataManager() noexcept
 {
 	return item_data_manager_;
-}
-
-UCharacterDataManager* UIKGameInstance::GetCharacterDataManager() noexcept
-{
-	return character_data_manager_;
 }
 
 UItemInventory* UIKGameInstance::GetItemInventory() const noexcept
@@ -90,17 +98,12 @@ UIKMaps* UIKGameInstance::GetMapPtr() const noexcept
 	return maps_;
 }
 
-ULevelTransitionManager* UIKGameInstance::GetLevelTransitionManager() noexcept
-{
-	return level_transition_manager_;
-}
-
 const UDronePluginManager* UIKGameInstance::GetDronePluginManager() noexcept
 {
 	return drone_plugin_manager_; 
 }
 
-UHeroInventoryManager* UIKGameInstance::GetInventoryManager() const noexcept
+UInventoryManager* UIKGameInstance::GetInventoryManager() const noexcept
 {
 	return inventory_manager_;
 }
@@ -115,9 +118,14 @@ const UDialogueEventManager* UIKGameInstance::GetDialogueEventManager() const no
 	return dialogue_event_manager_;
 }
 
-UEquipManager* UIKGameInstance::GetEquipManager() const noexcept
+ULevelTransitionSubsystem* UIKGameInstance::GetLevelTransitionSubsystem() const noexcept
 {
-	return equip_manager_;
+	return GetSubsystem<ULevelTransitionSubsystem>();
+}
+
+UDataTableManager* UIKGameInstance::GetDataTableManager() const noexcept
+{
+	return data_table_manager_;
 }
 
 void UIKGameInstance::InitializeItemDataManager()
@@ -127,19 +135,15 @@ void UIKGameInstance::InitializeItemDataManager()
 
 void UIKGameInstance::InitializeCharacterDataManager()
 {
-	character_data_manager_ = NewObject<UCharacterDataManager>();
-	
 	// Enhance data by recorded progress.
 	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
 	const TArray<FPerkNode>& tree = GetSubsystem<UPerkTreeSubsystem>()->GetTree();
-
-	TArray<EHeroType> types{ EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4 };
-	for (EHeroType type : types)
+	for (EHeroType type : { EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4 })
 	{
 		const TSet<int32>& progress = progress_system->GetProgress(type);
 		for (int32 p : progress)
 		{
-			character_data_manager_->EnhanceCharacterData(type, tree[p].stat_, tree[p].modifier_);
+			data_table_manager_->EnhanceCharacterData(type, tree[p].stat_, tree[p].modifier_);
 		}
 	}
 }
@@ -153,13 +157,6 @@ void UIKGameInstance::InitializeMaps()
 {
 	maps_ = NewObject<UIKMaps>();
 	maps_->GenerateMaps(10, 5);
-}
-
-void UIKGameInstance::InitializeLevelTransitionManager()
-{
-	level_transition_manager_ = NewObject<ULevelTransitionManager>();
-	level_transition_manager_->SetActorBlueprints(hero_blueprint_, enemy_blueprint_);
-	level_transition_manager_->SetInstanceCache(this);
 }
 
 void UIKGameInstance::InitializeDronePluginManager()
@@ -180,11 +177,11 @@ void UIKGameInstance::InitializeDialogueEventManager()
 
 void UIKGameInstance::InitInventoryManager()
 {
-	inventory_manager_ = NewObject<UHeroInventoryManager>(this);
+	inventory_manager_ = NewObject<UInventoryManager>(this);
 	inventory_manager_->InitInventory();
 }
 
-void UIKGameInstance::InitEquipManager()
+void UIKGameInstance::InitDataTableManager()
 {
-	equip_manager_ = NewObject<UEquipManager>(this);
+	data_table_manager_ = NewObject<UDataTableManager>(this, data_table_class_);
 }

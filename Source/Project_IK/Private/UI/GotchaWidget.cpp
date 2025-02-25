@@ -18,7 +18,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/DronePluginManager.h"
 #include "Managers/TextureManager.h"
 #include "Abilities/ItemInventory.h"
-#include "Managers/HeroInventoryManager.h"
+#include "Managers/InventoryManager.h"
 
 #include "Blueprint/WidgetTree.h"
 #include "Components/Button.h"
@@ -164,7 +164,7 @@ void UGotchaWidget::StorePulledData()
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	game_instance->GetItemInventory()->AddItems(pulled_items_);
 	
-	UHeroInventoryManager* inventory_manager = game_instance->GetInventoryManager();
+	UInventoryManager* inventory_manager = game_instance->GetInventoryManager();
 	//TODO: 사라진 DP에 대응하기 위해 주석처리 되었다.
 	// for (int32 i = 0; i < pulled_dps_.Num(); i++)
 	// {
