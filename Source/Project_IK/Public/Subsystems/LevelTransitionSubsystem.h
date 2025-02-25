@@ -21,26 +21,17 @@ public:
 	virtual void Deinitialize() override;
 	
 	UFUNCTION(BlueprintCallable)
-	void InitHeroData(const TArray<EHeroType>& hero_types);
+	void UpdateSpawnData(const TArray<FSpawnData>& data);
 
 	UFUNCTION(BlueprintCallable)
 	void OpenLevel(UWorld* world, FIntPoint map_position);
 	
-	// Function be called in GameMode::BeginPlay
 	UFUNCTION(BlueprintCallable)
-	void PrepareLevel(UWorld* world);
-	
-	UFUNCTION(BlueprintCallable)
-	const TArray<FSpawnData>& GetSavedData() const;
+	const TArray<FSpawnData>& GetSpawnData() const;
 
-	FSpawnData GetSavedData(int idx) const;
+	FSpawnData GetSpawnData(int idx) const;
 
 protected:
-	void SpawnHeroes(UWorld* world);
-	//void SpawnEnemies(UWorld* world);
-
-	void SaveData(UWorld* world);
-	
 	UPROPERTY()
 	TArray<FSpawnData> spawn_data_;
 };

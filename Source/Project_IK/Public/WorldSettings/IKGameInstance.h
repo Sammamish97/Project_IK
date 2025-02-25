@@ -21,7 +21,6 @@ class UItemInventory;
 class UIKMaps;
 class UCharacterDataManager;
 class UItemDataManager;
-class ULevelTransitionManager;
 class UTextureManager;
 class UDialogueEventManager;
 
@@ -34,7 +33,8 @@ public:
 	UIKGameInstance();
 
 	virtual void Init() override;
-
+	virtual void Shutdown() override;
+	
 	UFUNCTION(BlueprintPure)
 	const class UItemDataManager* GetItemDataManager() noexcept;
 	UFUNCTION(BlueprintPure)
@@ -73,6 +73,7 @@ private:
 	void InitializeDialogueEventManager();
 	void InitInventoryManager();
 	void InitDataTableManager();
+	void InitSpawnData();
 	
 	UPROPERTY()
 	class UItemDataManager* item_data_manager_;

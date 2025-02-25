@@ -7,8 +7,6 @@ Summary : Source file for game instance.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
-
 #include "WorldSettings/IKGameInstance.h"
 
 #include "Abilities/ItemInventory.h"
@@ -18,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/TextureManager.h"
 #include "Managers/DialogueEventManager.h"
 #include "Managers/InventoryManager.h"
+#include "Structs/SpawnData.h"
 
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "Subsystems/PerkTreeSubsystem.h"
@@ -42,8 +41,27 @@ void UIKGameInstance::Init()
 	InitializeDialogueEventManager();
 	InitInventoryManager();
 	InitDataTableManager();
+	InitSpawnData();
 
 	item_inventory_->AddItem(item_data_manager_->GetItemDataRandomly());
+}
+
+void UIKGameInstance::Shutdown()
+{
+	//TODO: 여기서 ULevelTransitionSubsystem의 저장이 필요한 data들을 disk에 write해야 함.
+	Super::Shutdown();
+}
+
+void UIKGameInstance::InitSpawnData()
+{
+	TArray<FSpawnData> result;
+	for(const auto& type : { EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4 })
+	{
+		FSpawnData spawn_data;
+		spawn_data.character_data_ = *(data_table_manager_->GetCharacterData(type));
+		result.Add(spawn_data);
+	}
+	GetSubsystem<ULevelTransitionSubsystem>()->UpdateSpawnData(result);
 }
 
 const UItemDataManager* UIKGameInstance::GetItemDataManager() noexcept
@@ -88,18 +106,7 @@ ULevelTransitionSubsystem* UIKGameInstance::GetLevelTransitionSubsystem() const 
 
 UDataTableManager* UIKGameInstance::GetDataTableManager() const noexcept
 {
-	if (data_table_manager_ == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("manager didn't exist"));
-	}
-	if (auto test = Cast<UDataTableManager>(data_table_manager_))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Cast complete"));
-	}else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Fail To Cast"));
-	}
-	return Cast<UDataTableManager>(data_table_manager_);
+	return data_table_manager_;
 }
 
 void UIKGameInstance::InitializeItemDataManager()
@@ -112,15 +119,12 @@ void UIKGameInstance::InitializeCharacterDataManager()
 	// Enhance data by recorded progress.
 	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
 	const TArray<FPerkNode>& tree = GetSubsystem<UPerkTreeSubsystem>()->GetTree();
-
-	UDataTableManager* data_subsystem = GetDataTableManager();
-	TArray<EHeroType> types{ EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4 };
-	for (EHeroType type : types)
+	for (EHeroType type : { EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4 })
 	{
 		const TSet<int32>& progress = progress_system->GetProgress(type);
 		for (int32 p : progress)
 		{
-			data_subsystem->EnhanceCharacterData(type, tree[p].stat_, tree[p].modifier_);
+			data_table_manager_->EnhanceCharacterData(type, tree[p].stat_, tree[p].modifier_);
 		}
 	}
 }

@@ -17,19 +17,21 @@ See LICENSE file in the project root for full license information.
 
 class UTimeDilationManager;
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API AIKGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
 public:
-
 	AIKGameModeBase();
 
 	virtual void BeginPlay() override;
+
+	UFUNCTION(BlueprintCallable)
+	void SpawnHeroes();
+
+	UFUNCTION(BlueprintCallable)
+	void SaveHeroSpawnData();
 
 	UFUNCTION(BlueprintPure)
 	TArray<AActor*> GetHeroContainers() const noexcept;
@@ -63,11 +65,11 @@ public:
 	void RestoreGlobalTimeDilation();
 
 protected:
-	void PopulateContainers();
 	void DisplayCombatResult();
 
 	UPROPERTY(BlueprintReadWrite)
 	TArray<AActor*> heroes_;
+	
 	UPROPERTY(BlueprintReadWrite)
 	TArray<AActor*> enemies_;
 

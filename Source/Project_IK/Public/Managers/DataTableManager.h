@@ -52,10 +52,6 @@ public:
 
 	void EnhanceCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float increase_amount);
 
-	FItemData* GetItemData(int32 item_id) const;
-	FItemData* GetItemDataRandomly(ERarity rarity = ERarity::B) const;
-	TArray<FItemData*> GetUniqueItemDataRandomly(int32 n = 1, ERarity rarity = ERarity::B) const;
-
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	UDataTable* armor_table_;

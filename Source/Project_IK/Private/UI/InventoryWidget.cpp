@@ -55,9 +55,9 @@ void UInventoryWidget::LoadInventoryManager()
 	UIKGameInstance* ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
 	ULevelTransitionSubsystem* transition_system = ik_instance->GetLevelTransitionSubsystem();
-	if(transition_system->GetSavedData().IsEmpty() == false)
+	if(transition_system->GetSpawnData().IsEmpty() == false)
 	{
-		FSpawnData data_cache = transition_system->GetSavedData(cur_hero_idx_);
+		FSpawnData data_cache = transition_system->GetSpawnData(cur_hero_idx_);
 		hero_name_text_->SetText(FText::FromName(data_cache.character_data_.character_name_));
 	}
 	
