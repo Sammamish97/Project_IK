@@ -17,9 +17,11 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/EnumCluster.h"
 #include "Managers/InventoryManager.h"
-#include "Managers/LevelTransitionManager.h"
+#include "Structs/SpawnData.h"
+#include "Subsystems/LevelTransitionSubsystem.h"
 #include "UI/InventorySlot.h"
 #include "WorldSettings/IKGameInstance.h"
+
 
 void UInventoryWidget::NativeConstruct()
 {
@@ -28,9 +30,16 @@ void UInventoryWidget::NativeConstruct()
 	switch_hero_right_button_->OnClicked.AddDynamic(this, &UInventoryWidget::SwitchToRightHero);
 }
 
-void UInventoryWidget::InitInventoryWidget(UInventoryManager* inventory_component)
+void UInventoryWidget::NativeDestruct()
 {
-	inventory_manager_ref_ = inventory_component;
+	switch_hero_left_button_->OnClicked.RemoveAll(this);
+	switch_hero_right_button_->OnClicked.RemoveAll(this);
+	Super::NativeDestruct();
+}
+
+void UInventoryWidget::InitInventoryWidget(UInventoryManager* inventory_manager)
+{
+	inventory_manager_ref_ = inventory_manager;
 	hero_armor_->slot_type_ = EInventorySlotType::Armor;
 	hero_trinket_->slot_type_ = EInventorySlotType::Trinket;
 	hero_weapon_->slot_type_ = EInventorySlotType::Weapon;
@@ -41,13 +50,14 @@ void UInventoryWidget::InitInventoryWidget(UInventoryManager* inventory_componen
 	scroll_box_->AddChild(wrap_box_);
 }
 
-void UInventoryWidget::LoadInventoryComponent()
+void UInventoryWidget::LoadInventoryManager()
 {
 	UIKGameInstance* ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	ULevelTransitionManager* transition_manager = ik_instance->GetLevelTransitionManager();
-	if(transition_manager->GetSavedData().IsEmpty() == false)
+
+	ULevelTransitionSubsystem* transition_system = ik_instance->GetLevelTransitionSubsystem();
+	if(transition_system->GetSavedData().IsEmpty() == false)
 	{
-		auto data_cache = transition_manager->GetSavedData(cur_hero_idx_);
+		FSpawnData data_cache = transition_system->GetSavedData(cur_hero_idx_);
 		hero_name_text_->SetText(FText::FromName(data_cache.character_data_.character_name_));
 	}
 	
@@ -66,7 +76,7 @@ void UInventoryWidget::LoadInventoryComponent()
 	}
 }
 
-void UInventoryWidget::ApplyInventoryComponent()
+void UInventoryWidget::ApplyInventoryManager()
 {
 	auto& inven_data = inventory_manager_ref_->GetInventory();
 	for(int i = 0; i < inventory_slots_.Num(); i++)
@@ -77,14 +87,14 @@ void UInventoryWidget::ApplyInventoryComponent()
 
 void UInventoryWidget::SwitchToLeftHero()
 {
-	ApplyInventoryComponent();
+	ApplyInventoryManager();
 	cur_hero_idx_ = FMath::Max(0, cur_hero_idx_ - 1);
-	LoadInventoryComponent();
+	LoadInventoryManager();
 }
 
 void UInventoryWidget::SwitchToRightHero()
 {
-	ApplyInventoryComponent();
+	ApplyInventoryManager();
 	cur_hero_idx_ = FMath::Min(cur_hero_idx_ + 1, 3);
-	LoadInventoryComponent();
+	LoadInventoryManager();
 }

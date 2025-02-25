@@ -11,9 +11,9 @@ See LICENSE file in the project root for full license information.
 #include "Components/EquipMechanics.h"
 
 #include "Abilities/EquipSkills/EquipSkillBase.h"
-#include "Managers/DataTableManager.h"
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "Managers/DataTableManager.h"
 #include "WorldSettings/IKGameInstance.h"
 
 // Sets default values for this component's properties
@@ -32,7 +32,7 @@ void UEquipMechanics::BeginPlay()
 {
 	Super::BeginPlay();
 	hero_cache_ = Cast<AHeroBase>(GetOwner());
-	equip_manager_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetEquipManager();
+	data_table_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 }
 
 FArmorData UEquipMechanics::GetEquippedArmorData()
@@ -42,7 +42,7 @@ FArmorData UEquipMechanics::GetEquippedArmorData()
 
 void UEquipMechanics::EquipArmor(EArmorType type)
 {
-	equipped_armor_data_ = equip_manager_cache_->GetArmorData(type);
+	equipped_armor_data_ = data_table_cache_->GetArmorData(type);
 	if (equipped_armor_data_.has_skill)
 	{
 		//TODO: 특수효과는 전투 레벨이 끝나면 필요 없기에 전투 레벨이 끝남과 함께 영웅과 함꼐 삭제되리라 밑고 일단 따로 저장/삭제 로직을 넣지 않았다.
@@ -53,7 +53,7 @@ void UEquipMechanics::EquipArmor(EArmorType type)
 
 void UEquipMechanics::UnEquipArmor()
 {
-	equipped_armor_data_ = equip_manager_cache_->GetArmorData(EArmorType::Empty);
+	equipped_armor_data_ = data_table_cache_->GetArmorData(EArmorType::Empty);
 }
 
 FTrinketData UEquipMechanics::GetEquippedTrinketData()
@@ -63,7 +63,7 @@ FTrinketData UEquipMechanics::GetEquippedTrinketData()
 
 void UEquipMechanics::EquipTrinket(ETrinketType type)
 {
-	equipped_trinket_data_ = equip_manager_cache_->GetTrinketData(type);
+	equipped_trinket_data_ = data_table_cache_->GetTrinketData(type);
 	if (equipped_trinket_data_.has_skill)
 	{
 		//TODO: 특수효과는 전투 레벨이 끝나면 필요 없기에 전투 레벨이 끝남과 함께 영웅과 함꼐 삭제되리라 밑고 일단 따로 저장/삭제 로직을 넣지 않았다.
@@ -74,6 +74,6 @@ void UEquipMechanics::EquipTrinket(ETrinketType type)
 
 void UEquipMechanics::UnEquipTrinket()
 {
-	equipped_armor_data_ = equip_manager_cache_->GetArmorData(EArmorType::Empty);
-	equipped_trinket_data_ = equip_manager_cache_->GetTrinketData(ETrinketType::Empty);
+	equipped_armor_data_ = data_table_cache_->GetArmorData(EArmorType::Empty);
+	equipped_trinket_data_ = data_table_cache_->GetTrinketData(ETrinketType::Empty);
 }

@@ -17,13 +17,13 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKPlayerController.h"
 #include "Components/TargetingComponent.h"
-#include "Managers/LevelTransitionManager.h"
 #include "Managers/TimeDilationManager.h"
 
 #include "WorldSettings/IKHUD.h"
 
 
 #include "Characters/HeroBase.h"
+#include "Subsystems/LevelTransitionSubsystem.h"
 
 AIKGameModeBase::AIKGameModeBase()
 	: Super::AGameModeBase()
@@ -39,11 +39,7 @@ void AIKGameModeBase::BeginPlay()
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(this));
 	if (game_instance)
 	{
-		ULevelTransitionManager* level_transition_manager = game_instance->GetLevelTransitionManager();
-		if (level_transition_manager)
-		{
-			level_transition_manager->PrepareLevel(GetWorld());
-		}
+		game_instance->GetLevelTransitionSubsystem()->PrepareLevel(GetWorld());
 	}
 	PopulateContainers();
 }

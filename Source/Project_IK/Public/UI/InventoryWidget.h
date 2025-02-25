@@ -16,15 +16,19 @@ See LICENSE file in the project root for full license information.
 class UButton;
 class UInventorySlot;
 class UInventoryManager;
-UCLASS()
+UCLASS(Blueprintable)
 class PROJECT_IK_API UInventoryWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
 	virtual void NativeConstruct() override;
-	void InitInventoryWidget(UInventoryManager* inventory_component);
-	void LoadInventoryComponent();
-	void ApplyInventoryComponent();
+	virtual void NativeDestruct() override;
+	UFUNCTION(BlueprintCallable)
+	void InitInventoryWidget(UInventoryManager* inventory_manager);
+	UFUNCTION(BlueprintCallable)
+	void LoadInventoryManager();
+	UFUNCTION(BlueprintCallable)
+	void ApplyInventoryManager();
 
 	UFUNCTION()
 	void SwitchToLeftHero();

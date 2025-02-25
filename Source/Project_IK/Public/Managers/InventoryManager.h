@@ -29,7 +29,6 @@ public:
 	bool AddItem(EGearType type, EPassiveSkillType passive_skill_type);
 	bool AddItem(EGearType type, EActiveSkillType active_skill_type);
 	bool AddItem(EGearType type, EOopartType oopart_type);
-
 	
 	void RemoveItem(int index);
 	

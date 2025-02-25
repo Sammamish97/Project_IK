@@ -35,7 +35,7 @@ void UOopartMechanics::BeginPlay()
 	Super::BeginPlay();
 
 	hero_cache_ = Cast<AHeroBase>(GetOwner());
-	equip_manager_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetEquipManager();
+	data_table_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 }
 
 FOopartData UOopartMechanics::GetEquippedOopartData()
@@ -45,7 +45,7 @@ FOopartData UOopartMechanics::GetEquippedOopartData()
 
 void UOopartMechanics::EquipOopart(EOopartType type)
 {
-	equipped_oopart_data_ = equip_manager_cache_->GetOopartData(type);
+	equipped_oopart_data_ = data_table_cache_->GetOopartData(type);
 	if (oopart_actor_)
 	{
 		oopart_actor_->Destroy();
@@ -57,5 +57,5 @@ void UOopartMechanics::EquipOopart(EOopartType type)
 
 void UOopartMechanics::UnEquipOopart()
 {
-	equipped_oopart_data_ = equip_manager_cache_->GetOopartData(EOopartType::Empty);
+	equipped_oopart_data_ = data_table_cache_->GetOopartData(EOopartType::Empty);
 }

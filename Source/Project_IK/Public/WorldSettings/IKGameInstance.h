@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 
+#include "Managers/DataTableManager.h"
 
 #include "IKGameInstance.generated.h"
 
@@ -37,13 +38,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	const class UItemDataManager* GetItemDataManager() noexcept;
 	UFUNCTION(BlueprintPure)
-	class UCharacterDataManager* GetCharacterDataManager() noexcept;
-	UFUNCTION(BlueprintPure)
 	class UItemInventory* GetItemInventory() const noexcept;
 	UFUNCTION(BlueprintPure)
 	class UIKMaps* GetMapPtr() const noexcept;
-	UFUNCTION(BlueprintPure)
-	class ULevelTransitionManager* GetLevelTransitionManager() noexcept;
 	UFUNCTION(BlueprintPure)
 	const class UDronePluginManager* GetDronePluginManager() noexcept;
 	UFUNCTION(BlueprintPure)
@@ -53,7 +50,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	class UInventoryManager* GetInventoryManager() const noexcept;
 	UFUNCTION(BlueprintPure)
-	class UDataTableManager* GetEquipManager() const noexcept;
+	class ULevelTransitionSubsystem* GetLevelTransitionSubsystem() const noexcept;
+	UFUNCTION(BlueprintPure)
+	UDataTableManager* GetDataTableManager() const noexcept;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelTransition")
 	TSubclassOf<AActor> hero_blueprint_;
@@ -69,28 +68,21 @@ private:
 	void InitializeCharacterDataManager();
 	void InitializeItemInventory();
 	void InitializeMaps();
-	void InitializeLevelTransitionManager();
 	void InitializeDronePluginManager();
 	void InitializeTextureManager();
 	void InitializeDialogueEventManager();
 	void InitInventoryManager();
-	void InitEquipManager();
+	void InitDataTableManager();
 	
 	UPROPERTY()
 	class UItemDataManager* item_data_manager_;
-	
-	UPROPERTY()
-	class UCharacterDataManager* character_data_manager_;
 
 	UPROPERTY()
 	class UItemInventory* item_inventory_;
 
 	UPROPERTY()
 	class UIKMaps* maps_;
-
-	UPROPERTY()
-	class ULevelTransitionManager* level_transition_manager_;
-
+	
 	UPROPERTY()
 	class UDronePluginManager* drone_plugin_manager_;
 
@@ -102,7 +94,9 @@ private:
 
 	UPROPERTY()
 	class UInventoryManager* inventory_manager_;
-	
-	UPROPERTY()
-	class UDataTableManager* equip_manager_;
+
+	TObjectPtr<UDataTableManager> data_table_manager_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true", BindWidget))
+	TSubclassOf<UDataTableManager> data_table_class_;
 };

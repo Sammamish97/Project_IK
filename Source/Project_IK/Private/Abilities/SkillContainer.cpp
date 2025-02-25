@@ -33,7 +33,7 @@ void USkillContainer::BeginPlay()
 {
 	Super::BeginPlay();
 	hero_cache_ = Cast<AHeroBase>(GetOwner());
-	equip_manager_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetEquipManager();
+	data_table_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 }
 
 void USkillContainer::InitializeComponent()
@@ -48,14 +48,14 @@ FActiveSkillData USkillContainer::GetEquippedActiveSkillData()
 
 void USkillContainer::EquipActiveSkill(EActiveSkillType type)
 {
-	equipped_active_skill_data_ = equip_manager_cache_->GetActiveSkillData(type);
+	equipped_active_skill_data_ = data_table_cache_->GetActiveSkillData(type);
 	active_skill_cache_ = NewObject<USkillBase>(this, equipped_active_skill_data_.active_skill_class);
 	active_skill_cache_->InitActiveSkill(hero_cache_);
 }
 
 void USkillContainer::UnEquipActiveSkill()
 {
-	equipped_active_skill_data_ = equip_manager_cache_->GetActiveSkillData(EActiveSkillType::Empty);
+	equipped_active_skill_data_ = data_table_cache_->GetActiveSkillData(EActiveSkillType::Empty);
 	if(active_skill_cache_)
 	{
 		//UObject는 명시적으로 Destroy할 수 없다!

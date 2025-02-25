@@ -2,67 +2,13 @@
 Copyright(C) 2024
 Author: chunmook.kim(chunmook.kim97@gmail.com)
 Creation Date : 2.5.2025
-Summary : Source file for the equip manager.
+Summary : Header file for the equip manager.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Managers/DataTableManager.h"
-
-#include "Structs/PassiveSkillData.h"
-
-UDataTableManager::UDataTableManager()
-{
-	FString armor_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/IK_Armor_Data.IK_Armor_Data'");
-	static ConstructorHelpers::FObjectFinder<UDataTable> dt_armor_data(*armor_data_path);
-	if (dt_armor_data.Succeeded() == false)
-	{
-		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a armor file data (IK_Armor_Data)"));
-	}
-	armor_table_= dt_armor_data.Object;
-
-	FString trinket_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/IK_Trinket_Data.IK_Trinket_Data'");
-	static ConstructorHelpers::FObjectFinder<UDataTable> dt_trinket_data(*trinket_data_path);
-	if (dt_trinket_data.Succeeded() == false)
-	{
-		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a Trinket file data (IK_Trinket_Data)"));
-	}
-	trinket_table_= dt_trinket_data.Object;
-
-	FString weapon_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/IK_Weapon_Data.IK_Weapon_Data'");
-	static ConstructorHelpers::FObjectFinder<UDataTable> dt_weapon_data(*weapon_data_path);
-	if (dt_weapon_data.Succeeded() == false)
-	{
-		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a Weapon file data (IK_Weapon_Data)"));
-	}
-	weapon_table_= dt_weapon_data.Object;
-
-	FString passive_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/IK_Passive_Skill_Data.IK_Passive_Skill_Data'");
-	static ConstructorHelpers::FObjectFinder<UDataTable> dt_passive_skill_data(*passive_data_path);
-	if (dt_passive_skill_data.Succeeded() == false)
-	{
-		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a passive skill file data (IK_Passive_Skill_Data)"));
-	}
-	passive_skill_table_= dt_passive_skill_data.Object;
-
-	FString active_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/IK_Active_Skill_Data.IK_Active_Skill_Data'");
-	static ConstructorHelpers::FObjectFinder<UDataTable> dt_active_skill_data(*active_data_path);
-	if (dt_active_skill_data.Succeeded() == false)
-	{
-		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a active skill file data (IK_Active_Skill_Data)"));
-	}
-	active_skill_table_= dt_active_skill_data.Object;
-
-	FString oopart_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/IK_Oopart_Data.IK_Oopart_Data'");
-	static ConstructorHelpers::FObjectFinder<UDataTable> dt_oopart_data(*oopart_data_path);
-	if (dt_oopart_data.Succeeded() == false)
-	{
-		UE_LOG(LogTemp, Error, TEXT("GameInstance has failed to load a Oopart file data (IK_Oopart_Data)"));
-	}
-	oopart_table_= dt_oopart_data.Object;
-}
-
 FArmorData UDataTableManager::GetArmorData(EArmorType type)
 {
 	if (armor_table_)
@@ -241,4 +187,96 @@ FString UDataTableManager::OopartEnumToString(EOopartType oopart_type)
 		break;
 	}
 	return string;
+}
+
+FCharacterData* UDataTableManager::GetCharacterData(EHeroType hero_type) const
+{
+	if (character_table_)
+	{
+		return character_table_->FindRow<FCharacterData>(*HeroEnumToString(hero_type), TEXT(""));
+	}
+	return nullptr;
+}
+
+FString UDataTableManager::HeroEnumToString(EHeroType char_type) const
+{
+	FString char_string;
+	switch (char_type)
+	{
+	case EHeroType::Hero1:
+		char_string = TEXT("1");
+		break;
+	case EHeroType::Hero2:
+		char_string = TEXT("2");
+		break;
+	case EHeroType::Hero3:
+		char_string = TEXT("3");
+		break;
+	case EHeroType::Hero4:
+		char_string = TEXT("4");
+		break;
+	default:
+		char_string = TEXT("1");
+		break;
+	}
+	return char_string;
+}
+
+void UDataTableManager::EnhanceCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float increase_amount)
+{
+	FCharacterData* data = GetCharacterData(hero_type);
+	if (data)
+	{
+		switch (stat_type)
+		{
+		case ECharacterStatType::AttackPower:
+			data->attack_power_ += increase_amount;
+			break;
+		case ECharacterStatType::AttackSpeed:
+			data->attack_speed_ += increase_amount;
+			break;
+		case ECharacterStatType::CriticalHitRate:
+			data->critical_hit_rate_ += increase_amount;
+			break;
+		case ECharacterStatType::Accuracy:
+			data->accuracy_ += increase_amount;
+			break;
+		case ECharacterStatType::MagazineBonus:
+			data->magazine_bonus_ += increase_amount;
+			break;
+		case ECharacterStatType::LifeSteal:
+			data->life_steal_ += increase_amount;
+			break;
+		case ECharacterStatType::HitPoints:
+			data->hit_point_ += increase_amount;
+			break;
+		case ECharacterStatType::EvasionRate:
+			data->evasion_rate_ += increase_amount;
+			break;
+		case ECharacterStatType::Armor:
+			data->armor_ += increase_amount;
+			break;
+		case ECharacterStatType::Survivability:
+			data->survivability_ += increase_amount;
+			break;
+		case ECharacterStatType::MoveSpeed:
+			data->move_speed_ += increase_amount;
+			break;
+		case ECharacterStatType::ActiveSkillPower:
+			data->active_skill_power_ += increase_amount;
+			break;
+		case ECharacterStatType::ActiveSkillCooldown:
+			data->active_skill_cooldown_ += increase_amount;
+			break;
+		case ECharacterStatType::PassiveSkillPower:
+			data->passive_skill_power_ += increase_amount;
+			break;
+		case ECharacterStatType::PassiveSkillCooldown:
+			data->passive_skill_cooldown_ += increase_amount;
+			break;
+		case ECharacterStatType::Shield:
+		default:
+			break;
+		}
+	}
 }

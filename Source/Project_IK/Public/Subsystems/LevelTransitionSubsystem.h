@@ -7,31 +7,18 @@ Summary : Header file for managing trasition between levels.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
-#include "EnumCluster.h"
-#include "Structs/SpawnData.h"
-
-#include "LevelTransitionManager.generated.h"
-
-
-struct FCharacterData;
-
-/**
- * 
- */
+#include "Subsystems/GameInstanceSubsystem.h"
+#include "LevelTransitionSubsystem.generated.h"
 UCLASS()
-class PROJECT_IK_API ULevelTransitionManager : public UObject
+class PROJECT_IK_API ULevelTransitionSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 public:
-	ULevelTransitionManager();
-
-	UFUNCTION()
-	void SetInstanceCache(UGameInstance* game_instance);
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+	virtual void Deinitialize() override;
 	
 	UFUNCTION(BlueprintCallable)
 	void InitHeroData(const TArray<EHeroType>& hero_types);
@@ -42,10 +29,7 @@ public:
 	// Function be called in GameMode::BeginPlay
 	UFUNCTION(BlueprintCallable)
 	void PrepareLevel(UWorld* world);
-
-	UFUNCTION(BlueprintCallable)
-	void SetActorBlueprints(TSubclassOf<AActor> hero_blueprint, TSubclassOf<AActor> enemy_blueprint);
-
+	
 	UFUNCTION(BlueprintCallable)
 	const TArray<FSpawnData>& GetSavedData() const;
 
@@ -53,16 +37,10 @@ public:
 
 protected:
 	void SpawnHeroes(UWorld* world);
-	void SpawnEnemies(UWorld* world);
+	//void SpawnEnemies(UWorld* world);
 
 	void SaveData(UWorld* world);
-
-	UPROPERTY()
-	UGameInstance* instance_cache_;
-
+	
 	UPROPERTY()
 	TArray<FSpawnData> spawn_data_;
-
-	UPROPERTY()
-	TSubclassOf<AActor> enemy_blueprint_;
 };

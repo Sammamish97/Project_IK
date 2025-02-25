@@ -31,7 +31,7 @@ void UPassiveSkillMechanics::BeginPlay()
 {
 	Super::BeginPlay();
 	hero_cache_ = Cast<AHeroBase>(GetOwner());
-	equip_manager_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetEquipManager();
+	data_table_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 }
 
 FPassiveSkillData UPassiveSkillMechanics::GetEquippedPassiveSkillData()
@@ -41,12 +41,12 @@ FPassiveSkillData UPassiveSkillMechanics::GetEquippedPassiveSkillData()
 
 void UPassiveSkillMechanics::EquipPassiveSkill(EPassiveSkillType type)
 {
-	equipped_passive_skill_data_ = equip_manager_cache_->GetPassiveSkillData(type);
+	equipped_passive_skill_data_ = data_table_cache_->GetPassiveSkillData(type);
 	passive_skill_cache_ = NewObject<UEquipSkillBase>(this, equipped_passive_skill_data_.passive_skill_class);
 	passive_skill_cache_->InitEquipmentSkill(hero_cache_);
 }
 
 void UPassiveSkillMechanics::UnEquipPassiveSkill()
 {
-	equipped_passive_skill_data_ = equip_manager_cache_->GetPassiveSkillData(EPassiveSkillType::Empty);
+	equipped_passive_skill_data_ = data_table_cache_->GetPassiveSkillData(EPassiveSkillType::Empty);
 }

@@ -10,16 +10,13 @@ See LICENSE file in the project root for full license information.
 
 #include "Project_IK/Public/Components/CharacterStatComponent.h"
 
+#include "Managers/DataTableManager.h"
 #include "Math/UnrealMathUtility.h"
 
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Project_IK/Public/WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKGameModeBase.h"
 
-#include "UI/DamageUI.h"
-#include "Components/ObjectPoolComponent.h"
-
-#include "Managers/CharacterDataManager.h"
 #include "Structs/CharacterData.h"
 #include "Structs/DamageData.h"
 
@@ -41,8 +38,12 @@ void UCharacterStatComponent::InitializeComponent()
 
 	if (ik_game_instance)
 	{
-		FCharacterData* character_data = ik_game_instance->GetCharacterDataManager()->GetCharacterData(character_id_);
-
+		FCharacterData* character_data = nullptr;
+		if (UDataTableManager* data_table_manager = ik_game_instance->GetDataTableManager())
+		{
+			character_data = data_table_manager->GetCharacterData(character_id_);
+		}
+		//TODO: nullptr를 참조할 수 있다...!
 		stat_= *character_data;
 
 

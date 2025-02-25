@@ -37,6 +37,6 @@ private:
 	FOopartData equipped_oopart_data_;
 	AOopartBase* oopart_actor_;
 	
-	class UDataTableManager* equip_manager_cache_;
+	class UDataTableManager* data_table_cache_;
 	class AHeroBase* hero_cache_;
 };

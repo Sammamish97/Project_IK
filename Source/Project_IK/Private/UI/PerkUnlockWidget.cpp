@@ -25,12 +25,12 @@ See LICENSE file in the project root for full license information.
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "Managers/DataTableManager.h"
 
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/EnumCluster.h"
 #include "Managers/TextureManager.h"
 #include "Managers/InventoryManager.h"
-#include "Managers/CharacterDataManager.h"
 
 #include "UI/ConfirmationWidget.h"
 
@@ -493,7 +493,7 @@ bool UPerkUnlockWidget::UnlockPerk(int32 clicked_index)
 	const TArray<FPerkNode>& tree = GetGameInstance()->GetSubsystem<UPerkTreeSubsystem>()->GetTree();
 	if (game_instance)
 	{
-		game_instance->GetCharacterDataManager()->EnhanceCharacterData(current_hero_type_, tree[clicked_index].stat_, tree[clicked_index].modifier_);
+		game_instance->GetDataTableManager()->EnhanceCharacterData(current_hero_type_, tree[clicked_index].stat_, tree[clicked_index].modifier_);
 	}
 
 	return true;

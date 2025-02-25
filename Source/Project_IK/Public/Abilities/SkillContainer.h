@@ -41,7 +41,7 @@ public:
 
 private:
 	FActiveSkillData equipped_active_skill_data_;
-	class UDataTableManager* equip_manager_cache_;
+	class UDataTableManager* data_table_cache_;
 	USkillBase* active_skill_cache_;
 	class AHeroBase* hero_cache_;
 };

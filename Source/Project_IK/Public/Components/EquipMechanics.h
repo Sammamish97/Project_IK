@@ -41,6 +41,6 @@ private:
 	FArmorData equipped_armor_data_;
 	FTrinketData equipped_trinket_data_;
 	
-	class UDataTableManager* equip_manager_cache_;
+	class UDataTableManager* data_table_cache_;
 	class AHeroBase* hero_cache_;
 };

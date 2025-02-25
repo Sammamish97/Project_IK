@@ -2,7 +2,7 @@
 Copyright(C) 2024
 Author: chunmook.kim(chunmook.kim97@gmail.com)
 Creation Date : 2.5.2025
-Summary : Header file for the equip manager.
+Summary : Source file for the equip manager.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -11,22 +11,24 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
+
 #include "Managers/EnumCluster.h"
 #include "Structs/ActiveSkillData.h"
 #include "Structs/ArmorData.h"
 #include "Structs/OopartData.h"
+#include "Structs/PassiveSkillData.h"
 #include "Structs/TrinketData.h"
 #include "Structs/WeaponData.h"
+#include "Structs/CharacterData.h"
+
 #include "DataTableManager.generated.h"
 
-struct FPassiveSkillData;
-
-UCLASS()
+UCLASS(Blueprintable)
 class PROJECT_IK_API UDataTableManager : public UObject
 {
 	GENERATED_BODY()
+
 public:
-	UDataTableManager();
 	FArmorData GetArmorData(EArmorType type);
 	FString ArmorEnumToString(EArmorType armor_type);
 
@@ -45,11 +47,34 @@ public:
 	FOopartData GetOopartData(EOopartType type);
 	FString OopartEnumToString(EOopartType oopart_type);
 
+	FCharacterData* GetCharacterData(EHeroType hero_type) const;
+	FString HeroEnumToString(EHeroType hero_type) const;
+
+	void EnhanceCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float increase_amount);
+
+	FItemData* GetItemData(int32 item_id) const;
+	FItemData* GetItemDataRandomly(ERarity rarity = ERarity::B) const;
+	TArray<FItemData*> GetUniqueItemDataRandomly(int32 n = 1, ERarity rarity = ERarity::B) const;
+
 private:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	UDataTable* armor_table_;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	UDataTable* trinket_table_;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	UDataTable* weapon_table_;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	UDataTable* passive_skill_table_;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	UDataTable* active_skill_table_;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	UDataTable* oopart_table_;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
+	UDataTable* character_table_;
 };

@@ -36,14 +36,13 @@ void UWeaponMechanics::BeginPlay()
 {
 	Super::BeginPlay();
 	gunner_ref_ = Cast<AUnit>(GetOwner());
-	equip_manager_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetEquipManager();
 }
 
 //TODO: 무기의 장착과 실제 장착 후 생성은 분리되어야 한다.
 //TODO: 인벤토리 프리뷰가 3D일때 역시 생각해야 한다.
 void UWeaponMechanics::EquipWeapon(EWeaponType type)
 {
-	equipped_weapon_data_ = equip_manager_cache_->GetWeaponData(type);
+	equipped_weapon_data_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager()->GetWeaponData(type);
 	if (equipped_weapon_actor_)
 	{
 		equipped_weapon_actor_->Destroy();

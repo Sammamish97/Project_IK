@@ -14,19 +14,15 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ItemInventory.h"
 #include "UI/IKMaps.h"
 #include "Managers/ItemDataManager.h"
-#include "Managers/CharacterDataManager.h"
-#include "Managers/LevelTransitionManager.h"
 #include "Managers/DronePluginManager.h"
 #include "Managers/TextureManager.h"
 #include "Managers/DialogueEventManager.h"
 #include "Managers/InventoryManager.h"
-#include "Managers/DataTableManager.h"
 
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "Subsystems/PerkTreeSubsystem.h"
+#include "Subsystems/LevelTransitionSubsystem.h"
 
-#include "Characters/HeroBase.h"
-#include "Characters/EnemyBase.h"
 
 UIKGameInstance::UIKGameInstance()
 	:Super::UGameInstance()
@@ -41,12 +37,11 @@ void UIKGameInstance::Init()
 	InitializeItemDataManager();
 	InitializeItemInventory();
 	InitializeMaps();
-	InitializeLevelTransitionManager();
 	InitializeDronePluginManager();
 	InitializeTextureManager();
 	InitializeDialogueEventManager();
 	InitInventoryManager();
-	InitEquipManager();
+	InitDataTableManager();
 
 	item_inventory_->AddItem(item_data_manager_->GetItemDataRandomly());
 }
@@ -54,11 +49,6 @@ void UIKGameInstance::Init()
 const UItemDataManager* UIKGameInstance::GetItemDataManager() noexcept
 {
 	return item_data_manager_;
-}
-
-UCharacterDataManager* UIKGameInstance::GetCharacterDataManager() noexcept
-{
-	return character_data_manager_;
 }
 
 UItemInventory* UIKGameInstance::GetItemInventory() const noexcept
@@ -69,11 +59,6 @@ UItemInventory* UIKGameInstance::GetItemInventory() const noexcept
 UIKMaps* UIKGameInstance::GetMapPtr() const noexcept
 {
 	return maps_;
-}
-
-ULevelTransitionManager* UIKGameInstance::GetLevelTransitionManager() noexcept
-{
-	return level_transition_manager_;
 }
 
 const UDronePluginManager* UIKGameInstance::GetDronePluginManager() noexcept
@@ -96,9 +81,25 @@ const UDialogueEventManager* UIKGameInstance::GetDialogueEventManager() const no
 	return dialogue_event_manager_;
 }
 
-UDataTableManager* UIKGameInstance::GetEquipManager() const noexcept
+ULevelTransitionSubsystem* UIKGameInstance::GetLevelTransitionSubsystem() const noexcept
 {
-	return equip_manager_;
+	return GetSubsystem<ULevelTransitionSubsystem>();
+}
+
+UDataTableManager* UIKGameInstance::GetDataTableManager() const noexcept
+{
+	if (data_table_manager_ == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("manager didn't exist"));
+	}
+	if (auto test = Cast<UDataTableManager>(data_table_manager_))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Cast complete"));
+	}else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Fail To Cast"));
+	}
+	return Cast<UDataTableManager>(data_table_manager_);
 }
 
 void UIKGameInstance::InitializeItemDataManager()
@@ -108,19 +109,18 @@ void UIKGameInstance::InitializeItemDataManager()
 
 void UIKGameInstance::InitializeCharacterDataManager()
 {
-	character_data_manager_ = NewObject<UCharacterDataManager>();
-	
 	// Enhance data by recorded progress.
 	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
 	const TArray<FPerkNode>& tree = GetSubsystem<UPerkTreeSubsystem>()->GetTree();
 
+	UDataTableManager* data_subsystem = GetDataTableManager();
 	TArray<EHeroType> types{ EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4 };
 	for (EHeroType type : types)
 	{
 		const TSet<int32>& progress = progress_system->GetProgress(type);
 		for (int32 p : progress)
 		{
-			character_data_manager_->EnhanceCharacterData(type, tree[p].stat_, tree[p].modifier_);
+			data_subsystem->EnhanceCharacterData(type, tree[p].stat_, tree[p].modifier_);
 		}
 	}
 }
@@ -134,13 +134,6 @@ void UIKGameInstance::InitializeMaps()
 {
 	maps_ = NewObject<UIKMaps>();
 	maps_->GenerateMaps(10, 5);
-}
-
-void UIKGameInstance::InitializeLevelTransitionManager()
-{
-	level_transition_manager_ = NewObject<ULevelTransitionManager>();
-	level_transition_manager_->SetActorBlueprints(hero_blueprint_, enemy_blueprint_);
-	level_transition_manager_->SetInstanceCache(this);
 }
 
 void UIKGameInstance::InitializeDronePluginManager()
@@ -165,7 +158,7 @@ void UIKGameInstance::InitInventoryManager()
 	inventory_manager_->InitInventory();
 }
 
-void UIKGameInstance::InitEquipManager()
+void UIKGameInstance::InitDataTableManager()
 {
-	equip_manager_ = NewObject<UDataTableManager>(this);
+	data_table_manager_ = NewObject<UDataTableManager>(this, data_table_class_);
 }
