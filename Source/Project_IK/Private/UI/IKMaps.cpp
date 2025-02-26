@@ -53,8 +53,8 @@ void UIKMaps::GenerateMaps(int32 row, int32 col)
 		}
 	}
 
-	// repeats this procces until reaches to the top floor
-	for (int32 i = 0; i < row - 2; i++)
+	// repeats this procces until reaches to the top floor before Boss
+	for (int32 i = 0; i < row - 3; i++)
 	{
 		for (int32 j = 0; j < col; j++)
 		{
@@ -84,15 +84,22 @@ void UIKMaps::GenerateMaps(int32 row, int32 col)
 		}
 	}
 
-	// Set only NodeType on the top floor nodes
+	// Set NodeType on the top floor nodes.
 	for (size_t i = 0; i < col; i++)
 	{
-		for (int32 t = 0; t < map[row - 2][i].next.Num(); t++)
+		for (int32 t = 0; t < map[row - 3][i].next.Num(); t++)
 		{
-			const int32 target = map[row - 2][i].next[t];
-			map[row - 1][target].type = QueryNodeType();
+			const int32 target = map[row - 3][i].next[t];
+			map[row - 2][target].type = QueryNodeType();
+			// Connect top floor nodes to the Boss node.
+			map[row - 2][target].next.AddUnique(0);
 		}
 	}
+
+	// Set Boss node
+	map[row - 1][0].type = NodeType::Boss;
+
+	CorrectInvalidNodes();
 }
 
 const FMapNode& UIKMaps::GetNode(int32 row, int32 col) const
@@ -148,9 +155,22 @@ bool UIKMaps::IsPathCrossed(int32 row, int32 col, int32 path_to) const
 	}
 }
 
-NodeType UIKMaps::QueryNodeType() const
+NodeType UIKMaps::QueryNodeType(const TArray<NodeType>& excluded_types) const
 {
-	return NodeType::Enemy;
+	TArray<NodeType> return_types = { NodeType::Enemy, NodeType::Merchant, NodeType::Event };
+
+	return_types.RemoveAll([&](NodeType type)
+		{
+			return excluded_types.Contains(type);
+		});
+
+	if (return_types.Num() <= 0)
+	{
+		return NodeType::Enemy;
+	}
+
+	int32 rand = FMath::RandRange(0, return_types.Num() - 1);
+	return return_types[rand];
 }
 
 int32 UIKMaps::AvaiableBranchNum(int32 row, int32 col) const
@@ -178,4 +198,94 @@ int32 UIKMaps::AvaiableBranchNum(int32 row, int32 col) const
 	}
 
 	return MAX_BRANCH_NUM - modifier;
+}
+
+// This function reassigning node to obey the below rules.
+	// 1. Merchant and Event nodes can¡¯t be assigned below the 2th Floor.
+	// 4. All nodes before the Boss should be *Enemy* node.
+	// 2. Merchant and Event nodes cannot be consecutive.
+	// 3. A Room that that has 2 or more Paths going out 
+		// must have all destinations be unique. 
+		// 2 destinations originating form the same Room 
+		// cannot share the same Location.
+
+void UIKMaps::CorrectInvalidNodes()
+{
+	const int32 width = GetWidth();
+	const int32 height = GetHeight();
+
+	// Do not correct boss node.
+	for (int32 row = 0; row < height - 1; ++row)
+	{
+		for (int32 col = 0; col < width; ++col)
+		{
+			if (map[row][col].type == NodeType::None)
+			{
+				continue;
+			}
+			ApplyRule1(row, col);
+			ApplyRule4(row, col);
+			ApplyRule2(row, col);
+			ApplyRule3(row, col);
+		}
+	}
+}
+
+// 1. Merchant and Event nodes can¡¯t be assigned below the 2th Floor.
+void UIKMaps::ApplyRule1(int32 row, int32 col)
+{
+	if (row <= 2)
+	{
+		if (map[row][col].type == NodeType::Merchant || map[row][col].type == NodeType::Event)
+		{
+			map[row][col].type = QueryNodeType({ NodeType::Merchant , NodeType::Event });
+		}
+	}
+}
+
+// 2. Merchant and Event nodes cannot be consecutive.
+void UIKMaps::ApplyRule2(int32 row, int32 col)
+{
+	if (map[row][col].type == NodeType::Merchant || map[row][col].type == NodeType::Event)
+	{
+		for (const int32 n : map[row][col].next)
+		{
+			if (map[row][col].type == map[row + 1][n].type)
+			{
+				map[row + 1][n].type = QueryNodeType({map[row][col].type});
+			}
+		}
+	}
+}
+
+// 3. A Room that that has 2 or more Paths going out 
+	// must have all destinations be unique. 
+	// 2 destinations originating form the same Room 
+	// cannot share the same Location.
+void UIKMaps::ApplyRule3(int32 row, int32 col)
+{
+	if (map[row][col].next.Num() >= 2)
+	{
+		TArray<NodeType> destination_types({ map[row][col].type });
+		for (const int32 n : map[row][col].next)
+		{
+			NodeType type = map[row + 1][n].type;
+			if (destination_types.Contains(type))
+			{
+				NodeType new_type = QueryNodeType(destination_types);
+				map[row + 1][n].type = new_type;
+			}
+			destination_types.Add(map[row + 1][n].type);
+		}
+	}
+}
+
+// 4. All nodes before the Boss should be *Enemy* node.
+// It can be changed probably like a "Rest" node.
+void UIKMaps::ApplyRule4(int32 row, int32 col)
+{
+	if (row >= GetHeight() - 2)
+	{
+		map[row][col].type = NodeType::Enemy;
+	}
 }
