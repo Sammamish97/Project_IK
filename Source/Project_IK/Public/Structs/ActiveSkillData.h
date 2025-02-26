@@ -18,7 +18,7 @@ struct PROJECT_IK_API FActiveSkillData : public FTableRowBase
 {
 	GENERATED_BODY();
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	EActiveSkillType type;
+	EActiveSkillType type = EActiveSkillType::Empty;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	TSubclassOf<class USkillBase> active_skill_class;

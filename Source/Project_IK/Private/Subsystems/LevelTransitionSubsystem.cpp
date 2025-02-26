@@ -35,6 +35,15 @@ void ULevelTransitionSubsystem::UpdateSpawnData(const TArray<FSpawnData>& data)
 	}
 }
 
+void ULevelTransitionSubsystem::UpdateSpawnDataIdx(int32 idx, FSpawnData data)
+{
+	if (spawn_data_.Num() < idx)
+	{
+		UE_LOG(LogTemp, Error, TEXT("SpawnData is out of range"));
+	}
+	spawn_data_[idx] = data;
+}
+
 void ULevelTransitionSubsystem::OpenLevel(UWorld* world, FIntPoint map_position)
 {
 	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());

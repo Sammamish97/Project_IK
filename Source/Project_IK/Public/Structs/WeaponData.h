@@ -19,7 +19,7 @@ struct PROJECT_IK_API FWeaponData : public FTableRowBase
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
-	EWeaponType type;
+	EWeaponType type = EWeaponType::Pistol;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
 	TSubclassOf<class AGun> weapon_class;
