@@ -58,15 +58,10 @@ void UIKGameInstance::Shutdown()
 		const TSet<int32>& progress = progress_system->GetProgress(type);
 		for (int32 p : progress)
 		{
-			character_data_manager_->DiminishCharacterData(type, tree[p].stat_, tree[p].modifier_);
+			data_table_manager_->DiminishCharacterData(type, tree[p].stat_, tree[p].modifier_);
 		}
 	}
 
-	Super::Shutdown();
-}
-
-void UIKGameInstance::Shutdown()
-{
 	//TODO: 여기서 ULevelTransitionSubsystem의 저장이 필요한 data들을 disk에 write해야 함.
 	Super::Shutdown();
 }

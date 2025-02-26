@@ -51,6 +51,7 @@ public:
 	FString HeroEnumToString(EHeroType hero_type) const;
 
 	void EnhanceCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float increase_amount);
+	void DiminishCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float decrease_amount);
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))

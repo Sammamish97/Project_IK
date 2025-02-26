@@ -54,15 +54,18 @@ void UCombatResultUI::SetHeroNumbers(int32 num)
 		UI_background_slot->SetSize(FVector2D(num * 400.0, 800.0));
 	}
 
-	for (int32 i = 0; i < num; i++)
+	if (combat_result_block_widget_class_)
 	{
-		UCombatResultBlock* block = CreateWidget<UCombatResultBlock>(this, combat_result_block_widget_class_);
-		FString block_unique_name = MakeUniqueObjectName(GetOuter(), block->GetClass(), TEXT("Block")).ToString();
-		block->Rename(*block_unique_name);
-		UHorizontalBoxSlot* block_slot = blocks_holder_->AddChildToHorizontalBox(block);
-		block_slot->SetPadding(FMargin(32.f));
+		for (int32 i = 0; i < num; i++)
+		{
+			UCombatResultBlock* block = CreateWidget<UCombatResultBlock>(this, combat_result_block_widget_class_);
+			FString block_unique_name = MakeUniqueObjectName(GetOuter(), block->GetClass(), TEXT("Block")).ToString();
+			block->Rename(*block_unique_name);
+			UHorizontalBoxSlot* block_slot = blocks_holder_->AddChildToHorizontalBox(block);
+			block_slot->SetPadding(FMargin(32.f));
 
-		blocks_.Add(block);
+			blocks_.Add(block);
+		}
 	}
 }
 
@@ -239,7 +242,7 @@ void UCombatResultUI::UpdateHPBars(float InDeltaTime)
 			}
 		}
 	}
-	else if(HP_timer_ >= 2.25f && HP_timer_ <= 2.75f)
+	else if (HP_timer_ >= 2.25f && HP_timer_ <= 2.75f)
 	{
 		float opacity = FMath::Abs((HP_timer_ - 2.5f) * 4);
 		for (int32 i = 0; i < blocks_.Num(); i++)
