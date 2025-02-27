@@ -22,23 +22,23 @@ struct PROJECT_IK_API FInventorySlotData
 	bool is_empty = true;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	EGearType gear_type;
+	EGearType gear_type = EGearType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	EArmorType armor_type;
+	EArmorType armor_type = EArmorType::Empty;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	ETrinketType trinket_type;
+	ETrinketType trinket_type = ETrinketType::Empty;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	EWeaponType weapon_type;
+	EWeaponType weapon_type = EWeaponType::Empty;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	EPassiveSkillType passive_skill_type;
+	EPassiveSkillType passive_skill_type = EPassiveSkillType::Empty;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	EActiveSkillType active_skill_type;
+	EActiveSkillType active_skill_type = EActiveSkillType::Empty;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	EOopartType oopart_type;
+	EOopartType oopart_type = EOopartType::Empty;
 };
