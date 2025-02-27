@@ -96,6 +96,7 @@ private:
 	UPROPERTY()
 	class UInventoryManager* inventory_manager_;
 
+	UPROPERTY()
 	TObjectPtr<UDataTableManager> data_table_manager_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true", BindWidget))
