@@ -19,6 +19,8 @@ See LICENSE file in the project root for full license information.
 
 
 class USkillBase;
+class UDataTableManager;
+class AHeroBase;
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECT_IK_API USkillContainer : public UActorComponent
 {
@@ -34,6 +36,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void InvokeSkills(const FTargetResult& TargetResult);
 
+	FTargetParameters GetTargetParameters() const;
 	FActiveSkillData GetEquippedActiveSkillData();
 	void EquipActiveSkill(EActiveSkillType type);
 	void UnEquipActiveSkill();
@@ -41,7 +44,10 @@ public:
 
 private:
 	FActiveSkillData equipped_active_skill_data_;
-	class UDataTableManager* data_table_cache_;
-	USkillBase* active_skill_cache_;
-	class AHeroBase* hero_cache_;
+	UPROPERTY()
+	TWeakObjectPtr<UDataTableManager> data_table_cache_;
+	UPROPERTY()
+	TObjectPtr <USkillBase> active_skill_;
+	UPROPERTY()
+	TWeakObjectPtr <AHeroBase> hero_cache_;
 };

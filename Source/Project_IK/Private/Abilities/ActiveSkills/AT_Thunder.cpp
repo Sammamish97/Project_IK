@@ -14,11 +14,11 @@ See LICENSE file in the project root for full license information.
 
 UAT_Thunder::UAT_Thunder()
 {
+	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Opponents, 1000.f);
+
 	cool_time_ = 5.f;
-	target_param_.radius_ = 50;
-	target_param_.range_ = 50;
-	target_param_.current_mode_ = ETargetingMode::Actor;
-	target_param_.target_type_ = ETargetType::Opponents;
+
+	damage_ = 50.f;
 }
 
 bool UAT_Thunder::ActivateSkill_Implementation(const FTargetResult& target_result)

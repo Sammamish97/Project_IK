@@ -147,15 +147,15 @@ private:
 
 	FVector ProjectPointOntoCircle(const FVector& Point, const FVector& Origin, float Radius);
 
-	bool IsValidTarget(AActor* target) const;
 	FVector GetGroundLocation() const;
 	FVector ClampingOntoInvoker(const FVector& TargetLocation);
 	
+	// The function is for Actor targeting mode.
 	AActor* FindClosestActor(const FVector& TargetLocation);
 	void ApplyMaterialHighlight(AActor* target);
 
 	bool IsWithinSector(const FVector& origin, const FVector& direction, float range, float angle, const FVector& actor_location);
-
+	bool IsActorInRange(AActor* actor, float squared_range);
 
 	void StartFocus();
 	void EndFocus();
