@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "IKGameModeBase.generated.h"
 
 class UTimeDilationManager;
+class UEnemySpawnerManager;
 
 UCLASS()
 class PROJECT_IK_API AIKGameModeBase : public AGameModeBase
@@ -29,19 +30,22 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SpawnHeroes();
+	UFUNCTION()
+	void SpawnEnemies();
 
 	UFUNCTION(BlueprintCallable)
 	void SaveHeroSpawnData();
 
 	UFUNCTION(BlueprintPure)
 	TArray<AActor*> GetHeroContainers() const noexcept;
+
 	UFUNCTION(BlueprintPure)
-	TArray<AActor*> GetEnemyContainers() const noexcept;
+	TArray<AEnemyBase*> GetEnemyContainers() const noexcept;
 
 	UFUNCTION(BlueprintCallable)
 	void RemoveHero(AActor* hero);
 	UFUNCTION(BlueprintCallable)
-	void RemoveEnemy(AActor* enemy);
+	void RemoveEnemy(AEnemyBase* enemy);
 
 	UFUNCTION(BlueprintCallable)
 	void CheckWinLoseCondition();
@@ -64,18 +68,23 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void RestoreGlobalTimeDilation();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnemySpawner")
+	TSubclassOf<UEnemySpawnerManager> enemy_spawner_manager_class_;
+
 protected:
 	void DisplayCombatResult();
 
+	FVector hero_spawn_position_;
+
 	UPROPERTY(BlueprintReadWrite)
 	TArray<AActor*> heroes_;
-	
-	UPROPERTY(BlueprintReadWrite)
-	TArray<AActor*> enemies_;
 
 	UPROPERTY()
 	TMap<TWeakObjectPtr<AActor>, float> gunner_damage_map_;
 
 	UPROPERTY()
-	TObjectPtr<UTimeDilationManager> time_dilation_manager;
+	TObjectPtr<UTimeDilationManager> time_dilation_manager_;
+
+	UPROPERTY()
+	TObjectPtr<UEnemySpawnerManager> enemy_spawner_manager_;
 };

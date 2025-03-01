@@ -19,6 +19,7 @@ See LICENSE file in the project root for full license information.
 #include "NiagaraComponent.h"
 
 #include "Characters/Unit.h"
+#include "Characters/EnemyBase.h"
 #include "Components/CharacterStatComponent.h"
 
 ADPI_LaserBeam::ADPI_LaserBeam()
@@ -98,10 +99,10 @@ void ADPI_LaserBeam::FireLaserBeam()
 	if (world)
 	{
 		AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(world));
-		TArray<AActor*> hero_actors = game_mode->GetEnemyContainers();
+		TArray<AEnemyBase*> enemy_actors = game_mode->GetEnemyContainers();
 		AActor* nearest_actor = nullptr;
 		float nearest_distance_squared = FLT_MAX;
-		for (AActor* actor : hero_actors)
+		for (AEnemyBase* actor : enemy_actors)
 		{
 			FVector to_actor = actor->GetActorLocation() - location;
 

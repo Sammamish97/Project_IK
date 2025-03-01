@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKPlayerController.h"
 #include "Components/TargetingComponent.h"
 #include "Managers/TimeDilationManager.h"
+#include "Managers/EnemySpawnerManager.h"
 
 #include "WorldSettings/IKHUD.h"
 
@@ -24,6 +25,7 @@ See LICENSE file in the project root for full license information.
 #include "Environments/SpawnMarker.h"
 #include "Structs/SpawnData.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
+#include "UI/IKMaps.h"
 
 AIKGameModeBase::AIKGameModeBase()
 	: Super::AGameModeBase()
@@ -33,8 +35,12 @@ AIKGameModeBase::AIKGameModeBase()
 void AIKGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
-	time_dilation_manager = NewObject<UTimeDilationManager>(this);
+	hero_spawn_position_ = FVector();
+	time_dilation_manager_ = NewObject<UTimeDilationManager>(this);
 	SpawnHeroes();
+
+	// SpawnEnemies function should be called after SpawnHeroes has been called.
+	SpawnEnemies();
 }
 
 
@@ -42,11 +48,10 @@ void AIKGameModeBase::SpawnHeroes()
 {
 	TArray<AActor*> marker;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASpawnMarker::StaticClass(), marker);
-	FVector spawn_position = FVector();
 	FRotator spawn_rotation = FRotator();
 	if (marker.Num() > 0)
 	{
-		spawn_position = marker[0]->GetActorLocation();
+		hero_spawn_position_ = marker[0]->GetActorLocation();
 		spawn_rotation = marker[0]->GetActorRotation();
 	}
 
@@ -55,12 +60,30 @@ void AIKGameModeBase::SpawnHeroes()
 	
 	for (int32 i = 0; i < save_data_array.Num(); ++i)
 	{
-		AHeroBase* hero = GetWorld()->SpawnActor<AHeroBase>(save_data_array[i].character_data_.unit_class_, spawn_position + FVector(0, (300.f * (save_data_array.Num() - 1) / -2.f ) + (i * 300), 90), spawn_rotation);
+		AHeroBase* hero = GetWorld()->SpawnActor<AHeroBase>(save_data_array[i].character_data_.unit_class_, hero_spawn_position_ + FVector(0, (300.f * (save_data_array.Num() - 1) / -2.f ) + (i * 300), 90), spawn_rotation);
 		hero->SpawnDefaultController();
 		hero->GetComponentByClass<UCharacterStatComponent>()->SetCharacterData(save_data_array[0].character_data_);
 		hero->Initialize();
 		heroes_.Add(hero);
 	}
+}
+
+void AIKGameModeBase::SpawnEnemies()
+{
+	enemy_spawner_manager_ = NewObject<UEnemySpawnerManager>(this, enemy_spawner_manager_class_);
+
+	FIntPoint player_position = Cast<UIKGameInstance>(GetGameInstance())->GetMapPtr()->GetPlayerGridPosition();
+	// Decide the number of enemy waves using player's current progress.
+	if (player_position.X < 3)
+	{
+		// Hero spawn position initialized after SpawnHeroes has been called.
+		enemy_spawner_manager_->Initialize(hero_spawn_position_, 2);
+	}
+	else
+	{
+		enemy_spawner_manager_->Initialize(hero_spawn_position_, 4);
+	}
+	enemy_spawner_manager_->SpawnEnemies();
 }
 
 void AIKGameModeBase::SaveHeroSpawnData()
@@ -80,9 +103,9 @@ TArray<AActor*> AIKGameModeBase::GetHeroContainers() const noexcept
 	return heroes_;
 }
 
-TArray<AActor*> AIKGameModeBase::GetEnemyContainers() const noexcept
+TArray<AEnemyBase*> AIKGameModeBase::GetEnemyContainers() const noexcept
 {
-	return enemies_;
+	return enemy_spawner_manager_->GetEnemies();
 }
 
 void AIKGameModeBase::RemoveHero(AActor* hero)
@@ -94,11 +117,11 @@ void AIKGameModeBase::RemoveHero(AActor* hero)
 	}
 }
 
-void AIKGameModeBase::RemoveEnemy(AActor* enemy)
+void AIKGameModeBase::RemoveEnemy(AEnemyBase* enemy)
 {
 	if (enemy)
 	{
-		enemies_.Remove(enemy);
+		enemy_spawner_manager_->RemoveEnemy(enemy);
 		CheckWinLoseCondition();
 	}
 }
@@ -106,7 +129,7 @@ void AIKGameModeBase::RemoveEnemy(AActor* enemy)
 void AIKGameModeBase::CheckWinLoseCondition()
 {
 	// Escape immediately if any side is not annihilated.
-	if (enemies_.Num() > 0 && heroes_.Num() > 0)
+	if (!enemy_spawner_manager_->IsEnemyAllDefeated() && heroes_.Num() > 0)
 	{
 		return;
 	}
@@ -117,7 +140,7 @@ void AIKGameModeBase::CheckWinLoseCondition()
 		pc->GetTargetingComponent()->StopTargeting();
 	}
 
-	if (enemies_.Num() <= 0)
+	if (enemy_spawner_manager_->IsEnemyAllDefeated())
 	{
 		OnGameWin();
 		SaveHeroSpawnData();
@@ -145,34 +168,34 @@ void AIKGameModeBase::RecordDamage(float damage, TWeakObjectPtr<AActor> attacker
 
 void AIKGameModeBase::SetGlobalTimeDilation(float time_dilation)
 {
-	if (time_dilation_manager)
+	if (time_dilation_manager_)
 	{
-		time_dilation_manager->SetGlobalTimeDilation(GetWorld(), time_dilation);
+		time_dilation_manager_->SetGlobalTimeDilation(GetWorld(), time_dilation);
 	}
 }
 
 float AIKGameModeBase::GetGlobalTimeDilation() const
 {
-	if (time_dilation_manager)
+	if (time_dilation_manager_)
 	{
-		return time_dilation_manager->GetGlobalTimeDilation(GetWorld());
+		return time_dilation_manager_->GetGlobalTimeDilation(GetWorld());
 	}
 	return 0.f;
 }
 
 void AIKGameModeBase::SlowGlobalTimeDilation()
 {
-	if (time_dilation_manager)
+	if (time_dilation_manager_)
 	{
-		time_dilation_manager->SlowGlobalTimeDilation(GetWorld());
+		time_dilation_manager_->SlowGlobalTimeDilation(GetWorld());
 	}
 }
 
 void AIKGameModeBase::RestoreGlobalTimeDilation()
 {
-	if (time_dilation_manager)
+	if (time_dilation_manager_)
 	{
-		time_dilation_manager->RestoreGlobalTimeDilation(GetWorld());
+		time_dilation_manager_->RestoreGlobalTimeDilation(GetWorld());
 	}
 }
 
