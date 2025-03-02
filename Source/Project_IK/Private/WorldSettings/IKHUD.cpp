@@ -15,24 +15,24 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 
 #include "UI/CombatResultUI.h"
-#include "Managers/LevelEndUIManager.h"
+#include "Managers/CombatLevelResultManager.h"
 #include "UI/ButtonBarWidget.h"
 #include "UI/InventoryWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 
 void AIKHUD::DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map)
 {
-	if (level_end_ui_manager_)
+	if (combat_level_result_manager_)
 	{
-		level_end_ui_manager_->DisplayCombatResult(heroes, damage_map);
+		combat_level_result_manager_->DisplayCombatResult(heroes, damage_map);
 	}
 }
 
 void AIKHUD::SwitchUIByState(ELevelEndState state)
 {
-	if (level_end_ui_manager_)
+	if (combat_level_result_manager_)
 	{
-		level_end_ui_manager_->SwitchUIByState(state);
+		combat_level_result_manager_->SwitchUIByState(state);
 	}
 }
 
@@ -92,10 +92,10 @@ void AIKHUD::BeginPlay()
 		}
 	}
 
-	level_end_ui_manager_ = NewObject<ULevelEndUIManager>();
-	if (level_end_ui_manager_)
+	combat_level_result_manager_ = NewObject<UCombatLevelResultManager>();
+	if (combat_level_result_manager_)
 	{
-		level_end_ui_manager_->InitializeUI(combat_result_widget_class_, item_picker_widget_class_, map_widget_class_, world);
+		combat_level_result_manager_->InitializeUI(combat_result_widget_class_, item_picker_widget_class_, map_widget_class_, world);
 	}
 
 	if(inventory_widget_class_)

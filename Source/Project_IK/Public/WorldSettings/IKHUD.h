@@ -17,7 +17,7 @@ See LICENSE file in the project root for full license information.
 class UButtonBarWidget;
 class UCombatResultUI;
 class UItemPickerUI;
-class ULevelEndUIManager;
+class UCombatLevelResultManager;
 
 enum class ELevelEndState : uint8;
 
@@ -67,14 +67,14 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<class UUserWidget> map_widget_class_;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
-	ULevelEndUIManager* level_end_ui_manager_;
+	UPROPERTY()
+	TObjectPtr<UCombatLevelResultManager> combat_level_result_manager_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<class UInventoryWidget> inventory_widget_class_;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
-	class UInventoryWidget* inventory_widget_;
+	UPROPERTY()
+	TObjectPtr<UInventoryWidget> inventory_widget_;
 
 	virtual void BeginPlay() override;
 };

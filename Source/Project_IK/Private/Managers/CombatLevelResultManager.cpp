@@ -9,7 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 
-#include "Managers/LevelEndUIManager.h"
+#include "Managers/CombatLevelResultManager.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "Managers/EnumCluster.h"
@@ -18,13 +18,13 @@ See LICENSE file in the project root for full license information.
 #include "UI/CombatResultUI.h"
 #include "UI/ItemPickerUI.h"
 
-void ULevelEndUIManager::InitializeUI(TSubclassOf<class UCombatResultUI> combat_result_widget_class, TSubclassOf<class UItemPickerUI> item_picker_widget_class, TSubclassOf<class UUserWidget> map_widget_class, UWorld* world)
+void UCombatLevelResultManager::InitializeUI(TSubclassOf<class UCombatResultUI> combat_result_widget_class, TSubclassOf<class UItemPickerUI> item_picker_widget_class, TSubclassOf<class UUserWidget> map_widget_class, UWorld* world)
 {
 
 	if (combat_result_widget_class)
 	{
 		combat_result_widget_ = CreateWidget<UCombatResultUI>(world, combat_result_widget_class);
-		if (combat_result_widget_.IsValid())
+		if (combat_result_widget_)
 		{
 			combat_result_widget_->AddToViewport();
 			combat_result_widget_->SetVisibility(ESlateVisibility::Hidden);
@@ -34,7 +34,7 @@ void ULevelEndUIManager::InitializeUI(TSubclassOf<class UCombatResultUI> combat_
 	if (item_picker_widget_class)
 	{
 		item_picker_widget_ = CreateWidget<UItemPickerUI>(world, item_picker_widget_class);
-		if (item_picker_widget_.IsValid())
+		if (item_picker_widget_)
 		{
 			item_picker_widget_->AddToViewport();
 			item_picker_widget_->SetVisibility(ESlateVisibility::Hidden);
@@ -44,7 +44,7 @@ void ULevelEndUIManager::InitializeUI(TSubclassOf<class UCombatResultUI> combat_
 	if (map_widget_class)
 	{
 		map_widget_ = CreateWidget<UUserWidget>(world, map_widget_class);
-		if (map_widget_.IsValid())
+		if (map_widget_)
 		{
 			map_widget_->AddToViewport();
 			map_widget_->SetVisibility(ESlateVisibility::Hidden);
@@ -52,9 +52,9 @@ void ULevelEndUIManager::InitializeUI(TSubclassOf<class UCombatResultUI> combat_
 	}
 }
 
-void ULevelEndUIManager::DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map)
+void UCombatLevelResultManager::DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map)
 {
-	if (combat_result_widget_.IsValid())
+	if (combat_result_widget_)
 	{
 		combat_result_widget_->SetVisibility(ESlateVisibility::Visible);
 		combat_result_widget_->UpdateResults(heroes, damage_map);
@@ -65,9 +65,9 @@ void ULevelEndUIManager::DisplayCombatResult(const TArray<AActor*>& heroes, cons
 	}
 }
 
-void ULevelEndUIManager::SwitchUIByState(ELevelEndState state)
+void UCombatLevelResultManager::SwitchUIByState(ELevelEndState state)
 {
-	if (!combat_result_widget_.IsValid() || !item_picker_widget_.IsValid() || !map_widget_.IsValid())
+	if (!combat_result_widget_ || !item_picker_widget_ || !map_widget_)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Any of the widgets serialized in LevelEndUIManager is NOT valid!"));
 		return;
