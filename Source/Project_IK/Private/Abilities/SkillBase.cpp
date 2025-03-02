@@ -16,3 +16,8 @@ void USkillBase::InitActiveSkill(AActor* skill_owner)
 {
 	skill_owner_ = skill_owner;
 }
+
+FTargetParameters USkillBase::GetTargetParameters() const
+{
+	return target_param_;
+}

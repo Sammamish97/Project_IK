@@ -24,17 +24,22 @@ class PROJECT_IK_API USkillBase : public UObject
 	GENERATED_BODY()
 	
 public:
-	USkillBase() = default;
-	void InitActiveSkill(AActor* skill_owner);	
+	void InitActiveSkill(AActor* skill_owner);
+
+	FTargetParameters GetTargetParameters() const;
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	bool ActivateSkill(const FTargetResult& TargetResult);
+
 	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) PURE_VIRTUAL(USkillBase::ActivateSkill_Implementation, return true;);
 
 protected:
 	UPROPERTY(VisibleAnywhere)
-	FTargetParameters target_param_;
+	FTargetParameters target_param_{};
 
 	UPROPERTY(VisibleAnywhere)
-	float cool_time_;
+	float cool_time_ = 0.f;
 
 	UPROPERTY(VisibleAnywhere)
-	AActor* skill_owner_;
+	AActor* skill_owner_ = nullptr;
 };

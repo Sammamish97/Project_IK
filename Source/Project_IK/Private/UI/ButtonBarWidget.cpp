@@ -141,8 +141,7 @@ void UButtonBarWidget::OnSkillButtonClicked0()
 
 	if (targeting_component_ && characters_.IsValidIndex(caster_))
 	{
-		FTargetParameters target_params(ETargetingMode::Direction, ETargetType::All, 1000.f, 90.f);
-		targeting_component_->StartSkillTargeting(characters_[caster_], target_params);
+		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
 	}
 }
 
@@ -153,8 +152,7 @@ void UButtonBarWidget::OnSkillButtonClicked1()
 
 	if (targeting_component_ && characters_.IsValidIndex(caster_))
 	{
-		FTargetParameters target_params(ETargetingMode::Location);
-		targeting_component_->StartSkillTargeting(characters_[caster_], target_params);
+		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
 	}
 }
 
@@ -165,8 +163,7 @@ void UButtonBarWidget::OnSkillButtonClicked2()
 
 	if (targeting_component_ && characters_.IsValidIndex(caster_))
 	{
-		FTargetParameters target_params(ETargetingMode::Location);
-		targeting_component_->StartSkillTargeting(characters_[caster_], target_params);
+		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
 	}
 }
 
@@ -177,8 +174,7 @@ void UButtonBarWidget::OnSkillButtonClicked3()
 
 	if (targeting_component_ && characters_.IsValidIndex(caster_))
 	{
-		FTargetParameters target_params(ETargetingMode::Location);
-		targeting_component_->StartSkillTargeting(characters_[caster_], target_params);
+		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
 	}
 }
 
@@ -390,6 +386,8 @@ void UButtonBarWidget::InvokeSkills(const FTargetResult& TargetResult)
 
 void UButtonBarWidget::FindCharacters()
 {
+	skill_containers_.Empty();
+
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	TArray<UButton*> temp_array = {skill_button_0_, skill_button_1_, skill_button_2_, skill_button_3_};
 	int counter = 0;

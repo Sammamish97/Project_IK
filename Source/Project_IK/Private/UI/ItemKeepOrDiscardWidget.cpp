@@ -22,7 +22,6 @@ See LICENSE file in the project root for full license information.
 
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameInstance.h"
-#include "Managers/TextureManager.h"
 #include "Managers/ItemDataManager.h"
 #include "Abilities/ItemInventory.h"
 

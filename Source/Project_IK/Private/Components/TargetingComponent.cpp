@@ -20,6 +20,8 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameModeBase.h"
 #include "Engine/World.h"
 
+#include "Characters/EnemyBase.h"
+
 // Sets default values for this component's properties
 UTargetingComponent::UTargetingComponent()
 {
@@ -107,16 +109,11 @@ void UTargetingComponent::StartSkillTargeting(AActor* invoker, FTargetParameters
 	current_target_result_.target_parameters_ = target_parameters_;
 
 
+
 	range_decal_->DecalSize = FVector(target_parameters_.range_);
-	radius_decal_->DecalSize = FVector(target_parameters_.radius_);
-	sector_decal_->DecalSize = FVector(target_parameters_.range_);
-	UMaterialInstanceDynamic* dynamic_material = sector_decal_->CreateDynamicMaterialInstance();
-	if (dynamic_material)
-	{
-		dynamic_material->SetScalarParameterValue(FName("ArcWidth"), target_parameters_.radius_ / 360);
-	}
 
-
+	// Clean up visuals
+	UMaterialInstanceDynamic* dynamic_material = nullptr;
 	switch (target_parameters_.current_mode_)
 	{
 	case ETargetingMode::None:
@@ -129,6 +126,7 @@ void UTargetingComponent::StartSkillTargeting(AActor* invoker, FTargetParameters
 		break;
 	case ETargetingMode::Location:
 		player_controller_->CurrentMouseCursor = EMouseCursor::GrabHand;
+		radius_decal_->DecalSize = FVector(target_parameters_.radius_);
 		radius_decal_->SetVisibility(true);
 		range_decal_->SetVisibility(true);
 		sector_decal_->SetVisibility(false);
@@ -137,6 +135,12 @@ void UTargetingComponent::StartSkillTargeting(AActor* invoker, FTargetParameters
 		radius_decal_->SetVisibility(false);
 		range_decal_->SetVisibility(true);
 		sector_decal_->SetVisibility(true);
+		sector_decal_->DecalSize = FVector(target_parameters_.range_);
+		dynamic_material = sector_decal_->CreateDynamicMaterialInstance();
+		if (dynamic_material)
+		{
+			dynamic_material->SetScalarParameterValue(FName("ArcWidth"), target_parameters_.radius_ / 360);
+		}
 		break;
 	default:
 		break;
@@ -153,16 +157,7 @@ void UTargetingComponent::StartItemTargeting(FTargetParameters TargetParams)
 	current_target_result_.target_actors_.Empty();
 	current_target_result_.target_parameters_ = target_parameters_;
 
-
-	range_decal_->DecalSize = FVector(target_parameters_.range_);
-	radius_decal_->DecalSize = FVector(target_parameters_.radius_);
-	sector_decal_->DecalSize = FVector(target_parameters_.range_);
-	UMaterialInstanceDynamic* dynamic_material = sector_decal_->CreateDynamicMaterialInstance();
-	if (dynamic_material)
-	{
-		dynamic_material->SetScalarParameterValue(FName("ArcWidth"), target_parameters_.radius_ / 360);
-	}
-
+	// Clean up visuals
 	switch (target_parameters_.current_mode_)
 	{
 	case ETargetingMode::None:
@@ -175,6 +170,7 @@ void UTargetingComponent::StartItemTargeting(FTargetParameters TargetParams)
 		break;
 	case ETargetingMode::Location:
 		player_controller_->CurrentMouseCursor = EMouseCursor::GrabHand;
+		radius_decal_->DecalSize = FVector(target_parameters_.radius_);
 		radius_decal_->SetVisibility(true);
 		range_decal_->SetVisibility(false);
 		sector_decal_->SetVisibility(false);
@@ -243,6 +239,7 @@ void UTargetingComponent::HandleLocationTargeting()
 
 	if (game_mode)
 	{
+		const float squared_radius = target_parameters_.radius_ * target_parameters_.radius_;
 		if (target_parameters_.target_type_ == ETargetType::All || target_parameters_.target_type_ == ETargetType::Allies)
 		{
 			auto heroes = game_mode->GetHeroContainers();
@@ -251,8 +248,8 @@ void UTargetingComponent::HandleLocationTargeting()
 			{
 				FVector to_actor = actor->GetActorLocation() - current_target_result_.target_location_;
 
-				float distance_to_actor = to_actor.Size();
-				if (distance_to_actor <= target_parameters_.radius_)
+				float squared_distance_to_actor = to_actor.SizeSquared();
+				if (squared_distance_to_actor <= squared_radius)
 				{
 					current_target_result_.target_actors_.Add(actor);
 				}
@@ -262,12 +259,12 @@ void UTargetingComponent::HandleLocationTargeting()
 		{
 			auto enemies = game_mode->GetEnemyContainers();
 
-			for (AActor* actor : enemies)
+			for (AEnemyBase* actor : enemies)
 			{
 				FVector to_actor = actor->GetActorLocation() - current_target_result_.target_location_;
 
-				float distance_to_actor = to_actor.Size();
-				if (distance_to_actor <= target_parameters_.radius_)
+				float squared_distance_to_actor = to_actor.SizeSquared();
+				if (squared_distance_to_actor <= squared_radius)
 				{
 					current_target_result_.target_actors_.Add(actor);
 				}
@@ -429,16 +426,7 @@ void UTargetingComponent::UpdateTargetingVisuals()
 
 void UTargetingComponent::CleanupTargetingVisuals()
 {
-	if (previously_chosen_actor_)
-	{
-		USkeletalMeshComponent* previous_mesh = previously_chosen_actor_->FindComponentByClass<USkeletalMeshComponent>();
-		for (int32 i = 0; i < previous_mesh->GetNumMaterials(); i++)
-		{
-			previous_mesh->SetMaterial(i, original_materials_[i]);
-		}
-
-		previously_chosen_actor_ = nullptr;
-	}
+	ApplyMaterialHighlight(nullptr);
 
 	if (range_decal_)
 	{
@@ -463,11 +451,6 @@ FVector UTargetingComponent::ProjectPointOntoCircle(const FVector& Point, const 
 	FVector result = Origin + direction * Radius;
 
 	return result;
-}
-
-bool UTargetingComponent::IsValidTarget(AActor* target) const
-{
-	return false;
 }
 
 FVector UTargetingComponent::GetGroundLocation() const
@@ -495,7 +478,7 @@ FVector UTargetingComponent::ClampingOntoInvoker(const FVector& TargetLocation)
 	if (invoker_)
 	{
 		FVector owner_location = invoker_->GetActorLocation();
-		if (FVector::DistXY(owner_location, TargetLocation) >= target_parameters_.range_)
+		if (FVector::DistSquaredXY(owner_location, TargetLocation) >= target_parameters_.range_ * target_parameters_.range_)
 		{
 			return ProjectPointOntoCircle(TargetLocation, owner_location, target_parameters_.range_);
 		}
@@ -515,6 +498,7 @@ AActor* UTargetingComponent::FindClosestActor(const FVector& TargetLocation)
 
 	AActor* closest_actor = nullptr;
 	float closest_distance_sq = MAX_FLT;
+	const float squared_range = target_parameters_.range_ * target_parameters_.range_;
 
 	if (target_parameters_.target_type_ == ETargetType::All || target_parameters_.target_type_ == ETargetType::Allies)
 	{
@@ -523,11 +507,14 @@ AActor* UTargetingComponent::FindClosestActor(const FVector& TargetLocation)
 		{
 			if (actor)
 			{
-				float distance_sq = FVector::DistSquared(TargetLocation, actor->GetActorLocation());
-				if (distance_sq < closest_distance_sq)
+				if (IsActorInRange(actor, squared_range))
 				{
-					closest_distance_sq = distance_sq;
-					closest_actor = actor;
+					float distance_sq = FVector::DistSquared(TargetLocation, actor->GetActorLocation());
+					if (distance_sq < closest_distance_sq)
+					{
+						closest_distance_sq = distance_sq;
+						closest_actor = actor;
+					}
 				}
 			}
 		}
@@ -540,11 +527,14 @@ AActor* UTargetingComponent::FindClosestActor(const FVector& TargetLocation)
 		{
 			if (actor)
 			{
-				float distance_sq = FVector::DistSquared(TargetLocation, actor->GetActorLocation());
-				if (distance_sq < closest_distance_sq)
+				if (IsActorInRange(actor, squared_range))
 				{
-					closest_distance_sq = distance_sq;
-					closest_actor = actor;
+					float distance_sq = FVector::DistSquared(TargetLocation, actor->GetActorLocation());
+					if (distance_sq < closest_distance_sq)
+					{
+						closest_distance_sq = distance_sq;
+						closest_actor = actor;
+					}
 				}
 			}
 		}
@@ -556,7 +546,6 @@ AActor* UTargetingComponent::FindClosestActor(const FVector& TargetLocation)
 
 void UTargetingComponent::ApplyMaterialHighlight(AActor* target)
 {
-	if (!target) return;
 
 	if (previously_chosen_actor_ != target)
 	{
@@ -568,6 +557,10 @@ void UTargetingComponent::ApplyMaterialHighlight(AActor* target)
 				previous_mesh->SetMaterial(i, original_materials_[i]);
 			}
 		}
+
+		previously_chosen_actor_ = target;
+
+		if (!target) return;
 
 		// Store original materials
 		USkeletalMeshComponent* MeshComponent = target->FindComponentByClass<USkeletalMeshComponent>();
@@ -585,8 +578,6 @@ void UTargetingComponent::ApplyMaterialHighlight(AActor* target)
 				MeshComponent->SetMaterial(i, highlight_dynamic_material_);
 			}
 		}
-
-		previously_chosen_actor_ = target;
 	}
 }
 
@@ -595,8 +586,8 @@ bool UTargetingComponent::IsWithinSector(const FVector& origin, const FVector& d
 	FVector to_actor = actor_location - origin;
 
 	// Is the actor in range?
-	float distance_to_actor = to_actor.Size();
-	if (distance_to_actor > range)
+	float distance_to_actor = to_actor.SizeSquared();
+	if (distance_to_actor > range * range)
 	{
 		return false;
 	}
@@ -610,6 +601,12 @@ bool UTargetingComponent::IsWithinSector(const FVector& origin, const FVector& d
 	float dot_product = FVector::DotProduct(normalized_direction, normalized_actor);
 
 	return dot_product >= cos_half_radian;
+}
+
+bool UTargetingComponent::IsActorInRange(AActor* actor, float squared_range)
+{
+	// return true if item selection mode is on (invoker is nullptr).
+	return (invoker_ == nullptr) || (FVector::DistSquared(actor->GetActorLocation(), invoker_->GetActorLocation()) < squared_range);
 }
 
 void UTargetingComponent::StartFocus()

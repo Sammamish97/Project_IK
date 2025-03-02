@@ -34,7 +34,7 @@ public:
 	UFUNCTION()
 	void RestoreGlobalTimeDilation(UObject* world);
 
-	static constexpr float SLOW_SPEED = 0.5f;
+	static constexpr float SLOW_SPEED = 0.25f;
 
 private:
 	UPROPERTY()

@@ -103,7 +103,7 @@ private:
 	TArray<AActor*> characters_;
 
 	UPROPERTY()
-	TArray<USkillContainer*> skill_containers_;
+	TArray<TWeakObjectPtr<USkillContainer>> skill_containers_;
 
 	int32 selected_item_index_;
 	int32 caster_;
