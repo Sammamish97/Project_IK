@@ -19,10 +19,10 @@ struct PROJECT_IK_API FOopartData : public FTableRowBase
 	GENERATED_BODY();
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "OopartData")
-	EOopartType type;
+	EOopartType type = EOopartType::Empty;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "OopartData")
-	TSubclassOf<class AOopartBase> oopart_class;
+	TSubclassOf<class AOopartBase> oopart_class = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "OopartData")
 	UTexture2D* thumbnail = nullptr;

@@ -26,16 +26,16 @@ struct PROJECT_IK_API FTrinketData : public FTableRowBase
 	UTexture2D* thumbnail = nullptr;
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "TrinketData")
-	int attack;
+	float attack = 0.f;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "TrinketData")
-	int attack_speed;
+	float attack_speed = 0.f;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "TrinketData")
-	int crit_rate;
+	float crit_rate = 0.f;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "TrinketData")
-	bool has_skill;
+	bool has_skill = false;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "TrinketData")
 	TSubclassOf<UEquipSkillBase> equipment_skill_class = nullptr;

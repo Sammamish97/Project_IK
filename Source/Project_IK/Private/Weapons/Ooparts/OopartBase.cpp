@@ -18,6 +18,7 @@ AOopartBase::AOopartBase()
 	PrimaryActorTick.bCanEverTick = true;
 
 	oopart_mesh_ = CreateDefaultSubobject<UStaticMeshComponent>("OopartMesh");
+	SetRootComponent(oopart_mesh_);
 }
 
 // Called when the game starts or when spawned

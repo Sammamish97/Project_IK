@@ -26,16 +26,16 @@ struct PROJECT_IK_API FArmorData : public FTableRowBase
 	UTexture2D* thumbnail = nullptr;
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
-	int armor;
+	float armor = 0;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
-	int hit_point;
+	float hit_point = 0;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
-	int evasion_rate;
+	float evasion_rate = 0;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
-	bool has_skill;
+	bool has_skill = false;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ArmorData")
 	TSubclassOf<UEquipSkillBase> equipment_skill_class = nullptr;

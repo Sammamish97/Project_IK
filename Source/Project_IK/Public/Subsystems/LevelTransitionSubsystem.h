@@ -24,6 +24,9 @@ public:
 	void UpdateSpawnData(const TArray<FSpawnData>& data);
 
 	UFUNCTION(BlueprintCallable)
+	void UpdateSpawnDataIdx(int32 idx, FSpawnData data);
+
+	UFUNCTION(BlueprintCallable)
 	void OpenLevel(UWorld* world, FIntPoint map_position);
 	
 	UFUNCTION(BlueprintCallable)

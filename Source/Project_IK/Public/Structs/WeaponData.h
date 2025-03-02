@@ -19,10 +19,10 @@ struct PROJECT_IK_API FWeaponData : public FTableRowBase
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
-	EWeaponType type;
+	EWeaponType type = EWeaponType::Pistol;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
-	TSubclassOf<class AGun> weapon_class;
+	TSubclassOf<class AGun> weapon_class = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
 	UTexture2D* thumbnail = nullptr;
@@ -30,10 +30,10 @@ struct PROJECT_IK_API FWeaponData : public FTableRowBase
 	//TODO: 이 방식은 이 총을 사용하는 모든 Unit의 Skeletal Bone구조가 동일한 경우 사용 가능하다.
 	//TODO: 만약 영웅별로 사용하는 Skeletal Bone구조가 다르다면 다른 방식이 필요하다.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
-	UAnimMontage* fire_montage_;
+	UAnimMontage* fire_montage_ = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
-	UAnimMontage* reload_montage_;
+	UAnimMontage* reload_montage_ = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
 	FString flavor_text;

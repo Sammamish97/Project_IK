@@ -35,7 +35,10 @@ public:
 	UFUNCTION()
 	void SwitchToRightHero();
 private:
-	UInventoryManager* inventory_manager_ref_;
+	UInventoryManager* inventory_manager_cache_;
+	class UIKGameInstance* game_instance_cache_;
+	class UDataTableManager* data_table_cache_;
+	
 	int cur_hero_idx_;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
@@ -62,6 +65,9 @@ private:
 	UInventorySlot* hero_active_skill_;
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	UInventorySlot* hero_oopart_;
+	
+	UPROPERTY(Transient)
+	TArray<UInventorySlot*> hero_slot_array_;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	class UWrapBox* wrap_box_;
