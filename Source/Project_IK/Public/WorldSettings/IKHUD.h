@@ -55,8 +55,8 @@ protected:
 	TSubclassOf<class UButtonBarWidget> button_widget_class_;
 
 	// Reference to the widget instance
-	UPROPERTY(VisibleAnywhere, Category = "UI")
-	UButtonBarWidget* button_widget_;
+	UPROPERTY()
+	TObjectPtr<UButtonBarWidget> button_widget_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<class UCombatResultUI> combat_result_widget_class_;

@@ -14,12 +14,22 @@ See LICENSE file in the project root for full license information.
 #include "UObject/NoExportTypes.h"
 #include "RunResultManager.generated.h"
 
+class UToMainMenuWidget;
+
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable)
 class PROJECT_IK_API URunResultManager : public UObject
 {
 	GENERATED_BODY()
+public:
+	void StartRunResultSequence();
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UToMainMenuWidget> main_menu_ui_class_ = nullptr;
+protected:
+
+	UPROPERTY()
+	TObjectPtr<UToMainMenuWidget> main_menu_ui_ = nullptr;
 };
