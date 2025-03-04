@@ -99,6 +99,8 @@ void UButtonBarWidget::NativeConstruct()
 	}
 
 	is_item_muted_ = false;
+	
+	
 }
 
 void UButtonBarWidget::NativeDestruct()
@@ -131,6 +133,31 @@ void UButtonBarWidget::NativeDestruct()
 	if (item_button_2_)
 	{
 		item_button_2_->OnClicked.Clear();
+	}
+}
+
+void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	Super::NativeTick(MyGeometry, InDeltaTime);
+
+	TArray<UButton*> buttons = { skill_button_0_, skill_button_1_, skill_button_2_, skill_button_3_ };
+	for (int32 i = 0; i < buttons.Num(); ++i)
+	{
+		// Is the skill button connected in cooldown
+		if (buttons[i]->GetVisibility() != ESlateVisibility::Hidden &&buttons[i]->GetIsEnabled() == false)
+		{
+			cooldowns_[i] += InDeltaTime;
+			const float cooltime = skill_containers_[i]->GetCooltime();
+			if (cooldowns_[i] >= cooltime)
+			{
+				buttons[i]->SetIsEnabled(true);
+			}
+			else
+			{
+				button_cooldown_materials_[i]->SetScalarParameterValue("CooldownPercent", cooldowns_[i] / cooltime);
+			}
+			
+		}
 	}
 }
 
@@ -381,6 +408,25 @@ void UButtonBarWidget::InvokeSkills(const FTargetResult& TargetResult)
 	else
 	{
 		skill_containers_[caster_]->InvokeSkills(TargetResult);
+		switch (caster_)
+		{
+		case 0:
+			skill_button_0_->SetIsEnabled(false);
+			break;
+		case 1:
+			skill_button_1_->SetIsEnabled(false);
+			break;
+		case 2:
+			skill_button_2_->SetIsEnabled(false);
+			break;
+		case 3:
+			skill_button_3_->SetIsEnabled(false);
+			break;
+		default:
+			break;
+		}
+		cooldowns_[caster_] = 0.f;
+		button_cooldown_materials_[caster_]->SetScalarParameterValue("CooldownPercent", cooldowns_[caster_]);
 	}
 }
 
@@ -390,21 +436,43 @@ void UButtonBarWidget::FindCharacters()
 
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	TArray<UButton*> temp_array = {skill_button_0_, skill_button_1_, skill_button_2_, skill_button_3_};
-	int counter = 0;
+	button_cooldown_materials_.Empty();
+	button_cooldown_materials_.SetNum(temp_array.Num());
+	cooldowns_.SetNum(temp_array.Num());
+
 	if (game_mode)
 	{
 		characters_ = game_mode->GetHeroContainers();
 
-		for (AActor* actor : characters_)
+		for (int32 i = 0; i < characters_.Num(); ++i)
 		{
-			if (actor)
+
+			if (characters_[i])
 			{
-				if (auto skill_container = actor->FindComponentByClass<USkillContainer>())
+				if (auto skill_container = characters_[i]->FindComponentByClass<USkillContainer>())
 				{
 					skill_containers_.Add(skill_container);
-					FButtonStyle button_style;
-					button_style.Normal.SetResourceObject(skill_container->GetEquippedActiveSkillData().thumbnail);
-					temp_array[counter++]->SetStyle(button_style);
+					FButtonStyle button_style = temp_array[i]->GetStyle();
+					UTexture2D* image = skill_container->GetEquippedActiveSkillData().thumbnail;
+					button_style.Normal.SetResourceObject(image);
+					button_style.Pressed.SetResourceObject(image);
+					button_style.Hovered.SetResourceObject(image);
+					UObject* tmp = button_style.Disabled.GetResourceObject();
+					if (tmp && tmp->IsA<UMaterialInterface>())
+					{
+						UMaterialInterface* material = Cast<UMaterialInterface>(tmp);
+						if (material)
+						{
+							button_cooldown_materials_[i] = UMaterialInstanceDynamic::Create(material, this);
+							button_cooldown_materials_[i]->SetTextureParameterValue("Texture", image);
+							cooldowns_[i] = 0.f;
+							button_cooldown_materials_[i]->SetScalarParameterValue("CooldownPercent", cooldowns_[i]);
+							button_cooldown_materials_[i]->SetVectorParameterValue("Tint",
+								button_style.Normal.TintColor.GetSpecifiedColor());
+							button_style.Disabled.SetResourceObject(button_cooldown_materials_[i]);
+						}
+					}
+					temp_array[i]->SetStyle(button_style);
 				}
 			}
 		}

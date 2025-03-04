@@ -46,6 +46,7 @@ protected:
 
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
 
 	UFUNCTION()
 	void OnSkillButtonClicked0();
@@ -75,44 +76,46 @@ protected:
 	void FindCharacters();
 
 private:
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	UButton* skill_button_0_;
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	UButton* skill_button_1_;
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	UButton* skill_button_2_;
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	UButton* skill_button_3_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> skill_button_0_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> skill_button_1_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> skill_button_2_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> skill_button_3_;
 
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	UButton* item_button_0_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> item_button_0_;
 
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	UButton* item_button_1_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> item_button_1_;
 
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	UButton* item_button_2_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> item_button_2_;
 
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	UCreditWidget* credit_widget_;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY()
 	class UTargetingComponent* targeting_component_;
 
 	UPROPERTY()
 	TArray<AActor*> characters_;
 
-	UPROPERTY()
 	TArray<TWeakObjectPtr<USkillContainer>> skill_containers_;
 
 	int32 selected_item_index_;
 	int32 caster_;
 
-	UPROPERTY(VisibleAnywhere, meta = (PrivateAccessAllow))
 	TWeakObjectPtr<UItemInventory> item_inventory_;
 
 	UPROPERTY()
 	UTexture2D* empty_item_icon;
+
+	UPROPERTY()
+	TArray<TObjectPtr<UMaterialInstanceDynamic>> button_cooldown_materials_;
+	TArray<float> cooldowns_;
 
 	bool is_item_muted_;
 };
