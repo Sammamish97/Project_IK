@@ -21,53 +21,45 @@ struct FCharacterData : public FTableRowBase
 	GENERATED_BODY()
 
 public:
-	FCharacterData() : unit_class_(), character_name_(), 
-		attack_power_(0.f), attack_speed_(0.f), critical_hit_rate_(0.f), accuracy_(0.f), magazine_bonus_(0.f), life_steal_(0.f), 
-		hit_point_(0.f), evasion_rate_(0.f), armor_(0.f), survivability_(0.f),
-		move_speed_(0.f), 
-		active_skill_power_(0.f), active_skill_cooldown_(0.f),
-		passive_skill_power_(0.f), passive_skill_cooldown_(0.f)
-	{};
-
 	// Unit Type
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	TSubclassOf<AUnit> unit_class_;
+	TSubclassOf<AUnit> unit_class_ = nullptr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Data")
-	FName character_name_;
+	FName character_name_ = "";
 
 	UPROPERTY(VisibleAnywhere, Category = "AttackData")
-	float attack_power_;
+	float attack_power_ = 0.f;
 	UPROPERTY(VisibleAnywhere, Category = "AttackData")
-	float attack_speed_;
+	float attack_speed_ = 0.f;
 	UPROPERTY(VisibleAnywhere, Category = "AttackData")
-	float critical_hit_rate_;
+	float critical_hit_rate_ = 0.f;
 	UPROPERTY(VisibleAnywhere, Category = "AttackData")
-	float accuracy_;
+	float accuracy_ = 0.f;
 	UPROPERTY(VisibleAnywhere, Category = "AttackData")
-	float magazine_bonus_;
+	float magazine_bonus_ = 0.f;
 	UPROPERTY(VisibleAnywhere, Category = "AttackData")
-	float life_steal_;
+	float life_steal_ = 0.f;
 
 
 	UPROPERTY(VisibleAnywhere, Category = "DefenseData")
-	float hit_point_;
+	float hit_point_ = 0.f;
 	UPROPERTY(VisibleAnywhere, Category = "DefenseData")
-	float evasion_rate_;
+	float evasion_rate_ = 0.f;
 	UPROPERTY(VisibleAnywhere, Category = "DefenseData")
-	float armor_;
+	float armor_ = 0.f;
 	UPROPERTY(VisibleAnywhere, Category = "DefenseData")
-	float survivability_;
+	float survivability_ = 0.f;
 
 	UPROPERTY(VisibleAnywhere, Category = "AgilityData")
-	float move_speed_;
+	float move_speed_ = 0.f;
 
 	UPROPERTY(VisibleAnywhere, Category = "SkillData")
-	float active_skill_power_;
+	float active_skill_power_ = 0.f;
 	UPROPERTY(VisibleAnywhere, Category = "SkillData")
-	float active_skill_cooldown_;
+	float active_skill_cooldown_ = 0.f;
 	UPROPERTY(VisibleAnywhere, Category = "SkillData")
-	float passive_skill_power_;
+	float passive_skill_power_ = 0.f;
 	UPROPERTY(VisibleAnywhere, Category = "SkillData")
-	float passive_skill_cooldown_;
+	float passive_skill_cooldown_ = 0.f;
 };

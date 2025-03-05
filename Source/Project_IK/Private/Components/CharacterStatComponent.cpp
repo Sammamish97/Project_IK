@@ -102,16 +102,13 @@ bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 	float evasion_rand = FMath::RandRange(0.f, 1.f);
 	bool is_evaded = evasion_rand < GetEvasionRate();
 
-	if (!is_evaded && data_ref.attacker.IsValid())
-	{
-		AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-		game_mode->RecordDamage(data_ref.damage, data_ref.attacker);
-	}
-
 	if (is_evaded)
 	{
 		return is_evaded;
 	}
+
+	float armor = GetArmor();
+	data_ref.damage *= 100.f / (100.f + armor);
 
 	// Calculation of shields
 	float remaining_damage = data_ref.damage;
@@ -128,6 +125,13 @@ bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 			GetWorld()->GetTimerManager().ClearTimer(shield_timer_);
 		}
 	}
+
+	if (data_ref.attacker.IsValid())
+	{
+		AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+		game_mode->RecordDamage(data_ref.damage, data_ref.attacker);
+	}
+
 	data_ref.damage = remaining_damage;
 	return is_evaded;
 }
