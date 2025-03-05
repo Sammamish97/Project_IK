@@ -37,6 +37,7 @@ public:
 	void InvokeSkills(const FTargetResult& TargetResult);
 
 	FTargetParameters GetTargetParameters() const;
+	float GetCooltime() const;
 	FActiveSkillData GetEquippedActiveSkillData();
 	void EquipActiveSkill(EActiveSkillType type);
 	void UnEquipActiveSkill();

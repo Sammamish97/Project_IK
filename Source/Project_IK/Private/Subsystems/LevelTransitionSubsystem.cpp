@@ -48,6 +48,7 @@ void ULevelTransitionSubsystem::OpenLevel(UWorld* world, FIntPoint map_position)
 {
 	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
 	FMapNode node = instance->GetMapPtr()->GetNode(map_position.X, map_position.Y);
+	instance->GetMapPtr()->SetPlayerGridPosition(map_position);
 	switch (node.type)
 	{
 	case NodeType::None:
@@ -55,7 +56,15 @@ void ULevelTransitionSubsystem::OpenLevel(UWorld* world, FIntPoint map_position)
 		break;
 	case NodeType::Enemy:
 		UGameplayStatics::OpenLevel(world, FName("CombatLevel"));
-		instance->GetMapPtr()->SetPlayerGridPosition(map_position);
+		break;
+	case NodeType::Merchant:
+		UGameplayStatics::OpenLevel(world, FName("StoreLevel"));
+		break;
+	case NodeType::Event:
+		UGameplayStatics::OpenLevel(world, FName("EventLevel"));
+		break;
+	case NodeType::Boss:
+		UGameplayStatics::OpenLevel(world, FName("BossLevel"));
 		break;
 	default:
 		break;

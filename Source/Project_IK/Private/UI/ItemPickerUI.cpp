@@ -31,7 +31,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "Abilities/ItemInventory.h"
 #include "WorldSettings/IKHUD.h"
-#include "Managers/LevelEndUIManager.h"
+#include "Managers/CombatLevelResultManager.h"
 #include "Managers/ItemDataManager.h"
 #include "Managers/TextureManager.h"
 

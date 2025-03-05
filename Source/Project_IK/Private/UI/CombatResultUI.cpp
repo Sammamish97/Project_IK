@@ -29,7 +29,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKHUD.h"
-#include "Managers/LevelEndUIManager.h"
+#include "Managers/CombatLevelResultManager.h"
 
 
 bool UCombatResultUI::Initialize()

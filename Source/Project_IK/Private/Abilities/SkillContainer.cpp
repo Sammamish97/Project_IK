@@ -52,6 +52,15 @@ FTargetParameters USkillContainer::GetTargetParameters() const
 	return FTargetParameters();
 }
 
+float USkillContainer::GetCooltime() const
+{
+	if (active_skill_)
+	{
+		return active_skill_->GetCooltime();
+	}
+	return 0.f;
+}
+
 FActiveSkillData USkillContainer::GetEquippedActiveSkillData()
 {
 	return equipped_active_skill_data_;

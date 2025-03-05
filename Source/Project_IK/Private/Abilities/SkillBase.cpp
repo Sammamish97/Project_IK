@@ -21,3 +21,8 @@ FTargetParameters USkillBase::GetTargetParameters() const
 {
 	return target_param_;
 }
+
+float USkillBase::GetCooltime() const
+{
+	return cool_time_;
+}

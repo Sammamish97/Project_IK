@@ -12,14 +12,14 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "LevelEndUIManager.generated.h"
+#include "CombatLevelResultManager.generated.h"
 
 enum class ELevelEndState : uint8;
 /**
  * 
  */
 UCLASS()
-class PROJECT_IK_API ULevelEndUIManager : public UObject
+class PROJECT_IK_API UCombatLevelResultManager : public UObject
 {
 	GENERATED_BODY()
 public:
@@ -34,12 +34,12 @@ public:
 
 protected:
 
-	UPROPERTY(VisibleAnywhere, Category = "UI")
-	TWeakObjectPtr<UCombatResultUI> combat_result_widget_;
+	UPROPERTY()
+	TObjectPtr<UCombatResultUI> combat_result_widget_;
 
-	UPROPERTY(VisibleAnywhere, Category = "UI")
-	TWeakObjectPtr<UItemPickerUI> item_picker_widget_;
+	UPROPERTY()
+	TObjectPtr<UItemPickerUI> item_picker_widget_;
 
-	UPROPERTY(VisibleAnywhere, Category = "UI")
-	TWeakObjectPtr<UUserWidget> map_widget_;
+	UPROPERTY()
+	TObjectPtr<UUserWidget> map_widget_;
 };

@@ -27,6 +27,7 @@ public:
 	void InitActiveSkill(AActor* skill_owner);
 
 	FTargetParameters GetTargetParameters() const;
+	float GetCooltime() const;
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	bool ActivateSkill(const FTargetResult& TargetResult);
