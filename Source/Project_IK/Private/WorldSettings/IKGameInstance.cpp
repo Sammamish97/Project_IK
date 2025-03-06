@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ItemInventory.h"
 #include "UI/IKMaps.h"
 #include "Managers/ItemDataManager.h"
-#include "Managers/DronePluginManager.h"
 #include "Managers/TextureManager.h"
 #include "Managers/DialogueEventManager.h"
 #include "Managers/InventoryManager.h"
@@ -36,7 +35,6 @@ void UIKGameInstance::Init()
 	InitializeItemDataManager();
 	InitializeItemInventory();
 	InitializeMaps();
-	InitializeDronePluginManager();
 	InitializeTextureManager();
 	InitializeDialogueEventManager();
 	InitInventoryManager();
@@ -93,11 +91,6 @@ UIKMaps* UIKGameInstance::GetMapPtr() const noexcept
 	return maps_;
 }
 
-const UDronePluginManager* UIKGameInstance::GetDronePluginManager() noexcept
-{
-	return drone_plugin_manager_; 
-}
-
 UInventoryManager* UIKGameInstance::GetInventoryManager() const noexcept
 {
 	return inventory_manager_;
@@ -152,11 +145,6 @@ void UIKGameInstance::InitializeMaps()
 {
 	maps_ = NewObject<UIKMaps>();
 	maps_->GenerateMaps(10, 5);
-}
-
-void UIKGameInstance::InitializeDronePluginManager()
-{
-	drone_plugin_manager_ = NewObject<UDronePluginManager>();
 }
 
 void UIKGameInstance::InitializeTextureManager()

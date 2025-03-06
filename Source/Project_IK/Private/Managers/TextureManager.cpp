@@ -65,16 +65,15 @@ UTexture2D* UTextureManager::GetBuffTexture(ECharacterStatType StatType) const
 		break;
 	case ECharacterStatType::Survivability:
 		break;
+	case ECharacterStatType::SightRange:
+		return GetTexture("signt_range");
+		break;
 	case ECharacterStatType::MoveSpeed:
 		return GetTexture("move_speed");
 		break;
-	case ECharacterStatType::ActiveSkillPower:
+	case ECharacterStatType::SkillPower:
 		break;
-	case ECharacterStatType::ActiveSkillCooldown:
-		break;
-	case ECharacterStatType::PassiveSkillPower:
-		break;
-	case ECharacterStatType::PassiveSkillCooldown:
+	case ECharacterStatType::SkillCoolDown:
 		break;
 	case ECharacterStatType::Shield:
 		break;

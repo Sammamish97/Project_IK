@@ -27,6 +27,9 @@ public:
 	UFUNCTION(Blueprintable, BlueprintCallable, Category = "AI")
 	virtual void GetStunned();
 	virtual void FinishStun();
+
+	virtual AActor* GetOwnedCover();
+	AActor* GetTargetActor();
 	
 	UFUNCTION(Blueprintable)
 	void SetUnitState(EUnitState new_state);
@@ -46,6 +49,12 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "MeleeAI", meta = (AllowPrivateAccess = "true", BindWidget))
 	FName stun_state_key_name_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "MeleeAI", meta = (AllowPrivateAccess = "true", BindWidget))
+	FName attack_target_key_name_;
+
+	UPROPERTY()
+	class UAIDebugDrawComponent* debug_draw_component_;
 
 private:
 	FTimerHandle timer_handle_;

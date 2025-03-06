@@ -35,3 +35,8 @@ void AGunnerAIController::OnDie()
 		casted_cover->SetCoveringOwner(false);
 	}
 }
+
+AActor* AGunnerAIController::GetOwnedCover()
+{
+	return Cast<AActor>(GetBlackboardComponent()->GetValueAsObject(owned_cover_key_name_));
+}

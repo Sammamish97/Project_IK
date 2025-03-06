@@ -54,11 +54,8 @@ void UService_FindNearestEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 				traceObjectTypes.Add(UEngineTypes::ConvertToObjectType(ECC_GameTraceChannel2));
 			}
 
-			// @@ TODO: Replace deprecated sight range. 
-			// @@ TODO: Then REMOVE this comment and the variable
-			const float DEPRECATED_SIGHT_RANGE = 1000.f;
 			UKismetSystemLibrary::SphereOverlapActors(GetWorld(), casted_gunner->GetActorLocation(),
-				DEPRECATED_SIGHT_RANGE,
+				casted_gunner->GetCharacterStat()->GetSightRange(),
 				traceObjectTypes, target_class, ignore_actors, out_actors);
 			
 			AActor* nearest_actor = nullptr;

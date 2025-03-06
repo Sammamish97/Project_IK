@@ -15,7 +15,6 @@ See LICENSE file in the project root for full license information.
 
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/ItemDataManager.h"
-#include "Managers/DronePluginManager.h"
 #include "Managers/TextureManager.h"
 #include "Abilities/ItemInventory.h"
 #include "Managers/InventoryManager.h"
@@ -114,7 +113,6 @@ void UGotchaWidget::Gotcha(int32 pulls)
 
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	const UItemDataManager* item_data_manager = game_instance->GetItemDataManager();
-	const UDronePluginManager* drone_plugin_manager = game_instance->GetDronePluginManager();
 	const UTextureManager* texture_manager = game_instance->GetTextureManager();
 	
 	TArray<UTexture2D*> textures;
@@ -123,18 +121,12 @@ void UGotchaWidget::Gotcha(int32 pulls)
 	{
 		int32 tmp = FMath::RandRange(0, 2);
 		FItemData* data_item;
-		FDPData data_dp;
 		switch (tmp)
 		{
 		case 0:
 			data_item = item_data_manager->GetItemDataRandomly();
 			pulled_items_.Add(data_item);
 			textures.Add(data_item->item_icon_);
-			break;
-		case 1:
-			data_dp = drone_plugin_manager->GetDPDataRandomly();
-			pulled_dps_.Add(data_dp);
-			textures.Add(data_dp.dp_icon_);
 			break;
 		default:
 			textures.Add(texture_manager->GetTexture("credits"));
@@ -155,7 +147,6 @@ void UGotchaWidget::Gotcha(int32 pulls)
 void UGotchaWidget::ClearContainers()
 {
 	pulled_credits_ = 0;
-	pulled_dps_.Empty();
 	pulled_items_.Empty();
 }
 

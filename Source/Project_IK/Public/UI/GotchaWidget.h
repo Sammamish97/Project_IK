@@ -18,7 +18,6 @@ class UButton;
 class UTextBlock;
 class UGotchaResultWidget;
 struct FItemData;
-struct FDPData;
 
 /**
  * 
@@ -65,7 +64,6 @@ protected:
 	TWeakObjectPtr<UGotchaResultWidget> result_widget_;
 
 	TArray<FItemData*> pulled_items_;
-	TArray<FDPData> pulled_dps_;
 	int32 pulled_credits_;
 
 	int32 tickets_;

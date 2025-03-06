@@ -51,12 +51,9 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 	}
 
 	//적이 시야 밖으로 사라지면 state변경.
-	// @@ TODO: Replace deprecated sight range.
-	// @@ TODO: Then REMOVE this comment and the variable
-	const float DEPRECATED_SIGHT_RANGE = 1000.f;
 	AActor* casted_target = Cast<AActor>(attack_target);
 	if(FVector::Dist2D(casted_target->GetActorLocation(), casted_unit->GetActorLocation()) >
-		DEPRECATED_SIGHT_RANGE)
+		casted_unit->GetCharacterStat()->GetSightRange())
 	{
 		blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Forwarding));
 		casted_component->FinishFire();
@@ -84,10 +81,8 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 		TArray<TEnumAsByte<EObjectTypeQuery>> traceObjectTypes;
 		traceObjectTypes.Add(UEngineTypes::ConvertToObjectType(ECC_WorldStatic));
 			
-
-		// @@ TODO: Then REMOVE this comment and the variable
 		UKismetSystemLibrary::SphereOverlapActors(GetWorld(), casted_unit->GetActorLocation(),
-			DEPRECATED_SIGHT_RANGE,
+			casted_unit->GetCharacterStat()->GetSightRange(),
 			traceObjectTypes, ACover::StaticClass(), ignore_actors, out_actors);
 
 		// @@ TODO: Replace deprecated fire range.
