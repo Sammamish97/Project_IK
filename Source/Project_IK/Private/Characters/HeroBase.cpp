@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 
 #include "Abilities/SkillContainer.h"
-#include "Abilities/EquipSkills/EquipSkillBase.h"
 #include "AI/GunnerAIController.h"
 #include "Components/EquipMechanics.h"
 #include "Components/CapsuleComponent.h"

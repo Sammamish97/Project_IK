@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "AIDebugDrawComponent.generated.h"
 
 
+class AAIController;
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class PROJECT_IK_API UAIDebugDrawComponent : public UActorComponent
 {
@@ -26,8 +28,9 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
+	
 public:
+	void InitAIController(AAIController* controller);
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
@@ -37,5 +40,5 @@ private:
 	class AUnit* unit_cache_;
 	class UCharacterStatComponent* char_stat_cache_;
 	class UWeaponMechanics* weapon_mechanics_cache_;
-	class AGunnerAIController* ai_controller_cache_;
+	class AMeleeAIController* ai_controller_cache_;
 };
