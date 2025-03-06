@@ -24,9 +24,7 @@ public:
 	FCharacterData() : unit_class_(), character_name_(), 
 		attack_power_(0.f), attack_speed_(0.f), critical_hit_rate_(0.f), accuracy_(0.f), magazine_bonus_(0.f), life_steal_(0.f), 
 		hit_point_(0.f), evasion_rate_(0.f), armor_(0.f), survivability_(0.f),
-		move_speed_(0.f), 
-		active_skill_power_(0.f), active_skill_cooldown_(0.f),
-		passive_skill_power_(0.f), passive_skill_cooldown_(0.f)
+		 sight_range_(1000.f), move_speed_(0.f),skill_power_(0.f), skill_cool_down_(0.f)
 	{};
 
 	// Unit Type
@@ -60,14 +58,12 @@ public:
 	float survivability_;
 
 	UPROPERTY(VisibleAnywhere, Category = "AgilityData")
+	float sight_range_;
+	UPROPERTY(VisibleAnywhere, Category = "AgilityData")
 	float move_speed_;
 
 	UPROPERTY(VisibleAnywhere, Category = "SkillData")
-	float active_skill_power_;
+	float skill_power_;
 	UPROPERTY(VisibleAnywhere, Category = "SkillData")
-	float active_skill_cooldown_;
-	UPROPERTY(VisibleAnywhere, Category = "SkillData")
-	float passive_skill_power_;
-	UPROPERTY(VisibleAnywhere, Category = "SkillData")
-	float passive_skill_cooldown_;
+	float skill_cool_down_;
 };

@@ -196,6 +196,11 @@ float UCharacterStatComponent::GetMagazineBonus() const noexcept
 	return CalculateStat(ECharacterStatType::MagazineBonus);
 }
 
+float UCharacterStatComponent::GetSightRange() const noexcept
+{
+	return CalculateStat(ECharacterStatType::SightRange);
+}
+
 float UCharacterStatComponent::GetMoveSpeed() const noexcept
 {
 	return CalculateStat(ECharacterStatType::MoveSpeed);
@@ -216,24 +221,14 @@ float UCharacterStatComponent::GetSurvivability() const noexcept
 	return CalculateStat(ECharacterStatType::Survivability);
 }
 
-float UCharacterStatComponent::GetActiveSkillPower() const noexcept
+float UCharacterStatComponent::GetSkillPower() const noexcept
 {
-	return CalculateStat(ECharacterStatType::ActiveSkillPower);
+	return CalculateStat(ECharacterStatType::SkillPower);
 }
 
-float UCharacterStatComponent::GetActiveSkillCooldown() const noexcept
+float UCharacterStatComponent::GetSkillCooldown() const noexcept
 {
-	return CalculateStat(ECharacterStatType::ActiveSkillCooldown);
-}
-
-float UCharacterStatComponent::GetPassiveSkillPower() const noexcept
-{
-	return CalculateStat(ECharacterStatType::PassiveSkillPower);
-}
-
-float UCharacterStatComponent::GetPassiveSkillCooldown() const noexcept
-{
-	return CalculateStat(ECharacterStatType::PassiveSkillCooldown);
+	return CalculateStat(ECharacterStatType::SkillCoolDown);
 }
 
 float UCharacterStatComponent::GetShield() const noexcept
@@ -303,24 +298,14 @@ void UCharacterStatComponent::SetMoveSpeed(float move_speed) noexcept
 	stat_.move_speed_ = move_speed;
 }
 
-void UCharacterStatComponent::SetActiveSkillPower(float active_skill_power) noexcept
+void UCharacterStatComponent::SetSkillPower(float skill_power) noexcept
 {
-	stat_.active_skill_power_= active_skill_power;
+	stat_.skill_power_= skill_power;
 }
 
-void UCharacterStatComponent::SetActiveSkillCooldown(float active_skill_cooldown) noexcept
+void UCharacterStatComponent::SetSkillCooldown(float skill_cooldown) noexcept
 {
-	stat_.active_skill_cooldown_= active_skill_cooldown;
-}
-
-void UCharacterStatComponent::SetPassiveSkillPower(float passive_skill_power) noexcept
-{
-	stat_.passive_skill_power_= passive_skill_power;
-}
-
-void UCharacterStatComponent::SetPassiveSkillCooldown(float passive_skill_cooldown) noexcept
-{
-	stat_.passive_skill_cooldown_= passive_skill_cooldown;
+	stat_.skill_cool_down_= skill_cooldown;
 }
 
 void UCharacterStatComponent::SetShield(float shield) noexcept
@@ -471,20 +456,17 @@ float UCharacterStatComponent::GetBaseStat(ECharacterStatType StatType) const
 	case ECharacterStatType::Survivability:
 		return stat_.survivability_;
 		break;
+	case ECharacterStatType::SightRange:
+		return stat_.sight_range_;
+		break;
 	case ECharacterStatType::MoveSpeed:
 		return stat_.move_speed_;
 		break;
-	case ECharacterStatType::ActiveSkillPower:
-		return stat_.active_skill_power_;
+	case ECharacterStatType::SkillPower:
+		return stat_.skill_power_;
 		break;
-	case ECharacterStatType::ActiveSkillCooldown:
-		return stat_.active_skill_cooldown_;
-		break;
-	case ECharacterStatType::PassiveSkillPower:
-		return stat_.passive_skill_power_;
-		break;
-	case ECharacterStatType::PassiveSkillCooldown:
-		return stat_.passive_skill_cooldown_;
+	case ECharacterStatType::SkillCoolDown:
+		return stat_.skill_cool_down_;
 		break;
 	case ECharacterStatType::Shield:
 		return shield_;

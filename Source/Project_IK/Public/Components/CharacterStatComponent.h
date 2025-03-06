@@ -113,20 +113,15 @@ public:
 	UFUNCTION(BlueprintPure)
 	float GetSurvivability() const noexcept;
 
-
+	UFUNCTION(BlueprintPure)
+	float GetSightRange() const noexcept;
 	UFUNCTION(BlueprintPure)
 	float GetMoveSpeed() const noexcept;
-
-
+	
 	UFUNCTION(BlueprintPure)
-	float GetActiveSkillPower() const noexcept;
+	float GetSkillPower() const noexcept;
 	UFUNCTION(BlueprintPure)
-	float GetActiveSkillCooldown() const noexcept;
-	UFUNCTION(BlueprintPure)
-	float GetPassiveSkillPower() const noexcept;
-	UFUNCTION(BlueprintPure)
-	float GetPassiveSkillCooldown() const noexcept;
-
+	float GetSkillCooldown() const noexcept;
 
 	UFUNCTION(BlueprintPure)
 	float GetShield() const noexcept;
@@ -208,17 +203,11 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void SetMoveSpeed(float move_speed) noexcept;
-
-
+	
 	UFUNCTION(BlueprintCallable)
-	void SetActiveSkillPower(float active_skill_power) noexcept;
+	void SetSkillPower(float active_skill_power) noexcept;
 	UFUNCTION(BlueprintCallable)
-	void SetActiveSkillCooldown(float active_skill_cooldown) noexcept;
-	UFUNCTION(BlueprintCallable)
-	void SetPassiveSkillPower(float passive_skill_power) noexcept;
-	UFUNCTION(BlueprintCallable)
-	void SetPassiveSkillCooldown(float passive_skill_cooldown) noexcept;
-
+	void SetSkillCooldown(float active_skill_cooldown) noexcept;
 
 	UFUNCTION(BlueprintCallable)
 	void SetShield(float shield) noexcept;
