@@ -12,8 +12,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-// MUST include it because array need to instance it.
-#include "Structs/DPData.h"
 #include "StoreWidget.generated.h"
 
 enum class ERarity : uint8;
@@ -91,7 +89,6 @@ protected:
 	TObjectPtr<UCreditWidget> credit_widget_;
 
 	TArray<FItemData*> items_;
-	TArray<FDPData> dps_;
 
 	UPROPERTY()
 	int32 total_cost_;

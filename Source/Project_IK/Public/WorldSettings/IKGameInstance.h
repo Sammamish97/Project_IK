@@ -42,8 +42,6 @@ public:
 	UFUNCTION(BlueprintPure)
 	class UIKMaps* GetMapPtr() const noexcept;
 	UFUNCTION(BlueprintPure)
-	const class UDronePluginManager* GetDronePluginManager() noexcept;
-	UFUNCTION(BlueprintPure)
 	const class UTextureManager* GetTextureManager() const noexcept;
 	UFUNCTION(BlueprintPure)
 	const class UDialogueEventManager* GetDialogueEventManager() const noexcept;
@@ -68,7 +66,6 @@ private:
 	void InitializeCharacterDataManager();
 	void InitializeItemInventory();
 	void InitializeMaps();
-	void InitializeDronePluginManager();
 	void InitializeTextureManager();
 	void InitializeDialogueEventManager();
 	void InitInventoryManager();
@@ -83,9 +80,6 @@ private:
 
 	UPROPERTY()
 	class UIKMaps* maps_;
-	
-	UPROPERTY()
-	class UDronePluginManager* drone_plugin_manager_;
 
 	UPROPERTY()
 	class UDialogueEventManager* dialogue_event_manager_;
