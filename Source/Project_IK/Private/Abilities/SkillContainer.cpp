@@ -18,6 +18,8 @@ See LICENSE file in the project root for full license information.
 #include "Managers/DataTableManager.h"
 #include "WorldSettings/IKGameInstance.h"
 
+#include "Components/CharacterStatComponent.h"
+
 // Sets default values for this component's properties
 USkillContainer::USkillContainer()
 	: Super::UActorComponent(), equipped_active_skill_data_(),data_table_cache_(nullptr), active_skill_(nullptr), hero_cache_(nullptr)
@@ -56,7 +58,7 @@ float USkillContainer::GetCooltime() const
 {
 	if (active_skill_)
 	{
-		return active_skill_->GetCooltime();
+		return active_skill_->GetCooltime() * (100 / (100 + hero_cache_->GetCharacterStat()->GetActiveSkillCooldown()));
 	}
 	return 0.f;
 }

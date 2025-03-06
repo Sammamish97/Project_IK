@@ -40,12 +40,12 @@ protected:
 	// Helper function to give damage.
 	virtual void ApplyDamage(FDamageData DamageData);
 
-	UPROPERTY(VisibleAnywhere)
 	FTargetParameters target_param_{};
 
-	UPROPERTY(VisibleAnywhere)
 	float cool_time_ = 0.f;
 
-	UPROPERTY(VisibleAnywhere)
+	float scaling_factor_ = 1.f;
+
+	UPROPERTY()
 	AActor* skill_owner_ = nullptr;
 };
