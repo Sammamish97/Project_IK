@@ -28,6 +28,7 @@ public:
 	virtual void GetStunned();
 	virtual void FinishStun();
 
+	virtual AActor* GetOwnedCover();
 	AActor* GetTargetActor();
 	
 	UFUNCTION(Blueprintable)

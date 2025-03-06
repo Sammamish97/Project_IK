@@ -22,6 +22,8 @@ public:
 	AGunnerAIController();
 	void OnDie() override;
 	virtual void OnPossess(APawn* InPawn) override;
+	virtual AActor* GetOwnedCover() override;
+	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "GunnerAIController", meta = (AllowPrivateAccess = "true"))
 	FName owned_cover_key_name_;

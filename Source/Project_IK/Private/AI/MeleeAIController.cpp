@@ -67,6 +67,12 @@ void AMeleeAIController::FinishStun()
 {
 }
 
+AActor* AMeleeAIController::GetOwnedCover()
+{
+	//근접 유닛은 엄폐하지 않는다.
+	return nullptr;
+}
+
 AActor* AMeleeAIController::GetTargetActor()
 {
 	return Cast<AActor>(GetBlackboardComponent()->GetValueAsObject(attack_target_key_name_));

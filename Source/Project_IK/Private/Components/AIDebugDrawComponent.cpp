@@ -40,6 +40,7 @@ void UAIDebugDrawComponent::InitAIController(AAIController* controller)
 	char_stat_cache_ = unit_cache_->GetComponentByClass<UCharacterStatComponent>();
 	weapon_mechanics_cache_ = unit_cache_->GetComponentByClass<UWeaponMechanics>();
 
+	//TODO: 현재 근거리/원거리의 분류를 weapon_mechanics의 보유 여부를 통해 확인한다. 더 좋은 방법이 있을 것이다.
 	if (weapon_mechanics_cache_ == nullptr)
 	{
 		is_melee_ = true;
@@ -51,22 +52,25 @@ void UAIDebugDrawComponent::TickComponent(float DeltaTime, ELevelTick TickType,
                                           FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	if (is_melee_ == false)
-	{
-		//원거리 유닛이라면 사거리와 엄폐물 관련 Draw역시 포함시킨다.
-		
-	}
+	
 	//유닛 시야
 	DrawDebugCircle(GetWorld(), unit_cache_->GetActorLocation(), char_stat_cache_->GetSightRange(), 32, FColor::Green,
 		false, -1, 0, 0, {1, 0, 0}, {0, 1, 0}, false);
 
-	//타겟 유닛
 	if (ai_controller_cache_ != nullptr)
 	{
 		if (auto attack_target_actor = ai_controller_cache_->GetTargetActor())
 		{
 			DrawDebugLine(GetWorld(), unit_cache_->GetActorLocation(), attack_target_actor->GetActorLocation(), FColor::Red);
+		}
+		//원거리 유닛은 무기 사거리와 엄폐물 관련 debug draw역시 포함시킨다.
+		if (is_melee_ == false)
+		{
+			//원거리 유닛이라면 사거리와 엄폐물 관련 Draw역시 포함시킨다.
+			if (auto owned_cover = ai_controller_cache_->GetOwnedCover())
+			{
+				DrawDebugLine(GetWorld(), unit_cache_->GetActorLocation(), owned_cover->GetActorLocation(), FColor::Blue);
+			}
 		}
 	}
 }
