@@ -54,11 +54,9 @@ void UStoreWidget::NativeConstruct()
 
 	items_ = item_data_manager->GetUniqueItemDataRandomly(STOCK);
 	item_slots_.Empty();
-	dp_slots_.Empty();
 	
 	credits_ = game_instance->GetInventoryManager()->GetCredits();
-
-
+	
 	if (store_widget_class_)
 	{
 		for (int32 i = 0; i < STOCK; i++)
@@ -98,7 +96,6 @@ void UStoreWidget::NativeDestruct()
 	}
 
 	item_slots_.Empty();
-	dp_slots_.Empty();
 }
 
 void UStoreWidget::OnPayButtonClicked()
@@ -134,10 +131,6 @@ void UStoreWidget::OnStoreSlotClicked()
 		if (item_slots_[i]->IsChecked())
 		{
 			total_cost_ += item_slots_[i]->GetPrice();
-		}
-		if (dp_slots_[i]->IsChecked())
-		{
-			total_cost_ += dp_slots_[i]->GetPrice();
 		}
 	}
 
@@ -189,11 +182,7 @@ void UStoreWidget::GoToNextLevel()
 			selected_items.Add(items_[i]);
 		}
 	}
-	//TODO: 사라진 DP에 대응하기 위해 주석 처리.
-	// for (int32 i = 0; i < selected_dps.Num(); i++)
-	// {
-	// 	inventory_manager->AddDP(selected_dps[i].dp_type_);
-	// }
+
 	game_instance->GetItemInventory()->AddItems(selected_items, [this]() {
 		// Update HUD status
 		AIKStoreHUD* hud = Cast<AIKStoreHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
