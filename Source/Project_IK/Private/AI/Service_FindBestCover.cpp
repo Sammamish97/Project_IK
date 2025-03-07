@@ -50,11 +50,8 @@ void UService_FindBestCover::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 			TArray<TEnumAsByte<EObjectTypeQuery>> traceObjectTypes;
 			traceObjectTypes.Add(UEngineTypes::ConvertToObjectType(ECC_WorldStatic));
 
-			// @@ TODO: Replace deprecated sight range.
-			// @@ TODO: Then REMOVE this comment and the variable
-			const float DEPRECATED_SIGHT_RANGE = 1000.f;
 			UKismetSystemLibrary::SphereOverlapActors(GetWorld(), casted_gunner->GetActorLocation(),
-				DEPRECATED_SIGHT_RANGE,
+				casted_gunner->GetCharacterStat()->GetSightRange(),
 				traceObjectTypes, ACover::StaticClass(), ignore_actors, out_actors);
 
 			// @@ TODO: Replace deprecated fire range.

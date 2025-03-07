@@ -58,7 +58,7 @@ float USkillContainer::GetCooltime() const
 {
 	if (active_skill_)
 	{
-		return active_skill_->GetCooltime() * (100 / (100 + hero_cache_->GetCharacterStat()->GetActiveSkillCooldown()));
+		return active_skill_->GetCooltime() * (100 / (100 + hero_cache_->GetCharacterStat()->GetSkillCooldown()));
 	}
 	return 0.f;
 }

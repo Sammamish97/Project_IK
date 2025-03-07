@@ -10,12 +10,16 @@ See LICENSE file in the project root for full license information.
 
 #include "AI/MeleeAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Components/AIDebugDrawComponent.h"
 
 AMeleeAIController::AMeleeAIController()
 {
+	debug_draw_component_ = CreateDefaultSubobject<UAIDebugDrawComponent>(TEXT("DebugDrawComponent"));
+
 	target_class_key_name_ = TEXT("TargetClass");
 	unit_state_key_name_ = TEXT("UnitState");
 	stun_state_key_name_ = TEXT("StunState");
+	attack_target_key_name_ = TEXT("AttackTarget");
 }
 
 void AMeleeAIController::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -51,6 +55,7 @@ void AMeleeAIController::OnPossess(APawn* InPawn)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("unit state enum key name is wrong!"));
 	}
+	debug_draw_component_->InitAIController(this);
 }
 
 void AMeleeAIController::GetStunned()
@@ -60,6 +65,17 @@ void AMeleeAIController::GetStunned()
 
 void AMeleeAIController::FinishStun()
 {
+}
+
+AActor* AMeleeAIController::GetOwnedCover()
+{
+	//근접 유닛은 엄폐하지 않는다.
+	return nullptr;
+}
+
+AActor* AMeleeAIController::GetTargetActor()
+{
+	return Cast<AActor>(GetBlackboardComponent()->GetValueAsObject(attack_target_key_name_));
 }
 
 void AMeleeAIController::SetUnitState(EUnitState new_state)

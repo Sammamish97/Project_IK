@@ -53,18 +53,17 @@ public:
 	void OnStunned();
 	
 	UFUNCTION()
-	void SetWeaponOwner(TWeakObjectPtr<AActor> gun_owner);
 	void EquipWeapon(EWeaponType type);
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
-	FWeaponData equipped_weapon_data_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
 	FDamageData damage_data_;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AGun> weapon_class_ = nullptr;
+	
 	UPROPERTY(Transient)
-	AGun* equipped_weapon_actor_ = nullptr;
+	TObjectPtr<AGun> weapon_actor_ = nullptr;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
 	FName head_socket_name_;
@@ -82,5 +81,5 @@ private:
 	FTimerHandle reload_timer_handle_;
 	
 	UPROPERTY(Transient)
-	AUnit* gunner_ref_ = nullptr;
+	TObjectPtr<AUnit> gunner_ref_ = nullptr;
 };

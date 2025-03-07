@@ -14,7 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/ItemDataManager.h"
-#include "Managers/DronePluginManager.h"
 #include "Abilities/ItemInventory.h"
 #include "Managers/InventoryManager.h"
 
@@ -47,21 +46,17 @@ void UStoreWidget::NativeConstruct()
 		return;
 	}
 	const UItemDataManager* item_data_manager = game_instance->GetItemDataManager();
-	const UDronePluginManager* drone_plugin_manager = game_instance->GetDronePluginManager();
 
-	if (!item_data_manager || !drone_plugin_manager)
+	if (!item_data_manager)
 	{
 		return;
 	}
 
 	items_ = item_data_manager->GetUniqueItemDataRandomly(STOCK);
-	dps_ = drone_plugin_manager->GetUniqueDPDataRandomly(STOCK);
 	item_slots_.Empty();
-	dp_slots_.Empty();
 	
 	credits_ = game_instance->GetInventoryManager()->GetCredits();
-
-
+	
 	if (store_widget_class_)
 	{
 		for (int32 i = 0; i < STOCK; i++)
@@ -76,20 +71,6 @@ void UStoreWidget::NativeConstruct()
 				box_slot->SetPadding(FMargin(120.f, 0.f));
 			}
 			item_slots_.Add(slot);
-		}
-
-		for (int32 i = 0; i < STOCK; i++)
-		{
-			UStoreSlot* slot = WidgetTree->ConstructWidget<UStoreSlot>(store_widget_class_);
-			slot->SetTexture(dps_[i].dp_icon_);
-			slot->SetPrice(GetPriceByRarity(dps_[i].rarity_));
-			slot->OnStoreSlotClickedDelegate.AddDynamic(this, &UStoreWidget::OnStoreSlotClicked);
-			UHorizontalBoxSlot* box_slot = dp_container_->AddChildToHorizontalBox(slot);
-			if (box_slot)
-			{
-				box_slot->SetPadding(FMargin(120.f, 0.f));
-			}
-			dp_slots_.Add(slot);
 		}
 	}
 
@@ -115,7 +96,6 @@ void UStoreWidget::NativeDestruct()
 	}
 
 	item_slots_.Empty();
-	dp_slots_.Empty();
 }
 
 void UStoreWidget::OnPayButtonClicked()
@@ -151,10 +131,6 @@ void UStoreWidget::OnStoreSlotClicked()
 		if (item_slots_[i]->IsChecked())
 		{
 			total_cost_ += item_slots_[i]->GetPrice();
-		}
-		if (dp_slots_[i]->IsChecked())
-		{
-			total_cost_ += dp_slots_[i]->GetPrice();
 		}
 	}
 
@@ -199,23 +175,14 @@ void UStoreWidget::GoToNextLevel()
 	
 
 	TArray<FItemData*> selected_items;
-	TArray<FDPData> selected_dps;
 	for (int32 i = 0; i < STOCK; i++)
 	{
 		if (item_slots_[i]->IsChecked())
 		{
 			selected_items.Add(items_[i]);
 		}
-		if (dp_slots_[i]->IsChecked())
-		{
-			selected_dps.Add(dps_[i]);
-		}
 	}
-	//TODO: 사라진 DP에 대응하기 위해 주석 처리.
-	// for (int32 i = 0; i < selected_dps.Num(); i++)
-	// {
-	// 	inventory_manager->AddDP(selected_dps[i].dp_type_);
-	// }
+
 	game_instance->GetItemInventory()->AddItems(selected_items, [this]() {
 		// Update HUD status
 		AIKStoreHUD* hud = Cast<AIKStoreHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());

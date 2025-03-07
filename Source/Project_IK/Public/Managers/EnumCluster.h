@@ -212,11 +212,10 @@ enum class ECharacterStatType : uint8
 	EvasionRate UMETA(DisplayName = "EvasionRate"),
 	Armor UMETA(DisplayName = "Armor"),
 	Survivability UMETA(DisplayName = "Survivability"),
+	SightRange UMETA(DisplayName = "SightRange"),
 	MoveSpeed UMETA(DisplayName = "MoveSpeed"),
-	ActiveSkillPower UMETA(DisplayName = "ActiveSkillPower"),
-	ActiveSkillCooldown UMETA(DisplayName = "ActiveSkillCooldown"),
-	PassiveSkillPower UMETA(DisplayName = "PassiveSkillPower"),
-	PassiveSkillCooldown UMETA(DisplayName = "PassiveSkillCooldown"),
+	SkillPower UMETA(DisplayName = "SkillPower"),
+	SkillCoolDown UMETA(DisplayName = "SkillCoolDown"),
 	Shield UMETA(DisplayName = "Shield"),
 };
 

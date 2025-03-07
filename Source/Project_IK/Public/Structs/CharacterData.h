@@ -52,14 +52,12 @@ public:
 	float survivability_ = 0.f;
 
 	UPROPERTY(VisibleAnywhere, Category = "AgilityData")
+	float sight_range_ = 0.f;
+	UPROPERTY(VisibleAnywhere, Category = "AgilityData")
 	float move_speed_ = 0.f;
 
 	UPROPERTY(VisibleAnywhere, Category = "SkillData")
-	float active_skill_power_ = 0.f;
+	float skill_power_ = 0.f;
 	UPROPERTY(VisibleAnywhere, Category = "SkillData")
-	float active_skill_cooldown_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "SkillData")
-	float passive_skill_power_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "SkillData")
-	float passive_skill_cooldown_ = 0.f;
+	float skill_cool_down_ = 0.f;
 };

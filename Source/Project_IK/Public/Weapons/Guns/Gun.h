@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Structs/DamageData.h"
+#include "Structs/WeaponData.h"
 #include "Gun.generated.h"
 
 class UObjectPoolComponent;
@@ -37,41 +38,33 @@ public:
 	virtual void FireWeapon(FVector target_pos, FDamageData damage);
 
 	bool IsMagazineEmpty() const;
-	float GetFireInterval() const;
-	void SetFireInterval(float Fire_Interval);
-	float GetReloadDuration() const;
-	void SetReloadDuration(float Reload_Duration);
+	void SetWeaponData(FWeaponData weapon_data);
+	FWeaponData GetWeaponData();
 	UFUNCTION()
 	void SetGunOwner(TWeakObjectPtr<AActor> gun_owner);
 
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true", BindWidget))
-	USkeletalMeshComponent* gun_mesh_;
+	UPROPERTY(BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UStaticMeshComponent> weapon_mesh_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true", BindWidget))
-	USphereComponent* muzzle_;
+	UPROPERTY(BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	FWeaponData weapon_data_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true", BindWidget))
-	UObjectPoolComponent* object_pool_component_;
+	UPROPERTY(Transient)
+	int32 cur_magazine_;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UObjectPoolComponent> object_pool_component_;
 
 	UPROPERTY(VisibleAnywhere, Category = "Gun")
 	TWeakObjectPtr<AActor> gun_owner_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bullet", meta = (AllowPrivateAccess = "true", AllowedClass = "Bullet"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true", AllowedClass = "Bullet"))
 	TSubclassOf<class ABullet> bullet_class_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation", meta = (AllowPrivateAccess = "true", AllowedClass = "Animation"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true", AllowedClass = "Animation"))
 	TSubclassOf<UAnimInstance> anim_instance_class_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true"))
-	int max_megazine_ = 0;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true"))
-	int cur_megazine_ = 0;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true"))
-	float fire_interval_ = 0;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true"))
-	float reload_duration_ = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	FName muzzle_socket_name_;
 };

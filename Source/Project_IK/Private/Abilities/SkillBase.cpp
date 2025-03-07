@@ -40,7 +40,7 @@ void USkillBase::ApplyDamage(FDamageData DamageData)
 		if (DamageData.attacker.IsValid() && DamageData.attacker->IsA<AUnit>())
 		{
 			AUnit* attacker = Cast<AUnit>(DamageData.attacker);
-			DamageData.damage = DamageData.damage + (attacker->GetCharacterStat()->GetActiveSkillPower() * scaling_factor_);
+			DamageData.damage = DamageData.damage + (attacker->GetCharacterStat()->GetSkillPower() * scaling_factor_);
 		}
 
 		attack_target->GetDamage(DamageData);

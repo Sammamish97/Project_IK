@@ -36,29 +36,25 @@ void UWeaponMechanics::BeginPlay()
 {
 	Super::BeginPlay();
 	gunner_ref_ = Cast<AUnit>(GetOwner());
+	weapon_actor_ = GetWorld()->SpawnActor<AGun>(weapon_class_);
+	weapon_actor_->AttachToComponent(gunner_ref_->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, gun_socket_name_);
 }
 
 //TODO: 무기의 장착과 실제 장착 후 생성은 분리되어야 한다.
 //TODO: 인벤토리 프리뷰가 3D일때 역시 생각해야 한다.
 void UWeaponMechanics::EquipWeapon(EWeaponType type)
 {
-	equipped_weapon_data_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager()->GetWeaponData(type);
-	if (equipped_weapon_actor_)
-	{
-		equipped_weapon_actor_->Destroy();
-	}
-	equipped_weapon_actor_ = Cast<AGun>(GetWorld()->SpawnActor(equipped_weapon_data_.weapon_class));
-	equipped_weapon_actor_->AttachToComponent(gunner_ref_->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, gun_socket_name_);
-	SetWeaponOwner(GetOwner());
+	weapon_actor_->SetWeaponData(Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager()->GetWeaponData(type));
+	weapon_actor_->SetGunOwner(GetOwner());
 }
 
 void UWeaponMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
 	GetWorld()->GetTimerManager().ClearTimer(reload_timer_handle_);
-	if (equipped_weapon_actor_)
+	if (weapon_actor_)
 	{
-		equipped_weapon_actor_->Destroy();
+		weapon_actor_->Destroy();
 	}
 	Super::EndPlay(EndPlayReason);
 }
@@ -70,7 +66,7 @@ void UWeaponMechanics::SetDamageData(FDamageData dmg_data)
 
 void UWeaponMechanics::BeginFire(AActor* target)
 {
-	float gun_as = 1.f / equipped_weapon_actor_->GetFireInterval();
+	float gun_as = 1.f / weapon_actor_->GetWeaponData().fire_per_sec;
 	float unit_as = gunner_ref_->GetCharacterStat()->GetAttackSpeed();
 	float total_as = gun_as / unit_as;
 	if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
@@ -83,7 +79,7 @@ void UWeaponMechanics::BeginFire(AActor* target)
 void UWeaponMechanics::OnFire(AActor* target)
 {
 	FireWeapon(target);
-	gunner_ref_->PlayAnimMontage(equipped_weapon_data_.fire_montage_);
+	gunner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().fire_montage_);
 	if(IsMagazineEmpty())
 	{
 		FinishFire();
@@ -92,7 +88,7 @@ void UWeaponMechanics::OnFire(AActor* target)
 
 void UWeaponMechanics::FireWeapon(AActor* target)
 {
-	if(equipped_weapon_actor_ && IsValid(target))
+	if(weapon_actor_ && IsValid(target))
 	{
 		ACharacter* casted_target = Cast<ACharacter>(target);
 		if(UBlackboardComponent* blackboard = Cast<AAIController>(casted_target->GetController())->GetBlackboardComponent())
@@ -102,16 +98,16 @@ void UWeaponMechanics::FireWeapon(AActor* target)
 			{
 				if(FMath::RandRange(0, 100) > 50)
 				{
-					equipped_weapon_actor_->FireWeapon(casted_target->GetMesh()->GetSocketLocation(head_socket_name_), damage_data_);
+					weapon_actor_->FireWeapon(casted_target->GetMesh()->GetSocketLocation(head_socket_name_), damage_data_);
 				}
 				else
 				{
-					equipped_weapon_actor_->FireWeapon(target->GetActorLocation() - FVector(0, 0, 50), damage_data_);
+					weapon_actor_->FireWeapon(target->GetActorLocation() - FVector(0, 0, 50), damage_data_);
 				}
 			}
 			else
 			{
-				equipped_weapon_actor_->FireWeapon(target->GetActorLocation(), damage_data_);
+				weapon_actor_->FireWeapon(target->GetActorLocation(), damage_data_);
 			}
 		}
 	}
@@ -124,12 +120,12 @@ void UWeaponMechanics::FinishFire()
 
 void UWeaponMechanics::Reload()
 {
-	if(equipped_weapon_actor_)
+	if(weapon_actor_)
 	{
 		if(GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false)
 		{
 			Cast<AMeleeAIController>(gunner_ref_->Controller)->SetUnitState(EUnitState::Reloading);
-			gunner_ref_->PlayAnimMontage(equipped_weapon_data_.reload_montage_);
+			gunner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().reload_montage_);
 			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &UWeaponMechanics::OnReload, GetReloadDuration());
 		}
 	}
@@ -137,7 +133,7 @@ void UWeaponMechanics::Reload()
 
 void UWeaponMechanics::OnReload()
 {
-	if(equipped_weapon_actor_)equipped_weapon_actor_->Reload();
+	if(weapon_actor_)weapon_actor_->Reload();
 	Cast<AMeleeAIController>(gunner_ref_->Controller)->SetUnitState(EUnitState::Forwarding);
 }
 
@@ -149,25 +145,20 @@ void UWeaponMechanics::OnStunned()
 
 void UWeaponMechanics::OnDestroy()
 {
-	if(equipped_weapon_actor_) equipped_weapon_actor_->Destroy();
+	if(weapon_actor_) weapon_actor_->Destroy();
 }
 
 bool UWeaponMechanics::IsMagazineEmpty() const
 {
-	return equipped_weapon_actor_->IsMagazineEmpty();
+	return weapon_actor_->IsMagazineEmpty();
 }
 
 float UWeaponMechanics::GetFireInterval() const
 {
-	return equipped_weapon_actor_->GetFireInterval();
+	return weapon_actor_->GetWeaponData().fire_per_sec;
 }
 
 float UWeaponMechanics::GetReloadDuration() const
 {
-	return equipped_weapon_actor_->GetReloadDuration();
-}
-
-void UWeaponMechanics::SetWeaponOwner(TWeakObjectPtr<AActor> gun_owner)
-{
-	equipped_weapon_actor_->SetGunOwner(gun_owner);
+	return weapon_actor_->GetWeaponData().reload_duration;
 }

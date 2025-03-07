@@ -9,6 +9,9 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Managers/DataTableManager.h"
+
+#include "DataAssets/WeaponDataAsset.h"
+
 FArmorData UDataTableManager::GetArmorData(EArmorType type)
 {
 	if (armor_table_)
@@ -77,11 +80,12 @@ FString UDataTableManager::TrinketEnumToString(ETrinketType trinket_type)
 
 FWeaponData UDataTableManager::GetWeaponData(EWeaponType type)
 {
-	if (weapon_table_)
+	if(weapon_data_asset_)
 	{
-		return *weapon_table_->FindRow<FWeaponData>(*WeaponEnumToString(type), TEXT(""));
+		return weapon_data_asset_->weapon_data_map_[type];
 	}
-	return *weapon_table_->FindRow<FWeaponData>(*WeaponEnumToString(EWeaponType::Empty), TEXT(""));
+	//TODO: 적절한 예외처리가 필요함.
+	return FWeaponData();
 }
 
 FString UDataTableManager::WeaponEnumToString(EWeaponType weapon_type)
@@ -259,20 +263,17 @@ void UDataTableManager::EnhanceCharacterData(EHeroType hero_type, ECharacterStat
 		case ECharacterStatType::Survivability:
 			data->survivability_ += increase_amount;
 			break;
+		case ECharacterStatType::SightRange:
+			data->sight_range_ += increase_amount;
+			break;
 		case ECharacterStatType::MoveSpeed:
 			data->move_speed_ += increase_amount;
 			break;
-		case ECharacterStatType::ActiveSkillPower:
-			data->active_skill_power_ += increase_amount;
+		case ECharacterStatType::SkillPower:
+			data->skill_power_ += increase_amount;
 			break;
-		case ECharacterStatType::ActiveSkillCooldown:
-			data->active_skill_cooldown_ += increase_amount;
-			break;
-		case ECharacterStatType::PassiveSkillPower:
-			data->passive_skill_power_ += increase_amount;
-			break;
-		case ECharacterStatType::PassiveSkillCooldown:
-			data->passive_skill_cooldown_ += increase_amount;
+		case ECharacterStatType::SkillCoolDown:
+			data->skill_cool_down_ += increase_amount;
 			break;
 		case ECharacterStatType::Shield:
 		default:
@@ -318,20 +319,17 @@ void UDataTableManager::DiminishCharacterData(EHeroType hero_type, ECharacterSta
 		case ECharacterStatType::Survivability:
 			data->survivability_ -= decrease_amount;
 			break;
+		case ECharacterStatType::SightRange:
+			data->sight_range_ -= decrease_amount;
+			break;
 		case ECharacterStatType::MoveSpeed:
 			data->move_speed_ -= decrease_amount;
 			break;
-		case ECharacterStatType::ActiveSkillPower:
-			data->active_skill_power_ -= decrease_amount;
+		case ECharacterStatType::SkillPower:
+			data->skill_power_ -= decrease_amount;
 			break;
-		case ECharacterStatType::ActiveSkillCooldown:
-			data->active_skill_cooldown_ -= decrease_amount;
-			break;
-		case ECharacterStatType::PassiveSkillPower:
-			data->passive_skill_power_ -= decrease_amount;
-			break;
-		case ECharacterStatType::PassiveSkillCooldown:
-			data->passive_skill_cooldown_ -= decrease_amount;
+		case ECharacterStatType::SkillCoolDown:
+			data->skill_cool_down_ -= decrease_amount;
 			break;
 		case ECharacterStatType::Shield:
 		default:
