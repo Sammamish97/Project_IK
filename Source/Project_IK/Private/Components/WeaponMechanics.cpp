@@ -78,15 +78,14 @@ void UWeaponMechanics::SetDamageData(FCharacterData char_data, FDamageData dmg_d
 
 void UWeaponMechanics::BeginFire(AActor* target)
 {
-	float unit_as = gunner_ref_->GetCharacterStat()->GetAttackSpeed();
+	float total_fire_per_sec =  weapon_actor_->GetWeaponData().fire_per_sec * (1 + gunner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
+	float weapon_attack_speed = 1.f / total_fire_per_sec;
 	if (on_burst_cool_down_ == false)
 	{
-		float gun_as = 1.f / weapon_actor_->GetWeaponData().fire_per_sec;
-		float total_as = gun_as / unit_as;
 		if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
 		{
 			FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target);
-			GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, total_as, true, 0); 
+			GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, 0); 
 		}
 	}
 }
@@ -103,11 +102,11 @@ void UWeaponMechanics::OnFire(AActor* target)
 	}
 	if (weapon_actor_->GetWeaponData().fire_type == EFireType::Burst && burst_count_ >= weapon_actor_->GetWeaponData().burst_amount)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Burst count: %d"), burst_count_);
 		on_burst_cool_down_ = true;
 		FinishFire();
 		FTimerDelegate burst_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::FinishBurstCooldown);
-		GetWorld()->GetTimerManager().SetTimer(burst_timer_handle_, burst_del, 1.f, false,weapon_actor_->GetWeaponData().wait_after_fire); 
+		float burst_wait_time = weapon_actor_->GetWeaponData().wait_after_fire / (1 + gunner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
+		GetWorld()->GetTimerManager().SetTimer(burst_timer_handle_, burst_del, 1.f, false,burst_wait_time); 
 	}
 }
 
@@ -145,7 +144,6 @@ void UWeaponMechanics::FinishFire()
 
 void UWeaponMechanics::FinishBurstCooldown()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Burst Cool Down Finish"));
 	GetWorld()->GetTimerManager().ClearTimer(burst_timer_handle_);
 	burst_count_ = 0;
 	on_burst_cool_down_ = false;
