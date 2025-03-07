@@ -63,7 +63,7 @@ void ABullet::SetCollisionPreset(bool is_hero)
 void ABullet::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	IDamageable* casted_damage_logic = Cast<IDamageable>(OtherActor);
-	//TODO: 이후 충돌 위치가 필요하다면, 여기서 dmg_data_에 넣어줘야 한다.
+	dmg_data_.attack_target = OtherActor;
 	if(casted_damage_logic) casted_damage_logic->GetDamage(dmg_data_);
 	ReturnToPool();
 }

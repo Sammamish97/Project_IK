@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/CharacterData.h"
 #include "Structs/DamageData.h"
 #include "Structs/WeaponData.h"
 #include "WeaponMechanics.generated.h"
@@ -36,7 +37,7 @@ public:
 public:
 	void OnDestroy();
 
-	void SetDamageData(FDamageData dmg_data);
+	void SetDamageData(FCharacterData char_data, FDamageData dmg_data);
 	
 	void BeginFire(AActor* target);
 	void OnFire(AActor* target);
@@ -47,8 +48,7 @@ public:
 	void OnReload();
 	
 	bool IsMagazineEmpty() const;
-	float GetFireInterval() const;
-	float GetReloadDuration() const;
+	FWeaponData GetWeaponData();
 
 	void OnStunned();
 	

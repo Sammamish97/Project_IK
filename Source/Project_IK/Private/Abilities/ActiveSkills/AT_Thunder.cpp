@@ -25,7 +25,7 @@ bool UAT_Thunder::ActivateSkill_Implementation(const FTargetResult& target_resul
 {
 	if(target_result.target_actors_[0])
 	{
-		ApplyDamage({ damage_, EDamageType::Magic, skill_owner_, target_result.target_actors_[0] });
+		ApplyDamage({ 0, damage_, EDamageType::Magic, skill_owner_, target_result.target_actors_[0] });
 		return true;
 	}
 	return false;

@@ -108,10 +108,10 @@ bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 	}
 
 	float armor = GetArmor();
-	data_ref.damage *= 100.f / (100.f + armor);
+	data_ref.atk_base_dmg *= 100.f / (100.f + armor);
 
 	// Calculation of shields
-	float remaining_damage = data_ref.damage;
+	float remaining_damage = data_ref.atk_base_dmg;
 
 	if (shield_ > 0.f)
 	{
@@ -129,10 +129,10 @@ bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 	if (data_ref.attacker.IsValid())
 	{
 		AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-		game_mode->RecordDamage(data_ref.damage, data_ref.attacker);
+		game_mode->RecordDamage(data_ref.atk_base_dmg, data_ref.attacker);
 	}
 
-	data_ref.damage = remaining_damage;
+	data_ref.atk_base_dmg = remaining_damage;
 	return is_evaded;
 }
 

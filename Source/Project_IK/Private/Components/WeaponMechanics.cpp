@@ -59,8 +59,18 @@ void UWeaponMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
-void UWeaponMechanics::SetDamageData(FDamageData dmg_data)
+void UWeaponMechanics::SetDamageData(FCharacterData char_data, FDamageData dmg_data)
 {
+	//dmg_data에는 시전자가 들어있는것을 기대한다.
+	//여기서 최종 데미지가 결정된다.
+	float total_atk_dmg = weapon_actor_->GetWeaponData().basic_dmg_ + char_data.attack_power_ * weapon_actor_->GetWeaponData().attack_ratio;
+	float total_crit_hit_rate = char_data.critical_hit_rate_ + weapon_actor_->GetWeaponData().critical_hit_rate_;
+	if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
+	{
+		total_atk_dmg *= 2;
+	}
+	dmg_data.atk_base_dmg = total_atk_dmg;
+	dmg_data.damage_type = EDamageType::Projectile;
 	damage_data_ = dmg_data;
 }
 
@@ -126,7 +136,7 @@ void UWeaponMechanics::Reload()
 		{
 			Cast<AMeleeAIController>(gunner_ref_->Controller)->SetUnitState(EUnitState::Reloading);
 			gunner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().reload_montage_);
-			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &UWeaponMechanics::OnReload, GetReloadDuration());
+			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &UWeaponMechanics::OnReload, GetWeaponData().reload_duration);
 		}
 	}
 }
@@ -153,12 +163,12 @@ bool UWeaponMechanics::IsMagazineEmpty() const
 	return weapon_actor_->IsMagazineEmpty();
 }
 
-float UWeaponMechanics::GetFireInterval() const
+FWeaponData UWeaponMechanics::GetWeaponData()
 {
-	return weapon_actor_->GetWeaponData().fire_per_sec;
-}
-
-float UWeaponMechanics::GetReloadDuration() const
-{
-	return weapon_actor_->GetWeaponData().reload_duration;
+	if (weapon_actor_)
+	{
+		return weapon_actor_->GetWeaponData();
+	}
+	//TODO: 적절한 예외처리가 필요하다.
+	return FWeaponData();
 }

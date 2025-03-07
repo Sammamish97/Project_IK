@@ -129,7 +129,7 @@ void ADPI_LaserBeam::FireLaserBeam()
 		if (nearest_unit_)
 		{
 			// @@ TODO: Set attacker
-			FDamageData data = {damage_, EDamageType::Projectile, nullptr};
+			FDamageData data = {damage_, 0,  EDamageType::Projectile, nullptr};
 			nearest_unit_->GetDamage(data);
 			nearest_unit_->ApplyBuff(FBuff(TEXT("LaserMovementReduction"), ECharacterStatType::MoveSpeed, movement_speed_reduction_amount_, true, true));
 		}
