@@ -262,3 +262,12 @@ enum class EActiveSkillType : uint8
 	RapidFire UMETA(DisplayName = "RapidFire"),
 	Empty UMETA(DisplayName = "Empty")
 };
+
+UENUM(BlueprintType)
+enum class EFireType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Auto UMETA(DisplayName = "Auto"),
+	Burst UMETA(DisplayName = "Burst"),
+	BoltAction UMETA(DisplayName = "BoltAction")
+};

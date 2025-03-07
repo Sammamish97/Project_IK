@@ -52,6 +52,8 @@ void UWeaponMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
 	GetWorld()->GetTimerManager().ClearTimer(reload_timer_handle_);
+	GetWorld()->GetTimerManager().ClearTimer(burst_timer_handle_);
+
 	if (weapon_actor_)
 	{
 		weapon_actor_->Destroy();
@@ -76,13 +78,16 @@ void UWeaponMechanics::SetDamageData(FCharacterData char_data, FDamageData dmg_d
 
 void UWeaponMechanics::BeginFire(AActor* target)
 {
-	float gun_as = 1.f / weapon_actor_->GetWeaponData().fire_per_sec;
 	float unit_as = gunner_ref_->GetCharacterStat()->GetAttackSpeed();
-	float total_as = gun_as / unit_as;
-	if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
+	if (on_burst_cool_down_ == false)
 	{
-		FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target);
-		GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, total_as, true, 0); 
+		float gun_as = 1.f / weapon_actor_->GetWeaponData().fire_per_sec;
+		float total_as = gun_as / unit_as;
+		if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
+		{
+			FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target);
+			GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, total_as, true, 0); 
+		}
 	}
 }
 
@@ -90,9 +95,19 @@ void UWeaponMechanics::OnFire(AActor* target)
 {
 	FireWeapon(target);
 	gunner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().fire_montage_);
+	burst_count_ += 1;
 	if(IsMagazineEmpty())
 	{
 		FinishFire();
+		return;
+	}
+	if (weapon_actor_->GetWeaponData().fire_type == EFireType::Burst && burst_count_ >= weapon_actor_->GetWeaponData().burst_amount)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Burst count: %d"), burst_count_);
+		on_burst_cool_down_ = true;
+		FinishFire();
+		FTimerDelegate burst_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::FinishBurstCooldown);
+		GetWorld()->GetTimerManager().SetTimer(burst_timer_handle_, burst_del, 1.f, false,weapon_actor_->GetWeaponData().wait_after_fire); 
 	}
 }
 
@@ -128,6 +143,14 @@ void UWeaponMechanics::FinishFire()
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
 }
 
+void UWeaponMechanics::FinishBurstCooldown()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Burst Cool Down Finish"));
+	GetWorld()->GetTimerManager().ClearTimer(burst_timer_handle_);
+	burst_count_ = 0;
+	on_burst_cool_down_ = false;
+}
+
 void UWeaponMechanics::Reload()
 {
 	if(weapon_actor_)
@@ -144,6 +167,7 @@ void UWeaponMechanics::Reload()
 void UWeaponMechanics::OnReload()
 {
 	if(weapon_actor_)weapon_actor_->Reload();
+	burst_count_ = 0;
 	Cast<AMeleeAIController>(gunner_ref_->Controller)->SetUnitState(EUnitState::Forwarding);
 }
 

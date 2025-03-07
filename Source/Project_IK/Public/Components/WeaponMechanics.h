@@ -43,6 +43,7 @@ public:
 	void OnFire(AActor* target);
 	void FireWeapon(AActor* target);
 	void FinishFire();
+	void FinishBurstCooldown();
 	
 	void Reload();
 	void OnReload();
@@ -79,7 +80,16 @@ private:
 
 	UPROPERTY(Transient)
 	FTimerHandle reload_timer_handle_;
+
+	UPROPERTY(Transient)
+	FTimerHandle burst_timer_handle_;
 	
 	UPROPERTY(Transient)
 	TObjectPtr<AUnit> gunner_ref_ = nullptr;
+
+	UPROPERTY(Transient)
+	int32 burst_count_ = 0;
+
+	UPROPERTY(Transient)
+	bool on_burst_cool_down_ = false;
 };
