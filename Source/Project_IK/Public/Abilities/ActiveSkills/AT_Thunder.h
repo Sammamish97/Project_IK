@@ -22,6 +22,6 @@ class PROJECT_IK_API UAT_Thunder : public USkillBase
 	UAT_Thunder();
 	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
 
-private:
-	float damage_;
+protected:
+	float damage_ = 0.f;
 };

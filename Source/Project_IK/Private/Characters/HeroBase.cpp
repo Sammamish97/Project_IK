@@ -30,18 +30,18 @@ AHeroBase::AHeroBase()
 	passive_skill_mechanics_ = CreateDefaultSubobject<UPassiveSkillMechanics>(TEXT("PassiveMechanics"));
 	equip_mechanics_ = CreateDefaultSubobject<UEquipMechanics>(TEXT("EquipMechanics"));
 	oopart_mechanics_ = CreateDefaultSubobject<UOopartMechanics>(TEXT("OopartMechanics"));
-	
+
 	oopart_pos_ = CreateDefaultSubobject<USphereComponent>(TEXT("Oopart Pos"));
 	oopart_pos_->SetupAttachment(GetRootComponent());
-	oopart_pos_->SetRelativeLocation({0, -49, 90});
+	oopart_pos_->SetRelativeLocation({ 0, -49, 90 });
 
 	GetCharacterMovement()->bUseRVOAvoidance = true;
 	GetCharacterMovement()->AvoidanceConsiderationRadius = 100;
 
 	GetMesh()->SetCollisionProfileName(TEXT("NoCollision"));
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("HeroPreset"));
-	
-	forward_dir_ = {1,0, 0};
+
+	forward_dir_ = { 1,0, 0 };
 }
 
 void AHeroBase::BeginPlay()
@@ -64,18 +64,18 @@ void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AHeroBase::Initialize()
 {
-	
+
 }
 
 void AHeroBase::Die()
 {
 	weapon_mechanics_->OnDestroy();
-	if(auto casted_gunner_aic = Cast<AGunnerAIController>(GetController()))
+	if (auto casted_gunner_aic = Cast<AGunnerAIController>(GetController()))
 	{
 		casted_gunner_aic->OnDie();
 	}
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
-	if(casted_mode) casted_mode->RemoveHero(this);
+	if (casted_mode) casted_mode->RemoveHero(this);
 	for (auto& delegate_array : hero_dmg_event_map_)
 	{
 		for (auto& delegate_elem : delegate_array.Value)
@@ -98,7 +98,7 @@ FDamageData AHeroBase::Attack(AActor* target)
 		{
 			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnFire])
 			{
-				if(delegate.IsBound()) damage_data = delegate.Execute(damage_data);
+				if (delegate.IsBound()) damage_data = delegate.Execute(damage_data);
 			}
 		}
 	}
@@ -108,7 +108,7 @@ FDamageData AHeroBase::Attack(AActor* target)
 	}
 	weapon_mechanics_->SetDamageData(damage_data);
 	weapon_mechanics_->BeginFire(target);
-	
+
 	return damage_data;
 }
 
@@ -121,11 +121,11 @@ void AHeroBase::GetDamage(FDamageData data)
 		{
 			for (auto& delegate : hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc])
 			{
-				if(delegate.IsBound())data = delegate.Execute(data);
+				if (delegate.IsBound())data = delegate.Execute(data);
 			}
 		}
 	}
-	
+
 	bool is_evaded = character_stat_component_->CalcDamage(data);
 	if (is_evaded == false)
 	{

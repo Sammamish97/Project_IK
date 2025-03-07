@@ -18,6 +18,8 @@ See LICENSE file in the project root for full license information.
 
 #include "SkillBase.generated.h"
 
+struct FDamageData;
+
 UCLASS(Blueprintable)
 class PROJECT_IK_API USkillBase : public UObject
 {
@@ -35,12 +37,15 @@ public:
 	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) PURE_VIRTUAL(USkillBase::ActivateSkill_Implementation, return true;);
 
 protected:
-	UPROPERTY(VisibleAnywhere)
+	// Helper function to give damage.
+	virtual void ApplyDamage(FDamageData DamageData);
+
 	FTargetParameters target_param_{};
 
-	UPROPERTY(VisibleAnywhere)
 	float cool_time_ = 0.f;
 
-	UPROPERTY(VisibleAnywhere)
+	float scaling_factor_ = 1.f;
+
+	UPROPERTY()
 	AActor* skill_owner_ = nullptr;
 };

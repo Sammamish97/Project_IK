@@ -25,8 +25,7 @@ bool UAT_Thunder::ActivateSkill_Implementation(const FTargetResult& target_resul
 {
 	if(target_result.target_actors_[0])
 	{
-		FDamageData thunder_damage_data = {damage_, EDamageType::Magic, skill_owner_, target_result.target_actors_[0] };
-		Cast<AUnit>(target_result.target_actors_[0])->GetDamage(thunder_damage_data);
+		ApplyDamage({ damage_, EDamageType::Magic, skill_owner_, target_result.target_actors_[0] });
 		return true;
 	}
 	return false;
