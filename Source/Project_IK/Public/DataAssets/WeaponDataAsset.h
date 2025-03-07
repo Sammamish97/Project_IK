@@ -1,8 +1,8 @@
 /******************************************************************************
 Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 2.08.2025
-Summary : Header file for Pistol.
+Creation Date : 3.7.2025
+Summary : Header file for WeaponDataAsset.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -10,16 +10,17 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Gun.h"
-#include "Pistol.generated.h"
+#include "Engine/DataAsset.h"
+#include "Managers/EnumCluster.h"
+#include "Structs/WeaponData.h"
+#include "WeaponDataAsset.generated.h"
 
 UCLASS()
-class PROJECT_IK_API APistol : public AGun
+class PROJECT_IK_API UWeaponDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
-	APistol();
-	virtual void FireWeapon(FVector target_pos, FDamageData damage) override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Data")
+	TMap<EWeaponType, FWeaponData> weapon_data_map_;
 };

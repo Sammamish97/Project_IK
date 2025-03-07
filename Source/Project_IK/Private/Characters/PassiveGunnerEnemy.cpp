@@ -20,7 +20,6 @@ APassiveGunnerEnemy::APassiveGunnerEnemy()
 void APassiveGunnerEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	weapon_mechanics_->SetWeaponOwner(this);		
 }
 
 void APassiveGunnerEnemy::EndPlay(const EEndPlayReason::Type EndPlayReason)

@@ -11,8 +11,8 @@ See LICENSE file in the project root for full license information.
 #include "Weapons/Guns/Gun.h"
 
 #include "Characters/HeroBase.h"
-#include "Components/SphereComponent.h"
 #include "Components/ObjectPoolComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Structs/DamageData.h"
 #include "Weapons/Guns/Bullet.h"
 
@@ -21,17 +21,12 @@ AGun::AGun()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	gun_mesh_ = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GunMesh"));
-	muzzle_ = CreateDefaultSubobject<USphereComponent>(TEXT("Muzzle"));
+	weapon_mesh_ = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GunMesh"));
 	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
-	
-	gun_mesh_->SetCollisionProfileName(TEXT("NoCollision"));
-	muzzle_->SetCollisionProfileName(TEXT("NoCollision"));
+	weapon_mesh_->SetCollisionProfileName(TEXT("NoCollision"));
+	muzzle_socket_name_ = TEXT("Muzzle");
 
-	muzzle_->SetupAttachment(gun_mesh_);
-	muzzle_->SetVisibility(false);
-
-	SetRootComponent(gun_mesh_);
+	SetRootComponent(weapon_mesh_);
 }
 
 // Called when the game starts or when spawned
@@ -44,41 +39,58 @@ void AGun::BeginPlay()
 void AGun::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void AGun::Reload()
 {
-	cur_megazine_ = max_megazine_;
+	cur_magazine_ = weapon_data_.max_magazine;
 }
 
 void AGun::FireWeapon(FVector target_pos, FDamageData damage)
 {
+	if(cur_magazine_ > 0)
+	{
+		// @@ TODO: Need to discuss use it even though there are side effects.
+		// While using AlwaysSpawn works, there might be Overlapping Actors, and GameplayMechanics 
+		// 1. Overlapping Actors
+		// It may cause physics glitches or visual artifacts
+		// 2. Gameplay Mechanics
+		// Spawn in obstructed areas might break immersion or functionality.
+		// Such as enemies spawning inside walls.
+
+		auto muzzle_location = weapon_mesh_->GetSocketTransform(muzzle_socket_name_).GetLocation();
+		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, target_pos);
+		FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
+		FTransform spawn_transform(rotation, muzzle_location, scale);
+		ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(spawn_transform));
+		if (bullet)
+		{
+			bullet->SetShooter(gun_owner_);
+			bullet->SetDamageData(damage);
+			cur_magazine_--;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("Spawning a bullet has failed!"));
+		}
+	}
 }
 
 bool AGun::IsMagazineEmpty() const
 {
-	return cur_megazine_ <= 0;
+	return cur_magazine_ <= 0;
 }
 
-float AGun::GetFireInterval() const
+void AGun::SetWeaponData(FWeaponData weapon_data)
 {
-	return fire_interval_;
+	weapon_data_ = weapon_data;
+	cur_magazine_ = weapon_data_.max_magazine;
+	weapon_mesh_->SetStaticMesh(weapon_data_.weapon_mesh);
 }
 
-void AGun::SetFireInterval(float Fire_Interval)
+FWeaponData AGun::GetWeaponData()
 {
-	fire_interval_ = Fire_Interval;
-}
-
-float AGun::GetReloadDuration() const
-{
-	return reload_duration_;
-}
-
-void AGun::SetReloadDuration(float Reload_Duration)
-{
-	reload_duration_ = Reload_Duration;
+	return weapon_data_;
 }
 
 void AGun::SetGunOwner(TWeakObjectPtr<AActor> gun_owner)
