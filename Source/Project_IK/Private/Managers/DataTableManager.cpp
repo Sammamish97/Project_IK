@@ -9,6 +9,9 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Managers/DataTableManager.h"
+
+#include "DataAssets/WeaponDataAsset.h"
+
 FArmorData UDataTableManager::GetArmorData(EArmorType type)
 {
 	if (armor_table_)
@@ -77,11 +80,12 @@ FString UDataTableManager::TrinketEnumToString(ETrinketType trinket_type)
 
 FWeaponData UDataTableManager::GetWeaponData(EWeaponType type)
 {
-	if (weapon_table_)
+	if(weapon_data_asset_)
 	{
-		return *weapon_table_->FindRow<FWeaponData>(*WeaponEnumToString(type), TEXT(""));
+		return weapon_data_asset_->weapon_data_map_[type];
 	}
-	return *weapon_table_->FindRow<FWeaponData>(*WeaponEnumToString(EWeaponType::Empty), TEXT(""));
+	//TODO: 적절한 예외처리가 필요함.
+	return FWeaponData();
 }
 
 FString UDataTableManager::WeaponEnumToString(EWeaponType weapon_type)
