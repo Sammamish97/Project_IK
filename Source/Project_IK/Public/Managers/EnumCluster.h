@@ -271,3 +271,11 @@ enum class EFireType : uint8
 	Burst UMETA(DisplayName = "Burst"),
 	BoltAction UMETA(DisplayName = "BoltAction")
 };
+
+UENUM(BlueprintType)
+enum class ERuneSetType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	ThunderLord UMETA(DisplayName = "ThunderLord"),
+	Chariot UMETA(DisplayName = "Chariot")
+};
