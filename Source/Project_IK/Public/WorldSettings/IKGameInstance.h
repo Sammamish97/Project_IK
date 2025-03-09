@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 
 #include "IKGameInstance.generated.h"
 
+class USetBonusManager;
 class UItemInventory;
 class UIKMaps;
 class UCharacterDataManager;
@@ -51,6 +52,8 @@ public:
 	class ULevelTransitionSubsystem* GetLevelTransitionSubsystem() const noexcept;
 	UFUNCTION(BlueprintPure)
 	UDataTableManager* GetDataTableManager() const noexcept;
+	UFUNCTION(BlueprintPure)
+	USetBonusManager* GetSetBonusManager() const noexcept;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelTransition")
 	TSubclassOf<AActor> hero_blueprint_;
@@ -71,6 +74,7 @@ private:
 	void InitInventoryManager();
 	void InitDataTableManager();
 	void InitSpawnData();
+	void InitSetBonusManager();
 	
 	UPROPERTY()
 	class UItemDataManager* item_data_manager_;
@@ -92,7 +96,13 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UDataTableManager> data_table_manager_;
+	
+	UPROPERTY()
+	TObjectPtr<USetBonusManager> set_bonus_manager_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true", BindWidget))
 	TSubclassOf<UDataTableManager> data_table_class_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true", BindWidget))
+	TSubclassOf<USetBonusManager> set_bonus_class_;
 };

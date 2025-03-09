@@ -9,6 +9,12 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Components/RuneMechanics.h"
+#include "Characters/HeroBase.h"
+
+#include "Abilities/SetBonuses/SetBonusBase.h"
+#include "Managers/SetBonusManager.h"
+#include "Kismet/GameplayStatics.h"
+#include "WorldSettings/IKGameInstance.h"
 
 // Sets default values for this component's properties
 URuneMechanics::URuneMechanics()
@@ -21,6 +27,8 @@ URuneMechanics::URuneMechanics()
 void URuneMechanics::BeginPlay()
 {
 	Super::BeginPlay();
+	bonus_manager_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetSetBonusManager();
+	hero_cache_ = GetOwner<AHeroBase>();
 }
 
 void URuneMechanics::SetRune(FRuneData rune)
@@ -38,7 +46,17 @@ FStatusData URuneMechanics::GetTotalStatus()
 	return total_status;
 }
 
-TArray<TPair<ERuneSetType, TArray<int32>>> URuneMechanics::FigureOutSetBonus()
+//세트 보너스가 적용되는 시점은 전투레벨의 Begin Play이후이다.
+void URuneMechanics::ApplySetBonuses()
+{
+	auto set_result = FigureOutRuneSet();
+	for (int i = 0; i < set_result.Num(); i++)
+	{
+		bonus_manager_cache_->GetSetBonus(set_result[i].Key)->ActivateSetBonus(hero_cache_, set_result[i].Value.Num());
+	}
+}
+
+TArray<TPair<ERuneSetType, TArray<int32>>> URuneMechanics::FigureOutRuneSet()
 {
 	TArray<TPair<ERuneSetType, TArray<int32>>> bonus_result;
 	//1. 육각형 체크

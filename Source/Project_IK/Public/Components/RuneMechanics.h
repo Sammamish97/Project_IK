@@ -28,13 +28,22 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+private:
+	TArray<TPair<ERuneSetType, TArray<int32>>> FigureOutRuneSet();
+	
 public:
 	FString RuneEnumToString(ERuneSetType set_type);
 	void SetRune(FRuneData rune);
 	FStatusData GetTotalStatus();
-	TArray<TPair<ERuneSetType, TArray<int32>>> FigureOutSetBonus();
+	void ApplySetBonuses();
 	
 private:
 	UPROPERTY()
 	TArray<FRuneData> rune_slots_;
+	
+	UPROPERTY(Transient)
+	TObjectPtr<class USetBonusManager> bonus_manager_cache_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<class AHeroBase> hero_cache_;
 };
