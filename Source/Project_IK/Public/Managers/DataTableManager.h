@@ -20,6 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/TrinketData.h"
 #include "Structs/WeaponData.h"
 #include "Structs/CharacterData.h"
+#include "Structs/RuneData.h"
 
 #include "DataTableManager.generated.h"
 
@@ -37,6 +38,10 @@ public:
 
 	FWeaponData GetWeaponData(EWeaponType type);
 	FString WeaponEnumToString(EWeaponType weapon_type);
+
+	class URuneSetDataAsset* GetRuneSetData(ERuneSetType type);
+	FRuneData GetRuneData(ERuneSetType type, int slot_num);
+
 
 	FPassiveSkillData GetPassiveSkillData(EPassiveSkillType type);
 	FString PassiveSkillEnumToString(EPassiveSkillType weapon_type);
@@ -60,7 +65,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	UDataTable* trinket_table_;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UWeaponDataAsset> weapon_data_asset_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
@@ -74,4 +79,7 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	UDataTable* character_table_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
+	TObjectPtr<class URuneDataAsset> rune_data_asset_;
 };

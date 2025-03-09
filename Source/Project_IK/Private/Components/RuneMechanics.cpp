@@ -20,7 +20,7 @@ See LICENSE file in the project root for full license information.
 URuneMechanics::URuneMechanics()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-	rune_slots_.Reserve(6);
+	rune_slots_.AddDefaulted(6);
 }
 
 // Called when the game starts
@@ -28,12 +28,13 @@ void URuneMechanics::BeginPlay()
 {
 	Super::BeginPlay();
 	bonus_manager_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetSetBonusManager();
+	data_table_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 	hero_cache_ = GetOwner<AHeroBase>();
 }
 
-void URuneMechanics::SetRune(FRuneData rune)
+void URuneMechanics::EquipRune(ERuneSetType set_type, int32 idx)
 {
-	rune_slots_[rune.slot_type - 1] = rune;
+	rune_slots_[idx] = data_table_cache_->GetRuneData(set_type, idx);
 }
 
 FStatusData URuneMechanics::GetTotalStatus()

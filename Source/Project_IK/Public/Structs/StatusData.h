@@ -12,36 +12,36 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "StatusData.generated.h"
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct PROJECT_IK_API FStatusData
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(VisibleAnywhere, Category = "AttackData")
+	UPROPERTY(EditAnywhere, Category = "AttackData")
 	float attack_power_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "AttackData")
+	UPROPERTY(EditAnywhere, Category = "AttackData")
 	float attack_speed_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "AttackData")
+	UPROPERTY(EditAnywhere, Category = "AttackData")
 	float critical_hit_rate_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "AttackData")
+	UPROPERTY(EditAnywhere, Category = "AttackData")
 	float accuracy_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "AttackData")
+	UPROPERTY(EditAnywhere, Category = "AttackData")
 	float magazine_bonus_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "AttackData")
+	UPROPERTY(EditAnywhere, Category = "AttackData")
 	float life_steal_ = 0.f;
 
-	UPROPERTY(VisibleAnywhere, Category = "DefenseData")
+	UPROPERTY(EditAnywhere, Category = "DefenseData")
 	float hit_point_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "DefenseData")
+	UPROPERTY(EditAnywhere, Category = "DefenseData")
 	float evasion_rate_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "DefenseData")
+	UPROPERTY(EditAnywhere, Category = "DefenseData")
 	float armor_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "DefenseData")
+	UPROPERTY(EditAnywhere, Category = "DefenseData")
 	float survivability_ = 0.f;
 
-	UPROPERTY(VisibleAnywhere, Category = "SkillData")
+	UPROPERTY(EditAnywhere, Category = "SkillData")
 	float skill_power_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "SkillData")
+	UPROPERTY(EditAnywhere, Category = "SkillData")
 	float skill_cool_down_ = 0.f;
 
 	FStatusData operator+(const FStatusData& rhs)

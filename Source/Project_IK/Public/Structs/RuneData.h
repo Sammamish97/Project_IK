@@ -14,21 +14,24 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "RuneData.generated.h"
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct PROJECT_IK_API FRuneData
 {
 	GENERATED_BODY();
+	FRuneData() = default;
+	FRuneData(uint8 init_slot, ERuneSetType init_set_type = ERuneSetType::INVALID, FStatusData init_status = FStatusData())
+	: slot_number(init_slot), set_type(init_set_type),rune_status(init_status) {};
 
 	UPROPERTY()
 	TObjectPtr<UTexture2D> thumbnail;
 
-	//1, 2, 3, 4, 5, 6번 슬롯을 뜻함.
-	UPROPERTY()
-	uint8 slot_type = 0;
+	//0, 1, 2, 3, 4, 5번 슬롯을 뜻함.
+	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "RuneData")
+	uint8 slot_number = 0;
 	
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
 	ERuneSetType set_type = ERuneSetType::INVALID;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
 	FStatusData rune_status = FStatusData();
 };

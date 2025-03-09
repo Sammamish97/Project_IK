@@ -33,7 +33,7 @@ private:
 	
 public:
 	FString RuneEnumToString(ERuneSetType set_type);
-	void SetRune(FRuneData rune);
+	void EquipRune(ERuneSetType set_type, int32 idx);
 	FStatusData GetTotalStatus();
 	void ApplySetBonuses();
 	
@@ -43,6 +43,9 @@ private:
 	
 	UPROPERTY(Transient)
 	TObjectPtr<class USetBonusManager> bonus_manager_cache_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<class UDataTableManager> data_table_cache_;
 
 	UPROPERTY(Transient)
 	TObjectPtr<class AHeroBase> hero_cache_;

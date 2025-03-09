@@ -10,6 +10,8 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/DataTableManager.h"
 
+#include "DataAssets/RuneDataAsset.h"
+#include "DataAssets/RuneSetDataAsset.h"
 #include "DataAssets/WeaponDataAsset.h"
 
 FArmorData UDataTableManager::GetArmorData(EArmorType type)
@@ -110,6 +112,30 @@ FString UDataTableManager::WeaponEnumToString(EWeaponType weapon_type)
 		break;
 	}
 	return string;
+}
+
+URuneSetDataAsset* UDataTableManager::GetRuneSetData(ERuneSetType type)
+{
+	if(rune_data_asset_)
+	{
+		return rune_data_asset_->rune_data_map_[type];
+	}
+	return nullptr;
+}
+
+FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num)
+{
+	if (slot_num < 0 || slot_num > 5)
+	{
+		UE_LOG(LogTemp, Error, TEXT("slot_num is out of range"));
+		return FRuneData();
+	}
+	if(rune_data_asset_)
+	{
+		return rune_data_asset_->rune_data_map_[type]->rune_set_data_[slot_num];
+	}
+	UE_LOG(LogTemp, Error, TEXT("rune_data_asset_ is invalid!"));
+	return FRuneData();
 }
 
 FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type)
