@@ -99,6 +99,10 @@ UTexture2D* UTextureManager::GetCCTexture(ECCType CCType) const
 	case ECCType::Stun:
 		return GetTexture("stun");
 		break;
+	case ECCType::Bleeding:
+		// @@ TODO: Add bleeding texture
+		return GetTexture("stun");
+		break;
 	default:
 		break;
 	}

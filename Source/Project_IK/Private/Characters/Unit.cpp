@@ -84,6 +84,12 @@ void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 
 void AUnit::GetDamage(FDamageData data)
 {
+	if (data.damage_type == EDamageType::Dot)
+	{
+		character_stat_component_->GetDamage(data.damage);
+		character_stat_component_->RecordDamage(data);
+		SetDamageUI(data, false);
+	}
 }
 
 void AUnit::Heal(float heal)

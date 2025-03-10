@@ -114,7 +114,18 @@ FDamageData AHeroBase::Attack(AActor* target)
 
 void AHeroBase::GetDamage(FDamageData data)
 {
+
+	if (data.damage_type == EDamageType::INVALID)
+	{
+		return;
+	}
 	Super::GetDamage(data);
+	if (data.damage_type == EDamageType::Dot)
+	{
+		// Escape immediately because Dot damage proceeded in Super::GetDamage
+		return;
+	}
+
 	if (hero_dmg_event_map_.Find(EHeroEvent::OnHitBeforeCalc))
 	{
 		if (hero_dmg_event_map_[EHeroEvent::OnHitBeforeCalc].IsEmpty() == false)

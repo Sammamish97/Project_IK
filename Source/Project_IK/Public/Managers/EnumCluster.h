@@ -51,6 +51,7 @@ enum class ECCType : uint8
 	Silence UMETA(DisplayName = "Silence"),
 	MuteItems UMETA(DisplayName = "MuteItems"),
 	Stun UMETA(DisplayName = "Stun"),
+	Bleeding UMETA(DisplayName = "Bleeding"),
 };
 
 UENUM(BlueprintType)

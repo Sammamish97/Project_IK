@@ -17,17 +17,29 @@ See LICENSE file in the project root for full license information.
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCrowdControlChangedDelegate);
 
+
+USTRUCT()
+struct FBleedingData
+{
+	GENERATED_BODY()
+
+	int32 tick_remains_;
+	AActor* applier_;
+};
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECT_IK_API UCrowdControlComponent : public UActorComponent
 {
 	GENERATED_BODY()
-
-public:	
+private:
+	constexpr static float BLEEDING_TICK_INTERVAL = 1.f;
+	constexpr static float BLEEDING_DAMAGE = 5.f;
+public:
 	// Sets default values for this component's properties
 	UCrowdControlComponent();
 
 	UFUNCTION(BlueprintCallable)
-	void ApplyCrowdControl(ECCType cc_type, float duration);
+	void ApplyCrowdControl(ECCType cc_type, float duration, AActor* applier = nullptr);
 
 	UFUNCTION(BlueprintCallable)
 	void RemoveCrowdControl(ECCType cc_type);
@@ -47,14 +59,19 @@ public:
 protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason);
 
-	void BeginCC(ECCType cc_type, float duration);
+	void BeginCC(ECCType cc_type, float duration, AActor* applier);
 	void EndCC(ECCType cc_type);
 
 	void DroneJamming(bool is_applying = true);
 	void Silence(bool is_applying = true);
 	void MuteItems(bool is_applying = true);
 	void Stun(float duration, bool is_applying = true);
+	void Bleeding(float duration, AActor* applier, bool is_applying = true);
+	void ApplyBleedDamage();
 
-	UPROPERTY()
-	TMap<ECCType, FTimerHandle> CC_timers_;
+	TMap<ECCType, FTimerHandle> CC_timers_{};
+
+	FTimerHandle bleeding_timer_{};
+
+	TArray<FBleedingData> bleeding_remains_{};
 };

@@ -126,11 +126,7 @@ bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 		}
 	}
 
-	if (data_ref.attacker.IsValid())
-	{
-		AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-		game_mode->RecordDamage(data_ref.damage, data_ref.attacker);
-	}
+	RecordDamage(data_ref);
 
 	data_ref.damage = remaining_damage;
 	return is_evaded;
@@ -316,6 +312,15 @@ void UCharacterStatComponent::SetShield(float shield) noexcept
 {
 	shield_ = shield;
 	OnShieldChanged.Broadcast();
+}
+
+void UCharacterStatComponent::RecordDamage(FDamageData& data_ref)
+{
+	if (data_ref.attacker.IsValid())
+	{
+		AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+		game_mode->RecordDamage(data_ref.damage, data_ref.attacker);
+	}
 }
 
 float UCharacterStatComponent::GetHPRatio() const noexcept
