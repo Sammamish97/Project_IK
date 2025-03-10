@@ -108,7 +108,7 @@ void AIKHUD::BeginPlay()
 			if(ik_instance)
 			{
                 inventory_widget_->InitInventoryWidget(ik_instance->GetInventoryManager());
-                inventory_widget_->LoadInventoryManager();
+                //inventory_widget_->LoadInventoryManager();
 			}
 		}
 	}
@@ -116,7 +116,7 @@ void AIKHUD::BeginPlay()
 
 void AIKHUD::PopUpInventory()
 {
-	inventory_widget_->LoadInventoryManager();
+	//inventory_widget_->LoadInventoryManager();
 	inventory_widget_->AddToViewport();
 	auto controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	controller->bShowMouseCursor = true;
@@ -126,5 +126,5 @@ void AIKHUD::RemoveInventory()
 {
 	inventory_widget_->RemoveFromParent();
 	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;
-	inventory_widget_->ApplyInventoryManager();
+	//inventory_widget_->ApplyInventoryManager();
 }

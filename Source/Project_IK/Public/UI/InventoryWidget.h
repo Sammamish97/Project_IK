@@ -23,56 +23,64 @@ class PROJECT_IK_API UInventoryWidget : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
+	
 	UFUNCTION(BlueprintCallable)
 	void InitInventoryWidget(UInventoryManager* inventory_manager);
-	UFUNCTION(BlueprintCallable)
-	void LoadInventoryManager();
-	UFUNCTION(BlueprintCallable)
-	void ApplyInventoryManager();
 
 	UFUNCTION()
 	void SwitchToLeftHero();
 	UFUNCTION()
 	void SwitchToRightHero();
-private:
-	UInventoryManager* inventory_manager_cache_;
-	class UIKGameInstance* game_instance_cache_;
-	class UDataTableManager* data_table_cache_;
-	
-	int cur_hero_idx_;
-	
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	class UTextBlock* hero_name_text_;
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	FName cur_hero_name_;
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	UButton* switch_hero_left_button_;
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	UButton* switch_hero_right_button_;
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TSubclassOf<class UInventorySlot> slot_BP_class_;
+	UFUNCTION()
+	void ToggleBoard();
 	
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	UInventorySlot* hero_armor_;
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	UInventorySlot* hero_trinket_;
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	UInventorySlot* hero_weapon_;
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	UInventorySlot* hero_passive_skill_;
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	UInventorySlot* hero_active_skill_;
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	UInventorySlot* hero_oopart_;
+private:
+	UPROPERTY(Transient)
+	TObjectPtr<UInventoryManager> inventory_manager_cache_;
 	
 	UPROPERTY(Transient)
-	TArray<UInventorySlot*> hero_slot_array_;
+	TObjectPtr<class UDataTableManager> data_table_cache_;
+	
+	UPROPERTY(Transient)
+	int cur_hero_idx_;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	class UWrapBox* wrap_box_;
+	TObjectPtr<class UCanvasPanel> canvas_panel_;
+
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	class UScrollBox* scroll_box_;
+	TObjectPtr<class UEquipBoardWidget> equip_board_;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class URuneBoardWidget> rune_board_;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+    TObjectPtr<class UWidgetSwitcher> board_switcher_;
+	
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UTextBlock> hero_name_text_;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	FName cur_hero_name_;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<UButton> board_switch_button_;
+	
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<UButton> switch_hero_left_button_;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<UButton> switch_hero_right_button_;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TSubclassOf<UInventorySlot> slot_BP_class_;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UWrapBox> wrap_box_;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UScrollBox> scroll_box_;
+
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true))
-	TArray<UInventorySlot*> inventory_slots_;
+	TArray<TObjectPtr<UInventorySlot>> inventory_slots_;
 };

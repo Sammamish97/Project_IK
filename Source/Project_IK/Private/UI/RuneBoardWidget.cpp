@@ -12,9 +12,15 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/RuneSlotWidget.h"
 
-bool URuneBoardWidget::Initialize()
+void URuneBoardWidget::NativeConstruct()
 {
-	Super::Initialize();
+	Super::NativeConstruct();
+}
+
+void URuneBoardWidget::NativePreConstruct()
+{
+	Super::NativePreConstruct();
+	slot_array_.Empty();
 	slot_array_.Add(slot_0_);
 	slot_array_.Add(slot_1_);
 	slot_array_.Add(slot_2_);
@@ -25,5 +31,4 @@ bool URuneBoardWidget::Initialize()
 	{
 		slot_array_[i]->SetSlotNum(i);
 	}
-	return true;
 }

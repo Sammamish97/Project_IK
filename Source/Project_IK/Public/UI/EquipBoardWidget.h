@@ -2,7 +2,7 @@
 Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
 Creation Date : 3.10.2025
-Summary : Header file for Rune Board widget.
+Summary : Header file for Equip Board widget.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -11,38 +11,30 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "RuneBoardWidget.generated.h"
+#include "EquipBoardWidget.generated.h"
 
-class URuneSlotWidget;
-
+class UInventorySlot;
 UCLASS()
-class PROJECT_IK_API URuneBoardWidget : public UUserWidget
+class PROJECT_IK_API UEquipBoardWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
-	virtual void NativeConstruct() override;
 	virtual void NativePreConstruct() override;
 	
 private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<URuneSlotWidget> slot_0_ = nullptr;
-	
+	TObjectPtr<UInventorySlot> weapon_;
+
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<URuneSlotWidget> slot_1_ = nullptr;
-	
+	TObjectPtr<UInventorySlot> passive_skill_;
+
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<URuneSlotWidget> slot_2_ = nullptr;
-	
+	TObjectPtr<UInventorySlot> active_skill_;
+
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<URuneSlotWidget> slot_3_ = nullptr;
-	
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<URuneSlotWidget> slot_4_ = nullptr;
-	
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<URuneSlotWidget> slot_5_ = nullptr;
+	TObjectPtr<UInventorySlot> oopart_;
 
 	UPROPERTY(Transient)
-	TArray<TObjectPtr<URuneSlotWidget>> slot_array_;
+	TArray<TObjectPtr<UInventorySlot>> equip_array_;
 };
