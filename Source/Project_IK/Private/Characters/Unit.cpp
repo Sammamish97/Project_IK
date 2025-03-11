@@ -19,6 +19,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/ObjectPoolComponent.h"
 #include "UI/DamageUI.h"
 
+#include "Subsystems/GlobalBuffSubsystem.h"
+
 // Sets default values
 AUnit::AUnit()
 {
@@ -64,6 +66,8 @@ void AUnit::BeginPlay()
 		hp_UI_->SetWidgetClass(hp_UI_class_);
 	}
 	Cast<UHitPointsUI>(hp_UI_->GetWidget())->BindNecessaryComponents(character_stat_component_, cc_component_);
+
+	GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->ApplyBuff(this);
 }
 
 void AUnit::SetDamageUI(FDamageData data, bool is_evaded)

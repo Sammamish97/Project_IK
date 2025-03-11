@@ -253,7 +253,7 @@ void UCrowdControlComponent::Bleeding(float duration, AActor* applier, bool is_a
 	{
 		bleeding_remains_.Add({ static_cast<int32>(duration), applier });
 
-		GetWorld()->GetTimerManager().SetTimer(bleeding_timer_, this, &UCrowdControlComponent::ApplyBleedDamage, duration / BLEEDING_TICK_INTERVAL, true);
+		GetWorld()->GetTimerManager().SetTimer(bleeding_timer_, this, &UCrowdControlComponent::ApplyBleedDamage, BLEEDING_TICK_INTERVAL, true);
 	}
 }
 

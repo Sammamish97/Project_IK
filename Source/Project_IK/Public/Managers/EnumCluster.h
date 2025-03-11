@@ -263,3 +263,10 @@ enum class EActiveSkillType : uint8
 	RapidFire UMETA(DisplayName = "RapidFire"),
 	Empty UMETA(DisplayName = "Empty")
 };
+
+UENUM(BlueprintType)
+enum class EGlobalBuffType : uint8
+{
+	TMP UMETA(DisplayName = "TMP"),
+	None UMETA(DisplayName = "None"),
+};
