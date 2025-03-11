@@ -12,10 +12,8 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "ActiveSkillData.h"
-#include "ArmorData.h"
 #include "OopartData.h"
 #include "PassiveSkillData.h"
-#include "TrinketData.h"
 #include "WeaponData.h"
 #include "Structs/CharacterData.h"
 #include "SpawnData.generated.h"
@@ -29,12 +27,6 @@ struct PROJECT_IK_API FSpawnData
 	FCharacterData character_data_;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	FArmorData armor_data_;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	FTrinketData trinket_data_;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
 	FWeaponData weapon_data_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
@@ -45,4 +37,6 @@ struct PROJECT_IK_API FSpawnData
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
 	FOopartData oopart_data_;
+
+	//TODO: Rune Data역시 추가해야함.
 };

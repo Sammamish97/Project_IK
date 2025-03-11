@@ -28,6 +28,7 @@ public:
 	void ClearData();
 	void SetImageTexture();
 	void SetSlotNum(int32 num);
+	void SetRuneData(FRuneData data);
 	
 private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))

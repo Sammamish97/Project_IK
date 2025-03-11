@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/TextBlock.h"
 #include "Components/WidgetSwitcher.h"
 #include "UI/EquipBoardWidget.h"
+#include "UI/EquipStorageWidget.h"
 #include "UI/RuneBoardWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 
@@ -26,7 +27,6 @@ void UInventoryWidget::NativeConstruct()
 	switch_hero_right_button_->OnClicked.AddDynamic(this, &UInventoryWidget::SwitchToRightHero);
 	board_switch_button_->OnClicked.AddDynamic(this, &UInventoryWidget::ToggleBoard);
 	board_switcher_->SetActiveWidget(equip_board_);
-	scroll_box_->AddChild(wrap_box_);
 }
 
 void UInventoryWidget::NativeDestruct()
@@ -46,11 +46,15 @@ void UInventoryWidget::ToggleBoard()
 {
 	if (board_switcher_->GetActiveWidgetIndex() == 0)
 	{
+		equip_storage_->SetVisibility(ESlateVisibility::Hidden);
 		board_switcher_->SetActiveWidget(rune_board_);
 	}
 	else
 	{
+		equip_storage_->LoadEquipStorage();
+		equip_storage_->SetVisibility(ESlateVisibility::Visible);
 		board_switcher_->SetActiveWidget(equip_board_);
+		
 	}
 }
 

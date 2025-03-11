@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Components/PassiveSkillMechanics.h"
 
+#include "Abilities/EquipSkills/EquipSkillBase.h"
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"

@@ -80,3 +80,8 @@ void URuneSlotWidget::SetSlotNum(int32 num)
 {
 	slot_num_ = num;
 }
+
+void URuneSlotWidget::SetRuneData(FRuneData data)
+{
+	rune_data_ = data;
+}

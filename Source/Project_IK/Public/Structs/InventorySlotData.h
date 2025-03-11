@@ -17,18 +17,9 @@ USTRUCT(BlueprintType)
 struct PROJECT_IK_API FInventorySlotData
 {
 	GENERATED_BODY();
-	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	bool is_empty = true;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
 	EGearType gear_type = EGearType::INVALID;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	EArmorType armor_type = EArmorType::Empty;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	ETrinketType trinket_type = ETrinketType::Empty;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
 	EWeaponType weapon_type = EWeaponType::Empty;
@@ -41,4 +32,7 @@ struct PROJECT_IK_API FInventorySlotData
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
 	EOopartType oopart_type = EOopartType::Empty;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
+	bool is_empty = true;
 };

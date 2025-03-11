@@ -14,10 +14,8 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/EnumCluster.h"
 #include "Structs/ActiveSkillData.h"
-#include "Structs/ArmorData.h"
 #include "Structs/OopartData.h"
 #include "Structs/PassiveSkillData.h"
-#include "Structs/TrinketData.h"
 #include "Structs/WeaponData.h"
 #include "Structs/CharacterData.h"
 #include "Structs/RuneData.h"
@@ -30,19 +28,12 @@ class PROJECT_IK_API UDataTableManager : public UObject
 	GENERATED_BODY()
 
 public:
-	FArmorData GetArmorData(EArmorType type);
-	FString ArmorEnumToString(EArmorType armor_type);
-
-	FTrinketData GetTrinketData(ETrinketType type);
-	FString TrinketEnumToString(ETrinketType trinket_type);
-
 	FWeaponData GetWeaponData(EWeaponType type);
 	FString WeaponEnumToString(EWeaponType weapon_type);
 
 	class URuneSetDataAsset* GetRuneSetData(ERuneSetType type);
 	FRuneData GetRuneData(ERuneSetType type, int slot_num);
-
-
+	
 	FPassiveSkillData GetPassiveSkillData(EPassiveSkillType type);
 	FString PassiveSkillEnumToString(EPassiveSkillType weapon_type);
 
@@ -59,12 +50,6 @@ public:
 	void DiminishCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float decrease_amount);
 
 private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
-	UDataTable* armor_table_;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
-	UDataTable* trinket_table_;
-	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UWeaponDataAsset> weapon_data_asset_;
 	

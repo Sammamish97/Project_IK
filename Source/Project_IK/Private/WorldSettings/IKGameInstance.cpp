@@ -168,7 +168,7 @@ void UIKGameInstance::InitializeDialogueEventManager()
 void UIKGameInstance::InitInventoryManager()
 {
 	inventory_manager_ = NewObject<UInventoryManager>(this);
-	inventory_manager_->InitInventory();
+	inventory_manager_->InitInventoryManager();
 }
 
 void UIKGameInstance::InitDataTableManager()
