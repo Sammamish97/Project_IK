@@ -31,14 +31,33 @@ struct PROJECT_IK_API FWeaponData
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
 	float fire_per_sec = 0.f;
 
-	//사격 후 얼마나 기다려야 하는가? (점사/볼트액션)
+	//한번에 몇발 발사하는가?(점사 한정)
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
-	float wait_after_sec = 0.f;
+	int32 burst_amount = 0;
 
+	//한번 사격이 끝난 후 얼마나 기다려야 하는가? (점사/볼트액션)
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
+	float wait_after_fire = 0.f;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
+	EFireType fire_type = EFireType::INVALID;
+
+	//무기 사거리
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
+	float fire_range = 0.f;
+	
+	//기본 공격력
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
+	float basic_dmg_ = 0.f;
+	
 	//공격력 계수
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
 	float attack_ratio = 0.f;
 
+	//무기 치명타 확률
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
+	float critical_hit_rate_ = 0.f;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true"))
 	int32 max_magazine = 0;
 	

@@ -21,7 +21,7 @@ AAttackSpeedBoostOopart::AAttackSpeedBoostOopart()
 	PrimaryActorTick.bCanEverTick = false;
 	cool_down_ = 5.f;
 	duration_ = 2.f;
-	boost_amount_ = 2.f;
+	boost_amount_ = 100.f;
 }
 
 // Called when the game starts or when spawned
@@ -43,7 +43,7 @@ void AAttackSpeedBoostOopart::AttackSpeedBuff()
 	if(oopart_owner_ != nullptr)
 	{
 		auto casted_hero = Cast<AHeroBase>(oopart_owner_);
-		casted_hero->ApplyBuff(FBuff(TEXT("Oopart_AttackSpeedBoost"), ECharacterStatType::AttackSpeed, 1.f - (1.f / boost_amount_), true, duration_));
+		casted_hero->ApplyBuff(FBuff(TEXT("Oopart_AttackSpeedBoost"), ECharacterStatType::AttackSpeed, boost_amount_, false, duration_));
 	}
 }
 

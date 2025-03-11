@@ -39,14 +39,13 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 	UObject* owned_cover = blackboard->GetValueAsObject(owned_cover_key_.SelectedKeyName);
 	
 	auto casted_unit = Cast<AUnit>(OwnerComp.GetAIOwner()->GetPawn());
-	auto component = casted_unit->GetComponentByClass(UWeaponMechanics::StaticClass());
-	UWeaponMechanics* casted_component = Cast<UWeaponMechanics>(component);
+	UWeaponMechanics* weapon_mechanics = casted_unit->GetComponentByClass<UWeaponMechanics>();
 		
 	//적이 죽으면 state변경.
 	if(attack_target == nullptr)
 	{
 		blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Forwarding));
-		casted_component->FinishFire();
+		weapon_mechanics->FinishFire();
 		return;
 	}
 
@@ -56,7 +55,7 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 		casted_unit->GetCharacterStat()->GetSightRange())
 	{
 		blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Forwarding));
-		casted_component->FinishFire();
+		weapon_mechanics->FinishFire();
 		return;
 	}
 	
@@ -70,7 +69,7 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 		if(cover_owner_dist > 50.0)
 		{
 			blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::HeadingToCover));
-			casted_component->FinishFire();
+			weapon_mechanics->FinishFire();
 		}
 	}
 	else
@@ -84,18 +83,15 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 		UKismetSystemLibrary::SphereOverlapActors(GetWorld(), casted_unit->GetActorLocation(),
 			casted_unit->GetCharacterStat()->GetSightRange(),
 			traceObjectTypes, ACover::StaticClass(), ignore_actors, out_actors);
-
-		// @@ TODO: Replace deprecated fire range.
-			// @@ TODO: Then REMOVE this comment and the variable
-		const float DEPRECATED_FIRE_RANGE = 600.f;
+		
 		//만약 사용 가능한 엄폐물을 찾으면 해당 엄폐물로 향한다.
 		if(ACover* best_cover = CommonFunctions::FindBestCover(out_actors, casted_target->GetActorLocation(),
-			DEPRECATED_FIRE_RANGE))
+			weapon_mechanics->GetWeaponData().fire_range))
 		{
 			best_cover->SetCoveringOwner(true);
 			blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, best_cover);
 			blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::HeadingToCover));
-			casted_component->FinishFire();
+			weapon_mechanics->FinishFire();
 		}
 	}
 	

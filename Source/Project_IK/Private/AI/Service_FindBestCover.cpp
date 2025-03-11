@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Components/WeaponMechanics.h"
 #include "Managers/CommonFunctions.h"
 #include "Environments/Cover.h"
 #include "Kismet/KismetSystemLibrary.h"
@@ -54,14 +55,14 @@ void UService_FindBestCover::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 				casted_gunner->GetCharacterStat()->GetSightRange(),
 				traceObjectTypes, ACover::StaticClass(), ignore_actors, out_actors);
 
-			// @@ TODO: Replace deprecated fire range.
-			// @@ TODO: Then REMOVE this comment and the variable
-			const float DEPRECATED_FIRE_RANGE = 600.f;
-			if(ACover* best_cover = CommonFunctions::FindBestCover(out_actors, attack_target_pos, DEPRECATED_FIRE_RANGE))
+			if (auto weapon_mechanics = casted_gunner->GetComponentByClass<UWeaponMechanics>())
 			{
-				best_cover->SetCoveringOwner(true);
-				blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, best_cover);
-				blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::HeadingToCover));
+				if(ACover* best_cover = CommonFunctions::FindBestCover(out_actors, attack_target_pos, weapon_mechanics->GetWeaponData().fire_range))
+				{
+					best_cover->SetCoveringOwner(true);
+					blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, best_cover);
+					blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::HeadingToCover));
+				}
 			}
 		}
 	}

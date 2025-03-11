@@ -23,6 +23,6 @@ void UFixedDmgReduceSkill::InitEquipmentSkill(AActor* hero_ref)
 
 FDamageData UFixedDmgReduceSkill::OnEquipmentSkill(FDamageData dmg_data)
 {
-	dmg_data.damage -= 3;
+	dmg_data.atk_base_dmg -= 3;
 	return dmg_data;
 }

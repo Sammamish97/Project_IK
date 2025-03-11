@@ -69,17 +69,17 @@ void AUnit::BeginPlay()
 void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 {
 	ADamageUI* ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
-    	if (ui)
+    if (ui)
+    {
+    	if (is_evaded)
     	{
-    		if (is_evaded)
-    		{
-    			ui->SetMissed();
-    		}
-    		else
-    		{
-    			ui->SetDamageAmount(data.damage);
-    		}
+    		ui->SetMissed();
     	}
+    	else
+    	{
+    		ui->SetDamageAmount(data.atk_base_dmg);
+    	}
+    }
 }
 
 void AUnit::GetDamage(FDamageData data)

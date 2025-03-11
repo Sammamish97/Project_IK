@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/CharacterData.h"
 #include "Structs/DamageData.h"
 #include "Structs/WeaponData.h"
 #include "WeaponMechanics.generated.h"
@@ -36,19 +37,19 @@ public:
 public:
 	void OnDestroy();
 
-	void SetDamageData(FDamageData dmg_data);
+	void SetDamageData(FCharacterData char_data, FDamageData dmg_data);
 	
 	void BeginFire(AActor* target);
 	void OnFire(AActor* target);
 	void FireWeapon(AActor* target);
 	void FinishFire();
+	void FinishBurstCooldown();
 	
 	void Reload();
 	void OnReload();
 	
 	bool IsMagazineEmpty() const;
-	float GetFireInterval() const;
-	float GetReloadDuration() const;
+	FWeaponData GetWeaponData();
 
 	void OnStunned();
 	
@@ -79,7 +80,16 @@ private:
 
 	UPROPERTY(Transient)
 	FTimerHandle reload_timer_handle_;
+
+	UPROPERTY(Transient)
+	FTimerHandle burst_timer_handle_;
 	
 	UPROPERTY(Transient)
 	TObjectPtr<AUnit> gunner_ref_ = nullptr;
+
+	UPROPERTY(Transient)
+	int32 burst_count_ = 0;
+
+	UPROPERTY(Transient)
+	bool on_burst_cool_down_ = false;
 };
