@@ -33,6 +33,7 @@ public:
 
 	class URuneSetDataAsset* GetRuneSetData(ERuneSetType type);
 	FRuneData GetRuneData(ERuneSetType type, int slot_num);
+	UTexture2D* GetRuneSetThumbnail(ERuneSetType type);
 	
 	FPassiveSkillData GetPassiveSkillData(EPassiveSkillType type);
 	FString PassiveSkillEnumToString(EPassiveSkillType weapon_type);

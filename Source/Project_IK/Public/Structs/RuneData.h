@@ -21,9 +21,6 @@ struct PROJECT_IK_API FRuneData
 	FRuneData() = default;
 	FRuneData(int32 init_slot, ERuneSetType init_set_type = ERuneSetType::INVALID, FStatusData init_status = FStatusData())
 	: set_type(init_set_type),rune_status(init_status), slot_number(init_slot) {};
-
-	UPROPERTY()
-	TObjectPtr<UTexture2D> thumbnail;
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
 	ERuneSetType set_type = ERuneSetType::INVALID;

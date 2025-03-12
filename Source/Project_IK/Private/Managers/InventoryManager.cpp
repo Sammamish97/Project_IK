@@ -36,7 +36,6 @@ void UInventoryManager::InitRuneInventory()
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 3));
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 4));
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 5));
-
 }
 
 void UInventoryManager::InitInventoryManager()

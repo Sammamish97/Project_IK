@@ -23,6 +23,9 @@ public:
 
 private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UScrollBox> scroll_box_;
+	
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<class UWrapBox> wrap_box_;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta=(AllowPrivateAccess=true))

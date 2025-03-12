@@ -58,7 +58,13 @@ private:
 	TObjectPtr<class URuneBoardWidget> rune_board_;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class URuneStorageWidget> rune_storage_;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
     TObjectPtr<class UWidgetSwitcher> board_switcher_;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UWidgetSwitcher> storage_switcher_;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<class UTextBlock> hero_name_text_;

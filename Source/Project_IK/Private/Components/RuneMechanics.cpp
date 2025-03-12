@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/SetBonuses/SetBonusBase.h"
 #include "Managers/SetBonusManager.h"
+#include "Abilities/SetBonuses/SetBonusBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameInstance.h"
 
@@ -53,7 +54,8 @@ void URuneMechanics::ApplySetBonuses()
 	auto set_result = FigureOutRuneSet();
 	for (int i = 0; i < set_result.Num(); i++)
 	{
-		bonus_manager_cache_->GetSetBonus(set_result[i].Key)->ActivateSetBonus(hero_cache_, set_result[i].Value.Num());
+		set_bonus_cache_ = bonus_manager_cache_->GetSetBonus(set_result[i].Key);
+		set_bonus_cache_->ActivateSetBonus(hero_cache_, set_result[i].Value.Num());
 	}
 }
 

@@ -20,6 +20,7 @@ class PROJECT_IK_API URuneSlotWidget : public UUserWidget
 {
 	GENERATED_BODY()
 private:
+	virtual void NativeConstruct() override;
 	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
@@ -32,13 +33,16 @@ public:
 	
 private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	class UButton* button_;
+	TObjectPtr<class UButton> button_;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	class UImage* image_;
+	TObjectPtr<class UImage> image_;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TSubclassOf<UUserWidget> dragdrop_image_class_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<class UDataTableManager> data_table_cache_;
 	
 	UPROPERTY()
 	bool is_empty_ = true;

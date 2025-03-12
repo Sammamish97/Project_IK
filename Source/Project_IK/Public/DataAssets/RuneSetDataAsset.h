@@ -20,6 +20,9 @@ class PROJECT_IK_API URuneSetDataAsset : public UPrimaryDataAsset
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Data", EditFixedSize)
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneSet")
+	TObjectPtr<UTexture2D> thumbnail;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "RuneSet", EditFixedSize)
 	TArray<FRuneData> rune_set_data_ = { FRuneData(0), FRuneData(1), FRuneData(2), FRuneData(3), FRuneData(4), FRuneData(5) };
 };

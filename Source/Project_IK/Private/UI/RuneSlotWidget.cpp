@@ -12,7 +12,18 @@ See LICENSE file in the project root for full license information.
 
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
+#include "Kismet/GameplayStatics.h"
 #include "UI/SlotDragDropImage.h"
+#include "WorldSettings/IKGameInstance.h"
+
+class UIKGameInstance;
+
+void URuneSlotWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	data_table_cache_ = ik_instance->GetDataTableManager();
+}
 
 FReply URuneSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
@@ -72,7 +83,7 @@ void URuneSlotWidget::SetImageTexture()
 {
 	if (is_empty_ == false)
 	{
-		image_->SetBrushFromTexture(rune_data_.thumbnail);
+		image_->SetBrushFromTexture(data_table_cache_->GetRuneSetThumbnail(rune_data_.set_type));
 	}
 }
 

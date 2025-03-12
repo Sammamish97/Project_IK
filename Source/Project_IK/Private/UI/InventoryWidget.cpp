@@ -10,13 +10,12 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/InventoryWidget.h"
 #include "Components/Button.h"
-#include "Components/ScrollBox.h"
-#include "Components/WrapBox.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetSwitcher.h"
 #include "UI/EquipBoardWidget.h"
 #include "UI/EquipStorageWidget.h"
 #include "UI/RuneBoardWidget.h"
+#include "UI/RuneStorageWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 
 void UInventoryWidget::NativeConstruct()
@@ -46,15 +45,15 @@ void UInventoryWidget::ToggleBoard()
 {
 	if (board_switcher_->GetActiveWidgetIndex() == 0)
 	{
-		equip_storage_->SetVisibility(ESlateVisibility::Hidden);
+		rune_storage_->LoadRuneStorage();
 		board_switcher_->SetActiveWidget(rune_board_);
+		storage_switcher_->SetActiveWidget(rune_storage_);
 	}
 	else
 	{
 		equip_storage_->LoadEquipStorage();
-		equip_storage_->SetVisibility(ESlateVisibility::Visible);
 		board_switcher_->SetActiveWidget(equip_board_);
-		
+		storage_switcher_->SetActiveWidget(equip_storage_);
 	}
 }
 

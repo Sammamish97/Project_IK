@@ -9,6 +9,8 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "UI/EquipStorageWidget.h"
+
+#include "Components/ScrollBox.h"
 #include "Components/WrapBox.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/InventoryManager.h"
@@ -25,6 +27,7 @@ void UEquipStorageWidget::LoadEquipStorage()
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<UInventoryManager> inventory_manager_cache = ik_instance->GetInventoryManager();
 
+	scroll_box_->ClearChildren();
 	wrap_box_->ClearChildren();
 	equip_inventory_slots_.Reset();
 	equip_inventory_slots_.Init(nullptr, inventory_manager_cache->GetMaxInventorySize());
@@ -38,4 +41,5 @@ void UEquipStorageWidget::LoadEquipStorage()
 		equip_inventory_slots_[i]->SetImageTexture();
 		wrap_box_->AddChild(equip_inventory_slots_[i]);
 	}
+	scroll_box_->AddChild(wrap_box_);
 }

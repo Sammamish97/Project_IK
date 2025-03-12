@@ -71,6 +71,15 @@ FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num)
 	return FRuneData();
 }
 
+UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type)
+{
+	if(auto rune_set_data = GetRuneSetData(type))
+	{
+		return rune_set_data->thumbnail;
+	}
+	return nullptr;
+}
+
 FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type)
 {
 	if (passive_skill_table_)

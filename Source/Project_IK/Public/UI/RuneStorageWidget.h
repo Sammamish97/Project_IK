@@ -13,19 +13,20 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/UserWidget.h"
 #include "RuneStorageWidget.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API URuneStorageWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
+	virtual void NativeConstruct() override;
 	virtual void NativePreConstruct() override;
 	void LoadRuneStorage();
 
 private:
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UScrollBox> scroll_box_;
+	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<class UWrapBox> wrap_box_;
 

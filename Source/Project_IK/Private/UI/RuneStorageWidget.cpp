@@ -9,6 +9,8 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "UI/RuneStorageWidget.h"
+
+#include "Components/ScrollBox.h"
 #include "Components/WrapBox.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -23,11 +25,17 @@ void URuneStorageWidget::NativePreConstruct()
 	Super::NativePreConstruct();
 }
 
+void URuneStorageWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+}
+
 void URuneStorageWidget::LoadRuneStorage()
 {
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<UInventoryManager> inventory_manager_cache = ik_instance->GetInventoryManager();
 
+	scroll_box_->ClearChildren();
 	wrap_box_->ClearChildren();
 	rune_inventory_slots_.Reset();
 	rune_inventory_slots_.Init(nullptr, inventory_manager_cache->GetMaxInventorySize());
@@ -39,4 +47,5 @@ void URuneStorageWidget::LoadRuneStorage()
 		rune_inventory_slots_[i]->SetImageTexture();
 		wrap_box_->AddChild(rune_inventory_slots_[i]);
 	}
+	scroll_box_->AddChild(wrap_box_);
 }

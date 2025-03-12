@@ -49,4 +49,7 @@ private:
 
 	UPROPERTY(Transient)
 	TObjectPtr<class AHeroBase> hero_cache_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<class USetBonusBase> set_bonus_cache_;
 };
