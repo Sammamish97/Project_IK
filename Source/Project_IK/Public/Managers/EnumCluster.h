@@ -267,6 +267,6 @@ enum class EActiveSkillType : uint8
 UENUM(BlueprintType)
 enum class EGlobalBuffType : uint8
 {
-	TMP UMETA(DisplayName = "TMP"),
+	WoundingBullets UMETA(DisplayName = "WoundingBullets"),
 	None UMETA(DisplayName = "None"),
 };

@@ -26,5 +26,5 @@ class PROJECT_IK_API UGlobalBuffDataAsset : public UPrimaryDataAsset
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<EGlobalBuffType, FGlobalBuffData> weapon_data_map_;
+	TMap<EGlobalBuffType, FGlobalBuffData> global_buff_data_assets_;
 };

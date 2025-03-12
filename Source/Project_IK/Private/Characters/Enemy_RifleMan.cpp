@@ -45,6 +45,7 @@ void AEnemy_RifleMan::OnStunned()
 FDamageData AEnemy_RifleMan::Attack(AActor* target)
 {
 	FDamageData damage_data;
+	damage_data.damage_type = EDamageType::Projectile;
 	damage_data.attacker = this;
 	damage_data.attack_target = target;
 	damage_data.damage = GetCharacterStat()->GetAttackPower();

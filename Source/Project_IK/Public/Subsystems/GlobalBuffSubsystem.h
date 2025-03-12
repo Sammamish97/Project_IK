@@ -15,6 +15,8 @@ See LICENSE file in the project root for full license information.
 #include "GlobalBuffSubsystem.generated.h"
 
 struct FGlobalBuffData;
+enum class EGlobalBuffType : uint8;
+class UGlobalBuffLogicBase;
 
 /**
  * 
@@ -28,12 +30,16 @@ public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 
-	void AddBuff(const FGlobalBuffData& buff);
+	void AddBuff(EGlobalBuffType buff_type);
 
-	void ApplyBuff(UObject* object_applied);
+	void ApplyBuff(UObject* buff_target);
 
 	void UpdateBuffDurations();
 
 protected:
+	TMap<EGlobalBuffType, int32> buff_lookup_;
 	TArray<FGlobalBuffData> buffs_;
+
+	UPROPERTY()
+	TMap<TSubclassOf<UGlobalBuffLogicBase>, TObjectPtr<UGlobalBuffLogicBase>> buff_logic_containers_;
 };

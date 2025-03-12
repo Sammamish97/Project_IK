@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/DataTableManager.h"
 
 #include "DataAssets/WeaponDataAsset.h"
+#include "DataAssets/GlobalBuffDataAsset.h"
 
 FArmorData UDataTableManager::GetArmorData(EArmorType type)
 {
@@ -335,5 +336,19 @@ void UDataTableManager::DiminishCharacterData(EHeroType hero_type, ECharacterSta
 		default:
 			break;
 		}
+	}
+}
+
+FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type)
+{
+	FGlobalBuffData* data = global_buff_data_asset_->global_buff_data_assets_.Find(buff_type);
+	if (data)
+	{
+		return *data;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Retreieved invalid global buff data"));
+		return FGlobalBuffData();
 	}
 }

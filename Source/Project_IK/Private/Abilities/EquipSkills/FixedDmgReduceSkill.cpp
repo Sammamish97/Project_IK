@@ -20,7 +20,7 @@ void UFixedDmgReduceSkill::InitEquipmentSkill(AActor* hero_ref)
 	delegate_array.AddDefaulted();
 	delegate_array.Last().BindUObject(this, &UFixedDmgReduceSkill::OnEquipmentSkill);
 }
-
+	
 FDamageData UFixedDmgReduceSkill::OnEquipmentSkill(FDamageData dmg_data)
 {
 	dmg_data.damage -= 3;
