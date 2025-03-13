@@ -27,8 +27,9 @@ private:
 	
 public:
 	void ClearData();
+	bool IsBoardSlot();
 	void SetImageTexture();
-	void SetSlotNum(int32 num);
+	void SetIsBoardSlot(bool is_board_slot);
 	void SetRuneData(FRuneData data);
 	
 private:
@@ -40,16 +41,10 @@ private:
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TSubclassOf<UUserWidget> dragdrop_image_class_;
+	
+	UPROPERTY(Transient)
+	FRuneData rune_data_ = FRuneData();
 
 	UPROPERTY(Transient)
-	TObjectPtr<class UDataTableManager> data_table_cache_;
-	
-	UPROPERTY()
-	bool is_empty_ = true;
-
-	UPROPERTY()
-	int32 slot_num_ = 0;
-	
-	UPROPERTY()
-	FRuneData rune_data_ = FRuneData();
+	bool is_board_slot_ = false;
 };

@@ -21,14 +21,17 @@ void URuneBoardWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	slot_array_.Empty();
+	
 	slot_array_.Add(slot_0_);
 	slot_array_.Add(slot_1_);
 	slot_array_.Add(slot_2_);
 	slot_array_.Add(slot_3_);
 	slot_array_.Add(slot_4_);
 	slot_array_.Add(slot_5_);
+
 	for (int i = 0; i < 6; ++i)
 	{
-		slot_array_[i]->SetSlotNum(i);
+		slot_array_[i]->SetRuneData(FRuneData(i));
+		slot_array_[i]->SetIsBoardSlot(true);
 	}
 }

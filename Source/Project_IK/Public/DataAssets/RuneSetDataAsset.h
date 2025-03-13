@@ -24,5 +24,5 @@ public:
 	TObjectPtr<UTexture2D> thumbnail;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "RuneSet", EditFixedSize)
-	TArray<FRuneData> rune_set_data_ = { FRuneData(0), FRuneData(1), FRuneData(2), FRuneData(3), FRuneData(4), FRuneData(5) };
+	TArray<FRuneData> rune_set_data_ = { FRuneData(0, false), FRuneData(1, false), FRuneData(2, false), FRuneData(3, false), FRuneData(4, false), FRuneData(5, false) };
 };

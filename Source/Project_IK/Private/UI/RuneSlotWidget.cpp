@@ -21,8 +21,6 @@ class UIKGameInstance;
 void URuneSlotWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	data_table_cache_ = ik_instance->GetDataTableManager();
 }
 
 FReply URuneSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -40,7 +38,7 @@ void URuneSlotWidget::NativeOnDragDetected(const FGeometry& InGeometry, const FP
 	UDragDropOperation*& OutOperation)
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
-	if(is_empty_ == true) return;
+	if(rune_data_.is_empty == true) return;
 	
 	UDragDropOperation* dragdrop_operation = UWidgetBlueprintLibrary::CreateDragDropOperation(UDragDropOperation::StaticClass());
 	dragdrop_operation->Payload = this;
@@ -60,39 +58,65 @@ bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
 	if(InOperation->Payload == this) return false;
 	TObjectPtr<URuneSlotWidget> slot_from = Cast<URuneSlotWidget>(InOperation->Payload);
-	if (slot_from->slot_num_ == slot_num_)
+	//1. 둘 다 Board면 반드시 slot_num이 다르기 때문에 교체가 불가능 하다.
+	if (is_board_slot_ && slot_from->is_board_slot_)
+	{
+		return false;
+	}
+	//2. 둘다 storage에 있다면 slot_num과 상관 없이 swap 가능하다.
+	if (is_board_slot_ == false && slot_from->is_board_slot_ == false)
 	{
 		Swap(rune_data_, slot_from->rune_data_);
-		Swap(is_empty_, slot_from->is_empty_);
 		SetImageTexture();
 		slot_from->SetImageTexture();
 		return true;
 	}
+	//3. 둘중 하나만 board라면, 만약 시작점이 storage이고 도착점이 board라면 slot num을 확인해야 한다.
+	if (slot_from->rune_data_.slot_number == rune_data_.slot_number)
+	{
+		Swap(rune_data_, slot_from->rune_data_);
+		SetImageTexture();
+		slot_from->SetImageTexture();
+		return true;
+	}
+
+	//4. 둘중 하나만 board라면, 만약 시작점이 board이고, 도착점이 storage라면 케이스가 2가지가 있다.
+	//a. 인벤토리가 비어있을 수 있다.
+	//b. 룬이 있고 slot num이 동일할 수 있다.
+	//c. 룬이 있고 slot num이 다를 수 있다.
 	return false;
 }
 
 void URuneSlotWidget::ClearData()
 {
 	rune_data_ = FRuneData();
-	is_empty_ = true;
-	slot_num_ = 0;
 	image_->SetBrushFromTexture(nullptr);
 }
 
 void URuneSlotWidget::SetImageTexture()
 {
-	if (is_empty_ == false)
+	if (rune_data_.is_empty)
 	{
-		image_->SetBrushFromTexture(data_table_cache_->GetRuneSetThumbnail(rune_data_.set_type));
+		image_->SetBrushFromTexture(nullptr);
 	}
-}
-
-void URuneSlotWidget::SetSlotNum(int32 num)
-{
-	slot_num_ = num;
+	else
+	{
+		TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		image_->SetBrushFromTexture(ik_instance->GetDataTableManager()->GetRuneSetThumbnail(rune_data_.set_type));
+	}
 }
 
 void URuneSlotWidget::SetRuneData(FRuneData data)
 {
 	rune_data_ = data;
+}
+
+bool URuneSlotWidget::IsBoardSlot()
+{
+	return is_board_slot_;
+}
+
+void URuneSlotWidget::SetIsBoardSlot(bool is_board_slot)
+{
+	is_board_slot_ = is_board_slot;
 }

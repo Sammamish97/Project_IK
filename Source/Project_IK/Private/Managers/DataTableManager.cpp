@@ -49,7 +49,7 @@ FString UDataTableManager::WeaponEnumToString(EWeaponType weapon_type)
 
 URuneSetDataAsset* UDataTableManager::GetRuneSetData(ERuneSetType type)
 {
-	if(rune_data_asset_)
+	if(rune_data_asset_ && type != ERuneSetType::INVALID)
 	{
 		return rune_data_asset_->rune_data_map_[type];
 	}
