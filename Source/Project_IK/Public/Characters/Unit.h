@@ -21,7 +21,10 @@ class UWidgetComponent;
 class UCharacterStatComponent;
 class UCrowdControlComponent;
 class UDamageUI;
+enum class EHeroEvent : uint8;
 
+
+DECLARE_DELEGATE_RetVal_OneParam(FDamageData, FOnDamage, FDamageData);
 
 UCLASS()
 class PROJECT_IK_API AUnit : public ACharacter, public IDamageable, public IUnitInterface
@@ -34,9 +37,6 @@ public:
 	const UCharacterStatComponent* GetCharacterStat() const;
 	FVector GetForwardDir() const;
 	void SetForwardDir(const FVector& Forward_Dir);
-	
-	UFUNCTION()
-	void SetDamageUI(FDamageData data, bool is_evaded);
 	
 	UFUNCTION(BlueprintCallable)
 	virtual void GetDamage(FDamageData data) override;
@@ -62,6 +62,9 @@ public:
 	UFUNCTION()
 	virtual void FinishStun() override;
 
+	template<typename T, typename FuncType>
+	void BindDamageEvent(EHeroEvent bound_event, T* object, FuncType callback);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UHitPointsUI> hp_UI_class_;
 protected:
@@ -71,7 +74,11 @@ protected:
 	UFUNCTION()
 	virtual void Die() override;
 
+	void SetDamageUI(FDamageData data, bool is_evaded);
 	FTransform GetActorTransformForDamageUI() const noexcept;
+
+	void GetDamageByDot(FDamageData data);
+	void GetDamageByPEM(FDamageData data);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
@@ -105,4 +112,15 @@ protected:
 
 	UPROPERTY(Transient)
 	FTimerHandle stun_timer_;
+
+	TMap<EHeroEvent, TArray<FOnDamage>> dmg_event_map_;
 };
+
+template<typename T, typename FuncType>
+inline void AUnit::BindDamageEvent(EHeroEvent bound_event, T* object, FuncType callback)
+{
+	TArray<FOnDamage>& delegate_array = dmg_event_map_.FindOrAdd(bound_event);
+
+	delegate_array.AddDefaulted();
+	delegate_array.Last().BindUObject(object, callback);
+}

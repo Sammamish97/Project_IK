@@ -15,8 +15,6 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "HeroBase.generated.h"
 
-DECLARE_DELEGATE_RetVal_OneParam(FDamageData, FOnDamage, FDamageData);
-
 UCLASS()
 class PROJECT_IK_API AHeroBase : public AUnit, public IAttackable
 {
@@ -31,13 +29,11 @@ public:
 	virtual void Die() override;
 
 	virtual FDamageData Attack(AActor* target) override;
-	virtual void GetDamage(FDamageData data) override;
 	virtual void GetStunned(float stun_duration) override;
 	virtual void OnStunned() override;
 	EHeroType GetHeroType() const;
 
 public:
-	TMap<EHeroEvent, TArray<FOnDamage>> hero_dmg_event_map_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
 	class USphereComponent* oopart_pos_;

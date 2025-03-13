@@ -22,14 +22,6 @@ AEnemyBase::AEnemyBase()
 	forward_dir_ = {-1,0, 0};
 }
 
-void AEnemyBase::GetDamage(FDamageData data)
-{
-	Super::GetDamage(data);
-	bool is_evaded = character_stat_component_->CalcDamage(data);
-	character_stat_component_->GetDamage(data.damage);
-	SetDamageUI(data, is_evaded);
-}
-
 void AEnemyBase::Die()
 {
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));

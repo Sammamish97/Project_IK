@@ -88,11 +88,22 @@ void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 
 void AUnit::GetDamage(FDamageData data)
 {
-	if (data.damage_type == EDamageType::Dot)
+	switch (data.damage_type)
 	{
-		character_stat_component_->GetDamage(data.damage);
-		character_stat_component_->RecordDamage(data);
-		SetDamageUI(data, false);
+	case EDamageType::Projectile:
+	case EDamageType::Explosive:
+	case EDamageType::Melee:
+		GetDamageByPEM(data);
+		break;
+	case EDamageType::Dot:
+		GetDamageByDot(data);
+		break;
+	case EDamageType::Magic:
+		// @@ TODO: Remove comment mark on the below line when the function has implemented.
+		// GetDamageByMagic(data);
+		break;
+	default:
+		break;
 	}
 }
 
@@ -151,6 +162,13 @@ void AUnit::FinishStun()
 
 void AUnit::Die()
 {
+	for (auto& delegate_array : dmg_event_map_)
+	{
+		for (auto& delegate_elem : delegate_array.Value)
+		{
+			delegate_elem.Unbind();
+		}
+	}
 	Destroy();
 }
 
@@ -160,4 +178,44 @@ FTransform AUnit::GetActorTransformForDamageUI() const noexcept
 	FTransform transform = GetActorTransform();
 	transform.SetLocation(transform.GetLocation() + FVector(10.f, 0.f, 0.f) + FVector(FMath::RandRange(0.f, 10.f), 0.f, FMath::RandRange(0.f, 10.f)));
 	return transform;
+}
+
+void AUnit::GetDamageByDot(FDamageData data)
+{
+	character_stat_component_->GetDamage(data.damage);
+	character_stat_component_->RecordDamage(data);
+	SetDamageUI(data, false);
+}
+
+void AUnit::GetDamageByPEM(FDamageData data)
+{
+
+
+	if (dmg_event_map_.Find(EHeroEvent::OnHitBeforeCalc))
+	{
+		if (dmg_event_map_[EHeroEvent::OnHitBeforeCalc].IsEmpty() == false)
+		{
+			for (auto& delegate : dmg_event_map_[EHeroEvent::OnHitBeforeCalc])
+			{
+				if (delegate.IsBound())data = delegate.Execute(data);
+			}
+		}
+	}
+
+	bool is_evaded = character_stat_component_->CalcDamage(data);
+	if (is_evaded == false)
+	{
+		if (dmg_event_map_.Find(EHeroEvent::OnHitAfterCalc))
+		{
+			if (dmg_event_map_[EHeroEvent::OnHitAfterCalc].IsEmpty() == false)
+			{
+				for (auto& delegate : dmg_event_map_[EHeroEvent::OnHitAfterCalc])
+				{
+					if (delegate.IsBound()) data = delegate.Execute(data);
+				}
+			}
+		}
+		character_stat_component_->GetDamage(data.damage);
+	}
+	SetDamageUI(data, is_evaded);
 }

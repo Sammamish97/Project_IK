@@ -15,21 +15,18 @@ See LICENSE file in the project root for full license information.
 
 bool UWoundingBulletsBuffLogic::IsBuffValidOnTarget(UObject* buff_target)
 {
-	return buff_target->IsA<AHeroBase>();
+	return buff_target->IsA<AUnit>();
 }
 
 void UWoundingBulletsBuffLogic::ApplyBuff(UObject* buff_target)
 {
-	AHeroBase* hero = Cast<AHeroBase>(buff_target);
-
-	TArray<FOnDamage>& delegate_array = hero->hero_dmg_event_map_.FindOrAdd(EHeroEvent::OnHitBeforeCalc);
-	delegate_array.AddDefaulted();
-	delegate_array.Last().BindUObject(this, &UWoundingBulletsBuffLogic::ApplyBleeding);
+	AUnit* unit = Cast<AUnit>(buff_target);
+	unit->BindDamageEvent(EHeroEvent::OnHitBeforeCalc, this, &UWoundingBulletsBuffLogic::ApplyBleeding);
 }
 
 FDamageData UWoundingBulletsBuffLogic::ApplyBleeding(FDamageData data)
 {
-	TWeakObjectPtr<AHeroBase> hero = Cast<AHeroBase>(data.attack_target);
-	hero->ApplyCrowdControl(ECCType::Bleeding, 5.f);
+	TWeakObjectPtr<AUnit> unit = Cast<AUnit>(data.attack_target);
+	unit->ApplyCrowdControl(ECCType::Bleeding, 5.f);
 	return data;
 }
