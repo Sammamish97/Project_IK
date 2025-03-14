@@ -26,6 +26,7 @@ void UInventoryWidget::NativeConstruct()
 	switch_hero_right_button_->OnClicked.AddDynamic(this, &UInventoryWidget::SwitchToRightHero);
 	board_switch_button_->OnClicked.AddDynamic(this, &UInventoryWidget::ToggleBoard);
 	board_switcher_->SetActiveWidget(equip_board_);
+	rune_board_->InitBoardData(rune_storage_);
 }
 
 void UInventoryWidget::NativeDestruct()
@@ -45,13 +46,15 @@ void UInventoryWidget::ToggleBoard()
 {
 	if (board_switcher_->GetActiveWidgetIndex() == 0)
 	{
-		rune_storage_->LoadRuneStorage();
+		rune_storage_->LoadRuneStorage(0);
+		rune_board_->LoadRuneBoardWidget(cur_hero_idx_);
 		board_switcher_->SetActiveWidget(rune_board_);
 		storage_switcher_->SetActiveWidget(rune_storage_);
 	}
 	else
 	{
 		equip_storage_->LoadEquipStorage();
+		equip_board_->LoadEquipBoard(cur_hero_idx_);
 		board_switcher_->SetActiveWidget(equip_board_);
 		storage_switcher_->SetActiveWidget(equip_storage_);
 	}

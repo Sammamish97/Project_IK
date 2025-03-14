@@ -34,7 +34,7 @@ void UEquipBoardWidget::NativePreConstruct()
 	oopart_->slot_type_ = EInventorySlotType::Oopart;
 }
 
-void UEquipBoardWidget::LoadEquipInventory(int32 hero_idx)
+void UEquipBoardWidget::LoadEquipBoard(int32 hero_idx)
 {
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();

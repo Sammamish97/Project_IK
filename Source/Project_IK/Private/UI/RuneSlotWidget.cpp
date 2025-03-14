@@ -11,16 +11,28 @@ See LICENSE file in the project root for full license information.
 #include "UI/RuneSlotWidget.h"
 
 #include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Components/Button.h"
 #include "Components/Image.h"
 #include "Kismet/GameplayStatics.h"
+#include "UI/RuneStorageWidget.h"
+#include "Managers/InventoryManager.h"
 #include "UI/SlotDragDropImage.h"
 #include "WorldSettings/IKGameInstance.h"
 
+class URuneStorageWidget;
 class UIKGameInstance;
 
 void URuneSlotWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+	button_->OnClicked.AddDynamic(this, &URuneSlotWidget::OnClicked);
+}
+
+void URuneSlotWidget::NativeDestruct()
+{
+	Super::NativeDestruct();
+	UE_LOG(LogTemp, Display, TEXT("URuneSlotWidget::NativeDestruct"));
+	button_->OnClicked.Clear();
 }
 
 FReply URuneSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -50,11 +62,19 @@ void URuneSlotWidget::NativeOnDragDetected(const FGeometry& InGeometry, const FP
 	dragdrop_operation->DefaultDragVisual = dragged_image_widget;
 	dragdrop_operation->Pivot = EDragPivot::CenterCenter;
 	
-	OutOperation = dragdrop_operation;}
+	OutOperation = dragdrop_operation;
+
+	if (is_board_slot_)
+	{
+		rune_storage_widget_cache_->UpdateRuneStorage();
+		rune_storage_widget_cache_->LoadRuneStorage(GetRuneData().slot_number);
+	}
+}
 
 bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
-	UDragDropOperation* InOperation)
+                                   UDragDropOperation* InOperation)
 {
+	//TODO: 코드의 중복이 많다. if문의 결합, 혹은 구조의 변환을 통해 반복되는 코드를 줄여보자.
 	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
 	if(InOperation->Payload == this) return false;
 	TObjectPtr<URuneSlotWidget> slot_from = Cast<URuneSlotWidget>(InOperation->Payload);
@@ -63,7 +83,8 @@ bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 	{
 		return false;
 	}
-	//2. 둘다 storage에 있다면 slot_num과 상관 없이 swap 가능하다.
+	
+	//2. 둘다 storage에 있다면 둘다 동일한 slot num이 보장되므로 swap한다.
 	if (is_board_slot_ == false && slot_from->is_board_slot_ == false)
 	{
 		Swap(rune_data_, slot_from->rune_data_);
@@ -71,19 +92,27 @@ bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 		slot_from->SetImageTexture();
 		return true;
 	}
-	//3. 둘중 하나만 board라면, 만약 시작점이 storage이고 도착점이 board라면 slot num을 확인해야 한다.
-	if (slot_from->rune_data_.slot_number == rune_data_.slot_number)
+	
+	//3. board에서 storage로 오는 경우, 현재 선택된 board의 slot num에 맞춰 storage를 띄워준다.
+	if (is_board_slot_ == false && slot_from->is_board_slot_)
 	{
 		Swap(rune_data_, slot_from->rune_data_);
 		SetImageTexture();
 		slot_from->SetImageTexture();
 		return true;
 	}
-
-	//4. 둘중 하나만 board라면, 만약 시작점이 board이고, 도착점이 storage라면 케이스가 2가지가 있다.
-	//a. 인벤토리가 비어있을 수 있다.
-	//b. 룬이 있고 slot num이 동일할 수 있다.
-	//c. 룬이 있고 slot num이 다를 수 있다.
+	
+	//4. storage에서 board로 가는 경우, slot num을 확인해야 한다.
+	if (is_board_slot_ && slot_from->is_board_slot_ == false)
+	{
+		if (slot_from->rune_data_.slot_number == rune_data_.slot_number)
+		{
+			Swap(rune_data_, slot_from->rune_data_);
+			SetImageTexture();
+			slot_from->SetImageTexture();
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -111,6 +140,11 @@ void URuneSlotWidget::SetRuneData(FRuneData data)
 	rune_data_ = data;
 }
 
+FRuneData URuneSlotWidget::GetRuneData()
+{
+	return rune_data_;
+}
+
 bool URuneSlotWidget::IsBoardSlot()
 {
 	return is_board_slot_;
@@ -119,4 +153,19 @@ bool URuneSlotWidget::IsBoardSlot()
 void URuneSlotWidget::SetIsBoardSlot(bool is_board_slot)
 {
 	is_board_slot_ = is_board_slot;
+}
+
+
+void URuneSlotWidget::InitRuneSlot(TObjectPtr<URuneStorageWidget> rune_storage_ptr)
+{
+	rune_storage_widget_cache_ = rune_storage_ptr;
+}
+
+void URuneSlotWidget::OnClicked()
+{
+	if (is_board_slot_)
+	{
+		rune_storage_widget_cache_->UpdateRuneStorage();
+		rune_storage_widget_cache_->LoadRuneStorage(rune_data_.slot_number);
+	}
 }

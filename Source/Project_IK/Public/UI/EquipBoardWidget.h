@@ -21,7 +21,7 @@ class PROJECT_IK_API UEquipBoardWidget : public UUserWidget
 
 public:
 	virtual void NativePreConstruct() override;
-	void LoadEquipInventory(int32 hero_idx);
+	void LoadEquipBoard(int32 hero_idx);
 	
 private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))

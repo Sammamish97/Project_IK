@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "PassiveSkillData.h"
 #include "WeaponData.h"
 #include "Structs/CharacterData.h"
+#include "Structs/RuneData.h"
 #include "SpawnData.generated.h"
 
 USTRUCT(BlueprintType)
@@ -38,5 +39,6 @@ struct PROJECT_IK_API FSpawnData
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
 	FOopartData oopart_data_;
 
-	//TODO: Rune Data역시 추가해야함.
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
+	TArray<FRuneData> rune_data_ = {FRuneData(0), FRuneData(1), FRuneData(2), FRuneData(3), FRuneData(4), FRuneData(5)};
 };

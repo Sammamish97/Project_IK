@@ -19,9 +19,10 @@ class PROJECT_IK_API URuneStorageWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	virtual void NativeConstruct() override;
-	virtual void NativePreConstruct() override;
-	void LoadRuneStorage();
+	void SetCurSlotNum(int32 input_num);
+	void UpdateRuneStorage();
+	void LoadRuneStorage(int32 slot_num);
+	int32 GetCurSlotNum();
 
 private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
@@ -34,5 +35,11 @@ private:
 	TSubclassOf<class URuneSlotWidget> slot_BP_class_;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true))
-	TArray<TObjectPtr<class URuneSlotWidget>> rune_inventory_slots_;
+	TArray<TObjectPtr<class URuneSlotWidget>> rune_storage_slots_;
+	
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true))
+	TObjectPtr<class UInventoryManager> inventory_manager_cache_;
+
+	UPROPERTY(Transient)
+	int32 cur_slot_num_ = -1;
 };

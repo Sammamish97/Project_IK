@@ -31,6 +31,9 @@ void UInventoryManager::InitRuneInventory()
 	rune_storage_.Init(FRuneData(), max_inventory_size_);
 	
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
+
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 2));
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 3));
@@ -154,14 +157,18 @@ void UInventoryManager::RemoveRuneItem(int index)
 	equipment_storage_[index] = FInventorySlotData();
 }
 
-TArray<FInventorySlotData>& UInventoryManager::GetEquipInventory()
+TArray<FInventorySlotData>& UInventoryManager::GetEquipStorageData()
 {
 	return equipment_storage_;
 }
 
-TArray<FRuneData>& UInventoryManager::GetRuneInventory()
+TArray<FRuneData>& UInventoryManager::GetRuneStorageData()
 {
 	return rune_storage_;
+}
+
+void UInventoryManager::UpdateEquipStorage(const TArray<FInventorySlotData>& input)
+{
 }
 
 int32 UInventoryManager::GetMaxInventorySize()

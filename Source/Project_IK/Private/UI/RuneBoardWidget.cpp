@@ -10,12 +10,12 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/RuneBoardWidget.h"
 
+#include "Kismet/GameplayStatics.h"
+#include "Structs/SpawnData.h"
 #include "UI/RuneSlotWidget.h"
-
-void URuneBoardWidget::NativeConstruct()
-{
-	Super::NativeConstruct();
-}
+#include "UI/RuneStorageWidget.h"
+#include "WorldSettings/IKGameInstance.h"
+#include "Subsystems/LevelTransitionSubsystem.h"
 
 void URuneBoardWidget::NativePreConstruct()
 {
@@ -33,5 +33,46 @@ void URuneBoardWidget::NativePreConstruct()
 	{
 		slot_array_[i]->SetRuneData(FRuneData(i));
 		slot_array_[i]->SetIsBoardSlot(true);
+	}
+}
+
+void URuneBoardWidget::InitBoardData(TObjectPtr<URuneStorageWidget> storage_ptr)
+{
+	for (int i = 0; i < 6; ++i)
+	{
+		slot_array_[i]->InitRuneSlot(storage_ptr);
+	}
+}
+
+void URuneBoardWidget::LoadRuneBoardWidget(int32 hero_idx)
+{
+	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
+	
+	if(transition_system->GetSpawnData().IsEmpty() == false)
+	{
+		FSpawnData data_cache = transition_system->GetSpawnData(hero_idx);
+		for (int i = 0; i < data_cache.rune_data_.Num(); i++)
+		{
+			slot_array_[i]->SetRuneData(data_cache.rune_data_[i]);
+			slot_array_[i]->SetImageTexture();
+
+		}
+	}
+}
+
+void URuneBoardWidget::UpdateRuneBoard(int32 hero_idx)
+{
+	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
+	
+	if(transition_system->GetSpawnData().IsEmpty() == false)
+	{
+		FSpawnData data_cache = transition_system->GetSpawnData(hero_idx);
+		for (int i = 0; i < 6; ++i)
+		{
+			data_cache.rune_data_[i] = slot_array_[i]->GetRuneData();
+		}
+		transition_system->UpdateSpawnDataIdx(hero_idx, data_cache);
 	}
 }

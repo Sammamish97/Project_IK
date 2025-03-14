@@ -31,7 +31,7 @@ void UEquipStorageWidget::LoadEquipStorage()
 	wrap_box_->ClearChildren();
 	equip_inventory_slots_.Reset();
 	equip_inventory_slots_.Init(nullptr, inventory_manager_cache->GetMaxInventorySize());
-	auto inventory_data = inventory_manager_cache->GetEquipInventory();
+	auto inventory_data = inventory_manager_cache->GetEquipStorageData();
 	for(int i = 0; i < inventory_data.Num(); i++)
 	{
 		equip_inventory_slots_[i] = Cast<UInventorySlot>(CreateWidget(GetWorld(), slot_BP_class_));

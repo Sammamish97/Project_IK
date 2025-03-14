@@ -32,7 +32,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	const TArray<FSpawnData>& GetSpawnData() const;
 
-	FSpawnData GetSpawnData(int idx) const;
+	FSpawnData GetSpawnData(int32 idx) const;
 
 protected:
 	UPROPERTY()

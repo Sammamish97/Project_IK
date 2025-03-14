@@ -21,8 +21,10 @@ class PROJECT_IK_API URuneBoardWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	virtual void NativeConstruct() override;
 	virtual void NativePreConstruct() override;
+	void InitBoardData(TObjectPtr<class URuneStorageWidget> storage_ptr);
+	void LoadRuneBoardWidget(int32 hero_idx);
+	void UpdateRuneBoard(int32 hero_idx);
 	
 private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
@@ -42,7 +44,7 @@ private:
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<URuneSlotWidget> slot_5_ = nullptr;
-
+	
 	UPROPERTY(Transient)
 	TArray<TObjectPtr<URuneSlotWidget>> slot_array_;
 };

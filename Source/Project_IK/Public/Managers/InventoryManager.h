@@ -31,10 +31,12 @@ public:
 	
 	void RemoveEquipItem(int index);
 	void RemoveRuneItem(int index);
-
 	
-	TArray<FInventorySlotData>& GetEquipInventory();
-	TArray<FRuneData>& GetRuneInventory();
+	TArray<FInventorySlotData>& GetEquipStorageData();
+	TArray<FRuneData>& GetRuneStorageData();
+
+	void UpdateEquipStorage(const TArray<FInventorySlotData>& input);
+	
 	int32 GetMaxInventorySize();
 
 	UFUNCTION(BlueprintCallable)
