@@ -20,7 +20,7 @@ See LICENSE file in the project root for full license information.
 
 struct FDamageData;
 
-UCLASS(Blueprintable)
+UCLASS(Blueprintable, Abstract)
 class PROJECT_IK_API USkillBase : public UObject
 {
 	GENERATED_BODY()

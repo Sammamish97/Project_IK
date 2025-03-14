@@ -48,6 +48,8 @@ void UEquipMechanics::EquipArmor(EArmorType type)
 		//TODO: 특수효과는 전투 레벨이 끝나면 필요 없기에 전투 레벨이 끝남과 함께 영웅과 함꼐 삭제되리라 밑고 일단 따로 저장/삭제 로직을 넣지 않았다.
 		auto equip_skill = NewObject<UEquipSkillBase>(this, equipped_armor_data_.equipment_skill_class);
 		equip_skill->InitEquipmentSkill(hero_cache_);
+
+		equip_skill->MarkAsGarbage();
 	}
 }
 

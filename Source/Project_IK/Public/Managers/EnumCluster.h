@@ -51,6 +51,7 @@ enum class ECCType : uint8
 	Silence UMETA(DisplayName = "Silence"),
 	MuteItems UMETA(DisplayName = "MuteItems"),
 	Stun UMETA(DisplayName = "Stun"),
+	Bleeding UMETA(DisplayName = "Bleeding"),
 };
 
 UENUM(BlueprintType)
@@ -270,4 +271,11 @@ enum class EFireType : uint8
 	Auto UMETA(DisplayName = "Auto"),
 	Burst UMETA(DisplayName = "Burst"),
 	BoltAction UMETA(DisplayName = "BoltAction")
+};
+
+UENUM(BlueprintType)
+enum class EGlobalBuffType : uint8
+{
+	WoundingBullets UMETA(DisplayName = "WoundingBullets"),
+	None UMETA(DisplayName = "None"),
 };

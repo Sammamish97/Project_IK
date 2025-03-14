@@ -25,7 +25,7 @@ UCrowdControlComponent::UCrowdControlComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UCrowdControlComponent::ApplyCrowdControl(ECCType cc_type, float duration)
+void UCrowdControlComponent::ApplyCrowdControl(ECCType cc_type, float duration, AActor* applier)
 {
 	if (HasCrowdControl(cc_type))
 	{
@@ -34,7 +34,7 @@ void UCrowdControlComponent::ApplyCrowdControl(ECCType cc_type, float duration)
 		UWorld* world = GetWorld();
 		if (world)
 		{
-			world->GetTimerManager().SetTimer(timer_handle, [this, cc_type]() 
+			world->GetTimerManager().SetTimer(timer_handle, [this, cc_type]()
 				{
 					RemoveCrowdControl(cc_type);
 				}, duration, false);
@@ -47,7 +47,7 @@ void UCrowdControlComponent::ApplyCrowdControl(ECCType cc_type, float duration)
 		UWorld* world = GetWorld();
 		if (world)
 		{
-			world->GetTimerManager().SetTimer(timer_handle, [this, cc_type]() 
+			world->GetTimerManager().SetTimer(timer_handle, [this, cc_type]()
 				{
 					RemoveCrowdControl(cc_type);
 				}, duration, false);
@@ -57,7 +57,7 @@ void UCrowdControlComponent::ApplyCrowdControl(ECCType cc_type, float duration)
 		OnCrowdControlChanged.Broadcast();
 	}
 
-	BeginCC(cc_type, duration);
+	BeginCC(cc_type, duration, applier);
 }
 
 void UCrowdControlComponent::RemoveCrowdControl(ECCType cc_type)
@@ -75,7 +75,7 @@ void UCrowdControlComponent::RemoveCrowdControl(ECCType cc_type)
 		CC_timers_.Remove(cc_type);
 		OnCrowdControlChanged.Broadcast();
 	}
-	
+
 	EndCC(cc_type);
 }
 
@@ -131,7 +131,7 @@ void UCrowdControlComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	OnCrowdControlChanged.Clear();
 }
 
-void UCrowdControlComponent::BeginCC(ECCType cc_type, float duration)
+void UCrowdControlComponent::BeginCC(ECCType cc_type, float duration, AActor* applier)
 {
 	switch (cc_type)
 	{
@@ -146,6 +146,9 @@ void UCrowdControlComponent::BeginCC(ECCType cc_type, float duration)
 		break;
 	case ECCType::Stun:
 		Stun(duration);
+		break;
+	case ECCType::Bleeding:
+		Bleeding(duration, applier);
 		break;
 	default:
 		break;
@@ -167,7 +170,10 @@ void UCrowdControlComponent::EndCC(ECCType cc_type)
 		MuteItems(false);
 		break;
 	case ECCType::Stun:
-		Stun(false);
+		Stun(0.f, false);
+		break;
+	case ECCType::Bleeding:
+		Bleeding(0.f, nullptr, false);
 		break;
 	default:
 		break;
@@ -238,5 +244,40 @@ void UCrowdControlComponent::Stun(float duration, bool is_applying)
 	else
 	{
 		// @@ TODO: Removing Stun
+	}
+}
+
+void UCrowdControlComponent::Bleeding(float duration, AActor* applier, bool is_applying)
+{
+	if (is_applying)
+	{
+		bleeding_remains_.Add({ static_cast<int32>(duration), applier });
+
+		GetWorld()->GetTimerManager().SetTimer(bleeding_timer_, this, &UCrowdControlComponent::ApplyBleedDamage, BLEEDING_TICK_INTERVAL, true);
+	}
+}
+
+void UCrowdControlComponent::ApplyBleedDamage()
+{
+	FDamageData bleeding_data;
+	bleeding_data.atk_base_dmg = BLEEDING_DAMAGE;
+	bleeding_data.damage_type = EDamageType::Dot;
+
+	for (FBleedingData& remains : bleeding_remains_)
+	{
+		AUnit* unit = Cast<AUnit>(GetOwner());
+		unit->GetDamage(bleeding_data);
+
+		--remains.tick_remains_;
+	}
+
+	bleeding_remains_.RemoveAll([](const FBleedingData& data)
+		{
+			return data.tick_remains_ <= 0;
+		});
+
+	if (bleeding_remains_.IsEmpty())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(bleeding_timer_);
 	}
 }
