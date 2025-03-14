@@ -52,6 +52,8 @@ void UWeaponMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
 	GetWorld()->GetTimerManager().ClearTimer(reload_timer_handle_);
+	GetWorld()->GetTimerManager().ClearTimer(burst_timer_handle_);
+
 	if (weapon_actor_)
 	{
 		weapon_actor_->Destroy();
@@ -59,20 +61,32 @@ void UWeaponMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
-void UWeaponMechanics::SetDamageData(FDamageData dmg_data)
+void UWeaponMechanics::SetDamageData(FCharacterData char_data, FDamageData dmg_data)
 {
+	//dmg_data에는 시전자가 들어있는것을 기대한다.
+	//여기서 최종 데미지가 결정된다.
+	float total_atk_dmg = weapon_actor_->GetWeaponData().basic_dmg_ + char_data.attack_power_ * weapon_actor_->GetWeaponData().attack_ratio;
+	float total_crit_hit_rate = char_data.critical_hit_rate_ + weapon_actor_->GetWeaponData().critical_hit_rate_;
+	if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
+	{
+		total_atk_dmg *= 2;
+	}
+	dmg_data.atk_base_dmg = total_atk_dmg;
+	dmg_data.damage_type = EDamageType::Projectile;
 	damage_data_ = dmg_data;
 }
 
 void UWeaponMechanics::BeginFire(AActor* target)
 {
-	float gun_as = 1.f / weapon_actor_->GetWeaponData().fire_per_sec;
-	float unit_as = gunner_ref_->GetCharacterStat()->GetAttackSpeed();
-	float total_as = gun_as / unit_as;
-	if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
+	float total_fire_per_sec =  weapon_actor_->GetWeaponData().fire_per_sec * (1 + gunner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
+	float weapon_attack_speed = 1.f / total_fire_per_sec;
+	if (on_burst_cool_down_ == false)
 	{
-		FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target);
-		GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, total_as, true, 0); 
+		if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
+		{
+			FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target);
+			GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, 0); 
+		}
 	}
 }
 
@@ -80,9 +94,19 @@ void UWeaponMechanics::OnFire(AActor* target)
 {
 	FireWeapon(target);
 	gunner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().fire_montage_);
+	burst_count_ += 1;
 	if(IsMagazineEmpty())
 	{
 		FinishFire();
+		return;
+	}
+	if (weapon_actor_->GetWeaponData().fire_type == EFireType::Burst && burst_count_ >= weapon_actor_->GetWeaponData().burst_amount)
+	{
+		on_burst_cool_down_ = true;
+		FinishFire();
+		FTimerDelegate burst_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::FinishBurstCooldown);
+		float burst_wait_time = weapon_actor_->GetWeaponData().wait_after_fire / (1 + gunner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
+		GetWorld()->GetTimerManager().SetTimer(burst_timer_handle_, burst_del, 1.f, false,burst_wait_time); 
 	}
 }
 
@@ -118,6 +142,13 @@ void UWeaponMechanics::FinishFire()
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
 }
 
+void UWeaponMechanics::FinishBurstCooldown()
+{
+	GetWorld()->GetTimerManager().ClearTimer(burst_timer_handle_);
+	burst_count_ = 0;
+	on_burst_cool_down_ = false;
+}
+
 void UWeaponMechanics::Reload()
 {
 	if(weapon_actor_)
@@ -126,7 +157,7 @@ void UWeaponMechanics::Reload()
 		{
 			Cast<AMeleeAIController>(gunner_ref_->Controller)->SetUnitState(EUnitState::Reloading);
 			gunner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().reload_montage_);
-			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &UWeaponMechanics::OnReload, GetReloadDuration());
+			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &UWeaponMechanics::OnReload, GetWeaponData().reload_duration);
 		}
 	}
 }
@@ -134,6 +165,7 @@ void UWeaponMechanics::Reload()
 void UWeaponMechanics::OnReload()
 {
 	if(weapon_actor_)weapon_actor_->Reload();
+	burst_count_ = 0;
 	Cast<AMeleeAIController>(gunner_ref_->Controller)->SetUnitState(EUnitState::Forwarding);
 }
 
@@ -153,12 +185,12 @@ bool UWeaponMechanics::IsMagazineEmpty() const
 	return weapon_actor_->IsMagazineEmpty();
 }
 
-float UWeaponMechanics::GetFireInterval() const
+FWeaponData UWeaponMechanics::GetWeaponData()
 {
-	return weapon_actor_->GetWeaponData().fire_per_sec;
-}
-
-float UWeaponMechanics::GetReloadDuration() const
-{
-	return weapon_actor_->GetWeaponData().reload_duration;
+	if (weapon_actor_)
+	{
+		return weapon_actor_->GetWeaponData();
+	}
+	//TODO: 적절한 예외처리가 필요하다.
+	return FWeaponData();
 }

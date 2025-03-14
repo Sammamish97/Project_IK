@@ -114,6 +114,9 @@ protected:
 	FTimerHandle stun_timer_;
 
 	TMap<EHeroEvent, TArray<FOnDamage>> dmg_event_map_;
+
+	float capsule_half_height_ = 0.f;
+	float capsule_radius_ = 0.f;
 };
 
 template<typename T, typename FuncType>

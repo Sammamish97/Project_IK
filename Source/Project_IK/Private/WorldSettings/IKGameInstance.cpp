@@ -20,7 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "Subsystems/PerkTreeSubsystem.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
-
+#include "Subsystems/GlobalBuffSubsystem.h"
 
 UIKGameInstance::UIKGameInstance()
 	:Super::UGameInstance()
@@ -42,6 +42,8 @@ void UIKGameInstance::Init()
 	InitSpawnData();
 
 	item_inventory_->AddItem(item_data_manager_->GetItemData(3));
+
+	GetSubsystem<UGlobalBuffSubsystem>()->AddBuff(EGlobalBuffType::WoundingBullets);
 }
 
 void UIKGameInstance::Shutdown()

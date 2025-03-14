@@ -19,6 +19,6 @@ void URandDmgIncreaseSkill::InitEquipmentSkill(AActor* hero_ref)
 
 FDamageData URandDmgIncreaseSkill::OnEquipmentSkill(FDamageData dmg_data)
 {
-	dmg_data.damage += FMath::RandRange(1, 5);
+	dmg_data.atk_base_dmg += FMath::RandRange(1, 5);
 	return dmg_data;
 }

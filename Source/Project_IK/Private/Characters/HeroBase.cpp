@@ -84,23 +84,20 @@ FDamageData AHeroBase::Attack(AActor* target)
 	FDamageData damage_data;
 	damage_data.damage_type = EDamageType::Projectile;
 	damage_data.attacker = this;
-	damage_data.attack_target = target;
-	damage_data.damage = GetCharacterStat()->GetAttackPower();
 	if (dmg_event_map_.Find(EHeroEvent::OnFire))
 	{
 		if (dmg_event_map_[EHeroEvent::OnFire].IsEmpty() == false)
 		{
 			for (auto& delegate : dmg_event_map_[EHeroEvent::OnFire])
 			{
-				if (delegate.IsBound()) damage_data = delegate.Execute(damage_data);
+				if (delegate.IsBound())
+				{
+					damage_data = delegate.Execute(damage_data);
+				}
 			}
 		}
 	}
-	if (FMath::RandRange(0.f, 100.f) < GetCharacterStat()->GetCriticalHitRate())
-	{
-		damage_data.damage *= 2;
-	}
-	weapon_mechanics_->SetDamageData(damage_data);
+	weapon_mechanics_->SetDamageData(GetCharacterStat()->GetCharacterData(), damage_data);
 	weapon_mechanics_->BeginFire(target);
 
 	return damage_data;

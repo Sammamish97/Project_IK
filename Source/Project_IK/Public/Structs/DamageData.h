@@ -17,10 +17,22 @@ USTRUCT(BlueprintType)
 struct PROJECT_IK_API FDamageData
 {
 GENERATED_BODY()
-	float damage = 0;
+	UPROPERTY(Transient)
+	float atk_base_dmg = 0;
+
+	UPROPERTY(Transient)
+	float skill_power_base_dmg = 0;
+
+	UPROPERTY(Transient)
 	EDamageType damage_type = EDamageType::INVALID;
+
+	UPROPERTY(Transient)
 	TWeakObjectPtr<AActor> attacker = nullptr;
+
+	UPROPERTY(Transient)
 	TWeakObjectPtr<AActor> attack_target = nullptr;
+
+	UPROPERTY(Transient)
 	TArray<EAttackEffect> effects;
 	//다음의 정보도 사용될 가능성이 있다.
 	//FVector hit_pos_;

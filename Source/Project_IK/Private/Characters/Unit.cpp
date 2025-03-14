@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/CharacterStatComponent.h"
 #include "Components/CrowdControlComponent.h"
 #include "Components/WidgetComponent.h"
+#include "Components/CapsuleComponent.h"
 
 #include "UI/HitPointsUI.h"
 #include "Components/ObjectPoolComponent.h"
@@ -24,13 +25,13 @@ See LICENSE file in the project root for full license information.
 // Sets default values
 AUnit::AUnit()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	character_stat_component_ = CreateDefaultSubobject<UCharacterStatComponent>(TEXT("CharacterStatComponent"));
 	hp_UI_ = CreateDefaultSubobject<UWidgetComponent>(TEXT("HP UI"));
-	
+
 	hp_UI_->SetWidgetSpace(EWidgetSpace::Screen);
-	hp_UI_->SetDrawSize({100, 50});
+	hp_UI_->SetDrawSize({ 100, 50 });
 	hp_UI_->SetupAttachment(RootComponent);
 
 	character_stat_component_->Die.AddDynamic(this, &AUnit::Die);
@@ -68,22 +69,51 @@ void AUnit::BeginPlay()
 	Cast<UHitPointsUI>(hp_UI_->GetWidget())->BindNecessaryComponents(character_stat_component_, cc_component_);
 
 	GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->ApplyBuff(this);
+
+	UCapsuleComponent* capsule_comp = FindComponentByClass<UCapsuleComponent>();
+	if (capsule_comp)
+	{
+		capsule_half_height_ = capsule_comp->GetUnscaledCapsuleHalfHeight() / 2.f;
+		capsule_radius_ = capsule_comp->GetUnscaledCapsuleRadius();
+	}
 }
 
 void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 {
-	ADamageUI* ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
-    	if (ui)
-    	{
-    		if (is_evaded)
-    		{
-    			ui->SetMissed();
-    		}
-    		else
-    		{
-    			ui->SetDamageAmount(data.damage);
-    		}
-    	}
+
+	if (is_evaded)
+	{
+		ADamageUI* missed_ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
+		if (missed_ui)
+		{
+			missed_ui->SetMissed();
+		}
+	}
+	else
+	{
+		if (data.atk_base_dmg > 0.f)
+		{
+			ADamageUI* atk_ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
+			if (atk_ui)
+			{
+				atk_ui->SetDamageAmount(data.atk_base_dmg, FLinearColor::White);
+			}
+		}
+		else if (data.atk_base_dmg < 0.f)
+		{
+			UE_LOG(LogTemp, Error, TEXT("atk_base_dmg less than 0 has come."));
+		}
+
+		if (data.skill_power_base_dmg > 0.f)
+		{
+			ADamageUI* skill_ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
+			skill_ui->SetDamageAmount(data.skill_power_base_dmg, FLinearColor::Blue);
+		}
+		else if (data.skill_power_base_dmg < 0.f)
+		{
+			UE_LOG(LogTemp, Error, TEXT("skill_power_base_dmg less than 0 has come."));
+		}
+	}
 }
 
 void AUnit::GetDamage(FDamageData data)
@@ -114,7 +144,7 @@ void AUnit::Heal(float heal)
 	ADamageUI* ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
 	if (ui)
 	{
-			ui->SetHealAmount(heal);
+		ui->SetHealAmount(heal);
 	}
 }
 
@@ -136,7 +166,7 @@ void AUnit::ApplyCrowdControl(ECCType cc_type, float duration)
 void AUnit::GetStunned(float stun_duration)
 {
 	UE_LOG(LogTemp, Display, TEXT("AUnit::GetStunned"));
-	if(GetWorld()->GetTimerManager().IsTimerActive(stun_timer_) == false)
+	if (GetWorld()->GetTimerManager().IsTimerActive(stun_timer_) == false)
 	{
 		OnStunned();
 		GetWorld()->GetTimerManager().SetTimer(stun_timer_, this, &AUnit::FinishStun, stun_duration);
@@ -147,7 +177,7 @@ void AUnit::OnStunned()
 {
 	//BT 역시 stun시키기
 	Cast<AMeleeAIController>(GetController())->GetStunned();
-	
+
 	//Stun Animation 재생
 	GetMesh()->SetMaterial(0, test_stun_material_);
 	PlayAnimMontage(stun_montage_);
@@ -176,13 +206,22 @@ FTransform AUnit::GetActorTransformForDamageUI() const noexcept
 {
 	// Randomize spawn locations
 	FTransform transform = GetActorTransform();
-	transform.SetLocation(transform.GetLocation() + FVector(10.f, 0.f, 0.f) + FVector(FMath::RandRange(0.f, 10.f), 0.f, FMath::RandRange(0.f, 10.f)));
+	FVector rand_offsets = FVector(0.f, capsule_radius_+ FMath::RandRange(-10.f, 50.f), capsule_half_height_ + FMath::RandRange(-10.f, 50.f));
+	
+	APlayerController* player_controller = GetWorld()->GetFirstPlayerController();
+	if (player_controller && player_controller->PlayerCameraManager)
+	{
+		rand_offsets = player_controller->PlayerCameraManager->GetCameraRotation().RotateVector(rand_offsets);
+	}
+
+	transform.SetLocation(transform.GetLocation() + rand_offsets);
 	return transform;
 }
 
 void AUnit::GetDamageByDot(FDamageData data)
 {
-	character_stat_component_->GetDamage(data.damage);
+	character_stat_component_->GetDamage(data.atk_base_dmg);
+	character_stat_component_->GetDamage(data.skill_power_base_dmg);
 	character_stat_component_->RecordDamage(data);
 	SetDamageUI(data, false);
 }
@@ -215,7 +254,8 @@ void AUnit::GetDamageByPEM(FDamageData data)
 				}
 			}
 		}
-		character_stat_component_->GetDamage(data.damage);
+		character_stat_component_->GetDamage(data.atk_base_dmg);
+		character_stat_component_->GetDamage(data.skill_power_base_dmg);
 	}
 	SetDamageUI(data, is_evaded);
 }

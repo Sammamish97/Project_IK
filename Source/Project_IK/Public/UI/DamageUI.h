@@ -31,7 +31,7 @@ public:
 	void SetHealAmount(float HealAmount);
 
 	UFUNCTION(BlueprintCallable)
-	void SetDamageAmount(float DamageAmount);
+	void SetDamageAmount(float DamageAmount, FLinearColor Color);
 
 	UFUNCTION(BlueprintCallable)
 	void SetMissed();

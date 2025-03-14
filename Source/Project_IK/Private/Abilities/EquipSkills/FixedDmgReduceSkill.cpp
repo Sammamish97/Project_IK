@@ -17,9 +17,9 @@ void UFixedDmgReduceSkill::InitEquipmentSkill(AActor* hero_ref)
 	bound_target_ = EHeroEvent::OnHitAfterCalc;
 	hero_cache_->BindDamageEvent(bound_target_, this, &UFixedDmgReduceSkill::OnEquipmentSkill);
 }
-	
+
 FDamageData UFixedDmgReduceSkill::OnEquipmentSkill(FDamageData dmg_data)
 {
-	dmg_data.damage -= 3;
+	dmg_data.atk_base_dmg = FMath::Max(0.f, dmg_data.atk_base_dmg - 3.f);
 	return dmg_data;
 }

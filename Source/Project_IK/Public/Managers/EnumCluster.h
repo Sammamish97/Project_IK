@@ -265,6 +265,15 @@ enum class EActiveSkillType : uint8
 };
 
 UENUM(BlueprintType)
+enum class EFireType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Auto UMETA(DisplayName = "Auto"),
+	Burst UMETA(DisplayName = "Burst"),
+	BoltAction UMETA(DisplayName = "BoltAction")
+};
+
+UENUM(BlueprintType)
 enum class EGlobalBuffType : uint8
 {
 	WoundingBullets UMETA(DisplayName = "WoundingBullets"),

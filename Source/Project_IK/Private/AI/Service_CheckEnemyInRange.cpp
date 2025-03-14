@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "AIController.h"
 #include "Components/CharacterStatComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Components/WeaponMechanics.h"
 
 
 UService_CheckEnemyInRange::UService_CheckEnemyInRange()
@@ -35,11 +36,9 @@ void UService_CheckEnemyInRange::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 		AActor* casted_actor = Cast<AActor>(target);
 		float distance = FVector::Distance(casted_gunner->GetActorLocation(), casted_actor->GetActorLocation());
 
-		// @@ TODO: Replace deprecated fire range.
-			// @@ TODO: Then REMOVE this comment and the variable
-		const float DEPRECATED_FIRE_RANGE = 600.f;
-		if(DEPRECATED_FIRE_RANGE > distance)
+		if (auto weapon_mechanics = casted_gunner->GetComponentByClass<UWeaponMechanics>())
 		{
+			if (weapon_mechanics->GetWeaponData().fire_range > distance)
 			blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Attacking));
 		}
 	}
