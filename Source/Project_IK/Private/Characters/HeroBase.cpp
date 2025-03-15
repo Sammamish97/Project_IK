@@ -61,7 +61,6 @@ void AHeroBase::BeginPlay()
 	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 5);
 
 	rune_mechanics_->ApplySetBonuses();
-	FStatusData test = rune_mechanics_->GetTotalStatus();
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)

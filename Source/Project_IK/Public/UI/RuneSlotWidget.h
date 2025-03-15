@@ -28,9 +28,11 @@ private:
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	
 public:
-	void InitRuneSlot(TObjectPtr<class URuneStorageWidget> rune_storage_ptr);
+	void InitRuneStorageData(TObjectPtr<class URuneStorageWidget> rune_storage_ptr);
+	void InitRuneBoardData(TObjectPtr<class URuneBoardWidget> rune_board_ptr);
 	void ClearData();
 	bool IsBoardSlot();
+	void SetSelectedImageVisibility(bool value);
 	void SetImageTexture();
 	void SetIsBoardSlot(bool is_board_slot);
 	void SetRuneData(FRuneData data);
@@ -40,6 +42,9 @@ public:
 	void OnClicked();
 	
 private:
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UImage> selected_image_;
+	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<class UButton> button_;
 	
@@ -54,6 +59,9 @@ private:
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true))
 	TObjectPtr<class URuneStorageWidget> rune_storage_widget_cache_;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true))
+	TObjectPtr<class URuneBoardWidget> rune_board_widget_cache_;
 	
 	UPROPERTY(Transient)
 	bool is_board_slot_ = false;

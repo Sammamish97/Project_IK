@@ -33,11 +33,18 @@ void UInventoryManager::InitRuneInventory()
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
+
 
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
+
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 2));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 2));
+
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 3));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 4));
+
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 5));
 }
 
@@ -45,7 +52,7 @@ void UInventoryManager::InitInventoryManager()
 {
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	data_table_manager_cache_ = ik_instance->GetDataTableManager();
-	max_inventory_size_ = 24;
+	max_inventory_size_ = 18;
 	credits_ = 200;
 	perk_points_ = 12;
 	InitEquipInventory();

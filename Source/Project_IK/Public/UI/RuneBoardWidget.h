@@ -25,6 +25,7 @@ public:
 	void InitBoardData(TObjectPtr<class URuneStorageWidget> storage_ptr);
 	void LoadRuneBoardWidget(int32 hero_idx);
 	void UpdateRuneBoard(int32 hero_idx);
+	void ClearSelectedBorder();
 	
 private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))

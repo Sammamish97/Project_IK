@@ -40,7 +40,8 @@ void URuneBoardWidget::InitBoardData(TObjectPtr<URuneStorageWidget> storage_ptr)
 {
 	for (int i = 0; i < 6; ++i)
 	{
-		slot_array_[i]->InitRuneSlot(storage_ptr);
+		slot_array_[i]->InitRuneStorageData(storage_ptr);
+		slot_array_[i]->InitRuneBoardData(this);
 	}
 }
 
@@ -74,5 +75,13 @@ void URuneBoardWidget::UpdateRuneBoard(int32 hero_idx)
 			data_cache.rune_data_[i] = slot_array_[i]->GetRuneData();
 		}
 		transition_system->UpdateSpawnDataIdx(hero_idx, data_cache);
+	}
+}
+
+void URuneBoardWidget::ClearSelectedBorder()
+{
+	for (auto& elem:slot_array_)
+	{
+		elem->SetSelectedImageVisibility(false);
 	}
 }

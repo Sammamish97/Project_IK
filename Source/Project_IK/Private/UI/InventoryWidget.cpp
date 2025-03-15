@@ -33,6 +33,8 @@ void UInventoryWidget::NativeDestruct()
 {
 	switch_hero_left_button_->OnClicked.RemoveAll(this);
 	switch_hero_right_button_->OnClicked.RemoveAll(this);
+	board_switch_button_->OnClicked.RemoveAll(this);
+
 	Super::NativeDestruct();
 }
 

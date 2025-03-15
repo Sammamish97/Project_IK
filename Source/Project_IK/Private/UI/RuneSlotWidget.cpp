@@ -14,17 +14,18 @@ See LICENSE file in the project root for full license information.
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "Kismet/GameplayStatics.h"
-#include "UI/RuneStorageWidget.h"
 #include "Managers/InventoryManager.h"
+#include "UI/RuneStorageWidget.h"
+#include "UI/RuneBoardWidget.h"
 #include "UI/SlotDragDropImage.h"
 #include "WorldSettings/IKGameInstance.h"
 
-class URuneStorageWidget;
 class UIKGameInstance;
 
 void URuneSlotWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+	selected_image_->SetVisibility(ESlateVisibility::Hidden);
 	button_->OnClicked.AddDynamic(this, &URuneSlotWidget::OnClicked);
 }
 
@@ -150,15 +151,31 @@ bool URuneSlotWidget::IsBoardSlot()
 	return is_board_slot_;
 }
 
+void URuneSlotWidget::SetSelectedImageVisibility(bool value)
+{
+	if (value)
+	{
+		selected_image_->SetVisibility(ESlateVisibility::Visible);
+	}
+	else
+	{
+		selected_image_->SetVisibility(ESlateVisibility::Hidden);
+	}
+}
+
 void URuneSlotWidget::SetIsBoardSlot(bool is_board_slot)
 {
 	is_board_slot_ = is_board_slot;
 }
 
-
-void URuneSlotWidget::InitRuneSlot(TObjectPtr<URuneStorageWidget> rune_storage_ptr)
+void URuneSlotWidget::InitRuneStorageData(TObjectPtr<class URuneStorageWidget> rune_storage_ptr)
 {
 	rune_storage_widget_cache_ = rune_storage_ptr;
+}
+
+void URuneSlotWidget::InitRuneBoardData(TObjectPtr<class URuneBoardWidget> rune_board_ptr)
+{
+	rune_board_widget_cache_ = rune_board_ptr;
 }
 
 void URuneSlotWidget::OnClicked()
@@ -167,5 +184,7 @@ void URuneSlotWidget::OnClicked()
 	{
 		rune_storage_widget_cache_->UpdateRuneStorage();
 		rune_storage_widget_cache_->LoadRuneStorage(rune_data_.slot_number);
+		rune_board_widget_cache_->ClearSelectedBorder();
+		SetSelectedImageVisibility(true);
 	}
 }
