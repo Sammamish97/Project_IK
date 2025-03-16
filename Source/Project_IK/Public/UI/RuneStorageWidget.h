@@ -22,6 +22,7 @@ public:
 	void SetCurSlotNum(int32 input_num);
 	void UpdateRuneStorage();
 	void LoadRuneStorage(int32 slot_num);
+	void InitStorageData(TObjectPtr<class URuneBoardWidget> rune_boarda_ptr);
 	int32 GetCurSlotNum();
 
 private:
@@ -36,6 +37,9 @@ private:
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true))
 	TObjectPtr<class UInventoryManager> inventory_manager_cache_;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true))
+	TObjectPtr<class URuneBoardWidget> rune_board_cache_;
 
 	UPROPERTY(Transient)
 	int32 cur_slot_num_ = -1;

@@ -10,12 +10,12 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/RuneStorageWidget.h"
 
-#include "Components/ScrollBox.h"
 #include "Components/WrapBox.h"
 #include "Kismet/GameplayStatics.h"
 
 #include "Managers/InventoryManager.h"
 #include "UI/RuneSlotWidget.h"
+#include "UI/RuneBoardWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 
 void URuneStorageWidget::SetCurSlotNum(int32 input_num)
@@ -50,6 +50,11 @@ void URuneStorageWidget::UpdateRuneStorage()
 	}
 }
 
+void URuneStorageWidget::InitStorageData(TObjectPtr<class URuneBoardWidget> rune_boarda_ptr)
+{
+	rune_board_cache_ = rune_boarda_ptr;
+}
+
 void URuneStorageWidget::LoadRuneStorage(int32 slot_num)
 {
 	if (inventory_manager_cache_ == nullptr)
@@ -75,6 +80,7 @@ void URuneStorageWidget::LoadRuneStorage(int32 slot_num)
 		{
 			rune_storage_slots_[data_count] = CreateWidget<URuneSlotWidget>(GetWorld(), slot_BP_class_);
 			rune_storage_slots_[data_count]->InitRuneStorageData(this);
+			rune_storage_slots_[data_count]->InitRuneBoardData(rune_board_cache_);
 			rune_storage_slots_[data_count]->SetRuneData(elem);
 			rune_storage_slots_[data_count]->SetImageTexture();
 			wrap_box_->AddChild(rune_storage_slots_[data_count]);
@@ -85,6 +91,7 @@ void URuneStorageWidget::LoadRuneStorage(int32 slot_num)
 	{
 		rune_storage_slots_[i] = CreateWidget<URuneSlotWidget>(GetWorld(), slot_BP_class_);
 		rune_storage_slots_[i]->InitRuneStorageData(this);
+		rune_storage_slots_[i]->InitRuneBoardData(rune_board_cache_);
 		rune_storage_slots_[i]->SetRuneData(FRuneData(cur_slot_num_));
 		rune_storage_slots_[i]->SetImageTexture();
 		wrap_box_->AddChild(rune_storage_slots_[i]);

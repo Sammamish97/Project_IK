@@ -21,6 +21,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/SphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Subsystems/LevelTransitionSubsystem.h"
+#include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKGameModeBase.h"
 
 AHeroBase::AHeroBase()
@@ -44,22 +46,10 @@ AHeroBase::AHeroBase()
 	forward_dir_ = { 1,0, 0 };
 }
 
+//TODO: 특수 효과같은 경우, 장착과 발동이 달라야 한다. BeginPlay에 넣으면 구별할 수가 없다.
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
-	//TODO: Two lines are Test purpose. Need to remove later.
-	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle);
-	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::FixedDmgReduce);
-	oopart_mechanics_->EquipOopart(EOopartType::AttackSpeedBoost);
-	skill_container_->EquipActiveSkill(EActiveSkillType::Thunder);
-	
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 0);
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 1);
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 2);
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 3);
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 4);
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 5);
-
 	rune_mechanics_->ApplySetBonuses();
 }
 

@@ -25,8 +25,15 @@ void UInventoryWidget::NativeConstruct()
 	switch_hero_left_button_->OnClicked.AddDynamic(this, &UInventoryWidget::SwitchToLeftHero);
 	switch_hero_right_button_->OnClicked.AddDynamic(this, &UInventoryWidget::SwitchToRightHero);
 	board_switch_button_->OnClicked.AddDynamic(this, &UInventoryWidget::ToggleBoard);
+
+	equip_board_->LoadEquipBoard(0);
+	equip_storage_->LoadEquipStorage();
+
 	board_switcher_->SetActiveWidget(equip_board_);
+	storage_switcher_->SetActiveWidget(equip_storage_);
+
 	rune_board_->InitBoardData(rune_storage_);
+	rune_storage_->InitStorageData(rune_board_);
 }
 
 void UInventoryWidget::NativeDestruct()
@@ -49,14 +56,18 @@ void UInventoryWidget::ToggleBoard()
 	if (board_switcher_->GetActiveWidgetIndex() == 0)
 	{
 		rune_storage_->LoadRuneStorage(0);
-		rune_board_->LoadRuneBoardWidget(cur_hero_idx_);
-		board_switcher_->SetActiveWidget(rune_board_);
+		rune_board_->UpdateRuneBoard();
+		rune_board_->LoadRuneBoardWidget();
+		
 		storage_switcher_->SetActiveWidget(rune_storage_);
+		board_switcher_->SetActiveWidget(rune_board_);
 	}
 	else
 	{
 		equip_storage_->LoadEquipStorage();
+		equip_board_->UpdateEquipBoard(cur_hero_idx_);
 		equip_board_->LoadEquipBoard(cur_hero_idx_);
+		
 		board_switcher_->SetActiveWidget(equip_board_);
 		storage_switcher_->SetActiveWidget(equip_storage_);
 	}
@@ -65,9 +76,11 @@ void UInventoryWidget::ToggleBoard()
 void UInventoryWidget::SwitchToLeftHero()
 {
 	cur_hero_idx_ = FMath::Max(0, cur_hero_idx_ - 1);
+	rune_board_->SetCurHeroIdx(cur_hero_idx_);
 }
 
 void UInventoryWidget::SwitchToRightHero()
 {
 	cur_hero_idx_ = FMath::Min(cur_hero_idx_ + 1, 3);
+	rune_board_->SetCurHeroIdx(cur_hero_idx_);
 }

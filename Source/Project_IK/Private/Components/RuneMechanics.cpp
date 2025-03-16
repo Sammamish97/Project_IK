@@ -51,70 +51,18 @@ FStatusData URuneMechanics::GetTotalStatus()
 //세트 보너스가 적용되는 시점은 전투레벨의 Begin Play이후이다.
 void URuneMechanics::ApplySetBonuses()
 {
-	auto set_result = FigureOutRuneSet();
+	auto set_result = bonus_manager_cache_->FigureOutRuneSet(rune_slots_);
 	for (int i = 0; i < set_result.Num(); i++)
 	{
-		set_bonus_cache_ = bonus_manager_cache_->GetSetBonus(set_result[i].Key);
-		set_bonus_cache_->ActivateSetBonus(hero_cache_, set_result[i].Value.Num());
+		if (set_result[i].Key != ERuneSetType::INVALID)
+		{
+			set_bonus_cache_ = bonus_manager_cache_->GetSetBonus(set_result[i].Key);
+			set_bonus_cache_->ActivateSetBonus(hero_cache_, set_result[i].Value.Num());
+		}
 	}
 }
 
-TArray<TPair<ERuneSetType, TArray<int32>>> URuneMechanics::FigureOutRuneSet()
-{
-	TArray<TPair<ERuneSetType, TArray<int32>>> bonus_result;
-	//1. 육각형 체크
-	if (rune_slots_[0].set_type != ERuneSetType::INVALID)
-	{
-		if (rune_slots_[0].set_type == rune_slots_[1].set_type
-			&& rune_slots_[1].set_type == rune_slots_[2].set_type
-			&& rune_slots_[2].set_type == rune_slots_[3].set_type
-			&& rune_slots_[3].set_type == rune_slots_[4].set_type
-			&& rune_slots_[4].set_type == rune_slots_[5].set_type)
-		{
-			bonus_result.Add({rune_slots_[0].set_type, TArray<int32>{0, 1, 2, 3, 4, 5}});
-			return bonus_result;
-		}
-	}
-	
-	// 2. 정삼각/역삼각 체크
-	bool triangle_exist = false;
-	if (rune_slots_[0].set_type == rune_slots_[2].set_type && rune_slots_[2].set_type == rune_slots_[4].set_type)
-	{
-		triangle_exist = true;
-		bonus_result.Add({rune_slots_[0].set_type, TArray<int32>{0, 2, 4}});
-	}
-	if (rune_slots_[1].set_type == rune_slots_[3].set_type && rune_slots_[3].set_type == rune_slots_[5].set_type)
-	{
-		triangle_exist =true;
-		bonus_result.Add({rune_slots_[1].set_type, TArray<int32>{1, 3, 5}});
 
-	}
-	if (triangle_exist)
-	{
-		//삼각형이 하나라도 존재하면, 그 어느 간선도 존재할 수 없음.
-		return bonus_result;
-	} 
-
-	//3. 이어진 간선 체크
-	bool skip[6] = { false }; // 연속된 3개 이상이면 점수 제외하기 위한 배열
-
-	//3개 이상 연속되는 index는 skip을 통해 이후 검사에서 제외.
-	for (int i = 0; i < 6; i++) {
-		if (rune_slots_[i].set_type == rune_slots_[(i + 1) % 6].set_type && rune_slots_[i].set_type == rune_slots_[(i + 2) % 6].set_type) {
-			skip[i] = skip[(i + 1) % 6] = skip[(i + 2) % 6] = true;
-		}
-	}
-
-	for (int i = 0; i < 6; i++)
-	{
-		if (!skip[i] && rune_slots_[i].set_type == rune_slots_[(i + 1) % 6].set_type)
-		{
-			bonus_result.Add({rune_slots_[i].set_type, TArray<int32>{i, (i + 1) % 6}});
-		}
-	}
-
-	return bonus_result;
-}
 
 FString URuneMechanics::RuneEnumToString(ERuneSetType set_type)
 {

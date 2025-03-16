@@ -34,8 +34,6 @@ public:
 	
 	TArray<FInventorySlotData>& GetEquipStorageData();
 	TArray<FRuneData>& GetRuneStorageData();
-
-	void UpdateEquipStorage(const TArray<FInventorySlotData>& input);
 	
 	int32 GetMaxInventorySize();
 

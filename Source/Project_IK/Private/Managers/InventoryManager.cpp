@@ -174,10 +174,6 @@ TArray<FRuneData>& UInventoryManager::GetRuneStorageData()
 	return rune_storage_;
 }
 
-void UInventoryManager::UpdateEquipStorage(const TArray<FInventorySlotData>& input)
-{
-}
-
 int32 UInventoryManager::GetMaxInventorySize()
 {
 	return max_inventory_size_;

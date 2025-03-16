@@ -27,9 +27,6 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-private:
-	TArray<TPair<ERuneSetType, TArray<int32>>> FigureOutRuneSet();
 	
 public:
 	FString RuneEnumToString(ERuneSetType set_type);

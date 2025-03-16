@@ -23,11 +23,17 @@ class PROJECT_IK_API URuneBoardWidget : public UUserWidget
 public:
 	virtual void NativePreConstruct() override;
 	void InitBoardData(TObjectPtr<class URuneStorageWidget> storage_ptr);
-	void LoadRuneBoardWidget(int32 hero_idx);
-	void UpdateRuneBoard(int32 hero_idx);
+	void LoadRuneBoardWidget();
+	void UpdateRuneBoard();
+	void ClearSetBonusEffect();
+	void TurnOnSetBonusEffect();
 	void ClearSelectedBorder();
+	void SetCurHeroIdx(int32 hero_idx);
 	
 private:
+	UPROPERTY(Transient)
+	int32 hero_idx_cache_ = 0;
+	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<URuneSlotWidget> slot_0_ = nullptr;
 	
@@ -45,7 +51,48 @@ private:
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<URuneSlotWidget> slot_5_ = nullptr;
-	
+
+	//
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_0_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_1_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_2_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_3_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_4_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_5_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_6_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_7_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_8_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_9_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_10_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_11_ = nullptr;
+
+	//
 	UPROPERTY(Transient)
 	TArray<TObjectPtr<URuneSlotWidget>> slot_array_;
+
+	UPROPERTY(Transient)
+	TArray<TObjectPtr<UProgressBar>> line_array_;
 };

@@ -100,6 +100,8 @@ bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 		Swap(rune_data_, slot_from->rune_data_);
 		SetImageTexture();
 		slot_from->SetImageTexture();
+		rune_board_widget_cache_->ClearSetBonusEffect();
+		rune_board_widget_cache_->TurnOnSetBonusEffect();
 		return true;
 	}
 	
@@ -111,6 +113,9 @@ bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 			Swap(rune_data_, slot_from->rune_data_);
 			SetImageTexture();
 			slot_from->SetImageTexture();
+			TArray<FRuneData> rune_data;
+			rune_board_widget_cache_->ClearSetBonusEffect();
+			rune_board_widget_cache_->TurnOnSetBonusEffect();
 			return true;
 		}
 	}
