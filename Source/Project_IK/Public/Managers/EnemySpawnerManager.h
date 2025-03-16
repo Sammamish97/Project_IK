@@ -34,6 +34,7 @@ public:
 	const TArray<TObjectPtr<AEnemyBase>>& GetEnemies();
 
 	void RemoveEnemy(AEnemyBase* enemy_defeated);
+	void RemoveAllEnemy();
 
 	bool IsEnemyAllDefeated();
 

@@ -255,3 +255,13 @@ enum class ERuneSetType : uint8
 	ThunderLord UMETA(DisplayName = "ThunderLord"),
 	Chariot UMETA(DisplayName = "Chariot")
 };
+
+
+UENUM(BlueprintType)
+enum class EPlayerState : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Map UMETA(DisplayName = "Map"),
+	Battle UMETA(DisplayName = "Battle"),
+	Event UMETA(DisplayName = "Event"),
+};

@@ -50,6 +50,19 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle);
+	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::FixedDmgReduce);
+	oopart_mechanics_->EquipOopart(EOopartType::AttackSpeedBoost);
+	skill_container_->EquipActiveSkill(EActiveSkillType::Thunder);
+	
+	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 0);
+	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 1);
+	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 2);
+	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 3);
+	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 4);
+	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 5);
+	
 	rune_mechanics_->ApplySetBonuses();
 }
 

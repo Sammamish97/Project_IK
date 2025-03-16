@@ -36,6 +36,7 @@ void URuneBoardWidget::NativePreConstruct()
 		slot_array_[i]->SetRuneData(FRuneData(i));
 		slot_array_[i]->SetIsBoardSlot(true);
 	}
+	slot_array_[0]->SetSelectedImageVisibility(true);
 	
 	line_array_.Add(line_0_);
 	line_array_.Add(line_1_);

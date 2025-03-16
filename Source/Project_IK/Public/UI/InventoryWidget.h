@@ -31,7 +31,7 @@ public:
 	void SwitchToLeftHero();
 	UFUNCTION()
 	void SwitchToRightHero();
-
+	
 	UFUNCTION()
 	void ToggleBoard();
 	

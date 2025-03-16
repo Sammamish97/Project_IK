@@ -52,3 +52,13 @@ UTargetingComponent* AIKPlayerController::GetTargetingComponent()
 {
 	return targeting_component_;
 }
+
+EPlayerState AIKPlayerController::GetPlayerState() const
+{
+	return player_state_;
+}
+
+void AIKPlayerController::SetPlayerState(EPlayerState new_state)
+{
+	player_state_ = new_state;
+}

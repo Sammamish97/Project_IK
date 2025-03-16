@@ -43,3 +43,20 @@ void UEquipStorageWidget::LoadEquipStorage()
 	}
 	scroll_box_->AddChild(wrap_box_);
 }
+
+void UEquipStorageWidget::UpdateEquipStorage()
+{
+	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	TObjectPtr<UInventoryManager> inventory_manager_cache = ik_instance->GetInventoryManager();
+
+	auto& rune_storage_data = inventory_manager_cache->GetEquipStorageData();
+	rune_storage_data.Empty();
+	
+	for (auto& elem : equip_inventory_slots_)
+	{
+		if (elem != nullptr && elem->slot_type_ != EInventorySlotType::Inventory)
+		{
+			rune_storage_data.Add(elem->slot_data_);
+		}
+	}
+}

@@ -46,6 +46,8 @@ public:
 	void RemoveHero(AActor* hero);
 	UFUNCTION(BlueprintCallable)
 	void RemoveEnemy(AEnemyBase* enemy);
+	UFUNCTION(BlueprintCallable)
+	void RemoveAllEnemy();
 
 	UFUNCTION(BlueprintCallable)
 	void CheckWinLoseCondition();

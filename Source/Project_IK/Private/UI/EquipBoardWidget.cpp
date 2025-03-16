@@ -32,10 +32,15 @@ void UEquipBoardWidget::NativeConstruct()
 
 	oopart_->slot_type_ = EInventorySlotType::Oopart;
 	oopart_->slot_data_.gear_type = EGearType::Oopart;
-
 }
 
-void UEquipBoardWidget::LoadEquipBoard(int32 hero_idx)
+
+void UEquipBoardWidget::SetCurHeroIdx(int32 hero_idx)
+{
+	cur_hero_idx_ = hero_idx;
+}
+
+void UEquipBoardWidget::LoadEquipBoard()
 {
 	slot_array_ = {weapon_, passive_skill_, active_skill_, oopart_};
 	
@@ -44,7 +49,7 @@ void UEquipBoardWidget::LoadEquipBoard(int32 hero_idx)
 	
 	if(transition_system->GetSpawnData().IsEmpty() == false)
 	{
-		FSpawnData data_cache = transition_system->GetSpawnData(hero_idx);
+		FSpawnData data_cache = transition_system->GetSpawnData(cur_hero_idx_);
 		weapon_->slot_data_.weapon_type = data_cache.weapon_data_.type;
 		passive_skill_->slot_data_.passive_skill_type = data_cache.passive_skill_data_.type;
 		active_skill_->slot_data_.active_skill_type = data_cache.active_skill_data_.type;
@@ -58,7 +63,7 @@ void UEquipBoardWidget::LoadEquipBoard(int32 hero_idx)
 	}
 }
 
-void UEquipBoardWidget::UpdateEquipBoard(int32 hero_idx)
+void UEquipBoardWidget::UpdateEquipBoard()
 {
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
@@ -66,13 +71,13 @@ void UEquipBoardWidget::UpdateEquipBoard(int32 hero_idx)
 	
 	if(transition_system->GetSpawnData().IsEmpty() == false)
 	{
-		FSpawnData data_cache = transition_system->GetSpawnData(hero_idx);
+		FSpawnData data_cache = transition_system->GetSpawnData(cur_hero_idx_);
 		
 		data_cache.weapon_data_ = data_table_manager->GetWeaponData(weapon_->slot_data_.weapon_type);
 		data_cache.active_skill_data_ = data_table_manager->GetActiveSkillData(active_skill_->slot_data_.active_skill_type);
 		data_cache.passive_skill_data_ = data_table_manager->GetPassiveSkillData(passive_skill_->slot_data_.passive_skill_type);
 		data_cache.oopart_data_=  data_table_manager->GetOopartData(oopart_->slot_data_.oopart_type);
 		
-		transition_system->UpdateSpawnDataIdx(hero_idx, data_cache);
+		transition_system->UpdateSpawnDataIdx(cur_hero_idx_, data_cache);
 	}
 }

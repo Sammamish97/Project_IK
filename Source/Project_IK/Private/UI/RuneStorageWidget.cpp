@@ -18,11 +18,6 @@ See LICENSE file in the project root for full license information.
 #include "UI/RuneBoardWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 
-void URuneStorageWidget::SetCurSlotNum(int32 input_num)
-{
-	cur_slot_num_ = input_num;
-}
-
 void URuneStorageWidget::UpdateRuneStorage()
 {
 	if (inventory_manager_cache_ == nullptr)
@@ -96,6 +91,11 @@ void URuneStorageWidget::LoadRuneStorage(int32 slot_num)
 		rune_storage_slots_[i]->SetImageTexture();
 		wrap_box_->AddChild(rune_storage_slots_[i]);
 	}
+}
+
+void URuneStorageWidget::SetCurSlotNum(int32 input_num)
+{
+	cur_slot_num_ = input_num;
 }
 
 int32 URuneStorageWidget::GetCurSlotNum()

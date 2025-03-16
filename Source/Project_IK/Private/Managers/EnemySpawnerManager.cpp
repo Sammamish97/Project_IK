@@ -88,6 +88,13 @@ void UEnemySpawnerManager::RemoveEnemy(AEnemyBase* enemy_defeated)
 	}
 }
 
+//치트 코드 용 함수.
+void UEnemySpawnerManager::RemoveAllEnemy()
+{
+	enemies_.Empty();
+	enemy_waves_ = 0;
+}
+
 bool UEnemySpawnerManager::IsEnemyAllDefeated()
 {
 	return enemies_.Num() <= 0 && enemy_waves_ <= 0;

@@ -27,6 +27,7 @@ class PROJECT_IK_API AIKHUD : public AHUD
 	GENERATED_BODY()
 public:
 	UFUNCTION()
+	virtual void BeginPlay() override;
 	void DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map);
 
 	UFUNCTION()
@@ -75,6 +76,4 @@ protected:
 	
 	UPROPERTY()
 	TObjectPtr<UInventoryWidget> inventory_widget_;
-
-	virtual void BeginPlay() override;
 };

@@ -20,6 +20,7 @@ class PROJECT_IK_API UEquipStorageWidget : public UUserWidget
 public:
 	virtual void NativePreConstruct() override;
 	void LoadEquipStorage();
+	void UpdateEquipStorage();
 
 private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))

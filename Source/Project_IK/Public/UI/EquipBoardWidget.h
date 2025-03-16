@@ -21,8 +21,9 @@ class PROJECT_IK_API UEquipBoardWidget : public UUserWidget
 
 public:
 	virtual void NativeConstruct() override;
-	void LoadEquipBoard(int32 hero_idx);
-	void UpdateEquipBoard(int32 hero_idx);
+	void SetCurHeroIdx(int32 hero_idx);
+	void LoadEquipBoard();
+	void UpdateEquipBoard();
 	
 private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
@@ -36,6 +37,9 @@ private:
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<UInventorySlot> oopart_;
+
+	UPROPERTY(Transient)
+	int32 cur_hero_idx_ = 0;
 	
 	UPROPERTY(Transient)
 	TArray<TObjectPtr<UInventorySlot>> slot_array_;
