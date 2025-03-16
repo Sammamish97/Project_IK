@@ -18,15 +18,36 @@ void AIKPlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTi
 {
 	Super::UpdateViewTarget(OutVT, DeltaTime);
 
-	FVector center_point = CalculateCenterPoint();
+	const FVector normalize_view_vector = camera_view_vector_.GetSafeNormal();
 
-	FVector camera_location = center_point + camera_offsets_;
-	FRotator view_rotator = (-camera_offsets_).Rotation();
+	FBox bounding_box(EForceInit::ForceInit);
+	for (TWeakObjectPtr<AActor> actor : tracked_heroes_)
+	{
+		if (actor.IsValid())
+		{
+			bounding_box += actor->GetActorLocation();
+		}
+	}
 
+	FVector center = bounding_box.GetCenter();
+	FVector extents = bounding_box.GetExtent();
+	
+	// Compute the distance needed to fit the bounding box within the camera frustum
+	// @@ TODO: extents.Size is radius of the box, while Tan(FOV/2) is height or width. It is not a valid logic.
+	float required_distance = (extents.Size() / FMath::Tan(FMath::DegreesToRadians(OutVT.POV.FOV * 0.5f)));
+	// New Camera Position - Move backwards along the view direction
+	FVector camera_location = center - (normalize_view_vector * required_distance);
 
+	// 1. How to get width in viewport.
+	// 2. Can I get a viewfrustum geometry?
+	// Adjust left alignment - Move the camera left so actors appear left-aligned.
+	FVector left_offset = normalize_view_vector.Rotation().Quaternion().GetRightVector() * extents.X;
+	camera_location += left_offset;
 
-	OutVT.POV.Location = FMath::VInterpTo(GetCameraLocation(), camera_location, DeltaTime, 2.f);
-	OutVT.POV.Rotation = FMath::RInterpTo(GetCameraRotation(), view_rotator, DeltaTime, 2.f);
+	OutVT.POV.Location = camera_location;// FMath::VInterpTo(GetCameraLocation(), camera_location, DeltaTime, 2.f);
+	OutVT.POV.Rotation = normalize_view_vector.Rotation();
+
+	DrawDebugBox(GetWorld(), bounding_box.GetCenter(), bounding_box.GetExtent(), FColor::Green, false, 0.f, 0.f, 2.f);
 }
 
 void AIKPlayerCameraManager::BeginPlay()
@@ -46,26 +67,4 @@ void AIKPlayerCameraManager::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 
 	tracked_heroes_.Empty();
-}
-
-FVector AIKPlayerCameraManager::CalculateCenterPoint() const
-{
-	FVector sum = FVector::ZeroVector;
-
-	for (TWeakObjectPtr<AActor> hero : tracked_heroes_)
-	{
-		if (hero.IsValid())
-		{
-			sum += hero->GetActorLocation();
-		}
-	}
-
-	if (tracked_heroes_.Num() > 0)
-	{
-		return sum / tracked_heroes_.Num();
-	}
-	else
-	{
-		return FVector::ZeroVector;
-	}
 }

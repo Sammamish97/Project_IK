@@ -28,12 +28,10 @@ public:
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Movements")
-	FVector camera_offsets_ = FVector(0.f, 500.f, 500.f);
+	FVector camera_view_vector_ = FVector(0.f, -500.f, -500.f);
 protected:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
-	FVector CalculateCenterPoint() const;
 
 	TArray<TWeakObjectPtr<AActor>> tracked_heroes_{};
 };
