@@ -10,74 +10,10 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/DataTableManager.h"
 
+#include "DataAssets/RuneDataAsset.h"
+#include "DataAssets/RuneSetDataAsset.h"
 #include "DataAssets/WeaponDataAsset.h"
 #include "DataAssets/GlobalBuffDataAsset.h"
-
-FArmorData UDataTableManager::GetArmorData(EArmorType type)
-{
-	if (armor_table_)
-	{
-		return *armor_table_->FindRow<FArmorData>(*ArmorEnumToString(type), TEXT(""));
-	}
-	return *armor_table_->FindRow<FArmorData>(*ArmorEnumToString(EArmorType::Empty), TEXT(""));
-}
-
-FString UDataTableManager::ArmorEnumToString(EArmorType armor_type)
-{
-	FString string;
-	switch (armor_type)
-	{
-	case EArmorType::TestArmor:
-		string = TEXT("TestArmor");
-		break;
-	case EArmorType::TestHealth:
-		string = TEXT("TestHealth");
-		break;
-	case EArmorType::TestDodge:
-		string = TEXT("TestDodge");
-		break;
-	case EArmorType::TestSkillArmor:
-		string = TEXT("TestSkillArmor");
-		break;
-	default:
-		string = TEXT("Empty");
-		break;
-	}
-	return string;
-}
-
-FTrinketData UDataTableManager::GetTrinketData(ETrinketType type)
-{
-	if (trinket_table_)
-	{
-		return *trinket_table_->FindRow<FTrinketData>(*TrinketEnumToString(type), TEXT(""));
-	}
-	return *trinket_table_->FindRow<FTrinketData>(*TrinketEnumToString(ETrinketType::Empty), TEXT(""));
-}
-
-FString UDataTableManager::TrinketEnumToString(ETrinketType trinket_type)
-{
-	FString string;
-	switch (trinket_type)
-	{
-	case ETrinketType::TestAttack:
-		string = TEXT("TestAttack");
-		break;
-	case ETrinketType::TestCrit:
-		string = TEXT("TestCrit");
-		break;
-	case ETrinketType::TestAttackSpeed:
-		string = TEXT("TestAttackSpeed");
-		break;
-	case ETrinketType::TestSkillTrinket:
-		string = TEXT("TestSkillTrinket");
-		break;
-	default:
-		string = TEXT("Empty");
-		break;
-	}
-	return string;
-}
 
 FWeaponData UDataTableManager::GetWeaponData(EWeaponType type)
 {
@@ -111,6 +47,39 @@ FString UDataTableManager::WeaponEnumToString(EWeaponType weapon_type)
 		break;
 	}
 	return string;
+}
+
+URuneSetDataAsset* UDataTableManager::GetRuneSetData(ERuneSetType type)
+{
+	if(rune_data_asset_ && type != ERuneSetType::INVALID)
+	{
+		return rune_data_asset_->rune_data_map_[type];
+	}
+	return nullptr;
+}
+
+FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num)
+{
+	if (slot_num < 0 || slot_num > 5)
+	{
+		UE_LOG(LogTemp, Error, TEXT("slot_num is out of range"));
+		return FRuneData();
+	}
+	if(rune_data_asset_)
+	{
+		return rune_data_asset_->rune_data_map_[type]->rune_set_data_[slot_num];
+	}
+	UE_LOG(LogTemp, Error, TEXT("rune_data_asset_ is invalid!"));
+	return FRuneData();
+}
+
+UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type)
+{
+	if(auto rune_set_data = GetRuneSetData(type))
+	{
+		return rune_set_data->thumbnail;
+	}
+	return nullptr;
 }
 
 FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type)

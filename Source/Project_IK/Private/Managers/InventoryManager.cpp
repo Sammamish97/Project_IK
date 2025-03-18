@@ -10,30 +10,60 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/InventoryManager.h"
 
-void UInventoryManager::InitInventory()
+#include "Kismet/GameplayStatics.h"
+#include "Structs/RuneData.h"
+#include "WorldSettings/IKGameInstance.h"
+
+void UInventoryManager::InitEquipInventory()
 {
-	inventory_size_ = 21;
-	inventory_.Init(FInventorySlotData(), inventory_size_);
+	equipment_storage_.Init(FInventorySlotData(), max_inventory_size_);
 
-	AddItem(EGearType::Armor, EArmorType::TestSkillArmor);
-	AddItem(EGearType::Trinket, ETrinketType::TestAttack);
-	AddItem(EGearType::Weapon, EWeaponType::Pistol);
-	AddItem(EGearType::Weapon, EWeaponType::AssaultRifle);
-	AddItem(EGearType::PassiveSkill, EPassiveSkillType::FixedDmgReduce);
-	AddItem(EGearType::PassiveSkill, EPassiveSkillType::RandDmgIncrease);
-	AddItem(EGearType::ActiveSkill, EActiveSkillType::Thunder);
-	AddItem(EGearType::Oopart, EOopartType::AttackSpeedBoost);
-
-	credits_ = 200;
-
-	perk_points_ = 12;
+	AddEquipment(EGearType::Weapon, EWeaponType::Pistol);
+	AddEquipment(EGearType::Weapon, EWeaponType::AssaultRifle);
+	AddEquipment(EGearType::PassiveSkill, EPassiveSkillType::FixedDmgReduce);
+	AddEquipment(EGearType::PassiveSkill, EPassiveSkillType::RandDmgIncrease);
+	AddEquipment(EGearType::ActiveSkill, EActiveSkillType::Thunder);
+	AddEquipment(EGearType::Oopart, EOopartType::AttackSpeedBoost);
 }
 
-int32 UInventoryManager::GetEmptyIndex() const
+void UInventoryManager::InitRuneInventory()
 {
-	for (int32 i = 0; i < inventory_size_; ++i)
+	rune_storage_.Init(FRuneData(), max_inventory_size_);
+	
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
+
+
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
+
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 2));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 2));
+
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 3));
+
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 5));
+}
+
+void UInventoryManager::InitInventoryManager()
+{
+	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	data_table_manager_cache_ = ik_instance->GetDataTableManager();
+	max_inventory_size_ = 18;
+	credits_ = 200;
+	perk_points_ = 12;
+	InitEquipInventory();
+	InitRuneInventory();
+}
+
+int32 UInventoryManager::GetEquipmentEmptyIndex() const
+{
+	for (int32 i = 0; i < max_inventory_size_; ++i)
 	{
-		if (inventory_[i].is_empty == true)
+		if (equipment_storage_[i].is_empty == true)
 		{
 			return i;
 		}
@@ -41,109 +71,112 @@ int32 UInventoryManager::GetEmptyIndex() const
 	return -1;
 }
 
-bool UInventoryManager::AddItem(EGearType gear_type, EArmorType armor_type)
+int32 UInventoryManager::GetRuneEmptyIndex() const
 {
-	int32 index = GetEmptyIndex();
-	if (index != -1)
+	for (int32 i = 0; i < max_inventory_size_; ++i)
 	{
-		FInventorySlotData data;
-		data.armor_type = armor_type;
-		data.gear_type = gear_type;
-		data.is_empty = false;
-		inventory_[index] = data;
-		return true;
+		if (rune_storage_[i].is_empty == true)
+		{
+			return i;
+		}
 	}
-	return false;
+	return -1;
 }
 
-bool UInventoryManager::AddItem(EGearType gear_type, ETrinketType trinket_type)
+bool UInventoryManager::AddEquipment(EGearType type, EWeaponType weapon_type)
 {
-	int32 index = GetEmptyIndex();
-	if (index != -1)
-	{
-		FInventorySlotData data;
-		data.trinket_type = trinket_type;
-		data.gear_type = gear_type;
-		data.is_empty = false;
-		inventory_[index] = data;
-		return true;
-	}
-	return false;
-}
-
-bool UInventoryManager::AddItem(EGearType type, EWeaponType weapon_type)
-{
-	int32 index = GetEmptyIndex();
+	int32 index = GetEquipmentEmptyIndex();
 	if (index != -1)
 	{
 		FInventorySlotData data;
 		data.weapon_type = weapon_type;
 		data.gear_type = type;
 		data.is_empty = false;
-		inventory_[index] = data;
+		equipment_storage_[index] = data;
 		return true;
 	}
 	return false;
 }
 
-bool UInventoryManager::AddItem(EGearType type, EPassiveSkillType passive_skill_type)
+bool UInventoryManager::AddEquipment(EGearType type, EPassiveSkillType passive_skill_type)
 {
-	int32 index = GetEmptyIndex();
+	int32 index = GetEquipmentEmptyIndex();
 	if (index != -1)
 	{
 		FInventorySlotData data;
 		data.passive_skill_type = passive_skill_type;
 		data.gear_type = type;
 		data.is_empty = false;
-		inventory_[index] = data;
+		equipment_storage_[index] = data;
 		return true;
 	}
 	return false;
 }
 
-bool UInventoryManager::AddItem(EGearType type, EActiveSkillType active_skill_type)
+bool UInventoryManager::AddEquipment(EGearType type, EActiveSkillType active_skill_type)
 {
-	int32 index = GetEmptyIndex();
+	int32 index = GetEquipmentEmptyIndex();
 	if (index != -1)
 	{
 		FInventorySlotData data;
 		data.active_skill_type = active_skill_type;
 		data.gear_type = type;
 		data.is_empty = false;
-		inventory_[index] = data;
+		equipment_storage_[index] = data;
 		return true;
 	}
 	return false;
 }
 
-bool UInventoryManager::AddItem(EGearType type, EOopartType oopart_type)
+bool UInventoryManager::AddEquipment(EGearType type, EOopartType oopart_type)
 {
-	int32 index = GetEmptyIndex();
+	int32 index = GetEquipmentEmptyIndex();
 	if (index != -1)
 	{
 		FInventorySlotData data;
 		data.oopart_type = oopart_type;
 		data.gear_type = type;
 		data.is_empty = false;
-		inventory_[index] = data;
+		equipment_storage_[index] = data;
 		return true;
 	}
 	return false;
 }
 
-void UInventoryManager::RemoveItem(int index)
+bool UInventoryManager::AddRune(FRuneData rune_data)
 {
-	inventory_[index] = FInventorySlotData();
+	int32 index = GetRuneEmptyIndex();
+	if (index != -1)
+	{
+		rune_storage_[index] = rune_data;
+		return true;
+	}
+	return false;
 }
 
-TArray<FInventorySlotData>& UInventoryManager::GetInventory()
+void UInventoryManager::RemoveEquipItem(int index)
 {
-	return inventory_;
+	equipment_storage_[index] = FInventorySlotData();
 }
 
-int32 UInventoryManager::GetInventorySize()
+void UInventoryManager::RemoveRuneItem(int index)
 {
-	return inventory_size_;
+	equipment_storage_[index] = FInventorySlotData();
+}
+
+TArray<FInventorySlotData>& UInventoryManager::GetEquipStorageData()
+{
+	return equipment_storage_;
+}
+
+TArray<FRuneData>& UInventoryManager::GetRuneStorageData()
+{
+	return rune_storage_;
+}
+
+int32 UInventoryManager::GetMaxInventorySize()
+{
+	return max_inventory_size_;
 }
 
 void UInventoryManager::SetCredits(int32 credits)

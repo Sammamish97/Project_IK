@@ -12,14 +12,12 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Managers/EnumCluster.h"
 #include "IKPlayerController.generated.h"
 
 class UInputMappingContext;
 class UInputAction;
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API AIKPlayerController : public APlayerController
 {
@@ -30,6 +28,9 @@ public:
 
 	virtual void BeginPlay();
 	virtual void SetupInputComponent() override;
+
+	EPlayerState GetPlayerState() const;
+	void SetPlayerState(EPlayerState new_state);
 
 	UFUNCTION(BlueprintPure, Category = "Targeting")
 	class UTargetingComponent* GetTargetingComponent();
@@ -44,4 +45,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	TObjectPtr<UInputAction> toggle_map_action;
+
+	UPROPERTY(Transient)
+	EPlayerState player_state_;
 };

@@ -55,20 +55,6 @@ bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 	if(InOperation->Payload == this) return false;
 
 	UInventorySlot* slot_from = Cast<UInventorySlot>(InOperation->Payload);
-	if(slot_type_ == EInventorySlotType::Armor)
-	{
-		if(slot_from->slot_data_.gear_type != EGearType::Armor)
-		{
-			return false;
-		}
-	}
-	if(slot_type_ == EInventorySlotType::Trinket)
-	{
-		if(slot_from->slot_data_.gear_type != EGearType::Trinket)
-		{
-			return false;
-		}
-	}
 	if(slot_type_ == EInventorySlotType::Weapon)
 	{
 		if(slot_from->slot_data_.gear_type != EGearType::Weapon)
@@ -121,15 +107,7 @@ void UInventorySlot::SetImageTexture()
 	UIKGameInstance* instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	UDataTableManager* data_table_manager = instance->GetDataTableManager();
 	UTexture2D* new_texture = nullptr;
-	if(slot_data_.gear_type == EGearType::Armor)
-	{
-		new_texture = data_table_manager->GetArmorData(slot_data_.armor_type).thumbnail;
-	}
-	else if(slot_data_.gear_type == EGearType::Trinket)
-	{
-		new_texture = data_table_manager->GetTrinketData(slot_data_.trinket_type).thumbnail;
-	}
-	else if(slot_data_.gear_type == EGearType::Weapon)
+	if(slot_data_.gear_type == EGearType::Weapon)
 	{
 		new_texture = data_table_manager->GetWeaponData(slot_data_.weapon_type).thumbnail;
 	}

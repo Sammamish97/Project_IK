@@ -1,0 +1,46 @@
+/******************************************************************************
+Copyright(C) 2025
+Author: chunmook.kim(chunmook.kim97@gmail.com)
+Creation Date : 3.10.2025
+Summary : Header file for Equip Board widget.
+
+Licensed under the MIT License.
+See LICENSE file in the project root for full license information.
+******************************************************************************/
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Blueprint/UserWidget.h"
+#include "EquipBoardWidget.generated.h"
+
+class UInventorySlot;
+UCLASS()
+class PROJECT_IK_API UEquipBoardWidget : public UUserWidget
+{
+	GENERATED_BODY()
+
+public:
+	virtual void NativeConstruct() override;
+	void SetCurHeroIdx(int32 hero_idx);
+	void LoadEquipBoard();
+	void UpdateEquipBoard();
+	
+private:
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<UInventorySlot> weapon_;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<UInventorySlot> passive_skill_;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<UInventorySlot> active_skill_;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<UInventorySlot> oopart_;
+
+	UPROPERTY(Transient)
+	int32 cur_hero_idx_ = 0;
+	
+	UPROPERTY(Transient)
+	TArray<TObjectPtr<UInventorySlot>> slot_array_;
+};

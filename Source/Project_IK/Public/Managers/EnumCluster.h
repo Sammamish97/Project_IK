@@ -130,26 +130,6 @@ enum class ERarity : uint8
 };
 
 UENUM(BlueprintType)
-enum class EArmorType : uint8
-{
-	TestHealth UMETA(DisplayName = "TestHealth"),
-	TestArmor UMETA(DisplayName = "TestArmor"),
-	TestDodge UMETA(DisplayName = "TestDodge"),
-	TestSkillArmor UMETA(DisplayName = "TestSkillArmor"),
-	Empty UMETA(DisplayName = "Empty")
-};
-
-UENUM(BlueprintType)
-enum class ETrinketType : uint8
-{
-	TestAttack UMETA(DisplayName = "TestAttack"),
-	TestAttackSpeed UMETA(DisplayName = "TestAttackSpeed"),
-	TestCrit UMETA(DisplayName = "TestCrit"),
-	TestSkillTrinket UMETA(DisplayName = "TestSkillTrinket"),
-	Empty UMETA(DisplayName = "Empty")
-};
-
-UENUM(BlueprintType)
 enum class EDamageType : uint8
 {
 	Projectile UMETA(DisplayName = "Projectile"),
@@ -178,8 +158,6 @@ enum class EHeroEvent : uint8
 UENUM(BlueprintType)
 enum class EGearType : uint8
 {
-	Armor UMETA(DisplayName = "Armor"),
-	Trinket UMETA(DisplayName = "Trinket"),
 	Weapon UMETA(DisplayName = "Weapon"),
 	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
 	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
@@ -190,8 +168,6 @@ enum class EGearType : uint8
 UENUM(BlueprintType)
 enum class EInventorySlotType : uint8
 {
-	Armor UMETA(DisplayName = "Armor"),
-	Trinket UMETA(DisplayName = "Trinket"),
 	Weapon UMETA(DisplayName = "Weapon"),
 	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
 	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
@@ -271,6 +247,24 @@ enum class EFireType : uint8
 	Auto UMETA(DisplayName = "Auto"),
 	Burst UMETA(DisplayName = "Burst"),
 	BoltAction UMETA(DisplayName = "BoltAction")
+};
+
+UENUM(BlueprintType)
+enum class ERuneSetType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	ThunderLord UMETA(DisplayName = "ThunderLord"),
+	Chariot UMETA(DisplayName = "Chariot")
+};
+
+
+UENUM(BlueprintType)
+enum class EPlayerState : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Map UMETA(DisplayName = "Map"),
+	Battle UMETA(DisplayName = "Battle"),
+	Event UMETA(DisplayName = "Event"),
 };
 
 UENUM(BlueprintType)

@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/TextureManager.h"
 #include "Managers/DialogueEventManager.h"
 #include "Managers/InventoryManager.h"
+#include "Managers/SetBonusManager.h"
 #include "Structs/SpawnData.h"
 
 #include "Subsystems/PerkProgressSubsystem.h"
@@ -37,9 +38,10 @@ void UIKGameInstance::Init()
 	InitializeMaps();
 	InitializeTextureManager();
 	InitializeDialogueEventManager();
-	InitInventoryManager();
 	InitDataTableManager();
+	InitInventoryManager();
 	InitSpawnData();
+	InitSetBonusManager();
 
 	item_inventory_->AddItem(item_data_manager_->GetItemData(3));
 
@@ -118,6 +120,11 @@ UDataTableManager* UIKGameInstance::GetDataTableManager() const noexcept
 	return data_table_manager_;
 }
 
+USetBonusManager* UIKGameInstance::GetSetBonusManager() const noexcept
+{
+	return set_bonus_manager_;
+}
+
 void UIKGameInstance::InitializeItemDataManager()
 {
 	item_data_manager_ = NewObject<UItemDataManager>();
@@ -162,11 +169,17 @@ void UIKGameInstance::InitializeDialogueEventManager()
 
 void UIKGameInstance::InitInventoryManager()
 {
+	//DataTableManager가 먼저 초기화 되어야 한다.
 	inventory_manager_ = NewObject<UInventoryManager>(this);
-	inventory_manager_->InitInventory();
+	inventory_manager_->InitInventoryManager();
 }
 
 void UIKGameInstance::InitDataTableManager()
 {
 	data_table_manager_ = NewObject<UDataTableManager>(this, data_table_class_);
+}
+
+void UIKGameInstance::InitSetBonusManager()
+{
+	set_bonus_manager_ = NewObject<USetBonusManager>(this);
 }

@@ -126,6 +126,12 @@ void AIKGameModeBase::RemoveEnemy(AEnemyBase* enemy)
 	}
 }
 
+void AIKGameModeBase::RemoveAllEnemy()
+{
+	enemy_spawner_manager_->RemoveAllEnemy();
+	CheckWinLoseCondition();
+}
+
 void AIKGameModeBase::CheckWinLoseCondition()
 {
 	// Escape immediately if any side is not annihilated.
