@@ -15,14 +15,11 @@ void UFixedDmgReduceSkill::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
 	bound_target_ = EHeroEvent::OnHitAfterCalc;
-	//hero_cache_->hero_dmg_event_map_.FindOrAdd(bound_target_).BindUObject(this, &UFixedDmgReduceSkill::OnEquipmentSkill);
-	auto& delegate_array = hero_cache_->hero_dmg_event_map_.FindOrAdd(bound_target_);
-	delegate_array.AddDefaulted();
-	delegate_array.Last().BindUObject(this, &UFixedDmgReduceSkill::OnEquipmentSkill);
+	hero_cache_->BindDamageEvent(bound_target_, this, &UFixedDmgReduceSkill::OnEquipmentSkill);
 }
 
 FDamageData UFixedDmgReduceSkill::OnEquipmentSkill(FDamageData dmg_data)
 {
-	dmg_data.atk_base_dmg -= 3;
+	dmg_data.atk_base_dmg = FMath::Max(0.f, dmg_data.atk_base_dmg - 3.f);
 	return dmg_data;
 }

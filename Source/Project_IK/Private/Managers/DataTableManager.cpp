@@ -13,6 +13,74 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/RuneDataAsset.h"
 #include "DataAssets/RuneSetDataAsset.h"
 #include "DataAssets/WeaponDataAsset.h"
+#include "DataAssets/GlobalBuffDataAsset.h"
+
+FArmorData UDataTableManager::GetArmorData(EArmorType type)
+{
+	if (armor_table_)
+	{
+		return *armor_table_->FindRow<FArmorData>(*ArmorEnumToString(type), TEXT(""));
+	}
+	return *armor_table_->FindRow<FArmorData>(*ArmorEnumToString(EArmorType::Empty), TEXT(""));
+}
+
+FString UDataTableManager::ArmorEnumToString(EArmorType armor_type)
+{
+	FString string;
+	switch (armor_type)
+	{
+	case EArmorType::TestArmor:
+		string = TEXT("TestArmor");
+		break;
+	case EArmorType::TestHealth:
+		string = TEXT("TestHealth");
+		break;
+	case EArmorType::TestDodge:
+		string = TEXT("TestDodge");
+		break;
+	case EArmorType::TestSkillArmor:
+		string = TEXT("TestSkillArmor");
+		break;
+	default:
+		string = TEXT("Empty");
+		break;
+	}
+	return string;
+}
+
+FTrinketData UDataTableManager::GetTrinketData(ETrinketType type)
+{
+	if (trinket_table_)
+	{
+		return *trinket_table_->FindRow<FTrinketData>(*TrinketEnumToString(type), TEXT(""));
+	}
+	return *trinket_table_->FindRow<FTrinketData>(*TrinketEnumToString(ETrinketType::Empty), TEXT(""));
+}
+
+FString UDataTableManager::TrinketEnumToString(ETrinketType trinket_type)
+{
+	FString string;
+	switch (trinket_type)
+	{
+	case ETrinketType::TestAttack:
+		string = TEXT("TestAttack");
+		break;
+	case ETrinketType::TestCrit:
+		string = TEXT("TestCrit");
+		break;
+	case ETrinketType::TestAttackSpeed:
+		string = TEXT("TestAttackSpeed");
+		break;
+	case ETrinketType::TestSkillTrinket:
+		string = TEXT("TestSkillTrinket");
+		break;
+	default:
+		string = TEXT("Empty");
+		break;
+	}
+	return string;
+}
+
 FWeaponData UDataTableManager::GetWeaponData(EWeaponType type)
 {
 	if(weapon_data_asset_)
@@ -303,5 +371,19 @@ void UDataTableManager::DiminishCharacterData(EHeroType hero_type, ECharacterSta
 		default:
 			break;
 		}
+	}
+}
+
+FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type)
+{
+	FGlobalBuffData* data = global_buff_data_asset_->global_buff_data_assets_.Find(buff_type);
+	if (data)
+	{
+		return *data;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Retreieved invalid global buff data"));
+		return FGlobalBuffData();
 	}
 }

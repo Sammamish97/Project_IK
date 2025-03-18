@@ -53,12 +53,12 @@ void ADamageUI::SetHealAmount(float HealAmount)
 	}
 }
 
-void ADamageUI::SetDamageAmount(float DamageAmount)
+void ADamageUI::SetDamageAmount(float DamageAmount, FLinearColor Color)
 {
 	if (widget_component_)
 	{
 		UDamageWidget* widget = Cast<UDamageWidget>(widget_component_->GetWidget());
-		widget->SetColorAndOpacity(FLinearColor(1.f, 1.f, 1.f));
+		widget->SetColorAndOpacity(Color);
 		widget->SetDamageAmount(DamageAmount);
 	}
 }

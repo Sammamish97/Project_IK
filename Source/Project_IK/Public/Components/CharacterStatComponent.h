@@ -80,6 +80,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool CalcDamage(FDamageData& data_ref);
+
+	void RecordDamage(FDamageData& data_ref);
+
 	UFUNCTION(BlueprintCallable)
 	void GetDamage(float damage);
 	UFUNCTION(BlueprintCallable)

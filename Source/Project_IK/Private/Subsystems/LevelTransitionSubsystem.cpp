@@ -9,6 +9,8 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Subsystems/LevelTransitionSubsystem.h"
+
+#include "Subsystems/GlobalBuffSubsystem.h"
 #include "WorldSettings/IKGameInstance.h"
 #include "Structs/SpawnData.h"
 #include "Kismet/GameplayStatics.h"
@@ -47,6 +49,7 @@ void ULevelTransitionSubsystem::UpdateSpawnDataIdx(int32 idx, FSpawnData data)
 void ULevelTransitionSubsystem::OpenLevel(UWorld* world, FIntPoint map_position)
 {
 	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+	instance->GetSubsystem<UGlobalBuffSubsystem>()->UpdateBuffDurations();
 	FMapNode node = instance->GetMapPtr()->GetNode(map_position.X, map_position.Y);
 	instance->GetMapPtr()->SetPlayerGridPosition(map_position);
 	switch (node.type)

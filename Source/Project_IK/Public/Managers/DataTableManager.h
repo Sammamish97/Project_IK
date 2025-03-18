@@ -22,6 +22,10 @@ See LICENSE file in the project root for full license information.
 
 #include "DataTableManager.generated.h"
 
+class UGlobalBuffDataAsset;
+enum class EGlobalBuffType : uint8;
+struct FGlobalBuffData;
+
 UCLASS(Blueprintable)
 class PROJECT_IK_API UDataTableManager : public UObject
 {
@@ -50,6 +54,8 @@ public:
 	void EnhanceCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float increase_amount);
 	void DiminishCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float decrease_amount);
 
+	FGlobalBuffData GetGlobalBuffData(EGlobalBuffType buff_type);
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UWeaponDataAsset> weapon_data_asset_;
@@ -68,4 +74,7 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<class URuneDataAsset> rune_data_asset_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GlobalBuffs", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UGlobalBuffDataAsset> global_buff_data_asset_;
 };

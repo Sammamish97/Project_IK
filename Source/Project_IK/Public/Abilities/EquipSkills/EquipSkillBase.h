@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Interfaces/EquipSkill.h"
 #include "EquipSkillBase.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UEquipSkillBase : public UObject, public IEquipSkill
 {
 	GENERATED_BODY()
