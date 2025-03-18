@@ -10,19 +10,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
 #include "EnumCluster.generated.h"
-
-UENUM(BlueprintType)
-enum class EDPType : uint8
-{
-	Empty UMETA(DisplayName = "Empty"),
-	FireRateBurst UMETA(DisplayName = "Fire Rate"),
-	FireRange UMETA(DisplayName = "Fire Range"),
-	HealingWaves UMETA(DisplayName = "Healing Waves"),
-	LaserBeam UMETA(DisplayName = "LaserBeam"),
-	INVALID UMETA(DisplayName = "Invalid")
-};
 
 UENUM(BlueprintType)
 enum class EUnitState  : uint8
@@ -33,15 +21,6 @@ enum class EUnitState  : uint8
 	Attacking UMETA(DisplayName = "Attacking"),
 	Reloading UMETA(DisplayName = "Reloading"),
 	Stunned UMETA(DisplayName = "Stunned"),
-};
-
-UENUM(BlueprintType)
-enum class EDroneState  : uint8
-{
-	Idle UMETA(DisplayName = "Idle"),
-	BannedDP UMETA(DisplayName = "BannedDP"),
-	UsingPeriodicDP UMETA(DisplayName = "UsingPeriodicDP"),
-	UsingGeneralDP UMETA(DisplayName = "UsingGeneralDP")
 };
 
 UENUM(BlueprintType)
@@ -141,7 +120,7 @@ enum class EDamageType : uint8
 };
 
 UENUM(BlueprintType)
-enum class EHeroEvent : uint8
+enum class EUnitEvent : uint8
 {
 	OnHitBeforeCalc UMETA(DisplayName = "OnHitBeforeCalc"),
 	OnHitAfterCalc UMETA(DisplayName = "OnHitAfterCalc"),

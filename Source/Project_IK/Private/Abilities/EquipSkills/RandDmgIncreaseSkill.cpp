@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 void URandDmgIncreaseSkill::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
-	bound_target_ = EHeroEvent::OnFire;
+	bound_target_ = EUnitEvent::OnFire;
 	hero_cache_->BindDamageEvent(bound_target_, this, &URandDmgIncreaseSkill::OnEquipmentSkill);
 }
 

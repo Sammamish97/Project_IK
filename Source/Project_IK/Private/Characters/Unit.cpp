@@ -230,11 +230,11 @@ void AUnit::GetDamageByPEM(FDamageData data)
 {
 
 
-	if (dmg_event_map_.Find(EHeroEvent::OnHitBeforeCalc))
+	if (dmg_event_map_.Find(EUnitEvent::OnHitBeforeCalc))
 	{
-		if (dmg_event_map_[EHeroEvent::OnHitBeforeCalc].IsEmpty() == false)
+		if (dmg_event_map_[EUnitEvent::OnHitBeforeCalc].IsEmpty() == false)
 		{
-			for (auto& delegate : dmg_event_map_[EHeroEvent::OnHitBeforeCalc])
+			for (auto& delegate : dmg_event_map_[EUnitEvent::OnHitBeforeCalc])
 			{
 				if (delegate.IsBound())data = delegate.Execute(data);
 			}
@@ -244,11 +244,11 @@ void AUnit::GetDamageByPEM(FDamageData data)
 	bool is_evaded = character_stat_component_->CalcDamage(data);
 	if (is_evaded == false)
 	{
-		if (dmg_event_map_.Find(EHeroEvent::OnHitAfterCalc))
+		if (dmg_event_map_.Find(EUnitEvent::OnHitAfterCalc))
 		{
-			if (dmg_event_map_[EHeroEvent::OnHitAfterCalc].IsEmpty() == false)
+			if (dmg_event_map_[EUnitEvent::OnHitAfterCalc].IsEmpty() == false)
 			{
-				for (auto& delegate : dmg_event_map_[EHeroEvent::OnHitAfterCalc])
+				for (auto& delegate : dmg_event_map_[EUnitEvent::OnHitAfterCalc])
 				{
 					if (delegate.IsBound()) data = delegate.Execute(data);
 				}
