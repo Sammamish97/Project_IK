@@ -267,6 +267,7 @@ enum class EPlayerState : uint8
 	Event UMETA(DisplayName = "Event"),
 };
 
+UENUM(BlueprintType)
 enum class EGlobalBuffType : uint8
 {
 	WoundingBullets UMETA(DisplayName = "WoundingBullets"),
