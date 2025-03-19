@@ -25,14 +25,14 @@ void USetBonus_Chariot::ActivateEdgeBonus()
 void USetBonus_Chariot::ActivateTriangleBonus()
 {
 	Super::ActivateTriangleBonus();
-	hero_cache_->BindDamageEvent(EHeroEvent::OnReload, this, &USetBonus_Chariot::TriangleBonus);
+	hero_cache_->BindDamageEvent(EUnitEvent::OnReload, this, &USetBonus_Chariot::TriangleBonus);
 }
 
 //장전시 2초간 치명타 확률 50%
 void USetBonus_Chariot::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
-	hero_cache_->BindDamageEvent(EHeroEvent::OnReload, this, &USetBonus_Chariot::HexagonBonus);
+	hero_cache_->BindDamageEvent(EUnitEvent::OnReload, this, &USetBonus_Chariot::HexagonBonus);
 }
 
 FDamageData USetBonus_Chariot::TriangleBonus(FDamageData dmg_data)

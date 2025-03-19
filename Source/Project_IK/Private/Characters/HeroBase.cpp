@@ -94,11 +94,11 @@ FDamageData AHeroBase::Attack(AActor* target)
 	FDamageData damage_data;
 	damage_data.damage_type = EDamageType::Projectile;
 	damage_data.attacker = this;
-	if (dmg_event_map_.Find(EHeroEvent::OnFire))
+	if (dmg_event_map_.Find(EUnitEvent::OnFire))
 	{
-		if (dmg_event_map_[EHeroEvent::OnFire].IsEmpty() == false)
+		if (dmg_event_map_[EUnitEvent::OnFire].IsEmpty() == false)
 		{
-			for (auto& delegate : dmg_event_map_[EHeroEvent::OnFire])
+			for (auto& delegate : dmg_event_map_[EUnitEvent::OnFire])
 			{
 				if (delegate.IsBound())
 				{

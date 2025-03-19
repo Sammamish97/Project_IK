@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 void UFixedDmgReduceSkill::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
-	bound_target_ = EHeroEvent::OnHitAfterCalc;
+	bound_target_ = EUnitEvent::OnHitAfterCalc;
 	hero_cache_->BindDamageEvent(bound_target_, this, &UFixedDmgReduceSkill::OnEquipmentSkill);
 }
 

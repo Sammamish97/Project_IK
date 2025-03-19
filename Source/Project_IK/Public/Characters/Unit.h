@@ -21,7 +21,7 @@ class UWidgetComponent;
 class UCharacterStatComponent;
 class UCrowdControlComponent;
 class UDamageUI;
-enum class EHeroEvent : uint8;
+enum class EUnitEvent : uint8;
 
 
 DECLARE_DELEGATE_RetVal_OneParam(FDamageData, FOnDamage, FDamageData);
@@ -63,7 +63,7 @@ public:
 	virtual void FinishStun() override;
 
 	template<typename T, typename FuncType>
-	void BindDamageEvent(EHeroEvent bound_event, T* object, FuncType callback);
+	void BindDamageEvent(EUnitEvent bound_event, T* object, FuncType callback);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UHitPointsUI> hp_UI_class_;
@@ -113,14 +113,14 @@ protected:
 	UPROPERTY(Transient)
 	FTimerHandle stun_timer_;
 
-	TMap<EHeroEvent, TArray<FOnDamage>> dmg_event_map_;
+	TMap<EUnitEvent, TArray<FOnDamage>> dmg_event_map_;
 
 	float capsule_half_height_ = 0.f;
 	float capsule_radius_ = 0.f;
 };
 
 template<typename T, typename FuncType>
-inline void AUnit::BindDamageEvent(EHeroEvent bound_event, T* object, FuncType callback)
+inline void AUnit::BindDamageEvent(EUnitEvent bound_event, T* object, FuncType callback)
 {
 	TArray<FOnDamage>& delegate_array = dmg_event_map_.FindOrAdd(bound_event);
 

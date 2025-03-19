@@ -16,7 +16,7 @@ See LICENSE file in the project root for full license information.
 UItemDataManager::UItemDataManager()
 	:Super::URarityAbstractObject()
 {
-	FString item_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/IK_Proto_ItemData.IK_Proto_ItemData'");
+	FString item_data_path = TEXT("/Script/Engine.DataTable'/Game/Resources/DataTables/IK_Proto_ItemData.IK_Proto_ItemData'");
 	static ConstructorHelpers::FObjectFinder<UDataTable> dt_item_data(*item_data_path);
 	if (dt_item_data.Succeeded() == false)
 	{
