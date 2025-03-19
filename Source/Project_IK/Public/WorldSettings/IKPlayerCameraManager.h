@@ -29,9 +29,15 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Movements")
 	FVector camera_view_vector_ = FVector(0.f, -500.f, -500.f);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Movements")
+	FVector camera_location_offset_ = FVector(0.f, 0.f, 0.f);
 protected:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	FBox GetHeroBox() const;
+	float GetAspectRatio() const;
 
 	TArray<TWeakObjectPtr<AActor>> tracked_heroes_{};
 };
