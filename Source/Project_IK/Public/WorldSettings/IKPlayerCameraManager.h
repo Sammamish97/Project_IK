@@ -32,6 +32,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Movements")
 	FVector camera_location_offset_ = FVector(0.f, 0.f, 0.f);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Movements")
+	float left_edge_padding_ = 50.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Movements")
+	float zoom_padding_ = 1.2f;
 protected:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;

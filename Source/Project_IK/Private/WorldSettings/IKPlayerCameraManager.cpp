@@ -32,10 +32,13 @@ void AIKPlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTi
 	const float tan = FMath::Tan(FMath::DegreesToRadians(GetFOVAngle() * 0.5f));
 	// Since extents is also half size of bounding box -> Half / Half
 	const float required_vertical_distance = (extents.X * aspect_ratio) / tan;
-	const float required_horizontal_distance = (extents.Y) / tan;
-	FVector camera_location = center - (FVector(0.f, 0.f, -1.f) * FMath::Max(required_horizontal_distance, required_vertical_distance));
-	
-	
+	const float required_horizontal_distance = extents.Y / tan;
+	FVector camera_location;
+
+	camera_location = center - (normalize_view_vector * FMath::Max(required_vertical_distance, required_horizontal_distance) * zoom_padding_);
+
+
+
 	APlayerController* pc = GetOwningPlayerController();
 
 	// Adjust left alignment - Move the camera left so actors appear left-aligned.
@@ -50,8 +53,9 @@ void AIKPlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTi
 		left_edged_point = camera_location + vec * t;
 	}
 
-	FVector left_offset = (-normalize_view_vector.Rotation().Quaternion().GetRightVector()) * (left_edged_point.Y - (center.Y - extents.Y));
+	FVector left_offset = (-normalize_view_vector.Rotation().Quaternion().GetRightVector()) * (left_edged_point.Y - (center.Y - extents.Y) + left_edge_padding_);
 	camera_location += left_offset;
+	
 
 	OutVT.POV.Location = camera_location + camera_location_offset_;// FMath::VInterpTo(GetCameraLocation(), camera_location, DeltaTime, 2.f);
 	OutVT.POV.Rotation = normalize_view_vector.Rotation();
