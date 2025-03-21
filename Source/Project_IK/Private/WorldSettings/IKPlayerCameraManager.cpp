@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameModeBase.h"
 
+#include "Components/CapsuleComponent.h"
+
 void AIKPlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTime)
 {
 	Super::UpdateViewTarget(OutVT, DeltaTime);
@@ -25,17 +27,25 @@ void AIKPlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTi
 	FVector center = bounding_box.GetCenter();
 	FVector extents = bounding_box.GetExtent();
 
+	const FRotator camera_view_rotator = normalize_view_vector.Rotation(); 
+	FVector rotated_extents = camera_view_rotator.RotateVector(extents).GetAbs();
+	const FQuat camera_view_quaternion = camera_view_rotator.Quaternion();
+
 	// Since OutVT.POV.AspectRatio is fixed number in init stages, manually calculated it in everyframes.
 	float aspect_ratio = GetAspectRatio();
 
 	// Compute the distance needed to fit the bounding box within the camera frustum
 	const float tan = FMath::Tan(FMath::DegreesToRadians(GetFOVAngle() * 0.5f));
 	// Since extents is also half size of bounding box -> Half / Half
-	const float required_vertical_distance = (extents.X * aspect_ratio) / tan;
-	const float required_horizontal_distance = extents.Y / tan;
-	FVector camera_location;
 
-	camera_location = center - (normalize_view_vector * FMath::Max(required_vertical_distance, required_horizontal_distance) * zoom_padding_);
+	const FVector up_vector = camera_view_quaternion.GetUpVector();
+	const FVector right_vector = camera_view_quaternion.GetRightVector();
+	const FVector forward_vector = camera_view_quaternion.GetForwardVector();
+	const float required_up_distance = FMath::Abs((FVector::DotProduct(up_vector, extents) * aspect_ratio) / tan);
+	const float required_right_distance = FMath::Abs(FVector::DotProduct(right_vector, extents) / tan);
+	const float required_forward_distance = FMath::Abs(FVector::DotProduct(forward_vector, extents));
+	const float camera_distance = (FMath::Max(required_up_distance, required_right_distance) + required_forward_distance) * zoom_padding_;
+	FVector camera_location = center - (normalize_view_vector * camera_distance);
 
 
 
@@ -54,11 +64,11 @@ void AIKPlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTi
 	}
 
 	FVector left_offset = (-normalize_view_vector.Rotation().Quaternion().GetRightVector()) * (left_edged_point.Y - (center.Y - extents.Y) + left_edge_padding_);
-	camera_location += left_offset;
+	//camera_location += left_offset;
 	
 
 	OutVT.POV.Location = camera_location + camera_location_offset_;// FMath::VInterpTo(GetCameraLocation(), camera_location, DeltaTime, 2.f);
-	OutVT.POV.Rotation = normalize_view_vector.Rotation();
+	OutVT.POV.Rotation = camera_view_rotator;
 
 	DrawDebugBox(GetWorld(), bounding_box.GetCenter(), bounding_box.GetExtent(), FColor::Green, false, 0.f, 0.f, 2.f);
 }
@@ -89,7 +99,15 @@ FBox AIKPlayerCameraManager::GetHeroBox() const
 	{
 		if (actor.IsValid())
 		{
-			hero_box += actor->GetActorLocation();
+			UCapsuleComponent* capsule = actor->FindComponentByClass<UCapsuleComponent>();
+			if (capsule)
+			{
+				hero_box += capsule->Bounds.GetBox();
+			}
+			else
+			{
+				hero_box += actor->GetActorLocation();
+			}
 		}
 	}
 	return hero_box;
