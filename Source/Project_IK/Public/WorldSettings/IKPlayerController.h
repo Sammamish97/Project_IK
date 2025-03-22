@@ -35,16 +35,53 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Targeting")
 	class UTargetingComponent* GetTargetingComponent();
 
+private:
+	UFUNCTION()
+	void ActivateFirstHeroActiveSkill();
+
+	UFUNCTION()
+	void ActivateSecondHeroActiveSkill();
+
+	UFUNCTION()
+	void ActivateThirdHeroActiveSkill();
+
+	UFUNCTION()
+	void ActivateFourthHeroActiveSkill();
+
+	UFUNCTION()
+	void Decide();
+
+	UFUNCTION()
+	void EnterRepositioningMode();
+
 protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Targeting")
 	class UTargetingComponent* targeting_component_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputMappingContext> player_input_mapping_context;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
-	TObjectPtr<UInputAction> toggle_map_action;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> toggle_map_action_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> decide_action_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> enter_repositioning_mode_action_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> activate_first_hero_active_skill_action_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> activate_second_hero_active_skill_action;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> activate_third_hero_active_skill_action;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> activate_fourth_hero_active_skill_action;
 
 	UPROPERTY(Transient)
 	EPlayerState player_state_;

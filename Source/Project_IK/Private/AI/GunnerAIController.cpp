@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 AGunnerAIController::AGunnerAIController()
 {
 	owned_cover_key_name_ = TEXT("OwnedCover");
+	target_position_key_name_ = TEXT("TargetPosition");
 	fire_state_key_name_ = TEXT("FireState");
 	reload_state_key_name_ = TEXT("ReloadState");
 }
@@ -39,4 +40,10 @@ void AGunnerAIController::OnDie()
 AActor* AGunnerAIController::GetOwnedCover()
 {
 	return Cast<AActor>(GetBlackboardComponent()->GetValueAsObject(owned_cover_key_name_));
+}
+
+void AGunnerAIController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	
 }

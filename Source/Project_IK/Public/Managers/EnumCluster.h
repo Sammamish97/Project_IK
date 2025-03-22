@@ -21,6 +21,7 @@ enum class EUnitState  : uint8
 	Attacking UMETA(DisplayName = "Attacking"),
 	Reloading UMETA(DisplayName = "Reloading"),
 	Stunned UMETA(DisplayName = "Stunned"),
+	Repositioning UMETA(DisplayName = "Repositioning"),
 };
 
 UENUM(BlueprintType)
