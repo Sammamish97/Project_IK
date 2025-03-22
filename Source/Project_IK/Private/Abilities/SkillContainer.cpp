@@ -42,16 +42,13 @@ void USkillContainer::InitializeComponent()
 {
 	Super::InitializeComponent();
 }
-
-FTargetParameters USkillContainer::GetTargetParameters() const
+TOptional<FTargetParameters> USkillContainer::GetTargetParameters() const
 {
 	if (active_skill_)
 	{
 		return active_skill_->GetTargetParameters();
 	}
-
-	// Return empty params if ptr is invalid.
-	return FTargetParameters();
+	return NullOpt;
 }
 
 float USkillContainer::GetCooltime() const

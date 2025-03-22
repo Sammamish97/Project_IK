@@ -19,10 +19,9 @@ See LICENSE file in the project root for full license information.
 #include "Components/RuneMechanics.h"
 #include "Components/WeaponMechanics.h"
 #include "Components/SphereComponent.h"
+#include "Components/TargetingComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Subsystems/LevelTransitionSubsystem.h"
-#include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKGameModeBase.h"
 
 AHeroBase::AHeroBase()
@@ -128,4 +127,9 @@ void AHeroBase::OnStunned()
 EHeroType AHeroBase::GetHeroType() const
 {
 	return hero_type_;
+}
+
+TOptional<FTargetParameters> AHeroBase::GetActiveSkillTargetParameters() const
+{
+	return skill_container_->GetTargetParameters();
 }

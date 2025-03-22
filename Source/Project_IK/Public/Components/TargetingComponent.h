@@ -101,6 +101,9 @@ public:
 	UFUNCTION()
 	void StopItemTargeting();
 
+	void CancelTargeting();
+	void SetTargetingState(ETargetingState new_state);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Targeting")
 	UMaterialInterface* range_material_;
 
@@ -113,6 +116,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Targeting")
 	UMaterialInterface* highlight_material_;
 
+private:
+	ETargetingState targeting_state_ = ETargetingState::Idle;
+	int32 selected_hero_idx_ = 0;
+	
 private:
 	UPROPERTY() 
 	AActor* targeting_visual_actor_;

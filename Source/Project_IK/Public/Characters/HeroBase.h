@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Characters/Unit.h"
+#include "components/TargetingComponent.h"
 #include "Interfaces/Attackable.h"
 #include "Managers/EnumCluster.h"
 #include "HeroBase.generated.h"
@@ -32,6 +33,7 @@ public:
 	virtual void GetStunned(float stun_duration) override;
 	virtual void OnStunned() override;
 	EHeroType GetHeroType() const;
+	TOptional<FTargetParameters> GetActiveSkillTargetParameters() const;
 
 public:
 

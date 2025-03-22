@@ -32,22 +32,22 @@ void UButtonBarWidget::NativeConstruct()
 
 	FindCharacters();
 
-	if (skill_button_0_)
-	{
-		skill_button_0_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked0);
-	}
-	if (skill_button_1_)
-	{
-		skill_button_1_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked1);
-	}
-	if (skill_button_2_)
-	{
-		skill_button_2_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked2);
-	}
-	if (skill_button_3_)
-	{
-		skill_button_3_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked3);
-	}
+	// if (skill_button_0_)
+	// {
+	// 	skill_button_0_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked0);
+	// }
+	// if (skill_button_1_)
+	// {
+	// 	skill_button_1_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked1);
+	// }
+	// if (skill_button_2_)
+	// {
+	// 	skill_button_2_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked2);
+	// }
+	// if (skill_button_3_)
+	// {
+	// 	skill_button_3_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked3);
+	// }
 
 	if (item_button_0_)
 	{
@@ -160,50 +160,50 @@ void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 		}
 	}
 }
-
-void UButtonBarWidget::OnSkillButtonClicked0()
-{
-	caster_ = 0;
-	selected_item_index_ = -1;
-
-	if (targeting_component_ && characters_.IsValidIndex(caster_))
-	{
-		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
-	}
-}
-
-void UButtonBarWidget::OnSkillButtonClicked1()
-{
-	caster_ = 1;
-	selected_item_index_ = -1;
-
-	if (targeting_component_ && characters_.IsValidIndex(caster_))
-	{
-		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
-	}
-}
-
-void UButtonBarWidget::OnSkillButtonClicked2()
-{
-	caster_ = 2;
-	selected_item_index_ = -1;
-
-	if (targeting_component_ && characters_.IsValidIndex(caster_))
-	{
-		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
-	}
-}
-
-void UButtonBarWidget::OnSkillButtonClicked3()
-{
-	caster_ = 3;
-	selected_item_index_ = -1;
-
-	if (targeting_component_ && characters_.IsValidIndex(caster_))
-	{
-		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
-	}
-}
+//
+// void UButtonBarWidget::OnSkillButtonClicked0()
+// {
+// 	caster_ = 0;
+// 	selected_item_index_ = -1;
+//
+// 	if (targeting_component_ && characters_.IsValidIndex(caster_))
+// 	{
+// 		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
+// 	}
+// }
+//
+// void UButtonBarWidget::OnSkillButtonClicked1()
+// {
+// 	caster_ = 1;
+// 	selected_item_index_ = -1;
+//
+// 	if (targeting_component_ && characters_.IsValidIndex(caster_))
+// 	{
+// 		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
+// 	}
+// }
+//
+// void UButtonBarWidget::OnSkillButtonClicked2()
+// {
+// 	caster_ = 2;
+// 	selected_item_index_ = -1;
+//
+// 	if (targeting_component_ && characters_.IsValidIndex(caster_))
+// 	{
+// 		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
+// 	}
+// }
+//
+// void UButtonBarWidget::OnSkillButtonClicked3()
+// {
+// 	caster_ = 3;
+// 	selected_item_index_ = -1;
+//
+// 	if (targeting_component_ && characters_.IsValidIndex(caster_))
+// 	{
+// 		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
+// 	}
+// }
 
 void UButtonBarWidget::OnItemButtonClicked0()
 {
@@ -478,3 +478,4 @@ void UButtonBarWidget::FindCharacters()
 		}
 	}
 }
+

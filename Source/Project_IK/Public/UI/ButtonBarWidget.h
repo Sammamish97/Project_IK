@@ -48,17 +48,17 @@ protected:
 	virtual void NativeDestruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
 
-	UFUNCTION()
-	void OnSkillButtonClicked0();
-
-	UFUNCTION()
-	void OnSkillButtonClicked1();
-
-	UFUNCTION()
-	void OnSkillButtonClicked2();
-
-	UFUNCTION()
-	void OnSkillButtonClicked3();
+	// UFUNCTION()
+	// void OnSkillButtonClicked0();
+	//
+	// UFUNCTION()
+	// void OnSkillButtonClicked1();
+	//
+	// UFUNCTION()
+	// void OnSkillButtonClicked2();
+	//
+	// UFUNCTION()
+	// void OnSkillButtonClicked3();
 
 	UFUNCTION()
 	void OnItemButtonClicked0();

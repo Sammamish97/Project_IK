@@ -49,13 +49,21 @@ private:
 	void ActivateFourthHeroActiveSkill();
 
 	UFUNCTION()
+	void ActivateSkill();
+
+	UFUNCTION()
 	void Decide();
+
+	UFUNCTION()
+	void CancelTargeting();
 
 	UFUNCTION()
 	void EnterRepositioningMode();
 
 protected:
-
+	UPROPERTY(Transient)
+	TObjectPtr<class AIKGameModeBase> game_mode_cache_ = nullptr;
+	
 	UPROPERTY(VisibleAnywhere, Category = "Targeting")
 	class UTargetingComponent* targeting_component_;
 
@@ -67,6 +75,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> decide_action_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> cancel_action_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> enter_repositioning_mode_action_;
@@ -85,4 +96,7 @@ protected:
 
 	UPROPERTY(Transient)
 	EPlayerState player_state_;
+
+	UPROPERTY(Transient)
+	int32 selected_hero_idx_ = 0;
 };

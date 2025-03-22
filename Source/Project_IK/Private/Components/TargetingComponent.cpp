@@ -68,13 +68,6 @@ void UTargetingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 	UpdateTargetingVisuals();
 
-	if (player_controller_->WasInputKeyJustPressed(EKeys::RightMouseButton))
-	{
-		OnTargetingCanceled.Broadcast();
-		StopTargeting();
-		return;
-	}
-
 	if (player_controller_->WasInputKeyJustPressed(EKeys::LeftMouseButton))
 	{
 		switch (target_parameters_.current_mode_)
@@ -98,6 +91,12 @@ void UTargetingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	}
 }
 
+void UTargetingComponent::CancelTargeting()
+{
+	OnTargetingCanceled.Broadcast();
+	StopTargeting();
+}
+
 void UTargetingComponent::StartSkillTargeting(AActor* invoker, FTargetParameters TargetParams)
 {
 	StartFocus();
@@ -107,9 +106,7 @@ void UTargetingComponent::StartSkillTargeting(AActor* invoker, FTargetParameters
 	target_parameters_ = TargetParams;
 	current_target_result_.target_actors_.Empty();
 	current_target_result_.target_parameters_ = target_parameters_;
-
-
-
+	
 	range_decal_->DecalSize = FVector(target_parameters_.range_);
 
 	// Clean up visuals
@@ -212,6 +209,11 @@ void UTargetingComponent::StopItemTargeting()
 			StopTargeting();
 		}
 	}
+}
+
+void UTargetingComponent::SetTargetingState(ETargetingState new_state)
+{
+	targeting_state_ = new_state;
 }
 
 void UTargetingComponent::HandleActorTargeting()

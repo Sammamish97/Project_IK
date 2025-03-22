@@ -253,3 +253,12 @@ enum class EGlobalBuffType : uint8
 	WoundingBullets UMETA(DisplayName = "WoundingBullets"),
 	None UMETA(DisplayName = "None"),
 };
+
+UENUM(BlueprintType)
+enum class ETargetingState : uint8
+{
+	Idle UMETA(DisplayName = "Idle"),
+	ActiveSKill UMETA(DisplayName = "ActiveSKill"),
+	Item UMETA(DisplayName = "Item"),
+	RePositioning UMETA(DisplayName = "Repositioning")
+};

@@ -36,7 +36,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void InvokeSkills(const FTargetResult& TargetResult);
 
-	FTargetParameters GetTargetParameters() const;
+	TOptional<FTargetParameters> GetTargetParameters() const;
 	float GetCooltime() const;
 	FActiveSkillData GetEquippedActiveSkillData();
 	void EquipActiveSkill(EActiveSkillType type);
