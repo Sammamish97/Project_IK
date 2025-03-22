@@ -28,7 +28,6 @@ void AIKPlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTi
 	FVector extents = bounding_box.GetExtent();
 
 	const FRotator camera_view_rotator = normalize_view_vector.Rotation(); 
-	FVector rotated_extents = camera_view_rotator.RotateVector(extents).GetAbs();
 	const FQuat camera_view_quaternion = camera_view_rotator.Quaternion();
 
 	// Since OutVT.POV.AspectRatio is fixed number in init stages, manually calculated it in everyframes.
@@ -48,23 +47,36 @@ void AIKPlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTi
 	FVector camera_location = center - (normalize_view_vector * camera_distance);
 
 
+	DrawDebugDirectionalArrow(GetWorld(), center, center + forward_vector * required_forward_distance, 10.f, FColor::Red);
+	DrawDebugDirectionalArrow(GetWorld(), center, center + right_vector * required_right_distance, 10.f, FColor::Green);
+	DrawDebugDirectionalArrow(GetWorld(), center, center + up_vector * required_up_distance, 10.f, FColor::Blue);
+
+	const FVector left_middle_bounding_box_camera_space = center - required_forward_distance * forward_vector - required_right_distance * right_vector;
 
 	APlayerController* pc = GetOwningPlayerController();
 
 	// Adjust left alignment - Move the camera left so actors appear left-aligned.
-	FVector pos;
-	FVector vec;
-	FVector left_edged_point;
+	FVector pos = FVector::ZeroVector;
+	FVector vec = FVector::ZeroVector;
+	FVector left_edged_point = FVector::ZeroVector;
 	FIntPoint viewport_size = GEngine->GameViewport->Viewport->GetSizeXY();
 	// Get left edge point.
 	if (pc->DeprojectScreenPositionToWorld(0.f, viewport_size.Y / 2.f, pos, vec))
 	{
-		float t = (center.Z - camera_location.Z) / vec.Z;
+		const float denominator = FVector::DotProduct(camera_view_vector_, vec);
+		if (FMath::IsNearlyZero(denominator))
+		{
+			UE_LOG(LogTemp, Error, TEXT("Divided by zero in AIKPlayerCameraManager::UpdateViewTarget"));
+		}
+		// The old formula was it: (center.Z - camera_location.Z) / vec.Z;
+		const float t = FVector::DotProduct(camera_view_vector_, (left_middle_bounding_box_camera_space - camera_location)) / denominator; 
 		left_edged_point = camera_location + vec * t;
 	}
+	// It was an old formula to calculate left offset
+	// (-normalize_view_vector.Rotation().Quaternion().GetRightVector())* (left_edged_point.Y - (center.Y - extents.Y) + left_edge_padding_);
+	FVector left_offset = left_middle_bounding_box_camera_space - left_edged_point + (-normalize_view_vector.Rotation().Quaternion().GetRightVector()) * (left_edge_padding_);
 
-	FVector left_offset = (-normalize_view_vector.Rotation().Quaternion().GetRightVector()) * (left_edged_point.Y - (center.Y - extents.Y) + left_edge_padding_);
-	//camera_location += left_offset;
+	camera_location += left_offset;
 	
 
 	OutVT.POV.Location = camera_location + camera_location_offset_;// FMath::VInterpTo(GetCameraLocation(), camera_location, DeltaTime, 2.f);
