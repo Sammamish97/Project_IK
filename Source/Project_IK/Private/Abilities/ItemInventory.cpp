@@ -71,6 +71,15 @@ void UItemInventory::AddItems(TArray<FItemData*> item_data, TFunction<void()> On
 	}
 }
 
+void UItemInventory::UseItem(int32 item_idx, FTargetResult target_result)
+{
+	if (item_inventory_.IsValidIndex(item_idx))
+	{
+		item_inventory_[item_idx]->UseItem(GetWorld(), target_result);
+		RemoveItem(item_idx);
+	}
+}
+
 TWeakObjectPtr<UItem> UItemInventory::GetItem(int32 index) const
 {
 	if (item_inventory_.IsValidIndex(index))

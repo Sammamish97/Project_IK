@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+#include "Structs/TargetResult.h"
 #include "ItemInventory.generated.h"
 
 class UItem;
@@ -22,6 +22,7 @@ struct FItemData;
 /**
  * 
  */
+
 UCLASS(Blueprintable)
 class PROJECT_IK_API UItemInventory : public UObject
 {
@@ -33,6 +34,8 @@ public:
 	void AddItem(TWeakObjectPtr<UItem> item, TFunction<void()> OnConfirm = []() {});
 	void AddItem(FItemData* item_data, TFunction<void()>OnConfirm = []() {});
 	void AddItems(TArray<FItemData*> item_data, TFunction<void()>OnConfirm = []() {});
+
+	void UseItem(int32 item_idx, FTargetResult target_result);
 
 	TWeakObjectPtr<UItem> GetItem(int32 index) const;
 
@@ -46,7 +49,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	TSubclassOf<UItemKeepOrDiscardWidget> item_keep_discard_class_;
-
+	
 protected:
 	void CallKeepDiscardUI(TWeakObjectPtr<UItem> item_added, TFunction<void()>OnConfirm);
 	void CallKeepDiscardUI(FItemData* item_added, TFunction<void()>OnConfirm);

@@ -29,9 +29,6 @@ public:
 	virtual void BeginPlay();
 	virtual void SetupInputComponent() override;
 
-	EPlayerState GetPlayerState() const;
-	void SetPlayerState(EPlayerState new_state);
-
 	UFUNCTION(BlueprintPure, Category = "Targeting")
 	class UTargetingComponent* GetTargetingComponent();
 
@@ -47,10 +44,22 @@ private:
 
 	UFUNCTION()
 	void ActivateFourthHeroActiveSkill();
+	
+	UFUNCTION()
+	void ActivateSkillTargeting(int32 hero_idx);
 
 	UFUNCTION()
-	void ActivateSkill();
+	void ActivateFirstItem();
 
+	UFUNCTION()
+	void ActivateSecondItem();
+
+	UFUNCTION()
+	void ActivateThirdItem();
+
+	UFUNCTION()
+	void ActivateItemTargeting(int32 item_idx);
+	
 	UFUNCTION()
 	void Decide();
 
@@ -61,11 +70,8 @@ private:
 	void EnterRepositioningMode();
 
 protected:
-	UPROPERTY(Transient)
-	TObjectPtr<class AIKGameModeBase> game_mode_cache_ = nullptr;
-	
 	UPROPERTY(VisibleAnywhere, Category = "Targeting")
-	class UTargetingComponent* targeting_component_;
+	TObjectPtr<UTargetingComponent> targeting_component_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputMappingContext> player_input_mapping_context;
@@ -94,9 +100,14 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> activate_fourth_hero_active_skill_action;
 
-	UPROPERTY(Transient)
-	EPlayerState player_state_;
+	//
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> activate_first_item_action_;
 
-	UPROPERTY(Transient)
-	int32 selected_hero_idx_ = 0;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> activate_second_item_action_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> activate_third_item_action_;
 };

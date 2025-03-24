@@ -10,22 +10,11 @@ See LICENSE file in the project root for full license information.
 
 
 #include "Abilities/Item.h"
-
-
-#include "Kismet/GameplayStatics.h"
-#include "WorldSettings/IKGameInstance.h"
-#include "Managers/TextureManager.h"
-
 #include "Managers/EnumCluster.h"
-
 #include "Characters/Unit.h"
-
-#include "Components/TargetingComponent.h"
-
 #include "Components/CharacterStatComponent.h"
-
+#include "Structs/TargetResult.h"
 #include "Interfaces/Damageable.h"
-
 #include "Abilities/SmokeRegion.h"
 
 void UItem::InitializeItemUsingData(FItemData item_data)

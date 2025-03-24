@@ -11,8 +11,9 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Characters/Unit.h"
-#include "components/TargetingComponent.h"
 #include "Interfaces/Attackable.h"
+#include "Structs/TargetResult.h"
+#include "Structs/TargetParameters.h"
 #include "Managers/EnumCluster.h"
 #include "HeroBase.generated.h"
 
@@ -32,8 +33,12 @@ public:
 	virtual FDamageData Attack(AActor* target) override;
 	virtual void GetStunned(float stun_duration) override;
 	virtual void OnStunned() override;
+	
 	EHeroType GetHeroType() const;
+	void InvokeActiveSkill(FTargetResult target_result);
+	void Reposition(FTargetResult target_result);
 	TOptional<FTargetParameters> GetActiveSkillTargetParameters() const;
+	bool IsActiveSkillOnCoolDown() const;
 
 public:
 

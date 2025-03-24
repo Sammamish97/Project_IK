@@ -14,7 +14,6 @@ See LICENSE file in the project root for full license information.
 
 #include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKPlayerController.h"
-#include "Components/TargetingComponent.h"
 #include "Managers/TimeDilationManager.h"
 #include "Managers/EnemySpawnerManager.h"
 
@@ -22,6 +21,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 #include "Components/CharacterStatComponent.h"
+#include "Components/TargetingComponent.h"
 #include "Environments/SpawnMarker.h"
 #include "Structs/SpawnData.h"
 #include "Subsystems/LevelTransitionSubsystem.h"

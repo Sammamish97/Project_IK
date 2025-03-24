@@ -51,11 +51,25 @@ TOptional<FTargetParameters> USkillContainer::GetTargetParameters() const
 	return NullOpt;
 }
 
-float USkillContainer::GetCooltime() const
+float USkillContainer::GetActiveSkillCoolTime() const
 {
 	if (active_skill_)
 	{
-		return active_skill_->GetCooltime() * (100 / (100 + hero_cache_->GetCharacterStat()->GetSkillCooldown()));
+		return active_skill_->GetCoolTime() * (100 / (100 + hero_cache_->GetCharacterStat()->GetSkillCooldown()));
+	}
+	return 0.f;
+}
+
+bool USkillContainer::IsOnCoolDown() const
+{
+	return GetWorld()->GetTimerManager().IsTimerActive(cool_down_handle_);
+}
+
+float USkillContainer::GetLeftCoolDown() const
+{
+	if (IsOnCoolDown())
+	{
+		return GetWorld()->GetTimerManager().GetTimerRemaining(cool_down_handle_);
 	}
 	return 0.f;
 }
@@ -85,10 +99,16 @@ void USkillContainer::UnEquipActiveSkill()
 	}
 }
 
-void USkillContainer::InvokeSkills(const FTargetResult& TargetResult)
+bool USkillContainer::InvokeSkills(const FTargetResult& TargetResult)
 {
 	if (active_skill_)
 	{
-		active_skill_->ActivateSkill(TargetResult);
+		if (GetWorld()->GetTimerManager().IsTimerActive(cool_down_handle_) == false)
+		{
+			active_skill_->ActivateSkill_Implementation(TargetResult);
+			GetWorld()->GetTimerManager().SetTimer(cool_down_handle_, GetActiveSkillCoolTime(), false);
+			return true;
+		}
 	}
+	return false;
 }

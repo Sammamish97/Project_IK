@@ -14,10 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "Components/TargetingComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "Kismet/GameplayStatics.h"
-#include "WorldSettings/IKGameModeBase.h"
-#include "Characters/HeroBase.h"
-#include "WorldSettings/IKHUD.h"
 
 AIKPlayerController::AIKPlayerController()
 	: Super::APlayerController()
@@ -28,9 +24,6 @@ AIKPlayerController::AIKPlayerController()
 void AIKPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	game_mode_cache_ = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-
 	bShowMouseCursor = true;
 	bEnableClickEvents = true;
 	bEnableMouseOverEvents = true;
@@ -53,10 +46,15 @@ void AIKPlayerController::SetupInputComponent()
 		enhanced_input_component->BindAction(activate_second_hero_active_skill_action, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateSecondHeroActiveSkill);
 		enhanced_input_component->BindAction(activate_third_hero_active_skill_action, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateThirdHeroActiveSkill);
 		enhanced_input_component->BindAction(activate_fourth_hero_active_skill_action, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateFourthHeroActiveSkill);
+		
 		enhanced_input_component->BindAction(enter_repositioning_mode_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::EnterRepositioningMode);
+		
 		enhanced_input_component->BindAction(decide_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::Decide);
 		enhanced_input_component->BindAction(cancel_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::CancelTargeting);
-
+		
+		enhanced_input_component->BindAction(activate_first_item_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateFirstItem);
+		enhanced_input_component->BindAction(activate_second_item_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateSecondItem);
+		enhanced_input_component->BindAction(activate_third_item_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateThirdItem);
 	}
 }
 
@@ -68,49 +66,56 @@ UTargetingComponent* AIKPlayerController::GetTargetingComponent()
 void AIKPlayerController::ActivateFirstHeroActiveSkill()
 {
 	UE_LOG(LogTemp, Display, TEXT("Select first hero"));
-	selected_hero_idx_ = 0;
-	ActivateSkill();
+	ActivateSkillTargeting(0);
 }
 
 void AIKPlayerController::ActivateSecondHeroActiveSkill()
 {
 	UE_LOG(LogTemp, Display, TEXT("Select second hero"));
-	selected_hero_idx_ = 1;
-	ActivateSkill();
+	ActivateSkillTargeting(1);
 }
 
 void AIKPlayerController::ActivateThirdHeroActiveSkill()
 {
 	UE_LOG(LogTemp, Display, TEXT("Select third hero"));
-	selected_hero_idx_ = 2;
-	ActivateSkill();
+	ActivateSkillTargeting(2);
 }
 
 void AIKPlayerController::ActivateFourthHeroActiveSkill()
 {
 	UE_LOG(LogTemp, Display, TEXT("Select fourth hero"));
-	selected_hero_idx_ = 3;
-	ActivateSkill();
+	ActivateSkillTargeting(3);
 }
 
-void AIKPlayerController::ActivateSkill()
+void AIKPlayerController::ActivateSkillTargeting(int32 hero_idx)
 {
-	//IKTODO: selected_hero_idx에 대한 예외처리가 필요하다. int32대신 enum으로 접근하는게 더 올바를 수 도 있다.
-	auto hero_array = game_mode_cache_->GetHeroContainers();
-	auto cur_param = Cast<AHeroBase>(hero_array[selected_hero_idx_])->GetActiveSkillTargetParameters();
-	if (cur_param.IsSet())
-	{
-		targeting_component_->StartSkillTargeting(hero_array[selected_hero_idx_], cur_param.GetValue());
-		targeting_component_->SetTargetingState(ETargetingState::ActiveSKill);
-	}
+	targeting_component_->StartSkillTargeting(hero_idx);
 }
 
+void AIKPlayerController::ActivateFirstItem()
+{
+	ActivateItemTargeting(0);
+}
+
+void AIKPlayerController::ActivateSecondItem()
+{
+	ActivateItemTargeting(1);
+}
+
+void AIKPlayerController::ActivateThirdItem()
+{
+	ActivateItemTargeting(2);
+}
+
+void AIKPlayerController::ActivateItemTargeting(int32 item_idx)
+{
+	targeting_component_->StartItemTargeting(item_idx);
+}
 
 void AIKPlayerController::Decide()
 {
 	UE_LOG(LogTemp, Display, TEXT("Decide"));
-	//targeting_component_->
-	//여기서 스킬이 발동 되어야함!
+	targeting_component_->DecideAction();
 }
 
 void AIKPlayerController::CancelTargeting()
@@ -121,14 +126,4 @@ void AIKPlayerController::CancelTargeting()
 void AIKPlayerController::EnterRepositioningMode()
 {
 	UE_LOG(LogTemp, Display, TEXT("EnterRepositioningMode"));
-}
-
-EPlayerState AIKPlayerController::GetPlayerState() const
-{
-	return player_state_;
-}
-
-void AIKPlayerController::SetPlayerState(EPlayerState new_state)
-{
-	player_state_ = new_state;
 }

@@ -13,8 +13,9 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "components/TargetingComponent.h"
 #include "Structs/ActiveSkillData.h"
+#include "Structs/TargetParameters.h"
+#include "Structs/TargetResult.h"
 #include "SkillContainer.generated.h"
 
 
@@ -34,14 +35,17 @@ public:
 	virtual void InitializeComponent() override;
 
 	UFUNCTION(BlueprintCallable)
-	void InvokeSkills(const FTargetResult& TargetResult);
+	bool InvokeSkills(const FTargetResult& TargetResult);
+
+	float GetActiveSkillCoolTime() const;
+	bool IsOnCoolDown() const;
+	float GetLeftCoolDown() const;
 
 	TOptional<FTargetParameters> GetTargetParameters() const;
-	float GetCooltime() const;
 	FActiveSkillData GetEquippedActiveSkillData();
+	
 	void EquipActiveSkill(EActiveSkillType type);
 	void UnEquipActiveSkill();
-	
 
 private:
 	FActiveSkillData equipped_active_skill_data_;
@@ -51,4 +55,6 @@ private:
 	TObjectPtr <USkillBase> active_skill_;
 	UPROPERTY()
 	TWeakObjectPtr <AHeroBase> hero_cache_;
+	UPROPERTY()
+	FTimerHandle cool_down_handle_;
 };

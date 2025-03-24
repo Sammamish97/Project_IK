@@ -23,31 +23,28 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/Item.h"
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/TextureManager.h"
-
-#include "Characters/Unit.h"
-#include "Components/CrowdControlComponent.h"
 void UButtonBarWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
 	FindCharacters();
-
-	// if (skill_button_0_)
-	// {
-	// 	skill_button_0_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked0);
-	// }
-	// if (skill_button_1_)
-	// {
-	// 	skill_button_1_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked1);
-	// }
-	// if (skill_button_2_)
-	// {
-	// 	skill_button_2_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked2);
-	// }
-	// if (skill_button_3_)
-	// {
-	// 	skill_button_3_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked3);
-	// }
+	
+	if (skill_button_0_)
+	{
+		skill_button_0_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked0);
+	}
+	if (skill_button_1_)
+	{
+		skill_button_1_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked1);
+	}
+	if (skill_button_2_)
+	{
+		skill_button_2_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked2);
+	}
+	if (skill_button_3_)
+	{
+		skill_button_3_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked3);
+	}
 
 	if (item_button_0_)
 	{
@@ -62,26 +59,22 @@ void UButtonBarWidget::NativeConstruct()
 		item_button_2_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnItemButtonClicked2);
 	}
 
-	if (AIKPlayerController* PC = Cast<AIKPlayerController>(GetOwningPlayer()))
-	{
-		targeting_component_ = PC->GetTargetingComponent();
-		if (targeting_component_)
-		{
-			targeting_component_->OnTargetResultSelected.AddDynamic(this, &UButtonBarWidget::InvokeSkills);
-		}
-	}
-
 	if (UIKGameInstance* GI = Cast<UIKGameInstance>(GetGameInstance()))
 	{
 		item_inventory_ = GI->GetItemInventory();
-
 		empty_item_icon = GI->GetTextureManager()->GetTexture("empty_item_slot");
 	}
 
-	SynchroItemButtons();
-
-	caster_ = -1;
-	selected_item_index_ = -1;
+	if (AIKPlayerController* player_controller = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
+	{
+		targeting_component_cache_ = player_controller->GetTargetingComponent();
+		targeting_component_cache_->on_item_used_.AddDynamic(this, &UButtonBarWidget::SynchroItemButtons);
+		targeting_component_cache_->on_active_skill_.AddDynamic(this, &UButtonBarWidget::SynchroActiveSkillButtons);
+		for (int32 i = 0; i < 3; ++i)
+		{
+			SynchroItemButtons(i);
+		}
+	}
 
 	switch (characters_.Num())
 	{
@@ -99,8 +92,6 @@ void UButtonBarWidget::NativeConstruct()
 	}
 
 	is_item_muted_ = false;
-	
-	
 }
 
 void UButtonBarWidget::NativeDestruct()
@@ -134,6 +125,9 @@ void UButtonBarWidget::NativeDestruct()
 	{
 		item_button_2_->OnClicked.Clear();
 	}
+	
+	targeting_component_cache_->on_item_used_.Clear();
+	targeting_component_cache_->on_active_skill_.Clear();
 }
 
 void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -147,7 +141,7 @@ void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 		if (buttons[i]->GetVisibility() != ESlateVisibility::Hidden &&buttons[i]->GetIsEnabled() == false)
 		{
 			cooldowns_[i] += InDeltaTime;
-			const float cooltime = skill_containers_[i]->GetCooltime();
+			const float cooltime = skill_containers_[i]->GetActiveSkillCoolTime();//IKTODO: 한번씩 Crash가 남.
 			if (cooldowns_[i] >= cooltime)
 			{
 				buttons[i]->SetIsEnabled(true);
@@ -156,62 +150,43 @@ void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 			{
 				button_cooldown_materials_[i]->SetScalarParameterValue("CooldownPercent", cooldowns_[i] / cooltime);
 			}
-			
 		}
 	}
 }
-//
-// void UButtonBarWidget::OnSkillButtonClicked0()
-// {
-// 	caster_ = 0;
-// 	selected_item_index_ = -1;
-//
-// 	if (targeting_component_ && characters_.IsValidIndex(caster_))
-// 	{
-// 		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
-// 	}
-// }
-//
-// void UButtonBarWidget::OnSkillButtonClicked1()
-// {
-// 	caster_ = 1;
-// 	selected_item_index_ = -1;
-//
-// 	if (targeting_component_ && characters_.IsValidIndex(caster_))
-// 	{
-// 		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
-// 	}
-// }
-//
-// void UButtonBarWidget::OnSkillButtonClicked2()
-// {
-// 	caster_ = 2;
-// 	selected_item_index_ = -1;
-//
-// 	if (targeting_component_ && characters_.IsValidIndex(caster_))
-// 	{
-// 		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
-// 	}
-// }
-//
-// void UButtonBarWidget::OnSkillButtonClicked3()
-// {
-// 	caster_ = 3;
-// 	selected_item_index_ = -1;
-//
-// 	if (targeting_component_ && characters_.IsValidIndex(caster_))
-// 	{
-// 		targeting_component_->StartSkillTargeting(characters_[caster_], skill_containers_[caster_]->GetTargetParameters());
-// 	}
-// }
+
+void UButtonBarWidget::OnSkillButtonClicked0()
+{
+	ActivateSkillTargeting(0);
+}
+
+void UButtonBarWidget::OnSkillButtonClicked1()
+{
+	ActivateSkillTargeting(1);
+}
+
+void UButtonBarWidget::OnSkillButtonClicked2()
+{
+	ActivateSkillTargeting(2);
+}
+
+void UButtonBarWidget::OnSkillButtonClicked3()
+{
+	ActivateSkillTargeting(3);
+}
+
+void UButtonBarWidget::ActivateSkillTargeting(int32 caster)
+{
+	if (targeting_component_cache_ && characters_.IsValidIndex(caster))
+	{
+		targeting_component_cache_->StartSkillTargeting(caster);
+	}
+}
 
 void UButtonBarWidget::OnItemButtonClicked0()
 {
 	if (item_inventory_->GetItem(0).IsValid() && !is_item_muted_)
 	{
-		caster_ = -1;
-		selected_item_index_ = 0;
-		targeting_component_->StartItemTargeting(item_inventory_->GetItem(0)->GetTargetParameters());
+		ActivateItemTargeting(0);
 	}
 }
 
@@ -219,9 +194,7 @@ void UButtonBarWidget::OnItemButtonClicked1()
 {
 	if (item_inventory_->GetItem(1).IsValid() && !is_item_muted_)
 	{
-		caster_ = -1;
-		selected_item_index_ = 1;
-		targeting_component_->StartItemTargeting(item_inventory_->GetItem(1)->GetTargetParameters());
+		ActivateItemTargeting(1);
 	}
 }
 
@@ -229,13 +202,16 @@ void UButtonBarWidget::OnItemButtonClicked2()
 {
 	if (item_inventory_->GetItem(2).IsValid() && !is_item_muted_)
 	{
-		caster_ = -1;
-		selected_item_index_ = 2;
-		targeting_component_->StartItemTargeting(item_inventory_->GetItem(2)->GetTargetParameters());
+		ActivateItemTargeting(2);
 	}
 }
 
-void UButtonBarWidget::SynchroItemButtons()
+void UButtonBarWidget::ActivateItemTargeting(int32 item_idx)
+{
+	targeting_component_cache_->StartItemTargeting(item_idx);
+}
+
+void UButtonBarWidget::SynchroItemButtons(int32 item_idx)
 {
 	if (is_item_muted_)
 	{
@@ -258,9 +234,10 @@ void UButtonBarWidget::SynchroItemButtons()
 
 	button_style.SetDisabled(disabled_brush);
 
-	if (item_inventory_->GetItem(0) != nullptr)
+	TArray item_buttons = {item_button_0_, item_button_1_, item_button_2_};
+	if (item_inventory_->GetItem(item_idx) != nullptr)
 	{
-		UTexture2D* item_icon = item_inventory_->GetItem(0)->GetData().item_icon_;
+		UTexture2D* item_icon = item_inventory_->GetItem(item_idx)->GetData().item_icon_;
 		normal_brush.SetResourceObject(item_icon);
 		button_style.SetNormal(normal_brush);
 		hovered_brush.SetResourceObject(item_icon);
@@ -268,50 +245,37 @@ void UButtonBarWidget::SynchroItemButtons()
 		pressed_brush.SetResourceObject(item_icon);
 		button_style.SetPressed(pressed_brush);
 
-		item_button_0_->SetIsEnabled(true);
-		item_button_0_->SetStyle(button_style);
+		item_buttons[item_idx]->SetIsEnabled(true);
+		item_buttons[item_idx]->SetStyle(button_style);
 	}
 	else
 	{
-		item_button_0_->SetIsEnabled(false);
-		item_button_0_->SetStyle(button_style);
+		item_buttons[item_idx]->SetIsEnabled(false);
+		item_buttons[item_idx]->SetStyle(button_style);
 	}
-	if (item_inventory_->GetItem(1) != nullptr)
-	{
-		UTexture2D* item_icon = item_inventory_->GetItem(1)->GetData().item_icon_;
-		normal_brush.SetResourceObject(item_icon);
-		button_style.SetNormal(normal_brush);
-		hovered_brush.SetResourceObject(item_icon);
-		button_style.SetHovered(hovered_brush);
-		pressed_brush.SetResourceObject(item_icon);
-		button_style.SetPressed(pressed_brush);
+}
 
-		item_button_1_->SetStyle(button_style);
-		item_button_1_->SetIsEnabled(true);
-	}
-	else
+void UButtonBarWidget::SynchroActiveSkillButtons(int32 hero_idx)
+{
+	switch (hero_idx)
 	{
-		item_button_1_->SetIsEnabled(false);
-		item_button_1_->SetStyle(button_style);
+	case 0:
+		skill_button_0_->SetIsEnabled(false);
+		break;
+	case 1:
+		skill_button_1_->SetIsEnabled(false);
+		break;
+	case 2:
+		skill_button_2_->SetIsEnabled(false);
+		break;
+	case 3:
+		skill_button_3_->SetIsEnabled(false);
+		break;
+	default:
+		break;
 	}
-	if (item_inventory_->GetItem(2) != nullptr)
-	{
-		UTexture2D* item_icon = item_inventory_->GetItem(2)->GetData().item_icon_;
-		normal_brush.SetResourceObject(item_icon);
-		button_style.SetNormal(normal_brush);
-		hovered_brush.SetResourceObject(item_icon);
-		button_style.SetHovered(hovered_brush);
-		pressed_brush.SetResourceObject(item_icon);
-		button_style.SetPressed(pressed_brush);
-
-		item_button_2_->SetIsEnabled(true);
-		item_button_2_->SetStyle(button_style);
-	}
-	else
-	{
-		item_button_2_->SetIsEnabled(false);
-		item_button_2_->SetStyle(button_style);
-	}
+	cooldowns_[hero_idx] = 0.f;
+	button_cooldown_materials_[hero_idx]->SetScalarParameterValue("CooldownPercent", cooldowns_[hero_idx]);
 }
 
 void UButtonBarWidget::SilenceSkill(AActor* character)
@@ -343,7 +307,7 @@ void UButtonBarWidget::SilenceSkill(AActor* character)
 		}
 	}
 	// Cancel targeting if invoker is the character
-	targeting_component_->StopTargetingIfInvokerIs(character);
+	targeting_component_cache_->StopTargetingIfInvokerIs(character);
 }
 
 void UButtonBarWidget::UnsilenceSkill(AActor* character)
@@ -387,46 +351,15 @@ void UButtonBarWidget::MuteItems()
 	item_button_2_->SetIsEnabled(false);
 	
 	// Cancel if user is targeting by item
-	targeting_component_->StopItemTargeting();
+	targeting_component_cache_->StopItemTargeting();
 }
 
 void UButtonBarWidget::UnmuteItems()
 {
 	is_item_muted_ = false;
-	SynchroItemButtons();
-}
-
-void UButtonBarWidget::InvokeSkills(const FTargetResult& TargetResult)
-{
-	if (caster_ < 0)
+	for (int32 i = 0; i < 3; ++i)
 	{
-		item_inventory_->GetItem(selected_item_index_)->UseItem(GetWorld(), TargetResult);
-		item_inventory_->RemoveItem(selected_item_index_);
-
-		SynchroItemButtons();
-	}
-	else
-	{
-		skill_containers_[caster_]->InvokeSkills(TargetResult);
-		switch (caster_)
-		{
-		case 0:
-			skill_button_0_->SetIsEnabled(false);
-			break;
-		case 1:
-			skill_button_1_->SetIsEnabled(false);
-			break;
-		case 2:
-			skill_button_2_->SetIsEnabled(false);
-			break;
-		case 3:
-			skill_button_3_->SetIsEnabled(false);
-			break;
-		default:
-			break;
-		}
-		cooldowns_[caster_] = 0.f;
-		button_cooldown_materials_[caster_]->SetScalarParameterValue("CooldownPercent", cooldowns_[caster_]);
+		SynchroItemButtons(i);
 	}
 }
 
