@@ -34,6 +34,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Targeting")
 	class UTargetingComponent* GetTargetingComponent();
 
+	void UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies);
+
 protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Targeting")

@@ -23,9 +23,7 @@ class PROJECT_IK_API AIKPlayerCameraManager : public APlayerCameraManager
 	GENERATED_BODY()
 	
 public:
-
-	virtual void UpdateViewTarget(FTViewTarget& OutVT, float DeltaTime) override;
-
+	void UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Movements")
 	FVector camera_view_vector_ = FVector(0.f, -500.f, -500.f);
@@ -34,7 +32,7 @@ public:
 	FVector camera_location_offset_ = FVector(0.f, 0.f, 0.f);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Movements")
-	float left_edge_padding_ = 50.f;
+	float edge_padding_ = 300.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Movements")
 	float zoom_padding_ = 1.2f;
@@ -42,8 +40,13 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
+	virtual void UpdateViewTarget(FTViewTarget& OutVT, float DeltaTime) override;
+
+	FVector GetOffset(FVector center, FVector extents, FVector camera_location);
+
 	FBox GetHeroBox() const;
 	float GetAspectRatio() const;
 
 	TArray<TWeakObjectPtr<AActor>> tracked_heroes_{};
+	TArray<TWeakObjectPtr<AActor>> tracked_enemies_{};
 };

@@ -16,6 +16,8 @@ See LICENSE file in the project root for full license information.
 #include "EnhancedInputSubsystems.h"
 #include "WorldSettings/IKHUD.h"
 
+#include "WorldSettings/IKPlayerCameraManager.h"
+
 AIKPlayerController::AIKPlayerController()
 	: Super::APlayerController()
 {
@@ -51,4 +53,11 @@ void AIKPlayerController::SetupInputComponent()
 UTargetingComponent* AIKPlayerController::GetTargetingComponent()
 {
 	return targeting_component_;
+}
+
+void AIKPlayerController::UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies)
+{
+	AIKPlayerCameraManager * camera_manger = Cast<AIKPlayerCameraManager>(PlayerCameraManager);
+
+	camera_manger->UpdateEnemies(tracked_enemies);
 }
