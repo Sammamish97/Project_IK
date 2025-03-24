@@ -46,7 +46,7 @@ private:
 	void ActivateFourthHeroActiveSkill();
 	
 	UFUNCTION()
-	void ActivateSkillTargeting(int32 hero_idx);
+	void ActivateSkillTargeting(EHeroType hero_type);
 
 	UFUNCTION()
 	void ActivateFirstItem();

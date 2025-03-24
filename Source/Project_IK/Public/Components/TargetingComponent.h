@@ -56,7 +56,7 @@ public:
 	void CancelTargeting();
 
 	UFUNCTION(BlueprintCallable, Category = "Targeting")
-	void StartSkillTargeting(int32 hero_idx);
+	void StartSkillTargeting(EHeroType hero_idx);
 
 	UFUNCTION(BlueprintCallable, Category = "Targeting")
 	void StartItemTargeting(int32 item_idx);

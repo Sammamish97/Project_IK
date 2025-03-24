@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "RarityAbstractObject.h"
 #include "EnumCluster.h"
+#include "Structs/TargetParameters.h"
 #include "ItemDataManager.generated.h"
 
 USTRUCT(BlueprintType)
@@ -34,16 +35,7 @@ public:
 	EItemLogicType item_logic_;
 
 	UPROPERTY(VisibleAnywhere, Category = "Item")
-	ETargetingMode targeting_mode_;
-
-	UPROPERTY(VisibleAnywhere, Category = "Item")
-	ETargetType target_type_;
-
-	UPROPERTY(VisibleAnywhere, Category = "Item")
-	float range_;
-
-	UPROPERTY(VisibleAnywhere, Category = "Item")
-	float radius_;
+	FTargetParameters target_params_;
 };
 
 /**

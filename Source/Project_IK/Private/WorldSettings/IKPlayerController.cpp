@@ -65,31 +65,27 @@ UTargetingComponent* AIKPlayerController::GetTargetingComponent()
 
 void AIKPlayerController::ActivateFirstHeroActiveSkill()
 {
-	UE_LOG(LogTemp, Display, TEXT("Select first hero"));
-	ActivateSkillTargeting(0);
+	ActivateSkillTargeting(EHeroType::Hero1);
 }
 
 void AIKPlayerController::ActivateSecondHeroActiveSkill()
 {
-	UE_LOG(LogTemp, Display, TEXT("Select second hero"));
-	ActivateSkillTargeting(1);
+	ActivateSkillTargeting(EHeroType::Hero2);
 }
 
 void AIKPlayerController::ActivateThirdHeroActiveSkill()
 {
-	UE_LOG(LogTemp, Display, TEXT("Select third hero"));
-	ActivateSkillTargeting(2);
+	ActivateSkillTargeting(EHeroType::Hero3);
 }
 
 void AIKPlayerController::ActivateFourthHeroActiveSkill()
 {
-	UE_LOG(LogTemp, Display, TEXT("Select fourth hero"));
-	ActivateSkillTargeting(3);
+	ActivateSkillTargeting(EHeroType::Hero4);
 }
 
-void AIKPlayerController::ActivateSkillTargeting(int32 hero_idx)
+void AIKPlayerController::ActivateSkillTargeting(EHeroType hero_type)
 {
-	targeting_component_->StartSkillTargeting(hero_idx);
+	targeting_component_->StartSkillTargeting(hero_type);
 }
 
 void AIKPlayerController::ActivateFirstItem()

@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "Managers/EnumCluster.h"
 
 #include "IKGameModeBase.generated.h"
 
@@ -37,7 +38,10 @@ public:
 	void SaveHeroSpawnData();
 
 	UFUNCTION(BlueprintPure)
-	TArray<AActor*> GetHeroContainers() const noexcept;
+	TArray<AActor*> GetHeroContainer() const noexcept;
+
+	UFUNCTION(BlueprintPure)
+	AActor* GetHero(EHeroType type) const noexcept;
 
 	UFUNCTION(BlueprintPure)
 	TArray<AEnemyBase*> GetEnemyContainers() const noexcept;
@@ -79,7 +83,7 @@ protected:
 	FVector hero_spawn_position_;
 
 	UPROPERTY(BlueprintReadWrite)
-	TArray<AActor*> heroes_;
+	TArray<TObjectPtr<AActor>> heroes_;
 
 	UPROPERTY()
 	TMap<TWeakObjectPtr<AActor>, float> gunner_damage_map_;

@@ -98,9 +98,18 @@ void AIKGameModeBase::SaveHeroSpawnData()
 	GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->UpdateSpawnData(spawn_data);
 }
 
-TArray<AActor*> AIKGameModeBase::GetHeroContainers() const noexcept
+TArray<AActor*> AIKGameModeBase::GetHeroContainer() const noexcept
 {
 	return heroes_;
+}
+
+AActor* AIKGameModeBase::GetHero(EHeroType type) const noexcept
+{
+	if (heroes_.IsValidIndex(HeroTypeToInt(type)))
+	{
+		return heroes_[HeroTypeToInt(type)];
+	}
+	return nullptr;
 }
 
 TArray<AEnemyBase*> AIKGameModeBase::GetEnemyContainers() const noexcept

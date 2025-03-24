@@ -141,7 +141,8 @@ void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 		if (buttons[i]->GetVisibility() != ESlateVisibility::Hidden &&buttons[i]->GetIsEnabled() == false)
 		{
 			cooldowns_[i] += InDeltaTime;
-			const float cooltime = skill_containers_[i]->GetActiveSkillCoolTime();//IKTODO: 한번씩 Crash가 남.
+			//IKTODO: 이 코드는 영웅의 죽음과 관계없이 모든 skill container를 순회하므로, 죽은 영웅이 있는 상태에서 스킬을 발동하면 여기서 터진다!
+			const float cooltime = skill_containers_[i]->GetActiveSkillCoolTime();
 			if (cooldowns_[i] >= cooltime)
 			{
 				buttons[i]->SetIsEnabled(true);
@@ -156,30 +157,27 @@ void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 
 void UButtonBarWidget::OnSkillButtonClicked0()
 {
-	ActivateSkillTargeting(0);
+	ActivateSkillTargeting(EHeroType::Hero1);
 }
 
 void UButtonBarWidget::OnSkillButtonClicked1()
 {
-	ActivateSkillTargeting(1);
+	ActivateSkillTargeting(EHeroType::Hero2);
 }
 
 void UButtonBarWidget::OnSkillButtonClicked2()
 {
-	ActivateSkillTargeting(2);
+	ActivateSkillTargeting(EHeroType::Hero3);
 }
 
 void UButtonBarWidget::OnSkillButtonClicked3()
 {
-	ActivateSkillTargeting(3);
+	ActivateSkillTargeting(EHeroType::Hero4);
 }
 
-void UButtonBarWidget::ActivateSkillTargeting(int32 caster)
+void UButtonBarWidget::ActivateSkillTargeting(EHeroType caster)
 {
-	if (targeting_component_cache_ && characters_.IsValidIndex(caster))
-	{
-		targeting_component_cache_->StartSkillTargeting(caster);
-	}
+	targeting_component_cache_->StartSkillTargeting(caster);
 }
 
 void UButtonBarWidget::OnItemButtonClicked0()
@@ -375,7 +373,7 @@ void UButtonBarWidget::FindCharacters()
 
 	if (game_mode)
 	{
-		characters_ = game_mode->GetHeroContainers();
+		characters_ = game_mode->GetHeroContainer();
 
 		for (int32 i = 0; i < characters_.Num(); ++i)
 		{

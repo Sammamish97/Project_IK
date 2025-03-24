@@ -60,7 +60,7 @@ FItemData* UItem::GetDataPtr()
 
 FTargetParameters UItem::GetTargetParameters() const
 {
-	return FTargetParameters(item_data_.targeting_mode_, item_data_.target_type_, item_data_.range_, item_data_.radius_);
+	return item_data_.target_params_;
 }
 
 void UItem::RestoreHP(TArray<AActor*> actors)

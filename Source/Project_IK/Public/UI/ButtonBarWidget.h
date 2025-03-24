@@ -61,7 +61,7 @@ protected:
 	void OnSkillButtonClicked3();
 
 	UFUNCTION()
-	void ActivateSkillTargeting(int32 caster);
+	void ActivateSkillTargeting(EHeroType caster);
 
 	UFUNCTION()
 	void OnItemButtonClicked0();
