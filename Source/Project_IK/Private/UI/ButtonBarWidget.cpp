@@ -141,15 +141,18 @@ void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 		if (buttons[i]->GetVisibility() != ESlateVisibility::Hidden &&buttons[i]->GetIsEnabled() == false)
 		{
 			cooldowns_[i] += InDeltaTime;
-			//IKTODO: 이 코드는 영웅의 죽음과 관계없이 모든 skill container를 순회하므로, 죽은 영웅이 있는 상태에서 스킬을 발동하면 여기서 터진다!
-			const float cooltime = skill_containers_[i]->GetActiveSkillCoolTime();
-			if (cooldowns_[i] >= cooltime)
+
+			if (skill_containers_[i].IsValid())
 			{
-				buttons[i]->SetIsEnabled(true);
-			}
-			else
-			{
-				button_cooldown_materials_[i]->SetScalarParameterValue("CooldownPercent", cooldowns_[i] / cooltime);
+				const float cooltime = skill_containers_[i]->GetActiveSkillCoolTime();
+				if (cooldowns_[i] >= cooltime)
+				{
+					buttons[i]->SetIsEnabled(true);
+				}
+				else
+				{
+					button_cooldown_materials_[i]->SetScalarParameterValue("CooldownPercent", cooldowns_[i] / cooltime);
+				}
 			}
 		}
 	}
