@@ -51,6 +51,11 @@ TOptional<FTargetParameters> USkillContainer::GetTargetParameters() const
 	return NullOpt;
 }
 
+bool USkillContainer::HasActiveSkill() const
+{
+	return active_skill_ != nullptr;
+}
+
 float USkillContainer::GetCooltime() const
 {
 	if (active_skill_)

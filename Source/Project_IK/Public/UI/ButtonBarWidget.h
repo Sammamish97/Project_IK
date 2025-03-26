@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Managers/EnumCluster.h"
 #include "ButtonBarWidget.generated.h"
 
 class UButton;
@@ -31,7 +32,7 @@ public:
 	void SynchroItemButtons(int32 item_idx);
 
 	UFUNCTION()
-	void SynchroActiveSkillButtons(int32 hero_idx);
+	void SynchroActiveSkillButtons(EHeroType hero_type);
 
 	UFUNCTION()
 	void SilenceSkill(AActor* character);
@@ -104,7 +105,7 @@ private:
 	UCreditWidget* credit_widget_;
 
 	UPROPERTY()
-	TObjectPtr<class UTargetingComponent> targeting_component_cache_;
+	TObjectPtr<class AIKPlayerController> player_controller_cache_;
 
 	UPROPERTY()
 	TArray<AActor*> characters_;

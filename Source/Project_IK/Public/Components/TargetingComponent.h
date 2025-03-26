@@ -13,7 +13,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Managers/EnumCluster.h"
 #include "Structs/TargetParameters.h"
 #include "Structs/TargetResult.h"
 
@@ -23,8 +22,6 @@ enum class ETargetingMode : uint8;
 enum class ETargetType : uint8;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTargetingCanceled);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnItemUsed, int32, item_idx);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveSKill, int32, hero_idx);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECT_IK_API UTargetingComponent : public UActorComponent
@@ -43,12 +40,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	UPROPERTY()
-	FOnItemUsed on_item_used_;
-	
-	UPROPERTY(BlueprintAssignable, Category = "Targeting")
-	FOnActiveSKill on_active_skill_;
 	
 	UPROPERTY(BlueprintAssignable, Category = "Targeting")
 	FOnTargetingCanceled OnTargetingCanceled;
@@ -56,16 +47,13 @@ public:
 	void CancelTargeting();
 
 	UFUNCTION(BlueprintCallable, Category = "Targeting")
-	void StartSkillTargeting(EHeroType hero_idx);
-
-	UFUNCTION(BlueprintCallable, Category = "Targeting")
-	void StartItemTargeting(int32 item_idx);
+	void StartTargeting(ETargetingState state, AActor* invoker, FTargetParameters target_params);
 
 	UFUNCTION()
 	void DecideAction();
 
 	UFUNCTION()
-	void Fire();
+	FTargetResult GetTargetResult();
 	
 	UFUNCTION(BlueprintCallable, Category="Targeting")
 	void StopTargeting();
@@ -89,16 +77,6 @@ public:
 private:
 	void CleanUpVisuals();
 
-private:
-	UPROPERTY(Transient)
-	ETargetingState targeting_state_ = ETargetingState::Idle;
-
-	UPROPERTY(Transient)
-	int32 selected_hero_idx_ = 0;
-
-	UPROPERTY(Transient)
-	int32 selected_item_idx_ = 0;
-	
 private:
 	UPROPERTY() 
 	AActor* targeting_visual_actor_;

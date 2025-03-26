@@ -39,6 +39,7 @@ public:
 	void Reposition(FTargetResult target_result);
 	TOptional<FTargetParameters> GetActiveSkillTargetParameters() const;
 	bool IsActiveSkillOnCoolDown() const;
+	bool HasActiveSkill() const;
 
 public:
 

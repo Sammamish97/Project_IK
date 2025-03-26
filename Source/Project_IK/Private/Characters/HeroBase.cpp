@@ -147,3 +147,8 @@ bool AHeroBase::IsActiveSkillOnCoolDown() const
 {
 	return skill_container_->IsOnCoolDown();
 }
+
+bool AHeroBase::HasActiveSkill() const
+{
+	return skill_container_->HasActiveSkill();
+}

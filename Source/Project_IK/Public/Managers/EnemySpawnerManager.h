@@ -31,7 +31,7 @@ public:
 
 	void SpawnEnemies();
 
-	const TArray<TObjectPtr<AEnemyBase>>& GetEnemies();
+	const TArray<TObjectPtr<AActor>>& GetEnemies();
 
 	void RemoveEnemy(AEnemyBase* enemy_defeated);
 	void RemoveAllEnemy();
@@ -57,6 +57,6 @@ protected:
 	
 	// How strong enemies spawned?
 	UPROPERTY(BlueprintReadWrite)
-	TArray<TObjectPtr<AEnemyBase>> enemies_;
+	TArray<TObjectPtr<AActor>> enemies_;
 
 };

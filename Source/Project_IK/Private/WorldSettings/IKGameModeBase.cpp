@@ -112,7 +112,7 @@ AActor* AIKGameModeBase::GetHero(EHeroType type) const noexcept
 	return nullptr;
 }
 
-TArray<AEnemyBase*> AIKGameModeBase::GetEnemyContainers() const noexcept
+const TArray<AActor*>& AIKGameModeBase::GetEnemyContainers() const noexcept
 {
 	return enemy_spawner_manager_->GetEnemies();
 }

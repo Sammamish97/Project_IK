@@ -74,7 +74,7 @@ void UEnemySpawnerManager::SpawnEnemies()
 	}
 }
 
-const TArray<TObjectPtr<AEnemyBase>>& UEnemySpawnerManager::GetEnemies()
+const TArray<TObjectPtr<AActor>>& UEnemySpawnerManager::GetEnemies()
 {
 	return enemies_;
 }

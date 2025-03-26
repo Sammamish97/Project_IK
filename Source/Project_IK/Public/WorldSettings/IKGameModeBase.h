@@ -44,7 +44,7 @@ public:
 	AActor* GetHero(EHeroType type) const noexcept;
 
 	UFUNCTION(BlueprintPure)
-	TArray<AEnemyBase*> GetEnemyContainers() const noexcept;
+	const TArray<AActor*>& GetEnemyContainers() const noexcept;
 
 	UFUNCTION(BlueprintCallable)
 	void RemoveHero(AActor* hero);

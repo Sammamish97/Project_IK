@@ -64,16 +64,13 @@ void UButtonBarWidget::NativeConstruct()
 		item_inventory_ = GI->GetItemInventory();
 		empty_item_icon = GI->GetTextureManager()->GetTexture("empty_item_slot");
 	}
-
-	if (AIKPlayerController* player_controller = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
+	
+	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	player_controller_cache_->on_item_used_.AddDynamic(this, &UButtonBarWidget::SynchroItemButtons);
+	player_controller_cache_->on_active_skill_.AddDynamic(this, &UButtonBarWidget::SynchroActiveSkillButtons);
+	for (int32 i = 0; i < 3; ++i)
 	{
-		targeting_component_cache_ = player_controller->GetTargetingComponent();
-		targeting_component_cache_->on_item_used_.AddDynamic(this, &UButtonBarWidget::SynchroItemButtons);
-		targeting_component_cache_->on_active_skill_.AddDynamic(this, &UButtonBarWidget::SynchroActiveSkillButtons);
-		for (int32 i = 0; i < 3; ++i)
-		{
-			SynchroItemButtons(i);
-		}
+		SynchroItemButtons(i);
 	}
 
 	switch (characters_.Num())
@@ -125,9 +122,11 @@ void UButtonBarWidget::NativeDestruct()
 	{
 		item_button_2_->OnClicked.Clear();
 	}
-	
-	targeting_component_cache_->on_item_used_.Clear();
-	targeting_component_cache_->on_active_skill_.Clear();
+	if (AIKPlayerController* player_controller = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
+	{
+		player_controller->on_item_used_.Clear();
+		player_controller->on_active_skill_.Clear();
+	}
 }
 
 void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -180,7 +179,7 @@ void UButtonBarWidget::OnSkillButtonClicked3()
 
 void UButtonBarWidget::ActivateSkillTargeting(EHeroType caster)
 {
-	targeting_component_cache_->StartSkillTargeting(caster);
+	player_controller_cache_->ActivateSkillTargeting(caster);
 }
 
 void UButtonBarWidget::OnItemButtonClicked0()
@@ -209,7 +208,7 @@ void UButtonBarWidget::OnItemButtonClicked2()
 
 void UButtonBarWidget::ActivateItemTargeting(int32 item_idx)
 {
-	targeting_component_cache_->StartItemTargeting(item_idx);
+	player_controller_cache_->ActivateItemTargeting(item_idx);
 }
 
 void UButtonBarWidget::SynchroItemButtons(int32 item_idx)
@@ -256,25 +255,28 @@ void UButtonBarWidget::SynchroItemButtons(int32 item_idx)
 	}
 }
 
-void UButtonBarWidget::SynchroActiveSkillButtons(int32 hero_idx)
+void UButtonBarWidget::SynchroActiveSkillButtons(EHeroType hero_type)
 {
-	switch (hero_idx)
+	switch (hero_type)
 	{
-	case 0:
+	case EHeroType::Hero1:
 		skill_button_0_->SetIsEnabled(false);
 		break;
-	case 1:
+	case EHeroType::Hero2:
 		skill_button_1_->SetIsEnabled(false);
 		break;
-	case 2:
+	case EHeroType::Hero3:
 		skill_button_2_->SetIsEnabled(false);
 		break;
-	case 3:
+	case EHeroType::Hero4:
 		skill_button_3_->SetIsEnabled(false);
 		break;
+	case EHeroType::INVALID:
 	default:
+		//IKTODO: 예외처리 넣기 좋은 자리.
 		break;
 	}
+	int32 hero_idx = HeroTypeToInt(hero_type);
 	cooldowns_[hero_idx] = 0.f;
 	button_cooldown_materials_[hero_idx]->SetScalarParameterValue("CooldownPercent", cooldowns_[hero_idx]);
 }
@@ -308,7 +310,8 @@ void UButtonBarWidget::SilenceSkill(AActor* character)
 		}
 	}
 	// Cancel targeting if invoker is the character
-	targeting_component_cache_->StopTargetingIfInvokerIs(character);
+	//IKTODO: 침묵 될 시, 다른 위치에서 아래의 코드를 발동 시켜야함.
+	//targeting_component_cache_->StopTargetingIfInvokerIs(character);
 }
 
 void UButtonBarWidget::UnsilenceSkill(AActor* character)
@@ -352,7 +355,8 @@ void UButtonBarWidget::MuteItems()
 	item_button_2_->SetIsEnabled(false);
 	
 	// Cancel if user is targeting by item
-	targeting_component_cache_->StopItemTargeting();
+	//IKTODO: 만약 아이템 침묵이 된다면, 다른 위치에서 아래의 코드를 발동 시켜야함.
+	//targeting_component_cache_->StopItemTargeting();
 }
 
 void UButtonBarWidget::UnmuteItems()

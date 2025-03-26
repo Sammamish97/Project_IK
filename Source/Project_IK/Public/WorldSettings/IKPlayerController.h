@@ -18,6 +18,9 @@ See LICENSE file in the project root for full license information.
 class UInputMappingContext;
 class UInputAction;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnItemUsed, int32, item_idx);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveSKill, EHeroType, hero_idx);
+
 UCLASS()
 class PROJECT_IK_API AIKPlayerController : public APlayerController
 {
@@ -31,7 +34,19 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Targeting")
 	class UTargetingComponent* GetTargetingComponent();
+	
+	UPROPERTY()
+	FOnItemUsed on_item_used_;
+	
+	UPROPERTY()
+	FOnActiveSKill on_active_skill_;
+	
+	UFUNCTION()
+	void ActivateSkillTargeting(EHeroType hero_type);
 
+	UFUNCTION()
+	void ActivateItemTargeting(int32 item_idx);
+	
 private:
 	UFUNCTION()
 	void ActivateFirstHeroActiveSkill();
@@ -46,9 +61,6 @@ private:
 	void ActivateFourthHeroActiveSkill();
 	
 	UFUNCTION()
-	void ActivateSkillTargeting(EHeroType hero_type);
-
-	UFUNCTION()
 	void ActivateFirstItem();
 
 	UFUNCTION()
@@ -56,9 +68,6 @@ private:
 
 	UFUNCTION()
 	void ActivateThirdItem();
-
-	UFUNCTION()
-	void ActivateItemTargeting(int32 item_idx);
 	
 	UFUNCTION()
 	void Decide();
@@ -74,10 +83,16 @@ private:
 
 	UFUNCTION()
 	void RotateCameraRight();
-
+	
 protected:
+	ETargetingState targeting_state_ = ETargetingState::Idle;
+	EHeroType selected_hero_type_ = EHeroType::INVALID;
+	int32 selected_item_idx_ = -1;
+	
 	UPROPERTY(VisibleAnywhere, Category = "Targeting")
 	TObjectPtr<UTargetingComponent> targeting_component_;
+
+	//
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputMappingContext> player_input_mapping_context;
@@ -90,8 +105,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> enter_repositioning_mode_action_;
-
-	//
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> activate_first_hero_active_skill_action_;
 

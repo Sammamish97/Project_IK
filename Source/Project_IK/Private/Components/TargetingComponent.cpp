@@ -9,20 +9,13 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Components/TargetingComponent.h"
-
-#include "Abilities/Item.h"
-#include "Abilities/ItemInventory.h"
+#include "Managers/EnumCluster.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "GameFramework/PlayerController.h"
 #include "Components/DecalComponent.h"
 #include "WorldSettings/IKPlayerController.h"
-#include "WorldSettings/IKGameModeBase.h"
 #include "Engine/World.h"
-
-#include "Characters/EnemyBase.h"
-#include "Characters/HeroBase.h"
-#include "WorldSettings/IKGameInstance.h"
+#include "WorldSettings/IKGameModeBase.h"
 
 // Sets default values for this component's properties
 UTargetingComponent::UTargetingComponent()
@@ -32,7 +25,6 @@ UTargetingComponent::UTargetingComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 	is_targeting_ = false;
 }
-
 
 // Called when the game starts
 void UTargetingComponent::BeginPlay()
@@ -73,7 +65,6 @@ void UTargetingComponent::CancelTargeting()
 {
 	OnTargetingCanceled.Broadcast();
 	StopTargeting();
-	targeting_state_ = ETargetingState::Idle;
 }
 
 void UTargetingComponent::CleanUpVisuals()
@@ -112,62 +103,16 @@ void UTargetingComponent::CleanUpVisuals()
 	}
 }
 
-void UTargetingComponent::StartSkillTargeting(EHeroType hero_type)
+void UTargetingComponent::StartTargeting(ETargetingState state, AActor* invoker, FTargetParameters target_params)
 {
-	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	auto selected_hero = game_mode_cache->GetHero(hero_type);
-	if (selected_hero == nullptr)
-	{
-		return;
-	}
-	AHeroBase* casted_hero = Cast<AHeroBase>(selected_hero);
-	selected_hero_idx_ = HeroTypeToInt(hero_type);
-
-	auto cur_param = casted_hero->GetActiveSkillTargetParameters();
-	//액티브 스킬이 없다면 더이상 진행하지 않는다.
-	if (cur_param.IsSet() == false)
-	{
-		return;
-	}
-
-	//만약 스킬이 쿨타임 중이라면 더이상 진행하지 않는다.
-	if (casted_hero->IsActiveSkillOnCoolDown())
-	{
-		return;
-	}
-	targeting_state_ = ETargetingState::ActiveSKill;
 	StartFocus();
 
 	is_targeting_ = true;
-	invoker_ = casted_hero;
-	target_parameters_ = cur_param.GetValue();
+	invoker_ = invoker;
+	target_parameters_ = target_params;
 	current_target_result_.target_actors_.Empty();
 	current_target_result_.target_parameters_ = target_parameters_;
-	
 	range_decal_->DecalSize = FVector(target_parameters_.range_);
-
-	CleanUpVisuals();
-}
-
-void UTargetingComponent::StartItemTargeting(int32 item_idx)
-{
-	selected_item_idx_ = item_idx;
-	
-	auto item_inventory = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetItemInventory();
-	auto cur_item = item_inventory->GetItem(selected_item_idx_);
-	if (cur_item == nullptr)
-	{
-		return;
-	}
-	targeting_state_ = ETargetingState::Item;
-	
-	StartFocus();
-
-	is_targeting_ = true;
-	invoker_ = nullptr;
-	target_parameters_ = cur_item->GetTargetParameters();
-	current_target_result_.target_actors_.Empty();
-	current_target_result_.target_parameters_ = target_parameters_;
 	CleanUpVisuals();
 }
 
@@ -193,38 +138,9 @@ void UTargetingComponent::DecideAction()
 	}
 }
 
-void UTargetingComponent::Fire()
+FTargetResult UTargetingComponent::GetTargetResult()
 {
-	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	switch (targeting_state_)
-	{
-	case ETargetingState::ActiveSKill:
-		{
-			Cast<AHeroBase>(game_mode_cache->GetHero(IntToHeroType(selected_hero_idx_)))->InvokeActiveSkill(current_target_result_);
-			on_active_skill_.Broadcast(selected_hero_idx_);
-		}
-		break;
-		
-	case ETargetingState::RePositioning:
-		{
-			Cast<AHeroBase>(game_mode_cache->GetHero(IntToHeroType(selected_hero_idx_)))->Reposition(current_target_result_);
-		}
-		break;
-
-	case ETargetingState::Item:
-		{
-			auto item_inventory = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetItemInventory();
-			//IKTODO: Item의 사용 가능 유무를 확인 후 발동해야 함!
-			item_inventory->UseItem(selected_item_idx_, current_target_result_);
-			on_item_used_.Broadcast(selected_item_idx_);
-		}
-		break;
-
-	case ETargetingState::Idle:
-	default:
-		UE_LOG(LogTemp, Error, TEXT("Invalid targeting state!"));
-		break;
-	}
+	return current_target_result_;
 }
 
 void UTargetingComponent::StopTargeting()
@@ -266,7 +182,6 @@ void UTargetingComponent::HandleActorTargeting()
 	current_target_result_.target_location_ = target_location;
 	current_target_result_.target_actors_.Add(closest_actor);
 	
-	Fire();
 	StopTargeting();
 }
 
@@ -299,7 +214,7 @@ void UTargetingComponent::HandleLocationTargeting()
 		{
 			auto enemies = game_mode_cache->GetEnemyContainers();
 
-			for (AEnemyBase* actor : enemies)
+			for (AActor* actor : enemies)
 			{
 				FVector to_actor = actor->GetActorLocation() - current_target_result_.target_location_;
 
@@ -312,7 +227,6 @@ void UTargetingComponent::HandleLocationTargeting()
 		}
 	}
 	
-	Fire();
 	StopTargeting();
 }
 
@@ -365,7 +279,6 @@ void UTargetingComponent::HandleDirectionTargeting()
 			}
 		}
 	}
-	Fire();
 	StopTargeting();
 }
 
