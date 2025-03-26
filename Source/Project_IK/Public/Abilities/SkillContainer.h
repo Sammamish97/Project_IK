@@ -37,7 +37,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool InvokeSkills(const FTargetResult& TargetResult);
 
-	float GetActiveSkillCoolTime() const;
+	float GetCooltime() const;
 	bool IsOnCoolDown() const;
 	float GetLeftCoolDown() const;
 

@@ -144,7 +144,7 @@ void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 
 			if (skill_containers_[i].IsValid())
 			{
-				const float cooltime = skill_containers_[i]->GetActiveSkillCoolTime();
+				const float cooltime = skill_containers_[i]->GetCooltime();
 				if (cooldowns_[i] >= cooltime)
 				{
 					buttons[i]->SetIsEnabled(true);

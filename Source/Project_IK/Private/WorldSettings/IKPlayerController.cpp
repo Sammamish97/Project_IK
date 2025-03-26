@@ -55,6 +55,9 @@ void AIKPlayerController::SetupInputComponent()
 		enhanced_input_component->BindAction(activate_first_item_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateFirstItem);
 		enhanced_input_component->BindAction(activate_second_item_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateSecondItem);
 		enhanced_input_component->BindAction(activate_third_item_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateThirdItem);
+
+		enhanced_input_component->BindAction(rotate_camera_left_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::RotateCameraLeft);
+		enhanced_input_component->BindAction(rotate_camera_right_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::RotateCameraRight);
 	}
 }
 
@@ -122,4 +125,14 @@ void AIKPlayerController::CancelTargeting()
 void AIKPlayerController::EnterRepositioningMode()
 {
 	UE_LOG(LogTemp, Display, TEXT("EnterRepositioningMode"));
+}
+
+void AIKPlayerController::RotateCameraLeft()
+{
+	//IKTODO: 카메라 좌회전 로직.
+}
+
+void AIKPlayerController::RotateCameraRight()
+{
+	//IKTODO: 카메라 우회전 로직.
 }

@@ -51,7 +51,7 @@ TOptional<FTargetParameters> USkillContainer::GetTargetParameters() const
 	return NullOpt;
 }
 
-float USkillContainer::GetActiveSkillCoolTime() const
+float USkillContainer::GetCooltime() const
 {
 	if (active_skill_)
 	{
@@ -106,7 +106,7 @@ bool USkillContainer::InvokeSkills(const FTargetResult& TargetResult)
 		if (GetWorld()->GetTimerManager().IsTimerActive(cool_down_handle_) == false)
 		{
 			active_skill_->ActivateSkill_Implementation(TargetResult);
-			GetWorld()->GetTimerManager().SetTimer(cool_down_handle_, GetActiveSkillCoolTime(), false);
+			GetWorld()->GetTimerManager().SetTimer(cool_down_handle_, GetCooltime(), false);
 			return true;
 		}
 	}
