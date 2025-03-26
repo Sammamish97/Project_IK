@@ -79,7 +79,7 @@ void UEnemySpawnerManager::SpawnEnemies()
 	if (pc)
 	{
 		TArray<TWeakObjectPtr<AActor>> enemy_arr;
-		for (AEnemyBase* enemy : enemies_)
+		for (AActor* enemy : enemies_)
 		{
 			enemy_arr.Add(enemy);
 		}
@@ -87,7 +87,7 @@ void UEnemySpawnerManager::SpawnEnemies()
 	}
 }
 
-const TArray<TObjectPtr<AEnemyBase>>& UEnemySpawnerManager::GetEnemies()
+const TArray<TObjectPtr<AActor>>& UEnemySpawnerManager::GetEnemies()
 {
 	return enemies_;
 }
@@ -99,6 +99,13 @@ void UEnemySpawnerManager::RemoveEnemy(AEnemyBase* enemy_defeated)
 	{
 		SpawnEnemies();
 	}
+}
+
+//치트 코드 용 함수.
+void UEnemySpawnerManager::RemoveAllEnemy()
+{
+	enemies_.Empty();
+	enemy_waves_ = 0;
 }
 
 bool UEnemySpawnerManager::IsEnemyAllDefeated()

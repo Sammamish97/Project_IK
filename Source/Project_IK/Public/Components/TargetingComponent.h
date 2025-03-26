@@ -13,55 +13,14 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Managers/EnumCluster.h"
+#include "Structs/TargetParameters.h"
+#include "Structs/TargetResult.h"
+
 #include "TargetingComponent.generated.h"
 
 enum class ETargetingMode : uint8;
 enum class ETargetType : uint8;
 
-USTRUCT(BlueprintType)
-struct FTargetParameters
-{
-	GENERATED_BODY()
-
-	FTargetParameters(ETargetingMode mode = ETargetingMode::None, ETargetType type = ETargetType::All, float range = 0.f, float radius = 0.f)
-		: current_mode_(mode), target_type_(type), range_(range), radius_(radius)
-	{	}
-
-	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
-	ETargetingMode current_mode_;
-
-	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
-	ETargetType target_type_;
-
-	// How far selectable
-	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
-	float range_;
-
-	// A radius of selected area, an arc width for direction mode
-	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
-	float radius_;
-};
-
-USTRUCT(BlueprintType)
-struct FTargetResult
-{
-	GENERATED_BODY()
-
-	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
-	TArray<AActor*> target_actors_ = TArray<AActor*>();
-
-	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
-	FVector target_location_ = FVector::ZeroVector;
-
-	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
-	FRotator target_rotation_ = FRotator::ZeroRotator;
-
-	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
-	FTargetParameters target_parameters_;
-};
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTargetResultSelected, const FTargetResult&, TargetResult);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTargetingCanceled);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -81,19 +40,18 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-
-	UPROPERTY(BlueprintAssignable, Category = "Targeting")
-	FOnTargetResultSelected OnTargetResultSelected;
-
+	
 	UPROPERTY(BlueprintAssignable, Category = "Targeting")
 	FOnTargetingCanceled OnTargetingCanceled;
 
-	UFUNCTION(BlueprintCallable, Category = "Targeting")
-	void StartSkillTargeting(AActor* invoker, FTargetParameters TargetParams);
+	void CancelTargeting();
 
 	UFUNCTION(BlueprintCallable, Category = "Targeting")
-	void StartItemTargeting(FTargetParameters TargetParams);
+	void StartTargeting(FTargetParameters target_params, AActor* invoker = nullptr);
+
+	UFUNCTION()
+	FTargetResult DecideTargetings();
+
 	UFUNCTION(BlueprintCallable, Category="Targeting")
 	void StopTargeting();
 	UFUNCTION()
@@ -112,6 +70,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Targeting")
 	UMaterialInterface* highlight_material_;
+
+private:
+	void CleanUpVisuals();
 
 private:
 	UPROPERTY() 

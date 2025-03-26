@@ -27,6 +27,6 @@ public:
 
 protected:
 	class AHeroBase* hero_cache_;
-	EHeroEvent bound_target_;
+	EUnitEvent bound_target_;
 	class UArmorManager* armor_manager_cache_;
 };

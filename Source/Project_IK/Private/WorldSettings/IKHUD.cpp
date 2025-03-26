@@ -40,7 +40,10 @@ void AIKHUD::SynchroItemButtons()
 {
 	if (button_widget_)
 	{
-		button_widget_->SynchroItemButtons();
+		for (int32 i = 0; i < 3; ++i)
+		{
+			button_widget_->SynchroItemButtons(i);
+		}
 	}
 }
 
@@ -108,7 +111,7 @@ void AIKHUD::BeginPlay()
 			if(ik_instance)
 			{
                 inventory_widget_->InitInventoryWidget(ik_instance->GetInventoryManager());
-                inventory_widget_->LoadInventoryManager();
+                //inventory_widget_->LoadInventoryManager();
 			}
 		}
 	}
@@ -116,7 +119,6 @@ void AIKHUD::BeginPlay()
 
 void AIKHUD::PopUpInventory()
 {
-	inventory_widget_->LoadInventoryManager();
 	inventory_widget_->AddToViewport();
 	auto controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	controller->bShowMouseCursor = true;
@@ -126,5 +128,4 @@ void AIKHUD::RemoveInventory()
 {
 	inventory_widget_->RemoveFromParent();
 	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;
-	inventory_widget_->ApplyInventoryManager();
 }

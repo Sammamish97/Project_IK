@@ -79,7 +79,7 @@ const TArray<FSpawnData>& ULevelTransitionSubsystem::GetSpawnData() const
 	return spawn_data_;
 }
 
-FSpawnData ULevelTransitionSubsystem::GetSpawnData(int idx) const
+FSpawnData ULevelTransitionSubsystem::GetSpawnData(int32 idx) const
 {
 	return spawn_data_[idx];
 }

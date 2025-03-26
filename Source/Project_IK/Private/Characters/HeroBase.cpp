@@ -12,11 +12,11 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/SkillContainer.h"
 #include "AI/GunnerAIController.h"
-#include "Components/EquipMechanics.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/CharacterStatComponent.h"
 #include "Components/OopartMechanics.h"
 #include "Components/PassiveSkillMechanics.h"
+#include "Components/RuneMechanics.h"
 #include "Components/WeaponMechanics.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -28,7 +28,7 @@ AHeroBase::AHeroBase()
 	skill_container_ = CreateDefaultSubobject<USkillContainer>(TEXT("SkillContainer"));
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
 	passive_skill_mechanics_ = CreateDefaultSubobject<UPassiveSkillMechanics>(TEXT("PassiveMechanics"));
-	equip_mechanics_ = CreateDefaultSubobject<UEquipMechanics>(TEXT("EquipMechanics"));
+	rune_mechanics_ = CreateDefaultSubobject<URuneMechanics>(TEXT("RuneMechanics"));
 	oopart_mechanics_ = CreateDefaultSubobject<UOopartMechanics>(TEXT("OopartMechanics"));
 
 	oopart_pos_ = CreateDefaultSubobject<USphereComponent>(TEXT("Oopart Pos"));
@@ -44,16 +44,24 @@ AHeroBase::AHeroBase()
 	forward_dir_ = { 1,0, 0 };
 }
 
+//TODO: 특수 효과같은 경우, 장착과 발동이 달라야 한다. BeginPlay에 넣으면 구별할 수가 없다.
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
-	//TODO: Two lines are Test purpose. Need to remove later.
+
 	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle);
-	equip_mechanics_->EquipArmor(EArmorType::TestSkillArmor);
-	equip_mechanics_->EquipTrinket(ETrinketType::TestSkillTrinket);
 	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::FixedDmgReduce);
 	oopart_mechanics_->EquipOopart(EOopartType::AttackSpeedBoost);
 	skill_container_->EquipActiveSkill(EActiveSkillType::Thunder);
+	
+	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 0);
+	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 1);
+	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 2);
+	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 3);
+	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 4);
+	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 5);
+	
+	rune_mechanics_->ApplySetBonuses();
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -84,11 +92,11 @@ FDamageData AHeroBase::Attack(AActor* target)
 	FDamageData damage_data;
 	damage_data.damage_type = EDamageType::Projectile;
 	damage_data.attacker = this;
-	if (dmg_event_map_.Find(EHeroEvent::OnFire))
+	if (dmg_event_map_.Find(EUnitEvent::OnFire))
 	{
-		if (dmg_event_map_[EHeroEvent::OnFire].IsEmpty() == false)
+		if (dmg_event_map_[EUnitEvent::OnFire].IsEmpty() == false)
 		{
-			for (auto& delegate : dmg_event_map_[EHeroEvent::OnFire])
+			for (auto& delegate : dmg_event_map_[EUnitEvent::OnFire])
 			{
 				if (delegate.IsBound())
 				{
@@ -118,4 +126,29 @@ void AHeroBase::OnStunned()
 EHeroType AHeroBase::GetHeroType() const
 {
 	return hero_type_;
+}
+
+void AHeroBase::InvokeActiveSkill(FTargetResult target_result)
+{
+	skill_container_->InvokeSkills(target_result);
+}
+
+void AHeroBase::Reposition(FTargetResult target_result)
+{
+	//IKTODO: 움직임을 여기에 구현해야 한다.
+}
+
+TOptional<FTargetParameters> AHeroBase::GetActiveSkillTargetParameters() const
+{
+	return skill_container_->GetTargetParameters();
+}
+
+bool AHeroBase::IsActiveSkillOnCoolDown() const
+{
+	return skill_container_->IsOnCoolDown();
+}
+
+bool AHeroBase::HasActiveSkill() const
+{
+	return skill_container_->HasActiveSkill();
 }

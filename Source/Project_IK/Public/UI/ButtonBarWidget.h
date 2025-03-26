@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Managers/EnumCluster.h"
 #include "ButtonBarWidget.generated.h"
 
 class UButton;
@@ -21,9 +22,6 @@ struct FTargetResult;
 class UTexture2D;
 class UCreditWidget;
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API UButtonBarWidget : public UUserWidget
 {
@@ -31,7 +29,10 @@ class PROJECT_IK_API UButtonBarWidget : public UUserWidget
 
 public:
 	UFUNCTION()
-	void SynchroItemButtons();
+	void SynchroItemButtons(int32 item_idx);
+
+	UFUNCTION()
+	void SynchroActiveSkillButtons(EHeroType hero_type);
 
 	UFUNCTION()
 	void SilenceSkill(AActor* character);
@@ -50,38 +51,44 @@ protected:
 
 	UFUNCTION()
 	void OnSkillButtonClicked0();
-
+	
 	UFUNCTION()
 	void OnSkillButtonClicked1();
-
+	
 	UFUNCTION()
 	void OnSkillButtonClicked2();
-
+	
 	UFUNCTION()
 	void OnSkillButtonClicked3();
 
 	UFUNCTION()
-	void OnItemButtonClicked0();
+	void ActivateSkillTargeting(EHeroType caster);
 
 	UFUNCTION()
+	void OnItemButtonClicked0();
+	
+	UFUNCTION()
 	void OnItemButtonClicked1();
-
+	
 	UFUNCTION()
 	void OnItemButtonClicked2();
 
 	UFUNCTION()
-	void InvokeSkills(const FTargetResult& TargetResult);
-
+	void ActivateItemTargeting(int32 item_idx);
+	
 	UFUNCTION()
 	void FindCharacters();
 
 private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> skill_button_0_;
+	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> skill_button_1_;
+	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> skill_button_2_;
+	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> skill_button_3_;
 
@@ -93,21 +100,18 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> item_button_2_;
-
+	
 	UPROPERTY(meta = (BindWidget))
 	UCreditWidget* credit_widget_;
 
 	UPROPERTY()
-	class UTargetingComponent* targeting_component_;
+	TObjectPtr<class AIKPlayerController> player_controller_cache_;
 
 	UPROPERTY()
 	TArray<AActor*> characters_;
 
 	TArray<TWeakObjectPtr<USkillContainer>> skill_containers_;
-
-	int32 selected_item_index_;
-	int32 caster_;
-
+	
 	TWeakObjectPtr<UItemInventory> item_inventory_;
 
 	UPROPERTY()

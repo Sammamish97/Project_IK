@@ -23,10 +23,14 @@ public:
 	void OnDie() override;
 	virtual void OnPossess(APawn* InPawn) override;
 	virtual AActor* GetOwnedCover() override;
+	virtual void Tick(float DeltaSeconds) override;
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "GunnerAIController", meta = (AllowPrivateAccess = "true"))
 	FName owned_cover_key_name_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "GunnerAIController", meta = (AllowPrivateAccess = "true"))
+	FName target_position_key_name_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "GunnerAIController", meta = (AllowPrivateAccess = "true"))
 	FName fire_state_key_name_;

@@ -12,10 +12,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
-
-#include "Components/TargetingComponent.h"
-
+#include "Structs/TargetParameters.h"
 #include "SkillBase.generated.h"
 
 struct FDamageData;
@@ -29,7 +26,7 @@ public:
 	void InitActiveSkill(AActor* skill_owner);
 
 	FTargetParameters GetTargetParameters() const;
-	float GetCooltime() const;
+	float GetCoolTime() const;
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	bool ActivateSkill(const FTargetResult& TargetResult);

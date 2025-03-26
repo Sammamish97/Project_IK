@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Structs/InventorySlotData.h"
+#include "Structs/RuneData.h"
 #include "UObject/Object.h"
 #include "InventoryManager.generated.h"
 
@@ -18,22 +19,23 @@ UCLASS()
 class PROJECT_IK_API UInventoryManager : public UObject
 {
 	GENERATED_BODY()
-private:
-	int32 GetEmptyIndex() const;
-	
+
 public:
-	void InitInventory();
-	bool AddItem(EGearType type, EArmorType armor_type);
-	bool AddItem(EGearType type, ETrinketType trinket_type);
-	bool AddItem(EGearType type, EWeaponType weapon_type);
-	bool AddItem(EGearType type, EPassiveSkillType passive_skill_type);
-	bool AddItem(EGearType type, EActiveSkillType active_skill_type);
-	bool AddItem(EGearType type, EOopartType oopart_type);
+	void InitInventoryManager();
+	bool AddEquipment(EGearType type, EWeaponType weapon_type);
+	bool AddEquipment(EGearType type, EPassiveSkillType passive_skill_type);
+	bool AddEquipment(EGearType type, EActiveSkillType active_skill_type);
+	bool AddEquipment(EGearType type, EOopartType oopart_type);
+
+	bool AddRune(FRuneData rune_data);
 	
-	void RemoveItem(int index);
+	void RemoveEquipItem(int index);
+	void RemoveRuneItem(int index);
 	
-	TArray<FInventorySlotData>& GetInventory();
-	int32 GetInventorySize();
+	TArray<FInventorySlotData>& GetEquipStorageData();
+	TArray<FRuneData>& GetRuneStorageData();
+	
+	int32 GetMaxInventorySize();
 
 	UFUNCTION(BlueprintCallable)
 	void SetCredits(int32 currency);
@@ -43,13 +45,26 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetPerkPoints(int32 points);
 	int32 GetPerkPoints() const;
+
+private:
+	int32 GetEquipmentEmptyIndex() const;
+	int32 GetRuneEmptyIndex() const;
+
+	void InitEquipInventory();
+	void InitRuneInventory();
 	
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
-	TArray<FInventorySlotData> inventory_;
+	TObjectPtr<class UDataTableManager> data_table_manager_cache_;
+	
+	UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	TArray<FInventorySlotData> equipment_storage_;
 
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
-	int32 inventory_size_;
+	TArray<FRuneData> rune_storage_;
+
+	UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	int32 max_inventory_size_;
 
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	int32 credits_;

@@ -10,22 +10,11 @@ See LICENSE file in the project root for full license information.
 
 
 #include "Abilities/Item.h"
-
-
-#include "Kismet/GameplayStatics.h"
-#include "WorldSettings/IKGameInstance.h"
-#include "Managers/TextureManager.h"
-
 #include "Managers/EnumCluster.h"
-
 #include "Characters/Unit.h"
-
-#include "Components/TargetingComponent.h"
-
 #include "Components/CharacterStatComponent.h"
-
+#include "Structs/TargetResult.h"
 #include "Interfaces/Damageable.h"
-
 #include "Abilities/SmokeRegion.h"
 
 void UItem::InitializeItemUsingData(FItemData item_data)
@@ -71,7 +60,7 @@ FItemData* UItem::GetDataPtr()
 
 FTargetParameters UItem::GetTargetParameters() const
 {
-	return FTargetParameters(item_data_.targeting_mode_, item_data_.target_type_, item_data_.range_, item_data_.radius_);
+	return item_data_.target_params_;
 }
 
 void UItem::RestoreHP(TArray<AActor*> actors)

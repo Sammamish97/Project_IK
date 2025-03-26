@@ -13,7 +13,6 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Structs/CharacterData.h"
-#include <optional>
 #include "CharacterStatComponent.generated.h"
 
 enum class ECharacterStatType : uint8;

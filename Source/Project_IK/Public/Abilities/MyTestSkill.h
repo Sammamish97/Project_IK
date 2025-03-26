@@ -14,8 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "SkillBase.h"
 
-#include "components/TargetingComponent.h"
-
+#include "Structs/TargetResult.h"
 #include "MyTestSkill.generated.h"
 
 UCLASS()

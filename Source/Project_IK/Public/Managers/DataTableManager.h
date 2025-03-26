@@ -14,12 +14,11 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/EnumCluster.h"
 #include "Structs/ActiveSkillData.h"
-#include "Structs/ArmorData.h"
 #include "Structs/OopartData.h"
 #include "Structs/PassiveSkillData.h"
-#include "Structs/TrinketData.h"
 #include "Structs/WeaponData.h"
 #include "Structs/CharacterData.h"
+#include "Structs/RuneData.h"
 
 #include "DataTableManager.generated.h"
 
@@ -33,15 +32,13 @@ class PROJECT_IK_API UDataTableManager : public UObject
 	GENERATED_BODY()
 
 public:
-	FArmorData GetArmorData(EArmorType type);
-	FString ArmorEnumToString(EArmorType armor_type);
-
-	FTrinketData GetTrinketData(ETrinketType type);
-	FString TrinketEnumToString(ETrinketType trinket_type);
-
 	FWeaponData GetWeaponData(EWeaponType type);
 	FString WeaponEnumToString(EWeaponType weapon_type);
 
+	class URuneSetDataAsset* GetRuneSetData(ERuneSetType type);
+	FRuneData GetRuneData(ERuneSetType type, int slot_num);
+	UTexture2D* GetRuneSetThumbnail(ERuneSetType type);
+	
 	FPassiveSkillData GetPassiveSkillData(EPassiveSkillType type);
 	FString PassiveSkillEnumToString(EPassiveSkillType weapon_type);
 
@@ -60,13 +57,7 @@ public:
 	FGlobalBuffData GetGlobalBuffData(EGlobalBuffType buff_type);
 
 private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
-	UDataTable* armor_table_;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
-	UDataTable* trinket_table_;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UWeaponDataAsset> weapon_data_asset_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
@@ -80,6 +71,9 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	UDataTable* character_table_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
+	TObjectPtr<class URuneDataAsset> rune_data_asset_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GlobalBuffs", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UGlobalBuffDataAsset> global_buff_data_asset_;

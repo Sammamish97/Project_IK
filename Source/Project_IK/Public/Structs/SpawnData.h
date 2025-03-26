@@ -12,12 +12,11 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "ActiveSkillData.h"
-#include "ArmorData.h"
 #include "OopartData.h"
 #include "PassiveSkillData.h"
-#include "TrinketData.h"
 #include "WeaponData.h"
 #include "Structs/CharacterData.h"
+#include "Structs/RuneData.h"
 #include "SpawnData.generated.h"
 
 USTRUCT(BlueprintType)
@@ -27,12 +26,6 @@ struct PROJECT_IK_API FSpawnData
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
 	FCharacterData character_data_;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	FArmorData armor_data_;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	FTrinketData trinket_data_;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
 	FWeaponData weapon_data_;
@@ -45,4 +38,7 @@ struct PROJECT_IK_API FSpawnData
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
 	FOopartData oopart_data_;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
+	TArray<FRuneData> rune_data_ = {FRuneData(0), FRuneData(1), FRuneData(2), FRuneData(3), FRuneData(4), FRuneData(5)};
 };

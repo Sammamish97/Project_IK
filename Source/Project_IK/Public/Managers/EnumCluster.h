@@ -10,19 +10,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
 #include "EnumCluster.generated.h"
-
-UENUM(BlueprintType)
-enum class EDPType : uint8
-{
-	Empty UMETA(DisplayName = "Empty"),
-	FireRateBurst UMETA(DisplayName = "Fire Rate"),
-	FireRange UMETA(DisplayName = "Fire Range"),
-	HealingWaves UMETA(DisplayName = "Healing Waves"),
-	LaserBeam UMETA(DisplayName = "LaserBeam"),
-	INVALID UMETA(DisplayName = "Invalid")
-};
 
 UENUM(BlueprintType)
 enum class EUnitState  : uint8
@@ -33,15 +21,7 @@ enum class EUnitState  : uint8
 	Attacking UMETA(DisplayName = "Attacking"),
 	Reloading UMETA(DisplayName = "Reloading"),
 	Stunned UMETA(DisplayName = "Stunned"),
-};
-
-UENUM(BlueprintType)
-enum class EDroneState  : uint8
-{
-	Idle UMETA(DisplayName = "Idle"),
-	BannedDP UMETA(DisplayName = "BannedDP"),
-	UsingPeriodicDP UMETA(DisplayName = "UsingPeriodicDP"),
-	UsingGeneralDP UMETA(DisplayName = "UsingGeneralDP")
+	Repositioning UMETA(DisplayName = "Repositioning"),
 };
 
 UENUM(BlueprintType)
@@ -120,6 +100,41 @@ enum class EHeroType  : uint8
 	INVALID UMETA(DisplayName = "INVALID")
 };
 
+inline EHeroType IntToHeroType(int32 hero_idx)
+{
+	switch (hero_idx)
+	{
+	case 0:
+		return EHeroType::Hero1;
+	case 1:
+		return EHeroType::Hero2;
+	case 2:
+		return EHeroType::Hero3;
+	case 3:
+		return EHeroType::Hero4;
+	default:
+		return EHeroType::INVALID;
+	}
+}
+
+inline int32 HeroTypeToInt(EHeroType hero_type)
+{
+	switch (hero_type)
+	{
+		case EHeroType::Hero1:
+			return 0;
+		case EHeroType::Hero2:
+			return 1;
+		case EHeroType::Hero3:
+			return 2;
+		case EHeroType::Hero4:
+			return 3;
+		case EHeroType::INVALID:
+		default:
+			return -1;
+	}
+}
+
 UENUM(BlueprintType)
 enum class ERarity : uint8
 {
@@ -127,26 +142,6 @@ enum class ERarity : uint8
 	S UMETA(DisplayName = "S"),
 	A UMETA(DisplayName = "A"),
 	B UMETA(DisplayName = "B")
-};
-
-UENUM(BlueprintType)
-enum class EArmorType : uint8
-{
-	TestHealth UMETA(DisplayName = "TestHealth"),
-	TestArmor UMETA(DisplayName = "TestArmor"),
-	TestDodge UMETA(DisplayName = "TestDodge"),
-	TestSkillArmor UMETA(DisplayName = "TestSkillArmor"),
-	Empty UMETA(DisplayName = "Empty")
-};
-
-UENUM(BlueprintType)
-enum class ETrinketType : uint8
-{
-	TestAttack UMETA(DisplayName = "TestAttack"),
-	TestAttackSpeed UMETA(DisplayName = "TestAttackSpeed"),
-	TestCrit UMETA(DisplayName = "TestCrit"),
-	TestSkillTrinket UMETA(DisplayName = "TestSkillTrinket"),
-	Empty UMETA(DisplayName = "Empty")
 };
 
 UENUM(BlueprintType)
@@ -161,7 +156,7 @@ enum class EDamageType : uint8
 };
 
 UENUM(BlueprintType)
-enum class EHeroEvent : uint8
+enum class EUnitEvent : uint8
 {
 	OnHitBeforeCalc UMETA(DisplayName = "OnHitBeforeCalc"),
 	OnHitAfterCalc UMETA(DisplayName = "OnHitAfterCalc"),
@@ -178,8 +173,6 @@ enum class EHeroEvent : uint8
 UENUM(BlueprintType)
 enum class EGearType : uint8
 {
-	Armor UMETA(DisplayName = "Armor"),
-	Trinket UMETA(DisplayName = "Trinket"),
 	Weapon UMETA(DisplayName = "Weapon"),
 	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
 	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
@@ -190,8 +183,6 @@ enum class EGearType : uint8
 UENUM(BlueprintType)
 enum class EInventorySlotType : uint8
 {
-	Armor UMETA(DisplayName = "Armor"),
-	Trinket UMETA(DisplayName = "Trinket"),
 	Weapon UMETA(DisplayName = "Weapon"),
 	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
 	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
@@ -274,8 +265,25 @@ enum class EFireType : uint8
 };
 
 UENUM(BlueprintType)
+enum class ERuneSetType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	ThunderLord UMETA(DisplayName = "ThunderLord"),
+	Chariot UMETA(DisplayName = "Chariot")
+};
+
+UENUM(BlueprintType)
 enum class EGlobalBuffType : uint8
 {
 	WoundingBullets UMETA(DisplayName = "WoundingBullets"),
 	None UMETA(DisplayName = "None"),
+};
+
+UENUM(BlueprintType)
+enum class ETargetingState : uint8
+{
+	Idle UMETA(DisplayName = "Idle"),
+	ActiveSKill UMETA(DisplayName = "ActiveSKill"),
+	Item UMETA(DisplayName = "Item"),
+	RePositioning UMETA(DisplayName = "Repositioning")
 };
