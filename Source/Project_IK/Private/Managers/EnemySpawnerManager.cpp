@@ -13,6 +13,8 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/EnemyBase.h"
 
+#include "Kismet/GameplayStatics.h"
+#include "WorldSettings/IKPlayerController.h"
 
 UEnemySpawnerManager::UEnemySpawnerManager()
 	:spawn_distance_(), enemy_waves_(0), spawn_position_(), enemy_spacing_(300), enemy_num_(1)
@@ -71,6 +73,17 @@ void UEnemySpawnerManager::SpawnEnemies()
 
 			enemies_.Add(enemy);
 		}
+	}
+
+	AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	if (pc)
+	{
+		TArray<TWeakObjectPtr<AActor>> enemy_arr;
+		for (AActor* enemy : enemies_)
+		{
+			enemy_arr.Add(enemy);
+		}
+		pc->UpdateEnemies(enemy_arr);
 	}
 }
 

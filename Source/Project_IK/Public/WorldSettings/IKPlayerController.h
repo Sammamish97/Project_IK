@@ -46,6 +46,8 @@ public:
 
 	UFUNCTION()
 	void ActivateItemTargeting(int32 item_idx);
+
+	void UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies);
 	
 private:
 	UFUNCTION()
@@ -83,7 +85,7 @@ private:
 
 	UFUNCTION()
 	void RotateCameraRight();
-	
+
 protected:
 	ETargetingState targeting_state_ = ETargetingState::Idle;
 	EHeroType selected_hero_type_ = EHeroType::INVALID;

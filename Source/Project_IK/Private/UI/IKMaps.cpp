@@ -36,6 +36,7 @@ void UIKMaps::GenerateMaps(int32 row, int32 col)
 		int32 d = FMath::RandRange(0, col - 1);
 		departures.AddUnique(d);
 	}
+	departures.Sort();
 
 	// then connects it with a Path to one of the 3 closest Rooms on the 2nd Floor. 
 	for (int32 i = 0; i < departures_num; i++)
