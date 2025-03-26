@@ -42,7 +42,12 @@ protected:
 
 	virtual void UpdateViewTarget(FTViewTarget& OutVT, float DeltaTime) override;
 
-	FVector GetOffset(FVector center, FVector extents, FVector camera_location);
+	FVector ComputeCameraLocation(FVector center, FVector extents, FVector view_vector, FVector up_vector, FVector right_vector, FVector forward_vector, float aspect_ratio);
+	FVector ComputeCameraOffset(FVector center, FVector extents, FVector camera_location, FVector right_vector, FVector up_vector, float aspect_ratio);
+	FVector ComputeEdgeWorldSpace(float screen_x, float screen_y, FVector closest_box_corner, FVector camera_location);
+	
+	// Be careful of screen space, top-left corner is (0, 0)
+	FVector GetClosestCorner(FVector center, FVector extents, FVector2D direction);
 
 	FBox GetHeroBox() const;
 	float GetAspectRatio() const;
