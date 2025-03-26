@@ -14,7 +14,6 @@ See LICENSE file in the project root for full license information.
 
 #include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKPlayerController.h"
-#include "Components/TargetingComponent.h"
 #include "Managers/TimeDilationManager.h"
 #include "Managers/EnemySpawnerManager.h"
 
@@ -22,6 +21,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 #include "Components/CharacterStatComponent.h"
+#include "Components/TargetingComponent.h"
 #include "Environments/SpawnMarker.h"
 #include "Structs/SpawnData.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
@@ -98,12 +98,21 @@ void AIKGameModeBase::SaveHeroSpawnData()
 	GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->UpdateSpawnData(spawn_data);
 }
 
-TArray<AActor*> AIKGameModeBase::GetHeroContainers() const noexcept
+TArray<AActor*> AIKGameModeBase::GetHeroContainer() const noexcept
 {
 	return heroes_;
 }
 
-TArray<AEnemyBase*> AIKGameModeBase::GetEnemyContainers() const noexcept
+AActor* AIKGameModeBase::GetHero(EHeroType type) const noexcept
+{
+	if (heroes_.IsValidIndex(HeroTypeToInt(type)))
+	{
+		return heroes_[HeroTypeToInt(type)];
+	}
+	return nullptr;
+}
+
+const TArray<AActor*>& AIKGameModeBase::GetEnemyContainers() const noexcept
 {
 	return enemy_spawner_manager_->GetEnemies();
 }

@@ -44,8 +44,6 @@ void UIKGameInstance::Init()
 	InitSetBonusManager();
 
 	item_inventory_->AddItem(item_data_manager_->GetItemData(3));
-
-	GetSubsystem<UGlobalBuffSubsystem>()->AddBuff(EGlobalBuffType::WoundingBullets);
 }
 
 void UIKGameInstance::Shutdown()

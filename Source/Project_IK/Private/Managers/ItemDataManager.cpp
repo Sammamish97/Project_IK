@@ -10,7 +10,6 @@ See LICENSE file in the project root for full license information.
 
 
 #include "Managers/ItemDataManager.h"
-#include "Components/TargetingComponent.h"
 #include "Managers/EnumCluster.h"
 
 UItemDataManager::UItemDataManager()

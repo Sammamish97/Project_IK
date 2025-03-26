@@ -21,8 +21,6 @@ See LICENSE file in the project root for full license information.
 #include "Components/SphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Subsystems/LevelTransitionSubsystem.h"
-#include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKGameModeBase.h"
 
 AHeroBase::AHeroBase()
@@ -128,4 +126,29 @@ void AHeroBase::OnStunned()
 EHeroType AHeroBase::GetHeroType() const
 {
 	return hero_type_;
+}
+
+void AHeroBase::InvokeActiveSkill(FTargetResult target_result)
+{
+	skill_container_->InvokeSkills(target_result);
+}
+
+void AHeroBase::Reposition(FTargetResult target_result)
+{
+	//IKTODO: 움직임을 여기에 구현해야 한다.
+}
+
+TOptional<FTargetParameters> AHeroBase::GetActiveSkillTargetParameters() const
+{
+	return skill_container_->GetTargetParameters();
+}
+
+bool AHeroBase::IsActiveSkillOnCoolDown() const
+{
+	return skill_container_->IsOnCoolDown();
+}
+
+bool AHeroBase::HasActiveSkill() const
+{
+	return skill_container_->HasActiveSkill();
 }

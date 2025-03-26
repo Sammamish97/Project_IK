@@ -21,6 +21,7 @@ enum class EUnitState  : uint8
 	Attacking UMETA(DisplayName = "Attacking"),
 	Reloading UMETA(DisplayName = "Reloading"),
 	Stunned UMETA(DisplayName = "Stunned"),
+	Repositioning UMETA(DisplayName = "Repositioning"),
 };
 
 UENUM(BlueprintType)
@@ -98,6 +99,41 @@ enum class EHeroType  : uint8
 	Hero4 UMETA(DisplayName = "Hero4"),
 	INVALID UMETA(DisplayName = "INVALID")
 };
+
+inline EHeroType IntToHeroType(int32 hero_idx)
+{
+	switch (hero_idx)
+	{
+	case 0:
+		return EHeroType::Hero1;
+	case 1:
+		return EHeroType::Hero2;
+	case 2:
+		return EHeroType::Hero3;
+	case 3:
+		return EHeroType::Hero4;
+	default:
+		return EHeroType::INVALID;
+	}
+}
+
+inline int32 HeroTypeToInt(EHeroType hero_type)
+{
+	switch (hero_type)
+	{
+		case EHeroType::Hero1:
+			return 0;
+		case EHeroType::Hero2:
+			return 1;
+		case EHeroType::Hero3:
+			return 2;
+		case EHeroType::Hero4:
+			return 3;
+		case EHeroType::INVALID:
+		default:
+			return -1;
+	}
+}
 
 UENUM(BlueprintType)
 enum class ERarity : uint8
@@ -236,19 +272,18 @@ enum class ERuneSetType : uint8
 	Chariot UMETA(DisplayName = "Chariot")
 };
 
-
-UENUM(BlueprintType)
-enum class EPlayerState : uint8
-{
-	INVALID UMETA(DisplayName = "INVALID"),
-	Map UMETA(DisplayName = "Map"),
-	Battle UMETA(DisplayName = "Battle"),
-	Event UMETA(DisplayName = "Event"),
-};
-
 UENUM(BlueprintType)
 enum class EGlobalBuffType : uint8
 {
 	WoundingBullets UMETA(DisplayName = "WoundingBullets"),
 	None UMETA(DisplayName = "None"),
+};
+
+UENUM(BlueprintType)
+enum class ETargetingState : uint8
+{
+	Idle UMETA(DisplayName = "Idle"),
+	ActiveSKill UMETA(DisplayName = "ActiveSKill"),
+	Item UMETA(DisplayName = "Item"),
+	RePositioning UMETA(DisplayName = "Repositioning")
 };

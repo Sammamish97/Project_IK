@@ -127,7 +127,7 @@ void UCombatResultUI::NativeConstruct()
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if (game_mode)
 	{
-		TArray<AActor*> hero_containers = game_mode->GetHeroContainers();
+		TArray<AActor*> hero_containers = game_mode->GetHeroContainer();
 		for (int32 i = 0; i < hero_containers.Num(); i++)
 		{
 			AHeroBase* hero = Cast<AHeroBase>(hero_containers[i]);
@@ -135,7 +135,7 @@ void UCombatResultUI::NativeConstruct()
 			hp_ratio_before_.Add(hero->GetCharacterStat()->GetHPRatio());
 		}
 
-		int32 hero_size = game_mode->GetHeroContainers().Num();
+		int32 hero_size = game_mode->GetHeroContainer().Num();
 		// @@ TODO: In this code, it is possible to have multiple blocks because of multiple NativeConstruct calls.
 							// Need to delete data in NativeDestruct.
 		SetHeroNumbers(hero_size);

@@ -8,19 +8,14 @@ Summary : Source file for Targeting component.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
-
 #include "Components/TargetingComponent.h"
-
+#include "Managers/EnumCluster.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "GameFramework/PlayerController.h"
 #include "Components/DecalComponent.h"
 #include "WorldSettings/IKPlayerController.h"
-#include "WorldSettings/IKGameModeBase.h"
 #include "Engine/World.h"
-
-#include "Characters/EnemyBase.h"
+#include "WorldSettings/IKGameModeBase.h"
 
 // Sets default values for this component's properties
 UTargetingComponent::UTargetingComponent()
@@ -31,14 +26,13 @@ UTargetingComponent::UTargetingComponent()
 	is_targeting_ = false;
 }
 
-
 // Called when the game starts
 void UTargetingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
 	player_controller_ = Cast<AIKPlayerController>(GetOwner());
-
+	
 	InitializeTargetingVisuals();
 }
 
@@ -51,7 +45,6 @@ void UTargetingComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 		targeting_visual_actor_->Destroy();
 		targeting_visual_actor_ = nullptr;
 	}
-	OnTargetResultSelected.Clear();
 	OnTargetingCanceled.Clear();
 }
 
@@ -65,54 +58,17 @@ void UTargetingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	{
 		return;
 	}
-
 	UpdateTargetingVisuals();
-
-	if (player_controller_->WasInputKeyJustPressed(EKeys::RightMouseButton))
-	{
-		OnTargetingCanceled.Broadcast();
-		StopTargeting();
-		return;
-	}
-
-	if (player_controller_->WasInputKeyJustPressed(EKeys::LeftMouseButton))
-	{
-		switch (target_parameters_.current_mode_)
-		{
-		case ETargetingMode::None:
-			OnTargetResultSelected.Broadcast(current_target_result_);
-			StopTargeting();
-			break;
-		case ETargetingMode::Actor:
-			HandleActorTargeting();
-			break;
-		case ETargetingMode::Location:
-			HandleLocationTargeting();
-			break;
-		case ETargetingMode::Direction:
-			HandleDirectionTargeting();
-			break;
-		default:
-			break;
-		}
-	}
 }
 
-void UTargetingComponent::StartSkillTargeting(AActor* invoker, FTargetParameters TargetParams)
+void UTargetingComponent::CancelTargeting()
 {
-	StartFocus();
+	OnTargetingCanceled.Broadcast();
+	StopTargeting();
+}
 
-	is_targeting_ = true;
-	invoker_ = invoker;
-	target_parameters_ = TargetParams;
-	current_target_result_.target_actors_.Empty();
-	current_target_result_.target_parameters_ = target_parameters_;
-
-
-
-	range_decal_->DecalSize = FVector(target_parameters_.range_);
-
-	// Clean up visuals
+void UTargetingComponent::CleanUpVisuals()
+{
 	UMaterialInstanceDynamic* dynamic_material = nullptr;
 	switch (target_parameters_.current_mode_)
 	{
@@ -147,40 +103,40 @@ void UTargetingComponent::StartSkillTargeting(AActor* invoker, FTargetParameters
 	}
 }
 
-void UTargetingComponent::StartItemTargeting(FTargetParameters TargetParams)
+void UTargetingComponent::StartTargeting(FTargetParameters target_params, AActor* invoker)
 {
 	StartFocus();
 
 	is_targeting_ = true;
-	invoker_ = nullptr;
-	target_parameters_ = TargetParams;
+	invoker_ = invoker;
+	target_parameters_ = target_params;
 	current_target_result_.target_actors_.Empty();
 	current_target_result_.target_parameters_ = target_parameters_;
+	range_decal_->DecalSize = FVector(target_parameters_.range_);
+	CleanUpVisuals();
+}
 
-	// Clean up visuals
+FTargetResult UTargetingComponent::DecideTargetings()
+{
 	switch (target_parameters_.current_mode_)
 	{
 	case ETargetingMode::None:
+		//OnTargetResultSelected.Broadcast(current_target_result_);
+		StopTargeting();
 		break;
 	case ETargetingMode::Actor:
-		player_controller_->CurrentMouseCursor = EMouseCursor::Crosshairs;
-		radius_decal_->SetVisibility(false);
-		range_decal_->SetVisibility(false);
-		sector_decal_->SetVisibility(false);
+		HandleActorTargeting();
 		break;
 	case ETargetingMode::Location:
-		player_controller_->CurrentMouseCursor = EMouseCursor::GrabHand;
-		radius_decal_->DecalSize = FVector(target_parameters_.radius_);
-		radius_decal_->SetVisibility(true);
-		range_decal_->SetVisibility(false);
-		sector_decal_->SetVisibility(false);
+		HandleLocationTargeting();
 		break;
 	case ETargetingMode::Direction:
-		UE_LOG(LogTemp, Error, TEXT("Invalid direction targeting to use an item!"));
+		HandleDirectionTargeting();
 		break;
 	default:
 		break;
 	}
+	return current_target_result_;
 }
 
 void UTargetingComponent::StopTargeting()
@@ -216,33 +172,28 @@ void UTargetingComponent::StopItemTargeting()
 
 void UTargetingComponent::HandleActorTargeting()
 {
-
 	FVector target_location = GetGroundLocation();
 	AActor* closest_actor = FindClosestActor(target_location);
 
 	current_target_result_.target_location_ = target_location;
 	current_target_result_.target_actors_.Add(closest_actor);
-
-	OnTargetResultSelected.Broadcast(current_target_result_);
+	
 	StopTargeting();
 }
 
 void UTargetingComponent::HandleLocationTargeting()
 {
+	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
 	FVector target_location = GetGroundLocation();
-
 	current_target_result_.target_location_ = ClampingOntoInvoker(target_location);
-
-
-
-	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-
-	if (game_mode)
+	
+	if (game_mode_cache)
 	{
 		const float squared_radius = target_parameters_.radius_ * target_parameters_.radius_;
 		if (target_parameters_.target_type_ == ETargetType::All || target_parameters_.target_type_ == ETargetType::Allies)
 		{
-			auto heroes = game_mode->GetHeroContainers();
+			auto heroes = game_mode_cache->GetHeroContainer();
 
 			for (AActor* actor : heroes)
 			{
@@ -257,9 +208,9 @@ void UTargetingComponent::HandleLocationTargeting()
 		}
 		if (target_parameters_.target_type_ == ETargetType::All || target_parameters_.target_type_ == ETargetType::Opponents)
 		{
-			auto enemies = game_mode->GetEnemyContainers();
+			auto enemies = game_mode_cache->GetEnemyContainers();
 
-			for (AEnemyBase* actor : enemies)
+			for (AActor* actor : enemies)
 			{
 				FVector to_actor = actor->GetActorLocation() - current_target_result_.target_location_;
 
@@ -271,8 +222,7 @@ void UTargetingComponent::HandleLocationTargeting()
 			}
 		}
 	}
-
-	OnTargetResultSelected.Broadcast(current_target_result_);
+	
 	StopTargeting();
 }
 
@@ -296,7 +246,7 @@ void UTargetingComponent::HandleDirectionTargeting()
 	{
 		if (target_parameters_.target_type_ == ETargetType::All || target_parameters_.target_type_ == ETargetType::Allies)
 		{
-			auto heroes = game_mode->GetHeroContainers();
+			auto heroes = game_mode->GetHeroContainer();
 
 			for (AActor* actor : heroes)
 			{
@@ -325,8 +275,6 @@ void UTargetingComponent::HandleDirectionTargeting()
 			}
 		}
 	}
-
-	OnTargetResultSelected.Broadcast(current_target_result_);
 	StopTargeting();
 }
 
@@ -502,7 +450,7 @@ AActor* UTargetingComponent::FindClosestActor(const FVector& TargetLocation)
 
 	if (target_parameters_.target_type_ == ETargetType::All || target_parameters_.target_type_ == ETargetType::Allies)
 	{
-		auto characters = game_mode->GetHeroContainers();
+		auto characters = game_mode->GetHeroContainer();
 		for (AActor* actor : characters)
 		{
 			if (actor)

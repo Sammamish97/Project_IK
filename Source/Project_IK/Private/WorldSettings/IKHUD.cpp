@@ -40,7 +40,10 @@ void AIKHUD::SynchroItemButtons()
 {
 	if (button_widget_)
 	{
-		button_widget_->SynchroItemButtons();
+		for (int32 i = 0; i < 3; ++i)
+		{
+			button_widget_->SynchroItemButtons(i);
+		}
 	}
 }
 
