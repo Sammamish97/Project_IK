@@ -103,7 +103,7 @@ void UTargetingComponent::CleanUpVisuals()
 	}
 }
 
-void UTargetingComponent::StartTargeting(ETargetingState state, AActor* invoker, FTargetParameters target_params)
+void UTargetingComponent::StartTargeting(FTargetParameters target_params, AActor* invoker)
 {
 	StartFocus();
 
@@ -116,7 +116,7 @@ void UTargetingComponent::StartTargeting(ETargetingState state, AActor* invoker,
 	CleanUpVisuals();
 }
 
-void UTargetingComponent::DecideAction()
+FTargetResult UTargetingComponent::DecideTargetings()
 {
 	switch (target_parameters_.current_mode_)
 	{
@@ -136,10 +136,6 @@ void UTargetingComponent::DecideAction()
 	default:
 		break;
 	}
-}
-
-FTargetResult UTargetingComponent::GetTargetResult()
-{
 	return current_target_result_;
 }
 

@@ -47,14 +47,11 @@ public:
 	void CancelTargeting();
 
 	UFUNCTION(BlueprintCallable, Category = "Targeting")
-	void StartTargeting(ETargetingState state, AActor* invoker, FTargetParameters target_params);
+	void StartTargeting(FTargetParameters target_params, AActor* invoker = nullptr);
 
 	UFUNCTION()
-	void DecideAction();
+	FTargetResult DecideTargetings();
 
-	UFUNCTION()
-	FTargetResult GetTargetResult();
-	
 	UFUNCTION(BlueprintCallable, Category="Targeting")
 	void StopTargeting();
 	UFUNCTION()

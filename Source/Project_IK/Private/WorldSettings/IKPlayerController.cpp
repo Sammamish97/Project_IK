@@ -106,7 +106,7 @@ void AIKPlayerController::ActivateSkillTargeting(EHeroType hero_type)
 			{
 				selected_hero_type_ = hero_type;
 				targeting_state_ = ETargetingState::ActiveSKill;
-				targeting_component_->StartTargeting(ETargetingState::ActiveSKill, casted_hero,  casted_hero->GetActiveSkillTargetParameters().GetValue());
+				targeting_component_->StartTargeting(casted_hero->GetActiveSkillTargetParameters().GetValue(), casted_hero);
 			}
 		}
 	}
@@ -137,14 +137,13 @@ void AIKPlayerController::ActivateItemTargeting(int32 item_idx)
 	}
 	selected_item_idx_ = item_idx;
 	targeting_state_ = ETargetingState::Item;
-	targeting_component_->StartTargeting(ETargetingState::Item, nullptr, cur_item->GetTargetParameters());
+	targeting_component_->StartTargeting(cur_item->GetTargetParameters());
 }
 
 void AIKPlayerController::Decide()
 {
 	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	targeting_component_->DecideAction();
-	auto target_result = targeting_component_->GetTargetResult();
+	auto target_result = targeting_component_->DecideTargetings();
 	
 	switch (targeting_state_)
 	{
