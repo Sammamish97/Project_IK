@@ -21,6 +21,7 @@ class UWidgetComponent;
 class UCharacterStatComponent;
 class UCrowdControlComponent;
 class UDamageUI;
+class UDelegateBridgeSubsystem;
 enum class EUnitEvent : uint8;
 
 
@@ -30,7 +31,7 @@ UCLASS()
 class PROJECT_IK_API AUnit : public ACharacter, public IDamageable, public IUnitInterface
 {
 	GENERATED_BODY()
-	
+	friend UDelegateBridgeSubsystem;
 public:
 	// Sets default values for this character's properties
 	AUnit();
@@ -61,9 +62,6 @@ public:
 
 	UFUNCTION()
 	virtual void FinishStun() override;
-
-	template<typename T, typename FuncType>
-	void BindDamageEvent(EUnitEvent bound_event, T* object, FuncType callback);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UHitPointsUI> hp_UI_class_;
@@ -118,12 +116,3 @@ protected:
 	float capsule_half_height_ = 0.f;
 	float capsule_radius_ = 0.f;
 };
-
-template<typename T, typename FuncType>
-inline void AUnit::BindDamageEvent(EUnitEvent bound_event, T* object, FuncType callback)
-{
-	TArray<FOnDamage>& delegate_array = dmg_event_map_.FindOrAdd(bound_event);
-
-	delegate_array.AddDefaulted();
-	delegate_array.Last().BindUObject(object, callback);
-}

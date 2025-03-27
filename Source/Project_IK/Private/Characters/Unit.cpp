@@ -21,6 +21,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/DamageUI.h"
 
 #include "Subsystems/GlobalBuffSubsystem.h"
+#include "Subsystems/DelegateBridgeSubsystem.h"
 
 // Sets default values
 AUnit::AUnit()
@@ -65,8 +66,14 @@ void AUnit::BeginPlay()
 	if (hp_UI_class_)
 	{
 		hp_UI_->SetWidgetClass(hp_UI_class_);
+		hp_UI_->InitWidget();
 	}
-	Cast<UHitPointsUI>(hp_UI_->GetWidget())->BindNecessaryComponents(character_stat_component_, cc_component_);
+	TWeakObjectPtr<UHitPointsUI> ui = Cast<UHitPointsUI>(hp_UI_->GetWidget());
+	if (ui.IsValid())
+	{
+		ui->BindNecessaryComponents(character_stat_component_, cc_component_);
+		GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnCrowdControlChanged(cc_component_, ui.Get(), &UHitPointsUI::UpdateBuffWidgets);
+	}
 
 	GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->ApplyBuff(this);
 

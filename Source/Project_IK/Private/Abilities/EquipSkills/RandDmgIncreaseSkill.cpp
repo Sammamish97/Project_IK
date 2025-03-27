@@ -9,12 +9,12 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Abilities/EquipSkills/RandDmgIncreaseSkill.h"
-#include "Characters/HeroBase.h"
+#include "Subsystems/DelegateBridgeSubsystem.h"
 void URandDmgIncreaseSkill::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
 	bound_target_ = EUnitEvent::OnFire;
-	hero_cache_->BindDamageEvent(bound_target_, this, &URandDmgIncreaseSkill::OnEquipmentSkill);
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_ref, bound_target_, this, &URandDmgIncreaseSkill::OnEquipmentSkill, FName(TEXT("URandDmgIncreaseSkill::OnEquipmentSkill")));
 }
 
 FDamageData URandDmgIncreaseSkill::OnEquipmentSkill(FDamageData dmg_data)

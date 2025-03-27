@@ -9,13 +9,14 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Abilities/EquipSkills/FixedDmgReduceSkill.h"
-#include "Characters/HeroBase.h"
+
+#include "Subsystems/DelegateBridgeSubsystem.h"
 
 void UFixedDmgReduceSkill::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
 	bound_target_ = EUnitEvent::OnHitAfterCalc;
-	hero_cache_->BindDamageEvent(bound_target_, this, &UFixedDmgReduceSkill::OnEquipmentSkill);
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_ref, bound_target_, this, &UFixedDmgReduceSkill::OnEquipmentSkill, FName(TEXT("UFixedDmgReduceSkill::OnEquipmentSkill")));
 }
 
 FDamageData UFixedDmgReduceSkill::OnEquipmentSkill(FDamageData dmg_data)

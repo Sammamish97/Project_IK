@@ -40,8 +40,6 @@ void UHitPointsUI::BindNecessaryComponents(UCharacterStatComponent* NewCharacter
 	if (NewCrowdControl)
 	{
 		crowd_control_ = NewCrowdControl;
-
-		crowd_control_->OnCrowdControlChanged.AddDynamic(this, &UHitPointsUI::UpdateBuffWidgets);
 	}
 	UpdateBuffWidgets();
 }

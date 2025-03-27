@@ -44,6 +44,13 @@ void AIKPlayerController::BeginPlay()
 	}
 }
 
+void AIKPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	on_item_used_.Clear();
+	on_active_skill_.Clear();
+}
+
 void AIKPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();

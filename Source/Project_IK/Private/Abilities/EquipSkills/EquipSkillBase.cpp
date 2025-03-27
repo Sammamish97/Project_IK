@@ -13,7 +13,6 @@ See LICENSE file in the project root for full license information.
 
 void UEquipSkillBase::InitEquipmentSkill(AActor* hero_ref)
 {
-	hero_cache_ = Cast<AHeroBase>(hero_ref);
 }
 
 FDamageData UEquipSkillBase::OnEquipmentSkill(FDamageData dmg_data)

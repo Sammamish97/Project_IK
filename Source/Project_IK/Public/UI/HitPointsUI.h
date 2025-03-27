@@ -34,6 +34,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void BindNecessaryComponents(UCharacterStatComponent* NewCharacterStat, UCrowdControlComponent* NewCrowdControl);
 
+
+	UFUNCTION()
+	void UpdateBuffWidgets();
+
 protected:
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
@@ -43,9 +47,6 @@ protected:
 
 	UFUNCTION()
 	void UpdateShieldWidget();
-
-	UFUNCTION()
-	void UpdateBuffWidgets();
 
 	UFUNCTION()
 	void InitializeImages();
