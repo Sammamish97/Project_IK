@@ -45,9 +45,8 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	const TArray<AActor*>& GetEnemyContainers() const noexcept;
-
 	UFUNCTION(BlueprintCallable)
-	void RemoveHero(AActor* hero);
+	void RemoveHero(EHeroType hero_type);
 	UFUNCTION(BlueprintCallable)
 	void RemoveEnemy(AEnemyBase* enemy);
 	UFUNCTION(BlueprintCallable)
@@ -93,4 +92,8 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UEnemySpawnerManager> enemy_spawner_manager_;
+
+	//IKTODO: 임시 땜빵용 디버깅 변수. 이후 이 변수와 이 변수를 이용하는 로직을 반드시 교체해야 한다!
+	UPROPERTY()
+	bool TEMP_BUG_FIX_PURPOSE = true;
 };

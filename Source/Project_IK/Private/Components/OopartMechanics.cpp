@@ -38,6 +38,15 @@ void UOopartMechanics::BeginPlay()
 	data_table_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 }
 
+void UOopartMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if (oopart_actor_)
+	{
+		oopart_actor_->Destroy();
+	}
+	Super::EndPlay(EndPlayReason);
+}
+
 FOopartData UOopartMechanics::GetEquippedOopartData()
 {
 	return equipped_oopart_data_;

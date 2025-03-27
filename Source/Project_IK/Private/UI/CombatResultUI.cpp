@@ -122,17 +122,18 @@ void UCombatResultUI::NativeConstruct()
 	Super::NativeConstruct();
 
 	InitializeChildWidgets();
-
-
+	
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if (game_mode)
 	{
 		TArray<AActor*> hero_containers = game_mode->GetHeroContainer();
 		for (int32 i = 0; i < hero_containers.Num(); i++)
 		{
-			AHeroBase* hero = Cast<AHeroBase>(hero_containers[i]);
-			// It is not ratio at this point. It contains initial hit points.
-			hp_ratio_before_.Add(hero->GetCharacterStat()->GetHPRatio());
+			if (AHeroBase* hero = Cast<AHeroBase>(hero_containers[i]))
+			{
+				// It is not ratio at this point. It contains initial hit points.
+				hp_ratio_before_.Add(hero->GetCharacterStat()->GetHPRatio());
+			}
 		}
 
 		int32 hero_size = game_mode->GetHeroContainer().Num();
@@ -140,7 +141,6 @@ void UCombatResultUI::NativeConstruct()
 							// Need to delete data in NativeDestruct.
 		SetHeroNumbers(hero_size);
 	}
-
 }
 
 void UCombatResultUI::InitializeRootWidget()

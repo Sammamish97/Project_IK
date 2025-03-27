@@ -25,6 +25,9 @@ struct PROJECT_IK_API FSpawnData
 	GENERATED_BODY()
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
+	bool is_dead_ = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
 	FCharacterData character_data_;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")

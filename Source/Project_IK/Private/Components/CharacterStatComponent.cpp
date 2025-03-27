@@ -132,6 +132,11 @@ bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 	return is_evaded;
 }
 
+EHeroType UCharacterStatComponent::GetCharacterID() const
+{
+	return character_id_;
+}
+
 void UCharacterStatComponent::GetDamage(float damage)
 {
 	SetHitPoint(GetHitPoint() - damage);
@@ -400,6 +405,11 @@ float UCharacterStatComponent::GetMaxShield() const noexcept
 FCharacterData UCharacterStatComponent::GetCharacterData() const noexcept
 {
 	return stat_;
+}
+
+void UCharacterStatComponent::SetCharacterID(EHeroType char_id) noexcept
+{
+	character_id_ = char_id;
 }
 
 void UCharacterStatComponent::SetCharacterData(const FCharacterData& character_data) noexcept
