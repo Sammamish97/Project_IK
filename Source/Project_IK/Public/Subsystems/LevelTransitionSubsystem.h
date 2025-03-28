@@ -25,7 +25,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void UpdateSpawnDataIdx(int32 idx, FSpawnData data);
-
+	
+	UFUNCTION(BlueprintCallable)
+	void OpenMapLevel(UWorld* world);
+	
 	UFUNCTION(BlueprintCallable)
 	void OpenLevel(UWorld* world, FIntPoint map_position);
 	

@@ -24,7 +24,7 @@ class PROJECT_IK_API UCombatLevelResultManager : public UObject
 	GENERATED_BODY()
 public:
 	UFUNCTION()
-	void InitializeUI(TSubclassOf<class UCombatResultUI> combat_result_widget_class, TSubclassOf<class UItemPickerUI> item_picker_widget_class, TSubclassOf<class UUserWidget> map_widget_class, UWorld* world);
+	void InitializeUI(TSubclassOf<class UCombatResultUI> combat_result_widget_class, TSubclassOf<class UItemPickerUI> item_picker_widget_class, UWorld* world);
 
 	UFUNCTION()
 	void DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map);
@@ -39,7 +39,4 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UItemPickerUI> item_picker_widget_;
-
-	UPROPERTY()
-	TObjectPtr<UUserWidget> map_widget_;
 };

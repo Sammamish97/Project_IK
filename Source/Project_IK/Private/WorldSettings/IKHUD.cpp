@@ -95,37 +95,9 @@ void AIKHUD::BeginPlay()
 		}
 	}
 
-	combat_level_result_manager_ = NewObject<UCombatLevelResultManager>();
+	combat_level_result_manager_ = NewObject<UCombatLevelResultManager>(this);
 	if (combat_level_result_manager_)
 	{
-		combat_level_result_manager_->InitializeUI(combat_result_widget_class_, item_picker_widget_class_, map_widget_class_, world);
+		combat_level_result_manager_->InitializeUI(combat_result_widget_class_, item_picker_widget_class_, world);
 	}
-
-	if(inventory_widget_class_)
-	{
-		inventory_widget_ = CreateWidget<UInventoryWidget>(GetWorld(), inventory_widget_class_);
-		if(inventory_widget_)
-		{
-			auto instance = UGameplayStatics::GetGameInstance(GetWorld());
-			auto ik_instance = Cast<UIKGameInstance>(instance);
-			if(ik_instance)
-			{
-                inventory_widget_->InitInventoryWidget(ik_instance->GetInventoryManager());
-                //inventory_widget_->LoadInventoryManager();
-			}
-		}
-	}
-}
-
-void AIKHUD::PopUpInventory()
-{
-	inventory_widget_->AddToViewport();
-	auto controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	controller->bShowMouseCursor = true;
-}
-
-void AIKHUD::RemoveInventory()
-{
-	inventory_widget_->RemoveFromParent();
-	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;
 }
