@@ -75,6 +75,7 @@ void UButtonBarWidget::NativeConstruct()
 		delegate_bridge_subsystem->BindOnItemUsed(this, &UButtonBarWidget::SynchroItemButtons);
 		delegate_bridge_subsystem->BindOnActiveSkill(this, &UButtonBarWidget::SynchroActiveSkillButtons);
 	}
+
 	for (int32 i = 0; i < 3; ++i)
 	{
 		SynchroItemButtons(i);

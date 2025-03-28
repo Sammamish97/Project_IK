@@ -201,10 +201,12 @@ void AIKPlayerController::EnterRepositioningMode()
 
 void AIKPlayerController::RotateCameraLeft()
 {
-	//IKTODO: 카메라 좌회전 로직.
+	AIKPlayerCameraManager* camera_manger = Cast<AIKPlayerCameraManager>(PlayerCameraManager);
+	camera_manger->RotateCameraLeft();
 }
 
 void AIKPlayerController::RotateCameraRight()
 {
-	//IKTODO: 카메라 우회전 로직.
+	AIKPlayerCameraManager* camera_manger = Cast<AIKPlayerCameraManager>(PlayerCameraManager);
+	camera_manger->RotateCameraRight();
 }
