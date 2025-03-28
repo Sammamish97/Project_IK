@@ -74,7 +74,7 @@ void UGlobalBuffSubsystem::UpdateBuffDurations()
 	}
 
 
-	for (int32 i = buffs_.Num(); i >= 0; --i)
+	for (int32 i = buffs_.Num() - 1; i >= 0; --i)
 	{
 		if (buffs_[i].duration_ <= 0)
 		{
@@ -83,7 +83,7 @@ void UGlobalBuffSubsystem::UpdateBuffDurations()
 			buffs_.RemoveAtSwap(i, 1, false);
 
 			// If removed item is not the last element,
-			if (i < buffs_.Num())
+			if (i < buffs_.Num() - 1)
 			{
 				// Update buff_lookup_
 				buff_lookup_[buffs_[i].buff_type_] = i;

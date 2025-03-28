@@ -40,14 +40,15 @@ public:
 	UFUNCTION(BlueprintPure)
 	TArray<AActor*> GetHeroContainer() const noexcept;
 
+	int32 GetHeroCount() const noexcept;
+
 	UFUNCTION(BlueprintPure)
 	AActor* GetHero(EHeroType type) const noexcept;
 
 	UFUNCTION(BlueprintPure)
 	const TArray<AActor*>& GetEnemyContainers() const noexcept;
-
 	UFUNCTION(BlueprintCallable)
-	void RemoveHero(AActor* hero);
+	void RemoveHero(EHeroType hero_type);
 	UFUNCTION(BlueprintCallable)
 	void RemoveEnemy(AEnemyBase* enemy);
 	UFUNCTION(BlueprintCallable)
@@ -79,6 +80,7 @@ public:
 
 protected:
 	void DisplayCombatResult();
+	bool IsDefeated() const;
 
 	FVector hero_spawn_position_;
 

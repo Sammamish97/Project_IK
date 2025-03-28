@@ -79,6 +79,9 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunctionoverride);
 
 	UFUNCTION(BlueprintCallable)
+	EHeroType GetCharacterID() const;
+
+	UFUNCTION(BlueprintCallable)
 	bool CalcDamage(FDamageData& data_ref);
 
 	void RecordDamage(FDamageData& data_ref);
@@ -141,6 +144,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	FCharacterData GetCharacterData() const noexcept;
 
+	UFUNCTION(BlueprintCallable)
+	void SetCharacterID(EHeroType char_id) noexcept;
+	
 	UFUNCTION(BlueprintCallable)
 	void SetCharacterData(const FCharacterData& character_data) noexcept;
 

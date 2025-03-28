@@ -66,7 +66,6 @@ void AHeroBase::BeginPlay()
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	Die();
 	Super::EndPlay(EndPlayReason);
 }
 
@@ -82,8 +81,9 @@ void AHeroBase::Die()
 	{
 		casted_gunner_aic->OnDie();
 	}
+	//IKTODO: 이후 Delegate를 통해 불러주면 좋을듯.
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
-	if (casted_mode) casted_mode->RemoveHero(this);
+	if (casted_mode) casted_mode->RemoveHero(GetCharacterStat()->GetCharacterID());
 	Super::Die();
 }
 
