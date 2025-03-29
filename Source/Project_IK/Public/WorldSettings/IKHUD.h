@@ -44,11 +44,6 @@ public:
 	void MuteItems();
 	UFUNCTION()
 	void UnmuteItems();
-
-	UFUNCTION(BlueprintCallable)
-	void PopUpInventory();
-	UFUNCTION(BlueprintCallable)
-	void RemoveInventory();
 	
 protected:
 	// Reference to the Widget Blueprint class to create
@@ -65,15 +60,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<class UItemPickerUI> item_picker_widget_class_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<class UUserWidget> map_widget_class_;
-
 	UPROPERTY()
 	TObjectPtr<UCombatLevelResultManager> combat_level_result_manager_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<class UInventoryWidget> inventory_widget_class_;
-	
-	UPROPERTY()
-	TObjectPtr<UInventoryWidget> inventory_widget_;
 };

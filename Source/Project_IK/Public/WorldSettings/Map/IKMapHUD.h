@@ -20,4 +20,25 @@ UCLASS()
 class PROJECT_IK_API AIKMapHUD : public AHUD
 {
 	GENERATED_BODY()
+
+	virtual void BeginPlay() override;
+	
+	UFUNCTION(BlueprintCallable)
+	void PopUpInventory();
+	
+	UFUNCTION(BlueprintCallable)
+	void RemoveInventory();
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<class UUserWidget> map_widget_class_;
+	
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<class UInventoryWidget> inventory_widget_class_;
+
+	UPROPERTY()
+	TObjectPtr<UUserWidget> map_widget_;
+	
+	UPROPERTY()
+	TObjectPtr<UInventoryWidget> inventory_widget_;
 };

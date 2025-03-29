@@ -46,6 +46,11 @@ void ULevelTransitionSubsystem::UpdateSpawnDataIdx(int32 idx, FSpawnData data)
 	spawn_data_[idx] = data;
 }
 
+void ULevelTransitionSubsystem::OpenMapLevel(UWorld* world)
+{
+	UGameplayStatics::OpenLevel(world, FName("MapInventoryLevel"));
+}
+
 void ULevelTransitionSubsystem::OpenLevel(UWorld* world, FIntPoint map_position)
 {
 	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
