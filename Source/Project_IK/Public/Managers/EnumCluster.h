@@ -285,5 +285,6 @@ enum class ETargetingState : uint8
 	Idle UMETA(DisplayName = "Idle"),
 	ActiveSKill UMETA(DisplayName = "ActiveSKill"),
 	Item UMETA(DisplayName = "Item"),
-	RePositioning UMETA(DisplayName = "Repositioning")
+	EnterRepositioning UMETA(DisplayName = "Repositioning"),
+	PickRepositionTargetLocation UMETA(DisplayName = "PickRepositionTargetLocation")
 };

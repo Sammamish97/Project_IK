@@ -36,6 +36,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	
 
 public:	
 	// Called every frame
@@ -45,6 +46,8 @@ public:
 	FOnTargetingCanceled OnTargetingCanceled;
 
 	void CancelTargeting();
+
+	void SetTargetParams(FTargetParameters params);
 
 	UFUNCTION(BlueprintCallable, Category = "Targeting")
 	void StartTargeting(FTargetParameters target_params, AActor* invoker = nullptr);

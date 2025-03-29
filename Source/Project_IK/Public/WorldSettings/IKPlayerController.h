@@ -31,6 +31,7 @@ public:
 
 	virtual void BeginPlay();
 	virtual void SetupInputComponent() override;
+	virtual void Tick(float dt) override;
 
 	UFUNCTION(BlueprintPure, Category = "Targeting")
 	class UTargetingComponent* GetTargetingComponent();
@@ -48,7 +49,7 @@ public:
 	void ActivateItemTargeting(int32 item_idx);
 
 	void UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies);
-	
+
 private:
 	UFUNCTION()
 	void ActivateFirstHeroActiveSkill();
@@ -90,10 +91,17 @@ protected:
 	ETargetingState targeting_state_ = ETargetingState::Idle;
 	EHeroType selected_hero_type_ = EHeroType::INVALID;
 	int32 selected_item_idx_ = -1;
+
+	UPROPERTY(Transient)
+	TObjectPtr<AActor> repositioning_hero_ = nullptr;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Targeting")
 	TObjectPtr<UTargetingComponent> targeting_component_;
 
+	//
+	int32 reposition_stack_ = 2;
+	const float charge_time_per_stack_ = 1.0f;
+	float cur_charge_time_ = 0.f;
 	//
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))

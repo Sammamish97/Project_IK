@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/SkillContainer.h"
 #include "AI/GunnerAIController.h"
+#include "AI/HeroAIController.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/CharacterStatComponent.h"
 #include "Components/OopartMechanics.h"
@@ -133,9 +134,9 @@ void AHeroBase::InvokeActiveSkill(FTargetResult target_result)
 	skill_container_->InvokeSkills(target_result);
 }
 
-void AHeroBase::Reposition(FTargetResult target_result)
+void AHeroBase::Reposition(FVector target_location)
 {
-	//IKTODO: 움직임을 여기에 구현해야 한다.
+	Cast<AHeroAIController>(GetController())->RepositionHero(target_location);
 }
 
 TOptional<FTargetParameters> AHeroBase::GetActiveSkillTargetParameters() const
