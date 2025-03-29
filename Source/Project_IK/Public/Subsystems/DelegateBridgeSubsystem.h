@@ -18,6 +18,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/TargetingComponent.h"
 #include "Characters/Unit.h"
 #include "Components/CrowdControlComponent.h"
+#include "Components/CharacterStatComponent.h"
 
 #include "DelegateBridgeSubsystem.generated.h"
 
@@ -32,6 +33,18 @@ See LICENSE file in the project root for full license information.
 
 #define BindOnCrowdControlChanged(Component, Object, FuncName) \
 	__Internal_BindOnCrowdControlChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
+
+#define BindOnDied(Component, Object, FuncName) \
+	__Internal_BindOnDied(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
+
+#define BindOnHPChanged(Component, Object, FuncName) \
+	__Internal_BindOnHPChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
+
+#define BindOnShieldChanged(Component, Object, FuncName) \
+	__Internal_BindOnShieldChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
+
+#define BindOnBuffChanged(Component, Object, FuncName) \
+	__Internal_BindOnBuffChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
 /**
  *
@@ -55,6 +68,18 @@ public:
 
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnCrowdControlChanged(UObject* bound_crowd_control_component, T* object, FuncType callback, FName func_name);
+
+	template<typename T, typename FuncType>
+	bool __Internal_BindOnDied(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
+
+	template<typename T, typename FuncType>
+	bool __Internal_BindOnHPChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
+
+	template<typename T, typename FuncType>
+	bool __Internal_BindOnShieldChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
+
+	template<typename T, typename FuncType>
+	bool __Internal_BindOnBuffChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
 	
 protected:
 	TWeakObjectPtr<AIKPlayerController> GetAIKPlayerController() const;
@@ -147,6 +172,70 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnCrowdControlChanged(UObje
 	{
 		TWeakObjectPtr<UCrowdControlComponent> cc = Cast<UCrowdControlComponent>(bound_crowd_control_component);
 		cc->OnCrowdControlChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
+		return true;
+	}
+	return false;
+}
+
+template<typename T, typename FuncType>
+inline bool UDelegateBridgeSubsystem::__Internal_BindOnDied(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name)
+{
+	if (object == nullptr)
+	{
+		return false;
+	}
+	if (bound_character_stat_component != nullptr && bound_character_stat_component->IsA<UCharacterStatComponent>())
+	{
+		TWeakObjectPtr<UCharacterStatComponent> cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
+		cs->OnDied.__Internal_AddUniqueDynamic(object, callback, func_name);
+		return true;
+	}
+	return false;
+}
+
+template<typename T, typename FuncType>
+inline bool UDelegateBridgeSubsystem::__Internal_BindOnHPChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name)
+{
+	if (object == nullptr)
+	{
+		return false;
+	}
+	if (bound_character_stat_component != nullptr && bound_character_stat_component->IsA<UCharacterStatComponent>())
+	{
+		TWeakObjectPtr<UCharacterStatComponent> cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
+		cs->OnHPChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
+		return true;
+	}
+	return false;
+}
+
+template<typename T, typename FuncType>
+inline bool UDelegateBridgeSubsystem::__Internal_BindOnShieldChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name)
+{
+	if (object == nullptr)
+	{
+		return false;
+	}
+	if (bound_character_stat_component != nullptr && bound_character_stat_component->IsA<UCharacterStatComponent>())
+	{
+		TWeakObjectPtr<UCharacterStatComponent> cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
+		cs->OnShieldChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
+		return true;
+	}
+	return false;
+}
+
+template<typename T, typename FuncType>
+inline bool UDelegateBridgeSubsystem::__Internal_BindOnBuffChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name)
+{
+	if (object == nullptr)
+	{
+		return false;
+	}
+	if (bound_character_stat_component != nullptr && bound_character_stat_component->IsA<UCharacterStatComponent>())
+	{
+		TWeakObjectPtr<UCharacterStatComponent> cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
+		cs->OnBuffChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
 		return true;
 	}
 	return false;

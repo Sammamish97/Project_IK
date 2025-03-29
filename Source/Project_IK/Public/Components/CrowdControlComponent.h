@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "CrowdControlComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCrowdControlChangedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCrowdControlChangedDelegate, TArray<ECCType>, applied_ccs);
 
 class UDelegateBridgeSubsystem;
 

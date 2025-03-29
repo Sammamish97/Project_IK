@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"
 #include "Structs/TargetResult.h"
+#include "Structs/BuffData.h"
 #include "Interfaces/Damageable.h"
 #include "Abilities/SmokeRegion.h"
 
@@ -127,7 +128,7 @@ void UItem::AttackSpeedStimuli(TArray<AActor*> actors)
 		AUnit* unit = Cast<AUnit>(actors[i]);
 		if (unit)
 		{
-			unit->ApplyBuff(FBuff(TEXT("Item_Stimuli"), ECharacterStatType::AttackSpeed, 1.2f, true, 10.f));
+			unit->ApplyBuff(FBuffData(TEXT("Item_Stimuli"), ECharacterStatType::AttackSpeed, 1.2f, true, 10.f));
 		}
 	}
 

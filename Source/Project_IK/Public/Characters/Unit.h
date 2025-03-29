@@ -23,6 +23,7 @@ class UCrowdControlComponent;
 class UDamageUI;
 class UDelegateBridgeSubsystem;
 enum class EUnitEvent : uint8;
+struct FBuffData;
 
 
 DECLARE_DELEGATE_RetVal_OneParam(FDamageData, FOnDamage, FDamageData);
@@ -46,7 +47,7 @@ public:
 	void Heal(float heal);
 
 	UFUNCTION(BlueprintCallable)
-	void ApplyBuff(FBuff buff);
+	void ApplyBuff(FBuffData buff);
 
 	UFUNCTION(BlueprintCallable)
 	bool RemoveBuff(FName BuffName);

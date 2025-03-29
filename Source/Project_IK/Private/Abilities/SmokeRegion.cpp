@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/SphereComponent.h"
 #include "Components/DecalComponent.h"
 #include "Characters/Unit.h"
-#include "Components/CharacterStatComponent.h"
+#include "Structs/BuffData.h"
 
 #include "UObject/ConstructorHelpers.h"
 
@@ -98,7 +98,7 @@ void ASmokeRegion::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComp, AActo
 
 void ASmokeRegion::ApplyEvasionBuff(AUnit* unit)
 {
-	unit->ApplyBuff(FBuff(TEXT("SmokeRegion"), ECharacterStatType::EvasionRate, 0.5f, false, true));
+	unit->ApplyBuff(FBuffData(TEXT("SmokeRegion"), ECharacterStatType::EvasionRate, 0.5f, false, true));
 }
 
 void ASmokeRegion::RemoveEvasionBuff(AUnit* unit)

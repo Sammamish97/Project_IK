@@ -11,6 +11,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/SphereComponent.h"
 #include "Components/BoxComponent.h"
 #include "Components/CharacterStatComponent.h"
+#include "Subsystems/DelegateBridgeSubsystem.h"
+
 // Sets default values
 ACover::ACover()
 {
@@ -29,9 +31,7 @@ ACover::ACover()
 	cover_mesh_->SetMobility(EComponentMobility::Movable);
 
 	cover_position_->SetMobility(EComponentMobility::Static);
-	
-	character_stat_component_->Die.AddDynamic(this, &ACover::Die);
-	
+
 	SetRootComponent(cover_position_);
 }
 
@@ -39,7 +39,8 @@ ACover::ACover()
 void ACover::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnDied(character_stat_component_, this, &ACover::Die);
 }
 
 void ACover::GetDamage(FDamageData data)

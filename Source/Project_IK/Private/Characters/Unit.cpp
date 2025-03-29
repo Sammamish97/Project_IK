@@ -23,6 +23,8 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/GlobalBuffSubsystem.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
+#include "Structs/BuffData.h"
+
 // Sets default values
 AUnit::AUnit()
 {
@@ -34,8 +36,6 @@ AUnit::AUnit()
 	hp_UI_->SetWidgetSpace(EWidgetSpace::Screen);
 	hp_UI_->SetDrawSize({ 100, 50 });
 	hp_UI_->SetupAttachment(RootComponent);
-
-	character_stat_component_->Die.AddDynamic(this, &AUnit::Die);
 
 
 	cc_component_ = CreateDefaultSubobject<UCrowdControlComponent>(TEXT("CC Component"));
@@ -63,16 +63,21 @@ void AUnit::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
+	subsystem->BindOnDied(character_stat_component_, this, &AUnit::Die);
+
 	if (hp_UI_class_)
 	{
 		hp_UI_->SetWidgetClass(hp_UI_class_);
 		hp_UI_->InitWidget();
 	}
-	TWeakObjectPtr<UHitPointsUI> ui = Cast<UHitPointsUI>(hp_UI_->GetWidget());
-	if (ui.IsValid())
+	UHitPointsUI* ui = Cast<UHitPointsUI>(hp_UI_->GetWidget());
+	if (ui)
 	{
-		ui->BindNecessaryComponents(character_stat_component_, cc_component_);
-		GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnCrowdControlChanged(cc_component_, ui.Get(), &UHitPointsUI::UpdateBuffWidgets);
+		subsystem->BindOnCrowdControlChanged(cc_component_, ui, &UHitPointsUI::UpdateAppliedCCs);
+		subsystem->BindOnHPChanged(character_stat_component_, ui, &UHitPointsUI::UpdateHPWidget);
+		subsystem->BindOnShieldChanged(character_stat_component_, ui, &UHitPointsUI::UpdateShieldWidget);
+		subsystem->BindOnBuffChanged(character_stat_component_, ui, &UHitPointsUI::UpdateAppliedBuffs);
 	}
 
 	GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->ApplyBuff(this);
@@ -155,7 +160,7 @@ void AUnit::Heal(float heal)
 	}
 }
 
-void AUnit::ApplyBuff(FBuff buff)
+void AUnit::ApplyBuff(FBuffData buff)
 {
 	character_stat_component_->ApplyBuff(buff);
 }

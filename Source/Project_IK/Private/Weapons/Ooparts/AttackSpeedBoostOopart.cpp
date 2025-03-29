@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "Weapons/Ooparts/AttackSpeedBoostOopart.h"
 
 #include "Characters/HeroBase.h"
-#include "Components/CharacterStatComponent.h"
+#include "Structs/BuffData.h"
 
 
 // Sets default values
@@ -43,7 +43,7 @@ void AAttackSpeedBoostOopart::AttackSpeedBuff()
 	if(oopart_owner_ != nullptr)
 	{
 		auto casted_hero = Cast<AHeroBase>(oopart_owner_);
-		casted_hero->ApplyBuff(FBuff(TEXT("Oopart_AttackSpeedBoost"), ECharacterStatType::AttackSpeed, boost_amount_, false, duration_));
+		casted_hero->ApplyBuff(FBuffData(TEXT("Oopart_AttackSpeedBoost"), ECharacterStatType::AttackSpeed, boost_amount_, false, duration_));
 	}
 }
 

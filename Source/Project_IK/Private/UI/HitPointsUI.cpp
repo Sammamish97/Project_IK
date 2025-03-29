@@ -12,8 +12,6 @@ See LICENSE file in the project root for full license information.
 #include "UI/HitPointsUI.h"
 
 #include "Blueprint/WidgetTree.h"
-#include "Components/CharacterStatComponent.h"
-#include "Components/CrowdControlComponent.h"
 #include "Components/ProgressBar.h"
 #include "Components/HorizontalBox.h"
 #include "Components/HorizontalBoxSlot.h"
@@ -23,26 +21,8 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/TextureManager.h"
-
-void UHitPointsUI::BindNecessaryComponents(UCharacterStatComponent* NewCharacterStat, UCrowdControlComponent* NewCrowdControl)
-{
-	if (NewCharacterStat)
-	{
-		character_stat_ = NewCharacterStat;
-
-		character_stat_->OnHPChanged.AddDynamic(this, &UHitPointsUI::UpdateHPWidget);
-		character_stat_->OnShieldChanged.AddDynamic(this, &UHitPointsUI::UpdateShieldWidget);
-		character_stat_->OnBuffChanged.AddDynamic(this, &UHitPointsUI::UpdateBuffWidgets);	
-		
-		UpdateHPWidget();
-		UpdateShieldWidget();
-	}
-	if (NewCrowdControl)
-	{
-		crowd_control_ = NewCrowdControl;
-	}
-	UpdateBuffWidgets();
-}
+#include "Managers/EnumCluster.h"
+#include "Structs/BuffData.h"
 
 void UHitPointsUI::NativeConstruct()
 {
@@ -50,72 +30,84 @@ void UHitPointsUI::NativeConstruct()
 
 	InitializeImages();
 
-
+	// If did not update HP explicitly before this function, it may not work
+		// because initialize HP bar fully in default.
+	UpdateHPWidget(1.f);
+	UpdateShieldWidget(0.f);
+	UpdateBuffWidgets();
 
 	texture_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetTextureManager();
+}
+
+void UHitPointsUI::NativeDestruct()
+{
+	Super::NativeDestruct();
+
+	debuff_displayers_.Empty();
+	buff_displayers_.Empty();
 }
 
 void UHitPointsUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 }
 
-void UHitPointsUI::UpdateHPWidget()
+void UHitPointsUI::UpdateAppliedBuffs(TArray<FBuffData> applied_buffs)
 {
-	if (character_stat_.IsValid())
+	buffs_array_ = applied_buffs;
+	UpdateBuffWidgets();
+}
+
+void UHitPointsUI::UpdateAppliedCCs(TArray<ECCType> applied_ccs)
+{
+	ccs_array_ = applied_ccs;
+	UpdateBuffWidgets();
+}
+
+void UHitPointsUI::UpdateHPWidget(float hp_ratio)
+{
+	if (hp_progress_bar_)
 	{
-		if (hp_progress_bar_.Get())
-		{
-			hp_progress_bar_->SetPercent(character_stat_->GetHPRatio());
-		}
+		hp_progress_bar_->SetPercent(hp_ratio);
 	}
 }
 
-void UHitPointsUI::UpdateShieldWidget()
+void UHitPointsUI::UpdateShieldWidget(float shield_ratio)
 {
-	if (character_stat_.IsValid())
+	if (shield_progress_bar_)
 	{
-		if (shield_progress_bar_.Get())
+		if (shield_ratio <= 0.f)
 		{
-			if (character_stat_->GetShield() <= 0.f)
+			shield_progress_bar_->SetVisibility(ESlateVisibility::Hidden);
+		}
+		else
+		{
+			shield_progress_bar_->SetPercent(shield_ratio);
+			if (shield_progress_bar_->GetVisibility() != ESlateVisibility::Visible)
 			{
-				shield_progress_bar_->SetVisibility(ESlateVisibility::Hidden);
+				shield_progress_bar_->SetVisibility(ESlateVisibility::Visible);
 			}
-			else
-			{
-				shield_progress_bar_->SetPercent(character_stat_->GetShieldRatio());
-				if (shield_progress_bar_->GetVisibility() != ESlateVisibility::Visible)
-				{
-					shield_progress_bar_->SetVisibility(ESlateVisibility::Visible);
-				}
-			}
-
 		}
 	}
 }
 
 void UHitPointsUI::UpdateBuffWidgets()
 {	// Display buff icons, hide the rest of them.
-	if (character_stat_.IsValid())
+	TMap<ECharacterStatType, int32> buff_counts;
+	TMap<ECharacterStatType, int32> debuff_counts;
+	for (const FBuffData& buff : buffs_array_)
 	{
-		const TArray<FBuff> buffs = character_stat_->GetBuffs();
+		// Buff if greater than 0 on raw data, greater than 1 on percentage data
+		TMap<ECharacterStatType, int32>& target_map = (buff.is_percentage_) ? ((buff.value_ > 1.f) ? buff_counts : debuff_counts) : ((buff.value_ > 0.f) ? buff_counts : debuff_counts);
 
-		TMap<ECharacterStatType, int32> buff_counts;
-		TMap<ECharacterStatType, int32> debuff_counts;
-		for (const FBuff& buff : buffs)
-		{
-			// Buff if greater than 0 on raw data, greater than 1 on percentage data
-			TMap<ECharacterStatType, int32>& target_map = (buff.is_percentage_) ? ((buff.value_ > 1.f) ? buff_counts : debuff_counts) : ((buff.value_ > 0.f) ? buff_counts : debuff_counts);
-
-			// Find the value associated with a specified key, or if none exists, 
-			// adds a value using the default constructor.
-			// Increase value of TPair
-			target_map.FindOrAdd(buff.stat_type_) += 1;
-		}
-
-		UpdateBuffDisplayers(buff_displayers_, buff_counts, FLinearColor::Green);
-
-		UpdateDebuffDisplayers(debuff_displayers_, debuff_counts, crowd_control_->GetAppliedCCArray(), FLinearColor::Red);
+		// Find the value associated with a specified key, or if none exists, 
+		// adds a value using the default constructor.
+		// Increase value of TPair
+		target_map.FindOrAdd(buff.stat_type_) += 1;
 	}
+
+	UpdateBuffDisplayers(buff_displayers_, buff_counts, FLinearColor::Green);
+
+	UpdateDebuffDisplayers(debuff_displayers_, debuff_counts, ccs_array_, FLinearColor::Red);
 }
 
 void UHitPointsUI::InitializeImages()
@@ -136,7 +128,7 @@ void UHitPointsUI::InitializeImages()
 	}
 }
 
-void UHitPointsUI::UpdateBuffDisplayers(TArray<TWeakObjectPtr<UBuffDisplayer>>& displayers, const TMap<ECharacterStatType, int32>& counts, const FLinearColor& background_color)
+void UHitPointsUI::UpdateBuffDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& displayers, const TMap<ECharacterStatType, int32>& counts, const FLinearColor& background_color)
 {
 	int i = 0;
 	for (const TPair<ECharacterStatType, int32>& pair : counts)
@@ -152,7 +144,7 @@ void UHitPointsUI::UpdateBuffDisplayers(TArray<TWeakObjectPtr<UBuffDisplayer>>& 
 	HideUnusedDisplayers(displayers, i);
 }
 
-void UHitPointsUI::UpdateDebuffDisplayers(TArray<TWeakObjectPtr<UBuffDisplayer>>& displayers, const TMap<ECharacterStatType, int32>& counts, const TArray<ECCType>& appliedCCs, const FLinearColor& background_color)
+void UHitPointsUI::UpdateDebuffDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& displayers, const TMap<ECharacterStatType, int32>& counts, const TArray<ECCType>& appliedCCs, const FLinearColor& background_color)
 {
 	int i = 0;
 	for (const TPair<ECharacterStatType, int32>& pair : counts)
@@ -201,7 +193,7 @@ void UHitPointsUI::UpdateDisplayer(UBuffDisplayer* displayer, UTexture2D* textur
 	}
 }
 
-void UHitPointsUI::HideUnusedDisplayers(TArray<TWeakObjectPtr<UBuffDisplayer>>& displayers, int32 start_index)
+void UHitPointsUI::HideUnusedDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& displayers, int32 start_index)
 {
 	for (int32 i = start_index; i < DISPLAYER_SIZE; i++)
 	{
