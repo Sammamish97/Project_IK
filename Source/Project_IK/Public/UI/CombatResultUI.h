@@ -39,6 +39,7 @@ public:
 protected:
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
 	virtual void NativeConstruct() override;
+	virtual void NativeDestruct() override;
 
 	void InitializeRootWidget();
 	void InitializeChildWidgets();
@@ -51,25 +52,25 @@ protected:
 
 	// Widget pointers
 	UPROPERTY()
-	TWeakObjectPtr<UCanvasPanel> root_canvas_panel_;
+	TObjectPtr<UCanvasPanel> root_canvas_panel_;
 
 	UPROPERTY()
-	TWeakObjectPtr<UBorder> UI_background_;
+	TObjectPtr<UBorder> UI_background_;
 
 	UPROPERTY()
-	TWeakObjectPtr<UVerticalBox> widgets_holder_;
+	TObjectPtr<UVerticalBox> widgets_holder_;
 
 	UPROPERTY()
-	TWeakObjectPtr<UBorder> title_holder_;
+	TObjectPtr<UBorder> title_holder_;
 
 	UPROPERTY()
-	TWeakObjectPtr<UTextBlock> title_;
+	TObjectPtr<UTextBlock> title_;
 
 	UPROPERTY()
-	TWeakObjectPtr<UHorizontalBox> blocks_holder_;
+	TObjectPtr<UHorizontalBox> blocks_holder_;
 
 	UPROPERTY()
-	TArray<TWeakObjectPtr<UCombatResultBlock>> blocks_;
+	TArray<TObjectPtr<UCombatResultBlock>> blocks_;
 
 	// End of widget pointers
 

@@ -46,7 +46,6 @@ void AIKGameModeBase::BeginPlay()
 
 void AIKGameModeBase::SpawnHeroes()
 {
-	TEMP_BUG_FIX_PURPOSE = true;
 	TArray<AActor*> marker;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASpawnMarker::StaticClass(), marker);
 	FRotator spawn_rotation = FRotator();
@@ -58,7 +57,7 @@ void AIKGameModeBase::SpawnHeroes()
 
 	ULevelTransitionSubsystem* subsystem = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
 	auto save_data_array = subsystem->GetSpawnData();
-	
+
 	for (int32 i = 0; i < save_data_array.Num(); ++i)
 	{
 		if (save_data_array[i].is_dead_)
@@ -66,7 +65,7 @@ void AIKGameModeBase::SpawnHeroes()
 			heroes_.Add(nullptr);
 			continue;
 		}
-		AHeroBase* hero = GetWorld()->SpawnActor<AHeroBase>(save_data_array[i].character_data_.unit_class_, hero_spawn_position_ + FVector(0, (300.f * (save_data_array.Num() - 1) / -2.f ) + (i * 300), 90), spawn_rotation);
+		AHeroBase* hero = GetWorld()->SpawnActor<AHeroBase>(save_data_array[i].character_data_.unit_class_, hero_spawn_position_ + FVector(0, (300.f * (save_data_array.Num() - 1) / -2.f) + (i * 300), 90), spawn_rotation);
 		hero->SpawnDefaultController();
 		hero->GetComponentByClass<UCharacterStatComponent>()->SetCharacterData(save_data_array[0].character_data_);
 		hero->GetComponentByClass<UCharacterStatComponent>()->SetCharacterID(IntToHeroType(i));
@@ -96,7 +95,7 @@ void AIKGameModeBase::SpawnEnemies()
 void AIKGameModeBase::SaveHeroSpawnData()
 {
 	TArray<FSpawnData> spawn_data;
-	for(auto hero : heroes_)
+	for (auto hero : heroes_)
 	{
 		FSpawnData cur_data;
 		if (hero != nullptr)
@@ -109,7 +108,7 @@ void AIKGameModeBase::SaveHeroSpawnData()
 			cur_data.is_dead_ = true;
 			spawn_data.Add(cur_data);
 		}
-		
+
 	}
 	GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->UpdateSpawnData(spawn_data);
 }
@@ -117,6 +116,19 @@ void AIKGameModeBase::SaveHeroSpawnData()
 TArray<AActor*> AIKGameModeBase::GetHeroContainer() const noexcept
 {
 	return heroes_;
+}
+
+int32 AIKGameModeBase::GetHeroCount() const noexcept
+{
+	int32 count = 0;
+	for (TWeakObjectPtr<AActor> hero : heroes_)
+	{
+		if (hero.IsValid())
+		{
+			++count;
+		}
+	}
+	return count;
 }
 
 AActor* AIKGameModeBase::GetHero(EHeroType type) const noexcept
@@ -172,28 +184,23 @@ void AIKGameModeBase::RemoveAllEnemy()
 void AIKGameModeBase::CheckWinLoseCondition()
 {
 	// Escape immediately if any side is not annihilated.
-	if (!enemy_spawner_manager_->IsEnemyAllDefeated() && heroes_.Num() > 0)
+	if (!enemy_spawner_manager_->IsEnemyAllDefeated() && !IsDefeated())
 	{
 		return;
 	}
 
 	DisplayCombatResult();
-	if(	AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
+	if (AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
 	{
 		pc->GetTargetingComponent()->StopTargeting();
 	}
 
 	if (enemy_spawner_manager_->IsEnemyAllDefeated())
 	{
-		if (TEMP_BUG_FIX_PURPOSE == true)
-		{
-			OnGameWin();
-			SaveHeroSpawnData();
-			TEMP_BUG_FIX_PURPOSE = false;
-		}
-		
+		OnGameWin();
+		SaveHeroSpawnData();
 	}
-	else if (heroes_.Num() <= 0)
+	else
 	{
 		OnGameLose();
 	}
@@ -250,13 +257,35 @@ void AIKGameModeBase::RestoreGlobalTimeDilation()
 void AIKGameModeBase::DisplayCombatResult()
 {
 	APlayerController* player_controller = GetWorld()->GetFirstPlayerController();
-	
+
 	if (player_controller)
 	{
 		AIKHUD* hud = Cast<AIKHUD>(player_controller->GetHUD());
 		if (hud)
 		{
-			hud->DisplayCombatResult(heroes_, gunner_damage_map_);
+			TArray<AActor*> alive_heroes;
+			for (TWeakObjectPtr<AActor> actor : heroes_)
+			{
+				if (actor.IsValid())
+				{
+					alive_heroes.Add(actor.Get());
+				}
+			}
+
+			hud->DisplayCombatResult(alive_heroes, gunner_damage_map_);
 		}
 	}
+}
+
+bool AIKGameModeBase::IsDefeated() const
+{
+	for (TWeakObjectPtr<AActor> hero : heroes_)
+	{
+		// hero become null explicitly if it died
+		if (!hero.IsExplicitlyNull())
+		{
+			return false;
+		}
+	}
+	return true;
 }
