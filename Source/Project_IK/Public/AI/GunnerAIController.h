@@ -22,7 +22,6 @@ public:
 	AGunnerAIController();
 	virtual void OnDie() override;
 	virtual AActor* GetOwnedCover() override;
-	virtual void Tick(float DeltaSeconds) override;
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "GunnerAIController", meta = (AllowPrivateAccess = "true"))

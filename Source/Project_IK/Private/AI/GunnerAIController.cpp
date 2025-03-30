@@ -35,9 +35,3 @@ AActor* AGunnerAIController::GetOwnedCover()
 {
 	return Cast<AActor>(GetBlackboardComponent()->GetValueAsObject(owned_cover_key_name_));
 }
-
-void AGunnerAIController::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-	
-}
