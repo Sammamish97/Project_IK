@@ -15,12 +15,13 @@ See LICENSE file in the project root for full license information.
 #include "HitPointsUI.generated.h"
 
 enum class ECharacterStatType : uint8;
-class UCharacterStatComponent;
-class UCrowdControlComponent;
+enum class ECCType : uint8;
 class UProgressBar;
 class UHorizontalBox;
 class UBuffDisplayer;
 class UTextureManager;
+struct FBuffData;
+
 
 /**
  * 
@@ -31,63 +32,62 @@ class PROJECT_IK_API UHitPointsUI : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintCallable)
-	void BindNecessaryComponents(UCharacterStatComponent* NewCharacterStat, UCrowdControlComponent* NewCrowdControl);
+	UFUNCTION()
+	void UpdateAppliedBuffs(TArray<FBuffData> applied_buffs);
+
+	UFUNCTION()
+	void UpdateAppliedCCs(TArray<ECCType> applied_ccs);
+
+	UFUNCTION()
+	void UpdateHPWidget(float hp_ratio);
+
+	UFUNCTION()
+	void UpdateShieldWidget(float shield_ratio);
 
 protected:
 	virtual void NativeConstruct() override;
+	virtual void NativeDestruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
 
-	UFUNCTION()
-	void UpdateHPWidget();
-
-	UFUNCTION()
-	void UpdateShieldWidget();
-
-	UFUNCTION()
-	void UpdateBuffWidgets();
-
-	UFUNCTION()
 	void InitializeImages();
 
-	UFUNCTION()
-	void UpdateBuffDisplayers(TArray<TWeakObjectPtr<UBuffDisplayer>>& displayers, const TMap<ECharacterStatType, int32>& counts, const FLinearColor& background_color);
 
-	UFUNCTION()
-	void UpdateDebuffDisplayers(TArray<TWeakObjectPtr<UBuffDisplayer>>& displayers, const TMap<ECharacterStatType, int32>& counts, const TArray<ECCType>& appliedCCs, const FLinearColor& background_color);
+	void UpdateBuffWidgets();
 
-	UFUNCTION()
+	void UpdateBuffDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& displayers, const TMap<ECharacterStatType, int32>& counts, const FLinearColor& background_color);
+
+	void UpdateDebuffDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& displayers, const TMap<ECharacterStatType, int32>& counts, const TArray<ECCType>& appliedCCs, const FLinearColor& background_color);
+
 	void UpdateDisplayer(UBuffDisplayer* displayer, UTexture2D* texture, const FLinearColor& color, int32 duplicated_count);
 
-	UFUNCTION()
-	void HideUnusedDisplayers(TArray<TWeakObjectPtr<UBuffDisplayer>>& displayers, int32 start_index);
+	void HideUnusedDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& displayers, int32 start_index);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Buff")
 	TSubclassOf<UBuffDisplayer> buff_displayer_class_;
 
 private:
-	TWeakObjectPtr<UCharacterStatComponent> character_stat_;
-	TWeakObjectPtr<UCrowdControlComponent> crowd_control_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UProgressBar> shield_progress_bar_;
 
 	UPROPERTY(meta = (BindWidget))
-	TWeakObjectPtr<UProgressBar> shield_progress_bar_;
+	TObjectPtr<UProgressBar> hp_progress_bar_;
 
 	UPROPERTY(meta = (BindWidget))
-	TWeakObjectPtr<UProgressBar> hp_progress_bar_;
+	TObjectPtr<UHorizontalBox> buffs_container_;
 
 	UPROPERTY(meta = (BindWidget))
-	TWeakObjectPtr<UHorizontalBox> buffs_container_;
-
-	UPROPERTY(meta = (BindWidget))
-	TWeakObjectPtr<UHorizontalBox> debuffs_container_;
+	TObjectPtr<UHorizontalBox> debuffs_container_;
 
 	UPROPERTY()
-	TArray<TWeakObjectPtr<UBuffDisplayer>> debuff_displayers_;
+	TArray<TObjectPtr<UBuffDisplayer>> debuff_displayers_;
 
 	UPROPERTY()
-	TArray<TWeakObjectPtr<UBuffDisplayer>> buff_displayers_;
+	TArray<TObjectPtr<UBuffDisplayer>> buff_displayers_;
 
 	TWeakObjectPtr <const UTextureManager> texture_manager_;
 
 	static constexpr int32 DISPLAYER_SIZE = 3;
+
+	TArray<FBuffData> buffs_array_;
+	TArray<ECCType> ccs_array_;
 };

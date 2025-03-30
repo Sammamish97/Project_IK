@@ -13,62 +13,25 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Structs/CharacterData.h"
+#include "Structs/BuffData.h"
 #include "CharacterStatComponent.generated.h"
 
 enum class ECharacterStatType : uint8;
 class ADamageUI;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDieDelegate);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHPChangedDelegate);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnShieldChangedDelegate);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnBuffChangedDelegate);
+class UDelegateBridgeSubsystem;
 
-USTRUCT(BlueprintType)
-struct FBuff
-{
-public:
-	GENERATED_BODY()
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Buff")
-	FName buff_name_;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Buff")
-	ECharacterStatType  stat_type_;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Buff")
-	float value_;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Buff")
-	bool is_percentage_;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Buff")
-	bool is_permanent_;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Buff")
-	float duration_;
-
-	UPROPERTY(VisibleAnywhere, Transient, BlueprintReadOnly, Category = "Buff")
-	float time_remaining_;
-
-
-
-	FBuff()
-		: stat_type_(ECharacterStatType::AttackPower), value_(0.f), is_percentage_(false), is_permanent_(false), duration_(0.f), time_remaining_(0.f)
-	{}
-
-	FBuff(FName Name, ECharacterStatType StatType, float Value, bool IsPercentage, float Duration)
-		: buff_name_(Name), stat_type_(StatType), value_(Value), is_percentage_(IsPercentage), is_permanent_(false), duration_(Duration), time_remaining_(Duration)
-	{}
-
-	FBuff(FName Name, ECharacterStatType StatType, float Value, bool IsPercentage, bool IsPermanent)
-		: buff_name_(Name), stat_type_(StatType), value_(Value), is_percentage_(IsPercentage), is_permanent_(true), duration_(0.f), time_remaining_(0.f)
-	{}
-};
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDiedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHPChangedDelegate, float, hp_ratio);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnShieldChangedDelegate, float, shield_ratio);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffChangedDelegate, TArray<FBuffData>, applied_buffs);
 
 UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class PROJECT_IK_API UCharacterStatComponent : public UActorComponent
 {
 	GENERATED_BODY()
+
+	friend UDelegateBridgeSubsystem;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -156,26 +119,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetBaseStat(ECharacterStatType StatType) const;
 
-	UFUNCTION(BlueprintCallable)
-	void ApplyBuff(FBuff buff);
+	void ApplyBuff(FBuffData buff);
 
 	UFUNCTION(BlueprintCallable)
 	bool RemoveBuff(FName BuffName);
 
-	UFUNCTION(BlueprintPure)
-	TArray<FBuff> GetBuffs() const;
-
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FDieDelegate Die;
-
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnHPChangedDelegate OnHPChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnShieldChangedDelegate OnShieldChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnBuffChangedDelegate OnBuffChanged;
+	TArray<FBuffData> GetBuffs() const;
 
 protected:
 	// Called when the game starts or when spawned
@@ -185,6 +134,18 @@ protected:
 	//TODO: 현재는 HeroType으로 되어있지만, Character stat은 Hero뿐만이 아닌 Enemy역시 사용하므로 이후 리펙토링이 되어야 한다.
 	UPROPERTY(EditAnywhere, Category = "Stats")
 	EHeroType character_id_;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnDiedDelegate OnDied;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnHPChangedDelegate OnHPChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnShieldChangedDelegate OnShieldChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnBuffChangedDelegate OnBuffChanged;
 	
 	UFUNCTION(BlueprintCallable)
 	void SetAttackPower(float attack_power) noexcept;
@@ -234,5 +195,5 @@ private:
 
 	float max_hit_points_;
 
-	TArray<FBuff> buffs_;
+	TArray<FBuffData> buffs_;
 };

@@ -15,8 +15,9 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "CrowdControlComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCrowdControlChangedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCrowdControlChangedDelegate, TArray<ECCType>, applied_ccs);
 
+class UDelegateBridgeSubsystem;
 
 USTRUCT()
 struct FBleedingData
@@ -31,6 +32,9 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECT_IK_API UCrowdControlComponent : public UActorComponent
 {
 	GENERATED_BODY()
+
+	friend UDelegateBridgeSubsystem;
+
 private:
 	constexpr static float BLEEDING_TICK_INTERVAL = 1.f;
 	constexpr static float BLEEDING_DAMAGE = 5.f;
@@ -53,10 +57,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TArray<ECCType> GetAppliedCCArray() const;
 
+protected:
+
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnCrowdControlChangedDelegate OnCrowdControlChanged;
 
-protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason);
 
 	void BeginCC(ECCType cc_type, float duration, AActor* applier);
