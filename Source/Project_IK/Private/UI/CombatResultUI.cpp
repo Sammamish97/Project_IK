@@ -232,7 +232,7 @@ void UCombatResultUI::UpdateHPBars(float InDeltaTime)
 		for (int32 i = 0; i < blocks_.Num(); i++)
 		{
 			float hp = FMath::Lerp(hp_ratio_before_[i], hp_ratio_after_[i], HP_timer_);
-			if (blocks_[i].IsValid())
+			if (blocks_[i])
 			{
 				blocks_[i]->SetHPPercent(hp);
 			}
@@ -243,7 +243,7 @@ void UCombatResultUI::UpdateHPBars(float InDeltaTime)
 		float opacity = FMath::Abs((HP_timer_ - 1.5f) * 4);
 		for (int32 i = 0; i < blocks_.Num(); i++)
 		{
-			if (blocks_[i].IsValid())
+			if (blocks_[i])
 			{
 				if (blocks_[i]->GetHPPercent() < 0.25f)
 				{
@@ -257,7 +257,7 @@ void UCombatResultUI::UpdateHPBars(float InDeltaTime)
 		float opacity = FMath::Abs((HP_timer_ - 2.5f) * 4);
 		for (int32 i = 0; i < blocks_.Num(); i++)
 		{
-			if (blocks_[i].IsValid())
+			if (blocks_[i])
 			{
 				if (blocks_[i]->GetHPPercent() < 0.25f)
 				{
