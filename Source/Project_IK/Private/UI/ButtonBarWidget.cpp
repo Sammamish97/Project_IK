@@ -7,21 +7,21 @@ Summary : Source file for Skill Bar UI.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
-
-
 #include "UI/ButtonBarWidget.h"
 
 #include "Kismet/GameplayStatics.h"
 
 #include "Components/Button.h"
+#include "Components/TextBlock.h"
+
 #include "WorldSettings/IKGameModeBase.h"
-#include "Abilities/SkillContainer.h"
-#include "Components/TargetingComponent.h"
 #include "WorldSettings/IKPlayerController.h"
+#include "WorldSettings/IKGameInstance.h"
+
+#include "Abilities/SkillContainer.h"
 #include "Abilities/ItemInventory.h"
 #include "Abilities/Item.h"
-#include "WorldSettings/IKGameInstance.h"
+
 #include "Managers/TextureManager.h"
 void UButtonBarWidget::NativeConstruct()
 {
@@ -122,11 +122,9 @@ void UButtonBarWidget::NativeDestruct()
 	{
 		item_button_2_->OnClicked.Clear();
 	}
-	if (AIKPlayerController* player_controller = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
-	{
-		player_controller->on_item_used_.Clear();
-		player_controller->on_active_skill_.Clear();
-	}
+
+	player_controller_cache_->on_item_used_.Clear();
+	player_controller_cache_->on_active_skill_.Clear();
 }
 
 void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -155,6 +153,7 @@ void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 			}
 		}
 	}
+	repositioning_point_->SetText(FText::AsNumber(player_controller_cache_->GetChargeTime()));
 }
 
 void UButtonBarWidget::OnSkillButtonClicked0()

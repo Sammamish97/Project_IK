@@ -104,6 +104,10 @@ protected:
 	float cur_charge_time_ = 0.f;
 	//
 
+public:
+	float GetChargeTime() const;
+	
+private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputMappingContext> player_input_mapping_context;
 	

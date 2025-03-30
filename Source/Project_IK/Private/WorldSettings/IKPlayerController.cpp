@@ -43,14 +43,10 @@ void AIKPlayerController::BeginPlay()
 void AIKPlayerController::Tick(float dt)
 {
 	Super::Tick(dt);
-	if (cur_charge_time_ >= charge_time_per_stack_)
-	{
-		cur_charge_time_ = 0.f;
-		reposition_stack_ += 1;
-	}
-	if (reposition_stack_ < 2)
+	if (cur_charge_time_ <= reposition_stack_)
 	{
 		cur_charge_time_ += dt;
+		cur_charge_time_ = FMath::Clamp(cur_charge_time_, 0.f, reposition_stack_);
 	}
 }
 
@@ -195,8 +191,9 @@ void AIKPlayerController::Decide()
 		case ETargetingState::PickRepositionTargetLocation:
 			{
 				UE_LOG(LogTemp, Display, TEXT("AIKPlayerController::PickRepositionTargetLocation"));
-				if (repositioning_hero_ != nullptr)
+				if (cur_charge_time_ > 1.f && repositioning_hero_ != nullptr)
 				{
+					cur_charge_time_ -= 1.f;
 					Cast<AHeroBase>(repositioning_hero_)->Reposition(target_result.target_location_);
 					targeting_state_ = ETargetingState::Idle;
 					repositioning_hero_ = nullptr;
@@ -217,12 +214,8 @@ void AIKPlayerController::CancelTargeting()
 void AIKPlayerController::EnterRepositioningMode()
 {
 	float HARD_CODED_RADIUS = 1000;
-	if (reposition_stack_ > 0)
-	{
-		reposition_stack_ -= 1;
-		targeting_state_ = ETargetingState::EnterRepositioning;
-		targeting_component_->StartTargeting( {ETargetingMode::Actor, ETargetType::Allies, HARD_CODED_RADIUS, HARD_CODED_RADIUS}, nullptr);
-	}
+	targeting_state_ = ETargetingState::EnterRepositioning;
+	targeting_component_->StartTargeting( {ETargetingMode::Actor, ETargetType::Allies, HARD_CODED_RADIUS, HARD_CODED_RADIUS}, nullptr);
 }
 
 void AIKPlayerController::RotateCameraLeft()
@@ -233,4 +226,14 @@ void AIKPlayerController::RotateCameraLeft()
 void AIKPlayerController::RotateCameraRight()
 {
 	//IKTODO: 카메라 우회전 로직.
+}
+
+int32 AIKPlayerController::GetRepositionStack() const
+{
+	return reposition_stack_;
+}
+
+float AIKPlayerController::GetChargeTime() const
+{
+	return cur_charge_time_;
 }
