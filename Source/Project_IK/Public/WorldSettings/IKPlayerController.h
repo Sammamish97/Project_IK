@@ -50,6 +50,7 @@ public:
 protected:
 	virtual void BeginPlay();
 
+public:
 	UPROPERTY()
 	FOnItemUsed on_item_used_;
 

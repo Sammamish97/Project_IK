@@ -237,11 +237,6 @@ void AIKPlayerController::RotateCameraRight()
 	camera_manger->RotateCameraRight();
 }
 
-int32 AIKPlayerController::GetRepositionStack() const
-{
-	return reposition_stack_;
-}
-
 float AIKPlayerController::GetChargeTime() const
 {
 	return cur_charge_time_;
