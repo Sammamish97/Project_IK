@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/GlobalBuffLogics/WoundingBulletsBuffLogic.h"
 
+#include "Subsystems/DelegateBridgeSubsystem.h"
 #include "Characters/HeroBase.h"
 
 bool UWoundingBulletsBuffLogic::IsBuffValidOnTarget(UObject* buff_target)
@@ -20,8 +21,7 @@ bool UWoundingBulletsBuffLogic::IsBuffValidOnTarget(UObject* buff_target)
 
 void UWoundingBulletsBuffLogic::ApplyBuff(UObject* buff_target)
 {
-	AUnit* unit = Cast<AUnit>(buff_target);
-	unit->BindDamageEvent(EUnitEvent::OnHitBeforeCalc, this, &UWoundingBulletsBuffLogic::ApplyBleeding);
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(buff_target, EUnitEvent::OnHitBeforeCalc, this, &UWoundingBulletsBuffLogic::ApplyBleeding, FName(TEXT("UWoundingBulletsBuffLogic::ApplyBleeding")));
 }
 
 FDamageData UWoundingBulletsBuffLogic::ApplyBleeding(FDamageData data)

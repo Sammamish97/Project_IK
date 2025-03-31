@@ -16,7 +16,7 @@ TObjectPtr<USetBonusBase> USetBonusManager::GetSetBonus(ERuneSetType type)
 	switch (type)
 	{
 	case ERuneSetType::Chariot:
-		return NewObject<USetBonus_Chariot>();
+		return NewObject<USetBonus_Chariot>(this);
 		break;
 	}
 	return nullptr;

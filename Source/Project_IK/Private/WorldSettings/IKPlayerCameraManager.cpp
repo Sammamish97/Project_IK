@@ -42,17 +42,30 @@ void AIKPlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTi
 	const FVector forward_vector = camera_view_quaternion.GetForwardVector();
 
 	FVector camera_location = ComputeCameraLocation(center, extents, normalize_view_vector, up_vector, right_vector, forward_vector, aspect_ratio);
-	FVector camera_offset = ComputeCameraOffset(center, extents, camera_location, right_vector, up_vector, aspect_ratio) + camera_location_offset_;
+	if (is_offset_applied_)
+	{
+		FVector camera_offset = ComputeCameraOffset(center, extents, camera_location, right_vector, up_vector, aspect_ratio) + camera_location_offset_;
 
-	camera_location += camera_offset;
+		camera_location += camera_offset;
+	}
 
 	OutVT.POV.Location = FMath::VInterpTo(GetCameraLocation(), camera_location, DeltaTime, 2.f);
-	OutVT.POV.Rotation = camera_view_rotator;
+	OutVT.POV.Rotation = FMath::RInterpTo(GetCameraRotation(), camera_view_rotator, DeltaTime, 2.f);
 }
 
 void AIKPlayerCameraManager::UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies)
 {
 	tracked_enemies_ = tracked_enemies;
+}
+
+void AIKPlayerCameraManager::RotateCameraLeft()
+{
+	RotateViewVector(rotation_step_in_degree_);
+}
+
+void AIKPlayerCameraManager::RotateCameraRight()
+{
+	RotateViewVector(-rotation_step_in_degree_);
 }
 
 void AIKPlayerCameraManager::BeginPlay()
@@ -218,6 +231,15 @@ FVector AIKPlayerCameraManager::GetClosestCorner(FVector center, FVector extents
 		}
 	}
 	return closest_box_corner_direction;
+}
+
+void AIKPlayerCameraManager::RotateViewVector(float angle)
+{
+	FVector up_vector = FVector::UpVector;
+
+	FQuat quatRotation = FQuat(up_vector, FMath::DegreesToRadians(angle));
+
+	camera_view_vector_ = quatRotation.RotateVector(camera_view_vector_);
 }
 
 FBox AIKPlayerCameraManager::GetHeroBox() const

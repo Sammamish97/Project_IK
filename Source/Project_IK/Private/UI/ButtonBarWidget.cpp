@@ -23,6 +23,9 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/Item.h"
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/TextureManager.h"
+
+#include "Subsystems/DelegateBridgeSubsystem.h"
+
 void UButtonBarWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -66,8 +69,13 @@ void UButtonBarWidget::NativeConstruct()
 	}
 	
 	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	player_controller_cache_->on_item_used_.AddDynamic(this, &UButtonBarWidget::SynchroItemButtons);
-	player_controller_cache_->on_active_skill_.AddDynamic(this, &UButtonBarWidget::SynchroActiveSkillButtons);
+	UDelegateBridgeSubsystem* delegate_bridge_subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
+	if (delegate_bridge_subsystem)
+	{
+		delegate_bridge_subsystem->BindOnItemUsed(this, &UButtonBarWidget::SynchroItemButtons);
+		delegate_bridge_subsystem->BindOnActiveSkill(this, &UButtonBarWidget::SynchroActiveSkillButtons);
+	}
+
 	for (int32 i = 0; i < 3; ++i)
 	{
 		SynchroItemButtons(i);
@@ -121,11 +129,6 @@ void UButtonBarWidget::NativeDestruct()
 	if (item_button_2_)
 	{
 		item_button_2_->OnClicked.Clear();
-	}
-	if (AIKPlayerController* player_controller = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
-	{
-		player_controller->on_item_used_.Clear();
-		player_controller->on_active_skill_.Clear();
 	}
 }
 

@@ -54,7 +54,7 @@ void UCrowdControlComponent::ApplyCrowdControl(ECCType cc_type, float duration, 
 
 			CC_timers_.Add(cc_type, timer_handle);
 		}
-		OnCrowdControlChanged.Broadcast();
+		OnCrowdControlChanged.Broadcast(GetAppliedCCArray());
 	}
 
 	BeginCC(cc_type, duration, applier);
@@ -73,7 +73,7 @@ void UCrowdControlComponent::RemoveCrowdControl(ECCType cc_type)
 	{
 		world->GetTimerManager().ClearTimer(CC_timers_[cc_type]);
 		CC_timers_.Remove(cc_type);
-		OnCrowdControlChanged.Broadcast();
+		OnCrowdControlChanged.Broadcast(GetAppliedCCArray());
 	}
 
 	EndCC(cc_type);
@@ -94,7 +94,7 @@ void UCrowdControlComponent::RemoveAllCrowdControl()
 	}
 
 	CC_timers_.Empty();
-	OnCrowdControlChanged.Broadcast();
+	OnCrowdControlChanged.Broadcast(GetAppliedCCArray());
 }
 
 
