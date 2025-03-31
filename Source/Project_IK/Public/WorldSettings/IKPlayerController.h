@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 
 class UInputMappingContext;
 class UInputAction;
+class UDelegateBridgeSubsystem;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnItemUsed, int32, item_idx);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveSKill, EHeroType, hero_idx);
@@ -25,22 +26,18 @@ UCLASS()
 class PROJECT_IK_API AIKPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
+
+	friend UDelegateBridgeSubsystem;
+
 public:
 	AIKPlayerController();
 
-	virtual void BeginPlay();
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void SetupInputComponent() override;
 	virtual void Tick(float dt) override;
 
 	UFUNCTION(BlueprintPure, Category = "Targeting")
 	class UTargetingComponent* GetTargetingComponent();
-	
-	UPROPERTY()
-	FOnItemUsed on_item_used_;
-	
-	UPROPERTY()
-	FOnActiveSKill on_active_skill_;
 	
 	UFUNCTION()
 	void ActivateSkillTargeting(EHeroType hero_type);
@@ -49,6 +46,15 @@ public:
 	void ActivateItemTargeting(int32 item_idx);
 
 	void UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies);
+	
+protected:
+	virtual void BeginPlay();
+
+	UPROPERTY()
+	FOnItemUsed on_item_used_;
+
+	UPROPERTY()
+	FOnActiveSKill on_active_skill_;
 
 private:
 	UFUNCTION()

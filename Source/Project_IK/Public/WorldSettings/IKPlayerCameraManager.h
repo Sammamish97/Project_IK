@@ -25,6 +25,9 @@ class PROJECT_IK_API AIKPlayerCameraManager : public APlayerCameraManager
 public:
 	void UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies);
 
+	void RotateCameraLeft();
+	void RotateCameraRight();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Movements")
 	FVector camera_view_vector_ = FVector(0.f, -500.f, -500.f);
 
@@ -36,6 +39,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Movements")
 	float zoom_padding_ = 1.2f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CameraMovements")
+	float rotation_step_in_degree_ = 1.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CameraMovements")
+	bool is_offset_applied_ = false;
 protected:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
@@ -48,6 +57,8 @@ protected:
 	
 	// Be careful of screen space, top-left corner is (0, 0)
 	FVector GetClosestCorner(FVector center, FVector extents, FVector2D direction);
+
+	void RotateViewVector(float angle);
 
 	FBox GetHeroBox() const;
 	float GetAspectRatio() const;

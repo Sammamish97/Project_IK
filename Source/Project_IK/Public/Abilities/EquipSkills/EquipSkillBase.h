@@ -26,7 +26,6 @@ public:
 	virtual void InitEquipmentSkill(AActor* hero_ref) override;
 
 protected:
-	class AHeroBase* hero_cache_;
 	EUnitEvent bound_target_;
 	class UArmorManager* armor_manager_cache_;
 };

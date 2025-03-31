@@ -50,6 +50,13 @@ void AIKPlayerController::Tick(float dt)
 	}
 }
 
+void AIKPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	on_item_used_.Clear();
+	on_active_skill_.Clear();
+}
+
 void AIKPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -220,12 +227,14 @@ void AIKPlayerController::EnterRepositioningMode()
 
 void AIKPlayerController::RotateCameraLeft()
 {
-	//IKTODO: 카메라 좌회전 로직.
+	AIKPlayerCameraManager* camera_manger = Cast<AIKPlayerCameraManager>(PlayerCameraManager);
+	camera_manger->RotateCameraLeft();
 }
 
 void AIKPlayerController::RotateCameraRight()
 {
-	//IKTODO: 카메라 우회전 로직.
+	AIKPlayerCameraManager* camera_manger = Cast<AIKPlayerCameraManager>(PlayerCameraManager);
+	camera_manger->RotateCameraRight();
 }
 
 int32 AIKPlayerController::GetRepositionStack() const

@@ -108,7 +108,7 @@ private:
 	UCreditWidget* credit_widget_;
 
 	UPROPERTY()
-	TObjectPtr<class AIKPlayerController> player_controller_cache_;
+	TWeakObjectPtr<class AIKPlayerController> player_controller_cache_;
 
 	UPROPERTY()
 	TArray<AActor*> characters_;

@@ -37,8 +37,8 @@ void UTimeDilationManager::SlowGlobalTimeDilation(UObject* world)
 	if (!FMath::IsNearlyEqual(time_dilation, SLOW_SPEED))
 	{
 		UGameplayStatics::SetGlobalTimeDilation(world, SLOW_SPEED);
+		last_time_dilation_ = time_dilation;
 	}
-	last_time_dilation_ = time_dilation;
 }
 
 void UTimeDilationManager::RestoreGlobalTimeDilation(UObject* world)
