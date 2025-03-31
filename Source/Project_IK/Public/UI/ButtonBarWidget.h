@@ -100,6 +100,9 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> item_button_2_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<class UTextBlock> repositioning_point_;
 	
 	UPROPERTY(meta = (BindWidget))
 	UCreditWidget* credit_widget_;

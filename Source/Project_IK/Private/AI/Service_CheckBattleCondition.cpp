@@ -44,6 +44,11 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 	//적이 죽으면 state변경.
 	if(attack_target == nullptr)
 	{
+		if (owned_cover)
+		{
+			Cast<ACover>(owned_cover)->SetCoveringOwner(false);
+			blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, nullptr);
+		}
 		blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Forwarding));
 		weapon_mechanics->FinishFire();
 		return;
@@ -54,6 +59,11 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 	if(FVector::Dist2D(casted_target->GetActorLocation(), casted_unit->GetActorLocation()) >
 		casted_unit->GetCharacterStat()->GetSightRange())
 	{
+		if (owned_cover)
+		{
+			Cast<ACover>(owned_cover)->SetCoveringOwner(false);
+			blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, nullptr);
+		}
 		blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Forwarding));
 		weapon_mechanics->FinishFire();
 		return;

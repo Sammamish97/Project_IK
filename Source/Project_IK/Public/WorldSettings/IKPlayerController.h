@@ -34,6 +34,7 @@ public:
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void SetupInputComponent() override;
+	virtual void Tick(float dt) override;
 
 	UFUNCTION(BlueprintPure, Category = "Targeting")
 	class UTargetingComponent* GetTargetingComponent();
@@ -49,6 +50,7 @@ public:
 protected:
 	virtual void BeginPlay();
 
+public:
 	UPROPERTY()
 	FOnItemUsed on_item_used_;
 
@@ -96,12 +98,23 @@ protected:
 	ETargetingState targeting_state_ = ETargetingState::Idle;
 	EHeroType selected_hero_type_ = EHeroType::INVALID;
 	int32 selected_item_idx_ = -1;
+
+	UPROPERTY(Transient)
+	TObjectPtr<AActor> repositioning_hero_ = nullptr;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Targeting")
 	TObjectPtr<UTargetingComponent> targeting_component_;
 
 	//
+	int32 reposition_stack_ = 2;
+	const float charge_time_per_stack_ = 1.0f;
+	float cur_charge_time_ = 0.f;
+	//
 
+public:
+	float GetChargeTime() const;
+	
+private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputMappingContext> player_input_mapping_context;
 	

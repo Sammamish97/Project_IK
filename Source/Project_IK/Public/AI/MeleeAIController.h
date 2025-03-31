@@ -36,10 +36,10 @@ public:
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "MeleeAI", meta = (AllowPrivateAccess = "true", BindWidget))
-	UBehaviorTree* behavior_tree_;
+	TObjectPtr<UBehaviorTree> behavior_tree_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "MeleeAI", meta = (AllowPrivateAccess = "true", AllowedClass = "HeroBase, EnemyBase", BindWidget))
-	UClass* target_class_;
+	TSubclassOf<APawn> target_class_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "MeleeAI", meta = (AllowPrivateAccess = "true", BindWidget))
 	FName target_class_key_name_;

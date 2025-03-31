@@ -67,6 +67,11 @@ void UTargetingComponent::CancelTargeting()
 	StopTargeting();
 }
 
+void UTargetingComponent::SetTargetParams(FTargetParameters params)
+{
+	target_parameters_ = params;
+}
+
 void UTargetingComponent::CleanUpVisuals()
 {
 	UMaterialInstanceDynamic* dynamic_material = nullptr;

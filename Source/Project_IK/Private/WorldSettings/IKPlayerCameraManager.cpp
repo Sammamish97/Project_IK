@@ -174,7 +174,7 @@ FVector AIKPlayerCameraManager::ComputeCameraOffset(FVector center, FVector exte
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Padding is bigger than offset magnitude!"));
+		//UE_LOG(LogTemp, Warning, TEXT("Padding is bigger than offset magnitude!"));
 		magnitude = padding;
 	}
 
