@@ -60,14 +60,14 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UWeaponDataAsset> weapon_data_asset_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
-	UDataTable* passive_skill_table_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UPassiveSkillDataAsset> passive_skill_data_asset_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
-	UDataTable* active_skill_table_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UActiveSkillDataAsset> active_skill_data_asset_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
-	UDataTable* oopart_table_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UOopartDataAsset> oopart_data_asset_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	UDataTable* character_table_;

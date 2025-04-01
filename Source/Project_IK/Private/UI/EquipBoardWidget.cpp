@@ -56,8 +56,6 @@ void UEquipBoardWidget::LoadEquipBoard()
 		oopart_->slot_data_.oopart_type = data_cache.oopart_data_.type;
 		for (auto& elem : slot_array_)
 		{
-			//TODO: Empty는 test용이다. 이후 제거해야 한다!
-			elem->slot_data_.is_empty = false;
 			elem->SetImageTexture();
 		}
 	}

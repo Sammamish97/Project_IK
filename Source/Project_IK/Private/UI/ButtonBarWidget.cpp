@@ -130,8 +130,6 @@ void UButtonBarWidget::NativeDestruct()
 	{
 		item_button_2_->OnClicked.Clear();
 	}
-	player_controller_cache_->on_item_used_.Clear();
-	player_controller_cache_->on_active_skill_.Clear();
 }
 
 void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
