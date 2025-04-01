@@ -1,17 +1,17 @@
 /******************************************************************************
 Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 3.7.2025
-Summary : Source file for WeaponDataAsset.
+Creation Date : 4.1.2025
+Summary : Source file for Oopart Data Asset.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "DataAssets/WeaponDataAsset.h"
+#include "DataAssets/OopartDataAsset.h"
 
-FWeaponData UWeaponDataAsset::GetWeaponData(EWeaponType type)
+FOopartData UOopartDataAsset::GetOopartData(EOopartType type)
 {
-	checkf(weapon_data_map_.Find(type), TEXT("Can't find Weapon Type in the Weapon data map!"));
-	return weapon_data_map_[type];
+	checkf(oopart_data_map_.Find(type), TEXT("Can't find Oopart Type in the Oopart data map!"));
+	return oopart_data_map_[type];
 }

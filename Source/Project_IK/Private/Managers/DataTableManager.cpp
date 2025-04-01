@@ -10,19 +10,17 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/DataTableManager.h"
 
+#include "DataAssets/ActiveSkillDataAsset.h"
 #include "DataAssets/RuneDataAsset.h"
 #include "DataAssets/RuneSetDataAsset.h"
 #include "DataAssets/WeaponDataAsset.h"
 #include "DataAssets/GlobalBuffDataAsset.h"
+#include "DataAssets/OopartDataAsset.h"
+#include "DataAssets/PassiveSkillDataAsset.h"
 
 FWeaponData UDataTableManager::GetWeaponData(EWeaponType type)
 {
-	if(weapon_data_asset_)
-	{
-		return weapon_data_asset_->weapon_data_map_[type];
-	}
-	//TODO: 적절한 예외처리가 필요함.
-	return FWeaponData();
+	return weapon_data_asset_->GetWeaponData(type);
 }
 
 FString UDataTableManager::WeaponEnumToString(EWeaponType weapon_type)
@@ -84,11 +82,7 @@ UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type)
 
 FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type)
 {
-	if (passive_skill_table_)
-	{
-		return *passive_skill_table_->FindRow<FPassiveSkillData>(*PassiveSkillEnumToString(type), TEXT(""));
-	}
-	return *passive_skill_table_->FindRow<FPassiveSkillData>(*PassiveSkillEnumToString(EPassiveSkillType::Empty), TEXT(""));
+	return passive_skill_data_asset_->GetPassiveKillData(type);
 }
 
 FString UDataTableManager::PassiveSkillEnumToString(EPassiveSkillType weapon_type)
@@ -111,11 +105,7 @@ FString UDataTableManager::PassiveSkillEnumToString(EPassiveSkillType weapon_typ
 
 FActiveSkillData UDataTableManager::GetActiveSkillData(EActiveSkillType type)
 {
-	if (active_skill_table_)
-	{
-		return *active_skill_table_->FindRow<FActiveSkillData>(*ActiveSkillEnumToString(type), TEXT(""));
-	}
-	return *active_skill_table_->FindRow<FActiveSkillData>(*ActiveSkillEnumToString(EActiveSkillType::Empty), TEXT(""));
+	return active_skill_data_asset_->GetActiveSkillData(type);
 }
 
 FString UDataTableManager::ActiveSkillEnumToString(EActiveSkillType active_skill_type)
@@ -138,11 +128,7 @@ FString UDataTableManager::ActiveSkillEnumToString(EActiveSkillType active_skill
 
 FOopartData UDataTableManager::GetOopartData(EOopartType type)
 {
-	if (oopart_table_)
-	{
-		return *oopart_table_->FindRow<FOopartData>(*OopartEnumToString(type), TEXT(""));
-	}
-	return *oopart_table_->FindRow<FOopartData>(*OopartEnumToString(EOopartType::Empty), TEXT(""));
+	return oopart_data_asset_->GetOopartData(type);
 }
 
 FString UDataTableManager::OopartEnumToString(EOopartType oopart_type)
