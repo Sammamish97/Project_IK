@@ -47,7 +47,9 @@ void UGotchaWidget::NativeConstruct()
 		result_widget_->OnResultFinished.AddDynamic(this, &UGotchaWidget::StorePulledData);
 	}
 
-	tickets_ = 99;
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	tickets_ = game_instance->GetInventoryManager()->GetTickets();
+	
 	UpdateGotchaTicketCount();
 	
 	ClearContainers();
@@ -66,6 +68,12 @@ void UGotchaWidget::NativeDestruct()
 	if (pull_ten_button_.IsValid())
 	{
 		pull_ten_button_->OnClicked.Clear();
+	}
+
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	if (game_instance)
+	{
+		game_instance->GetInventoryManager()->SetTickets(tickets_);
 	}
 }
 

@@ -14,8 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/HUD.h"
 #include "IKBossHUD.generated.h"
 
-class URunResultManager;
-
 /**
  * 
  */
@@ -26,16 +24,7 @@ class PROJECT_IK_API AIKBossHUD : public AHUD
 	
 public:
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UI")
-	TSubclassOf<URunResultManager> run_result_manager_class_;
-
-	void StartRunResultSequence();
-
 protected:
 
 	virtual void BeginPlay() override;
-
-
-	UPROPERTY()
-	TObjectPtr<URunResultManager> run_result_manager_;
 };

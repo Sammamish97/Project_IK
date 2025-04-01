@@ -1,8 +1,8 @@
 /******************************************************************************
 Copyright(C) 2024
 Author: sinil.kang(rtd99062@gmail.com)
-Creation Date : 03.02.2025
-Summary : Header file for Game mode in Boss level.
+Creation Date : 03.31.2025
+Summary : Header file for GameMode class used in RunResultLevel.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -12,17 +12,14 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "IKBossGameMode.generated.h"
+#include "IKRunResultGameMode.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PROJECT_IK_API AIKBossGameMode : public AGameModeBase
+class PROJECT_IK_API AIKRunResultGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
-protected:
-
-	virtual void BeginPlay() override;
 };
