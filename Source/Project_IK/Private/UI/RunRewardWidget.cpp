@@ -21,9 +21,44 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/InventoryManager.h"
 
+#include "UI/IKMaps.h"
+
 void URunRewardWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	if (game_instance)
+	{
+		UIKMaps* maps = game_instance->GetMapPtr();
+		if (maps)
+		{
+			TArray<FIntPoint> path = maps->GetPlayerVisitedPath();
+
+			perk_points_reward_ = path.Num();
+
+			for (FIntPoint node_index : path)
+			{
+				FMapNode node = maps->GetNode(node_index.X, node_index.Y);
+
+				// @@ TODO: Need to add handle when the nodetype is elite enemy.
+				// @@ TODO: Need to concern result of boss battle.
+						// Since UIKMaps::SetPlayerGridPosition record boss node has been visited whether combat result,
+						// perk_points_reward_ always provided whether boss defeated or not.
+				switch (node.type)
+				{
+				case NodeType::Enemy:
+					++perk_points_reward_;
+					break;
+				case NodeType::Boss:
+					perk_points_reward_ += 2;
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
 
 
 	perk_points_text_->SetText(FText::AsNumber(perk_points_reward_));
