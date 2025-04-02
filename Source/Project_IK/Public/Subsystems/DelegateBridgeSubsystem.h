@@ -80,9 +80,9 @@ public:
 
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnBuffChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
-	
+
 protected:
-	TWeakObjectPtr<AIKPlayerController> GetAIKPlayerController() const;
+	AIKPlayerController* GetAIKPlayerController() const;
 };
 
 template<typename T, typename FuncType>
@@ -94,10 +94,10 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnTargetingCanceled(T* obje
 		return false;
 	}
 
-	TWeakObjectPtr<AIKPlayerController> pc = GetAIKPlayerController();
+	AIKPlayerController* pc = GetAIKPlayerController();
 	if (pc != nullptr)
 	{
-		TWeakObjectPtr<UTargetingComponent> targeting_component = pc->GetTargetingComponent();
+		UTargetingComponent* targeting_component = pc->GetTargetingComponent();
 		if (targeting_component != nullptr)
 		{
 			targeting_component->OnTargetingCanceled.__Internal_AddUniqueDynamic(object, callback, func_name);
@@ -116,7 +116,7 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnItemUsed(T* object, FuncT
 		UE_LOG(LogTemp, Warning, TEXT("BindOnItemUsed:: Object is null"));
 		return false;
 	}
-	TWeakObjectPtr<AIKPlayerController> pc = GetAIKPlayerController();
+	AIKPlayerController* pc = GetAIKPlayerController();
 	if (pc != nullptr)
 	{
 		pc->on_item_used_.__Internal_AddUniqueDynamic(object, callback, func_name);
@@ -133,8 +133,8 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnActiveSkill(T* object, Fu
 		UE_LOG(LogTemp, Warning, TEXT("BindOnItemUsed:: Object is null"));
 		return false;
 	}
-	TWeakObjectPtr<AIKPlayerController> pc = GetAIKPlayerController();
-	if (pc.IsValid())
+	AIKPlayerController* pc = GetAIKPlayerController();
+	if (pc)
 	{
 		pc->on_active_skill_.__Internal_AddUniqueDynamic(object, callback, func_name);
 		return true;
@@ -151,7 +151,7 @@ inline bool UDelegateBridgeSubsystem::BindOnUnitDamageEvent(UObject* bound_actor
 	}
 	if (bound_actor != nullptr && bound_actor->IsA<AUnit>())
 	{
-		TWeakObjectPtr<AUnit> bound_unit = Cast<AUnit>(bound_actor);
+		AUnit* bound_unit = Cast<AUnit>(bound_actor);
 		TArray<FOnDamage>& delegate_array = bound_unit->dmg_event_map_.FindOrAdd(bound_event);
 
 		delegate_array.AddDefaulted();
@@ -170,9 +170,8 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnCrowdControlChanged(UObje
 	}
 	if (bound_crowd_control_component != nullptr && bound_crowd_control_component->IsA<UCrowdControlComponent>())
 	{
-		TWeakObjectPtr<UCrowdControlComponent> cc = Cast<UCrowdControlComponent>(bound_crowd_control_component);
+		UCrowdControlComponent* cc = Cast<UCrowdControlComponent>(bound_crowd_control_component);
 		cc->OnCrowdControlChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
-		return true;
 	}
 	return false;
 }
@@ -186,7 +185,7 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnDied(UObject* bound_chara
 	}
 	if (bound_character_stat_component != nullptr && bound_character_stat_component->IsA<UCharacterStatComponent>())
 	{
-		TWeakObjectPtr<UCharacterStatComponent> cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
+		UCharacterStatComponent* cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
 		cs->OnDied.__Internal_AddUniqueDynamic(object, callback, func_name);
 		return true;
 	}
@@ -202,7 +201,7 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnHPChanged(UObject* bound_
 	}
 	if (bound_character_stat_component != nullptr && bound_character_stat_component->IsA<UCharacterStatComponent>())
 	{
-		TWeakObjectPtr<UCharacterStatComponent> cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
+		UCharacterStatComponent* cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
 		cs->OnHPChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
 		return true;
 	}
@@ -218,7 +217,7 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnShieldChanged(UObject* bo
 	}
 	if (bound_character_stat_component != nullptr && bound_character_stat_component->IsA<UCharacterStatComponent>())
 	{
-		TWeakObjectPtr<UCharacterStatComponent> cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
+		UCharacterStatComponent* cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
 		cs->OnShieldChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
 		return true;
 	}
@@ -234,7 +233,7 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnBuffChanged(UObject* boun
 	}
 	if (bound_character_stat_component != nullptr && bound_character_stat_component->IsA<UCharacterStatComponent>())
 	{
-		TWeakObjectPtr<UCharacterStatComponent> cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
+		UCharacterStatComponent* cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
 		cs->OnBuffChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
 		return true;
 	}

@@ -58,18 +58,30 @@ protected:
 	UFUNCTION()
 	void GoToNextStep() const;
 
-	TWeakObjectPtr<UCanvasPanel> root_canvas_panel_;
-	TWeakObjectPtr<UBorder> background_;
-	TWeakObjectPtr<UVerticalBox> widgets_holder_;
-	TWeakObjectPtr<UTextBlock> title_;
-	TWeakObjectPtr<UTextBlock> description_;
-	TWeakObjectPtr<UHorizontalBox> buttons_holder_;
-	TArray<UButton*> buttons_;
+	UPROPERTY()
+	TObjectPtr<UCanvasPanel> root_canvas_panel_;
+	UPROPERTY()
+	TObjectPtr<UBorder> background_;
+	UPROPERTY()
+	TObjectPtr<UVerticalBox> widgets_holder_;
+	UPROPERTY()
+	TObjectPtr<UTextBlock> title_;
+	UPROPERTY()
+	TObjectPtr<UTextBlock> description_;
+	UPROPERTY()
+	TObjectPtr<UHorizontalBox> buttons_holder_;
+	UPROPERTY()
+	TArray<TObjectPtr<UButton>> buttons_;
+	UPROPERTY()
 	TObjectPtr<UVerticalBox> skip_holder_;
+	UPROPERTY()
 	TObjectPtr<UCheckBox> skip_checkbox_;
+	UPROPERTY()
 	TObjectPtr<UTextBlock> skip_text_;
-	TWeakObjectPtr<UButton> select_button_;
-	TWeakObjectPtr<UImage> highlight_image_;
+	UPROPERTY()
+	TObjectPtr<UButton> select_button_;
+	UPROPERTY()
+	TObjectPtr<UImage> highlight_image_;
 
 	TArray<FItemData*> item_candidates_;
 
