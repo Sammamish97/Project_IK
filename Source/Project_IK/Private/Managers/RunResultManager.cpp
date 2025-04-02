@@ -60,4 +60,22 @@ void URunResultManager::SwitchUIByState(ERunResultState state)
 		verify(false && "SwitchUIByState fall in default state");
 		break;
 	}
+	
+	current_state_ = state;
+}
+
+FReply URunResultManager::HandleKeyboardAction(const FKeyEvent& InKeyEvent)
+{
+	switch (current_state_)
+	{
+	case ERunResultState::ShowingRunRewardUI:
+		return run_reward_ui_->NativeOnKeyDown(run_reward_ui_->GetCachedGeometry(), InKeyEvent);
+		break;
+	case ERunResultState::ShowingToMainMenuUI:
+		return main_menu_ui_->NativeOnKeyDown(main_menu_ui_->GetCachedGeometry(), InKeyEvent);
+		break;
+	default:
+		break;
+	}
+	return FReply::Unhandled();
 }

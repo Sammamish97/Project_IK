@@ -25,7 +25,7 @@ class PROJECT_IK_API UToMainMenuWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-
+	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 
 protected:
 	virtual void NativeConstruct() override;

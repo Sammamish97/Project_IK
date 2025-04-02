@@ -34,6 +34,9 @@ public:
 	void StartRunResultSequence();
 
 	void SwitchUIByState(ERunResultState state);
+
+	FReply HandleKeyboardAction(const FKeyEvent& InKeyEvent);
+	
 protected:
 	virtual void BeginPlay() override;
 

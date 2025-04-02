@@ -31,6 +31,8 @@ public:
 
 	void SwitchUIByState(ERunResultState state);
 
+	FReply HandleKeyboardAction(const FKeyEvent& InKeyEvent);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UToMainMenuWidget> main_menu_ui_class_ = nullptr;
 
@@ -43,4 +45,6 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<URunRewardWidget> run_reward_ui_ = nullptr;
+
+	ERunResultState current_state_;
 };

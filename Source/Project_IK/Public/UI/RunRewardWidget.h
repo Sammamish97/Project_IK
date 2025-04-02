@@ -25,14 +25,16 @@ class PROJECT_IK_API URunRewardWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
+
+	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
+	
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	
 protected:
 
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 
-
-	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 
 
 	UPROPERTY(meta = (BindWidget))

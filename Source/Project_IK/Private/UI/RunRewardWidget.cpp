@@ -43,21 +43,22 @@ void URunRewardWidget::NativeDestruct()
 	}
 }
 
+FReply URunRewardWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+{
+	APlayerController* pc = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	if (pc)
+	{
+		AIKRunResultHUD* hud = Cast<AIKRunResultHUD>(pc->GetHUD());
+		if (hud)
+		{
+			hud->SwitchUIByState(ERunResultState::ShowingToMainMenuUI);
+		}
+	}
+	return Super::NativeOnKeyDown(InGeometry, InKeyEvent);
+}
+
 FReply URunRewardWidget::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
-	if (InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
-	{
-		APlayerController* pc = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-		if (pc)
-		{
-			AIKRunResultHUD* hud = Cast<AIKRunResultHUD>(pc->GetHUD());
-			if (hud)
-			{
-				hud->SwitchUIByState(ERunResultState::ShowingToMainMenuUI);
-			}
-		}
-
-	}
-
+	// Left this function for future.
 	return Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
 }

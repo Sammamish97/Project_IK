@@ -29,6 +29,11 @@ void AIKRunResultHUD::SwitchUIByState(ERunResultState state)
 	}
 }
 
+FReply AIKRunResultHUD::HandleKeyboardAction(const FKeyEvent& InKeyEvent)
+{
+	return run_result_manager_->HandleKeyboardAction(InKeyEvent);
+}
+
 void AIKRunResultHUD::BeginPlay()
 {
 	Super::BeginPlay();
