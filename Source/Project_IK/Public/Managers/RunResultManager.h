@@ -15,6 +15,9 @@ See LICENSE file in the project root for full license information.
 #include "RunResultManager.generated.h"
 
 class UToMainMenuWidget;
+class URunRewardWidget;
+
+enum class ERunResultState : uint8;
 
 /**
  * 
@@ -25,11 +28,23 @@ class PROJECT_IK_API URunResultManager : public UObject
 	GENERATED_BODY()
 public:
 	void StartRunResultSequence();
-	
+
+	void SwitchUIByState(ERunResultState state);
+
+	FReply HandleKeyboardAction(const FKeyEvent& InKeyEvent);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UToMainMenuWidget> main_menu_ui_class_ = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<URunRewardWidget> run_reward_ui_class_ = nullptr;
 protected:
 
 	UPROPERTY()
 	TObjectPtr<UToMainMenuWidget> main_menu_ui_ = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<URunRewardWidget> run_reward_ui_ = nullptr;
+
+	ERunResultState current_state_;
 };

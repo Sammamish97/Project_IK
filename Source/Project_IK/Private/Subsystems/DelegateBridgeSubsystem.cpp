@@ -12,11 +12,11 @@ See LICENSE file in the project root for full license information.
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
-TWeakObjectPtr<AIKPlayerController> UDelegateBridgeSubsystem::GetAIKPlayerController() const
+AIKPlayerController* UDelegateBridgeSubsystem::GetAIKPlayerController() const
 {
-	TWeakObjectPtr<APlayerController> raw_pc = GetWorld()->GetFirstPlayerController();
+	APlayerController* raw_pc = GetWorld()->GetFirstPlayerController();
 
-	if (raw_pc.IsValid() && raw_pc->IsA<AIKPlayerController>())
+	if (raw_pc && raw_pc->IsA<AIKPlayerController>())
 	{
 		return Cast<AIKPlayerController>(raw_pc);
 	}

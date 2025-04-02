@@ -11,3 +11,12 @@ See LICENSE file in the project root for full license information.
 
 #include "WorldSettings/BossLevel/IKBossGameMode.h"
 
+#include "Kismet/GameplayStatics.h"
+
+void AIKBossGameMode::BeginPlay()
+{
+	// @@ TODO: Implement game logic of boss gamemode.
+
+	// Since it has nothing, redirect to run result level.
+	UGameplayStatics::OpenLevel(GetWorld(), FName("RunResultLevel"));
+}

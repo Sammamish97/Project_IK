@@ -55,8 +55,19 @@ void UInventoryManager::InitInventoryManager()
 	max_inventory_size_ = 18;
 	credits_ = 200;
 	perk_points_ = 12;
+	tickets_ = 99;
 	InitEquipInventory();
 	InitRuneInventory();
+}
+
+void UInventoryManager::SetTickets(int32 tickets)
+{
+	tickets_ = tickets;
+}
+
+int32 UInventoryManager::GetTickets() const
+{
+	return tickets_;
 }
 
 int32 UInventoryManager::GetEquipmentEmptyIndex() const

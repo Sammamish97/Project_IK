@@ -288,3 +288,10 @@ enum class ETargetingState : uint8
 	EnterRepositioning UMETA(DisplayName = "Repositioning"),
 	PickRepositionTargetLocation UMETA(DisplayName = "PickRepositionTargetLocation")
 };
+
+UENUM(BlueprintType)
+enum class ERunResultState : uint8
+{
+	ShowingRunRewardUI UMETA(DisplayName = "ShowingRunRewardUI"),
+	ShowingToMainMenuUI UMETA(DisplayName = "ShowingToMainMenuUI"),
+};

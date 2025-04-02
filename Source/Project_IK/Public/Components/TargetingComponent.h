@@ -47,8 +47,6 @@ public:
 
 	void CancelTargeting();
 
-	void SetTargetParams(FTargetParameters params);
-
 	UFUNCTION(BlueprintCallable, Category = "Targeting")
 	void StartTargeting(FTargetParameters target_params, AActor* invoker = nullptr);
 

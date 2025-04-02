@@ -80,6 +80,8 @@ void UItemPickerUI::NativeDestruct()
 	}
 
 	select_button_->OnClicked.Clear();
+
+	buttons_.Empty();
 }
 
 void UItemPickerUI::InitializeRootWidget()

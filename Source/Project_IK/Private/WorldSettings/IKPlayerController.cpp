@@ -189,7 +189,7 @@ void AIKPlayerController::Decide()
 				if (target_result.target_actors_.IsEmpty() == false)
 				{
 					//IKTODO: 영웅의 선택과 이동명령 사이 영웅이 죽을 수 있다. WeakPtr이 좋을지도...?
-					targeting_component_->SetTargetParams({ETargetingMode::Location, ETargetType::None, 1000, 1000});
+					targeting_component_->StartTargeting({ETargetingMode::Location, ETargetType::None, 1000, 1000});
 					repositioning_hero_ = target_result.target_actors_[0];
 					targeting_state_ = ETargetingState::PickRepositionTargetLocation;
 				}

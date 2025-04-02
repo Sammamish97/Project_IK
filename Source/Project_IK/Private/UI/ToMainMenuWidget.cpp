@@ -15,6 +15,14 @@ See LICENSE file in the project root for full license information.
 
 #include "Components/Button.h"
 
+FReply UToMainMenuWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+{
+	// Consider any key input to be button pressed.
+	OnWidgetOpenButtonClicked();
+
+	return Super::NativeOnKeyDown(InGeometry, InKeyEvent);
+}
+
 void UToMainMenuWidget::NativeConstruct()
 {
 	main_menu_button_->OnClicked.AddDynamic(this, &UToMainMenuWidget::OnWidgetOpenButtonClicked);

@@ -39,12 +39,18 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetCredits(int32 currency);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintPure)
 	int32 GetCredits() const;
 
 	UFUNCTION(BlueprintCallable)
 	void SetPerkPoints(int32 points);
+	UFUNCTION(BlueprintPure)
 	int32 GetPerkPoints() const;
+
+	UFUNCTION(BlueprintCallable)
+	void SetTickets(int32 tickets);
+	UFUNCTION(BlueprintPure)
+	int32 GetTickets() const;
 
 private:
 	int32 GetEquipmentEmptyIndex() const;
@@ -71,4 +77,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	int32 perk_points_;
+
+	UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	int32 tickets_;
 };
