@@ -22,12 +22,18 @@ class PROJECT_IK_API AIKMapHUD : public AHUD
 	GENERATED_BODY()
 
 	virtual void BeginPlay() override;
-	
+public:
 	UFUNCTION(BlueprintCallable)
 	void PopUpInventory();
 	
 	UFUNCTION(BlueprintCallable)
 	void RemoveInventory();
+
+	UFUNCTION(BlueprintCallable)
+	void ToggleInventory();
+
+	UFUNCTION(BlueprintCallable)
+	void ToggleMap();
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")

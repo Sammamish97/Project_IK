@@ -55,28 +55,28 @@ bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 	if(InOperation->Payload == this) return false;
 
 	UInventorySlot* slot_from = Cast<UInventorySlot>(InOperation->Payload);
-	if(slot_type_ == EInventorySlotType::Weapon)
+	if(slot_type_ == EInventorySlotType::WeaponBoardSlot)
 	{
 		if(slot_from->slot_data_.gear_type != EGearType::Weapon)
 		{
 			return false;
 		}
 	}
-	if(slot_type_ == EInventorySlotType::PassiveSkill)
+	if(slot_type_ == EInventorySlotType::PassiveSkillBoardSlot)
 	{
 		if(slot_from->slot_data_.gear_type != EGearType::PassiveSkill)
 		{
 			return false;
 		}
 	}
-	if(slot_type_ == EInventorySlotType::ActiveSkill)
+	if(slot_type_ == EInventorySlotType::ActiveSkillBoardSlot)
 	{
 		if(slot_from->slot_data_.gear_type != EGearType::ActiveSkill)
 		{
 			return false;
 		}
 	}
-	if(slot_type_ == EInventorySlotType::Oopart)
+	if(slot_type_ == EInventorySlotType::OopartBoardSlot)
 	{
 		if(slot_from->slot_data_.gear_type != EGearType::Oopart)
 		{
@@ -92,7 +92,6 @@ bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 void UInventorySlot::ClearData()
 {
 	slot_data_ = FInventorySlotData();
-	slot_type_ = EInventorySlotType::Inventory;
 	image_->SetBrushFromTexture(nullptr);
 }
 

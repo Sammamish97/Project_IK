@@ -71,8 +71,11 @@ void URuneBoardWidget::LoadRuneBoardWidget()
 		FSpawnData data_cache = transition_system->GetSpawnData(hero_idx_cache_);
 		for (int i = 0; i < data_cache.rune_data_.Num(); i++)
 		{
-			slot_array_[i]->SetRuneData(data_cache.rune_data_[i]);
-			slot_array_[i]->SetImageTexture();
+			if (data_cache.rune_data_[i].is_empty == false)
+			{
+				slot_array_[i]->SetRuneData(data_cache.rune_data_[i].rune_data);
+				slot_array_[i]->SetImageTexture();
+			}
 		}
 	}
 }
@@ -87,7 +90,7 @@ void URuneBoardWidget::UpdateRuneBoard()
 		FSpawnData data_cache = transition_system->GetSpawnData(hero_idx_cache_);
 		for (int i = 0; i < 6; ++i)
 		{
-			data_cache.rune_data_[i] = slot_array_[i]->GetRuneData();
+			data_cache.rune_data_[i] = slot_array_[i]->GetRuneSlotData();
 		}
 		transition_system->UpdateSpawnDataIdx(hero_idx_cache_, data_cache);
 	}

@@ -51,7 +51,7 @@ void URuneSlotWidget::NativeOnDragDetected(const FGeometry& InGeometry, const FP
 	UDragDropOperation*& OutOperation)
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
-	if(rune_data_.is_empty == true) return;
+	if(rune_slot_data_.is_empty == true) return;
 	
 	UDragDropOperation* dragdrop_operation = UWidgetBlueprintLibrary::CreateDragDropOperation(UDragDropOperation::StaticClass());
 	dragdrop_operation->Payload = this;
@@ -68,7 +68,7 @@ void URuneSlotWidget::NativeOnDragDetected(const FGeometry& InGeometry, const FP
 	if (is_board_slot_)
 	{
 		rune_storage_widget_cache_->UpdateRuneStorage();
-		rune_storage_widget_cache_->LoadRuneStorage(GetRuneData().slot_number);
+		rune_storage_widget_cache_->LoadRuneStorage(rune_slot_data_.rune_data.slot_number);
 	}
 }
 
@@ -88,7 +88,7 @@ bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 	//2. 둘다 storage에 있다면 둘다 동일한 slot num이 보장되므로 swap한다.
 	if (is_board_slot_ == false && slot_from->is_board_slot_ == false)
 	{
-		Swap(rune_data_, slot_from->rune_data_);
+		Swap(rune_slot_data_, slot_from->rune_slot_data_);
 		SetImageTexture();
 		slot_from->SetImageTexture();
 		return true;
@@ -97,7 +97,7 @@ bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 	//3. board에서 storage로 오는 경우, 현재 선택된 board의 slot num에 맞춰 storage를 띄워준다.
 	if (is_board_slot_ == false && slot_from->is_board_slot_)
 	{
-		Swap(rune_data_, slot_from->rune_data_);
+		Swap(rune_slot_data_, slot_from->rune_slot_data_);
 		SetImageTexture();
 		slot_from->SetImageTexture();
 		rune_board_widget_cache_->ClearSetBonusEffect();
@@ -108,9 +108,9 @@ bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 	//4. storage에서 board로 가는 경우, slot num을 확인해야 한다.
 	if (is_board_slot_ && slot_from->is_board_slot_ == false)
 	{
-		if (slot_from->rune_data_.slot_number == rune_data_.slot_number)
+		if (slot_from->rune_slot_idx_ == rune_slot_idx_)
 		{
-			Swap(rune_data_, slot_from->rune_data_);
+			Swap(rune_slot_data_, slot_from->rune_slot_data_);
 			SetImageTexture();
 			slot_from->SetImageTexture();
 			TArray<FRuneData> rune_data;
@@ -124,31 +124,42 @@ bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 
 void URuneSlotWidget::ClearData()
 {
-	rune_data_ = FRuneData();
+	rune_slot_data_.rune_data = FRuneData();
 	image_->SetBrushFromTexture(nullptr);
 }
 
 void URuneSlotWidget::SetImageTexture()
 {
-	if (rune_data_.is_empty)
+	if (rune_slot_data_.is_empty)
 	{
 		image_->SetBrushFromTexture(nullptr);
 	}
 	else
 	{
 		TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-		image_->SetBrushFromTexture(ik_instance->GetDataTableManager()->GetRuneSetThumbnail(rune_data_.set_type));
+		image_->SetBrushFromTexture(ik_instance->GetDataTableManager()->GetRuneSetThumbnail(rune_slot_data_.rune_data.set_type));
 	}
 }
 
 void URuneSlotWidget::SetRuneData(FRuneData data)
 {
-	rune_data_ = data;
+	rune_slot_data_.rune_data = data;
+	rune_slot_data_.is_empty = false;
+}
+
+FRuneSlotData URuneSlotWidget::GetRuneSlotData()
+{
+	return rune_slot_data_;
 }
 
 FRuneData URuneSlotWidget::GetRuneData()
 {
-	return rune_data_;
+	return rune_slot_data_.rune_data;
+}
+
+bool URuneSlotWidget::IsEmptySlot()
+{
+	return rune_slot_data_.is_empty;
 }
 
 bool URuneSlotWidget::IsBoardSlot()
@@ -188,7 +199,7 @@ void URuneSlotWidget::OnClicked()
 	if (is_board_slot_)
 	{
 		rune_storage_widget_cache_->UpdateRuneStorage();
-		rune_storage_widget_cache_->LoadRuneStorage(rune_data_.slot_number);
+		rune_storage_widget_cache_->LoadRuneStorage(rune_slot_idx_);
 		rune_board_widget_cache_->ClearSelectedBorder();
 		SetSelectedImageVisibility(true);
 	}

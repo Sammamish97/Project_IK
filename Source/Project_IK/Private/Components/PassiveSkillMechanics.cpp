@@ -49,5 +49,5 @@ void UPassiveSkillMechanics::EquipPassiveSkill(EPassiveSkillType type)
 
 void UPassiveSkillMechanics::UnEquipPassiveSkill()
 {
-	equipped_passive_skill_data_ = data_table_cache_->GetPassiveSkillData(EPassiveSkillType::Empty);
+	equipped_passive_skill_data_ = data_table_cache_->GetPassiveSkillData(EPassiveSkillType::INVALID);
 }

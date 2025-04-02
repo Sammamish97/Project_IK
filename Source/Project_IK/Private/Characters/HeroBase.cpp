@@ -49,20 +49,6 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle);
-	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::FixedDmgReduce);
-	oopart_mechanics_->EquipOopart(EOopartType::AttackSpeedBoost);
-	skill_container_->EquipActiveSkill(EActiveSkillType::Thunder);
-	
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 0);
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 1);
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 2);
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 3);
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 4);
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 5);
-	
-	rune_mechanics_->ApplySetBonuses();
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -70,9 +56,32 @@ void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
-void AHeroBase::Initialize()
+void AHeroBase::Initialize(FSpawnData spawn_data)
 {
-
+	if (spawn_data.weapon_data_.IsSet())
+	{
+		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue().type);
+	}
+	if (spawn_data.passive_skill_data_.IsSet())
+	{
+		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_.GetValue().type);
+	}
+	if (spawn_data.active_skill_data_.IsSet())
+	{
+		skill_container_->EquipActiveSkill(spawn_data.active_skill_data_.GetValue().type);
+	}
+	if (spawn_data.oopart_data_.IsSet())
+	{
+		oopart_mechanics_->EquipOopart(spawn_data.oopart_data_.GetValue().type);
+	}
+	for (int32 i = 0; i < 6; ++i)
+	{
+		if (spawn_data.rune_data_[i].is_empty == false)
+		{
+			rune_mechanics_->EquipRune(spawn_data.rune_data_[i].rune_data.set_type, i);
+		}
+	}
+	rune_mechanics_->ApplySetBonuses();
 }
 
 void AHeroBase::Die()

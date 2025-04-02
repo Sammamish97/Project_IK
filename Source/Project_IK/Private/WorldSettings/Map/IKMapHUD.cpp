@@ -55,3 +55,27 @@ void AIKMapHUD::RemoveInventory()
 	inventory_widget_->RemoveFromParent();
 	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;
 }
+
+void AIKMapHUD::ToggleInventory()
+{
+	if (inventory_widget_->GetVisibility() == ESlateVisibility::Hidden)
+	{
+		inventory_widget_->SetVisibility(ESlateVisibility::Visible);
+	}
+	else
+	{
+		inventory_widget_->SetVisibility(ESlateVisibility::Hidden);
+	}
+}
+
+void AIKMapHUD::ToggleMap()
+{
+	if (map_widget_->GetVisibility() == ESlateVisibility::Hidden)
+	{
+		map_widget_->SetVisibility(ESlateVisibility::Visible);
+	}
+	else
+	{
+		map_widget_->SetVisibility(ESlateVisibility::Hidden);
+	}
+}

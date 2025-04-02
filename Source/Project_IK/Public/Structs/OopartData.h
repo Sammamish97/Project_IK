@@ -19,7 +19,7 @@ struct PROJECT_IK_API FOopartData : public FTableRowBase
 	GENERATED_BODY();
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "OopartData")
-	EOopartType type = EOopartType::Empty;
+	EOopartType type = EOopartType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "OopartData")
 	TSubclassOf<class AOopartBase> oopart_class = nullptr;

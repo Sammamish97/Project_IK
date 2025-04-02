@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/TargetResult.h"
 #include "Structs/TargetParameters.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/SpawnData.h"
 #include "HeroBase.generated.h"
 
 UCLASS()
@@ -27,7 +28,7 @@ public:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
-	virtual void Initialize();
+	virtual void Initialize(FSpawnData spawn_data);
 	virtual void Die() override;
 
 	virtual FDamageData Attack(AActor* target) override;

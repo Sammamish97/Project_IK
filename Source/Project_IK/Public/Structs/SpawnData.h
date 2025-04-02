@@ -14,9 +14,9 @@ See LICENSE file in the project root for full license information.
 #include "ActiveSkillData.h"
 #include "OopartData.h"
 #include "PassiveSkillData.h"
+#include "RuneSlotData.h"
 #include "WeaponData.h"
 #include "Structs/CharacterData.h"
-#include "Structs/RuneData.h"
 #include "SpawnData.generated.h"
 
 USTRUCT(BlueprintType)
@@ -29,19 +29,19 @@ struct PROJECT_IK_API FSpawnData
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
 	FCharacterData character_data_;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	FWeaponData weapon_data_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	FPassiveSkillData passive_skill_data_;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	FActiveSkillData active_skill_data_;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	FOopartData oopart_data_;
+	TOptional<FWeaponData> weapon_data_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	TArray<FRuneData> rune_data_ = {FRuneData(0), FRuneData(1), FRuneData(2), FRuneData(3), FRuneData(4), FRuneData(5)};
+	TOptional<FPassiveSkillData> passive_skill_data_;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
+	TOptional<FActiveSkillData> active_skill_data_;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
+	TOptional<FOopartData> oopart_data_;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
+	TArray<FRuneSlotData> rune_data_ = {FRuneSlotData(0), FRuneSlotData(1), FRuneSlotData(2), FRuneSlotData(3), FRuneSlotData(4), FRuneSlotData(5)};
 };

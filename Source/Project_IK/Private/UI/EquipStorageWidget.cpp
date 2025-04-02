@@ -36,7 +36,7 @@ void UEquipStorageWidget::LoadEquipStorage()
 	{
 		equip_inventory_slots_[i] = Cast<UInventorySlot>(CreateWidget(GetWorld(), slot_BP_class_));
 		equip_inventory_slots_[i]->slot_data_ = inventory_data[i];
-		equip_inventory_slots_[i]->slot_type_ = EInventorySlotType::Inventory;
+		equip_inventory_slots_[i]->slot_type_ = EInventorySlotType::InventorySlot;
 		equip_inventory_slots_[i]->grid_idx_ = i;
 		equip_inventory_slots_[i]->SetImageTexture();
 		wrap_box_->AddChild(equip_inventory_slots_[i]);
@@ -54,7 +54,7 @@ void UEquipStorageWidget::UpdateEquipStorage()
 	
 	for (auto& elem : equip_inventory_slots_)
 	{
-		if (elem != nullptr && elem->slot_type_ != EInventorySlotType::Inventory)
+		if (elem != nullptr && elem->slot_type_ != EInventorySlotType::InventorySlot)
 		{
 			rune_storage_data.Add(elem->slot_data_);
 		}
