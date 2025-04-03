@@ -93,6 +93,9 @@ private:
 	UFUNCTION()
 	void RotateCameraRight();
 
+	UFUNCTION()
+	void OnToggleInventory();
+	
 protected:
 	ETargetingState targeting_state_ = ETargetingState::Idle;
 	EHeroType selected_hero_type_ = EHeroType::INVALID;
@@ -155,4 +158,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> rotate_camera_right_action_;
+
+	//
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UInputAction> inventory_toggle_action_;
 };

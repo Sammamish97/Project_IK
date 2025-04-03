@@ -74,11 +74,14 @@ void AHeroBase::Initialize(FSpawnData spawn_data)
 	{
 		oopart_mechanics_->EquipOopart(spawn_data.oopart_data_.GetValue().type);
 	}
-	for (int32 i = 0; i < 6; ++i)
+
+	TArray rune_data_array = {spawn_data.rune_data_1, spawn_data.rune_data_2, spawn_data.rune_data_3, spawn_data.rune_data_4, spawn_data.rune_data_5, spawn_data.rune_data_6};
+
+	for (int32 i = 0; i < rune_data_array.Num(); i++)
 	{
-		if (spawn_data.rune_data_[i].is_empty == false)
+		if (rune_data_array[i].IsSet())
 		{
-			rune_mechanics_->EquipRune(spawn_data.rune_data_[i].rune_data.set_type, i);
+			rune_mechanics_->EquipRune(rune_data_array[i].GetValue().set_type, i);
 		}
 	}
 	rune_mechanics_->ApplySetBonuses();

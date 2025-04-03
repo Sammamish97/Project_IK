@@ -21,14 +21,15 @@ class PROJECT_IK_API AIKMapHUD : public AHUD
 {
 	GENERATED_BODY()
 
-	virtual void BeginPlay() override;
 public:
+	virtual void BeginPlay() override;
+	
 	UFUNCTION(BlueprintCallable)
 	void PopUpInventory();
 	
 	UFUNCTION(BlueprintCallable)
 	void RemoveInventory();
-
+	
 	UFUNCTION(BlueprintCallable)
 	void ToggleInventory();
 

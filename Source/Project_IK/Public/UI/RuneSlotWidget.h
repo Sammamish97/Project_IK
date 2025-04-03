@@ -31,13 +31,18 @@ private:
 public:
 	void InitRuneStorageData(TObjectPtr<class URuneStorageWidget> rune_storage_ptr);
 	void InitRuneBoardData(TObjectPtr<class URuneBoardWidget> rune_board_ptr);
+	
 	void ClearData();
+	
 	bool IsBoardSlot();
 	bool IsEmptySlot();
+	
 	void SetSelectedImageVisibility(bool value);
 	void SetImageTexture();
 	void SetIsBoardSlot(bool is_board_slot);
 	void SetRuneData(FRuneData data);
+	void SetRuneSlotIndex(int32 index);
+	
 	FRuneSlotData GetRuneSlotData();
 	FRuneData GetRuneData();
 
@@ -65,5 +70,5 @@ private:
 
 	FRuneSlotData rune_slot_data_;
 	bool is_board_slot_ = false;
-	int32 rune_slot_idx_ = 0;
+	int32 rune_slot_idx_ = -1;
 };

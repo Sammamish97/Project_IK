@@ -32,6 +32,7 @@ void URuneStorageWidget::UpdateRuneStorage()
 		if (elem.is_empty == false && elem.rune_data.slot_number == cur_slot_num_)
 		{
 			elem = FRuneSlotData();
+			elem.is_empty = true;
 		}
 	}
 	
@@ -77,6 +78,7 @@ void URuneStorageWidget::LoadRuneStorage(int32 slot_num)
 			rune_storage_slots_[data_count]->InitRuneStorageData(this);
 			rune_storage_slots_[data_count]->InitRuneBoardData(rune_board_cache_);
 			rune_storage_slots_[data_count]->SetRuneData(elem.rune_data);
+			rune_storage_slots_[data_count]->SetRuneSlotIndex(slot_num);
 			rune_storage_slots_[data_count]->SetImageTexture();
 			wrap_box_->AddChild(rune_storage_slots_[data_count]);
 			data_count += 1;
@@ -87,7 +89,7 @@ void URuneStorageWidget::LoadRuneStorage(int32 slot_num)
 		rune_storage_slots_[i] = CreateWidget<URuneSlotWidget>(GetWorld(), slot_BP_class_);
 		rune_storage_slots_[i]->InitRuneStorageData(this);
 		rune_storage_slots_[i]->InitRuneBoardData(rune_board_cache_);
-		rune_storage_slots_[i]->SetRuneData(FRuneData(cur_slot_num_));
+		rune_storage_slots_[i]->SetRuneSlotIndex(slot_num);
 		rune_storage_slots_[i]->SetImageTexture();
 		wrap_box_->AddChild(rune_storage_slots_[i]);
 	}

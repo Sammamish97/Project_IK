@@ -44,6 +44,10 @@ void UInventoryManager::InitRuneInventory()
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 2));
 
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 3));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 3));
+
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 4));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 4));
 
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 5));
 }
@@ -160,6 +164,7 @@ bool UInventoryManager::AddRune(FRuneData rune_data)
 	if (index != -1)
 	{
 		rune_storage_[index].rune_data = rune_data;
+		rune_storage_[index].is_empty = false;
 		return true;
 	}
 	return false;

@@ -22,77 +22,143 @@ TObjectPtr<USetBonusBase> USetBonusManager::GetSetBonus(ERuneSetType type)
 	return nullptr;
 }
 
-
-TArray<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutRuneSet(const TArray<FRuneData>& rune_data)
+TOptional<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutHexagonSet(
+	const TArray<TOptional<FRuneData>>& rune_slots)
 {
-	TArray<TPair<ERuneSetType, TArray<int32>>> bonus_result;
-	//1. 육각형 체크
-	if (rune_data[0].set_type != ERuneSetType::INVALID)
+	bool is_all_equipped = true;
+	for (int32 i = 0; i < rune_slots.Num(); i++)
 	{
-		if (rune_data[0].set_type == rune_data[1].set_type
-			&& rune_data[1].set_type == rune_data[2].set_type
-			&& rune_data[2].set_type == rune_data[3].set_type
-			&& rune_data[3].set_type == rune_data[4].set_type
-			&& rune_data[4].set_type == rune_data[5].set_type)
+		if (rune_slots[i].IsSet() == false)
 		{
-			bonus_result.Add({rune_data[0].set_type, TArray<int32>{0, 1, 2, 3, 4, 5}});
-			return bonus_result;
+			is_all_equipped = false;
 		}
-	}
-	
-	// 2. 정삼각/역삼각 체크
-	bool triangle_exist = false;
-	if (rune_data[0].set_type == rune_data[2].set_type && rune_data[2].set_type == rune_data[4].set_type
-		&&
-		rune_data[1].set_type != rune_data[0].set_type &&
-		rune_data[3].set_type != rune_data[0].set_type &&
-		rune_data[5].set_type != rune_data[0].set_type
-		)
-	{
-		if (rune_data[0].set_type != ERuneSetType::INVALID)
-		{
-			bonus_result.Add({rune_data[0].set_type, TArray<int32>{0, 2, 4}});
-			triangle_exist = true;
-		}
-	}
-	if (rune_data[1].set_type == rune_data[3].set_type && rune_data[3].set_type == rune_data[5].set_type
-		&&
-		rune_data[0].set_type != rune_data[1].set_type &&
-		rune_data[2].set_type != rune_data[1].set_type &&
-		rune_data[4].set_type != rune_data[1].set_type
-		)
-	{
-		if (rune_data[1].set_type != ERuneSetType::INVALID)
-		{
-			triangle_exist =true;
-			bonus_result.Add({rune_data[1].set_type, TArray<int32>{1, 3, 5}});
-		}
-	}
-	if (triangle_exist)
-	{
-		//삼각형이 하나라도 존재하면, 그 어느 간선도 존재할 수 없음.
-		return bonus_result;
 	}
 
-	//3. 이어진 간선 체크
+	if (is_all_equipped)
+	{
+		bool is_all_same_type = true;
+		for (int32 i = 0; i < rune_slots.Num(); i++)
+		{
+			if (rune_slots[0].GetValue().set_type != rune_slots[i].GetValue().set_type)
+			{
+				is_all_same_type = false;
+			}
+		}
+		if (is_all_same_type && rune_slots[0].GetValue().set_type != ERuneSetType::INVALID)
+		{
+			TPair<ERuneSetType, TArray<int32>> result = {rune_slots[0].GetValue().set_type, TArray{0, 1, 2, 3, 4, 5}};
+			return result;
+		}
+	}
+	return NullOpt;
+}
+
+TOptional<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutTriangleSet(
+	const TArray<TOptional<FRuneData>>& rune_slots, TArray<int32>& indices, TArray<int32>& inv_indices)
+{
+	float is_all_equipped = true;
+	for (int32 i :  indices)
+	{
+		if (rune_slots[i].IsSet() == false)
+		{
+			is_all_equipped = false;
+		}
+	}
+	if (is_all_equipped)
+	{
+		bool is_all_same_type = true;
+		for (int32 i : indices)
+		{
+			if (rune_slots[indices[0]].GetValue().set_type != rune_slots[i].GetValue().set_type)
+			{
+				is_all_same_type = false;
+			}
+		}
+		for (int32 i : inv_indices)
+		{
+			if (rune_slots[i].IsSet())
+			{
+				if (rune_slots[indices[0]].GetValue().set_type == rune_slots[i].GetValue().set_type)
+				{
+					is_all_same_type = false;
+				}
+			}
+		}
+		if (is_all_same_type && rune_slots[indices[0]].GetValue().set_type != ERuneSetType::INVALID)
+		{
+			TPair<ERuneSetType, TArray<int32>> result = {rune_slots[indices[0]].GetValue().set_type, indices};
+			return result;
+		}
+	}
+	return NullOpt;
+}
+
+TArray<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutEdgeSet(
+	const TArray<TOptional<FRuneData>>& rune_slots)
+{
+	TArray<TPair<ERuneSetType, TArray<int32>>> result;
+	
 	bool skip[6] = { false }; // 연속된 3개 이상이면 점수 제외하기 위한 배열
 
 	//3개 이상 연속되는 index는 skip을 통해 이후 검사에서 제외.
 	for (int i = 0; i < 6; i++) {
-		if (rune_data[i].set_type == rune_data[(i + 1) % 6].set_type && rune_data[i].set_type == rune_data[(i + 2) % 6].set_type) {
-			skip[i] = skip[(i + 1) % 6] = skip[(i + 2) % 6] = true;
+		if (rune_slots[i].IsSet() && rune_slots[(i + 1) % 6].IsSet() && rune_slots[(i + 2) % 6].IsSet())
+		{
+			if (rune_slots[i].GetValue().set_type == rune_slots[(i + 1) % 6].GetValue().set_type
+				&&
+				rune_slots[i].GetValue().set_type == rune_slots[(i + 2) % 6].GetValue().set_type) {
+				skip[i] = skip[(i + 1) % 6] = skip[(i + 2) % 6] = true;
+			}
 		}
 	}
 
 	for (int i = 0; i < 6; i++)
 	{
-		if (skip[i] == false && rune_data[i].set_type == rune_data[(i + 1) % 6].set_type)
+		if (rune_slots[i].IsSet() && rune_slots[(i + 1) % 6].IsSet())
 		{
-			if (rune_data[i].set_type != ERuneSetType::INVALID)
+			if (skip[i] == false
+				&&
+				rune_slots[i].GetValue().set_type != ERuneSetType::INVALID
+				&&
+				rune_slots[i].GetValue().set_type == rune_slots[(i + 1) % 6].GetValue().set_type)
 			{
-				bonus_result.Add({rune_data[i].set_type, TArray<int32>{i, (i + 1) % 6}});
+				result.Push({rune_slots[i].GetValue().set_type, TArray{i, (i + 1) % 6}});
 			}
 		}
 	}
-	return bonus_result;
+	return result;
+}
+
+
+TArray<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutRuneSet(const TArray<TOptional<FRuneData>>& rune_slots)
+{
+	TArray<TPair<ERuneSetType, TArray<int32>>> bonus_result;
+	auto hex_result = FigureOutHexagonSet(rune_slots);
+	if (hex_result.IsSet())
+	{
+		bonus_result.Push(hex_result.GetValue());
+		return bonus_result;
+	}
+
+	bool is_tri_set_exist = false;
+	TArray tri_indices = {0, 2, 4};
+	TArray inv_tri_indices = {1, 3, 5};
+	auto tri_result = FigureOutTriangleSet(rune_slots, tri_indices, inv_tri_indices);
+	if (tri_result.IsSet())
+	{
+		is_tri_set_exist = true;
+		bonus_result.Push(tri_result.GetValue());
+	}
+	auto inv_tri_result =FigureOutTriangleSet(rune_slots, inv_tri_indices, tri_indices);
+	if (inv_tri_result.IsSet())
+	{
+		is_tri_set_exist = true;
+		bonus_result.Push(inv_tri_result.GetValue());
+	}
+	if (is_tri_set_exist == true)
+	{
+		return bonus_result;
+	}
+	
+	return FigureOutEdgeSet(rune_slots);
 }

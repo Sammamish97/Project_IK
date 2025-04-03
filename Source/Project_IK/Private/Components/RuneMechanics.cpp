@@ -21,7 +21,7 @@ See LICENSE file in the project root for full license information.
 URuneMechanics::URuneMechanics()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-	rune_slots_.AddDefaulted(6);
+	rune_slots_ = {rune_data_1 ,rune_data_2 ,rune_data_3, rune_data_4, rune_data_5, rune_data_6 };
 }
 
 // Called when the game starts
@@ -43,7 +43,10 @@ FStatusData URuneMechanics::GetTotalStatus()
 	FStatusData total_status;
 	for (int i = 0; i < rune_slots_.Num(); i++)
 	{
-		total_status += rune_slots_[i].rune_status;
+		if (rune_slots_[i].IsSet())
+		{
+			total_status += rune_slots_[i].GetValue().rune_status;
+		}
 	}
 	return total_status;
 }
@@ -61,8 +64,6 @@ void URuneMechanics::ApplySetBonuses()
 		}
 	}
 }
-
-
 
 FString URuneMechanics::RuneEnumToString(ERuneSetType set_type)
 {

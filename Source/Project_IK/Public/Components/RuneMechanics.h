@@ -35,8 +35,26 @@ public:
 	void ApplySetBonuses();
 	
 private:
-	UPROPERTY()
-	TArray<FRuneData> rune_slots_;
+	UPROPERTY(Transient)
+	TOptional<FRuneData> rune_data_1;
+
+	UPROPERTY(Transient)
+	TOptional<FRuneData> rune_data_2;
+	
+	UPROPERTY(Transient)
+	TOptional<FRuneData> rune_data_3;
+
+	UPROPERTY(Transient)
+	TOptional<FRuneData> rune_data_4;
+	
+	UPROPERTY(Transient)
+	TOptional<FRuneData> rune_data_5;
+
+	UPROPERTY(Transient)
+	TOptional<FRuneData> rune_data_6;
+
+	TArray<TOptional<FRuneData>> rune_slots_;
+	//
 	
 	UPROPERTY(Transient)
 	TObjectPtr<class USetBonusManager> bonus_manager_cache_;

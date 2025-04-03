@@ -100,17 +100,36 @@ void UEquipBoardWidget::UpdateEquipBoard()
 		{
 			data_cache.weapon_data_ = data_table_manager->GetWeaponData(weapon_->slot_data_.weapon_type);
 		}
+		else
+		{
+			data_cache.weapon_data_.Reset();
+		}
+		
 		if (active_skill_->slot_data_.is_empty == false)
 		{
 			data_cache.active_skill_data_ = data_table_manager->GetActiveSkillData(active_skill_->slot_data_.active_skill_type);
 		}
+		else
+		{
+			data_cache.active_skill_data_.Reset();
+		}
+		
 		if (passive_skill_->slot_data_.is_empty == false)
 		{
 			data_cache.passive_skill_data_ = data_table_manager->GetPassiveSkillData(passive_skill_->slot_data_.passive_skill_type);
 		}
+		else
+		{
+			data_cache.passive_skill_data_.Reset();
+		}
+		
 		if (oopart_->slot_data_.is_empty == false)
 		{
 			data_cache.oopart_data_=  data_table_manager->GetOopartData(oopart_->slot_data_.oopart_type);
+		}
+		else
+		{
+			data_cache.oopart_data_.Reset();
 		}
 		transition_system->UpdateSpawnDataIdx(cur_hero_idx_, data_cache);
 	}

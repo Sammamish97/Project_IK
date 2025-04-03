@@ -20,10 +20,13 @@ class UEnhancedInputLocalPlayerSubsystem;
 void AIKMapController::BeginPlay()
 {
 	Super::BeginPlay();
+	bShowMouseCursor = true;
+	
 	if (UEnhancedInputLocalPlayerSubsystem* subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		subsystem->AddMappingContext(player_input_mapping_context, 0);
-	}}
+	}
+}
 
 void AIKMapController::SetupInputComponent()
 {

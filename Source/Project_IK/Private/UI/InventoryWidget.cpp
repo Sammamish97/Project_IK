@@ -21,10 +21,12 @@ See LICENSE file in the project root for full license information.
 void UInventoryWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	cur_hero_idx_ = 0;
 	switch_hero_left_button_->OnClicked.AddDynamic(this, &UInventoryWidget::SwitchToLeftHero);
 	switch_hero_right_button_->OnClicked.AddDynamic(this, &UInventoryWidget::SwitchToRightHero);
 	board_switch_button_->OnClicked.AddDynamic(this, &UInventoryWidget::ToggleBoard);
+
+	cur_hero_idx_ = 0;
+	hero_name_text_->SetText(FText::FromName(data_table_cache_->GetCharacterData(IntToHeroType(cur_hero_idx_))->character_name_));
 
 	equip_board_->LoadEquipBoard();
 	equip_storage_->LoadEquipStorage();
@@ -38,6 +40,8 @@ void UInventoryWidget::NativeConstruct()
 
 void UInventoryWidget::NativeDestruct()
 {
+	UpdateInventoryData();
+	
 	switch_hero_left_button_->OnClicked.RemoveAll(this);
 	switch_hero_right_button_->OnClicked.RemoveAll(this);
 	board_switch_button_->OnClicked.RemoveAll(this);
@@ -48,7 +52,7 @@ void UInventoryWidget::NativeDestruct()
 void UInventoryWidget::InitInventoryWidget(UInventoryManager* inventory_manager)
 {
 	inventory_manager_cache_ = inventory_manager;
-	data_table_cache_ =  Cast<UIKGameInstance>(GetGameInstance())->GetDataTableManager();
+	data_table_cache_ = Cast<UIKGameInstance>(GetGameInstance())->GetDataTableManager();
 }
 
 void UInventoryWidget::ToggleBoard()
@@ -76,13 +80,19 @@ void UInventoryWidget::ToggleBoard()
 	}
 }
 
-void UInventoryWidget::SwitchToLeftHero()
+void UInventoryWidget::UpdateInventoryData()
 {
 	rune_board_->UpdateRuneBoard();
 	equip_board_->UpdateEquipBoard();
+}
 
-	cur_hero_idx_ = FMath::Max(0, cur_hero_idx_ - 1);
+void UInventoryWidget::SwitchToLeftHero()
+{
+	UpdateInventoryData();
 	
+	cur_hero_idx_ = FMath::Max(0, cur_hero_idx_ - 1);
+	hero_name_text_->SetText(FText::FromName(data_table_cache_->GetCharacterData(IntToHeroType(cur_hero_idx_))->character_name_));
+
 	rune_board_->SetCurHeroIdx(cur_hero_idx_);
 	equip_board_->SetCurHeroIdx(cur_hero_idx_);
 	
@@ -92,11 +102,11 @@ void UInventoryWidget::SwitchToLeftHero()
 
 void UInventoryWidget::SwitchToRightHero()
 {
-	rune_board_->UpdateRuneBoard();
-	equip_board_->UpdateEquipBoard();
-
-	cur_hero_idx_ = FMath::Min(cur_hero_idx_ + 1, 3);
+	UpdateInventoryData();
 	
+	cur_hero_idx_ = FMath::Min(cur_hero_idx_ + 1, 3);
+	hero_name_text_->SetText(FText::FromName(data_table_cache_->GetCharacterData(IntToHeroType(cur_hero_idx_))->character_name_));
+
 	rune_board_->SetCurHeroIdx(cur_hero_idx_);
 	equip_board_->SetCurHeroIdx(cur_hero_idx_);
 	

@@ -69,13 +69,14 @@ void URuneSlotWidget::NativeOnDragDetected(const FGeometry& InGeometry, const FP
 	{
 		rune_storage_widget_cache_->UpdateRuneStorage();
 		rune_storage_widget_cache_->LoadRuneStorage(rune_slot_data_.rune_data.slot_number);
+		rune_board_widget_cache_->SetSelectedBorder(rune_slot_data_.rune_data.slot_number);
+		rune_board_widget_cache_->TurnOnSetBonusEffect();
 	}
 }
 
 bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
                                    UDragDropOperation* InOperation)
 {
-	//TODO: 코드의 중복이 많다. if문의 결합, 혹은 구조의 변환을 통해 반복되는 코드를 줄여보자.
 	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
 	if(InOperation->Payload == this) return false;
 	TObjectPtr<URuneSlotWidget> slot_from = Cast<URuneSlotWidget>(InOperation->Payload);
@@ -113,7 +114,6 @@ bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 			Swap(rune_slot_data_, slot_from->rune_slot_data_);
 			SetImageTexture();
 			slot_from->SetImageTexture();
-			TArray<FRuneData> rune_data;
 			rune_board_widget_cache_->ClearSetBonusEffect();
 			rune_board_widget_cache_->TurnOnSetBonusEffect();
 			return true;
@@ -124,7 +124,7 @@ bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 
 void URuneSlotWidget::ClearData()
 {
-	rune_slot_data_.rune_data = FRuneData();
+	rune_slot_data_ = FRuneSlotData();
 	image_->SetBrushFromTexture(nullptr);
 }
 
@@ -145,6 +145,11 @@ void URuneSlotWidget::SetRuneData(FRuneData data)
 {
 	rune_slot_data_.rune_data = data;
 	rune_slot_data_.is_empty = false;
+}
+
+void URuneSlotWidget::SetRuneSlotIndex(int32 index)
+{
+	rune_slot_idx_ = index;
 }
 
 FRuneSlotData URuneSlotWidget::GetRuneSlotData()
@@ -200,7 +205,7 @@ void URuneSlotWidget::OnClicked()
 	{
 		rune_storage_widget_cache_->UpdateRuneStorage();
 		rune_storage_widget_cache_->LoadRuneStorage(rune_slot_idx_);
-		rune_board_widget_cache_->ClearSelectedBorder();
+		rune_board_widget_cache_->SetSelectedBorder(rune_slot_idx_);
 		SetSelectedImageVisibility(true);
 	}
 }
