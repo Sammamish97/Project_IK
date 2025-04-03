@@ -136,7 +136,7 @@ void URuneSlotWidget::SetImageTexture()
 	}
 	else
 	{
-		TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		UIKGameInstance* ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 		image_->SetBrushFromTexture(ik_instance->GetDataTableManager()->GetRuneSetThumbnail(rune_data_.set_type));
 	}
 }

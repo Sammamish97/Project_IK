@@ -188,7 +188,7 @@ void UButtonBarWidget::ActivateSkillTargeting(EHeroType caster)
 
 void UButtonBarWidget::OnItemButtonClicked0()
 {
-	if (item_inventory_->GetItem(0).IsValid() && !is_item_muted_)
+	if (item_inventory_->GetItem(0) && !is_item_muted_)
 	{
 		ActivateItemTargeting(0);
 	}
@@ -196,7 +196,7 @@ void UButtonBarWidget::OnItemButtonClicked0()
 
 void UButtonBarWidget::OnItemButtonClicked1()
 {
-	if (item_inventory_->GetItem(1).IsValid() && !is_item_muted_)
+	if (item_inventory_->GetItem(1) && !is_item_muted_)
 	{
 		ActivateItemTargeting(1);
 	}
@@ -204,7 +204,7 @@ void UButtonBarWidget::OnItemButtonClicked1()
 
 void UButtonBarWidget::OnItemButtonClicked2()
 {
-	if (item_inventory_->GetItem(2).IsValid() && !is_item_muted_)
+	if (item_inventory_->GetItem(2) && !is_item_muted_)
 	{
 		ActivateItemTargeting(2);
 	}

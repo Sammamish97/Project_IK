@@ -33,7 +33,7 @@ class PROJECT_IK_API UItemKeepOrDiscardWidget : public UUserWidget
 public:
 	virtual bool Initialize() override;
 
-	void UpdateItems(TArray<FItemData*> inventory_items, TArray<FItemData*> candidates_items);
+	void UpdateItems(TArray<FItemData> inventory_items, TArray<FItemData> candidates_items);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UCheckboxButtonWidget> check_box_button_class_;
@@ -52,28 +52,28 @@ protected:
 	void OnCheckboxButtonClicked();
 	bool ToggleCheckboxButton(UCheckboxButtonWidget* widget);
 
-	void AddItemCheckboxInventory(FItemData* item_data);
-	void AddItemCheckboxCandidates(TArray<FItemData*> item_data);
+	void AddItemCheckboxInventory(FItemData item_data);
+	void AddItemCheckboxCandidates(TArray<FItemData> item_data);
 
 	// A grid panel to contains horizontal boxes that will contain image checkboxes.
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TWeakObjectPtr<UGridPanel> horizontal_box_container_;
+	TObjectPtr<UGridPanel> horizontal_box_container_;
 	// It is an array that contains the horizontal boxes.
 	UPROPERTY()
-	TArray<TWeakObjectPtr<UHorizontalBox>> candidates_item_containers_;
+	TArray<TObjectPtr<UHorizontalBox>> candidates_item_containers_;
 	UPROPERTY()
-	TArray<UCheckboxButtonWidget*> candidates_items_widgets_;
+	TArray<TObjectPtr<UCheckboxButtonWidget>> candidates_items_widgets_;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TWeakObjectPtr<UTextBlock> item_text_;
+	TObjectPtr<UTextBlock> item_text_;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TWeakObjectPtr<UHorizontalBox> inventory_item_container_;
+	TObjectPtr<UHorizontalBox> inventory_item_container_;
 	UPROPERTY()
-	TArray<UCheckboxButtonWidget*> inventory_items_widgets_;
+	TArray<TObjectPtr<UCheckboxButtonWidget>> inventory_items_widgets_;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TWeakObjectPtr<UButton> confirm_button_;
+	TObjectPtr<UButton> confirm_button_;
 
-	TArray<FItemData*> candidates_items_;
-	TArray<FItemData*> inventory_items_;
+	TArray<FItemData> candidates_items_;
+	TArray<FItemData> inventory_items_;
 
 	UPROPERTY(Transient)
 	int32 checked_items_num_;

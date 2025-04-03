@@ -32,7 +32,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ItemInventory.h"
 #include "WorldSettings/IKHUD.h"
 #include "Managers/CombatLevelResultManager.h"
-#include "Managers/ItemDataManager.h"
+#include "Structs/ItemData.h"
 #include "Managers/TextureManager.h"
 
 
@@ -146,7 +146,8 @@ void UItemPickerUI::InitializeChildWidgets()
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	for (int32 i = 0; i < 3; i++)
 	{
-		item_candidates_.Add(game_instance->GetItemDataManager()->GetItemDataRandomly());
+		// @@ TODO: Replace it with GetUniqueItemDataRandomly
+		item_candidates_.Add(game_instance->GetDataTableManager()->GetItemData(EItemType::HPPotion));
 	}
 
 	for (int32 i = 0; i < 3; i++)
@@ -154,7 +155,7 @@ void UItemPickerUI::InitializeChildWidgets()
 		TWeakObjectPtr<UButton> button = NewObject<UButton>();
 		FButtonStyle button_style;
 		FSlateBrush new_brush;
-		new_brush.SetResourceObject(item_candidates_[i]->item_icon_);
+		new_brush.SetResourceObject(item_candidates_[i].item_icon_);
 		new_brush.DrawAs = ESlateBrushDrawType::Type::Image;
 		new_brush.TintColor = FSlateColor(FLinearColor(0.69f, 0.69f, 0.69f));
 		new_brush.SetImageSize(FVector2D(128.0, 128.0));
@@ -311,7 +312,7 @@ void UItemPickerUI::ItemButtonOnClicked()
 			{
 				highlight_image_->SetVisibility(ESlateVisibility::Visible);
 			}
-			description_->SetText(FText::FromString(item_candidates_[selected_button_index_]->item_description_));
+			description_->SetText(FText::FromString(item_candidates_[selected_button_index_].item_description_));
 		}
 	}
 }

@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "Managers/ItemDataManager.h"
+#include "Structs/ItemData.h"
 #include "Item.generated.h"
 
 struct FTargetResult;

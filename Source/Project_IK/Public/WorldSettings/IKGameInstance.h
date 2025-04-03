@@ -21,7 +21,6 @@ class USetBonusManager;
 class UItemInventory;
 class UIKMaps;
 class UCharacterDataManager;
-class UItemDataManager;
 class UTextureManager;
 class UDialogueEventManager;
 
@@ -36,8 +35,6 @@ public:
 	virtual void Init() override;
 	virtual void Shutdown() override;
 
-	UFUNCTION(BlueprintPure)
-	const class UItemDataManager* GetItemDataManager() noexcept;
 	UFUNCTION(BlueprintPure)
 	class UItemInventory* GetItemInventory() const noexcept;
 	UFUNCTION(BlueprintPure)
@@ -65,7 +62,6 @@ public:
 	TSubclassOf<UItemInventory> item_inventory_class_;
 
 private:
-	void InitializeItemDataManager();
 	void InitializeCharacterDataManager();
 	void InitializeItemInventory();
 	void InitializeMaps();
@@ -75,9 +71,6 @@ private:
 	void InitDataTableManager();
 	void InitSpawnData();
 	void InitSetBonusManager();
-	
-	UPROPERTY()
-	class UItemDataManager* item_data_manager_;
 
 	UPROPERTY()
 	class UItemInventory* item_inventory_;

@@ -12,12 +12,12 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Structs/ItemData.h"
 #include "CheckboxButtonWidget.generated.h"
 
 class UButton;
 class UImage;
 class FOnButtonClickedEvent;
-struct FItemData;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCheckboxButtonClickedDelegate);
 
@@ -31,8 +31,8 @@ class PROJECT_IK_API UCheckboxButtonWidget : public UUserWidget
 public:
 	virtual bool Initialize() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float DeltaTime) override;
-	void SetItem(FItemData* item);
-	FItemData* GetItem() const;
+	void SetItem(FItemData item);
+	FItemData GetItem() const;
 	void SetButtonTexture(UTexture2D* texture);
 
 	void SetIsChecked(bool flag);
@@ -57,10 +57,10 @@ protected:
 	void OnButtonClicked();
 
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TWeakObjectPtr<UButton> button_;
+	TObjectPtr<UButton> button_;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TWeakObjectPtr<UImage> selection_indicator_image_;
+	TObjectPtr<UImage> selection_indicator_image_;
 
 	bool is_checked_;
-	FItemData* item_data_;
+	FItemData item_data_;
 };

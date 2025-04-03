@@ -12,10 +12,10 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Structs/ItemData.h"
 #include "StoreWidget.generated.h"
 
 enum class ERarity : uint8;
-struct FItemData;
 class UHorizontalBox;
 class UTextBlock;
 class UButton;
@@ -83,7 +83,7 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UCreditWidget> credit_widget_;
 
-	TArray<FItemData*> items_;
+	TArray<FItemData> items_;
 
 	UPROPERTY()
 	int32 total_cost_;

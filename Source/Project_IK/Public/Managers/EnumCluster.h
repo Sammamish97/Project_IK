@@ -53,12 +53,11 @@ enum class ELevelEndState : uint8
 };
 
 UENUM(BlueprintType)
-enum class EItemLogicType : uint8
+enum class EItemType : uint8
 {
-	None UMETA(DisplayName = "None"),
-	RestoreHP UMETA(DisplayName = "RestoreHP"),
-	LaunchMissile UMETA(DisplayName = "LaunchMissile"),
-	AttackSpeedStimuli UMETA(DisplayName = "AttackSpeedStimuli"),
+	HPPotion UMETA(DisplayName = "HPPotion"),
+	Missile UMETA(DisplayName = "Missile"),
+	Stimuli UMETA(DisplayName = "Stimuli"),
 	SmokeGrenade UMETA(DisplayName = "SmokeGrenade"),
 	Flashbang UMETA(DisplayName = "Flashbang"),
 };
@@ -138,10 +137,10 @@ inline int32 HeroTypeToInt(EHeroType hero_type)
 UENUM(BlueprintType)
 enum class ERarity : uint8
 {
-	None UMETA(DisplayName = "None"),
-	S UMETA(DisplayName = "S"),
-	A UMETA(DisplayName = "A"),
-	B UMETA(DisplayName = "B")
+	Common UMETA(DisplayName = "Common"),
+	Rare UMETA(DisplayName = "Rare"),
+	Epic UMETA(DisplayName = "Epic"),
+	Legendary UMETA(DisplayName = "Legendary")
 };
 
 UENUM(BlueprintType)

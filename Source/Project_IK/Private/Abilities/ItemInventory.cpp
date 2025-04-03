@@ -11,19 +11,18 @@ See LICENSE file in the project root for full license information.
 
 
 #include "Abilities/ItemInventory.h"
-#include "Managers/ItemDataManager.h"
 #include "Abilities/Item.h"
 
 #include "Blueprint/UserWidget.h"
 #include "UI/ItemKeepOrDiscardWidget.h"
 
-void UItemInventory::AddItem(TWeakObjectPtr<UItem> item, TFunction<void()> OnConfirm)
+void UItemInventory::AddItem(UItem* item, TFunction<void()> OnConfirm)
 {
 	if (item_inventory_.Num() < INVENTORY_CAPACITY)
 	{
-		if (item.IsValid())
+		if (item)
 		{
-			item_inventory_.Add(item.Get());
+			item_inventory_.Add(item);
 		}
 		if (OnConfirm)
 		{
@@ -36,12 +35,12 @@ void UItemInventory::AddItem(TWeakObjectPtr<UItem> item, TFunction<void()> OnCon
 	}
 }
 
-void UItemInventory::AddItem(FItemData* item_data, TFunction<void()> OnConfirm)
+void UItemInventory::AddItem(FItemData item_data, TFunction<void()> OnConfirm)
 {
 	if (item_inventory_.Num() < INVENTORY_CAPACITY)
 	{
 		UItem* item = NewObject<UItem>(this, item_class_);
-		item->InitializeItemUsingData(*item_data);
+		item->InitializeItemUsingData(item_data);
 
 		item_inventory_.Add(item);
 		OnConfirm();
@@ -52,14 +51,14 @@ void UItemInventory::AddItem(FItemData* item_data, TFunction<void()> OnConfirm)
 	}
 }
 
-void UItemInventory::AddItems(TArray<FItemData*> item_data, TFunction<void()> OnConfirm)
+void UItemInventory::AddItems(TArray<FItemData> item_data, TFunction<void()> OnConfirm)
 {
 	if (item_data.Num() + item_inventory_.Num() <= INVENTORY_CAPACITY)
 	{
 		for (int32 i = 0; i < item_data.Num(); ++i)
 		{
 			UItem* item = NewObject<UItem>(this, item_class_);
-			item->InitializeItemUsingData(*item_data[i]);
+			item->InitializeItemUsingData(item_data[i]);
 
 			item_inventory_.Add(item);
 		}
@@ -80,11 +79,11 @@ void UItemInventory::UseItem(int32 item_idx, FTargetResult target_result)
 	}
 }
 
-TWeakObjectPtr<UItem> UItemInventory::GetItem(int32 index) const
+UItem* UItemInventory::GetItem(int32 index) const
 {
 	if (item_inventory_.IsValidIndex(index))
 	{
-		return item_inventory_[index];
+		return item_inventory_[index].Get();
 	}
 
 	return nullptr;
@@ -103,19 +102,19 @@ void UItemInventory::ClearItems()
 	item_inventory_.Empty();
 }
 
-void UItemInventory::CallKeepDiscardUI(TWeakObjectPtr<UItem> item_added, TFunction<void()> OnConfirm)
+void UItemInventory::CallKeepDiscardUI(UItem* item_added, TFunction<void()> OnConfirm)
 {
 	FItemData data = item_added->GetData();
-	CallKeepDiscardUI(&data, OnConfirm);
+	CallKeepDiscardUI(data, OnConfirm);
 }
 
-void UItemInventory::CallKeepDiscardUI(FItemData* item_added, TFunction<void()> OnConfirm)
+void UItemInventory::CallKeepDiscardUI(FItemData item_added, TFunction<void()> OnConfirm)
 {
-	TArray<FItemData*> item_added_data{ item_added };
+	TArray<FItemData> item_added_data{ item_added };
 	CallKeepDiscardUI(item_added_data, OnConfirm);
 }
 
-void UItemInventory::CallKeepDiscardUI(TArray<FItemData*> item_added, TFunction<void()> OnConfirm)
+void UItemInventory::CallKeepDiscardUI(TArray<FItemData> item_added, TFunction<void()> OnConfirm)
 {
 	OnConfirm_ = OnConfirm;
 	if (item_keep_discard_class_)
@@ -123,10 +122,10 @@ void UItemInventory::CallKeepDiscardUI(TArray<FItemData*> item_added, TFunction<
 		item_keep_discard_ = CreateWidget<UItemKeepOrDiscardWidget>(GetWorld(), item_keep_discard_class_);
 		if (item_keep_discard_)
 		{
-			TArray<FItemData*> inventory_data;
+			TArray<FItemData> inventory_data;
 			for (int32 i = 0; i < item_inventory_.Num(); i++)
 			{
-				inventory_data.Add(item_inventory_[i]->GetDataPtr());
+				inventory_data.Add(item_inventory_[i]->GetData());
 			}
 			item_keep_discard_->UpdateItems(inventory_data, item_added);
 			item_keep_discard_->OnConfirmed.AddDynamic(this, &UItemInventory::OnKeepDiscardFinished);

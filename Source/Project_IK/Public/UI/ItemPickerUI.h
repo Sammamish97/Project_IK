@@ -83,7 +83,7 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UImage> highlight_image_;
 
-	TArray<FItemData*> item_candidates_;
+	TArray<FItemData> item_candidates_;
 
 	int32 selected_button_index_;
 
