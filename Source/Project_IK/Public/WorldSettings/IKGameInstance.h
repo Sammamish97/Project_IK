@@ -23,7 +23,6 @@ class UIKMaps;
 class UCharacterDataManager;
 class UItemDataManager;
 class UTextureManager;
-class UDialogueEventManager;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UIKGameInstance : public UGameInstance
@@ -45,8 +44,6 @@ public:
 	UFUNCTION(BlueprintPure)
 	const class UTextureManager* GetTextureManager() const noexcept;
 	UFUNCTION(BlueprintPure)
-	const class UDialogueEventManager* GetDialogueEventManager() const noexcept;
-	UFUNCTION(BlueprintPure)
 	class UInventoryManager* GetInventoryManager() const noexcept;
 	UFUNCTION(BlueprintPure)
 	class ULevelTransitionSubsystem* GetLevelTransitionSubsystem() const noexcept;
@@ -54,6 +51,8 @@ public:
 	UDataTableManager* GetDataTableManager() const noexcept;
 	UFUNCTION(BlueprintPure)
 	USetBonusManager* GetSetBonusManager() const noexcept;
+	UFUNCTION(BlueprintPure)
+	class UEventManager* GetEventManager() const noexcept;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelTransition")
 	TSubclassOf<AActor> hero_blueprint_;
@@ -70,11 +69,11 @@ private:
 	void InitializeItemInventory();
 	void InitializeMaps();
 	void InitializeTextureManager();
-	void InitializeDialogueEventManager();
 	void InitInventoryManager();
 	void InitDataTableManager();
 	void InitSpawnData();
 	void InitSetBonusManager();
+	void InitEventManager();
 	
 	UPROPERTY()
 	class UItemDataManager* item_data_manager_;
@@ -84,15 +83,12 @@ private:
 
 	UPROPERTY()
 	class UIKMaps* maps_;
-
-	UPROPERTY()
-	class UDialogueEventManager* dialogue_event_manager_;
-
+	
 	UPROPERTY()
 	class UTextureManager* texture_manager_;
 
 	UPROPERTY()
-	class UInventoryManager* inventory_manager_;
+	TObjectPtr<UInventoryManager> inventory_manager_;
 
 	UPROPERTY()
 	TObjectPtr<UDataTableManager> data_table_manager_;
@@ -100,9 +96,15 @@ private:
 	UPROPERTY()
 	TObjectPtr<USetBonusManager> set_bonus_manager_;
 
+	UPROPERTY()
+	TObjectPtr<UEventManager> event_manager_;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true", BindWidget))
 	TSubclassOf<UDataTableManager> data_table_class_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true", BindWidget))
 	TSubclassOf<USetBonusManager> set_bonus_class_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true", BindWidget))
+	TSubclassOf<UEventManager> event_manager_class_;
 };

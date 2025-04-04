@@ -13,9 +13,10 @@ See LICENSE file in the project root for full license information.
 #include "UI/IKMaps.h"
 #include "Managers/ItemDataManager.h"
 #include "Managers/TextureManager.h"
-#include "Managers/DialogueEventManager.h"
 #include "Managers/InventoryManager.h"
 #include "Managers/SetBonusManager.h"
+#include "Managers/EventManager.h"
+
 #include "Structs/SpawnData.h"
 
 #include "Subsystems/PerkProgressSubsystem.h"
@@ -37,11 +38,11 @@ void UIKGameInstance::Init()
 	InitializeItemInventory();
 	InitializeMaps();
 	InitializeTextureManager();
-	InitializeDialogueEventManager();
 	InitDataTableManager();
 	InitInventoryManager();
 	InitSpawnData();
 	InitSetBonusManager();
+	InitEventManager();
 
 	item_inventory_->AddItem(item_data_manager_->GetItemData(3));
 }
@@ -103,11 +104,6 @@ const UTextureManager* UIKGameInstance::GetTextureManager() const noexcept
 	return texture_manager_;
 }
 
-const UDialogueEventManager* UIKGameInstance::GetDialogueEventManager() const noexcept
-{
-	return dialogue_event_manager_;
-}
-
 ULevelTransitionSubsystem* UIKGameInstance::GetLevelTransitionSubsystem() const noexcept
 {
 	return GetSubsystem<ULevelTransitionSubsystem>();
@@ -121,6 +117,16 @@ UDataTableManager* UIKGameInstance::GetDataTableManager() const noexcept
 USetBonusManager* UIKGameInstance::GetSetBonusManager() const noexcept
 {
 	return set_bonus_manager_;
+}
+
+UEventManager* UIKGameInstance::GetEventManager() const noexcept
+{
+	return event_manager_;
+}
+
+void UIKGameInstance::InitEventManager()
+{
+	event_manager_ = NewObject<UEventManager>(this);
 }
 
 void UIKGameInstance::InitializeItemDataManager()
@@ -158,11 +164,6 @@ void UIKGameInstance::InitializeTextureManager()
 {
 	texture_manager_ = NewObject<UTextureManager>();
 	texture_manager_->InitializeTextures();
-}
-
-void UIKGameInstance::InitializeDialogueEventManager()
-{
-	dialogue_event_manager_ = NewObject<UDialogueEventManager>();
 }
 
 void UIKGameInstance::InitInventoryManager()
