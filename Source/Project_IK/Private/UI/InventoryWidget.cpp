@@ -53,6 +53,7 @@ void UInventoryWidget::InitInventoryWidget(UInventoryManager* inventory_manager)
 {
 	inventory_manager_cache_ = inventory_manager;
 	data_table_cache_ = Cast<UIKGameInstance>(GetGameInstance())->GetDataTableManager();
+	LoadInventoryData();
 }
 
 void UInventoryWidget::ToggleBoard()
@@ -64,6 +65,7 @@ void UInventoryWidget::ToggleBoard()
 
 		rune_storage_->LoadRuneStorage(0);
 		rune_board_->LoadRuneBoardWidget();
+        rune_board_->TurnOnSetBonusEffect();
 		
 		storage_switcher_->SetActiveWidget(rune_storage_);
 		board_switcher_->SetActiveWidget(rune_board_);
@@ -86,6 +88,12 @@ void UInventoryWidget::UpdateInventoryData()
 	equip_board_->UpdateEquipBoard();
 }
 
+void UInventoryWidget::LoadInventoryData()
+{
+	rune_board_->LoadRuneBoardWidget();
+	equip_storage_->LoadEquipStorage();
+}
+
 void UInventoryWidget::SwitchToLeftHero()
 {
 	UpdateInventoryData();
@@ -97,6 +105,7 @@ void UInventoryWidget::SwitchToLeftHero()
 	equip_board_->SetCurHeroIdx(cur_hero_idx_);
 	
 	rune_board_->LoadRuneBoardWidget();
+    rune_board_->TurnOnSetBonusEffect();
 	equip_board_->LoadEquipBoard();
 }
 
@@ -111,5 +120,6 @@ void UInventoryWidget::SwitchToRightHero()
 	equip_board_->SetCurHeroIdx(cur_hero_idx_);
 	
 	rune_board_->LoadRuneBoardWidget();
+	rune_board_->TurnOnSetBonusEffect();
 	equip_board_->LoadEquipBoard();
 }

@@ -65,12 +65,11 @@ void URuneBoardWidget::LoadRuneBoardWidget()
 {
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
-	
+	TArray slot_array = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
 	for (int32 i = 0; i < slot_array_.Num(); ++i)
 	{
-		slot_array_[i]->ClearData();
+		slot_array[i]->ClearData();
 	}
-	ClearSetBonusEffect();
 	
 	if(transition_system->GetSpawnData().IsEmpty() == false)
 	{
@@ -81,12 +80,11 @@ void URuneBoardWidget::LoadRuneBoardWidget()
 		{
 			if (rune_data_array[i].IsSet())
 			{
-				slot_array_[i]->SetRuneData(rune_data_array[i].GetValue());
+				slot_array[i]->SetRuneData(rune_data_array[i].GetValue());
 			}
-			slot_array_[i]->SetImageTexture();
+			slot_array[i]->SetImageTexture();
 		}
 	}
-	TurnOnSetBonusEffect();
 }
 
 void URuneBoardWidget::UpdateRuneBoard()
@@ -132,6 +130,7 @@ void URuneBoardWidget::ClearSetBonusEffect()
 
 void URuneBoardWidget::TurnOnSetBonusEffect()
 {
+	ClearSetBonusEffect();
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<USetBonusManager> set_bonus_cache = ik_instance->GetSetBonusManager();
 	

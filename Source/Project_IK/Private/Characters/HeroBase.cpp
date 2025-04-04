@@ -62,6 +62,10 @@ void AHeroBase::Initialize(FSpawnData spawn_data)
 	{
 		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue().type);
 	}
+	else
+	{
+		weapon_mechanics_->EquipWeapon(EWeaponType::Pistol);
+	}
 	if (spawn_data.passive_skill_data_.IsSet())
 	{
 		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_.GetValue().type);

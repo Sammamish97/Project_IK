@@ -29,6 +29,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void UpdateInventoryData();
+
+	UFUNCTION(BlueprintCallable)
+	void LoadInventoryData();
 	
 	UFUNCTION()
 	void SwitchToLeftHero();
