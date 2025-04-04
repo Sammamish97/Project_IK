@@ -21,7 +21,6 @@ See LICENSE file in the project root for full license information.
 URuneMechanics::URuneMechanics()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-	rune_slots_ = {rune_data_1 ,rune_data_2 ,rune_data_3, rune_data_4, rune_data_5, rune_data_6 };
 }
 
 // Called when the game starts
@@ -35,17 +34,39 @@ void URuneMechanics::BeginPlay()
 
 void URuneMechanics::EquipRune(ERuneSetType set_type, int32 idx)
 {
-	rune_slots_[idx] = data_table_cache_->GetRuneData(set_type, idx);
+	switch (idx)
+	{
+		case 0:
+			rune_data_1 = data_table_cache_->GetRuneData(set_type, idx);
+			break;
+		case 1:
+			rune_data_2 = data_table_cache_->GetRuneData(set_type, idx);
+			break;
+		case 2:
+			rune_data_3 = data_table_cache_->GetRuneData(set_type, idx);
+			break;
+		case 3:
+			rune_data_4 = data_table_cache_->GetRuneData(set_type, idx);
+			break;
+		case 4:
+			rune_data_5 = data_table_cache_->GetRuneData(set_type, idx);
+			break;
+		case 5:
+			rune_data_6 = data_table_cache_->GetRuneData(set_type, idx);
+		break;
+	default:
+		checkNoEntry()
+	}
 }
 
 FStatusData URuneMechanics::GetTotalStatus()
 {
 	FStatusData total_status;
-	for (int i = 0; i < rune_slots_.Num(); i++)
+	for (const auto& elem : {rune_data_1, rune_data_2, rune_data_3, rune_data_4, rune_data_5, rune_data_6})
 	{
-		if (rune_slots_[i].IsSet())
+		if (elem.IsSet())
 		{
-			total_status += rune_slots_[i].GetValue().rune_status;
+			total_status += elem.GetValue().rune_status;
 		}
 	}
 	return total_status;
@@ -54,7 +75,7 @@ FStatusData URuneMechanics::GetTotalStatus()
 //세트 보너스가 적용되는 시점은 전투레벨의 Begin Play이후이다.
 void URuneMechanics::ApplySetBonuses()
 {
-	auto set_result = bonus_manager_cache_->FigureOutRuneSet(rune_slots_);
+	auto set_result = bonus_manager_cache_->FigureOutRuneSet({rune_data_1, rune_data_2, rune_data_3, rune_data_4, rune_data_5, rune_data_6});
 	for (int i = 0; i < set_result.Num(); i++)
 	{
 		if (set_result[i].Key != ERuneSetType::INVALID)

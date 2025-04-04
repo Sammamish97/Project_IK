@@ -52,8 +52,7 @@ private:
 
 	UPROPERTY(Transient)
 	TOptional<FRuneData> rune_data_6;
-
-	TArray<TOptional<FRuneData>> rune_slots_;
+	
 	//
 	
 	UPROPERTY(Transient)
