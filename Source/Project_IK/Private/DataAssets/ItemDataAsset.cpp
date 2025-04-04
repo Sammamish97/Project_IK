@@ -11,8 +11,15 @@ See LICENSE file in the project root for full license information.
 
 #include "DataAssets/ItemDataAsset.h"
 
+#include "Managers/RandomDataAssetsManager.h"
+
 FItemData UItemDataAsset::GetItemData(EItemType type)
 {
 	checkf(item_data_map_.Find(type), TEXT("Can't find Item type in the Item data map!"));
 	return item_data_map_[type];
+}
+
+FItemData UItemDataAsset::GetItemDataRandomly(ERarity weight_rarity)
+{
+	return URandomDataAssetsManager::GetDataAssetRandomly(weight_rarity, item_data_map_);
 }

@@ -27,6 +27,7 @@ enum class EGlobalBuffType : uint8;
 struct FGlobalBuffData;
 class UItemDataAsset;
 struct FItemData;
+class URandomDataAssetsManager;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UDataTableManager : public UObject
@@ -52,6 +53,8 @@ public:
 
 	FItemData GetItemData(EItemType type) const;
 	FString ItemEnumToString(EItemType item_type) const;
+	FItemData GetItemDataRandomly(ERarity weight_rarity = ERarity::Common) const;
+	TArray<FItemData> GetUniqueItemDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
 	FCharacterData* GetCharacterData(EHeroType hero_type) const;
 	FString HeroEnumToString(EHeroType hero_type) const;

@@ -19,6 +19,8 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/PassiveSkillDataAsset.h"
 #include "DataAssets/ItemDataAsset.h"
 
+#include "Managers/RandomDataAssetsManager.h"
+
 FWeaponData UDataTableManager::GetWeaponData(EWeaponType type) const
 {
 	return weapon_data_asset_->GetWeaponData(type);
@@ -180,6 +182,16 @@ FString UDataTableManager::ItemEnumToString(EItemType item_type) const
 		break;
 	}
 	return string;
+}
+
+FItemData UDataTableManager::GetItemDataRandomly(ERarity weight_rarity) const
+{
+	return item_data_asset_->GetItemDataRandomly(weight_rarity);
+}
+
+TArray<FItemData> UDataTableManager::GetUniqueItemDataRandomly(int32 n, ERarity rarity) const
+{
+	return TArray<FItemData>();// random_manager_->GetUniqueItemDataRandomly();
 }
 
 FCharacterData* UDataTableManager::GetCharacterData(EHeroType hero_type) const
