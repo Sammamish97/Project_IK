@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Structs/InventorySlotData.h"
-#include "Structs/RuneData.h"
+#include "Structs/RuneSlotData.h"
 #include "UObject/Object.h"
 #include "InventoryManager.generated.h"
 
@@ -33,7 +33,7 @@ public:
 	void RemoveRuneItem(int index);
 	
 	TArray<FInventorySlotData>& GetEquipStorageData();
-	TArray<FRuneData>& GetRuneStorageData();
+	TArray<FRuneSlotData>& GetRuneStorageData();
 	
 	int32 GetMaxInventorySize();
 
@@ -67,7 +67,7 @@ private:
 	TArray<FInventorySlotData> equipment_storage_;
 
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
-	TArray<FRuneData> rune_storage_;
+	TArray<FRuneSlotData> rune_storage_;
 
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	int32 max_inventory_size_;

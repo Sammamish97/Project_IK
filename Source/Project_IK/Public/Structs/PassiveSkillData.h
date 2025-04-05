@@ -19,7 +19,7 @@ struct PROJECT_IK_API FPassiveSkillData : public FTableRowBase
 {
 	GENERATED_BODY();
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
-	EPassiveSkillType type = EPassiveSkillType::Empty;
+	EPassiveSkillType type = EPassiveSkillType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
 	TSubclassOf<class UEquipSkillBase> passive_skill_class;

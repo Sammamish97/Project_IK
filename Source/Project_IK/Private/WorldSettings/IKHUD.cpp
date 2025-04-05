@@ -7,8 +7,6 @@ Summary : Header file for HUD class.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
-
 #include "WorldSettings/IKHUD.h"
 #include "Runtime/UMG/Public/Blueprint/UserWidget.h"
 
@@ -19,6 +17,44 @@ See LICENSE file in the project root for full license information.
 #include "UI/ButtonBarWidget.h"
 #include "UI/InventoryWidget.h"
 #include "WorldSettings/IKGameInstance.h"
+void AIKHUD::BeginPlay()
+{
+	Super::BeginPlay();
+
+	UWorld* world = GetWorld();
+
+	// Create the widget and add it to the viewport
+	if (button_widget_class_)
+	{
+		button_widget_ = CreateWidget<UButtonBarWidget>(world, button_widget_class_);
+		if (button_widget_)
+		{
+			button_widget_->AddToViewport();
+		}
+	}
+
+	combat_level_result_manager_ = NewObject<UCombatLevelResultManager>(this);
+	if (combat_level_result_manager_)
+	{
+		combat_level_result_manager_->InitializeUI(combat_result_widget_class_, item_picker_widget_class_, world);
+	}
+
+	if(inventory_widget_class_)
+	{
+		inventory_widget_ = CreateWidget<UInventoryWidget>(GetWorld(), inventory_widget_class_);
+		if(inventory_widget_)
+		{
+			auto instance = UGameplayStatics::GetGameInstance(GetWorld());
+			auto ik_instance = Cast<UIKGameInstance>(instance);
+			if(ik_instance)
+			{
+				inventory_widget_->InitInventoryWidget(ik_instance->GetInventoryManager());
+				inventory_widget_->AddToViewport();
+				inventory_widget_->SetVisibility(ESlateVisibility::Hidden);
+			}
+		}
+	}
+}
 
 void AIKHUD::DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map)
 {
@@ -79,25 +115,14 @@ void AIKHUD::UnmuteItems()
 	}
 }
 
-void AIKHUD::BeginPlay()
+void AIKHUD::ToggleInventory()
 {
-	Super::BeginPlay();
-
-	UWorld* world = GetWorld();
-
-	// Create the widget and add it to the viewport
-	if (button_widget_class_)
+	if (inventory_widget_->GetVisibility() == ESlateVisibility::Hidden)
 	{
-		button_widget_ = CreateWidget<UButtonBarWidget>(world, button_widget_class_);
-		if (button_widget_)
-		{
-			button_widget_->AddToViewport();
-		}
+		inventory_widget_->SetVisibility(ESlateVisibility::Visible);
 	}
-
-	combat_level_result_manager_ = NewObject<UCombatLevelResultManager>(this);
-	if (combat_level_result_manager_)
+	else
 	{
-		combat_level_result_manager_->InitializeUI(combat_result_widget_class_, item_picker_widget_class_, world);
+		inventory_widget_->SetVisibility(ESlateVisibility::Hidden);
 	}
 }

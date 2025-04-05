@@ -27,6 +27,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void InitInventoryWidget(UInventoryManager* inventory_manager);
 
+	UFUNCTION(BlueprintCallable)
+	void UpdateInventoryData();
+
+	UFUNCTION(BlueprintCallable)
+	void LoadInventoryData();
+	
 	UFUNCTION()
 	void SwitchToLeftHero();
 	UFUNCTION()

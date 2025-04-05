@@ -17,21 +17,21 @@ USTRUCT(BlueprintType)
 struct PROJECT_IK_API FInventorySlotData
 {
 	GENERATED_BODY();
-
+	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
 	EGearType gear_type = EGearType::INVALID;
+	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
+	EWeaponType weapon_type = EWeaponType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	EWeaponType weapon_type = EWeaponType::Empty;
+	EPassiveSkillType passive_skill_type = EPassiveSkillType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	EPassiveSkillType passive_skill_type = EPassiveSkillType::Empty;
+	EActiveSkillType active_skill_type = EActiveSkillType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	EActiveSkillType active_skill_type = EActiveSkillType::Empty;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	EOopartType oopart_type = EOopartType::Empty;
+	EOopartType oopart_type = EOopartType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
 	bool is_empty = true;

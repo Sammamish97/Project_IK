@@ -10,7 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "DataAssets/PassiveSkillDataAsset.h"
 
-FPassiveSkillData UPassiveSkillDataAsset::GetPassiveKillData(EPassiveSkillType type)
+FPassiveSkillData UPassiveSkillDataAsset::GetPassiveSkillData(EPassiveSkillType type)
 {
 	checkf(passive_skill_data_map_.Find(type), TEXT("Can't find Passive Type in the passive skill data map!"));
 	return passive_skill_data_map_[type];

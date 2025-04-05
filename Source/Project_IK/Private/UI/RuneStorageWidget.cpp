@@ -29,16 +29,17 @@ void URuneStorageWidget::UpdateRuneStorage()
 	//1. 기존의 존재하는 slot_num에 해당하는 값들 제거.
 	for (auto& elem : rune_storage_data)
 	{
-		if (elem.is_empty == false && elem.slot_number == cur_slot_num_)
+		if (elem.is_empty == false && elem.rune_data.slot_number == cur_slot_num_)
 		{
-			elem = FRuneData();
+			elem = FRuneSlotData();
+			elem.is_empty = true;
 		}
 	}
 	
 	//2. 빈 자리에 update된 rune들을 삽입.
 	for (auto& elem : rune_storage_slots_)
 	{
-		if (elem != nullptr && elem->GetRuneData().is_empty == false)
+		if (elem != nullptr && elem->IsEmptySlot() == false)
 		{
 			inventory_manager_cache_->AddRune(elem->GetRuneData());
 		}
@@ -71,12 +72,13 @@ void URuneStorageWidget::LoadRuneStorage(int32 slot_num)
 	int32 data_count = 0;
 	for (auto elem : storage_data)
 	{
-		if (elem.is_empty == false && elem.slot_number == cur_slot_num_)
+		if (elem.is_empty == false && elem.rune_data.slot_number == cur_slot_num_)
 		{
 			rune_storage_slots_[data_count] = CreateWidget<URuneSlotWidget>(GetWorld(), slot_BP_class_);
 			rune_storage_slots_[data_count]->InitRuneStorageData(this);
 			rune_storage_slots_[data_count]->InitRuneBoardData(rune_board_cache_);
-			rune_storage_slots_[data_count]->SetRuneData(elem);
+			rune_storage_slots_[data_count]->SetRuneData(elem.rune_data);
+			rune_storage_slots_[data_count]->SetRuneSlotIndex(slot_num);
 			rune_storage_slots_[data_count]->SetImageTexture();
 			wrap_box_->AddChild(rune_storage_slots_[data_count]);
 			data_count += 1;
@@ -87,7 +89,7 @@ void URuneStorageWidget::LoadRuneStorage(int32 slot_num)
 		rune_storage_slots_[i] = CreateWidget<URuneSlotWidget>(GetWorld(), slot_BP_class_);
 		rune_storage_slots_[i]->InitRuneStorageData(this);
 		rune_storage_slots_[i]->InitRuneBoardData(rune_board_cache_);
-		rune_storage_slots_[i]->SetRuneData(FRuneData(cur_slot_num_));
+		rune_storage_slots_[i]->SetRuneSlotIndex(slot_num);
 		rune_storage_slots_[i]->SetImageTexture();
 		wrap_box_->AddChild(rune_storage_slots_[i]);
 	}

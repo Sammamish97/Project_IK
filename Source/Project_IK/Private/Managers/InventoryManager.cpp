@@ -28,7 +28,7 @@ void UInventoryManager::InitEquipInventory()
 
 void UInventoryManager::InitRuneInventory()
 {
-	rune_storage_.Init(FRuneData(), max_inventory_size_);
+	rune_storage_.Init(FRuneSlotData(), max_inventory_size_);
 	
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
@@ -44,6 +44,10 @@ void UInventoryManager::InitRuneInventory()
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 2));
 
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 3));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 3));
+
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 4));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 4));
 
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 5));
 }
@@ -159,7 +163,8 @@ bool UInventoryManager::AddRune(FRuneData rune_data)
 	int32 index = GetRuneEmptyIndex();
 	if (index != -1)
 	{
-		rune_storage_[index] = rune_data;
+		rune_storage_[index].rune_data = rune_data;
+		rune_storage_[index].is_empty = false;
 		return true;
 	}
 	return false;
@@ -180,7 +185,7 @@ TArray<FInventorySlotData>& UInventoryManager::GetEquipStorageData()
 	return equipment_storage_;
 }
 
-TArray<FRuneData>& UInventoryManager::GetRuneStorageData()
+TArray<FRuneSlotData>& UInventoryManager::GetRuneStorageData()
 {
 	return rune_storage_;
 }

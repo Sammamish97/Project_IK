@@ -20,7 +20,7 @@ class PROJECT_IK_API UPassiveSkillDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 public:
-	FPassiveSkillData GetPassiveKillData(EPassiveSkillType type);
+	FPassiveSkillData GetPassiveSkillData(EPassiveSkillType type);
 	
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skill Data", meta = (AllowPrivateAccess = "true"))
