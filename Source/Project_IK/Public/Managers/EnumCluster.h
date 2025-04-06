@@ -295,3 +295,13 @@ enum class ERunResultState : uint8
 	ShowingRunRewardUI UMETA(DisplayName = "ShowingRunRewardUI"),
 	ShowingToMainMenuUI UMETA(DisplayName = "ShowingToMainMenuUI"),
 };
+
+UENUM(BlueprintType)
+enum class EEventType : uint8
+{
+	EventType_1 UMETA(DisplayName = "EventType_1"),
+	EventType_2 UMETA(DisplayName = "EventType_2"),
+	EventType_3 UMETA(DisplayName = "EventType_3"),
+	EventType_4 UMETA(DisplayName = "EventType_4"),
+	INVALID UMETA(DisplayName = "INVALID")
+};

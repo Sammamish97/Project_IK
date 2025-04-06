@@ -28,6 +28,7 @@ public:
 	bool AddEquipment(EGearType type, EOopartType oopart_type);
 
 	bool AddRune(FRuneData rune_data);
+	bool AddRune(ERuneSetType set_type, int32 slot_idx);
 	
 	void RemoveEquipItem(int index);
 	void RemoveRuneItem(int index);
@@ -41,6 +42,9 @@ public:
 	void SetCredits(int32 currency);
 	UFUNCTION(BlueprintPure)
 	int32 GetCredits() const;
+	UFUNCTION(BlueprintCallable)
+	void AddCredits(int32 currency);
+	
 
 	UFUNCTION(BlueprintCallable)
 	void SetPerkPoints(int32 points);
