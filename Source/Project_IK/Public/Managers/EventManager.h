@@ -9,21 +9,61 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #pragma once
 #include "CoreMinimal.h"
-#include "EnumCluster.h"
 #include "Structs/EventData.h"
 #include "UObject/Object.h"
 #include "EventManager.generated.h"
+
 UCLASS(Blueprintable)
 class PROJECT_IK_API UEventManager : public UObject
 {
 	GENERATED_BODY()
 
 public:
+	void InitEventManager(TObjectPtr<class UIKGameInstance> instance, TObjectPtr<class UInventoryManager> inventory_manager);
 	FEventData GetRandomEventData();
-	void GetResult(EEventResult result);
+	void BindEventResult(FEventData data, TObjectPtr<class UEventWidget> widget);
+//
+	UFUNCTION()
+	void Event_1_FirstOptionResult();
 	
+	UFUNCTION()
+	void Event_1_SecondOptionResult();
+
+	UFUNCTION()
+	void Event_1_ThirdOptionResult();
+//
+	UFUNCTION()
+	void Event_2_FirstOptionResult();
 	
+	UFUNCTION()
+	void Event_2_SecondOptionResult();
+
+	UFUNCTION()
+	void Event_2_ThirdOptionResult();
+//
+	UFUNCTION()
+	void Event_3_FirstOptionResult();
+	
+	UFUNCTION()
+	void Event_3_SecondOptionResult();
+
+	UFUNCTION()
+	void Event_3_ThirdOptionResult();
+//
+	UFUNCTION()
+	void Event_4_FirstOptionResult();
+	
+	UFUNCTION()
+	void Event_4_SecondOptionResult();
+
+	UFUNCTION()
+	void Event_4_ThirdOptionResult();
+
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UDataTable> event_table_;
+
+	TWeakObjectPtr<class UGlobalBuffSubsystem> global_buff_subsystem_;
+	TWeakObjectPtr<class UInventoryManager> inventory_manager_;
+
 };

@@ -126,7 +126,8 @@ UEventManager* UIKGameInstance::GetEventManager() const noexcept
 
 void UIKGameInstance::InitEventManager()
 {
-	event_manager_ = NewObject<UEventManager>(this);
+	event_manager_ = NewObject<UEventManager>(this, event_manager_class_);
+	event_manager_->InitEventManager(this, inventory_manager_);
 }
 
 void UIKGameInstance::InitializeItemDataManager()

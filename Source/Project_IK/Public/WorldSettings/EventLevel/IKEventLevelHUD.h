@@ -20,7 +20,9 @@ class PROJECT_IK_API AIKEventLevelHUD : public AHUD
 	
 public:
 	virtual void BeginPlay() override;
-	
+
+	UFUNCTION()
+	virtual void AfterPickOption();
 private:
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<class UEventWidget> event_widget_class_ = nullptr;

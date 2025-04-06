@@ -24,17 +24,29 @@ void UEventWidget::InitEventWidget(FEventData input_data)
 	third_option_->SetText(input_data.option_3);
 }
 
-void UEventWidget::OnPickFirstOption()
+void UEventWidget::ClearButtonBinding()
 {
-	
+	if (button_1_->OnClicked.IsBound())
+	{
+		button_1_->OnClicked.Clear();
+	}
+	if (button_2_->OnClicked.IsBound())
+	{
+		button_2_->OnClicked.Clear();
+	}
+	if (button_3_->OnClicked.IsBound())
+	{
+		button_3_->OnClicked.Clear();
+	}
 }
 
-void UEventWidget::OnPickSecondOption()
+void UEventWidget::NativeConstruct()
 {
-	
+	Super::NativeConstruct();
 }
 
-void UEventWidget::OnPickThirdOption()
+void UEventWidget::NativeDestruct()
 {
-	
+	ClearButtonBinding();
+	Super::NativeDestruct();
 }

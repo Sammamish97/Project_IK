@@ -18,17 +18,16 @@ UCLASS()
 class PROJECT_IK_API UEventWidget : public UUserWidget
 {
 	GENERATED_BODY()
-
+	friend class UEventManager;
+	friend class AIKEventLevelHUD;
+	
 public:
 	void InitEventWidget(FEventData input_data);
+	void ClearButtonBinding();
+	virtual void NativeConstruct() override;
+	virtual void NativeDestruct() override;
 	
-	void OnPickFirstOption();
-	void OnPickSecondOption();
-	void OnPickThirdOption();
-
 private:
-	UPROPERTY(transient)
-	TObjectPtr<class UEventManager> event_manager_cache_;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<class UImage> situation_;

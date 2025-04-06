@@ -18,38 +18,38 @@ void UInventoryManager::InitEquipInventory()
 {
 	equipment_storage_.Init(FInventorySlotData(), max_inventory_size_);
 
-	AddEquipment(EGearType::Weapon, EWeaponType::Pistol);
-	AddEquipment(EGearType::Weapon, EWeaponType::AssaultRifle);
-	AddEquipment(EGearType::PassiveSkill, EPassiveSkillType::FixedDmgReduce);
-	AddEquipment(EGearType::PassiveSkill, EPassiveSkillType::RandDmgIncrease);
-	AddEquipment(EGearType::ActiveSkill, EActiveSkillType::Thunder);
-	AddEquipment(EGearType::Oopart, EOopartType::AttackSpeedBoost);
+	// AddEquipment(EGearType::Weapon, EWeaponType::Pistol);
+	// AddEquipment(EGearType::Weapon, EWeaponType::AssaultRifle);
+	// AddEquipment(EGearType::PassiveSkill, EPassiveSkillType::FixedDmgReduce);
+	// AddEquipment(EGearType::PassiveSkill, EPassiveSkillType::RandDmgIncrease);
+	// AddEquipment(EGearType::ActiveSkill, EActiveSkillType::Thunder);
+	// AddEquipment(EGearType::Oopart, EOopartType::AttackSpeedBoost);
 }
 
 void UInventoryManager::InitRuneInventory()
 {
 	rune_storage_.Init(FRuneSlotData(), max_inventory_size_);
 	
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
-
-
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
-
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 2));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 2));
-
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 3));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 3));
-
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 4));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 4));
-
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 5));
+	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
+	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
+	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
+	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
+	//
+	//
+	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
+	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
+	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
+	//
+	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 2));
+	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 2));
+	//
+	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 3));
+	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 3));
+	//
+	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 4));
+	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 4));
+	//
+	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 5));
 }
 
 void UInventoryManager::InitInventoryManager()
@@ -170,6 +170,18 @@ bool UInventoryManager::AddRune(FRuneData rune_data)
 	return false;
 }
 
+bool UInventoryManager::AddRune(ERuneSetType set_type, int32 slot_idx)
+{
+	int32 index = GetRuneEmptyIndex();
+	if (index!= -1)
+	{
+		rune_storage_[index].rune_data = data_table_manager_cache_->GetRuneData(set_type, slot_idx);
+		rune_storage_[index].is_empty = false;
+		return true;
+	}
+	return false;
+}
+
 void UInventoryManager::RemoveEquipItem(int index)
 {
 	equipment_storage_[index] = FInventorySlotData();
@@ -198,6 +210,11 @@ int32 UInventoryManager::GetMaxInventorySize()
 void UInventoryManager::SetCredits(int32 credits)
 {
 	credits_ = credits;
+}
+
+void UInventoryManager::AddCredits(int32 currency)
+{
+	credits_ += currency;
 }
 
 int32 UInventoryManager::GetCredits() const

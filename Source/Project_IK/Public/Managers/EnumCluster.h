@@ -297,9 +297,11 @@ enum class ERunResultState : uint8
 };
 
 UENUM(BlueprintType)
-enum class EEventResult : uint8
+enum class EEventType : uint8
 {
-	FirstEventResult_1 UMETA(DisplayName = "FirstEventResult_1"),
-	FirstEventResult_2 UMETA(DisplayName = "FirstEventResult_2"),
-	FirstEventResult_3 UMETA(DisplayName = "FirstEventResult_3"),
+	EventType_1 UMETA(DisplayName = "EventType_1"),
+	EventType_2 UMETA(DisplayName = "EventType_2"),
+	EventType_3 UMETA(DisplayName = "EventType_3"),
+	EventType_4 UMETA(DisplayName = "EventType_4"),
+	INVALID UMETA(DisplayName = "INVALID")
 };

@@ -10,7 +10,9 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/EventLevel/IKEventLevelHUD.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/EventManager.h"
+#include "Components/Button.h"
 #include "UI/EventWidget.h"
+#include "Subsystems/LevelTransitionSubsystem.h"
 #include "WorldSettings/IKGameInstance.h"
 
 void AIKEventLevelHUD::BeginPlay()
@@ -25,9 +27,19 @@ void AIKEventLevelHUD::BeginPlay()
 			auto event_manager = ik_instance->GetEventManager();
 			if(ik_instance)
 			{
-				event_widget_->InitEventWidget(event_manager->GetRandomEventData());
+				FEventData cur_event_data = event_manager->GetRandomEventData();
+				event_widget_->InitEventWidget(cur_event_data);
 				event_widget_->AddToViewport();
+				event_widget_->button_1_->OnClicked.AddDynamic(this, &AIKEventLevelHUD::AfterPickOption);
+				event_widget_->button_2_->OnClicked.AddDynamic(this, &AIKEventLevelHUD::AfterPickOption);
+				event_widget_->button_3_->OnClicked.AddDynamic(this, &AIKEventLevelHUD::AfterPickOption);
+				event_manager->BindEventResult(cur_event_data, event_widget_);
 			}
 		}
 	}
+}
+
+void AIKEventLevelHUD::AfterPickOption()
+{
+	GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
 }

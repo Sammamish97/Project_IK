@@ -22,6 +22,9 @@ struct PROJECT_IK_API FEventData : public FTableRowBase
 	TObjectPtr<UTexture2D> situation_;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
+	EEventType event_type_;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
 	FText event_title_;
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
@@ -35,13 +38,4 @@ struct PROJECT_IK_API FEventData : public FTableRowBase
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
 	FText option_3;
-	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
-	EEventResult result_1;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
-	EEventResult result_2;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
-	EEventResult result_3;
 };

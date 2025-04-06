@@ -1,5 +1,0 @@
----,type,thumbnail,attack,attack_speed,crit_rate,has_skill,equipment_skill_class
-TestAttack,"TestAttack","/Script/Engine.Texture2D'/Game/Images/Gears/trinket.trinket'","5","0","0","False","None"
-TestAttackSpeed,"TestAttackSpeed","/Script/Engine.Texture2D'/Game/Images/Gears/trinket.trinket'","0","20","0","False","None"
-TestCrit,"TestCrit","/Script/Engine.Texture2D'/Game/Images/Gears/trinket.trinket'","0","0","20","False","None"
-TestSkillTrinket,"TestSkillTrinket","/Script/Engine.Texture2D'/Game/Images/Gears/trinket.trinket'","0","0","0","True","/Script/CoreUObject.Class'/Script/Project_IK.RandDmgIncreaseSkill'"
