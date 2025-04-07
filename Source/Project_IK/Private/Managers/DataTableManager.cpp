@@ -191,7 +191,7 @@ FItemData UDataTableManager::GetItemDataRandomly(ERarity weight_rarity) const
 
 TArray<FItemData> UDataTableManager::GetUniqueItemDataRandomly(int32 n, ERarity rarity) const
 {
-	return TArray<FItemData>();// random_manager_->GetUniqueItemDataRandomly();
+	return item_data_asset_->GetUniqueItemDataRandomly(n, rarity);
 }
 
 FCharacterData* UDataTableManager::GetCharacterData(EHeroType hero_type) const

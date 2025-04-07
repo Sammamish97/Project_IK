@@ -133,8 +133,7 @@ void UGotchaWidget::Gotcha(int32 pulls)
 		switch (tmp)
 		{
 		case 0:
-			// @@ TODO: Replace it with GetItemDataRandomly
-			data_item = data_table_manager->GetItemData(EItemType::HPPotion);
+			data_item = data_table_manager->GetItemDataRandomly();
 			pulled_items_.Add(data_item);
 			textures.Add(data_item.item_icon_);
 			break;

@@ -29,6 +29,7 @@ class PROJECT_IK_API UItemDataAsset : public UPrimaryDataAsset
 public:
 	FItemData GetItemData(EItemType type);
 	FItemData GetItemDataRandomly(ERarity weight_rarity = ERarity::Common);
+	TArray<FItemData> GetUniqueItemDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Data")

@@ -46,12 +46,7 @@ void UStoreWidget::NativeConstruct()
 		return;
 	}
 
-	// @@ TODO: Replace it with GetUniqueItemDataRandomly
-	//items_ = item_data_manager->GetUniqueItemDataRandomly(STOCK);
-	for (int32 i = 0; i < STOCK; i++)
-	{
-		items_.Add(game_instance->GetDataTableManager()->GetItemData(EItemType::HPPotion));
-	}
+	items_ = game_instance->GetDataTableManager()->GetUniqueItemDataRandomly(STOCK);
 	item_slots_.Empty();
 	
 	credits_ = game_instance->GetInventoryManager()->GetCredits();

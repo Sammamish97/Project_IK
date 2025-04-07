@@ -34,67 +34,6 @@ ERarity URandomDataAssetsManager::GetRarityRandomly(ERarity weight_rarity)
 	return ERarity::Common;
 }
 
-TMap<ERarity, int32> URandomDataAssetsManager::GetRaritiesRandomly(ERarity weight_rarity, int32 n)
-{
-	//TArray<TPair<ERarity, int32>> weights = GetRarityWeights(weight_rarity);
-
-
-	//TMap<ERarity, int32> rarity_count = {
-	//	TPair<ERarity, int32>(ERarity::Common, 0),
-	//	TPair<ERarity, int32>(ERarity::Rare, 0),
-	//	TPair<ERarity, int32>(ERarity::Epic, 0),
-	//	TPair<ERarity, int32>(ERarity::Legendary, 0)
-	//};
-
-	//int32 rarities_size = FMath::Min(n, rarity_B.Num() + rarity_A.Num() + rarity_S.Num());
-
-	//int32 i = 0;
-	//while (i < rarities_size)
-	//{
-	//	constexpr int32 total_weight = 100;
-	//	const int32 random_value = FMath::RandRange(0, total_weight);
-
-	//	// Count up rarity based on the random value
-	//	int32 cumulative_weight = 0;
-	//	for (const auto& pair : weights)
-	//	{
-	//		cumulative_weight += pair.Value;
-	//		if (random_value <= cumulative_weight)
-	//		{
-	//			int32 data_size;
-	//			switch (pair.Key)
-	//			{
-	//			case ERarity::B:
-	//				data_size = rarity_B.Num();
-	//				break;
-
-	//			case ERarity::A:
-	//				data_size = rarity_A.Num();
-	//				break;
-
-	//			case ERarity::S:
-	//				data_size = rarity_S.Num();
-	//				break;
-
-	//			default:
-	//				data_size = 0;
-	//				break;
-	//			}
-	//			// In order to return unique data, increase only when the data size is proper.
-	//			if (rarity_count[pair.Key] < data_size)
-	//			{
-	//				rarity_count[pair.Key] += 1;
-	//				++i;
-	//			}
-	//			break;
-	//		}
-	//	}
-	//}
-
-	//return rarity_count;
-	return TMap<ERarity, int32>();
-}
-
 TArray<TPair<ERarity, int32>> URandomDataAssetsManager::GetRarityWeights(ERarity weight_rarity)
 {
 	// Weights for each rarity

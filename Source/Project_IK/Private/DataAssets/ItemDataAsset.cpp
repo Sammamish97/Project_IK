@@ -23,3 +23,8 @@ FItemData UItemDataAsset::GetItemDataRandomly(ERarity weight_rarity)
 {
 	return URandomDataAssetsManager::GetDataAssetRandomly(weight_rarity, item_data_map_);
 }
+
+TArray<FItemData> UItemDataAsset::GetUniqueItemDataRandomly(int32 n, ERarity weight_rarity)
+{
+	return URandomDataAssetsManager::GetUniqueDataAssetsRandomly(n, weight_rarity, item_data_map_);
+}

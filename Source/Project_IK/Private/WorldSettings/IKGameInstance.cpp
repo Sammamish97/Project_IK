@@ -42,8 +42,7 @@ void UIKGameInstance::Init()
 	InitSpawnData();
 	InitSetBonusManager();
 
-	// @@ TODO: Replace it with GetItemDataRandomly
-	item_inventory_->AddItem(data_table_manager_->GetItemData(EItemType::HPPotion));
+	item_inventory_->AddItem(data_table_manager_->GetItemDataRandomly());
 }
 
 void UIKGameInstance::Shutdown()

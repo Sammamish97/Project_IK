@@ -144,11 +144,13 @@ void UItemPickerUI::InitializeChildWidgets()
 	}
 
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	for (int32 i = 0; i < 3; i++)
+
+	if (!game_instance)
 	{
-		// @@ TODO: Replace it with GetUniqueItemDataRandomly
-		item_candidates_.Add(game_instance->GetDataTableManager()->GetItemData(EItemType::HPPotion));
+		return;
 	}
+
+	item_candidates_ = game_instance->GetDataTableManager()->GetUniqueItemDataRandomly(3);
 
 	for (int32 i = 0; i < 3; i++)
 	{	
