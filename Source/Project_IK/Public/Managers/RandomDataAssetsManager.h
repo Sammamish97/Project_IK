@@ -55,6 +55,7 @@ inline TMapValue URandomDataAssetsManager::GetDataAssetRandomly(ERarity weight_r
 	}
 
 	int32 rand_index = FMath::RandRange(0, asset_candidates.Num() - 1);
+	checkf(!asset_candidates.IsEmpty(), TEXT("No elements that matches weight_rarity!"));
 	return map[asset_candidates[rand_index]];
 }
 
