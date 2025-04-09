@@ -25,23 +25,21 @@ void UItem::InitializeItemUsingData(FItemData item_data)
 
 void UItem::UseItem(UWorld* world, const FTargetResult& TargetResult)
 {
-	switch (item_data_.item_logic_)
+	switch (item_data_.item_type_)
 	{
-	case EItemLogicType::None:
-		break;
-	case EItemLogicType::RestoreHP:
+	case EItemType::HPPotion:
 		RestoreHP(TargetResult.target_actors_);
 		break;
-	case EItemLogicType::LaunchMissile:
+	case EItemType::Missile:
 		LaunchMissile(TargetResult.target_actors_);
 		break;
-	case EItemLogicType::AttackSpeedStimuli:
+	case EItemType::Stimuli:
 		AttackSpeedStimuli(TargetResult.target_actors_);
 		break;
-	case EItemLogicType::SmokeGrenade:
+	case EItemType::SmokeGrenade:
 		SmokeGrenade(world, TargetResult.target_location_, TargetResult.target_parameters_.radius_);
 		break;
-	case EItemLogicType::Flashbang:
+	case EItemType::Flashbang:
 		Flashbang(TargetResult.target_actors_);
 		break;
 	default:

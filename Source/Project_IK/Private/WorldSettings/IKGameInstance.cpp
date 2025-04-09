@@ -11,13 +11,13 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/ItemInventory.h"
 #include "UI/IKMaps.h"
-#include "Managers/ItemDataManager.h"
 #include "Managers/TextureManager.h"
 #include "Managers/InventoryManager.h"
 #include "Managers/SetBonusManager.h"
 #include "Managers/EventManager.h"
 
 #include "Structs/SpawnData.h"
+#include "Structs/ItemData.h"
 
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "Subsystems/PerkTreeSubsystem.h"
@@ -34,7 +34,6 @@ void UIKGameInstance::Init()
 	Super::Init();
 
 	InitializeCharacterDataManager();
-	InitializeItemDataManager();
 	InitializeItemInventory();
 	InitializeMaps();
 	InitializeTextureManager();
@@ -44,7 +43,7 @@ void UIKGameInstance::Init()
 	InitSetBonusManager();
 	InitEventManager();
 
-	item_inventory_->AddItem(item_data_manager_->GetItemData(3));
+	item_inventory_->AddItem(data_table_manager_->GetItemDataRandomly());
 }
 
 void UIKGameInstance::Shutdown()
@@ -77,11 +76,6 @@ void UIKGameInstance::InitSpawnData()
 		result.Add(spawn_data);
 	}
 	GetSubsystem<ULevelTransitionSubsystem>()->UpdateSpawnData(result);
-}
-
-const UItemDataManager* UIKGameInstance::GetItemDataManager() noexcept
-{
-	return item_data_manager_;
 }
 
 UItemInventory* UIKGameInstance::GetItemInventory() const noexcept
@@ -128,11 +122,6 @@ void UIKGameInstance::InitEventManager()
 {
 	event_manager_ = NewObject<UEventManager>(this, event_manager_class_);
 	event_manager_->InitEventManager(this, inventory_manager_);
-}
-
-void UIKGameInstance::InitializeItemDataManager()
-{
-	item_data_manager_ = NewObject<UItemDataManager>();
 }
 
 void UIKGameInstance::InitializeCharacterDataManager()

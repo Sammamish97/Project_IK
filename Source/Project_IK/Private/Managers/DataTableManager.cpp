@@ -17,13 +17,16 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/GlobalBuffDataAsset.h"
 #include "DataAssets/OopartDataAsset.h"
 #include "DataAssets/PassiveSkillDataAsset.h"
+#include "DataAssets/ItemDataAsset.h"
 
-FWeaponData UDataTableManager::GetWeaponData(EWeaponType type)
+#include "Managers/RandomDataAssetsManager.h"
+
+FWeaponData UDataTableManager::GetWeaponData(EWeaponType type) const
 {
 	return weapon_data_asset_->GetWeaponData(type);
 }
 
-FString UDataTableManager::WeaponEnumToString(EWeaponType weapon_type)
+FString UDataTableManager::WeaponEnumToString(EWeaponType weapon_type) const
 {
 	FString string;
 	switch (weapon_type)
@@ -47,7 +50,7 @@ FString UDataTableManager::WeaponEnumToString(EWeaponType weapon_type)
 	return string;
 }
 
-URuneSetDataAsset* UDataTableManager::GetRuneSetData(ERuneSetType type)
+URuneSetDataAsset* UDataTableManager::GetRuneSetData(ERuneSetType type) const
 {
 	if(rune_data_asset_ && type != ERuneSetType::INVALID)
 	{
@@ -56,7 +59,7 @@ URuneSetDataAsset* UDataTableManager::GetRuneSetData(ERuneSetType type)
 	return nullptr;
 }
 
-FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num)
+FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num) const
 {
 	if (slot_num < 0 || slot_num > 5)
 	{
@@ -71,7 +74,7 @@ FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num)
 	return FRuneData();
 }
 
-UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type)
+UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type) const
 {
 	if(auto rune_set_data = GetRuneSetData(type))
 	{
@@ -80,12 +83,12 @@ UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type)
 	return nullptr;
 }
 
-FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type)
+FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type) const
 {
 	return passive_skill_data_asset_->GetPassiveSkillData(type);
 }
 
-FString UDataTableManager::PassiveSkillEnumToString(EPassiveSkillType weapon_type)
+FString UDataTableManager::PassiveSkillEnumToString(EPassiveSkillType weapon_type) const
 {
 	FString string;
 	switch (weapon_type)
@@ -103,12 +106,12 @@ FString UDataTableManager::PassiveSkillEnumToString(EPassiveSkillType weapon_typ
 	return string;
 }
 
-FActiveSkillData UDataTableManager::GetActiveSkillData(EActiveSkillType type)
+FActiveSkillData UDataTableManager::GetActiveSkillData(EActiveSkillType type) const
 {
 	return active_skill_data_asset_->GetActiveSkillData(type);
 }
 
-FString UDataTableManager::ActiveSkillEnumToString(EActiveSkillType active_skill_type)
+FString UDataTableManager::ActiveSkillEnumToString(EActiveSkillType active_skill_type) const
 {
 	FString string;
 	switch (active_skill_type)
@@ -126,12 +129,12 @@ FString UDataTableManager::ActiveSkillEnumToString(EActiveSkillType active_skill
 	return string;
 }
 
-FOopartData UDataTableManager::GetOopartData(EOopartType type)
+FOopartData UDataTableManager::GetOopartData(EOopartType type) const
 {
 	return oopart_data_asset_->GetOopartData(type);
 }
 
-FString UDataTableManager::OopartEnumToString(EOopartType oopart_type)
+FString UDataTableManager::OopartEnumToString(EOopartType oopart_type) const
 {
 	FString string;
 	switch (oopart_type)
@@ -147,6 +150,48 @@ FString UDataTableManager::OopartEnumToString(EOopartType oopart_type)
 		break;
 	}
 	return string;
+}
+
+FItemData UDataTableManager::GetItemData(EItemType type) const
+{
+	return item_data_asset_->GetItemData(type);
+}
+
+FString UDataTableManager::ItemEnumToString(EItemType item_type) const
+{
+	FString string;
+	switch (item_type)
+	{
+	case EItemType::HPPotion:
+		string = TEXT("HPPotion");
+		break;
+	case EItemType::Missile:
+		string = TEXT("Missile");
+		break;
+	case EItemType::Stimuli:
+		string = TEXT("Stimuli");
+		break;
+	case EItemType::SmokeGrenade:
+		string = TEXT("SmokeGrenade");
+		break;
+	case EItemType::Flashbang:
+		string = TEXT("Flashbang");
+		break;
+	default:
+		string = TEXT("Empty");
+		break;
+	}
+	return string;
+}
+
+FItemData UDataTableManager::GetItemDataRandomly(ERarity weight_rarity) const
+{
+	return item_data_asset_->GetItemDataRandomly(weight_rarity);
+}
+
+TArray<FItemData> UDataTableManager::GetUniqueItemDataRandomly(int32 n, ERarity rarity) const
+{
+	return item_data_asset_->GetUniqueItemDataRandomly(n, rarity);
 }
 
 FCharacterData* UDataTableManager::GetCharacterData(EHeroType hero_type) const
@@ -294,7 +339,7 @@ void UDataTableManager::DiminishCharacterData(EHeroType hero_type, ECharacterSta
 	}
 }
 
-FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type)
+FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type) const
 {
 	FGlobalBuffData* data = global_buff_data_asset_->global_buff_data_assets_.Find(buff_type);
 	if (data)

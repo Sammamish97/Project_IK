@@ -16,23 +16,23 @@ See LICENSE file in the project root for full license information.
 USTRUCT(BlueprintType)
 struct PROJECT_IK_API FTargetParameters
 {
-	GENERATED_BODY();
+	GENERATED_BODY()
 	
 	FTargetParameters(ETargetingMode mode = ETargetingMode::None, ETargetType type = ETargetType::All, float range = 0.f, float radius = 0.f)
 		: current_mode_(mode), target_type_(type), range_(range), radius_(radius)
 	{	}
 
-	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Targeting")
 	ETargetingMode current_mode_;
 
-	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Targeting")
 	ETargetType target_type_;
 
 	// How far selectable
-	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Targeting")
 	float range_;
 
 	// A radius of selected area, an arc width for direction mode
-	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Targeting")
 	float radius_;
 };

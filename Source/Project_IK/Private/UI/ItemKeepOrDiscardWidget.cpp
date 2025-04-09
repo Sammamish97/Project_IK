@@ -22,7 +22,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameInstance.h"
-#include "Managers/ItemDataManager.h"
+#include "Structs/ItemData.h"
 #include "Abilities/ItemInventory.h"
 
 bool UItemKeepOrDiscardWidget::Initialize()
@@ -37,7 +37,7 @@ bool UItemKeepOrDiscardWidget::Initialize()
 	return true;
 }
 
-void UItemKeepOrDiscardWidget::UpdateItems(TArray<FItemData*> inventory_items, TArray<FItemData*> candidates_items)
+void UItemKeepOrDiscardWidget::UpdateItems(TArray<FItemData> inventory_items, TArray<FItemData> candidates_items)
 {
 	const int32 inventory_item_capacity = FMath::Min(UItemInventory::INVENTORY_CAPACITY, inventory_items.Num());
 	for (int32 i = 0; i < inventory_item_capacity; i++)
@@ -67,6 +67,10 @@ void UItemKeepOrDiscardWidget::NativeConstruct()
 void UItemKeepOrDiscardWidget::NativeDestruct()
 {
 	OnConfirmed.Clear();
+
+	candidates_item_containers_.Empty();
+	candidates_items_widgets_.Empty();
+	inventory_items_widgets_.Empty();
 }
 
 void UItemKeepOrDiscardWidget::OnConfirmButtonClicked()
@@ -77,14 +81,14 @@ void UItemKeepOrDiscardWidget::OnConfirmButtonClicked()
 	{
 		if (widget->IsChecked())
 		{
-			selected_items.Add(*widget->GetItem());
+			selected_items.Add(widget->GetItem());
 		}
 	}
 	for (UCheckboxButtonWidget* widget : candidates_items_widgets_)
 	{
 		if (widget->IsChecked())
 		{
-			selected_items.Add(*widget->GetItem());
+			selected_items.Add(widget->GetItem());
 		}
 	}
 
@@ -122,7 +126,7 @@ bool UItemKeepOrDiscardWidget::ToggleCheckboxButton(UCheckboxButtonWidget* widge
 {
 	if (widget->IsHovered())
 	{
-		item_text_->SetText(FText::FromString(widget->GetItem()->item_description_));
+		item_text_->SetText(FText::FromString(widget->GetItem().item_description_));
 		if (widget->IsChecked())
 		{
 			if (checked_items_num_ < UItemInventory::INVENTORY_CAPACITY)
@@ -145,7 +149,7 @@ bool UItemKeepOrDiscardWidget::ToggleCheckboxButton(UCheckboxButtonWidget* widge
 	return false;
 }
 
-void UItemKeepOrDiscardWidget::AddItemCheckboxInventory(FItemData* item_data)
+void UItemKeepOrDiscardWidget::AddItemCheckboxInventory(FItemData item_data)
 {
 	UCheckboxButtonWidget* cb = WidgetTree->ConstructWidget<UCheckboxButtonWidget>(check_box_button_class_);
 	if (cb)
@@ -163,7 +167,7 @@ void UItemKeepOrDiscardWidget::AddItemCheckboxInventory(FItemData* item_data)
 	}
 }
 
-void UItemKeepOrDiscardWidget::AddItemCheckboxCandidates(TArray<FItemData*> candidates_items)
+void UItemKeepOrDiscardWidget::AddItemCheckboxCandidates(TArray<FItemData> candidates_items)
 {
 	const int32 horizontal_box_num = (candidates_items.Num() / MAX_ROW) + 1;
 	for (int32 i = 0; i < horizontal_box_num; i++)

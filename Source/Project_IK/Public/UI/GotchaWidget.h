@@ -12,12 +12,12 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Structs/ItemData.h"
 #include "GotchaWidget.generated.h"
 
 class UButton;
 class UTextBlock;
 class UGotchaResultWidget;
-struct FItemData;
 
 /**
  * 
@@ -53,17 +53,17 @@ protected:
 	void StorePulledData();
 
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TWeakObjectPtr<UButton> back_space_;
+	TObjectPtr<UButton> back_space_;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TWeakObjectPtr<UButton> pull_one_button_;
+	TObjectPtr<UButton> pull_one_button_;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TWeakObjectPtr<UButton> pull_ten_button_;
+	TObjectPtr<UButton> pull_ten_button_;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TWeakObjectPtr<UTextBlock> tickets_count_text_;
+	TObjectPtr<UTextBlock> tickets_count_text_;
 	UPROPERTY(VisibleAnywhere)
-	TWeakObjectPtr<UGotchaResultWidget> result_widget_;
+	TObjectPtr<UGotchaResultWidget> result_widget_;
 
-	TArray<FItemData*> pulled_items_;
+	TArray<FItemData> pulled_items_;
 	int32 pulled_credits_;
 
 	int32 tickets_;

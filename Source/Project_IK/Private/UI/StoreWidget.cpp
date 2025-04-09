@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameInstance.h"
-#include "Managers/ItemDataManager.h"
+#include "Structs/ItemData.h"
 #include "Abilities/ItemInventory.h"
 #include "Managers/InventoryManager.h"
 
@@ -45,14 +45,8 @@ void UStoreWidget::NativeConstruct()
 	{
 		return;
 	}
-	const UItemDataManager* item_data_manager = game_instance->GetItemDataManager();
 
-	if (!item_data_manager)
-	{
-		return;
-	}
-
-	items_ = item_data_manager->GetUniqueItemDataRandomly(STOCK);
+	items_ = game_instance->GetDataTableManager()->GetUniqueItemDataRandomly(STOCK);
 	item_slots_.Empty();
 	
 	credits_ = game_instance->GetInventoryManager()->GetCredits();
@@ -62,8 +56,8 @@ void UStoreWidget::NativeConstruct()
 		for (int32 i = 0; i < STOCK; i++)
 		{
 			UStoreSlot* slot = WidgetTree->ConstructWidget<UStoreSlot>(store_widget_class_);
-			slot->SetTexture(items_[i]->item_icon_);
-			slot->SetPrice(GetPriceByRarity(items_[i]->rarity_));
+			slot->SetTexture(items_[i].item_icon_);
+			slot->SetPrice(GetPriceByRarity(items_[i].rarity_));
 			slot->OnStoreSlotClickedDelegate.AddDynamic(this, &UStoreWidget::OnStoreSlotClicked);
 			UHorizontalBoxSlot* box_slot = item_container_->AddChildToHorizontalBox(slot);
 			if (box_slot)
@@ -151,13 +145,13 @@ int32 UStoreWidget::GetPriceByRarity(ERarity rarity)
 {
 	switch (rarity)
 	{
-	case ERarity::S:
+	case ERarity::Rare:
 		return 100;
 		break;
-	case ERarity::A:
+	case ERarity::Epic:
 		return 75;
 		break;
-	case ERarity::B:
+	case ERarity::Legendary:
 	default:
 		return 50;
 		break;
@@ -174,7 +168,7 @@ void UStoreWidget::GoToNextLevel()
 	credit_widget_->UpdateCreditText();
 	
 
-	TArray<FItemData*> selected_items;
+	TArray<FItemData> selected_items;
 	for (int32 i = 0; i < STOCK; i++)
 	{
 		if (item_slots_[i]->IsChecked())

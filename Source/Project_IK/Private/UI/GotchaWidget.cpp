@@ -14,7 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 
 #include "WorldSettings/IKGameInstance.h"
-#include "Managers/ItemDataManager.h"
+#include "Structs/ItemData.h"
+#include "Managers/DataTableManager.h"
 #include "Managers/TextureManager.h"
 #include "Abilities/ItemInventory.h"
 #include "Managers/InventoryManager.h"
@@ -28,15 +29,15 @@ void UGotchaWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (back_space_.IsValid())
+	if (back_space_)
 	{
 		back_space_->OnClicked.AddDynamic(this, &UGotchaWidget::BackSpace);
 	}
-	if (pull_one_button_.IsValid())
+	if (pull_one_button_)
 	{
 		pull_one_button_->OnClicked.AddDynamic(this, &UGotchaWidget::PullOne);
 	}
-	if (pull_ten_button_.IsValid())
+	if (pull_ten_button_)
 	{
 		pull_ten_button_->OnClicked.AddDynamic(this, &UGotchaWidget::PullTen);
 	}
@@ -57,15 +58,15 @@ void UGotchaWidget::NativeConstruct()
 
 void UGotchaWidget::NativeDestruct()
 {
-	if (back_space_.IsValid())
+	if (back_space_)
 	{
 		back_space_->OnClicked.Clear();
 	}
-	if (pull_one_button_.IsValid())
+	if (pull_one_button_)
 	{
 		pull_one_button_->OnClicked.Clear();
 	}
-	if (pull_ten_button_.IsValid())
+	if (pull_ten_button_)
 	{
 		pull_ten_button_->OnClicked.Clear();
 	}
@@ -120,7 +121,7 @@ void UGotchaWidget::Gotcha(int32 pulls)
 	ClearContainers();
 
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	const UItemDataManager* item_data_manager = game_instance->GetItemDataManager();
+	const UDataTableManager* data_table_manager = game_instance->GetDataTableManager();
 	const UTextureManager* texture_manager = game_instance->GetTextureManager();
 	
 	TArray<UTexture2D*> textures;
@@ -128,13 +129,13 @@ void UGotchaWidget::Gotcha(int32 pulls)
 	for (int32 i = 0; i < pulls; i++)
 	{
 		int32 tmp = FMath::RandRange(0, 2);
-		FItemData* data_item;
+		FItemData data_item = FItemData();
 		switch (tmp)
 		{
 		case 0:
-			data_item = item_data_manager->GetItemDataRandomly();
+			data_item = data_table_manager->GetItemDataRandomly();
 			pulled_items_.Add(data_item);
-			textures.Add(data_item->item_icon_);
+			textures.Add(data_item.item_icon_);
 			break;
 		default:
 			textures.Add(texture_manager->GetTexture("credits"));

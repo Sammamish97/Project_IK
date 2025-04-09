@@ -31,13 +31,13 @@ class PROJECT_IK_API UItemInventory : public UObject
 public:
 	static constexpr int32 INVENTORY_CAPACITY = 3;
 
-	void AddItem(TWeakObjectPtr<UItem> item, TFunction<void()> OnConfirm = []() {});
-	void AddItem(FItemData* item_data, TFunction<void()>OnConfirm = []() {});
-	void AddItems(TArray<FItemData*> item_data, TFunction<void()>OnConfirm = []() {});
+	void AddItem(UItem* item, TFunction<void()> OnConfirm = []() {});
+	void AddItem(FItemData item_data, TFunction<void()>OnConfirm = []() {});
+	void AddItems(TArray<FItemData> item_data, TFunction<void()>OnConfirm = []() {});
 
 	void UseItem(int32 item_idx, FTargetResult target_result);
 
-	TWeakObjectPtr<UItem> GetItem(int32 index) const;
+	UItem* GetItem(int32 index) const;
 
 	UFUNCTION(BlueprintCallable)
 	void RemoveItem(int32 index);
@@ -51,9 +51,9 @@ public:
 	TSubclassOf<UItemKeepOrDiscardWidget> item_keep_discard_class_;
 	
 protected:
-	void CallKeepDiscardUI(TWeakObjectPtr<UItem> item_added, TFunction<void()>OnConfirm);
-	void CallKeepDiscardUI(FItemData* item_added, TFunction<void()>OnConfirm);
-	void CallKeepDiscardUI(TArray<FItemData*> item_added, TFunction<void()>OnConfirm);
+	void CallKeepDiscardUI(UItem* item_added, TFunction<void()>OnConfirm);
+	void CallKeepDiscardUI(FItemData item_added, TFunction<void()>OnConfirm);
+	void CallKeepDiscardUI(TArray<FItemData> item_added, TFunction<void()>OnConfirm);
 
 	UFUNCTION()
 	void OnKeepDiscardFinished(TArray<FItemData> item_data);
@@ -62,9 +62,9 @@ protected:
 
 	TFunction<void()> OnConfirm_;
 
-	UPROPERTY(VisibleAnywhere)
-	TArray<UItem*> item_inventory_;
+	UPROPERTY()
+	TArray<TObjectPtr<UItem>> item_inventory_;
 
 	UPROPERTY()
-	UItemKeepOrDiscardWidget* item_keep_discard_;
+	TObjectPtr<UItemKeepOrDiscardWidget> item_keep_discard_;
 };
