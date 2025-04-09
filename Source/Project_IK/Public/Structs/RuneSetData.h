@@ -12,14 +12,13 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Structs/RuneData.h"
-#include "RuneSetDataAsset.generated.h"
+#include "RuneSetData.generated.h"
 
-UCLASS()
-class PROJECT_IK_API URuneSetDataAsset : public UPrimaryDataAsset
+USTRUCT(BlueprintType)
+struct PROJECT_IK_API FRuneSetData
 {
 	GENERATED_BODY()
 
-public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneSet")
 	TObjectPtr<UTexture2D> thumbnail;
 	

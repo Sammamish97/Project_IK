@@ -12,15 +12,17 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Managers/EnumCluster.h"
-#include "RuneSetDataAsset.h"
+#include "Structs/RuneSetData.h"
 #include "RuneDataAsset.generated.h"
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API URuneDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
-	
 public:
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-	TMap<ERuneSetType, TObjectPtr<URuneSetDataAsset>> rune_data_map_;
+	FRuneSetData GetRuneSetData(ERuneSetType type);
+
+private:
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, meta = (AllowPrivateAccess = true))
+	TMap<ERuneSetType, FRuneSetData> rune_data_map_;
 };

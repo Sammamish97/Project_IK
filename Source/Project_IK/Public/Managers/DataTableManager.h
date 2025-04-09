@@ -24,8 +24,9 @@ See LICENSE file in the project root for full license information.
 
 class UGlobalBuffDataAsset;
 enum class EGlobalBuffType : uint8;
-struct FGlobalBuffData;
 class UItemDataAsset;
+struct FGlobalBuffData;
+struct FRuneSetData;
 struct FItemData;
 class URandomDataAssetsManager;
 struct FWrapperEquipmentData;
@@ -41,7 +42,7 @@ public:
 	FWeaponData GetWeaponDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	TArray<FWeaponData> GetUniqueWeaponDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
-	class URuneSetDataAsset* GetRuneSetData(ERuneSetType type) const;
+	FRuneSetData GetRuneSetData(ERuneSetType type) const;
 	FRuneData GetRuneData(ERuneSetType type, int slot_num) const;
 	UTexture2D* GetRuneSetThumbnail(ERuneSetType type) const;
 	
