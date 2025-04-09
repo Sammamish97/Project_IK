@@ -10,8 +10,20 @@ See LICENSE file in the project root for full license information.
 
 #include "DataAssets/WeaponDataAsset.h"
 
+#include "Managers/RandomDataAssetsManager.h"
+
 FWeaponData UWeaponDataAsset::GetWeaponData(EWeaponType type)
 {
 	checkf(weapon_data_map_.Find(type), TEXT("Can't find Weapon Type in the Weapon data map!"));
 	return weapon_data_map_[type];
+}
+
+FWeaponData UWeaponDataAsset::GetWeaponDataRandomly(ERarity weight_rarity)
+{
+	return URandomDataAssetsManager::GetDataAssetRandomly(weight_rarity, weapon_data_map_);
+}
+
+TArray<FWeaponData> UWeaponDataAsset::GetUniqueWeaponDataRandomly(int32 n, ERarity weight_rarity)
+{
+	return URandomDataAssetsManager::GetUniqueDataAssetsRandomly(n, weight_rarity, weapon_data_map_);
 }

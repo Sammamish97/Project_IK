@@ -28,6 +28,7 @@ struct FGlobalBuffData;
 class UItemDataAsset;
 struct FItemData;
 class URandomDataAssetsManager;
+struct FWrapperEquipmentData;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UDataTableManager : public UObject
@@ -37,6 +38,8 @@ class PROJECT_IK_API UDataTableManager : public UObject
 public:
 	FWeaponData GetWeaponData(EWeaponType type) const;
 	FString WeaponEnumToString(EWeaponType weapon_type) const;
+	FWeaponData GetWeaponDataRandomly(ERarity weight_rarity = ERarity::Common) const;
+	TArray<FWeaponData> GetUniqueWeaponDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
 	class URuneSetDataAsset* GetRuneSetData(ERuneSetType type) const;
 	FRuneData GetRuneData(ERuneSetType type, int slot_num) const;
@@ -44,12 +47,18 @@ public:
 	
 	FPassiveSkillData GetPassiveSkillData(EPassiveSkillType type) const;
 	FString PassiveSkillEnumToString(EPassiveSkillType weapon_type) const;
+	FPassiveSkillData GetPassiveSkillDataRandomly(ERarity weight_rarity = ERarity::Common) const;
+	TArray<FPassiveSkillData> GetUniquePassiveSkillDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
 	FActiveSkillData GetActiveSkillData(EActiveSkillType type) const;
 	FString ActiveSkillEnumToString(EActiveSkillType weapon_type) const;
+	FActiveSkillData GetActiveSkillDataRandomly(ERarity weight_rarity = ERarity::Common) const;
+	TArray<FActiveSkillData> GetUniqueActiveSkillDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
 	FOopartData GetOopartData(EOopartType type) const;
 	FString OopartEnumToString(EOopartType oopart_type) const;
+	FOopartData GetOopartDataRandomly(ERarity weight_rarity = ERarity::Common) const;
+	TArray<FOopartData> GetUniqueOopartDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
 	FItemData GetItemData(EItemType type) const;
 	FString ItemEnumToString(EItemType item_type) const;
@@ -63,6 +72,9 @@ public:
 	void DiminishCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float decrease_amount);
 
 	FGlobalBuffData GetGlobalBuffData(EGlobalBuffType buff_type) const;
+
+	FWrapperEquipmentData GetEquipmentDataRandomly(ERarity weight_rarity = ERarity::Common) const;
+	FWrapperEquipmentData GetUniqueEquipmentDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))

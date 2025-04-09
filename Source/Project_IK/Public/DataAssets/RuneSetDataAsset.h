@@ -25,4 +25,7 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "RuneSet", EditFixedSize)
 	TArray<FRuneData> rune_set_data_ = { FRuneData(0, false), FRuneData(1, false), FRuneData(2, false), FRuneData(3, false), FRuneData(4, false), FRuneData(5, false) };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RuneSet")
+	ERarity rarity_;
 };

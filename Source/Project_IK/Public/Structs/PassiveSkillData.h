@@ -15,9 +15,11 @@ See LICENSE file in the project root for full license information.
 #include "PassiveSkillData.generated.h"
 
 USTRUCT(BlueprintType)
-struct PROJECT_IK_API FPassiveSkillData : public FTableRowBase
+struct PROJECT_IK_API FPassiveSkillData
 {
 	GENERATED_BODY();
+
+public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
 	EPassiveSkillType type = EPassiveSkillType::INVALID;
 
@@ -29,4 +31,7 @@ struct PROJECT_IK_API FPassiveSkillData : public FTableRowBase
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
 	FString flavor_text;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "OopartData")
+	ERarity rarity_;
 };

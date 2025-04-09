@@ -19,6 +19,8 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/PassiveSkillDataAsset.h"
 #include "DataAssets/ItemDataAsset.h"
 
+#include "Structs/WrapperEquipmentData.h"
+
 #include "Managers/RandomDataAssetsManager.h"
 
 FWeaponData UDataTableManager::GetWeaponData(EWeaponType type) const
@@ -48,6 +50,16 @@ FString UDataTableManager::WeaponEnumToString(EWeaponType weapon_type) const
 		break;
 	}
 	return string;
+}
+
+FWeaponData UDataTableManager::GetWeaponDataRandomly(ERarity weight_rarity) const
+{
+	return weapon_data_asset_->GetWeaponDataRandomly(weight_rarity);
+}
+
+TArray<FWeaponData> UDataTableManager::GetUniqueWeaponDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	return weapon_data_asset_->GetUniqueWeaponDataRandomly(n, weight_rarity);
 }
 
 URuneSetDataAsset* UDataTableManager::GetRuneSetData(ERuneSetType type) const
@@ -106,6 +118,16 @@ FString UDataTableManager::PassiveSkillEnumToString(EPassiveSkillType weapon_typ
 	return string;
 }
 
+FPassiveSkillData UDataTableManager::GetPassiveSkillDataRandomly(ERarity weight_rarity) const
+{
+	return passive_skill_data_asset_->GetPassiveSkillDataRandomly(weight_rarity);
+}
+
+TArray<FPassiveSkillData> UDataTableManager::GetUniquePassiveSkillDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	return passive_skill_data_asset_->GetUniquePassiveSkillDataRandomly(n, weight_rarity);
+}
+
 FActiveSkillData UDataTableManager::GetActiveSkillData(EActiveSkillType type) const
 {
 	return active_skill_data_asset_->GetActiveSkillData(type);
@@ -129,6 +151,16 @@ FString UDataTableManager::ActiveSkillEnumToString(EActiveSkillType active_skill
 	return string;
 }
 
+FActiveSkillData UDataTableManager::GetActiveSkillDataRandomly(ERarity weight_rarity) const
+{
+	return active_skill_data_asset_->GetActiveSkillDataRandomly(weight_rarity);
+}
+
+TArray<FActiveSkillData> UDataTableManager::GetUniqueActiveSkillDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	return active_skill_data_asset_->GetUniqueActiveSkillDataRandomly(n, weight_rarity);
+}
+
 FOopartData UDataTableManager::GetOopartData(EOopartType type) const
 {
 	return oopart_data_asset_->GetOopartData(type);
@@ -150,6 +182,16 @@ FString UDataTableManager::OopartEnumToString(EOopartType oopart_type) const
 		break;
 	}
 	return string;
+}
+
+FOopartData UDataTableManager::GetOopartDataRandomly(ERarity weight_rarity) const
+{
+	return oopart_data_asset_->GetOopartDataRandomly(weight_rarity);
+}
+
+TArray<FOopartData> UDataTableManager::GetUniqueOopartDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	return oopart_data_asset_->GetUniqueOopartDataRandomly(n, weight_rarity);
 }
 
 FItemData UDataTableManager::GetItemData(EItemType type) const
@@ -351,4 +393,14 @@ FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type) 
 		UE_LOG(LogTemp, Warning, TEXT("Retreieved invalid global buff data"));
 		return FGlobalBuffData();
 	}
+}
+
+FWrapperEquipmentData UDataTableManager::GetEquipmentDataRandomly(ERarity weight_rarity) const
+{
+	return FWrapperEquipmentData();
+}
+
+FWrapperEquipmentData UDataTableManager::GetUniqueEquipmentDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	return FWrapperEquipmentData();
 }
