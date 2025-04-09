@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Structs/RuneData.h"
+#include "Structs/RuneSlotData.h"
 #include "RuneSlotWidget.generated.h"
 
 UCLASS()
@@ -30,12 +31,19 @@ private:
 public:
 	void InitRuneStorageData(TObjectPtr<class URuneStorageWidget> rune_storage_ptr);
 	void InitRuneBoardData(TObjectPtr<class URuneBoardWidget> rune_board_ptr);
+	
 	void ClearData();
+	
 	bool IsBoardSlot();
+	bool IsEmptySlot();
+	
 	void SetSelectedImageVisibility(bool value);
 	void SetImageTexture();
 	void SetIsBoardSlot(bool is_board_slot);
 	void SetRuneData(FRuneData data);
+	void SetRuneSlotIndex(int32 index);
+	
+	FRuneSlotData GetRuneSlotData();
 	FRuneData GetRuneData();
 
 	UFUNCTION()
@@ -54,15 +62,13 @@ private:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TSubclassOf<UUserWidget> dragdrop_image_class_;
 	
-	UPROPERTY(Transient)
-	FRuneData rune_data_ = FRuneData();
-
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true))
 	TObjectPtr<class URuneStorageWidget> rune_storage_widget_cache_;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true))
 	TObjectPtr<class URuneBoardWidget> rune_board_widget_cache_;
-	
-	UPROPERTY(Transient)
+
+	FRuneSlotData rune_slot_data_;
 	bool is_board_slot_ = false;
+	int32 rune_slot_idx_ = -1;
 };

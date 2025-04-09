@@ -66,5 +66,5 @@ void UOopartMechanics::EquipOopart(EOopartType type)
 
 void UOopartMechanics::UnEquipOopart()
 {
-	equipped_oopart_data_ = data_table_cache_->GetOopartData(EOopartType::Empty);
+	equipped_oopart_data_ = data_table_cache_->GetOopartData(EOopartType::INVALID);
 }

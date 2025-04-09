@@ -27,7 +27,7 @@ public:
 	void UpdateRuneBoard();
 	void ClearSetBonusEffect();
 	void TurnOnSetBonusEffect();
-	void ClearSelectedBorder();
+	void SetSelectedBorder(int32 rune_idx);
 	void SetCurHeroIdx(int32 hero_idx);
 	
 private:

@@ -85,7 +85,7 @@ UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type) const
 
 FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type) const
 {
-	return passive_skill_data_asset_->GetPassiveKillData(type);
+	return passive_skill_data_asset_->GetPassiveSkillData(type);
 }
 
 FString UDataTableManager::PassiveSkillEnumToString(EPassiveSkillType weapon_type) const

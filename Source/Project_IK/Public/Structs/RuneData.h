@@ -19,7 +19,7 @@ struct PROJECT_IK_API FRuneData
 {
 	GENERATED_BODY();
 	FRuneData(int32 init_slot = 0, bool is_empty = true, ERuneSetType init_set_type = ERuneSetType::INVALID, FStatusData init_status = FStatusData())
-	: set_type(init_set_type),rune_status(init_status), slot_number(init_slot), is_empty(is_empty) {};
+	: set_type(init_set_type),rune_status(init_status), slot_number(init_slot){};
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
 	ERuneSetType set_type = ERuneSetType::INVALID;
@@ -30,7 +30,4 @@ struct PROJECT_IK_API FRuneData
 	//0, 1, 2, 3, 4, 5번 슬롯을 뜻함.
 	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "RuneData")
 	int32 slot_number = 0;
-
-	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "RuneData")
-	bool is_empty = true;
 };

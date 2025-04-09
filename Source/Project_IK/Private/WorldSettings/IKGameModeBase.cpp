@@ -69,7 +69,7 @@ void AIKGameModeBase::SpawnHeroes()
 		hero->SpawnDefaultController();
 		hero->GetComponentByClass<UCharacterStatComponent>()->SetCharacterData(save_data_array[0].character_data_);
 		hero->GetComponentByClass<UCharacterStatComponent>()->SetCharacterID(IntToHeroType(i));
-		hero->Initialize();
+		hero->Initialize(save_data_array[i]);
 		heroes_.Add(hero);
 	}
 }

@@ -182,11 +182,11 @@ enum class EGearType : uint8
 UENUM(BlueprintType)
 enum class EInventorySlotType : uint8
 {
-	Weapon UMETA(DisplayName = "Weapon"),
-	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
-	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
-	Oopart UMETA(DisplayName = "Oopart"),
-	Inventory UMETA(DisplayName = "Inventory"),
+	WeaponBoardSlot UMETA(DisplayName = "WeaponBoardSlot"),
+	ActiveSkillBoardSlot UMETA(DisplayName = "ActiveSkillBoardSlot"),
+	PassiveSkillBoardSlot UMETA(DisplayName = "PassiveSkillBoardSlot"),
+	OopartBoardSlot UMETA(DisplayName = "OopartBoardSlot"),
+	InventorySlot UMETA(DisplayName = "InventorySlot"),
 	INVALID UMETA(DisplayName = "INVALID")
 };
 
@@ -217,7 +217,7 @@ enum class EWeaponType : uint8
 	AssaultRifle UMETA(DisplayName = "AssaultRifle"),
 	ShotGun UMETA(DisplayName = "ShotGun"),
 	SniperRifle UMETA(DisplayName = "SniperRifle"),
-	Empty UMETA(DisplayName = "Empty")
+	INVALID UMETA(DisplayName = "INVALID")
 };
 
 UENUM(BlueprintType)
@@ -225,7 +225,7 @@ enum class EPassiveSkillType : uint8
 {
 	FixedDmgReduce UMETA(DisplayName = "FixedDmgReduce"),
 	RandDmgIncrease UMETA(DisplayName = "RandDmgIncrease"),
-	Empty UMETA(DisplayName = "Empty")
+	INVALID UMETA(DisplayName = "INVALID")
 };
 
 //TODO: 총알에 치유감소/도트딜/도탄 같은 효과를 실을 때 사용한다.
@@ -235,7 +235,7 @@ enum class EAttackEffect : uint8
 	Test1 UMETA(DisplayName = "Test1"),
 	Test2 UMETA(DisplayName = "Test2"),
 	Test3 UMETA(DisplayName = "Test3"),
-	Empty UMETA(DisplayName = "Empty")
+	INVALID UMETA(DisplayName = "INVALID")
 };
 
 UENUM(BlueprintType)
@@ -243,7 +243,7 @@ enum class EOopartType : uint8
 {
 	HealingWaves UMETA(DisplayName = "HealingWaves"),
 	AttackSpeedBoost UMETA(DisplayName = "AttackSpeedBoost"),
-	Empty UMETA(DisplayName = "Empty")
+	INVALID UMETA(DisplayName = "INVALID")
 };
 
 UENUM(BlueprintType)
@@ -251,7 +251,7 @@ enum class EActiveSkillType : uint8
 {
 	Thunder UMETA(DisplayName = "Thunder"),
 	RapidFire UMETA(DisplayName = "RapidFire"),
-	Empty UMETA(DisplayName = "Empty")
+	INVALID UMETA(DisplayName = "INVALID")
 };
 
 UENUM(BlueprintType)
@@ -293,4 +293,14 @@ enum class ERunResultState : uint8
 {
 	ShowingRunRewardUI UMETA(DisplayName = "ShowingRunRewardUI"),
 	ShowingToMainMenuUI UMETA(DisplayName = "ShowingToMainMenuUI"),
+};
+
+UENUM(BlueprintType)
+enum class EEventType : uint8
+{
+	EventType_1 UMETA(DisplayName = "EventType_1"),
+	EventType_2 UMETA(DisplayName = "EventType_2"),
+	EventType_3 UMETA(DisplayName = "EventType_3"),
+	EventType_4 UMETA(DisplayName = "EventType_4"),
+	INVALID UMETA(DisplayName = "INVALID")
 };

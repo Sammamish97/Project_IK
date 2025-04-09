@@ -49,20 +49,6 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle);
-	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::FixedDmgReduce);
-	oopart_mechanics_->EquipOopart(EOopartType::AttackSpeedBoost);
-	skill_container_->EquipActiveSkill(EActiveSkillType::Thunder);
-	
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 0);
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 1);
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 2);
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 3);
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 4);
-	rune_mechanics_->EquipRune(ERuneSetType::Chariot, 5);
-	
-	rune_mechanics_->ApplySetBonuses();
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -70,9 +56,39 @@ void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
-void AHeroBase::Initialize()
+void AHeroBase::Initialize(FSpawnData spawn_data)
 {
+	if (spawn_data.weapon_data_.IsSet())
+	{
+		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue().type);
+	}
+	else
+	{
+		weapon_mechanics_->EquipWeapon(EWeaponType::Pistol);
+	}
+	if (spawn_data.passive_skill_data_.IsSet())
+	{
+		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_.GetValue().type);
+	}
+	if (spawn_data.active_skill_data_.IsSet())
+	{
+		skill_container_->EquipActiveSkill(spawn_data.active_skill_data_.GetValue().type);
+	}
+	if (spawn_data.oopart_data_.IsSet())
+	{
+		oopart_mechanics_->EquipOopart(spawn_data.oopart_data_.GetValue().type);
+	}
 
+	TArray rune_data_array = {spawn_data.rune_data_1, spawn_data.rune_data_2, spawn_data.rune_data_3, spawn_data.rune_data_4, spawn_data.rune_data_5, spawn_data.rune_data_6};
+
+	for (int32 i = 0; i < rune_data_array.Num(); i++)
+	{
+		if (rune_data_array[i].IsSet())
+		{
+			rune_mechanics_->EquipRune(rune_data_array[i].GetValue().set_type, i);
+		}
+	}
+	rune_mechanics_->ApplySetBonuses();
 }
 
 void AHeroBase::Die()

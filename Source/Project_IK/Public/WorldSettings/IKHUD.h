@@ -44,6 +44,9 @@ public:
 	void MuteItems();
 	UFUNCTION()
 	void UnmuteItems();
+
+	UFUNCTION(BlueprintCallable)
+	void ToggleInventory();
 	
 protected:
 	// Reference to the Widget Blueprint class to create
@@ -62,4 +65,11 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UCombatLevelResultManager> combat_level_result_manager_;
+
+	
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<class UInventoryWidget> inventory_widget_class_;
+	
+	UPROPERTY()
+	TObjectPtr<UInventoryWidget> inventory_widget_;
 };

@@ -1,6 +1,0 @@
----,is_periodic_,dp_class_,dp_type_,dp_icon_,dp_description_, rarity_
-Empty,"False","None","Empty","None","",None
-FireRateBurst,"True","/Script/CoreUObject.Class'/Script/Project_IK.DPI_FireRateBurst'","FireRateBurst","/Game/Images/DP/FireRateBurst.FireRateBurst","",B
-FireRange,"False","/Script/CoreUObject.Class'/Script/Project_IK.DPI_FireRange'","FireRange","/Game/Images/DP/FireRangeIncrease.FireRangeIncrease","",B
-HealingWaves,"True","/Script/Engine.BlueprintGeneratedClass'/Game/__BluePrints/BP_DPI_HealingWaves.BP_DPI_HealingWaves_C'","HealingWaves","/Game/Images/DP/DPI_healing_waves.DPI_healing_waves","Pulses waves of healing continuously",A
-LaserBeam,"False","/Script/Engine.BlueprintGeneratedClass'/Game/__BluePrints/BP_DPI_LaserBeam.BP_DPI_LaserBeam_C'","LaserBeam","/Game/Images/DP/LaserBeam.LaserBeam","Fire a laser to the nearest enemy and slow it.",S

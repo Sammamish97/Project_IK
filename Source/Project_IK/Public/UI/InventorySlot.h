@@ -31,21 +31,17 @@ public:
 	
 private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	class UButton* button_;
+	TObjectPtr<class UButton> button_;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	class UImage* image_;
-
+	TObjectPtr<class UImage> image_;
+	
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TSubclassOf<UUserWidget> dragdrop_image_class_;
 	
 public:
-	UPROPERTY()
+	//SlotType은 현재 slot이 어떤 장비를 위한 slot인지 판별하기 위한 Enum이다.
+	EInventorySlotType slot_type_= EInventorySlotType::INVALID;
 	FInventorySlotData slot_data_;
-	
-	UPROPERTY()
-	EInventorySlotType slot_type_= EInventorySlotType::Inventory;
-
-	UPROPERTY()
 	int grid_idx_;
 };
