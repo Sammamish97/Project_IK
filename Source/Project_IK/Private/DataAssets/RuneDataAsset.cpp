@@ -9,3 +9,9 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "DataAssets/RuneDataAsset.h"
+
+FRuneSetData URuneDataAsset::GetRuneSetData(ERuneSetType type)
+{
+	checkf(rune_data_map_.Find(type), TEXT("Can't find Rune Set Type in the Rune data map!"));
+	return rune_data_map_[type];
+}

@@ -9,10 +9,10 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Managers/DataTableManager.h"
+#include "Structs/RuneSetData.h"
 
 #include "DataAssets/ActiveSkillDataAsset.h"
 #include "DataAssets/RuneDataAsset.h"
-#include "DataAssets/RuneSetDataAsset.h"
 #include "DataAssets/WeaponDataAsset.h"
 #include "DataAssets/GlobalBuffDataAsset.h"
 #include "DataAssets/OopartDataAsset.h"
@@ -50,13 +50,9 @@ FString UDataTableManager::WeaponEnumToString(EWeaponType weapon_type) const
 	return string;
 }
 
-URuneSetDataAsset* UDataTableManager::GetRuneSetData(ERuneSetType type) const
+FRuneSetData UDataTableManager::GetRuneSetData(ERuneSetType type) const
 {
-	if(rune_data_asset_ && type != ERuneSetType::INVALID)
-	{
-		return rune_data_asset_->rune_data_map_[type];
-	}
-	return nullptr;
+	return rune_data_asset_->GetRuneSetData(type);
 }
 
 FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num) const
@@ -68,7 +64,7 @@ FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num) const
 	}
 	if(rune_data_asset_)
 	{
-		return rune_data_asset_->rune_data_map_[type]->rune_set_data_[slot_num];
+		return rune_data_asset_->GetRuneSetData(type).rune_set_data_[slot_num];
 	}
 	UE_LOG(LogTemp, Error, TEXT("rune_data_asset_ is invalid!"));
 	return FRuneData();
@@ -76,11 +72,7 @@ FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num) const
 
 UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type) const
 {
-	if(auto rune_set_data = GetRuneSetData(type))
-	{
-		return rune_set_data->thumbnail;
-	}
-	return nullptr;
+	return GetRuneSetData(type).thumbnail;
 }
 
 FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type) const
