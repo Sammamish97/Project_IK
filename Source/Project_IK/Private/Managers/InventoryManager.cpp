@@ -18,7 +18,13 @@ void UInventoryManager::InitEquipInventory()
 {
 	equipment_storage_.Init(FInventorySlotData(), max_inventory_size_);
 
-	// AddEquipment(EGearType::Weapon, EWeaponType::Pistol);
+	AddEquipment(EGearType::Weapon, EWeaponType::ShotGun);
+	AddEquipment(EGearType::Weapon, EWeaponType::ShotGun);
+
+	AddEquipment(EGearType::Weapon, EWeaponType::ShotGun);
+
+	AddEquipment(EGearType::Weapon, EWeaponType::ShotGun);
+
 	// AddEquipment(EGearType::Weapon, EWeaponType::AssaultRifle);
 	// AddEquipment(EGearType::PassiveSkill, EPassiveSkillType::FixedDmgReduce);
 	// AddEquipment(EGearType::PassiveSkill, EPassiveSkillType::RandDmgIncrease);

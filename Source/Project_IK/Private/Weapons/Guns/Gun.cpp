@@ -57,21 +57,53 @@ void AGun::FireWeapon(FVector target_pos, FDamageData damage)
 		// 2. Gameplay Mechanics
 		// Spawn in obstructed areas might break immersion or functionality.
 		// Such as enemies spawning inside walls.
-
+		
+		float TEMP_DISTANCE_TO_SPHERE = 100;
+		float TEMP_SPHERE_RADIUS = 10;
 		auto muzzle_location = weapon_mesh_->GetSocketTransform(muzzle_socket_name_).GetLocation();
-		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, target_pos);
-		FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
-		FTransform spawn_transform(rotation, muzzle_location, scale);
-		ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(spawn_transform));
-		if (bullet)
+		FVector to_target_normalized = (target_pos - muzzle_location).GetSafeNormal();
+		FVector sphere_center = muzzle_location + to_target_normalized * TEMP_DISTANCE_TO_SPHERE;
+		
+		if (weapon_data_.bullet_type == EBulletType::Buckshot)
 		{
-			bullet->SetShooter(gun_owner_);
-			bullet->SetDamageData(damage);
-			cur_magazine_--;
+			int32 TEMP_SHOTGUN_PALLET = 5;
+			for (int32 i = 0; i < TEMP_SHOTGUN_PALLET; ++i)
+			{
+				FVector randVec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, TEMP_SPHERE_RADIUS);
+				FVector end_loc = sphere_center + randVec;
+		
+				FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, end_loc);
+				FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
+				FTransform spawn_transform(rotation, muzzle_location, scale);
+				ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(spawn_transform));
+				if (bullet)
+				{
+					bullet->SetShooter(gun_owner_);
+					bullet->SetDamageData(damage);
+				}
+				else
+				{
+					UE_LOG(LogTemp, Error, TEXT("Spawning a bullet has failed!"));
+				}
+			}
+			cur_magazine_ -= 1;
 		}
 		else
 		{
-			UE_LOG(LogTemp, Error, TEXT("Spawning a bullet has failed!"));
+			FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, target_pos);
+			FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
+			FTransform spawn_transform(rotation, muzzle_location, scale);
+			ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(spawn_transform));
+			if (bullet)
+			{
+				bullet->SetShooter(gun_owner_);
+				bullet->SetDamageData(damage);
+				cur_magazine_ -= 1;
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("Spawning a bullet has failed!"));
+			}
 		}
 	}
 }

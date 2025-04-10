@@ -19,7 +19,10 @@ struct PROJECT_IK_API FWeaponData
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
-	EWeaponType type = EWeaponType::Pistol;
+	EWeaponType weapon_type = EWeaponType::INVALID;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
+	EBulletType bullet_type = EBulletType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
 	TObjectPtr<UTexture2D> thumbnail = nullptr;

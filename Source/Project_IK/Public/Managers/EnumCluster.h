@@ -213,11 +213,19 @@ enum class ECharacterStatType : uint8
 UENUM(BlueprintType)
 enum class EWeaponType : uint8
 {
+	INVALID UMETA(DisplayName = "INVALID"),
 	Pistol UMETA(DisplayName = "Pistol"),
 	AssaultRifle UMETA(DisplayName = "AssaultRifle"),
 	ShotGun UMETA(DisplayName = "ShotGun"),
 	SniperRifle UMETA(DisplayName = "SniperRifle"),
-	INVALID UMETA(DisplayName = "INVALID")
+};
+
+UENUM(BlueprintType)
+enum class EBulletType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	FMJ UMETA(DisplayName = "FMJ"),
+	Buckshot UMETA(DisplayName = "Buckshot"),
 };
 
 UENUM(BlueprintType)
@@ -225,16 +233,6 @@ enum class EPassiveSkillType : uint8
 {
 	FixedDmgReduce UMETA(DisplayName = "FixedDmgReduce"),
 	RandDmgIncrease UMETA(DisplayName = "RandDmgIncrease"),
-	INVALID UMETA(DisplayName = "INVALID")
-};
-
-//TODO: 총알에 치유감소/도트딜/도탄 같은 효과를 실을 때 사용한다.
-UENUM(BlueprintType)
-enum class EAttackEffect : uint8
-{
-	Test1 UMETA(DisplayName = "Test1"),
-	Test2 UMETA(DisplayName = "Test2"),
-	Test3 UMETA(DisplayName = "Test3"),
 	INVALID UMETA(DisplayName = "INVALID")
 };
 
