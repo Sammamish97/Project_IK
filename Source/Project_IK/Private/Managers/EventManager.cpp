@@ -102,17 +102,17 @@ void UEventManager::Event_1_ThirdOptionResult()
 //Event 2: 장비
 void UEventManager::Event_2_FirstOptionResult()
 {
-	inventory_manager_->AddEquipment(EGearType::Weapon, EWeaponType::AssaultRifle);
+	inventory_manager_->AddEquipment(EWeaponType::AssaultRifle);
 }
 
 void UEventManager::Event_2_SecondOptionResult()
 {
-	inventory_manager_->AddEquipment(EGearType::ActiveSkill, EActiveSkillType::Thunder);
+	inventory_manager_->AddEquipment(EActiveSkillType::Thunder);
 }
 
 void UEventManager::Event_2_ThirdOptionResult()
 {
-	inventory_manager_->AddEquipment(EGearType::Oopart, EOopartType::AttackSpeedBoost);
+	inventory_manager_->AddEquipment(EOopartType::AttackSpeedBoost);
 }
 
 //Event 3: 룬

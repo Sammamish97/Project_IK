@@ -11,25 +11,23 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-
 #include "Managers/EnumCluster.h"
-#include "Structs/ActiveSkillData.h"
-#include "Structs/OopartData.h"
-#include "Structs/PassiveSkillData.h"
-#include "Structs/WeaponData.h"
-#include "Structs/CharacterData.h"
-#include "Structs/RuneData.h"
-
 #include "DataTableManager.generated.h"
 
 class UGlobalBuffDataAsset;
-enum class EGlobalBuffType : uint8;
 class UItemDataAsset;
 struct FGlobalBuffData;
 struct FRuneSetData;
 struct FItemData;
 class URandomDataAssetsManager;
 struct FWrapperEquipmentData;
+struct FCharacterData;
+struct FWeaponData;
+struct FPassiveSkillData;
+struct FOopartData;
+struct FRuneData;
+struct FActiveSkillData;
+
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UDataTableManager : public UObject
@@ -43,9 +41,15 @@ public:
 	TArray<FWeaponData> GetUniqueWeaponDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
 	FRuneSetData GetRuneSetData(ERuneSetType type) const;
+	FRuneSetData GetRuneSetDataRandomly(ERarity weight_rarity = ERarity::Common) const;
+	TArray<FRuneSetData> GetRuneSetDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
+	TArray<FRuneSetData> GetUniqueRuneSetDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 	FRuneData GetRuneData(ERuneSetType type, int slot_num) const;
+	FRuneData GetRuneDataRandomly(ERarity weight_rarity = ERarity::Common) const;
+	TArray<FRuneData> GetRuneDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
+	TArray<FRuneData> GetUniqueRuneDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 	UTexture2D* GetRuneSetThumbnail(ERuneSetType type) const;
-	
+
 	FPassiveSkillData GetPassiveSkillData(EPassiveSkillType type) const;
 	FString PassiveSkillEnumToString(EPassiveSkillType weapon_type) const;
 	FPassiveSkillData GetPassiveSkillDataRandomly(ERarity weight_rarity = ERarity::Common) const;
@@ -80,16 +84,16 @@ public:
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UWeaponDataAsset> weapon_data_asset_;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UPassiveSkillDataAsset> passive_skill_data_asset_;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UActiveSkillDataAsset> active_skill_data_asset_;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UOopartDataAsset> oopart_data_asset_;
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	UDataTable* character_table_;
 

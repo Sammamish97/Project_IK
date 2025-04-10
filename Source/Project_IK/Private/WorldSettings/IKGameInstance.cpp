@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/InventoryManager.h"
 #include "Managers/SetBonusManager.h"
 #include "Managers/EventManager.h"
+#include "Managers/DataTableManager.h"
 
 #include "Structs/SpawnData.h"
 #include "Structs/ItemData.h"

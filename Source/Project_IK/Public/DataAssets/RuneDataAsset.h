@@ -21,6 +21,9 @@ class PROJECT_IK_API URuneDataAsset : public UPrimaryDataAsset
 	GENERATED_BODY()
 public:
 	FRuneSetData GetRuneSetData(ERuneSetType type);
+	FRuneSetData GetRuneSetDataRandomly(ERarity weight_rarity = ERarity::Common);
+	TArray<FRuneSetData> GetRuneSetDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
+	TArray<FRuneSetData> GetUniqueRuneSetDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
 
 private:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, meta = (AllowPrivateAccess = true))

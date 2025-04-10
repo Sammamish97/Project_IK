@@ -22,10 +22,10 @@ class PROJECT_IK_API UInventoryManager : public UObject
 
 public:
 	void InitInventoryManager();
-	bool AddEquipment(EGearType type, EWeaponType weapon_type);
-	bool AddEquipment(EGearType type, EPassiveSkillType passive_skill_type);
-	bool AddEquipment(EGearType type, EActiveSkillType active_skill_type);
-	bool AddEquipment(EGearType type, EOopartType oopart_type);
+	bool AddEquipment(EWeaponType weapon_type);
+	bool AddEquipment(EPassiveSkillType passive_skill_type);
+	bool AddEquipment(EActiveSkillType active_skill_type);
+	bool AddEquipment(EOopartType oopart_type);
 
 	bool AddRune(FRuneData rune_data);
 	bool AddRune(ERuneSetType set_type, int32 slot_idx);

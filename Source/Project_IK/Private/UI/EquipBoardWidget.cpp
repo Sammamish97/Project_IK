@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Managers/EnumCluster.h"
 #include "Structs/SpawnData.h"
+#include "Managers/DataTableManager.h"
 
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "UI/InventorySlot.h"

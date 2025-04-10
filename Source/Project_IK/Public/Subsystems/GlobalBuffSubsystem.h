@@ -12,9 +12,9 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
+#include "Structs/GlobalBuff.h"
 #include "GlobalBuffSubsystem.generated.h"
 
-struct FGlobalBuffData;
 enum class EGlobalBuffType : uint8;
 class UGlobalBuffLogicBase;
 

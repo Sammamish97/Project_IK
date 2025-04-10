@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Structs/RuneData.h"
 #include "WorldSettings/IKGameInstance.h"
+#include "Managers/DataTableManager.h"
 
 void UInventoryManager::InitEquipInventory()
 {
@@ -98,14 +99,14 @@ int32 UInventoryManager::GetRuneEmptyIndex() const
 	return -1;
 }
 
-bool UInventoryManager::AddEquipment(EGearType type, EWeaponType weapon_type)
+bool UInventoryManager::AddEquipment(EWeaponType weapon_type)
 {
 	int32 index = GetEquipmentEmptyIndex();
 	if (index != -1)
 	{
 		FInventorySlotData data;
 		data.weapon_type = weapon_type;
-		data.gear_type = type;
+		data.gear_type = EGearType::Weapon;
 		data.is_empty = false;
 		equipment_storage_[index] = data;
 		return true;
@@ -113,14 +114,14 @@ bool UInventoryManager::AddEquipment(EGearType type, EWeaponType weapon_type)
 	return false;
 }
 
-bool UInventoryManager::AddEquipment(EGearType type, EPassiveSkillType passive_skill_type)
+bool UInventoryManager::AddEquipment(EPassiveSkillType passive_skill_type)
 {
 	int32 index = GetEquipmentEmptyIndex();
 	if (index != -1)
 	{
 		FInventorySlotData data;
 		data.passive_skill_type = passive_skill_type;
-		data.gear_type = type;
+		data.gear_type = EGearType::PassiveSkill;
 		data.is_empty = false;
 		equipment_storage_[index] = data;
 		return true;
@@ -128,14 +129,14 @@ bool UInventoryManager::AddEquipment(EGearType type, EPassiveSkillType passive_s
 	return false;
 }
 
-bool UInventoryManager::AddEquipment(EGearType type, EActiveSkillType active_skill_type)
+bool UInventoryManager::AddEquipment(EActiveSkillType active_skill_type)
 {
 	int32 index = GetEquipmentEmptyIndex();
 	if (index != -1)
 	{
 		FInventorySlotData data;
 		data.active_skill_type = active_skill_type;
-		data.gear_type = type;
+		data.gear_type = EGearType::ActiveSkill;
 		data.is_empty = false;
 		equipment_storage_[index] = data;
 		return true;
@@ -143,14 +144,14 @@ bool UInventoryManager::AddEquipment(EGearType type, EActiveSkillType active_ski
 	return false;
 }
 
-bool UInventoryManager::AddEquipment(EGearType type, EOopartType oopart_type)
+bool UInventoryManager::AddEquipment(EOopartType oopart_type)
 {
 	int32 index = GetEquipmentEmptyIndex();
 	if (index != -1)
 	{
 		FInventorySlotData data;
 		data.oopart_type = oopart_type;
-		data.gear_type = type;
+		data.gear_type = EGearType::Oopart;
 		data.is_empty = false;
 		equipment_storage_[index] = data;
 		return true;

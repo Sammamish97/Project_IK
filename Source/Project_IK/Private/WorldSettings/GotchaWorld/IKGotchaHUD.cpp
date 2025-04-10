@@ -21,7 +21,7 @@ void AIKGotchaHUD::BeginPlay()
 	if (widget_class_)
 	{
 		widget_ = CreateWidget<UUserWidget>(world, widget_class_);
-		if (widget_.IsValid())
+		if (widget_)
 		{
 			widget_->AddToViewport();
 		}

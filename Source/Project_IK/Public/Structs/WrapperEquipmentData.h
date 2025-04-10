@@ -11,12 +11,12 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Structs/ActiveSKillData.h"
+#include "Structs/OopartData.h"
+#include "Structs/PassiveSkillData.h"
+#include "Structs/RuneData.h"
+#include "Structs/WeaponData.h"
 #include "WrapperEquipmentData.generated.h"
-
-struct FWeaponData;
-struct FPassiveSkillData;
-struct FActiveSkillData;
-struct FOopartData;
 
 USTRUCT(BlueprintType)
 struct FWrapperEquipmentData
@@ -24,8 +24,9 @@ struct FWrapperEquipmentData
 	GENERATED_BODY()
 
 public:
-	TArray<FWeaponData> weapons_;
-	TArray<FPassiveSkillData> passive_skills_;
 	TArray<FActiveSkillData> active_skills_;
 	TArray<FOopartData> ooparts_;
+	TArray<FPassiveSkillData> passive_skills_;
+	TArray<FRuneData> runes_;
+	TArray<FWeaponData> weapons_;
 };

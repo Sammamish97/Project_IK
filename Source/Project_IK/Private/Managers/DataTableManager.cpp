@@ -18,6 +18,7 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/OopartDataAsset.h"
 #include "DataAssets/PassiveSkillDataAsset.h"
 #include "DataAssets/ItemDataAsset.h"
+#include "Structs/CharacterData.h"
 
 #include "Structs/WrapperEquipmentData.h"
 
@@ -67,6 +68,21 @@ FRuneSetData UDataTableManager::GetRuneSetData(ERuneSetType type) const
 	return rune_data_asset_->GetRuneSetData(type);
 }
 
+FRuneSetData UDataTableManager::GetRuneSetDataRandomly(ERarity weight_rarity) const
+{
+	return rune_data_asset_->GetRuneSetDataRandomly(weight_rarity);
+}
+
+TArray<FRuneSetData> UDataTableManager::GetRuneSetDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	return rune_data_asset_->GetRuneSetDataRandomly(n, weight_rarity);
+}
+
+TArray<FRuneSetData> UDataTableManager::GetUniqueRuneSetDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	return rune_data_asset_->GetUniqueRuneSetDataRandomly(n, weight_rarity);
+}
+
 FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num) const
 {
 	if (slot_num < 0 || slot_num > 5)
@@ -80,6 +96,59 @@ FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num) const
 	}
 	UE_LOG(LogTemp, Error, TEXT("rune_data_asset_ is invalid!"));
 	return FRuneData();
+}
+
+FRuneData UDataTableManager::GetRuneDataRandomly(ERarity weight_rarity) const
+{
+	FRuneSetData randomly_chosen_set = rune_data_asset_->GetRuneSetDataRandomly(weight_rarity);
+	return randomly_chosen_set.rune_set_data_[FMath::RandRange(0, 5)];
+}
+
+TArray<FRuneData> UDataTableManager::GetRuneDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	TArray<FRuneSetData> set_array = rune_data_asset_->GetRuneSetDataRandomly(n, weight_rarity);
+
+	TArray<FRuneData> result;
+	for (const FRuneSetData& element : set_array)
+	{
+		result.Add(element.rune_set_data_[FMath::RandRange(0, 5)]);
+	}
+	return result;
+}
+
+TArray<FRuneData> UDataTableManager::GetUniqueRuneDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	// @@ TODO: It will return less than N items if set_array has more than 6 same set types.
+	TArray<FRuneSetData> set_array = rune_data_asset_->GetRuneSetDataRandomly(n, weight_rarity);
+
+	TMap<ERuneSetType, TSet<int32>> unique_runes;
+	TArray<FRuneData> result;
+
+	for (const FRuneSetData& element : set_array)
+	{
+		// Shuffle indices 0-5 to ensure random selection without repeating from same set
+		TArray<int32> indices = { 0, 1, 2, 3, 4, 5 };
+		indices.Sort([](int32, int32) { return FMath::RandBool(); }); // Random shuffle
+
+		for (int32 idx : indices)
+		{
+			const FRuneData& rune = element.rune_set_data_[idx];
+			if (!unique_runes[rune.set_type].Contains(rune.slot_number))
+			{
+				unique_runes[rune.set_type].Add(rune.slot_number);
+				result.Add(rune);
+				break; // Move to next FRuneSetData after adding one unique rune
+			}
+		}
+
+		// Optional early exit if we already reached n unique entries
+		if (result.Num() >= n)
+		{
+			break;
+		}
+	}
+
+	return result;
 }
 
 UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type) const
@@ -389,10 +458,51 @@ FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type) 
 
 FWrapperEquipmentData UDataTableManager::GetEquipmentDataRandomly(ERarity weight_rarity) const
 {
-	return FWrapperEquipmentData();
+	int32 data_type = FMath::RandRange(0, 4);
+
+	FWrapperEquipmentData result;
+	switch (data_type)
+	{
+	case 0:
+		result.active_skills_.Add(GetActiveSkillDataRandomly(weight_rarity));
+		break;
+	case 1:
+		result.ooparts_.Add(GetOopartDataRandomly(weight_rarity));
+		break;
+	case 2:
+		result.passive_skills_.Add(GetPassiveSkillDataRandomly(weight_rarity));
+		break;
+	case 3:
+		result.runes_.Add(GetRuneDataRandomly(weight_rarity));
+		break;
+	case 4:
+		result.weapons_.Add(GetWeaponDataRandomly(weight_rarity));
+		break;
+	default:
+		break;
+	}
+
+	return result;
 }
 
 FWrapperEquipmentData UDataTableManager::GetUniqueEquipmentDataRandomly(int32 n, ERarity weight_rarity) const
 {
-	return FWrapperEquipmentData();
+	TArray<int32> data_counts({0, 0, 0, 0, 0});
+
+	for (int32 i = 0; i < n; i++)
+	{
+		int32 index = FMath::RandRange(0, 4);
+
+		// Increase count by randomly chosen data index
+		data_counts[index] += 1;
+	}
+
+	FWrapperEquipmentData result;
+	result.active_skills_ = GetUniqueActiveSkillDataRandomly(data_counts[0], weight_rarity);
+	result.ooparts_ = GetUniqueOopartDataRandomly(data_counts[1], weight_rarity);
+	result.passive_skills_ = GetUniquePassiveSkillDataRandomly(data_counts[2], weight_rarity);
+	result.runes_ = GetUniqueRuneDataRandomly(data_counts[3], weight_rarity);
+	result.weapons_ = GetUniqueWeaponDataRandomly(data_counts[4], weight_rarity);
+
+	return result;
 }
