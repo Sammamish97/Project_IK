@@ -12,6 +12,8 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 #include "Components/ObjectPoolComponent.h"
+#include "Components/AudioComponent.h"
+#include "NiagaraComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Structs/DamageData.h"
 #include "Weapons/Guns/Bullet.h"
@@ -46,6 +48,55 @@ void AGun::Reload()
 	cur_magazine_ = weapon_data_.max_magazine;
 }
 
+void AGun::FireSingleBullet(FVector muzzle_location, FVector target_pos, FDamageData dmg_data)
+{
+	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, target_pos);
+	FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
+	FTransform spawn_transform(rotation, muzzle_location, scale);
+	ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(spawn_transform));
+	if (bullet)
+	{
+		bullet->SetShooter(gun_owner_);
+		bullet->SetDamageData(dmg_data);
+		cur_magazine_ -= 1;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Spawning a bullet has failed!"));
+	}
+}
+
+void AGun::FireBuckShot(FVector muzzle_location, FVector target_pos, FDamageData dmg_data)
+{
+	float TEMP_DISTANCE_TO_SPHERE = 100;
+	float TEMP_SPHERE_RADIUS = 10;
+
+	FVector to_target_normalized = (target_pos - muzzle_location).GetSafeNormal();
+	FVector sphere_center = muzzle_location + to_target_normalized * TEMP_DISTANCE_TO_SPHERE;
+
+	int32 TEMP_SHOTGUN_PALLET = 5;
+	for (int32 i = 0; i < TEMP_SHOTGUN_PALLET; ++i)
+	{
+		FVector randVec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, TEMP_SPHERE_RADIUS);
+		FVector end_loc = sphere_center + randVec;
+		
+		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, end_loc);
+		FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
+		FTransform spawn_transform(rotation, muzzle_location, scale);
+		ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(spawn_transform));
+		if (bullet)
+		{
+			bullet->SetShooter(gun_owner_);
+			bullet->SetDamageData(dmg_data);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("Spawning a bullet has failed!"));
+		}
+	}
+	cur_magazine_ -= 1;
+}
+
 void AGun::FireWeapon(FVector target_pos, FDamageData damage)
 {
 	if(cur_magazine_ > 0)
@@ -57,53 +108,15 @@ void AGun::FireWeapon(FVector target_pos, FDamageData damage)
 		// 2. Gameplay Mechanics
 		// Spawn in obstructed areas might break immersion or functionality.
 		// Such as enemies spawning inside walls.
-		
-		float TEMP_DISTANCE_TO_SPHERE = 100;
-		float TEMP_SPHERE_RADIUS = 10;
+		OnFireStub();
 		auto muzzle_location = weapon_mesh_->GetSocketTransform(muzzle_socket_name_).GetLocation();
-		FVector to_target_normalized = (target_pos - muzzle_location).GetSafeNormal();
-		FVector sphere_center = muzzle_location + to_target_normalized * TEMP_DISTANCE_TO_SPHERE;
-		
 		if (weapon_data_.bullet_type == EBulletType::Buckshot)
 		{
-			int32 TEMP_SHOTGUN_PALLET = 5;
-			for (int32 i = 0; i < TEMP_SHOTGUN_PALLET; ++i)
-			{
-				FVector randVec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, TEMP_SPHERE_RADIUS);
-				FVector end_loc = sphere_center + randVec;
-		
-				FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, end_loc);
-				FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
-				FTransform spawn_transform(rotation, muzzle_location, scale);
-				ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(spawn_transform));
-				if (bullet)
-				{
-					bullet->SetShooter(gun_owner_);
-					bullet->SetDamageData(damage);
-				}
-				else
-				{
-					UE_LOG(LogTemp, Error, TEXT("Spawning a bullet has failed!"));
-				}
-			}
-			cur_magazine_ -= 1;
+			FireBuckShot(muzzle_location, target_pos, damage);
 		}
-		else
+		else if (weapon_data_.bullet_type == EBulletType::FMJ)
 		{
-			FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, target_pos);
-			FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
-			FTransform spawn_transform(rotation, muzzle_location, scale);
-			ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(spawn_transform));
-			if (bullet)
-			{
-				bullet->SetShooter(gun_owner_);
-				bullet->SetDamageData(damage);
-				cur_magazine_ -= 1;
-			}
-			else
-			{
-				UE_LOG(LogTemp, Error, TEXT("Spawning a bullet has failed!"));
-			}
+			FireSingleBullet(muzzle_location, target_pos, damage);
 		}
 	}
 }
@@ -117,6 +130,7 @@ void AGun::SetWeaponData(FWeaponData weapon_data)
 {
 	weapon_data_ = weapon_data;
 	cur_magazine_ = weapon_data_.max_magazine;
+	object_pool_component_->SetObjectClass(weapon_data_.bullet_class_);
 	weapon_mesh_->SetStaticMesh(weapon_data_.weapon_mesh);
 }
 
@@ -137,4 +151,18 @@ void AGun::SetGunOwner(TWeakObjectPtr<AActor> gun_owner)
 	//TODO: 무기별로 애니메이션을 세팅하는 부분 역시 refactoring이 필요하다.
 	//TODO: 그리고 이 코드는 의도대로 작동하지 않는다.
 	Cast<ACharacter>(gun_owner_)->GetMesh()->AnimClass = anim_instance_class_;
+}
+
+void AGun::OnFireStub()
+{
+	// niagara_component_->SetAsset(weapon_data_.fire_muzzle_effect_);
+	// niagara_component_->ActivateSystem();
+	// audio_component_->SetSound(weapon_data_.fire_sound_);
+	// audio_component_->Play();
+}
+
+void AGun::OnReloadStub()
+{
+	// audio_component_->SetSound(weapon_data_.reload_sound_);
+	// audio_component_->Play();
 }

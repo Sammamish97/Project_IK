@@ -36,6 +36,7 @@ void UObjectPoolComponent::InitializePool()
 		UE_LOG(LogTemp, Error, TEXT("Should Select target object class"));
 		return;
 	}
+	object_pool_.Empty();
 	for(int i = 0; i < pool_size_; ++i)
 	{
 		object_pool_.Add(GetWorld()->SpawnActor<APooledActor>(pooled_actor_class_));
@@ -70,6 +71,12 @@ APooledActor* UObjectPoolComponent::SpawnFromPool(FTransform spawn_transform)
 TSubclassOf<APooledActor> UObjectPoolComponent::GetObjectClass() const
 {
 	return pooled_actor_class_;
+}
+
+void UObjectPoolComponent::SetObjectClass(const TSubclassOf<APooledActor>& target_class)
+{
+	pooled_actor_class_ = target_class;
+	InitializePool();
 }
 
 TArray<APooledActor*>& UObjectPoolComponent::GetObjectPool()

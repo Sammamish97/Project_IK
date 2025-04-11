@@ -65,7 +65,7 @@ void UWeaponMechanics::SetDamageData(FCharacterData char_data, FDamageData dmg_d
 {
 	//dmg_data에는 시전자가 들어있는것을 기대한다.
 	//여기서 최종 데미지가 결정된다.
-	float total_atk_dmg = weapon_actor_->GetWeaponData().basic_dmg_ + char_data.attack_power_ * weapon_actor_->GetWeaponData().attack_ratio;
+	float total_atk_dmg = weapon_actor_->GetWeaponData().basic_dmg_ + char_data.attack_power_ * weapon_actor_->GetWeaponData().attack_scale;
 	float total_crit_hit_rate = char_data.critical_hit_rate_ + weapon_actor_->GetWeaponData().critical_hit_rate_;
 	if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
 	{
@@ -156,6 +156,7 @@ void UWeaponMechanics::Reload()
 		if(GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false)
 		{
 			Cast<AMeleeAIController>(gunner_ref_->Controller)->SetUnitState(EUnitState::Reloading);
+			weapon_actor_->OnReloadStub();
 			gunner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().reload_montage_);
 			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &UWeaponMechanics::OnReload, GetWeaponData().reload_duration);
 		}
