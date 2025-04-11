@@ -214,10 +214,17 @@ UENUM(BlueprintType)
 enum class EWeaponType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
-	Pistol UMETA(DisplayName = "Pistol"),
-	AssaultRifle UMETA(DisplayName = "AssaultRifle"),
-	ShotGun UMETA(DisplayName = "ShotGun"),
-	SniperRifle UMETA(DisplayName = "SniperRifle"),
+	DefaultPistol UMETA(DisplayName = "DefaultPistol"),
+	
+	Pistol_B UMETA(DisplayName = "Pistol_B"),
+	AssaultRifle_B UMETA(DisplayName = "AssaultRifle_B"),
+	ShotGun_B UMETA(DisplayName = "ShotGun_B"),
+	SniperRifle_B UMETA(DisplayName = "SniperRifle_B"),
+	
+	Pistol_A UMETA(DisplayName = "Pistol_A"),
+	AssaultRifle_A UMETA(DisplayName = "AssaultRifle_A"),
+	ShotGun_A UMETA(DisplayName = "ShotGun_A"),
+	SniperRifle_A UMETA(DisplayName = "SniperRifle_A"),
 };
 
 UENUM(BlueprintType)
