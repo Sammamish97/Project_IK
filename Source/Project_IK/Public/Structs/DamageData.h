@@ -31,9 +31,7 @@ GENERATED_BODY()
 
 	UPROPERTY(Transient)
 	TWeakObjectPtr<AActor> attack_target = nullptr;
-
-	UPROPERTY(Transient)
-	TArray<EAttackEffect> effects;
+	
 	//다음의 정보도 사용될 가능성이 있다.
 	//FVector hit_pos_;
 };

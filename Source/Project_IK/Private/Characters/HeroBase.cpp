@@ -60,11 +60,11 @@ void AHeroBase::Initialize(FSpawnData spawn_data)
 {
 	if (spawn_data.weapon_data_.IsSet())
 	{
-		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue().type);
+		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue().weapon_type);
 	}
 	else
 	{
-		weapon_mechanics_->EquipWeapon(EWeaponType::Pistol);
+		weapon_mechanics_->EquipWeapon(EWeaponType::DefaultPistol);
 	}
 	if (spawn_data.passive_skill_data_.IsSet())
 	{

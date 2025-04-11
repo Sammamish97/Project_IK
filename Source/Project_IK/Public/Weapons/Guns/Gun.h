@@ -43,9 +43,22 @@ public:
 	UFUNCTION()
 	void SetGunOwner(TWeakObjectPtr<AActor> gun_owner);
 
+	void OnFireStub();
+	void OnReloadStub();
+
+private:
+	void FireSingleBullet(FVector muzzle_location, FVector target_pos, FDamageData dmg_data);
+	void FireBuckShot(FVector muzzle_location, FVector target_pos, FDamageData dmg_data);
+	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UStaticMeshComponent> weapon_mesh_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UNiagaraComponent> niagara_component_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UAudioComponent> audio_component_;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	FWeaponData weapon_data_;
@@ -58,9 +71,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Gun")
 	TWeakObjectPtr<AActor> gun_owner_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true", AllowedClass = "Bullet"))
-	TSubclassOf<class ABullet> bullet_class_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true", AllowedClass = "Animation"))
 	TSubclassOf<UAnimInstance> anim_instance_class_;
