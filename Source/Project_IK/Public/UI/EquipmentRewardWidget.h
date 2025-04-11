@@ -90,10 +90,10 @@ inline void UEquipmentRewardWidget::CreateCheckboxButton(TArray<Data> data_array
 			cb->SetButtonTexture(data.thumbnail);
 
 			equipment_widgets_.Add(cb);
+			column += 1;
 		}
 	}
 
-	column += 1;
 }
 
 template<typename Data>

@@ -133,6 +133,10 @@ TArray<FRuneData> UDataTableManager::GetUniqueRuneDataRandomly(int32 n, ERarity 
 		for (int32 idx : indices)
 		{
 			const FRuneData& rune = element.rune_set_data_[idx];
+			if (!unique_runes.Find(rune.set_type))
+			{
+				unique_runes.Add(rune.set_type);
+			}
 			if (!unique_runes[rune.set_type].Contains(rune.slot_number))
 			{
 				unique_runes[rune.set_type].Add(rune.slot_number);

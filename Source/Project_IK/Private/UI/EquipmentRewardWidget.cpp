@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/DataTableManager.h"
 #include "Components/Button.h"
+#include "WorldSettings/IKHUD.h"
 
 void UEquipmentRewardWidget::NativeConstruct()
 {
@@ -68,6 +69,7 @@ void UEquipmentRewardWidget::PopulateCheckboxButtons()
 			cb->SetButtonTexture(data_table_manager->GetRuneSetThumbnail(data.set_type));
 
 			equipment_widgets_.Add(cb);
+			column += 1;
 		}
 	}
 	CreateCheckboxButton(equipments_.weapons_, row, column);
@@ -93,6 +95,13 @@ void UEquipmentRewardWidget::OnConfirmButtonClicked()
 		}
 
 		index += 1;
+	}
+
+	// Update HUD status
+	AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+	if (hud)
+	{
+		hud->SwitchUIByState(ECombatEndState::ShowingMapUI);
 	}
 }
 

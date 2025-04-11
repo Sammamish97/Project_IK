@@ -34,6 +34,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/CombatLevelResultManager.h"
 #include "Structs/ItemData.h"
 #include "Managers/TextureManager.h"
+#include "Managers/DataTableManager.h"
 
 
 bool UItemPickerUI::Initialize()
@@ -347,6 +348,6 @@ void UItemPickerUI::GoToNextStep() const
 	if (hud)
 	{
 		hud->SynchroItemButtons();
-		hud->SwitchUIByState(ELevelEndState::ShowingMapUI);
+		hud->SwitchUIByState(ECombatEndState::ShowingEquipmentRewardUI);
 	}
 }

@@ -26,6 +26,8 @@ class PROJECT_IK_API URandomDataAssetsManager : public UObject
 {
 	GENERATED_BODY()
 public:
+	static constexpr int32 TOTAL_WEIGHT = 100;
+
 	template<typename TMapKey, typename TMapValue>
 	static TMapValue GetDataAssetRandomly(ERarity weight_rarity, const TMap<TMapKey, TMapValue>& map);
 	template<typename TMapKey, typename TMapValue>
@@ -36,7 +38,7 @@ public:
 protected:
 	static ERarity GetRarityRandomly(ERarity weight_rarity);
 	template<typename TMapKey, typename TMapValue>
-	static TMap<ERarity, int32> GetRaritiesRandomly(ERarity weight_rarity, int32 n, const TMap<TMapKey, TMapValue>& map, TMap<ERarity, TArray<TMapKey>> keys_classified_by_rarity);
+	static TMap<ERarity, int32> GetRaritiesRandomly(ERarity weight_rarity, int32 n, const TMap<TMapKey, TMapValue>& map, const TMap<ERarity, TArray<TMapKey>>& keys_classified_by_rarity);
 	static TArray<TPair<ERarity, int32>> GetRarityWeights(ERarity weight_rarity);
 
 };
@@ -63,7 +65,12 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetDataAssetRandomly(int32 n,
 	}
 
 	TArray<TMapValue> results;
-	checkf(!asset_candidates.IsEmpty(), TEXT("No elements that matches weight_rarity!"));
+	//checkf(!asset_candidates.IsEmpty(), TEXT("No elements that matches weight_rarity!"));
+	if (asset_candidates.IsEmpty())
+	{
+		UE_LOG(LogTemp, Error, TEXT("No elements that matches weight_rarity!"));
+		return GetDataAssetRandomly(n, ERarity::Common, map);
+	}
 	for (int32 i = 0; i < n; i++)
 	{
 		int32 rand_index = FMath::RandRange(0, asset_candidates.Num() - 1);
@@ -91,10 +98,13 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetUniqueDataAssetsRandomly(i
 	}
 
 	TMap<ERarity, TArray<TMapKey>> keys_classified_by_rarity;
+	keys_classified_by_rarity.FindOrAdd(ERarity::Common);
+	keys_classified_by_rarity.FindOrAdd(ERarity::Rare);
+	keys_classified_by_rarity.FindOrAdd(ERarity::Epic);
+	keys_classified_by_rarity.FindOrAdd(ERarity::Legendary);
 	for (const auto& [Key, Value] : map)
 	{
-		TArray<TMapKey>& found_array = keys_classified_by_rarity.FindOrAdd(Value.rarity_);
-		found_array.Add(Key);
+		keys_classified_by_rarity[Value.rarity_].Add(Key);
 	}
 
 	TMap<ERarity, int32> rarities = GetRaritiesRandomly(rarity, n, map, keys_classified_by_rarity);
@@ -104,6 +114,11 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetUniqueDataAssetsRandomly(i
 
 	for (const TPair<ERarity, int32>& count_pair : rarities)
 	{
+		if (count_pair.Value <= 0)
+		{
+			continue;
+		}
+
 		rarity_array = &keys_classified_by_rarity[count_pair.Key];
 
 
@@ -135,7 +150,7 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetUniqueDataAssetsRandomly(i
 }
 
 template<typename TMapKey, typename TMapValue>
-inline TMap<ERarity, int32> URandomDataAssetsManager::GetRaritiesRandomly(ERarity weight_rarity, int32 n, const TMap<TMapKey, TMapValue>& map, TMap<ERarity, TArray<TMapKey>> keys_classified_by_rarity)
+inline TMap<ERarity, int32> URandomDataAssetsManager::GetRaritiesRandomly(ERarity weight_rarity, int32 n, const TMap<TMapKey, TMapValue>& map, const TMap<ERarity, TArray<TMapKey>>& keys_classified_by_rarity)
 {
 	TArray<TPair<ERarity, int32>> weights = GetRarityWeights(weight_rarity);
 
@@ -152,8 +167,7 @@ inline TMap<ERarity, int32> URandomDataAssetsManager::GetRaritiesRandomly(ERarit
 	int32 i = 0;
 	while (i < rarities_size)
 	{
-		constexpr int32 total_weight = 100;
-		const int32 random_value = FMath::RandRange(0, total_weight);
+		const int32 random_value = FMath::RandRange(0, TOTAL_WEIGHT);
 
 		// Count up rarity based on the random value
 		int32 cumulative_weight = 0;
