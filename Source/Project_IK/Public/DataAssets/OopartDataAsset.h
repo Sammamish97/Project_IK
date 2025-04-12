@@ -21,6 +21,8 @@ class PROJECT_IK_API UOopartDataAsset : public UPrimaryDataAsset
 	GENERATED_BODY()
 public:
 	FOopartData GetOopartData(EOopartType type);
+	FOopartData GetOopartDataRandomly(ERarity weight_rarity = ERarity::Common);
+	TArray<FOopartData> GetUniqueOopartDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Oopart Data", meta = (AllowPrivateAccess = "true"))

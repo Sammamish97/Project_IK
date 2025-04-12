@@ -45,10 +45,11 @@ enum class NodeType : uint8
 };
 
 UENUM(BlueprintType)
-enum class ELevelEndState : uint8
+enum class ECombatEndState : uint8
 {
 	ShowingCombatResultUI UMETA(DisplayName = "ShowingCombatResultUI"),
 	ShowingItemPickerUI UMETA(DisplayName = "ShowingItemPickerUI"),
+	ShowingEquipmentRewardUI UMETA(DisplayName = "ShowingEquipmentRewardUI"),
 	ShowingMapUI UMETA(DisplayName = "ShowingMapUI"),
 };
 

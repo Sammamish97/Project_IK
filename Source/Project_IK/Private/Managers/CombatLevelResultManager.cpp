@@ -15,12 +15,15 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/CombatResultUI.h"
 #include "UI/ItemPickerUI.h"
+#include "UI/EquipmentRewardWidget.h"
 
-void UCombatLevelResultManager::InitializeUI(TSubclassOf<class UCombatResultUI> combat_result_widget_class, TSubclassOf<class UItemPickerUI> item_picker_widget_class, UWorld* world)
+void UCombatLevelResultManager::InitializeUI()
 {
-	if (combat_result_widget_class)
+	UWorld* world = GetWorld();
+
+	if (combat_result_widget_class_)
 	{
-		combat_result_widget_ = CreateWidget<UCombatResultUI>(world, combat_result_widget_class);
+		combat_result_widget_ = CreateWidget<UCombatResultUI>(world, combat_result_widget_class_);
 		if (combat_result_widget_)
 		{
 			combat_result_widget_->AddToViewport();
@@ -28,13 +31,23 @@ void UCombatLevelResultManager::InitializeUI(TSubclassOf<class UCombatResultUI> 
 		}
 	}
 
-	if (item_picker_widget_class)
+	if (item_picker_widget_class_)
 	{
-		item_picker_widget_ = CreateWidget<UItemPickerUI>(world, item_picker_widget_class);
+		item_picker_widget_ = CreateWidget<UItemPickerUI>(world, item_picker_widget_class_);
 		if (item_picker_widget_)
 		{
 			item_picker_widget_->AddToViewport();
 			item_picker_widget_->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
+
+	if (equipment_reward_widget_class_)
+	{
+		equipment_reward_widget_ = CreateWidget<UEquipmentRewardWidget>(world, equipment_reward_widget_class_);
+		if (equipment_reward_widget_)
+		{
+			equipment_reward_widget_->AddToViewport();
+			equipment_reward_widget_->SetVisibility(ESlateVisibility::Hidden);
 		}
 	}
 }
@@ -52,7 +65,7 @@ void UCombatLevelResultManager::DisplayCombatResult(const TArray<AActor*>& heroe
 	}
 }
 
-void UCombatLevelResultManager::SwitchUIByState(ELevelEndState state)
+void UCombatLevelResultManager::SwitchUIByState(ECombatEndState state)
 {
 	if (!combat_result_widget_ || !item_picker_widget_)
 	{
@@ -62,15 +75,22 @@ void UCombatLevelResultManager::SwitchUIByState(ELevelEndState state)
 
 	switch (state)
 	{
-	case ELevelEndState::ShowingCombatResultUI:
+	case ECombatEndState::ShowingCombatResultUI:
 		combat_result_widget_->SetVisibility(ESlateVisibility::Visible);
 		item_picker_widget_->SetVisibility(ESlateVisibility::Hidden);
+		equipment_reward_widget_->SetVisibility(ESlateVisibility::Hidden);
 		break;
-	case ELevelEndState::ShowingItemPickerUI:
+	case ECombatEndState::ShowingItemPickerUI:
 		combat_result_widget_->SetVisibility(ESlateVisibility::Hidden);
 		item_picker_widget_->SetVisibility(ESlateVisibility::Visible);
+		equipment_reward_widget_->SetVisibility(ESlateVisibility::Hidden);
 		break;
-	case ELevelEndState::ShowingMapUI:
+	case ECombatEndState::ShowingEquipmentRewardUI:
+		combat_result_widget_->SetVisibility(ESlateVisibility::Hidden);
+		item_picker_widget_->SetVisibility(ESlateVisibility::Hidden);
+		equipment_reward_widget_->SetVisibility(ESlateVisibility::Visible);
+			break;
+	case ECombatEndState::ShowingMapUI:
 		UGameplayStatics::GetGameInstance(GetWorld())->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
 		break;
 	default:

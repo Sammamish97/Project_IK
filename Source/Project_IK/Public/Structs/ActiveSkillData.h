@@ -14,9 +14,11 @@ See LICENSE file in the project root for full license information.
 #include "ActiveSkillData.generated.h"
 
 USTRUCT(BlueprintType)
-struct PROJECT_IK_API FActiveSkillData : public FTableRowBase
+struct PROJECT_IK_API FActiveSkillData
 {
 	GENERATED_BODY();
+
+public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	EActiveSkillType type = EActiveSkillType::INVALID;
 
@@ -28,4 +30,7 @@ struct PROJECT_IK_API FActiveSkillData : public FTableRowBase
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	FString flavor_text;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ActiveSkillData")
+	ERarity rarity_;
 };

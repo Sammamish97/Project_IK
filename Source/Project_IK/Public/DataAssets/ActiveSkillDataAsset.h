@@ -21,6 +21,8 @@ class PROJECT_IK_API UActiveSkillDataAsset : public UPrimaryDataAsset
 
 public:
 	FActiveSkillData GetActiveSkillData(EActiveSkillType type);
+	FActiveSkillData GetActiveSkillDataRandomly(ERarity weight_rarity = ERarity::Common);
+	TArray<FActiveSkillData> GetUniqueActiveSkillDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Active Skill Data", meta = (AllowPrivateAccess = "true"))

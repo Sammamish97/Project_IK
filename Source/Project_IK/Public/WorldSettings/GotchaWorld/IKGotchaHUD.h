@@ -33,5 +33,5 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY()
-	TWeakObjectPtr<UUserWidget> widget_;
+	TObjectPtr<UUserWidget> widget_;
 };

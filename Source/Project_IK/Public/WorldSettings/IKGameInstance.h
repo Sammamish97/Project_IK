@@ -12,9 +12,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
-
-#include "Managers/DataTableManager.h"
-
 #include "IKGameInstance.generated.h"
 
 class USetBonusManager;

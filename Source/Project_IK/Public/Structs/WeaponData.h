@@ -18,8 +18,9 @@ struct PROJECT_IK_API FWeaponData
 {
 	GENERATED_BODY()
 
+public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
-	EWeaponType weapon_type = EWeaponType::INVALID;
+	EWeaponType type = EWeaponType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
 	EBulletType bullet_type = EBulletType::INVALID;
@@ -102,4 +103,7 @@ struct PROJECT_IK_API FWeaponData
 	//TODO: 이후 현지화를 생각하면 FString대신, Table의 위치를 넣어야 할 수 있다.
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
 	FString flavor_text;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponData")
+	ERarity rarity_;
 };

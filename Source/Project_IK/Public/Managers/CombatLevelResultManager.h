@@ -14,23 +14,37 @@ See LICENSE file in the project root for full license information.
 #include "UObject/NoExportTypes.h"
 #include "CombatLevelResultManager.generated.h"
 
-enum class ELevelEndState : uint8;
+enum class ECombatEndState : uint8;
+class UCombatResultUI;
+class UItemPickerUI;
+class UEquipmentRewardWidget;
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable)
 class PROJECT_IK_API UCombatLevelResultManager : public UObject
 {
 	GENERATED_BODY()
 public:
 	UFUNCTION()
-	void InitializeUI(TSubclassOf<class UCombatResultUI> combat_result_widget_class, TSubclassOf<class UItemPickerUI> item_picker_widget_class, UWorld* world);
+	void InitializeUI();
 
 	UFUNCTION()
 	void DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map);
 
 	UFUNCTION()
-	void SwitchUIByState(ELevelEndState state);
+	void SwitchUIByState(ECombatEndState state);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UCombatResultUI> combat_result_widget_class_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UItemPickerUI> item_picker_widget_class_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UEquipmentRewardWidget> equipment_reward_widget_class_;
+
+
 
 protected:
 
@@ -39,4 +53,7 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UItemPickerUI> item_picker_widget_;
+
+	UPROPERTY()
+	TObjectPtr<UEquipmentRewardWidget> equipment_reward_widget_;
 };

@@ -33,10 +33,10 @@ void AIKHUD::BeginPlay()
 		}
 	}
 
-	combat_level_result_manager_ = NewObject<UCombatLevelResultManager>(this);
+	combat_level_result_manager_ = NewObject<UCombatLevelResultManager>(world, combat_level_widget_class_);
 	if (combat_level_result_manager_)
 	{
-		combat_level_result_manager_->InitializeUI(combat_result_widget_class_, item_picker_widget_class_, world);
+		combat_level_result_manager_->InitializeUI();
 	}
 
 	if(inventory_widget_class_)
@@ -64,7 +64,7 @@ void AIKHUD::DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeak
 	}
 }
 
-void AIKHUD::SwitchUIByState(ELevelEndState state)
+void AIKHUD::SwitchUIByState(ECombatEndState state)
 {
 	if (combat_level_result_manager_)
 	{

@@ -68,6 +68,7 @@ void UItemKeepOrDiscardWidget::NativeDestruct()
 {
 	OnConfirmed.Clear();
 
+	confirm_button_->OnClicked.Clear();
 	candidates_item_containers_.Empty();
 	candidates_items_widgets_.Empty();
 	inventory_items_widgets_.Empty();
