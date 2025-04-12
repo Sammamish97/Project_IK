@@ -18,9 +18,11 @@ See LICENSE file in the project root for full license information.
 void UInventoryManager::InitEquipInventory()
 {
 	equipment_storage_.Init(FInventorySlotData(), max_inventory_size_);
+	AddEquipment(EGearType::Weapon, EWeaponType::SniperRifle_A);
+	AddEquipment(EGearType::Weapon, EWeaponType::Pistol_A);
+	AddEquipment(EGearType::Weapon, EWeaponType::ShotGun_A);
+	AddEquipment(EGearType::Weapon, EWeaponType::AssaultRifle_A);
 
-	// AddEquipment(EGearType::Weapon, EWeaponType::Pistol);
-	// AddEquipment(EGearType::Weapon, EWeaponType::AssaultRifle);
 	// AddEquipment(EGearType::PassiveSkill, EPassiveSkillType::FixedDmgReduce);
 	// AddEquipment(EGearType::PassiveSkill, EPassiveSkillType::RandDmgIncrease);
 	// AddEquipment(EGearType::ActiveSkill, EActiveSkillType::Thunder);

@@ -85,13 +85,19 @@ void UInventoryWidget::ToggleBoard()
 void UInventoryWidget::UpdateInventoryData()
 {
 	rune_board_->UpdateRuneBoard();
+	rune_storage_->UpdateRuneStorage();
+	
 	equip_board_->UpdateEquipBoard();
+	equip_storage_->UpdateEquipStorage();
 }
 
 void UInventoryWidget::LoadInventoryData()
 {
 	rune_board_->LoadRuneBoardWidget();
+	rune_storage_->LoadRuneStorage(0);
+	
 	equip_storage_->LoadEquipStorage();
+	equip_board_->LoadEquipBoard();
 }
 
 void UInventoryWidget::SwitchToLeftHero()

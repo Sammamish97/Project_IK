@@ -63,7 +63,7 @@ void UEquipBoardWidget::LoadEquipBoard()
 
 		if (data_cache.weapon_data_.IsSet())
 		{
-			weapon_->slot_data_.weapon_type = data_cache.weapon_data_.GetValue().type;
+			weapon_->slot_data_.weapon_type = data_cache.weapon_data_.GetValue().weapon_type;
 			weapon_->slot_data_.is_empty = false;
 		}
 		if (data_cache.passive_skill_data_.IsSet())

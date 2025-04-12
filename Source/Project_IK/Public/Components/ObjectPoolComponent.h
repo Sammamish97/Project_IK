@@ -30,6 +30,7 @@ public:
 	void InitializePool();
 	APooledActor* SpawnFromPool(FTransform spawn_transform);
 	TSubclassOf<APooledActor> GetObjectClass() const;
+	void SetObjectClass(const TSubclassOf<APooledActor>& target_class);
 	TArray<APooledActor*>& GetObjectPool();
 
 private:

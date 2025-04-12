@@ -214,11 +214,26 @@ enum class ECharacterStatType : uint8
 UENUM(BlueprintType)
 enum class EWeaponType : uint8
 {
-	Pistol UMETA(DisplayName = "Pistol"),
-	AssaultRifle UMETA(DisplayName = "AssaultRifle"),
-	ShotGun UMETA(DisplayName = "ShotGun"),
-	SniperRifle UMETA(DisplayName = "SniperRifle"),
-	INVALID UMETA(DisplayName = "INVALID")
+	INVALID UMETA(DisplayName = "INVALID"),
+	DefaultPistol UMETA(DisplayName = "DefaultPistol"),
+	
+	Pistol_B UMETA(DisplayName = "Pistol_B"),
+	AssaultRifle_B UMETA(DisplayName = "AssaultRifle_B"),
+	ShotGun_B UMETA(DisplayName = "ShotGun_B"),
+	SniperRifle_B UMETA(DisplayName = "SniperRifle_B"),
+	
+	Pistol_A UMETA(DisplayName = "Pistol_A"),
+	AssaultRifle_A UMETA(DisplayName = "AssaultRifle_A"),
+	ShotGun_A UMETA(DisplayName = "ShotGun_A"),
+	SniperRifle_A UMETA(DisplayName = "SniperRifle_A"),
+};
+
+UENUM(BlueprintType)
+enum class EBulletType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	FMJ UMETA(DisplayName = "FMJ"),
+	Buckshot UMETA(DisplayName = "Buckshot"),
 };
 
 UENUM(BlueprintType)
@@ -226,16 +241,6 @@ enum class EPassiveSkillType : uint8
 {
 	FixedDmgReduce UMETA(DisplayName = "FixedDmgReduce"),
 	RandDmgIncrease UMETA(DisplayName = "RandDmgIncrease"),
-	INVALID UMETA(DisplayName = "INVALID")
-};
-
-//TODO: 총알에 치유감소/도트딜/도탄 같은 효과를 실을 때 사용한다.
-UENUM(BlueprintType)
-enum class EAttackEffect : uint8
-{
-	Test1 UMETA(DisplayName = "Test1"),
-	Test2 UMETA(DisplayName = "Test2"),
-	Test3 UMETA(DisplayName = "Test3"),
 	INVALID UMETA(DisplayName = "INVALID")
 };
 

@@ -102,7 +102,7 @@ void UEventManager::Event_1_ThirdOptionResult()
 //Event 2: 장비
 void UEventManager::Event_2_FirstOptionResult()
 {
-	inventory_manager_->AddEquipment(EWeaponType::AssaultRifle);
+	inventory_manager_->AddEquipment(EWeaponType::AssaultRifle_B);
 }
 
 void UEventManager::Event_2_SecondOptionResult()

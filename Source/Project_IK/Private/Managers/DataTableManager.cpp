@@ -34,17 +34,33 @@ FString UDataTableManager::WeaponEnumToString(EWeaponType weapon_type) const
 	FString string;
 	switch (weapon_type)
 	{
-	case EWeaponType::Pistol:
-		string = TEXT("Pistol");
+	case EWeaponType::DefaultPistol:
+		string = TEXT("DefaultPistol");
 		break;
-	case EWeaponType::AssaultRifle:
-		string = TEXT("AssaultRifle");
+	case EWeaponType::Pistol_B:
+		string = TEXT("Pistol_B");
 		break;
-	case EWeaponType::ShotGun:
-		string = TEXT("ShotGun");
+	case EWeaponType::AssaultRifle_B:
+		string = TEXT("AssaultRifle_B");
 		break;
-	case EWeaponType::SniperRifle:
-		string = TEXT("SniperRifle");
+	case EWeaponType::ShotGun_B:
+		string = TEXT("ShotGun_B");
+		break;
+	case EWeaponType::SniperRifle_B:
+		string = TEXT("SniperRifle_B");
+		break;
+
+	case EWeaponType::Pistol_A:
+		string = TEXT("Pistol_A");
+		break;
+	case EWeaponType::AssaultRifle_A:
+		string = TEXT("AssaultRifle_A");
+		break;
+	case EWeaponType::ShotGun_A:
+		string = TEXT("ShotGun_A");
+		break;
+	case EWeaponType::SniperRifle_A:
+		string = TEXT("SniperRifle_A");
 		break;
 	default:
 		string = TEXT("Empty");
