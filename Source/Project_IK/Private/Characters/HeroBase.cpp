@@ -155,6 +155,11 @@ void AHeroBase::Reposition(FVector target_location)
 	Cast<AHeroAIController>(GetController())->RepositionHero(target_location);
 }
 
+void AHeroBase::SetAttackTarget(AActor* target)
+{
+	Cast<AHeroAIController>(GetController())->SetAttackTarget(target);
+}
+
 TOptional<FTargetParameters> AHeroBase::GetActiveSkillTargetParameters() const
 {
 	return skill_container_->GetTargetParameters();
@@ -168,4 +173,9 @@ bool AHeroBase::IsActiveSkillOnCoolDown() const
 bool AHeroBase::HasActiveSkill() const
 {
 	return skill_container_->HasActiveSkill();
+}
+
+UWeaponMechanics* AHeroBase::GetWeaponMechanics()
+{
+	return weapon_mechanics_;
 }

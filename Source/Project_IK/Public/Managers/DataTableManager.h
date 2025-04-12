@@ -19,14 +19,14 @@ See LICENSE file in the project root for full license information.
 #include "Structs/WeaponData.h"
 #include "Structs/CharacterData.h"
 #include "Structs/RuneData.h"
+#include "Structs/GlobalBuff.h"
+#include "Structs/RuneSetData.h"
 
 #include "DataTableManager.generated.h"
 
 class UGlobalBuffDataAsset;
 enum class EGlobalBuffType : uint8;
 class UItemDataAsset;
-struct FGlobalBuffData;
-struct FRuneSetData;
 struct FItemData;
 class URandomDataAssetsManager;
 

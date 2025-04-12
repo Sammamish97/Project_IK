@@ -41,6 +41,9 @@ public:
 	
 	void BeginFire(AActor* target);
 	void OnFire(AActor* target);
+	void BeginTripleFire(AActor* target);
+	void TripleFire(AActor* target);
+
 	void FireWeapon(AActor* target);
 	void FinishFire();
 	void FinishBurstCooldown();

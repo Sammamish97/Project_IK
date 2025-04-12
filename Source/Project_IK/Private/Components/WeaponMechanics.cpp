@@ -110,6 +110,41 @@ void UWeaponMechanics::OnFire(AActor* target)
 	}
 }
 
+void UWeaponMechanics::BeginTripleFire(AActor* target)
+{
+	//1. 사격 중지.
+	FinishFire();
+
+	//2. 3발의 사격을 보장하기 위해 3발 추가.
+	weapon_actor_->Reload(3);
+
+	//3. 2배의 공격속도 계산후 3번 발사.
+	float total_fire_per_sec =  weapon_actor_->GetWeaponData().fire_per_sec * (1 + gunner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
+	float weapon_attack_speed_double = 1.f / (total_fire_per_sec * 2);
+	if (on_burst_cool_down_ == false)
+	{
+		if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
+		{
+			FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::TripleFire, target);
+			GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed_double, true, 0); 
+		}
+	}
+}
+
+void UWeaponMechanics::TripleFire(AActor* target)
+{
+	static int32 counter = 0;
+	counter += 1;
+	OnFire(target);
+	UE_LOG(LogTemp, Warning, TEXT("TripleFire"));
+	if (counter == 3)
+	{
+		counter = 0;
+		FinishFire();
+		UE_LOG(LogTemp, Warning, TEXT("Finish TripleFire"));
+	}
+}
+
 void UWeaponMechanics::FireWeapon(AActor* target)
 {
 	if(weapon_actor_ && IsValid(target))

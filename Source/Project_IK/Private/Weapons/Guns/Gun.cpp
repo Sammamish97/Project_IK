@@ -48,6 +48,11 @@ void AGun::Reload()
 	cur_magazine_ = weapon_data_.max_magazine;
 }
 
+void AGun::Reload(int32 amount)
+{
+	cur_magazine_ += amount;
+}
+
 void AGun::FireSingleBullet(FVector muzzle_location, FVector target_pos, FDamageData dmg_data)
 {
 	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, target_pos);

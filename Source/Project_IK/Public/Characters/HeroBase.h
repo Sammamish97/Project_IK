@@ -36,11 +36,16 @@ public:
 	virtual void OnStunned() override;
 	
 	EHeroType GetHeroType() const;
-	void InvokeActiveSkill(FTargetResult target_result);
-	void Reposition(FVector target_location);
 	TOptional<FTargetParameters> GetActiveSkillTargetParameters() const;
+
+	void InvokeActiveSkill(FTargetResult target_result);
 	bool IsActiveSkillOnCoolDown() const;
 	bool HasActiveSkill() const;
+
+	void Reposition(FVector target_location);
+	void SetAttackTarget(AActor* target);
+	
+	class UWeaponMechanics* GetWeaponMechanics();
 
 public:
 

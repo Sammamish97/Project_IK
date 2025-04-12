@@ -35,6 +35,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 		
 	virtual void Reload();
+	virtual void Reload(int32 amount);
 	virtual void FireWeapon(FVector target_pos, FDamageData damage);
 
 	bool IsMagazineEmpty() const;
