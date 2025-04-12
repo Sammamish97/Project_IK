@@ -20,7 +20,7 @@ struct PROJECT_IK_API FWeaponData
 
 public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
-	EWeaponType weapon_type = EWeaponType::INVALID;
+	EWeaponType type = EWeaponType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
 	EBulletType bullet_type = EBulletType::INVALID;

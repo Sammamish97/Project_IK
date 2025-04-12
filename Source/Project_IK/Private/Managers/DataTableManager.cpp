@@ -181,10 +181,10 @@ FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type)
 	return passive_skill_data_asset_->GetPassiveSkillData(type);
 }
 
-FString UDataTableManager::PassiveSkillEnumToString(EPassiveSkillType weapon_type) const
+FString UDataTableManager::PassiveSkillEnumToString(EPassiveSkillType type) const
 {
 	FString string;
-	switch (weapon_type)
+	switch (type)
 	{
 	case EPassiveSkillType::FixedDmgReduce:
 		string = TEXT("FixedDmgReduce");
