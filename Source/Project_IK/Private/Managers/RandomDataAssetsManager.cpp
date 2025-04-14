@@ -18,8 +18,7 @@ ERarity URandomDataAssetsManager::GetRarityRandomly(ERarity weight_rarity)
 {
 	TArray<TPair<ERarity, int32>> weights = GetRarityWeights(weight_rarity);
 
-	constexpr int32 total_weight = 100;
-	int32 random_value = FMath::RandRange(0, total_weight);
+	int32 random_value = FMath::RandRange(0, TOTAL_WEIGHT);
 
 	// Return rarity based on the random value
 	int32 cumulative_weight = 0;

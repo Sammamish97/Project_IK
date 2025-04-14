@@ -14,10 +14,11 @@ See LICENSE file in the project root for full license information.
 #include "OopartData.generated.h"
 
 USTRUCT(BlueprintType)
-struct PROJECT_IK_API FOopartData : public FTableRowBase
+struct PROJECT_IK_API FOopartData
 {
 	GENERATED_BODY();
 	
+public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "OopartData")
 	EOopartType type = EOopartType::INVALID;
 
@@ -29,4 +30,7 @@ struct PROJECT_IK_API FOopartData : public FTableRowBase
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "OopartData")
 	FString flavor_text;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "OopartData")
+	ERarity rarity_;
 };

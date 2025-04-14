@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Managers/EnumCluster.h"
 #include "Structs/SpawnData.h"
+#include "Managers/DataTableManager.h"
 
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "UI/InventorySlot.h"
@@ -62,7 +63,7 @@ void UEquipBoardWidget::LoadEquipBoard()
 
 		if (data_cache.weapon_data_.IsSet())
 		{
-			weapon_->slot_data_.weapon_type = data_cache.weapon_data_.GetValue().weapon_type;
+			weapon_->slot_data_.weapon_type = data_cache.weapon_data_.GetValue().type;
 			weapon_->slot_data_.is_empty = false;
 		}
 		if (data_cache.passive_skill_data_.IsSet())

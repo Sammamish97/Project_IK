@@ -19,7 +19,7 @@ class UCombatResultUI;
 class UItemPickerUI;
 class UCombatLevelResultManager;
 
-enum class ELevelEndState : uint8;
+enum class ECombatEndState : uint8;
 
 UCLASS()
 class PROJECT_IK_API AIKHUD : public AHUD
@@ -31,7 +31,7 @@ public:
 	void DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map);
 
 	UFUNCTION()
-	void SwitchUIByState(ELevelEndState state);
+	void SwitchUIByState(ECombatEndState state);
 
 	UFUNCTION()
 	void SynchroItemButtons();
@@ -47,21 +47,19 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleInventory();
-	
-protected:
+
 	// Reference to the Widget Blueprint class to create
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<class UButtonBarWidget> button_widget_class_;
+	TSubclassOf<UButtonBarWidget> button_widget_class_;
+	// Reference to the Widget Blueprint class to create
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UCombatLevelResultManager> combat_level_widget_class_;
+	
+protected:
 
 	// Reference to the widget instance
 	UPROPERTY()
 	TObjectPtr<UButtonBarWidget> button_widget_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<class UCombatResultUI> combat_result_widget_class_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<class UItemPickerUI> item_picker_widget_class_;
 
 	UPROPERTY()
 	TObjectPtr<UCombatLevelResultManager> combat_level_result_manager_;

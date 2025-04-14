@@ -18,6 +18,9 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/OopartDataAsset.h"
 #include "DataAssets/PassiveSkillDataAsset.h"
 #include "DataAssets/ItemDataAsset.h"
+#include "Structs/CharacterData.h"
+
+#include "Structs/WrapperEquipmentData.h"
 
 #include "Managers/RandomDataAssetsManager.h"
 
@@ -66,9 +69,34 @@ FString UDataTableManager::WeaponEnumToString(EWeaponType weapon_type) const
 	return string;
 }
 
+FWeaponData UDataTableManager::GetWeaponDataRandomly(ERarity weight_rarity) const
+{
+	return weapon_data_asset_->GetWeaponDataRandomly(weight_rarity);
+}
+
+TArray<FWeaponData> UDataTableManager::GetUniqueWeaponDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	return weapon_data_asset_->GetUniqueWeaponDataRandomly(n, weight_rarity);
+}
+
 FRuneSetData UDataTableManager::GetRuneSetData(ERuneSetType type) const
 {
 	return rune_data_asset_->GetRuneSetData(type);
+}
+
+FRuneSetData UDataTableManager::GetRuneSetDataRandomly(ERarity weight_rarity) const
+{
+	return rune_data_asset_->GetRuneSetDataRandomly(weight_rarity);
+}
+
+TArray<FRuneSetData> UDataTableManager::GetRuneSetDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	return rune_data_asset_->GetRuneSetDataRandomly(n, weight_rarity);
+}
+
+TArray<FRuneSetData> UDataTableManager::GetUniqueRuneSetDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	return rune_data_asset_->GetUniqueRuneSetDataRandomly(n, weight_rarity);
 }
 
 FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num) const
@@ -86,6 +114,63 @@ FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num) const
 	return FRuneData();
 }
 
+FRuneData UDataTableManager::GetRuneDataRandomly(ERarity weight_rarity) const
+{
+	FRuneSetData randomly_chosen_set = rune_data_asset_->GetRuneSetDataRandomly(weight_rarity);
+	return randomly_chosen_set.rune_set_data_[FMath::RandRange(0, 5)];
+}
+
+TArray<FRuneData> UDataTableManager::GetRuneDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	TArray<FRuneSetData> set_array = rune_data_asset_->GetRuneSetDataRandomly(n, weight_rarity);
+
+	TArray<FRuneData> result;
+	for (const FRuneSetData& element : set_array)
+	{
+		result.Add(element.rune_set_data_[FMath::RandRange(0, 5)]);
+	}
+	return result;
+}
+
+TArray<FRuneData> UDataTableManager::GetUniqueRuneDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	// @@ TODO: It will return less than N items if set_array has more than 6 same set types.
+	TArray<FRuneSetData> set_array = rune_data_asset_->GetRuneSetDataRandomly(n, weight_rarity);
+
+	TMap<ERuneSetType, TSet<int32>> unique_runes;
+	TArray<FRuneData> result;
+
+	for (const FRuneSetData& element : set_array)
+	{
+		// Shuffle indices 0-5 to ensure random selection without repeating from same set
+		TArray<int32> indices = { 0, 1, 2, 3, 4, 5 };
+		indices.Sort([](int32, int32) { return FMath::RandBool(); }); // Random shuffle
+
+		for (int32 idx : indices)
+		{
+			const FRuneData& rune = element.rune_set_data_[idx];
+			if (!unique_runes.Find(rune.set_type))
+			{
+				unique_runes.Add(rune.set_type);
+			}
+			if (!unique_runes[rune.set_type].Contains(rune.slot_number))
+			{
+				unique_runes[rune.set_type].Add(rune.slot_number);
+				result.Add(rune);
+				break; // Move to next FRuneSetData after adding one unique rune
+			}
+		}
+
+		// Optional early exit if we already reached n unique entries
+		if (result.Num() >= n)
+		{
+			break;
+		}
+	}
+
+	return result;
+}
+
 UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type) const
 {
 	return GetRuneSetData(type).thumbnail;
@@ -96,10 +181,10 @@ FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type)
 	return passive_skill_data_asset_->GetPassiveSkillData(type);
 }
 
-FString UDataTableManager::PassiveSkillEnumToString(EPassiveSkillType weapon_type) const
+FString UDataTableManager::PassiveSkillEnumToString(EPassiveSkillType type) const
 {
 	FString string;
-	switch (weapon_type)
+	switch (type)
 	{
 	case EPassiveSkillType::FixedDmgReduce:
 		string = TEXT("FixedDmgReduce");
@@ -112,6 +197,16 @@ FString UDataTableManager::PassiveSkillEnumToString(EPassiveSkillType weapon_typ
 		break;
 	}
 	return string;
+}
+
+FPassiveSkillData UDataTableManager::GetPassiveSkillDataRandomly(ERarity weight_rarity) const
+{
+	return passive_skill_data_asset_->GetPassiveSkillDataRandomly(weight_rarity);
+}
+
+TArray<FPassiveSkillData> UDataTableManager::GetUniquePassiveSkillDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	return passive_skill_data_asset_->GetUniquePassiveSkillDataRandomly(n, weight_rarity);
 }
 
 FActiveSkillData UDataTableManager::GetActiveSkillData(EActiveSkillType type) const
@@ -137,6 +232,16 @@ FString UDataTableManager::ActiveSkillEnumToString(EActiveSkillType active_skill
 	return string;
 }
 
+FActiveSkillData UDataTableManager::GetActiveSkillDataRandomly(ERarity weight_rarity) const
+{
+	return active_skill_data_asset_->GetActiveSkillDataRandomly(weight_rarity);
+}
+
+TArray<FActiveSkillData> UDataTableManager::GetUniqueActiveSkillDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	return active_skill_data_asset_->GetUniqueActiveSkillDataRandomly(n, weight_rarity);
+}
+
 FOopartData UDataTableManager::GetOopartData(EOopartType type) const
 {
 	return oopart_data_asset_->GetOopartData(type);
@@ -158,6 +263,16 @@ FString UDataTableManager::OopartEnumToString(EOopartType oopart_type) const
 		break;
 	}
 	return string;
+}
+
+FOopartData UDataTableManager::GetOopartDataRandomly(ERarity weight_rarity) const
+{
+	return oopart_data_asset_->GetOopartDataRandomly(weight_rarity);
+}
+
+TArray<FOopartData> UDataTableManager::GetUniqueOopartDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	return oopart_data_asset_->GetUniqueOopartDataRandomly(n, weight_rarity);
 }
 
 FItemData UDataTableManager::GetItemData(EItemType type) const
@@ -359,4 +474,55 @@ FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type) 
 		UE_LOG(LogTemp, Warning, TEXT("Retreieved invalid global buff data"));
 		return FGlobalBuffData();
 	}
+}
+
+FWrapperEquipmentData UDataTableManager::GetEquipmentDataRandomly(ERarity weight_rarity) const
+{
+	int32 data_type = FMath::RandRange(0, 4);
+
+	FWrapperEquipmentData result;
+	switch (data_type)
+	{
+	case 0:
+		result.active_skills_.Add(GetActiveSkillDataRandomly(weight_rarity));
+		break;
+	case 1:
+		result.ooparts_.Add(GetOopartDataRandomly(weight_rarity));
+		break;
+	case 2:
+		result.passive_skills_.Add(GetPassiveSkillDataRandomly(weight_rarity));
+		break;
+	case 3:
+		result.runes_.Add(GetRuneDataRandomly(weight_rarity));
+		break;
+	case 4:
+		result.weapons_.Add(GetWeaponDataRandomly(weight_rarity));
+		break;
+	default:
+		break;
+	}
+
+	return result;
+}
+
+FWrapperEquipmentData UDataTableManager::GetUniqueEquipmentDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	TArray<int32> data_counts({0, 0, 0, 0, 0});
+
+	for (int32 i = 0; i < n; i++)
+	{
+		int32 index = FMath::RandRange(0, 4);
+
+		// Increase count by randomly chosen data index
+		data_counts[index] += 1;
+	}
+
+	FWrapperEquipmentData result;
+	result.active_skills_ = GetUniqueActiveSkillDataRandomly(data_counts[0], weight_rarity);
+	result.ooparts_ = GetUniqueOopartDataRandomly(data_counts[1], weight_rarity);
+	result.passive_skills_ = GetUniquePassiveSkillDataRandomly(data_counts[2], weight_rarity);
+	result.runes_ = GetUniqueRuneDataRandomly(data_counts[3], weight_rarity);
+	result.weapons_ = GetUniqueWeaponDataRandomly(data_counts[4], weight_rarity);
+
+	return result;
 }

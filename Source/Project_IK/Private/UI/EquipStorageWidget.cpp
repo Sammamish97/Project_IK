@@ -32,10 +32,23 @@ void UEquipStorageWidget::LoadEquipStorage()
 	equip_inventory_slots_.Reset();
 	equip_inventory_slots_.Init(nullptr, inventory_manager_cache->GetMaxInventorySize());
 	auto inventory_data = inventory_manager_cache->GetEquipStorageData();
-	for(int i = 0; i < inventory_data.Num(); i++)
+
+	int32 data_count = 0;
+	for (auto elem : inventory_data)
+	{
+		equip_inventory_slots_[data_count] = Cast<UInventorySlot>(CreateWidget(GetWorld(), slot_BP_class_));
+		equip_inventory_slots_[data_count]->slot_data_ = inventory_data[data_count];
+		equip_inventory_slots_[data_count]->slot_type_ = EInventorySlotType::InventorySlot;
+		equip_inventory_slots_[data_count]->grid_idx_ = data_count;
+		equip_inventory_slots_[data_count]->SetImageTexture();
+		wrap_box_->AddChild(equip_inventory_slots_[data_count]);
+		data_count+=1;
+	}
+	
+	for(int32 i = data_count; i < inventory_manager_cache->GetMaxInventorySize(); i++)
 	{
 		equip_inventory_slots_[i] = Cast<UInventorySlot>(CreateWidget(GetWorld(), slot_BP_class_));
-		equip_inventory_slots_[i]->slot_data_ = inventory_data[i];
+		equip_inventory_slots_[i]->slot_data_ = FInventorySlotData();
 		equip_inventory_slots_[i]->slot_type_ = EInventorySlotType::InventorySlot;
 		equip_inventory_slots_[i]->grid_idx_ = i;
 		equip_inventory_slots_[i]->SetImageTexture();
@@ -49,14 +62,14 @@ void UEquipStorageWidget::UpdateEquipStorage()
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<UInventoryManager> inventory_manager_cache = ik_instance->GetInventoryManager();
 
-	auto& rune_storage_data = inventory_manager_cache->GetEquipStorageData();
-	rune_storage_data.Empty();
+	auto& equip_storage_data = inventory_manager_cache->GetEquipStorageData();
+	equip_storage_data.Empty();
 	
 	for (auto& elem : equip_inventory_slots_)
 	{
-		if (elem != nullptr && elem->slot_type_ != EInventorySlotType::InventorySlot)
+		if (elem != nullptr && elem->slot_data_.is_empty == false)
 		{
-			rune_storage_data.Add(elem->slot_data_);
+			equip_storage_data.Add(elem->slot_data_);
 		}
 	}
 }

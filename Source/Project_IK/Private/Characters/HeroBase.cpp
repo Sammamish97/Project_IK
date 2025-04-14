@@ -60,7 +60,7 @@ void AHeroBase::Initialize(FSpawnData spawn_data)
 {
 	if (spawn_data.weapon_data_.IsSet())
 	{
-		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue().weapon_type);
+		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue().type);
 	}
 	else
 	{
