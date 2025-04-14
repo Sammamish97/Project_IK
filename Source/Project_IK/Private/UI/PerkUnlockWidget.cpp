@@ -227,7 +227,7 @@ void UPerkUnlockWidget::CustomizeButtonByNode(UButton* button, const FPerkNode& 
 		return;
 	}
 
-	UTexture2D* texture = game_instance->GetTextureManager()->GetBuffTexture(node.stat_);
+	UTexture2D* texture = game_instance->GetDataTableManager()->GetStatTexture(node.stat_);
 	if (texture)
 	{
 		FButtonStyle style = button->GetStyle();

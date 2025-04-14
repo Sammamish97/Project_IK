@@ -18,6 +18,8 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/OopartDataAsset.h"
 #include "DataAssets/PassiveSkillDataAsset.h"
 #include "DataAssets/ItemDataAsset.h"
+#include "DataAssets/StatInfoDataAsset.h"
+#include "DataAssets/CrowdControlInfoDataAsset.h"
 #include "Structs/CharacterData.h"
 
 #include "Structs/WrapperEquipmentData.h"
@@ -525,4 +527,14 @@ FWrapperEquipmentData UDataTableManager::GetUniqueEquipmentDataRandomly(int32 n,
 	result.weapons_ = GetUniqueWeaponDataRandomly(data_counts[4], weight_rarity);
 
 	return result;
+}
+
+UTexture2D* UDataTableManager::GetStatTexture(ECharacterStatType stat_type)
+{
+	return stat_info_data_asset_->GetStatTexture(stat_type);
+}
+
+UTexture2D* UDataTableManager::GetCCTexture(ECCType cc_type)
+{
+	return cc_info_data_asset_->GetCCTexture(cc_type);
 }

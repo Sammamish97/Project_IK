@@ -16,10 +16,13 @@ See LICENSE file in the project root for full license information.
 
 class UGlobalBuffDataAsset;
 class UItemDataAsset;
+class URandomDataAssetsManager;
+class UStatInfoDataAsset;
+class UCrowdControlInfoDataAsset;
+class UTexture2D;
 struct FGlobalBuffData;
 struct FRuneSetData;
 struct FItemData;
-class URandomDataAssetsManager;
 struct FWrapperEquipmentData;
 struct FCharacterData;
 struct FWeaponData;
@@ -81,6 +84,9 @@ public:
 	FWrapperEquipmentData GetEquipmentDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	FWrapperEquipmentData GetUniqueEquipmentDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
+	UTexture2D* GetStatTexture(ECharacterStatType stat_type);
+	UTexture2D* GetCCTexture(ECCType cc_type);
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UWeaponDataAsset> weapon_data_asset_;
@@ -94,10 +100,10 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UOopartDataAsset> oopart_data_asset_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	UDataTable* character_table_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class URuneDataAsset> rune_data_asset_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GlobalBuffs", meta = (AllowPrivateAccess = "true"))
@@ -105,4 +111,10 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UItemDataAsset> item_data_asset_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UStatInfoDataAsset> stat_info_data_asset_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UCrowdControlInfoDataAsset> cc_info_data_asset_;
 };
