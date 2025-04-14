@@ -149,6 +149,24 @@ void AUnit::GetDamage(FDamageData data)
 	}
 }
 
+FDamageData AUnit::ApplyOnAttackEvent(FDamageData dmg_data)
+{
+	if (dmg_event_map_.Find(EUnitEvent::OnFire))
+	{
+		if (dmg_event_map_[EUnitEvent::OnFire].IsEmpty() == false)
+		{
+			for (auto& delegate : dmg_event_map_[EUnitEvent::OnFire])
+			{
+				if (delegate.IsBound())
+				{
+					dmg_data = delegate.Execute(dmg_data);
+				}
+			}
+		}
+	}
+	return dmg_data;
+}
+
 void AUnit::Heal(float heal)
 {
 	character_stat_component_->Heal(heal);

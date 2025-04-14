@@ -258,7 +258,7 @@ enum class EActiveSkillType : uint8
 	
 	TripleFire UMETA(DisplayName = "TripleFire"),
 	RapidFire UMETA(DisplayName = "RapidFire"),
-	ChargeShot UMETA(DisplayName = "ChargetShot"),
+	ChargeShot UMETA(DisplayName = "ChargeShot"),
 	MagnetizedBullet UMETA(DisplayName = "MagnetizedBullet"),
 	ShockJavelin UMETA(DisplayName = "ShockJaveline"),
 	Expedite UMETA(DisplayName = "Expedite"),

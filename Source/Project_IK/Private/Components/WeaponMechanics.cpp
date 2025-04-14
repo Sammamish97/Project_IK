@@ -35,9 +35,9 @@ UWeaponMechanics::UWeaponMechanics()
 void UWeaponMechanics::BeginPlay()
 {
 	Super::BeginPlay();
-	gunner_ref_ = Cast<AUnit>(GetOwner());
+	owner_ref_ = Cast<AUnit>(GetOwner());
 	weapon_actor_ = GetWorld()->SpawnActor<AGun>(weapon_class_);
-	weapon_actor_->AttachToComponent(gunner_ref_->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, gun_socket_name_);
+	weapon_actor_->AttachToComponent(owner_ref_->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, gun_socket_name_);
 }
 
 //TODO: 무기의 장착과 실제 장착 후 생성은 분리되어야 한다.
@@ -61,39 +61,42 @@ void UWeaponMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
-void UWeaponMechanics::SetDamageData(FCharacterData char_data, FDamageData dmg_data)
+FDamageData UWeaponMechanics::GetWeaponFireDamageData()
 {
-	//dmg_data에는 시전자가 들어있는것을 기대한다.
-	//여기서 최종 데미지가 결정된다.
+	auto char_data = owner_ref_->GetCharacterStat()->GetCharacterData();
 	float total_atk_dmg = weapon_actor_->GetWeaponData().basic_dmg_ + char_data.attack_power_ * weapon_actor_->GetWeaponData().attack_scale;
 	float total_crit_hit_rate = char_data.critical_hit_rate_ + weapon_actor_->GetWeaponData().critical_hit_rate_;
 	if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
 	{
 		total_atk_dmg *= 2;
 	}
+	FDamageData dmg_data;
 	dmg_data.atk_base_dmg = total_atk_dmg;
 	dmg_data.damage_type = EDamageType::Projectile;
-	damage_data_ = dmg_data;
+	return owner_ref_->ApplyOnAttackEvent(dmg_data);
 }
 
 void UWeaponMechanics::BeginFire(AActor* target)
 {
-	float total_fire_per_sec =  weapon_actor_->GetWeaponData().fire_per_sec * (1 + gunner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
-	float weapon_attack_speed = 1.f / total_fire_per_sec;
-	if (on_burst_cool_down_ == false)
+	if (stop_fire_ == false)
 	{
-		if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
+		float total_fire_per_sec =  weapon_actor_->GetWeaponData().fire_per_sec * (1 + owner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
+		float weapon_attack_speed = 1.f / total_fire_per_sec;
+		if (on_burst_cool_down_ == false)
 		{
-			FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target);
-			GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, 0); 
+			if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
+			{
+				FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target, GetWeaponFireDamageData());
+				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, 1.0f, true, weapon_attack_speed); 
+			}
 		}
 	}
 }
 
-void UWeaponMechanics::OnFire(AActor* target)
+void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data)
 {
-	FireWeapon(target);
-	gunner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().fire_montage_);
+	FireWeapon(target, dmg_data);
+	owner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().fire_montage_);
 	burst_count_ += 1;
 	if(IsMagazineEmpty())
 	{
@@ -105,47 +108,12 @@ void UWeaponMechanics::OnFire(AActor* target)
 		on_burst_cool_down_ = true;
 		FinishFire();
 		FTimerDelegate burst_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::FinishBurstCooldown);
-		float burst_wait_time = weapon_actor_->GetWeaponData().wait_after_fire / (1 + gunner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
+		float burst_wait_time = weapon_actor_->GetWeaponData().wait_after_fire / (1 + owner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
 		GetWorld()->GetTimerManager().SetTimer(burst_timer_handle_, burst_del, 1.f, false,burst_wait_time); 
 	}
 }
 
-void UWeaponMechanics::BeginTripleFire(AActor* target)
-{
-	//1. 사격 중지.
-	FinishFire();
-
-	//2. 3발의 사격을 보장하기 위해 3발 추가.
-	weapon_actor_->Reload(3);
-
-	//3. 2배의 공격속도 계산후 3번 발사.
-	float total_fire_per_sec =  weapon_actor_->GetWeaponData().fire_per_sec * (1 + gunner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
-	float weapon_attack_speed_double = 1.f / (total_fire_per_sec * 2);
-	if (on_burst_cool_down_ == false)
-	{
-		if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
-		{
-			FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::TripleFire, target);
-			GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed_double, true, 0); 
-		}
-	}
-}
-
-void UWeaponMechanics::TripleFire(AActor* target)
-{
-	static int32 counter = 0;
-	counter += 1;
-	OnFire(target);
-	UE_LOG(LogTemp, Warning, TEXT("TripleFire"));
-	if (counter == 3)
-	{
-		counter = 0;
-		FinishFire();
-		UE_LOG(LogTemp, Warning, TEXT("Finish TripleFire"));
-	}
-}
-
-void UWeaponMechanics::FireWeapon(AActor* target)
+void UWeaponMechanics::FireWeapon(AActor* target, FDamageData dmg_data)
 {
 	if(weapon_actor_ && IsValid(target))
 	{
@@ -157,16 +125,16 @@ void UWeaponMechanics::FireWeapon(AActor* target)
 			{
 				if(FMath::RandRange(0, 100) > 50)
 				{
-					weapon_actor_->FireWeapon(casted_target->GetMesh()->GetSocketLocation(head_socket_name_), damage_data_);
+					weapon_actor_->FireWeapon(casted_target->GetMesh()->GetSocketLocation(head_socket_name_), dmg_data);
 				}
 				else
 				{
-					weapon_actor_->FireWeapon(target->GetActorLocation() - FVector(0, 0, 50), damage_data_);
+					weapon_actor_->FireWeapon(target->GetActorLocation() - FVector(0, 0, 50), dmg_data);
 				}
 			}
 			else
 			{
-				weapon_actor_->FireWeapon(target->GetActorLocation(), damage_data_);
+				weapon_actor_->FireWeapon(target->GetActorLocation(), dmg_data);
 			}
 		}
 	}
@@ -190,19 +158,31 @@ void UWeaponMechanics::Reload()
 	{
 		if(GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false)
 		{
-			Cast<AMeleeAIController>(gunner_ref_->Controller)->SetUnitState(EUnitState::Reloading);
+			Cast<AMeleeAIController>(owner_ref_->Controller)->SetUnitState(EUnitState::Reloading);
 			weapon_actor_->OnReloadStub();
-			gunner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().reload_montage_);
+			owner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().reload_montage_);
 			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &UWeaponMechanics::OnReload, GetWeaponData().reload_duration);
 		}
 	}
+}
+
+void UWeaponMechanics::StopFire()
+{
+	FinishFire();
+	FinishBurstCooldown();
+	stop_fire_ = true;
+}
+
+void UWeaponMechanics::ResumeFire()
+{
+	stop_fire_ = false;
 }
 
 void UWeaponMechanics::OnReload()
 {
 	if(weapon_actor_)weapon_actor_->Reload();
 	burst_count_ = 0;
-	Cast<AMeleeAIController>(gunner_ref_->Controller)->SetUnitState(EUnitState::Forwarding);
+	Cast<AMeleeAIController>(owner_ref_->Controller)->SetUnitState(EUnitState::Forwarding);
 }
 
 void UWeaponMechanics::OnStunned()
@@ -229,4 +209,14 @@ FWeaponData UWeaponMechanics::GetWeaponData()
 	}
 	//TODO: 적절한 예외처리가 필요하다.
 	return FWeaponData();
+}
+
+AGun* UWeaponMechanics::GetWeaponActor()
+{
+	return weapon_actor_;
+}
+
+FTimerHandle& UWeaponMechanics::RentFireTimerHandle()
+{
+	return fire_timer_handle_;
 }

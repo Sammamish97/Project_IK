@@ -43,6 +43,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void GetDamage(FDamageData data) override;
 
+	virtual FDamageData ApplyOnAttackEvent(FDamageData dmg_data);
+
 	UFUNCTION(BlueprintCallable)
 	void Heal(float heal);
 

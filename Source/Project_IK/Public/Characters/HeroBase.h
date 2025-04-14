@@ -30,8 +30,8 @@ public:
 public:
 	virtual void Initialize(FSpawnData spawn_data);
 	virtual void Die() override;
-
-	virtual FDamageData Attack(AActor* target) override;
+	
+	virtual void Attack(AActor* target) override;
 	virtual void GetStunned(float stun_duration) override;
 	virtual void OnStunned() override;
 	

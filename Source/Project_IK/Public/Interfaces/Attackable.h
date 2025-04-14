@@ -27,5 +27,5 @@ class PROJECT_IK_API IAttackable
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual FDamageData Attack(AActor* target) = 0;
+	virtual void Attack(AActor* target) = 0;
 };
