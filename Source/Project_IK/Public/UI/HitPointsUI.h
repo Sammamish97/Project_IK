@@ -19,7 +19,6 @@ enum class ECCType : uint8;
 class UProgressBar;
 class UHorizontalBox;
 class UBuffDisplayer;
-class UTextureManager;
 class UDataTableManager;
 struct FBuffData;
 

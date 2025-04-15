@@ -27,7 +27,6 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/WidgetTree.h"
 #include "Rendering/DrawElements.h"
 
-#include "Managers/TextureManager.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 
 #include "UI/IKMaps.h"

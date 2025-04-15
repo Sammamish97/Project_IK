@@ -79,6 +79,9 @@ protected:
 	UFUNCTION()
 	void FindCharacters();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Textures")
+	UTexture2D* empty_item_icon;
+
 private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> skill_button_0_;
@@ -116,9 +119,6 @@ private:
 	TArray<TWeakObjectPtr<USkillContainer>> skill_containers_;
 	
 	TWeakObjectPtr<UItemInventory> item_inventory_;
-
-	UPROPERTY()
-	UTexture2D* empty_item_icon;
 
 	UPROPERTY()
 	TArray<TObjectPtr<UMaterialInstanceDynamic>> button_cooldown_materials_;

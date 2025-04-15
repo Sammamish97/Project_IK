@@ -23,6 +23,7 @@ class UButton;
 class UImage;
 class UCheckBox;
 struct FItemData;
+class UTexture2D;
 
 /**
  * 
@@ -35,6 +36,12 @@ public:
 	virtual bool Initialize() override;
 
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Textures")
+	UTexture2D* select_button_texture_;
+	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Textures")
+	UTexture2D* highlight_texture_;
 protected:
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	virtual void NativeConstruct() override;

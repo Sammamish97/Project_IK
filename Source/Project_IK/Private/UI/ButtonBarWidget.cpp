@@ -22,8 +22,6 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ItemInventory.h"
 #include "Abilities/Item.h"
 
-#include "Managers/TextureManager.h"
-
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
 void UButtonBarWidget::NativeConstruct()
@@ -65,7 +63,6 @@ void UButtonBarWidget::NativeConstruct()
 	if (UIKGameInstance* GI = Cast<UIKGameInstance>(GetGameInstance()))
 	{
 		item_inventory_ = GI->GetItemInventory();
-		empty_item_icon = GI->GetTextureManager()->GetTexture("empty_item_slot");
 	}
 	
 	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
