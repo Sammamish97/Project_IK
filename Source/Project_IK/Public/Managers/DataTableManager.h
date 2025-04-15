@@ -17,8 +17,10 @@ See LICENSE file in the project root for full license information.
 
 class UGlobalBuffDataAsset;
 class UItemDataAsset;
-struct FItemData;
 class URandomDataAssetsManager;
+
+struct FRuneSetData;
+struct FItemData;
 struct FWrapperEquipmentData;
 struct FCharacterData;
 struct FWeaponData;
@@ -26,7 +28,7 @@ struct FPassiveSkillData;
 struct FOopartData;
 struct FRuneData;
 struct FActiveSkillData;
-
+struct FGlobalBuffData;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UDataTableManager : public UObject

@@ -193,6 +193,11 @@ void AUnit::ApplyCrowdControl(ECCType cc_type, float duration)
 	cc_component_->ApplyCrowdControl(cc_type, duration);
 }
 
+void AUnit::AcquireShield(float ShieldAmount, float Duration)
+{
+	character_stat_component_->AcquireShield(ShieldAmount, Duration);
+}
+
 void AUnit::GetStunned(float stun_duration)
 {
 	UE_LOG(LogTemp, Display, TEXT("AUnit::GetStunned"));

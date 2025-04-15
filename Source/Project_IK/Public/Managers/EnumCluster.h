@@ -262,7 +262,7 @@ enum class EActiveSkillType : uint8
 	ChargeShot UMETA(DisplayName = "ChargeShot"),
 	MagnetizedBullet UMETA(DisplayName = "MagnetizedBullet"),
 	ShockJavelin UMETA(DisplayName = "ShockJaveline"),
-	Expedite UMETA(DisplayName = "Expedite"),
+	Accelerate UMETA(DisplayName = "Accelerate"),
 	INVALID UMETA(DisplayName = "INVALID")
 };
 
