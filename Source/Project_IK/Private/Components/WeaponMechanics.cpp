@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Managers/DataTableManager.h"
 #include "WorldSettings/IKGameInstance.h"
 
@@ -86,16 +87,16 @@ void UWeaponMechanics::BeginFire(AActor* target)
 		{
 			if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
 			{
-				FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target, GetWeaponFireDamageData());
+				FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target, GetWeaponFireDamageData(), true, 0.f);
 				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, 1.0f, true, weapon_attack_speed); 
 			}
 		}
 	}
 }
 
-void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data)
+void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data, bool is_controlled_fire, float offset)
 {
-	FireWeapon(target, dmg_data);
+	FireWeapon(target, dmg_data, is_controlled_fire, offset);
 	owner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().fire_montage_);
 	burst_count_ += 1;
 	if(IsMagazineEmpty())
@@ -113,29 +114,37 @@ void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data)
 	}
 }
 
-void UWeaponMechanics::FireWeapon(AActor* target, FDamageData dmg_data)
+void UWeaponMechanics::FireWeapon(AActor* target, FDamageData dmg_data, bool is_controlled_fire, float offset)
 {
 	if(weapon_actor_ && IsValid(target))
 	{
 		ACharacter* casted_target = Cast<ACharacter>(target);
-		if(UBlackboardComponent* blackboard = Cast<AAIController>(casted_target->GetController())->GetBlackboardComponent())
+		if (is_controlled_fire)
 		{
-			UObject* cover = blackboard->GetValueAsObject(owned_cover_key_name_);
-			if(IsValid(cover))
+			if(UBlackboardComponent* blackboard = Cast<AAIController>(casted_target->GetController())->GetBlackboardComponent())
 			{
-				if(FMath::RandRange(0, 100) > 50)
+				UObject* cover = blackboard->GetValueAsObject(owned_cover_key_name_);
+				if(IsValid(cover))
 				{
-					weapon_actor_->FireWeapon(casted_target->GetMesh()->GetSocketLocation(head_socket_name_), dmg_data);
+					if(FMath::RandRange(0, 100) > 50)
+					{
+						weapon_actor_->FireWeapon(casted_target->GetMesh()->GetSocketLocation(head_socket_name_), dmg_data);
+					}
+					else
+					{
+						weapon_actor_->FireWeapon(target->GetActorLocation() - FVector(0, 0, 50), dmg_data);
+					}
 				}
 				else
 				{
-					weapon_actor_->FireWeapon(target->GetActorLocation() - FVector(0, 0, 50), dmg_data);
+					weapon_actor_->FireWeapon(target->GetActorLocation(), dmg_data);
 				}
 			}
-			else
-			{
-				weapon_actor_->FireWeapon(target->GetActorLocation(), dmg_data);
-			}
+		}
+		else
+		{
+			FVector rand_vec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, offset);
+			weapon_actor_->FireWeapon(target->GetActorLocation() + rand_vec, dmg_data);
 		}
 	}
 }

@@ -37,14 +37,13 @@ bool UAT_RapidFire::ActivateSkill_Implementation(const FTargetResult& TargetResu
 
 			weapon_mechanics_cache->StopFire();
 			float total_fire_per_sec =  weapon_actor->GetWeaponData().fire_per_sec * (1 + hero->GetCharacterStat()->GetAttackSpeed() / 100.f);
-			float weapon_attack_speed_double = 1.f / (total_fire_per_sec * attack_speed_increase_amount_);
+			float boosted_attack_speed = 1.f / (total_fire_per_sec * attack_speed_increase_amount_);
 
 			FTimerHandle& fire_timer_handle = weapon_mechanics_cache->RentFireTimerHandle();
 			if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle) == false && target)
 			{
-				weapon_mechanics_cache->Reload();
 				FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UAT_RapidFire::OnRapidFire, target, weapon_mechanics_cache, weapon_mechanics_cache->GetWeaponFireDamageData());
-				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle, fire_del, weapon_attack_speed_double, true, 0); 
+				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle, fire_del, boosted_attack_speed, true, 0); 
 			}
 			return true;
 		}
@@ -52,11 +51,12 @@ bool UAT_RapidFire::ActivateSkill_Implementation(const FTargetResult& TargetResu
 	return false;
 }
 
-void UAT_RapidFire::OnRapidFire(AActor* target, class UWeaponMechanics* weapon_mechanics_cache, FDamageData dmg_data)
+void UAT_RapidFire::OnRapidFire(AActor* target, UWeaponMechanics* weapon_mechanics_cache, FDamageData dmg_data)
 {
-	weapon_mechanics_cache->OnFire(target, dmg_data);
+	weapon_mechanics_cache->OnFire(target, dmg_data, false, accuracy_rand_range);
 	if (weapon_mechanics_cache->IsMagazineEmpty())
 	{
 		weapon_mechanics_cache->FinishFire();
+		weapon_mechanics_cache->ResumeFire();
 	}
 }

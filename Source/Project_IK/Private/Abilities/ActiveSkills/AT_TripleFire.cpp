@@ -36,7 +36,7 @@ bool UAT_TripleFire::ActivateSkill_Implementation(const FTargetResult& TargetRes
 
 			weapon_mechanics_cache->StopFire();
 			float total_fire_per_sec =  weapon_actor->GetWeaponData().fire_per_sec * (1 + hero->GetCharacterStat()->GetAttackSpeed() / 100.f);
-			float weapon_attack_speed_double = 1.f / (total_fire_per_sec * attack_speed_increase_amount_);
+			float boosted_attack_speed = 1.f / (total_fire_per_sec * attack_speed_increase_amount_);
 
 			FTimerHandle& fire_timer_handle = weapon_mechanics_cache->RentFireTimerHandle();
 			if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle) == false && target)
@@ -44,7 +44,7 @@ bool UAT_TripleFire::ActivateSkill_Implementation(const FTargetResult& TargetRes
 				weapon_actor->Reload(3);
 				
 				FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UAT_TripleFire::OnTripleFire, target, weapon_mechanics_cache, weapon_mechanics_cache->GetWeaponFireDamageData());
-				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle, fire_del, weapon_attack_speed_double, true, 0); 
+				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle, fire_del, boosted_attack_speed, true, 0); 
 			}
 			return true;
 		}

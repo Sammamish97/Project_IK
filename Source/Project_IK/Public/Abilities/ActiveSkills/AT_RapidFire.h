@@ -25,7 +25,7 @@ private:
 	virtual void OnRapidFire(AActor* target, class UWeaponMechanics* weapon_mechanics_cache, FDamageData dmg_data);
 
 private:
-	float attack_speed_increase_amount_ = 2.f;
-	float accuracy_decrease_amount = 10.f;
+	float attack_speed_increase_amount_ = 3.f;
+	float accuracy_rand_range = 200.f;
 };
 
