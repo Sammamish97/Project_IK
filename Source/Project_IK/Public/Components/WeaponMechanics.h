@@ -45,7 +45,7 @@ public:
 	
 	void FinishBurstCooldown();
 	
-	void Reload();
+	void Reload(float duration_multiplier = 1.0f);
 	void OnReload();
 
 	void OnStunned();

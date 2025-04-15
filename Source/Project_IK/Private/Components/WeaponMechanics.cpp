@@ -152,7 +152,7 @@ void UWeaponMechanics::FinishBurstCooldown()
 	on_burst_cool_down_ = false;
 }
 
-void UWeaponMechanics::Reload()
+void UWeaponMechanics::Reload(float duration_multiplier)
 {
 	if(weapon_actor_)
 	{
@@ -160,8 +160,10 @@ void UWeaponMechanics::Reload()
 		{
 			Cast<AMeleeAIController>(owner_ref_->Controller)->SetUnitState(EUnitState::Reloading);
 			weapon_actor_->OnReloadStub();
+			FWeaponData weapon_data = GetWeaponData();
+			float reload_play_rate = weapon_data.reload_montage_->GetPlayLength() / weapon_data.reload_duration * duration_multiplier;
 			owner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().reload_montage_);
-			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &UWeaponMechanics::OnReload, GetWeaponData().reload_duration);
+			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &UWeaponMechanics::OnReload, reload_play_rate);
 		}
 	}
 }
