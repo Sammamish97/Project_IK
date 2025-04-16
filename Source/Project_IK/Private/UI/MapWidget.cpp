@@ -27,7 +27,6 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/WidgetTree.h"
 #include "Rendering/DrawElements.h"
 
-#include "Managers/TextureManager.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 
 #include "UI/IKMaps.h"
@@ -67,6 +66,10 @@ int32 UMapWidget::NativePaint(const FPaintArgs& Args, const FGeometry& AllottedG
 	FLinearColor LineColor = FLinearColor::Red * 0.4f;
 	float LineThickness = 5.0f;
 	
+	if (!scroll_box_)
+	{
+		return CurrentLayer;
+	}
 	FSlateClippingZone clipping_zone(scroll_box_->GetPaintSpaceGeometry());
 	OutDrawElements.PushClip(clipping_zone);
 
@@ -107,10 +110,14 @@ void UMapWidget::NativeConstruct()
 
 void UMapWidget::NativeDestruct()
 {
-	for (TPair<FIntPoint,TWeakObjectPtr<UButton>>& button : buttons_)
+	for (TPair<FIntPoint,TObjectPtr<UButton>>& button : buttons_)
 	{
 		button.Value->OnClicked.Clear();
 	}
+
+	buttons_.Empty();
+
+	check_images_.Empty();
 }
 
 void UMapWidget::InitializeWidgetTree()
@@ -124,14 +131,6 @@ void UMapWidget::InitializeButtons()
 	buttons_.Empty();
 
 	auto ik_game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
-	UTexture2D* enemy_icon_texture = ik_game_instance->GetTextureManager()->GetTexture("enemy_icon");
-	UTexture2D* store_icon_texture = ik_game_instance->GetTextureManager()->GetTexture("store_icon");
-	UTexture2D* event_icon_texture = ik_game_instance->GetTextureManager()->GetTexture("event_icon");
-	if (!enemy_icon_texture || !enemy_icon_texture || !event_icon_texture)
-	{
-		return;
-	}
 
 	FVector2D button_size(50.f, 50.f);
 
@@ -161,19 +160,19 @@ void UMapWidget::InitializeButtons()
 					switch (node.type)
 					{
 					case NodeType::Enemy:
-						new_brush.SetResourceObject(enemy_icon_texture);
+						new_brush.SetResourceObject(enemy_icon_texture_);
 						new_brush.SetImageSize(FDeprecateSlateVector2D(128.f, 128.f));
 						break;
 					case NodeType::Merchant:
-						new_brush.SetResourceObject(store_icon_texture);
+						new_brush.SetResourceObject(store_icon_texture_);
 						new_brush.SetImageSize(FDeprecateSlateVector2D(128.f, 128.f));
 						break;
 					case NodeType::Event:
-						new_brush.SetResourceObject(event_icon_texture);
+						new_brush.SetResourceObject(event_icon_texture_);
 						new_brush.SetImageSize(FDeprecateSlateVector2D(128.f, 128.f));
 						break;
 					case NodeType::Boss:
-						new_brush.SetResourceObject(enemy_icon_texture);
+						new_brush.SetResourceObject(boss_icon_texture_);
 						new_brush.SetImageSize(FDeprecateSlateVector2D(128.f, 128.f) * 3);
 						break;
 					default:
@@ -208,9 +207,8 @@ void UMapWidget::InitializeButtons()
 	// Display check icons on visited nodes
 	check_images_.Empty();
 	const TArray<FIntPoint> visited_nodes = maps_->GetPlayerVisitedPath();
-	UTexture2D* check_texture = ik_game_instance->GetTextureManager()->GetTexture("check_icon");
 	FSlateBrush check_brush;
-	check_brush.SetResourceObject(check_texture);
+	check_brush.SetResourceObject(check_texture_);
 	check_brush.DrawAs = ESlateBrushDrawType::Type::Image;
 	check_brush.SetImageSize(FVector2D(128.0));
 	

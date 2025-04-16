@@ -39,6 +39,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UConfirmationWidget> confirmation_widget_class_;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Textures")
+	UTexture2D* hero_portrait_image_1_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Textures")
+	UTexture2D* hero_portrait_image_2_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Textures")
+	UTexture2D* hero_portrait_image_3_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Textures")
+	UTexture2D* hero_portrait_image_4_;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")
 	FButtonStyle lockable_node_style_;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")

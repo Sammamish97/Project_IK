@@ -24,7 +24,7 @@ public:
 	FName buff_name_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Buff")
-	ECharacterStatType  stat_type_;
+	ECharacterStatType stat_type_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Buff")
 	float value_;

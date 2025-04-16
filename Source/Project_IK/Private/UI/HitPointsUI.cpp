@@ -20,7 +20,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameInstance.h"
-#include "Managers/TextureManager.h"
+#include "Managers/DataTableManager.h"
 #include "Managers/EnumCluster.h"
 #include "Structs/BuffData.h"
 
@@ -36,7 +36,7 @@ void UHitPointsUI::NativeConstruct()
 	UpdateShieldWidget(0.f);
 	UpdateBuffWidgets();
 
-	texture_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetTextureManager();
+	data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 }
 
 void UHitPointsUI::NativeDestruct()
@@ -137,8 +137,8 @@ void UHitPointsUI::UpdateBuffDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& disp
 		{
 			break;
 		}
-
-		UpdateDisplayer(displayers[i].Get(), texture_manager_->GetBuffTexture(pair.Key), background_color, pair.Value);
+		
+		UpdateDisplayer(displayers[i].Get(), data_table_manager_->GetStatTexture(pair.Key), background_color, pair.Value);
 		++i;
 	}
 	HideUnusedDisplayers(displayers, i);
@@ -154,7 +154,7 @@ void UHitPointsUI::UpdateDebuffDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& di
 			break;
 		}
 
-		UpdateDisplayer(displayers[i].Get(), texture_manager_->GetBuffTexture(pair.Key), background_color, pair.Value);
+		UpdateDisplayer(displayers[i].Get(), data_table_manager_->GetStatTexture(pair.Key), background_color, pair.Value);
 		++i;
 	}
 	for (ECCType cc_type : appliedCCs)
@@ -163,7 +163,7 @@ void UHitPointsUI::UpdateDebuffDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& di
 		{
 			break;
 		}
-		UpdateDisplayer(displayers[i].Get(), texture_manager_->GetCCTexture(cc_type), background_color, 0);
+		UpdateDisplayer(displayers[i].Get(), data_table_manager_->GetCCTexture(cc_type), background_color, 0);
 		++i;
 	}
 	HideUnusedDisplayers(displayers, i);

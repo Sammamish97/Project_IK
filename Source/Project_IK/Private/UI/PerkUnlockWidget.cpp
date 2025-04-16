@@ -29,7 +29,6 @@ See LICENSE file in the project root for full license information.
 
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/EnumCluster.h"
-#include "Managers/TextureManager.h"
 #include "Managers/InventoryManager.h"
 
 #include "UI/ConfirmationWidget.h"
@@ -227,7 +226,7 @@ void UPerkUnlockWidget::CustomizeButtonByNode(UButton* button, const FPerkNode& 
 		return;
 	}
 
-	UTexture2D* texture = game_instance->GetTextureManager()->GetBuffTexture(node.stat_);
+	UTexture2D* texture = game_instance->GetDataTableManager()->GetStatTexture(node.stat_);
 	if (texture)
 	{
 		FButtonStyle style = button->GetStyle();
@@ -431,28 +430,24 @@ void UPerkUnlockWidget::UpdateHeroData()
 	}
 
 	FString text_name;
-	// @@ TODO: set appropriate text name by Enum
 	switch (current_hero_type_)
 	{
 	case EHeroType::Hero1:
-		text_name = "default_portrait_1";
+		portrait_image_->SetBrushFromTexture(hero_portrait_image_1_);
 		break;
 	case EHeroType::Hero2:
-		text_name = "default_portrait_2";
+		portrait_image_->SetBrushFromTexture(hero_portrait_image_2_);
 		break;
 	case EHeroType::Hero3:
-		text_name = "default_portrait_3";
+		portrait_image_->SetBrushFromTexture(hero_portrait_image_3_);
 		break;
 	case EHeroType::Hero4:
-		text_name = "default_portrait_4";
+		portrait_image_->SetBrushFromTexture(hero_portrait_image_4_);
 		break;
 	default:
-		// Error text
-		text_name = "default_portrait";
+		portrait_image_->SetBrushFromTexture(nullptr);
 		break;
 	}
-
-	portrait_image_->SetBrushFromTexture(game_instance->GetTextureManager()->GetTexture(text_name));
 
 
 	ClearWidgets();

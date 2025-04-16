@@ -31,6 +31,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UGotchaResultWidget> result_widget_class_;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Textures")
+	UTexture2D* credits_texture_;
+
 protected:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;

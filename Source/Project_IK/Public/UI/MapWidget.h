@@ -38,6 +38,18 @@ public:
 
 	virtual int32 NativePaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const override;
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI images")
+	UTexture2D* enemy_icon_texture_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI images")
+	UTexture2D* boss_icon_texture_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI images")
+	UTexture2D* store_icon_texture_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI images")
+	UTexture2D* event_icon_texture_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UI images")
+	UTexture2D* check_texture_;
+
 protected:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
@@ -56,22 +68,22 @@ protected:
 	void OpenLevel();
 
 	UPROPERTY()
-	TWeakObjectPtr<UCanvasPanel> root_canvas_panel_;
+	TObjectPtr<UCanvasPanel> root_canvas_panel_;
 
 	UPROPERTY()
-	TWeakObjectPtr<UBorder> background_border_;
+	TObjectPtr<UBorder> background_border_;
 
 	UPROPERTY()
-	TWeakObjectPtr<UScrollBox> scroll_box_;
+	TObjectPtr<UScrollBox> scroll_box_;
 
 	UPROPERTY()
-	TWeakObjectPtr<UGridPanel> buttons_holder_;
+	TObjectPtr<UGridPanel> buttons_holder_;
 
 	UPROPERTY()
-	TMap<FIntPoint, TWeakObjectPtr<UButton>> buttons_;
+	TMap<FIntPoint, TObjectPtr<UButton>> buttons_;
 
 	UPROPERTY()
-	TArray<TWeakObjectPtr<UImage>> check_images_;
+	TArray<TObjectPtr<UImage>> check_images_;
 
 	UPROPERTY()
 	TWeakObjectPtr<const UIKMaps> maps_;

@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/ItemInventory.h"
 #include "UI/IKMaps.h"
-#include "Managers/TextureManager.h"
 #include "Managers/InventoryManager.h"
 #include "Managers/SetBonusManager.h"
 #include "Managers/EventManager.h"
@@ -37,7 +36,6 @@ void UIKGameInstance::Init()
 	InitializeCharacterDataManager();
 	InitializeItemInventory();
 	InitializeMaps();
-	InitializeTextureManager();
 	InitDataTableManager();
 	InitInventoryManager();
 	InitSpawnData();
@@ -94,11 +92,6 @@ UInventoryManager* UIKGameInstance::GetInventoryManager() const noexcept
 	return inventory_manager_;
 }
 
-const UTextureManager* UIKGameInstance::GetTextureManager() const noexcept
-{
-	return texture_manager_;
-}
-
 ULevelTransitionSubsystem* UIKGameInstance::GetLevelTransitionSubsystem() const noexcept
 {
 	return GetSubsystem<ULevelTransitionSubsystem>();
@@ -149,12 +142,6 @@ void UIKGameInstance::InitializeMaps()
 {
 	maps_ = NewObject<UIKMaps>();
 	maps_->GenerateMaps(10, 5);
-}
-
-void UIKGameInstance::InitializeTextureManager()
-{
-	texture_manager_ = NewObject<UTextureManager>();
-	texture_manager_->InitializeTextures();
 }
 
 void UIKGameInstance::InitInventoryManager()
