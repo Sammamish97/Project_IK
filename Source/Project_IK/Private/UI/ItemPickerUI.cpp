@@ -33,7 +33,6 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKHUD.h"
 #include "Managers/CombatLevelResultManager.h"
 #include "Structs/ItemData.h"
-#include "Managers/TextureManager.h"
 #include "Managers/DataTableManager.h"
 
 
@@ -210,11 +209,10 @@ void UItemPickerUI::InitializeChildWidgets()
 		skip_text_slot->SetVerticalAlignment(EVerticalAlignment::VAlign_Center);
 	}
 
-	UTexture2D* select_texture = game_instance->GetTextureManager()->GetTexture("take_it_button");
 	select_button_ = NewObject<UButton>();
 	FButtonStyle button_style;
 	FSlateBrush select_brush;
-	select_brush.SetResourceObject(select_texture);
+	select_brush.SetResourceObject(select_button_texture_);
 	select_brush.DrawAs = ESlateBrushDrawType::Type::Image;
 	select_brush.TintColor = FSlateColor(FLinearColor(0.69f, 0.69f, 0.69f));
 	select_brush.SetImageSize(FVector2D(256.0, 64.0));
@@ -234,10 +232,9 @@ void UItemPickerUI::InitializeChildWidgets()
 		select_button_slot->SetVerticalAlignment(EVerticalAlignment::VAlign_Center);
 	}
 
-	UTexture2D* highlight_texture = game_instance->GetTextureManager()->GetTexture("highlight_image");
 	highlight_image_ = NewObject<UImage>();
 	FSlateBrush highlight_brush;
-	highlight_brush.SetResourceObject(highlight_texture);
+	highlight_brush.SetResourceObject(highlight_texture_);
 	highlight_brush.DrawAs = ESlateBrushDrawType::Type::Image;
 	highlight_brush.SetImageSize(FVector2D(128.0, 128.0));
 	highlight_image_->SetBrush(highlight_brush);

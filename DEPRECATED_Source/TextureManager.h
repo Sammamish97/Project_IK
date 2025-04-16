@@ -29,9 +29,6 @@ class PROJECT_IK_API UTextureManager : public UObject
 public:
 	void InitializeTextures();
 
-	UTexture2D* GetTexture(const FString& Key) const;
-	UTexture2D* GetBuffTexture(ECharacterStatType StatType) const;
-	UTexture2D* GetCCTexture(ECCType CCType) const;
 private:
 	void GetAllTexturesInFolder(const FString& FolderPath);
 

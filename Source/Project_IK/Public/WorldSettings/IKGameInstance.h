@@ -18,7 +18,6 @@ class USetBonusManager;
 class UItemInventory;
 class UIKMaps;
 class UCharacterDataManager;
-class UTextureManager;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UIKGameInstance : public UGameInstance
@@ -35,8 +34,6 @@ public:
 	class UItemInventory* GetItemInventory() const noexcept;
 	UFUNCTION(BlueprintPure)
 	class UIKMaps* GetMapPtr() const noexcept;
-	UFUNCTION(BlueprintPure)
-	const class UTextureManager* GetTextureManager() const noexcept;
 	UFUNCTION(BlueprintPure)
 	class UInventoryManager* GetInventoryManager() const noexcept;
 	UFUNCTION(BlueprintPure)
@@ -61,7 +58,6 @@ private:
 	void InitializeCharacterDataManager();
 	void InitializeItemInventory();
 	void InitializeMaps();
-	void InitializeTextureManager();
 	void InitInventoryManager();
 	void InitDataTableManager();
 	void InitSpawnData();
@@ -73,9 +69,6 @@ private:
 
 	UPROPERTY()
 	class UIKMaps* maps_;
-	
-	UPROPERTY()
-	class UTextureManager* texture_manager_;
 
 	UPROPERTY()
 	TObjectPtr<UInventoryManager> inventory_manager_;

@@ -16,7 +16,6 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "Structs/ItemData.h"
 #include "Managers/DataTableManager.h"
-#include "Managers/TextureManager.h"
 #include "Abilities/ItemInventory.h"
 #include "Managers/InventoryManager.h"
 
@@ -122,7 +121,6 @@ void UGotchaWidget::Gotcha(int32 pulls)
 
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	const UDataTableManager* data_table_manager = game_instance->GetDataTableManager();
-	const UTextureManager* texture_manager = game_instance->GetTextureManager();
 	
 	TArray<UTexture2D*> textures;
 	// @@ TODO: Expand it from only item to item, DP, manuals, money
@@ -138,7 +136,7 @@ void UGotchaWidget::Gotcha(int32 pulls)
 			textures.Add(data_item.item_icon_);
 			break;
 		default:
-			textures.Add(texture_manager->GetTexture("credits"));
+			textures.Add(credits_texture_);
 			pulled_credits_ += 20;
 			break;
 		}
