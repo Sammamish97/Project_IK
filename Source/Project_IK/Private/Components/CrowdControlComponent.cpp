@@ -30,7 +30,7 @@ void UCrowdControlComponent::ApplyCrowdControl(ECCType cc_type, float duration, 
 	if (HasCrowdControl(cc_type))
 	{
 		// Update only timer if existed.
-		FTimerHandle timer_handle = CC_timers_[cc_type];
+		FTimerHandle& timer_handle = CC_timers_[cc_type];
 		UWorld* world = GetWorld();
 		if (world)
 		{
@@ -251,9 +251,11 @@ void UCrowdControlComponent::Bleeding(float duration, AActor* applier, bool is_a
 {
 	if (is_applying)
 	{
+		if (bleeding_remains_.IsEmpty())
+		{
+			GetWorld()->GetTimerManager().SetTimer(bleeding_timer_, this, &UCrowdControlComponent::ApplyBleedDamage, BLEEDING_TICK_INTERVAL, true);
+		}
 		bleeding_remains_.Add({ static_cast<int32>(duration), applier });
-
-		GetWorld()->GetTimerManager().SetTimer(bleeding_timer_, this, &UCrowdControlComponent::ApplyBleedDamage, BLEEDING_TICK_INTERVAL, true);
 	}
 }
 
