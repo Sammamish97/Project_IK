@@ -9,6 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Components/BulletChainEffectComponent.h"
 
+#include "Characters/EnemyBase.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Characters/Unit.h"
 
@@ -55,7 +56,11 @@ void UBulletChainEffectComponent::OnHit(AActor* target)
 		AActor* last_conducted = visited[i - 1];
 		TArray<AActor*> out_actors;
 		TArray<TEnumAsByte<EObjectTypeQuery>> traceObjectTypes;
-		
+
+		//IKTODO: Only For Test purpose.
+
+		target_class_ = AEnemyBase::StaticClass();
+		//
 		UKismetSystemLibrary::SphereOverlapActors(GetWorld(), last_conducted->GetActorLocation(),
 			chain_radius_, traceObjectTypes, target_class_, visited, out_actors);
 
@@ -84,8 +89,10 @@ void UBulletChainEffectComponent::OnHit(AActor* target)
 	//2. Visited array에 도탄될 대상이 전부 정해졌으면 도탄 효과를 발동한다.
 	for (int32 i = 0; i < visited.Num(); ++i)
 	{
-		AUnit * nearest_unit = Cast<AUnit>(visited[i]);
-		FDamageData dmg_data = {50.f, 0, EDamageType::Projectile, shooter_,nearest_unit};
-		nearest_unit->GetDamage(dmg_data);
+		if (AUnit* cur_unit = Cast<AUnit>(visited[i]))
+		{
+			FDamageData dmg_data = {77.f, 0, EDamageType::Projectile, shooter_,cur_unit};
+			cur_unit->GetDamage(dmg_data);
+		}
 	}
 }

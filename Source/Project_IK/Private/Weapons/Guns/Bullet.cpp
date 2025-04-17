@@ -13,7 +13,6 @@ See LICENSE file in the project root for full license information.
 #include "Interfaces/Damageable.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-#include "Interfaces/BulletOnHit.h"
 
 // Sets default values
 ABullet::ABullet()
@@ -82,6 +81,11 @@ void ABullet::RemoveOnHitComponent(TSubclassOf<UBulletOnHitEffectComponent> targ
 	}
 }
 
+void ABullet::ClearOnHitComponents()
+{
+	on_hit_components_.Empty();
+}
+
 void ABullet::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	IDamageable* casted_damage_logic = Cast<IDamageable>(OtherActor);
@@ -91,6 +95,7 @@ void ABullet::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 	{
 		elem->OnHit(OtherActor);
 	}
+	ClearOnHitComponents();
 	ReturnToPool();
 }
 

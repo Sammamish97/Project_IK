@@ -10,13 +10,15 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/AT_MagnetizedBullet.h"
 
 #include "Characters/HeroBase.h"
+#include "Components/BulletChainEffectComponent.h"
 #include "Components/WeaponMechanics.h"
+#include "Weapons/Guns/Gun.h"
 
 UAT_MagnetizedBullet::UAT_MagnetizedBullet()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Allies, 1000.f);
 	cool_time_ = 5.f;
-	duration_ = 2.f;
+	duration_ = 3.f;
 }
 
 bool UAT_MagnetizedBullet::ActivateSkill_Implementation(const FTargetResult& TargetResult)
@@ -28,9 +30,22 @@ bool UAT_MagnetizedBullet::ActivateSkill_Implementation(const FTargetResult& Tar
 	TWeakObjectPtr<AHeroBase> owner_hero_ptr = Cast<AHeroBase>(skill_owner_);
 	if (auto hero = owner_hero_ptr.Get())
 	{
-		auto weapon_mechanics_cache = hero->GetWeaponMechanics();
-		//weapon_mechanics_cache->
+		auto weapon_actor =  hero->GetWeaponMechanics()->GetWeaponActor();
+		weapon_actor->AddOnHitComponent(UBulletChainEffectComponent::StaticClass());
+		FTimerDelegate timer_delegate = FTimerDelegate::CreateUObject(this, &UAT_MagnetizedBullet::OnFinishSkill);
+		GetWorld()->GetTimerManager().SetTimer(duration_timer_handle_, timer_delegate, duration_, false);
 		return true;
 	}
 	return false;
+}
+
+void UAT_MagnetizedBullet::OnFinishSkill()
+{
+	TWeakObjectPtr<AHeroBase> owner_hero_ptr = Cast<AHeroBase>(skill_owner_);
+	if (auto hero = owner_hero_ptr.Get())
+	{
+		auto weapon_actor =  hero->GetWeaponMechanics()->GetWeaponActor();
+		weapon_actor->RemoveOnHitComponent(UBulletChainEffectComponent::StaticClass());
+		GetWorld()->GetTimerManager().ClearTimer(duration_timer_handle_);
+	}
 }

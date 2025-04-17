@@ -20,6 +20,8 @@ class PROJECT_IK_API UAT_MagnetizedBullet : public USkillBase
 public:
 	UAT_MagnetizedBullet();
 	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
+	void OnFinishSkill();
 private:
 	float duration_ = 0.f;
+	FTimerHandle duration_timer_handle_;
 };

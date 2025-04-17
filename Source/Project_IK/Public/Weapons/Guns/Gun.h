@@ -15,8 +15,6 @@ See LICENSE file in the project root for full license information.
 #include "Structs/WeaponData.h"
 #include "Gun.generated.h"
 
-class UObjectPoolComponent;
-class USphereComponent;
 UCLASS()
 class PROJECT_IK_API AGun : public AActor
 {
@@ -47,13 +45,18 @@ public:
 	void OnFireStub();
 	void OnReloadStub();
 
+	UFUNCTION()
+	void AddOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
+	void RemoveOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
+	void ClearOnHitComponents();
+
 private:
 	void FireSingleBullet(FVector muzzle_location, FVector target_pos, FDamageData dmg_data);
 	void FireBuckShot(FVector muzzle_location, FVector target_pos, FDamageData dmg_data);
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UStaticMeshComponent> weapon_mesh_;
+	TObjectPtr<class UStaticMeshComponent> weapon_mesh_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UNiagaraComponent> niagara_component_;
@@ -68,8 +71,11 @@ protected:
 	int32 cur_magazine_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UObjectPoolComponent> object_pool_component_;
+	TObjectPtr<class UObjectPoolComponent> object_pool_component_;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	TArray<TSubclassOf<class UBulletOnHitEffectComponent>> on_hit_effect_classes_;
+	
 	UPROPERTY(VisibleAnywhere, Category = "Gun")
 	TWeakObjectPtr<AActor> gun_owner_;
 

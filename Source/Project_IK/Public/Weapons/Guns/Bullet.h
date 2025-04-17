@@ -38,12 +38,13 @@ public:
 	UFUNCTION()
 	void AddOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
 	void RemoveOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
+	void ClearOnHitComponents();
+
+	virtual void SetInUse(bool in_use) override;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	virtual void SetInUse(bool in_use) override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bullet", meta = (AllowPrivateAccess = "true", BindWidget))
