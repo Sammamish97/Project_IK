@@ -24,6 +24,7 @@ UTargetingComponent::UTargetingComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 	is_targeting_ = false;
+	is_self_targeting_ = false;
 }
 
 // Called when the game starts
@@ -32,7 +33,7 @@ void UTargetingComponent::BeginPlay()
 	Super::BeginPlay();
 
 	player_controller_ = Cast<AIKPlayerController>(GetOwner());
-	
+
 	InitializeTargetingVisuals();
 }
 
@@ -103,7 +104,7 @@ void UTargetingComponent::CleanUpVisuals()
 	}
 }
 
-void UTargetingComponent::StartTargeting(FTargetParameters target_params, AActor* invoker)
+void UTargetingComponent::StartTargeting(FTargetParameters target_params, AActor* invoker, bool is_self_targeting)
 {
 	StartFocus();
 
@@ -113,6 +114,8 @@ void UTargetingComponent::StartTargeting(FTargetParameters target_params, AActor
 	current_target_result_.target_actors_.Empty();
 	current_target_result_.target_parameters_ = target_parameters_;
 	range_decal_->DecalSize = FVector(target_parameters_.range_);
+	is_self_targeting_ = is_self_targeting;
+
 	CleanUpVisuals();
 }
 
@@ -121,7 +124,6 @@ FTargetResult UTargetingComponent::DecideTargetings()
 	switch (target_parameters_.current_mode_)
 	{
 	case ETargetingMode::None:
-		//OnTargetResultSelected.Broadcast(current_target_result_);
 		StopTargeting();
 		break;
 	case ETargetingMode::Actor:
@@ -143,6 +145,7 @@ void UTargetingComponent::StopTargeting()
 {
 	EndFocus();
 	is_targeting_ = false;
+	is_self_targeting_ = false;
 	target_parameters_.current_mode_ = ETargetingMode::None;
 	player_controller_->CurrentMouseCursor = EMouseCursor::Default;
 	CleanupTargetingVisuals();
@@ -177,7 +180,7 @@ void UTargetingComponent::HandleActorTargeting()
 
 	current_target_result_.target_location_ = target_location;
 	current_target_result_.target_actors_.Add(closest_actor);
-	
+
 	StopTargeting();
 }
 
@@ -187,7 +190,7 @@ void UTargetingComponent::HandleLocationTargeting()
 
 	FVector target_location = GetGroundLocation();
 	current_target_result_.target_location_ = ClampingOntoInvoker(target_location);
-	
+
 	if (game_mode_cache)
 	{
 		const float squared_radius = target_parameters_.radius_ * target_parameters_.radius_;
@@ -222,7 +225,7 @@ void UTargetingComponent::HandleLocationTargeting()
 			}
 		}
 	}
-	
+
 	StopTargeting();
 }
 
@@ -334,7 +337,7 @@ void UTargetingComponent::InitializeTargetingVisuals()
 void UTargetingComponent::UpdateTargetingVisuals()
 {
 	FVector target_location = GetGroundLocation();
-	target_location = ClampingOntoInvoker(target_location);
+	FVector clamped_target_location = ClampingOntoInvoker(target_location);
 
 	FVector invoker_location;
 	if (invoker_)
@@ -351,19 +354,19 @@ void UTargetingComponent::UpdateTargetingVisuals()
 	{
 		range_decal_->SetWorldLocation(invoker_location);
 
-		ApplyMaterialHighlight(FindClosestActor(GetGroundLocation()));
+		ApplyMaterialHighlight(FindClosestActor(target_location));
 	}
 	if (target_parameters_.current_mode_ == ETargetingMode::Location)
 	{
 
-		radius_decal_->SetWorldLocation(target_location);
+		radius_decal_->SetWorldLocation(clamped_target_location);
 		range_decal_->SetWorldLocation(invoker_location);
 	}
 	if (target_parameters_.current_mode_ == ETargetingMode::Direction)
 	{
 		sector_decal_->SetWorldLocation(invoker_location);
 
-		FVector direction = target_location - invoker_location;
+		FVector direction = clamped_target_location - invoker_location;
 		FRotator target_rotation = UKismetMathLibrary::MakeRotFromZ(direction);
 		sector_decal_->SetRelativeRotation(FRotator(90.0, 0.0, 0.0));
 		sector_decal_->AddRelativeRotation(target_rotation);
@@ -403,6 +406,14 @@ FVector UTargetingComponent::ProjectPointOntoCircle(const FVector& Point, const 
 
 FVector UTargetingComponent::GetGroundLocation() const
 {
+	if (is_self_targeting_)
+	{
+		if (invoker_)
+		{
+			invoker_->GetActorLocation();
+		}
+	}
+
 	FHitResult hit_result;
 	FVector world_location, world_direction;
 
@@ -442,6 +453,10 @@ AActor* UTargetingComponent::FindClosestActor(const FVector& TargetLocation)
 	if (!game_mode)
 	{
 		return nullptr;
+	}
+	if (is_self_targeting_)
+	{
+		return invoker_;
 	}
 
 	AActor* closest_actor = nullptr;
