@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/ActiveSkills/ATC_MagnetizedEffect.h"
 #include "Characters/EnemyBase.h"
+#include "Characters/HeroBase.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Characters/Unit.h"
 
@@ -31,7 +32,14 @@ void UBulletChainEffectComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
+	if (GetOwner()->IsA(AHeroBase::StaticClass()))
+	{
+		target_class_ = AEnemyBase::StaticClass();
+	}
+	else
+	{
+		target_class_ = AHeroBase::StaticClass();
+	}
 }
 
 // Called every frame
@@ -57,11 +65,7 @@ void UBulletChainEffectComponent::OnHit(AActor* target)
 		AActor* last_conducted = visited[i - 1];
 		TArray<AActor*> out_actors;
 		TArray<TEnumAsByte<EObjectTypeQuery>> traceObjectTypes;
-
-		//IKTODO: Only For Test purpose.
-
-		target_class_ = AEnemyBase::StaticClass();
-		//
+		
 		UKismetSystemLibrary::SphereOverlapActors(GetWorld(), last_conducted->GetActorLocation(),
 			chain_radius_, traceObjectTypes, target_class_, visited, out_actors);
 

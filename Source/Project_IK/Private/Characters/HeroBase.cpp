@@ -141,6 +141,11 @@ void AHeroBase::SetAttackTarget(AActor* target)
 	Cast<AHeroAIController>(GetController())->SetAttackTarget(target);
 }
 
+void AHeroBase::SetIsCovered(bool is_covered)
+{
+	is_covered_ = is_covered;
+}
+
 TOptional<FTargetParameters> AHeroBase::GetActiveSkillTargetParameters() const
 {
 	return skill_container_->GetTargetParameters();

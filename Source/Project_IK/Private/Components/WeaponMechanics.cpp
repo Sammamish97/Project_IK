@@ -88,7 +88,7 @@ void UWeaponMechanics::BeginFire(AActor* target)
 			if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
 			{
 				FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target, GetWeaponFireDamageData(), true, 0.f);
-				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, 1.0f, true, weapon_attack_speed); 
+				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, weapon_attack_speed); 
 			}
 		}
 	}
@@ -110,7 +110,7 @@ void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data, bool is_cont
 		FinishFire();
 		FTimerDelegate burst_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::FinishBurstCooldown);
 		float burst_wait_time = weapon_actor_->GetWeaponData().wait_after_fire / (1 + owner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
-		GetWorld()->GetTimerManager().SetTimer(burst_timer_handle_, burst_del, 1.f, false,burst_wait_time); 
+		GetWorld()->GetTimerManager().SetTimer(burst_timer_handle_, burst_del, burst_wait_time, false); 
 	}
 }
 

@@ -44,6 +44,7 @@ public:
 
 	void Reposition(FVector target_location);
 	void SetAttackTarget(AActor* target);
+	void SetIsCovered(bool is_covered);
 	
 	class UWeaponMechanics* GetWeaponMechanics();
 
@@ -70,4 +71,5 @@ protected:
 
 private:
 	EHeroType hero_type_;
+	bool is_covered_ = false;
 };
