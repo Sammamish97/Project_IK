@@ -48,7 +48,7 @@ public:
 	void CancelTargeting();
 
 	UFUNCTION(BlueprintCallable, Category = "Targeting")
-	void StartTargeting(FTargetParameters target_params, AActor* invoker = nullptr);
+	void StartTargeting(FTargetParameters target_params, AActor* invoker = nullptr, bool is_self_targeting = false);
 
 	UFUNCTION()
 	FTargetResult DecideTargetings();
@@ -82,6 +82,7 @@ private:
 	APlayerController* player_controller_;
 	FTargetParameters target_parameters_;
 	FTargetResult current_target_result_;
+	bool is_self_targeting_;
 
 	// Components for visual feedback
 	UPROPERTY()
