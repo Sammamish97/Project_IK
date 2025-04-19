@@ -15,6 +15,8 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SkillBase.h"
 #include "AT_ThunderStorm.generated.h"
 
+class AAT_ThunderStormActor;
+
 /**
  * 
  */
@@ -22,9 +24,13 @@ UCLASS()
 class PROJECT_IK_API UAT_ThunderStorm : public USkillBase
 {
 	GENERATED_BODY()
-
+public:
 	UAT_ThunderStorm();
 	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
+	TSubclassOf<AAT_ThunderStormActor> visual_actor_class_;
 
 protected:
 	UFUNCTION()
@@ -36,4 +42,7 @@ protected:
 	FTimerHandle damage_handler_;
 
 	UWorld* world_cache_ = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<AAT_ThunderStormActor> visual_actor_;
 };
