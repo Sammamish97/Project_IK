@@ -52,7 +52,7 @@ APooledActor* UObjectPoolComponent::FindFirstAvailableActor()
 			return object_pool_[i];
 		}
 	}
-	//UE_LOG(LogTemp, Error, TEXT("Failed to find available object in the pool"));
+	UE_LOG(LogTemp, Error, TEXT("Failed to find available object in the pool"));
 	return nullptr;
 }
 

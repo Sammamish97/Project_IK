@@ -256,7 +256,13 @@ UENUM(BlueprintType)
 enum class EActiveSkillType : uint8
 {
 	Thunder UMETA(DisplayName = "Thunder"),
+	
+	TripleFire UMETA(DisplayName = "TripleFire"),
 	RapidFire UMETA(DisplayName = "RapidFire"),
+	ChargeShot UMETA(DisplayName = "ChargeShot"),
+	MagnetizedBullet UMETA(DisplayName = "MagnetizedBullet"),
+	ShockJavelin UMETA(DisplayName = "ShockJaveline"),
+	Accelerate UMETA(DisplayName = "Accelerate"),
 	INVALID UMETA(DisplayName = "INVALID")
 };
 

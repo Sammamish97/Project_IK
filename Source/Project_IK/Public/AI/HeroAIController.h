@@ -24,6 +24,7 @@ public:
 	// Sets default values for this actor's properties
 	AHeroAIController();
 	void RepositionHero(FVector target_location);
+	void SetAttackTarget(AActor* target);
 
 protected:
 	// Called when the game starts or when spawned
@@ -39,5 +40,5 @@ private:
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "HeroAIController", meta = (AllowPrivateAccess = "true"))
-	FName target_position_key_name_;
+	FName relocate_target_position_key_name_;
 };

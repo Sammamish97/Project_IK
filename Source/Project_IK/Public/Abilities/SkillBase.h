@@ -40,9 +40,9 @@ protected:
 	FTargetParameters target_param_{};
 
 	float cool_time_ = 0.f;
-
+	
 	float scaling_factor_ = 1.f;
 
 	UPROPERTY()
-	AActor* skill_owner_ = nullptr;
+	TObjectPtr<AActor> skill_owner_ = nullptr;
 };

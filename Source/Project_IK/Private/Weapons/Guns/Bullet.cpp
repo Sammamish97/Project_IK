@@ -8,6 +8,8 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Weapons/Guns/Bullet.h"
+
+#include "Components/BulletOnHitEffectComponent.h"
 #include "Interfaces/Damageable.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
@@ -60,11 +62,40 @@ void ABullet::SetCollisionPreset(bool is_hero)
 	}
 }
 
-void ABullet::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void ABullet::AddOnHitComponent(TSubclassOf<UBulletOnHitEffectComponent> target_class)
+{
+	UBulletOnHitEffectComponent* new_on_hit_component = NewObject<UBulletOnHitEffectComponent>(this, target_class);
+	new_on_hit_component->RegisterComponent();
+	on_hit_components_.Add(new_on_hit_component);
+}
+
+void ABullet::RemoveOnHitComponent(TSubclassOf<UBulletOnHitEffectComponent> target_class)
+{
+	for (const auto& elem : on_hit_components_)
+	{
+		if (elem.GetClass() == target_class)
+		{
+			on_hit_components_.Remove(elem);
+			return;
+		}
+	}
+}
+
+void ABullet::ClearOnHitComponents()
+{
+	on_hit_components_.Empty();
+}
+
+void ABullet::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	IDamageable* casted_damage_logic = Cast<IDamageable>(OtherActor);
 	dmg_data_.attack_target = OtherActor;
 	if(casted_damage_logic) casted_damage_logic->GetDamage(dmg_data_);
+	for (const auto& elem : on_hit_components_)
+	{
+		elem->OnHit(OtherActor);
+	}
+	ClearOnHitComponents();
 	ReturnToPool();
 }
 

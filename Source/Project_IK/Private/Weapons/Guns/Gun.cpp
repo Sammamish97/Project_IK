@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 #include "Components/ObjectPoolComponent.h"
+#include "Components/BulletOnHitEffectComponent.h"
 #include "Components/AudioComponent.h"
 #include "NiagaraComponent.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -48,12 +49,21 @@ void AGun::Reload()
 	cur_magazine_ = weapon_data_.max_magazine;
 }
 
+void AGun::Reload(int32 amount)
+{
+	cur_magazine_ += amount;
+}
+
 void AGun::FireSingleBullet(FVector muzzle_location, FVector target_pos, FDamageData dmg_data)
 {
 	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, target_pos);
 	FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
 	FTransform spawn_transform(rotation, muzzle_location, scale);
 	ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(spawn_transform));
+	for (auto& elem : on_hit_effect_classes_)
+	{
+		bullet->AddOnHitComponent(elem);
+	}
 	if (bullet)
 	{
 		bullet->SetShooter(gun_owner_);
@@ -84,6 +94,10 @@ void AGun::FireBuckShot(FVector muzzle_location, FVector target_pos, FDamageData
 		FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
 		FTransform spawn_transform(rotation, muzzle_location, scale);
 		ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(spawn_transform));
+		for (auto& elem : on_hit_effect_classes_)
+		{
+			bullet->AddOnHitComponent(elem);
+		}
 		if (bullet)
 		{
 			bullet->SetShooter(gun_owner_);
@@ -165,4 +179,19 @@ void AGun::OnReloadStub()
 {
 	// audio_component_->SetSound(weapon_data_.reload_sound_);
 	// audio_component_->Play();
+}
+
+void AGun::AddOnHitComponent(TSubclassOf<UBulletOnHitEffectComponent> target_component)
+{
+	on_hit_effect_classes_.Add(target_component);
+}
+
+void AGun::RemoveOnHitComponent(TSubclassOf<UBulletOnHitEffectComponent> target_component)
+{
+	on_hit_effect_classes_.Remove(target_component);
+}
+
+void AGun::ClearOnHitComponents()
+{
+	on_hit_effect_classes_.Empty();
 }

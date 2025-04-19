@@ -22,11 +22,10 @@ void UInventoryManager::InitEquipInventory()
 	AddEquipment(EWeaponType::Pistol_A);
 	AddEquipment(EWeaponType::ShotGun_A);
 	AddEquipment(EWeaponType::AssaultRifle_A);
-
-	// AddEquipment(EGearType::PassiveSkill, EPassiveSkillType::FixedDmgReduce);
-	// AddEquipment(EGearType::PassiveSkill, EPassiveSkillType::RandDmgIncrease);
-	// AddEquipment(EGearType::ActiveSkill, EActiveSkillType::Thunder);
-	// AddEquipment(EGearType::Oopart, EOopartType::AttackSpeedBoost);
+	
+	AddEquipment(EActiveSkillType::Accelerate);
+	AddEquipment(EActiveSkillType::Accelerate);
+	AddEquipment(EActiveSkillType::Accelerate);
 }
 
 void UInventoryManager::InitRuneInventory()

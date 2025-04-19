@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Managers/DataTableManager.h"
 #include "WorldSettings/IKGameInstance.h"
 
@@ -35,9 +36,9 @@ UWeaponMechanics::UWeaponMechanics()
 void UWeaponMechanics::BeginPlay()
 {
 	Super::BeginPlay();
-	gunner_ref_ = Cast<AUnit>(GetOwner());
+	owner_ref_ = Cast<AUnit>(GetOwner());
 	weapon_actor_ = GetWorld()->SpawnActor<AGun>(weapon_class_);
-	weapon_actor_->AttachToComponent(gunner_ref_->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, gun_socket_name_);
+	weapon_actor_->AttachToComponent(owner_ref_->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, gun_socket_name_);
 }
 
 //TODO: 무기의 장착과 실제 장착 후 생성은 분리되어야 한다.
@@ -61,39 +62,42 @@ void UWeaponMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
-void UWeaponMechanics::SetDamageData(FCharacterData char_data, FDamageData dmg_data)
+FDamageData UWeaponMechanics::GetWeaponFireDamageData()
 {
-	//dmg_data에는 시전자가 들어있는것을 기대한다.
-	//여기서 최종 데미지가 결정된다.
+	auto char_data = owner_ref_->GetCharacterStat()->GetCharacterData();
 	float total_atk_dmg = weapon_actor_->GetWeaponData().basic_dmg_ + char_data.attack_power_ * weapon_actor_->GetWeaponData().attack_scale;
 	float total_crit_hit_rate = char_data.critical_hit_rate_ + weapon_actor_->GetWeaponData().critical_hit_rate_;
 	if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
 	{
 		total_atk_dmg *= 2;
 	}
+	FDamageData dmg_data;
 	dmg_data.atk_base_dmg = total_atk_dmg;
 	dmg_data.damage_type = EDamageType::Projectile;
-	damage_data_ = dmg_data;
+	return owner_ref_->ApplyOnAttackEvent(dmg_data);
 }
 
 void UWeaponMechanics::BeginFire(AActor* target)
 {
-	float total_fire_per_sec =  weapon_actor_->GetWeaponData().fire_per_sec * (1 + gunner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
-	float weapon_attack_speed = 1.f / total_fire_per_sec;
-	if (on_burst_cool_down_ == false)
+	if (stop_fire_ == false)
 	{
-		if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
+		float total_fire_per_sec =  weapon_actor_->GetWeaponData().fire_per_sec * (1 + owner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
+		float weapon_attack_speed = 1.f / total_fire_per_sec;
+		if (on_burst_cool_down_ == false)
 		{
-			FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target);
-			GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, 0); 
+			if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
+			{
+				FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target, GetWeaponFireDamageData(), true, 0.f);
+				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, weapon_attack_speed); 
+			}
 		}
 	}
 }
 
-void UWeaponMechanics::OnFire(AActor* target)
+void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data, bool is_controlled_fire, float offset)
 {
-	FireWeapon(target);
-	gunner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().fire_montage_);
+	FireWeapon(target, dmg_data, is_controlled_fire, offset);
+	owner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().fire_montage_);
 	burst_count_ += 1;
 	if(IsMagazineEmpty())
 	{
@@ -105,34 +109,42 @@ void UWeaponMechanics::OnFire(AActor* target)
 		on_burst_cool_down_ = true;
 		FinishFire();
 		FTimerDelegate burst_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::FinishBurstCooldown);
-		float burst_wait_time = weapon_actor_->GetWeaponData().wait_after_fire / (1 + gunner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
-		GetWorld()->GetTimerManager().SetTimer(burst_timer_handle_, burst_del, 1.f, false,burst_wait_time); 
+		float burst_wait_time = weapon_actor_->GetWeaponData().wait_after_fire / (1 + owner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
+		GetWorld()->GetTimerManager().SetTimer(burst_timer_handle_, burst_del, burst_wait_time, false); 
 	}
 }
 
-void UWeaponMechanics::FireWeapon(AActor* target)
+void UWeaponMechanics::FireWeapon(AActor* target, FDamageData dmg_data, bool is_controlled_fire, float offset)
 {
 	if(weapon_actor_ && IsValid(target))
 	{
 		ACharacter* casted_target = Cast<ACharacter>(target);
-		if(UBlackboardComponent* blackboard = Cast<AAIController>(casted_target->GetController())->GetBlackboardComponent())
+		if (is_controlled_fire)
 		{
-			UObject* cover = blackboard->GetValueAsObject(owned_cover_key_name_);
-			if(IsValid(cover))
+			if(UBlackboardComponent* blackboard = Cast<AAIController>(casted_target->GetController())->GetBlackboardComponent())
 			{
-				if(FMath::RandRange(0, 100) > 50)
+				UObject* cover = blackboard->GetValueAsObject(owned_cover_key_name_);
+				if(IsValid(cover))
 				{
-					weapon_actor_->FireWeapon(casted_target->GetMesh()->GetSocketLocation(head_socket_name_), damage_data_);
+					if(FMath::RandRange(0, 100) > 50)
+					{
+						weapon_actor_->FireWeapon(casted_target->GetMesh()->GetSocketLocation(head_socket_name_), dmg_data);
+					}
+					else
+					{
+						weapon_actor_->FireWeapon(target->GetActorLocation() - FVector(0, 0, 50), dmg_data);
+					}
 				}
 				else
 				{
-					weapon_actor_->FireWeapon(target->GetActorLocation() - FVector(0, 0, 50), damage_data_);
+					weapon_actor_->FireWeapon(target->GetActorLocation(), dmg_data);
 				}
 			}
-			else
-			{
-				weapon_actor_->FireWeapon(target->GetActorLocation(), damage_data_);
-			}
+		}
+		else
+		{
+			FVector rand_vec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, offset);
+			weapon_actor_->FireWeapon(target->GetActorLocation() + rand_vec, dmg_data);
 		}
 	}
 }
@@ -149,25 +161,39 @@ void UWeaponMechanics::FinishBurstCooldown()
 	on_burst_cool_down_ = false;
 }
 
-void UWeaponMechanics::Reload()
+void UWeaponMechanics::Reload(float duration_multiplier)
 {
 	if(weapon_actor_)
 	{
 		if(GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false)
 		{
-			Cast<AMeleeAIController>(gunner_ref_->Controller)->SetUnitState(EUnitState::Reloading);
+			Cast<AMeleeAIController>(owner_ref_->Controller)->SetUnitState(EUnitState::Reloading);
 			weapon_actor_->OnReloadStub();
-			gunner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().reload_montage_);
-			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &UWeaponMechanics::OnReload, GetWeaponData().reload_duration);
+			FWeaponData weapon_data = GetWeaponData();
+			float reload_play_rate = weapon_data.reload_montage_->GetPlayLength() / weapon_data.reload_duration / duration_multiplier;
+			owner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().reload_montage_, reload_play_rate);
+			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &UWeaponMechanics::OnReload, weapon_data.reload_duration * duration_multiplier);
 		}
 	}
+}
+
+void UWeaponMechanics::StopFire()
+{
+	FinishFire();
+	FinishBurstCooldown();
+	stop_fire_ = true;
+}
+
+void UWeaponMechanics::ResumeFire()
+{
+	stop_fire_ = false;
 }
 
 void UWeaponMechanics::OnReload()
 {
 	if(weapon_actor_)weapon_actor_->Reload();
 	burst_count_ = 0;
-	Cast<AMeleeAIController>(gunner_ref_->Controller)->SetUnitState(EUnitState::Forwarding);
+	Cast<AMeleeAIController>(owner_ref_->Controller)->SetUnitState(EUnitState::Forwarding);
 }
 
 void UWeaponMechanics::OnStunned()
@@ -194,4 +220,14 @@ FWeaponData UWeaponMechanics::GetWeaponData()
 	}
 	//TODO: 적절한 예외처리가 필요하다.
 	return FWeaponData();
+}
+
+AGun* UWeaponMechanics::GetWeaponActor()
+{
+	return weapon_actor_;
+}
+
+FTimerHandle& UWeaponMechanics::RentFireTimerHandle()
+{
+	return fire_timer_handle_;
 }

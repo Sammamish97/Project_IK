@@ -30,17 +30,23 @@ public:
 public:
 	virtual void Initialize(FSpawnData spawn_data);
 	virtual void Die() override;
-
-	virtual FDamageData Attack(AActor* target) override;
+	
+	virtual void Attack(AActor* target) override;
 	virtual void GetStunned(float stun_duration) override;
 	virtual void OnStunned() override;
 	
 	EHeroType GetHeroType() const;
-	void InvokeActiveSkill(FTargetResult target_result);
-	void Reposition(FVector target_location);
 	TOptional<FTargetParameters> GetActiveSkillTargetParameters() const;
+
+	void InvokeActiveSkill(FTargetResult target_result);
 	bool IsActiveSkillOnCoolDown() const;
 	bool HasActiveSkill() const;
+
+	void Reposition(FVector target_location);
+	void SetAttackTarget(AActor* target);
+	void SetIsCovered(bool is_covered);
+	
+	class UWeaponMechanics* GetWeaponMechanics();
 
 public:
 
@@ -65,4 +71,5 @@ protected:
 
 private:
 	EHeroType hero_type_;
+	bool is_covered_ = false;
 };
