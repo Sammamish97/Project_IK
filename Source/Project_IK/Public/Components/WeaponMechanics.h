@@ -17,7 +17,6 @@ See LICENSE file in the project root for full license information.
 #include "Structs/WeaponData.h"
 #include "WeaponMechanics.generated.h"
 
-class AUnit;
 class UCharacterStatComponent;
 class AGun;
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -37,29 +36,34 @@ public:
 public:
 	void OnDestroy();
 
-	void SetDamageData(FCharacterData char_data, FDamageData dmg_data);
+	FDamageData GetWeaponFireDamageData();
 	
 	void BeginFire(AActor* target);
-	void OnFire(AActor* target);
-	void FireWeapon(AActor* target);
+	void OnFire(AActor* target, FDamageData dmg_data, bool is_controlled_fire = true, float offset = 0.f);
+	void FireWeapon(AActor* target, FDamageData dmg_data, bool is_controlled_fire = true, float offset = 0.f);
 	void FinishFire();
+	
 	void FinishBurstCooldown();
 	
-	void Reload();
+	void Reload(float duration_multiplier = 1.0f);
 	void OnReload();
-	
-	bool IsMagazineEmpty() const;
-	FWeaponData GetWeaponData();
 
 	void OnStunned();
+
+	void StopFire();
+	void ResumeFire();
+	
+	bool IsMagazineEmpty() const;
+	
+	FWeaponData GetWeaponData();
+	AGun* GetWeaponActor();
+
+	FTimerHandle& RentFireTimerHandle();
 	
 	UFUNCTION()
 	void EquipWeapon(EWeaponType type);
 
 private:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
-	FDamageData damage_data_;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AGun> weapon_class_ = nullptr;
 	
@@ -83,13 +87,17 @@ private:
 
 	UPROPERTY(Transient)
 	FTimerHandle burst_timer_handle_;
-	
+
+	//Owner는 Hero가 될 수도, Enemy가 될 수도 있다. 지금은 Enemy역시 Weapon mechanics를 사용하여 총을 발사하기 때문.
 	UPROPERTY(Transient)
-	TObjectPtr<AUnit> gunner_ref_ = nullptr;
+	TObjectPtr<class AUnit> owner_ref_ = nullptr;
 
 	UPROPERTY(Transient)
 	int32 burst_count_ = 0;
 
 	UPROPERTY(Transient)
 	bool on_burst_cool_down_ = false;
+
+	UPROPERTY(Transient)
+	bool stop_fire_ = false;
 };

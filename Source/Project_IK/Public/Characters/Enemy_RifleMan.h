@@ -27,7 +27,7 @@ public:
 	virtual void OnStunned() override;
 	virtual void Die() override;
 	
-	virtual FDamageData Attack(AActor* target) override;
+	virtual void Attack(AActor* target) override;
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))

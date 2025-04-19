@@ -25,13 +25,17 @@ EBTNodeResult::Type UTask_BeginFire::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 	UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
 
-	auto casted_pawn = OwnerComp.GetAIOwner()->GetPawn();
-	if(auto casted_attackable_unit = Cast<IAttackable>(casted_pawn))
+	TWeakObjectPtr<APawn> casted_pawn_ptr = OwnerComp.GetAIOwner()->GetPawn();
+	if (auto casted_pawn = casted_pawn_ptr.Get())
 	{
-		if(	AActor* casted_target = Cast<AActor>(blackboard->GetValueAsObject(attack_target_key_.SelectedKeyName)))
+		if (auto casted_attackable_unit = Cast<IAttackable>(casted_pawn))
 		{
-			casted_attackable_unit->Attack(casted_target);
-			return EBTNodeResult::Succeeded;
+			TWeakObjectPtr<UObject> target_ptr = blackboard->GetValueAsObject(attack_target_key_.SelectedKeyName);
+			if(UObject* casted_target =target_ptr.Get())
+			{
+				casted_attackable_unit->Attack(Cast<AActor>(casted_target));
+				return EBTNodeResult::Succeeded;
+			}
 		}
 	}
 	return EBTNodeResult::Failed;

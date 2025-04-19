@@ -1,8 +1,8 @@
 /******************************************************************************
 Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 02.10.2025
-Summary : Header file for Attackable interface.
+Creation Date : 04.17.2025
+Summary : Header file for Bullet On Hit interface.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -10,22 +10,20 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Structs/DamageData.h"
 #include "UObject/Interface.h"
-#include "Attackable.generated.h"
+#include "BulletOnHit.generated.h"
 
 // This class does not need to be modified.
 UINTERFACE()
-class UAttackable : public UInterface
+class UBulletOnHit : public UInterface
 {
 	GENERATED_BODY()
 };
 
-class PROJECT_IK_API IAttackable
-{	
+class PROJECT_IK_API IBulletOnHit
+{
 	GENERATED_BODY()
 
-	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual void Attack(AActor* target) = 0;
+	virtual void OnHit(AActor* target) = 0;
 };

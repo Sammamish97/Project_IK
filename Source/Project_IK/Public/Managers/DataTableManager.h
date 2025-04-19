@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
 #include "Managers/EnumCluster.h"
+
 #include "DataTableManager.generated.h"
 
 class UGlobalBuffDataAsset;
@@ -20,6 +21,7 @@ class URandomDataAssetsManager;
 class UStatInfoDataAsset;
 class UCrowdControlInfoDataAsset;
 class UTexture2D;
+
 struct FGlobalBuffData;
 struct FRuneSetData;
 struct FItemData;
@@ -30,7 +32,7 @@ struct FPassiveSkillData;
 struct FOopartData;
 struct FRuneData;
 struct FActiveSkillData;
-
+struct FGlobalBuffData;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UDataTableManager : public UObject

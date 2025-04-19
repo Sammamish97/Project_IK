@@ -104,28 +104,9 @@ void AHeroBase::Die()
 	Super::Die();
 }
 
-FDamageData AHeroBase::Attack(AActor* target)
+void AHeroBase::Attack(AActor* target)
 {
-	FDamageData damage_data;
-	damage_data.damage_type = EDamageType::Projectile;
-	damage_data.attacker = this;
-	if (dmg_event_map_.Find(EUnitEvent::OnFire))
-	{
-		if (dmg_event_map_[EUnitEvent::OnFire].IsEmpty() == false)
-		{
-			for (auto& delegate : dmg_event_map_[EUnitEvent::OnFire])
-			{
-				if (delegate.IsBound())
-				{
-					damage_data = delegate.Execute(damage_data);
-				}
-			}
-		}
-	}
-	weapon_mechanics_->SetDamageData(GetCharacterStat()->GetCharacterData(), damage_data);
 	weapon_mechanics_->BeginFire(target);
-
-	return damage_data;
 }
 
 void AHeroBase::GetStunned(float stun_duration)
@@ -155,6 +136,16 @@ void AHeroBase::Reposition(FVector target_location)
 	Cast<AHeroAIController>(GetController())->RepositionHero(target_location);
 }
 
+void AHeroBase::SetAttackTarget(AActor* target)
+{
+	Cast<AHeroAIController>(GetController())->SetAttackTarget(target);
+}
+
+void AHeroBase::SetIsCovered(bool is_covered)
+{
+	is_covered_ = is_covered;
+}
+
 TOptional<FTargetParameters> AHeroBase::GetActiveSkillTargetParameters() const
 {
 	return skill_container_->GetTargetParameters();
@@ -168,4 +159,9 @@ bool AHeroBase::IsActiveSkillOnCoolDown() const
 bool AHeroBase::HasActiveSkill() const
 {
 	return skill_container_->HasActiveSkill();
+}
+
+UWeaponMechanics* AHeroBase::GetWeaponMechanics()
+{
+	return weapon_mechanics_;
 }

@@ -43,6 +43,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void GetDamage(FDamageData data) override;
 
+	virtual FDamageData ApplyOnAttackEvent(FDamageData dmg_data);
+
 	UFUNCTION(BlueprintCallable)
 	void Heal(float heal);
 
@@ -54,6 +56,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ApplyCrowdControl(ECCType cc_type, float duration);
+
+	void AcquireShield(float ShieldAmount, float Duration);
 	
 	UFUNCTION()
 	virtual void GetStunned(float stun_duration) override;
