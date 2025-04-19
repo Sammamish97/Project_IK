@@ -23,6 +23,6 @@ public:
 
 private:
 	float shield_amount_ = 100.f;
-	float attack_speed_increase_amount_ = 2.f;
-	float buff_duration_ = 2.f;
+	float attack_speed_increase_amount_ = 50.f;
+	float buff_duration_ = 3.f;
 };

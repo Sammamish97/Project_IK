@@ -26,7 +26,7 @@ bool UAT_Accelerate::ActivateSkill_Implementation(const FTargetResult& TargetRes
 	if (auto hero = owner_hero_ptr.Get())
 	{
 		auto weapon_mechanics_cache = hero->GetWeaponMechanics();
-		weapon_mechanics_cache->Reload();
+		weapon_mechanics_cache->Reload(0.5);
 		owner_hero_ptr->ApplyBuff(FBuffData("Accelerate Buff", ECharacterStatType::AttackSpeed, attack_speed_increase_amount_, true, buff_duration_));
 		hero->AcquireShield(shield_amount_, buff_duration_);
 		return true;
