@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/ItemData.h"
 #include "Abilities/ItemInventory.h"
 #include "Managers/InventoryManager.h"
+#include "Managers/DataTableManager.h"
 
 #include "WorldSettings/StoreLevel/IKStoreHUD.h"
 
@@ -145,13 +146,13 @@ int32 UStoreWidget::GetPriceByRarity(ERarity rarity)
 {
 	switch (rarity)
 	{
-	case ERarity::Rare:
+	case ERarity::Legendary:
 		return 100;
 		break;
-	case ERarity::Epic:
+	case ERarity::Rare:
 		return 75;
 		break;
-	case ERarity::Legendary:
+	case ERarity::Common:
 	default:
 		return 50;
 		break;

@@ -43,33 +43,22 @@ TArray<TPair<ERarity, int32>> URandomDataAssetsManager::GetRarityWeights(ERarity
 	case ERarity::Common:
 		weights = {
 			TPair<ERarity, int32>(ERarity::Common, 80),
-			TPair<ERarity, int32>(ERarity::Rare, 10),
-			TPair<ERarity, int32>(ERarity::Epic, 5),
-			TPair<ERarity, int32>(ERarity::Legendary, 5)
+			TPair<ERarity, int32>(ERarity::Rare, 20),
+			TPair<ERarity, int32>(ERarity::Legendary, 0)
 		};
 		break;
 	case ERarity::Rare:
 		weights = {
-			TPair<ERarity, int32>(ERarity::Common, 10),
-			TPair<ERarity, int32>(ERarity::Rare, 75),
-			TPair<ERarity, int32>(ERarity::Epic, 10),
-			TPair<ERarity, int32>(ERarity::Legendary, 5)
-		};
-		break;
-	case ERarity::Epic:
-		weights = {
-			TPair<ERarity, int32>(ERarity::Common, 5),
-			TPair<ERarity, int32>(ERarity::Rare, 15),
-			TPair<ERarity, int32>(ERarity::Epic, 75),
+			TPair<ERarity, int32>(ERarity::Common, 15),
+			TPair<ERarity, int32>(ERarity::Rare, 80),
 			TPair<ERarity, int32>(ERarity::Legendary, 5)
 		};
 		break;
 	case ERarity::Legendary:
 		weights = {
 			TPair<ERarity, int32>(ERarity::Common, 10),
-			TPair<ERarity, int32>(ERarity::Rare, 15),
-			TPair<ERarity, int32>(ERarity::Epic, 25),
-			TPair<ERarity, int32>(ERarity::Legendary, 50)
+			TPair<ERarity, int32>(ERarity::Rare, 30),
+			TPair<ERarity, int32>(ERarity::Legendary, 60)
 		};
 		break;
 	default:

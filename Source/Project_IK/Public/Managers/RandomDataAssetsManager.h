@@ -100,7 +100,6 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetUniqueDataAssetsRandomly(i
 	TMap<ERarity, TArray<TMapKey>> keys_classified_by_rarity;
 	keys_classified_by_rarity.FindOrAdd(ERarity::Common);
 	keys_classified_by_rarity.FindOrAdd(ERarity::Rare);
-	keys_classified_by_rarity.FindOrAdd(ERarity::Epic);
 	keys_classified_by_rarity.FindOrAdd(ERarity::Legendary);
 	for (const auto& [Key, Value] : map)
 	{
@@ -158,7 +157,6 @@ inline TMap<ERarity, int32> URandomDataAssetsManager::GetRaritiesRandomly(ERarit
 	TMap<ERarity, int32> rarity_count = {
 		TPair<ERarity, int32>(ERarity::Common, 0),
 		TPair<ERarity, int32>(ERarity::Rare, 0),
-		TPair<ERarity, int32>(ERarity::Epic, 0),
 		TPair<ERarity, int32>(ERarity::Legendary, 0)
 	};
 
