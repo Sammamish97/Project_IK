@@ -133,6 +133,7 @@ void AHeroBase::InvokeActiveSkill(FTargetResult target_result)
 
 void AHeroBase::Reposition(FVector target_location)
 {
+	DispatchEvent(EUnitEvent::OnMove, FDamageData());
 	Cast<AHeroAIController>(GetController())->RepositionHero(target_location);
 }
 

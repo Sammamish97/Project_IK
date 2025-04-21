@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/SetBonusManager.h"
 #include "Abilities/SetBonuses/SetBonus_Chariot.h"
+#include "Abilities/SetBonuses/SetBonus_GreatBow.h"
 
 TObjectPtr<USetBonusBase> USetBonusManager::GetSetBonus(ERuneSetType type)
 {
@@ -17,6 +18,9 @@ TObjectPtr<USetBonusBase> USetBonusManager::GetSetBonus(ERuneSetType type)
 	{
 	case ERuneSetType::Chariot:
 		return NewObject<USetBonus_Chariot>(this);
+
+	case ERuneSetType::GreatBow:
+		return NewObject<USetBonus_GreatBow>(this);
 		break;
 	}
 	return nullptr;

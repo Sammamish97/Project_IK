@@ -36,6 +36,10 @@ class PROJECT_IK_API AUnit : public ACharacter, public IDamageable, public IUnit
 public:
 	// Sets default values for this character's properties
 	AUnit();
+
+	UFUNCTION()
+	virtual void Die() override;
+	
 	const UCharacterStatComponent* GetCharacterStat() const;
 	FVector GetForwardDir() const;
 	void SetForwardDir(const FVector& Forward_Dir);
@@ -73,9 +77,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
-	UFUNCTION()
-	virtual void Die() override;
 
 	void SetDamageUI(FDamageData data, bool is_evaded);
 	FTransform GetActorTransformForDamageUI() const noexcept;

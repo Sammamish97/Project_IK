@@ -10,8 +10,6 @@ See LICENSE file in the project root for full license information.
 #include "Components/BulletChainEffectComponent.h"
 
 #include "Abilities/ActiveSkills/ATC_MagnetizedEffect.h"
-#include "Characters/EnemyBase.h"
-#include "Characters/HeroBase.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Characters/Unit.h"
 
@@ -30,16 +28,6 @@ UBulletChainEffectComponent::UBulletChainEffectComponent()
 void UBulletChainEffectComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	if (GetOwner()->IsA(AHeroBase::StaticClass()))
-	{
-		target_class_ = AEnemyBase::StaticClass();
-	}
-	else
-	{
-		target_class_ = AHeroBase::StaticClass();
-	}
 }
 
 // Called every frame

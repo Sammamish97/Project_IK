@@ -13,8 +13,8 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/SetBonuses/SetBonusBase.h"
 #include "Managers/SetBonusManager.h"
-#include "Abilities/SetBonuses/SetBonusBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "Managers/DataTableManager.h"
 #include "WorldSettings/IKGameInstance.h"
 
 // Sets default values for this component's properties
@@ -91,14 +91,28 @@ FString URuneMechanics::RuneEnumToString(ERuneSetType set_type)
 	FString output;
 	switch (set_type)
 	{
-	case ERuneSetType::ThunderLord:
-		output = "ThunderLord";
-		break;
 	case ERuneSetType::Chariot:
 		output = "Chariot";
 		break;
-	case ERuneSetType::INVALID:
-		output = "INVALID";
+
+	case ERuneSetType::GreatBow:
+		output = "GreatBow";
+		break;
+
+	case ERuneSetType::Viper:
+		output = "Viper";
+		break;
+
+	case ERuneSetType::Dagger:
+		output = "Dagger";
+		break;
+		
+	case ERuneSetType::Poet:
+		output = "Poet";
+		break;
+
+	case ERuneSetType::Tempest:
+		output = "Tempest";
 		break;
 	}
 	return output;

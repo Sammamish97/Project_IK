@@ -9,7 +9,8 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Components/BulletOnHitEffectComponent.h"
-
+#include "Characters/EnemyBase.h"
+#include "Characters/HeroBase.h"
 
 // Sets default values for this component's properties
 UBulletOnHitEffectComponent::UBulletOnHitEffectComponent()
@@ -27,8 +28,14 @@ void UBulletOnHitEffectComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	if (GetOwner()->IsA(AHeroBase::StaticClass()))
+	{
+		target_class_ = AEnemyBase::StaticClass();
+	}
+	else
+	{
+		target_class_ = AHeroBase::StaticClass();
+	}
 }
 
 
