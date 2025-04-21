@@ -92,7 +92,6 @@ void AUnit::BeginPlay()
 
 void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 {
-
 	if (is_evaded)
 	{
 		ADamageUI* missed_ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
@@ -130,6 +129,13 @@ void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 
 void AUnit::GetDamage(FDamageData data)
 {
+	if (GetCharacterStat()->GetHitPoint() - data.atk_base_dmg  - data.skill_power_base_dmg <= 0.f )
+	{
+ 		if (AActor* attacker_ptr = data.attacker.Get())
+		{
+			Cast<AUnit>(attacker_ptr)->DispatchEvent(EUnitEvent::OnEliminate, data);
+		}
+	}
 	switch (data.damage_type)
 	{
 	case EDamageType::Projectile:
@@ -149,13 +155,13 @@ void AUnit::GetDamage(FDamageData data)
 	}
 }
 
-FDamageData AUnit::ApplyOnAttackEvent(FDamageData dmg_data)
+FDamageData AUnit::DispatchEvent(EUnitEvent event_type, FDamageData dmg_data)
 {
-	if (dmg_event_map_.Find(EUnitEvent::OnFire))
+	if (dmg_event_map_.Find(event_type))
 	{
-		if (dmg_event_map_[EUnitEvent::OnFire].IsEmpty() == false)
+		if (dmg_event_map_[event_type].IsEmpty() == false)
 		{
-			for (auto& delegate : dmg_event_map_[EUnitEvent::OnFire])
+			for (auto& delegate : dmg_event_map_[event_type])
 			{
 				if (delegate.IsBound())
 				{
@@ -201,6 +207,7 @@ void AUnit::AcquireShield(float ShieldAmount, float Duration)
 void AUnit::GetStunned(float stun_duration)
 {
 	UE_LOG(LogTemp, Display, TEXT("AUnit::GetStunned"));
+	DispatchEvent(EUnitEvent::OnStun, FDamageData());
 	if (GetWorld()->GetTimerManager().IsTimerActive(stun_timer_) == false)
 	{
 		OnStunned();
@@ -263,32 +270,11 @@ void AUnit::GetDamageByDot(FDamageData data)
 
 void AUnit::GetDamageByPEM(FDamageData data)
 {
-
-
-	if (dmg_event_map_.Find(EUnitEvent::OnHitBeforeCalc))
-	{
-		if (dmg_event_map_[EUnitEvent::OnHitBeforeCalc].IsEmpty() == false)
-		{
-			for (auto& delegate : dmg_event_map_[EUnitEvent::OnHitBeforeCalc])
-			{
-				if (delegate.IsBound())data = delegate.Execute(data);
-			}
-		}
-	}
-
+	data = DispatchEvent(EUnitEvent::OnHitBeforeCalc,data);
 	bool is_evaded = character_stat_component_->CalcDamage(data);
 	if (is_evaded == false)
 	{
-		if (dmg_event_map_.Find(EUnitEvent::OnHitAfterCalc))
-		{
-			if (dmg_event_map_[EUnitEvent::OnHitAfterCalc].IsEmpty() == false)
-			{
-				for (auto& delegate : dmg_event_map_[EUnitEvent::OnHitAfterCalc])
-				{
-					if (delegate.IsBound()) data = delegate.Execute(data);
-				}
-			}
-		}
+		data = DispatchEvent(EUnitEvent::OnHitAfterCalc, data);
 		character_stat_component_->GetDamage(data.atk_base_dmg);
 		character_stat_component_->GetDamage(data.skill_power_base_dmg);
 	}

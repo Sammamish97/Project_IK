@@ -167,7 +167,8 @@ enum class EUnitEvent : uint8
 	OnReload UMETA(DisplayName = "OnReload"),
 	OnFire UMETA(DisplayName = "OnFire"),
 	OnActiveSkill UMETA(DisplayName = "OnActiveSkill"),
-	NONE
+	OnMove UMETA(DisplayName = "OnMove"),
+	OnEliminate UMETA(DisplayName = "OnEliminate"),
 };
 
 UENUM(BlueprintType)
