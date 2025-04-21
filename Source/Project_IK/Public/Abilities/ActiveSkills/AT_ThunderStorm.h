@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SkillBase.h"
 #include "AT_ThunderStorm.generated.h"
 
-class AAT_ThunderStormActor;
+class AThunderStorm;
 
 /**
  * 
@@ -30,7 +30,7 @@ public:
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
-	TSubclassOf<AAT_ThunderStormActor> visual_actor_class_;
+	TSubclassOf<AThunderStorm> visual_actor_class_;
 
 protected:
 	UFUNCTION()
@@ -44,5 +44,5 @@ protected:
 	UWorld* world_cache_ = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<AAT_ThunderStormActor> visual_actor_;
+	TObjectPtr<AThunderStorm> visual_actor_;
 };

@@ -50,7 +50,10 @@ void USkillBase::ApplyDamage(FDamageData DamageData)
 
 bool USkillBase::ApplyBuff(FBuffData buff_data, AActor* buff_target)
 {
-	buff_data.value_ *= scaling_factor_;
+	if (AUnit* owner_unit = Cast<AUnit>(skill_owner_))
+	{
+		buff_data.value_ = buff_data.value_ + (owner_unit->GetCharacterStat()->GetSkillPower() * scaling_factor_);
+	}
 	if (buff_target && buff_target->IsA<AUnit>())
 	{
 		AUnit* unit = Cast<AUnit>(buff_target);

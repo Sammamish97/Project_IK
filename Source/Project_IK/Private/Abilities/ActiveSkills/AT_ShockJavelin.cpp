@@ -24,10 +24,8 @@ UAT_ShockJavelin::UAT_ShockJavelin()
 bool UAT_ShockJavelin::ActivateSkill_Implementation(const FTargetResult& TargetResult)
 {
 	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(skill_owner_->GetActorLocation(), TargetResult.target_actors_[0]->GetActorLocation());
-	//FVector scale = javelin_class_->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
 	FTransform spawn_transform(rotation, skill_owner_->GetActorLocation());
 	
 	AShockJavelin* spawned_javellin = GetWorld()->SpawnActor<AShockJavelin>(javelin_class_, spawn_transform);
-	//spawned_javellin->SetDamageData({});
 	return true;
 }

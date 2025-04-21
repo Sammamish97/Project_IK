@@ -12,16 +12,16 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "AT_ThunderStormActor.generated.h"
+#include "ThunderStorm.generated.h"
 
 UCLASS()
-class PROJECT_IK_API AAT_ThunderStormActor : public AActor
+class PROJECT_IK_API AThunderStorm : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
-	AAT_ThunderStormActor();
+	AThunderStorm();
 
 	UFUNCTION(BlueprintCallable)
 	void SetSphereRadius(float Radius);

@@ -18,7 +18,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameModeBase.h"
 
-#include "Abilities/ActiveSkills/AT_ThunderStormActor.h"
+#include "Abilities/ActiveSkills/ThunderStorm.h"
 
 UAT_ThunderStorm::UAT_ThunderStorm()
 {
@@ -52,7 +52,7 @@ bool UAT_ThunderStorm::ActivateSkill_Implementation(const FTargetResult& TargetR
 	FActorSpawnParameters spawn_params;
 	spawn_params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-	visual_actor_ = world_cache_->SpawnActor<AAT_ThunderStormActor>(visual_actor_class_, storm_location, FRotator::ZeroRotator, spawn_params);
+	visual_actor_ = world_cache_->SpawnActor<AThunderStorm>(visual_actor_class_, storm_location, FRotator::ZeroRotator, spawn_params);
 	if (visual_actor_)
 	{
 		visual_actor_->SetSphereRadius(target_param_.radius_);
@@ -63,6 +63,8 @@ bool UAT_ThunderStorm::ActivateSkill_Implementation(const FTargetResult& TargetR
 
 void UAT_ThunderStorm::DamageEnemies()
 {
+	// @@ It damages enemies in this instead of an actor named ThunderStorm.
+
 	storm_damage_count_ += 1;
 
 	float squared_radius = target_param_.radius_ * target_param_.radius_;

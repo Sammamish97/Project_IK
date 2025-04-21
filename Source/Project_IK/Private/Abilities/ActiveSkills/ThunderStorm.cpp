@@ -9,12 +9,12 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 
-#include "Abilities/ActiveSkills/AT_ThunderStormActor.h"
+#include "Abilities/ActiveSkills/ThunderStorm.h"
 
 #include "Components/DecalComponent.h"
 
 // Sets default values
-AAT_ThunderStormActor::AAT_ThunderStormActor()
+AThunderStorm::AThunderStorm()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -24,14 +24,14 @@ AAT_ThunderStormActor::AAT_ThunderStormActor()
 	decal_->SetRelativeRotation(FRotator(90.0, 0.0, 0.0));
 }
 
-void AAT_ThunderStormActor::SetSphereRadius(float Radius)
+void AThunderStorm::SetSphereRadius(float Radius)
 {
 	decal_->DecalSize = FVector(Radius);
 	decal_->MarkRenderStateDirty();
 }
 
 // Called when the game starts or when spawned
-void AAT_ThunderStormActor::BeginPlay()
+void AThunderStorm::BeginPlay()
 {
 	Super::BeginPlay();
 
