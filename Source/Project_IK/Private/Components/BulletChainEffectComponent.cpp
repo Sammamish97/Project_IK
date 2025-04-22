@@ -13,32 +13,6 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/KismetSystemLibrary.h"
 #include "Characters/Unit.h"
 
-
-// Sets default values for this component's properties
-UBulletChainEffectComponent::UBulletChainEffectComponent()
-{
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
-}
-
-// Called when the game starts
-void UBulletChainEffectComponent::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-// Called every frame
-void UBulletChainEffectComponent::TickComponent(float DeltaTime, ELevelTick TickType,
-                                                FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
-
 void UBulletChainEffectComponent::OnHit(AActor* target)
 {
 	Super::OnHit(target);

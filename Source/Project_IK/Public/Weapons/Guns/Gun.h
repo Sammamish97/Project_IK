@@ -50,9 +50,14 @@ public:
 	void RemoveOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
 	void ClearOnHitComponents();
 
+	void AddAfterReloadOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
+	void RemoveAfterReloadOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
+	void ClearAfterReloadOnHitComponents();
+
 private:
 	void FireSingleBullet(FVector muzzle_location, FVector target_pos, FDamageData dmg_data);
 	void FireBuckShot(FVector muzzle_location, FVector target_pos, FDamageData dmg_data);
+	void SpawnBullet(const FTransform& transform, const FDamageData& dmg_data);
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
@@ -75,6 +80,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	TArray<TSubclassOf<class UBulletOnHitEffectComponent>> on_hit_effect_classes_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	TArray<TSubclassOf<class UBulletOnHitEffectComponent>> on_hit_after_reload_;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Gun")
 	TWeakObjectPtr<AActor> gun_owner_;
@@ -84,4 +92,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	FName muzzle_socket_name_;
+
+	bool is_first_bullet_on_magazine_ = true;
 };

@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/SetBonusManager.h"
 #include "Abilities/SetBonuses/SetBonus_Chariot.h"
 #include "Abilities/SetBonuses/SetBonus_GreatBow.h"
+#include "Abilities/SetBonuses/SetBonus_Viper.h"
 
 TObjectPtr<USetBonusBase> USetBonusManager::GetSetBonus(ERuneSetType type)
 {
@@ -21,7 +22,9 @@ TObjectPtr<USetBonusBase> USetBonusManager::GetSetBonus(ERuneSetType type)
 
 	case ERuneSetType::GreatBow:
 		return NewObject<USetBonus_GreatBow>(this);
-		break;
+
+	case ERuneSetType::Viper:
+		return NewObject<USetBonus_Viper>(this);
 	}
 	return nullptr;
 }

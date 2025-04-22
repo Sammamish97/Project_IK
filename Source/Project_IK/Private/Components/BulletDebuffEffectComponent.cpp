@@ -1,26 +1,24 @@
 /******************************************************************************
 Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 4.21.2025
-Summary : Source file for the Death Blow Bullet On Hit effect component.
+Creation Date : 4.22.2025
+Summary : Source file for the Debuff Bullet On Hit effect component.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-#include "Components/BulletDeathBlowEffectComponent.h"
+#include "Components/BulletDebuffEffectComponent.h"
 
 #include "Characters/Unit.h"
-#include "Components/CharacterStatComponent.h"
-void UBulletDeathBlowEffectComponent::OnHit(AActor* target)
+#include "Structs/BuffData.h"
+
+void UBulletDebuffEffectComponent::OnHit(AActor* target)
 {
 	Super::OnHit(target);
 	TWeakObjectPtr<AActor> target_ptr = target;
 	if (auto casted_target = target_ptr.Get())
 	{
 		auto casted_unit = Cast<AUnit>(casted_target);
-		if (casted_unit->GetCharacterStat()->GetHitPoint() / casted_unit->GetCharacterStat()->GetMaxHitPoint() <= death_blow_percentage_)
-		{
-			casted_unit->Die();
-		}
+		casted_unit->ApplyBuff(FBuffData(FName("TriangleSetBonus_Viper"), ECharacterStatType::Armor, debuff_amount_, true, debuff_duration_));
 	}
 }

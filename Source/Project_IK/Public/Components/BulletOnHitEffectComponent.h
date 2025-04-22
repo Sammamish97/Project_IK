@@ -18,19 +18,11 @@ class PROJECT_IK_API UBulletOnHitEffectComponent : public UActorComponent, publi
 {
 	GENERATED_BODY()
 
-public:
-	// Sets default values for this component's properties
-	UBulletOnHitEffectComponent();
-
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-
 public:
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
-	                           FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void OnHit(AActor* target) override;
 
 protected:
