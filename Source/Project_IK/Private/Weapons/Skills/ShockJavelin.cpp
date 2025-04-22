@@ -7,7 +7,6 @@ Summary : Source file for Shock Javelin.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
 #include "Weapons/Skills/ShockJavelin.h"
 
 #include "Characters/Unit.h"
@@ -37,18 +36,6 @@ AShockJavelin::AShockJavelin()
 	dmg_data_.damage_type = EDamageType::Explosive;
 	
 	SetRootComponent(collision_);
-}
-
-// Called when the game starts or when spawned
-void AShockJavelin::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-// Called every frame
-void AShockJavelin::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
 void AShockJavelin::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

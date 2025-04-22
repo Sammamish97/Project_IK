@@ -49,6 +49,13 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
+	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 1);
+	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
+	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 3);
+	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
+	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 5);
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -145,6 +152,11 @@ void AHeroBase::SetAttackTarget(AActor* target)
 void AHeroBase::SetIsCovered(bool is_covered)
 {
 	is_covered_ = is_covered;
+}
+
+AActor* AHeroBase::GetAttackTarget() const
+{
+	return Cast<AMeleeAIController>(GetController())->GetTargetActor();
 }
 
 TOptional<FTargetParameters> AHeroBase::GetActiveSkillTargetParameters() const

@@ -8,7 +8,6 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #pragma once
-
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
 #include "EnumCluster.h"
@@ -18,7 +17,7 @@ See LICENSE file in the project root for full license information.
 
 class USetBonusBase;
 
-UCLASS()
+UCLASS(Blueprintable)
 class PROJECT_IK_API USetBonusManager : public UObject
 {
 	GENERATED_BODY()
@@ -30,6 +29,25 @@ private:
 	TOptional<TPair<ERuneSetType, TArray<int32>>> FigureOutTriangleSet(const TArray<TOptional<FRuneData>>& rune_slots, TArray<int32>& indices, TArray<int32>& inv_indices);
 	TArray<TPair<ERuneSetType, TArray<int32>>> FigureOutEdgeSet(const TArray<TOptional<FRuneData>>& rune_slot);
 
+private:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bonus", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<USetBonusBase> chariot_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bonus", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<USetBonusBase> great_bow_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bonus", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<USetBonusBase> viper_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bonus", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<USetBonusBase> dagger_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bonus", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<USetBonusBase> poet_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bonus", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<USetBonusBase> tempest_;
 	
-	//SetBonusData
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bonus", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<USetBonusBase> quake_;
 };

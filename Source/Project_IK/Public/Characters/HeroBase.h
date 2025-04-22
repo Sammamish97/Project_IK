@@ -26,8 +26,7 @@ public:
 	AHeroBase();
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
-public:
+	
 	virtual void Initialize(FSpawnData spawn_data);
 	virtual void Die() override;
 	
@@ -45,6 +44,8 @@ public:
 	void Reposition(FVector target_location);
 	void SetAttackTarget(AActor* target);
 	void SetIsCovered(bool is_covered);
+
+	AActor* GetAttackTarget() const;
 	
 	class UWeaponMechanics* GetWeaponMechanics();
 

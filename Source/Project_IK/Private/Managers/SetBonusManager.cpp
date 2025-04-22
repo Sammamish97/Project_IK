@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/SetBonusManager.h"
 #include "Abilities/SetBonuses/SetBonus_Chariot.h"
+#include "Abilities/SetBonuses/SetBonus_Dagger.h"
 #include "Abilities/SetBonuses/SetBonus_GreatBow.h"
 #include "Abilities/SetBonuses/SetBonus_Viper.h"
 
@@ -18,13 +19,25 @@ TObjectPtr<USetBonusBase> USetBonusManager::GetSetBonus(ERuneSetType type)
 	switch (type)
 	{
 	case ERuneSetType::Chariot:
-		return NewObject<USetBonus_Chariot>(this);
+		return NewObject<USetBonus_Chariot>(this, chariot_);
 
 	case ERuneSetType::GreatBow:
-		return NewObject<USetBonus_GreatBow>(this);
+		return NewObject<USetBonus_GreatBow>(this, great_bow_);
 
 	case ERuneSetType::Viper:
-		return NewObject<USetBonus_Viper>(this);
+		return NewObject<USetBonus_Viper>(this, viper_);
+
+	case ERuneSetType::Dagger:
+		return NewObject<USetBonus_Dagger>(this, dagger_);
+
+	// case ERuneSetType::Poet:
+	// 	return NewObject<USetBonus_Poet>(this, poet_);
+	//
+	// case ERuneSetType::Tempest:
+	// 	return NewObject<USetBonus_Tempest>(this, tempest_);
+	//
+	// case ERuneSetType::Quake:
+	// 	return NewObject<USetBonus_Quake>(this, quake_);
 	}
 	return nullptr;
 }

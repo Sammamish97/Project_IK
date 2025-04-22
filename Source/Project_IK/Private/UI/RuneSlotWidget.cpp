@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "Kismet/GameplayStatics.h"
+#include "Managers/DataTableManager.h"
 #include "Managers/InventoryManager.h"
 #include "UI/RuneStorageWidget.h"
 #include "UI/RuneBoardWidget.h"

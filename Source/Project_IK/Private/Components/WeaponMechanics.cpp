@@ -66,11 +66,6 @@ FDamageData UWeaponMechanics::GetWeaponFireDamageData()
 {
 	auto char_data = owner_ref_->GetCharacterStat()->GetCharacterData();
 	float total_atk_dmg = weapon_actor_->GetWeaponData().basic_dmg_ + char_data.attack_power_ * weapon_actor_->GetWeaponData().attack_scale;
-	float total_crit_hit_rate = char_data.critical_hit_rate_ + weapon_actor_->GetWeaponData().critical_hit_rate_;
-	if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
-	{
-		total_atk_dmg *= 2;
-	}
 	FDamageData dmg_data;
 	dmg_data.atk_base_dmg = total_atk_dmg;
 	dmg_data.damage_type = EDamageType::Projectile;
@@ -97,6 +92,13 @@ void UWeaponMechanics::BeginFire(AActor* target)
 
 void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data, bool is_controlled_fire, float offset)
 {
+	float total_crit_hit_rate = owner_ref_->GetCharacterStat()->GetCharacterData().critical_hit_rate_ + weapon_actor_->GetWeaponData().critical_hit_rate_;
+	if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
+	{
+		dmg_data.atk_base_dmg *= 2;
+		dmg_data = owner_ref_->DispatchEvent(EUnitEvent::OnCriticalFire, dmg_data);
+	}
+	
 	FireWeapon(target, dmg_data, is_controlled_fire, offset);
 	owner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().fire_montage_);
 	burst_count_ += 1;
