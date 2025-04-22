@@ -26,6 +26,8 @@ void UInventoryManager::InitEquipInventory()
 	AddEquipment(EActiveSkillType::FateSpiral);
 	AddEquipment(EActiveSkillType::Encourage);
 	AddEquipment(EActiveSkillType::ThunderStorm);
+	AddEquipment(EActiveSkillType::DeployCover);
+	AddEquipment(EActiveSkillType::DeploySentryGun);
 }
 
 void UInventoryManager::InitRuneInventory()

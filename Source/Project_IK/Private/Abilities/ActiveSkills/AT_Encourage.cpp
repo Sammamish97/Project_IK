@@ -27,8 +27,8 @@ UAT_Encourage::UAT_Encourage()
 
 bool UAT_Encourage::ActivateSkill_Implementation(const FTargetResult& TargetResult)
 {
-	FBuffData attack_speed("Encourage_AttackSpeed", ECharacterStatType::AttackSpeed, 1.15f, true, 8.f);
-	FBuffData cooldown("Encourage_Cooldown", ECharacterStatType::SkillCoolDown, 10.f, false, 8.f);
+	FBuffData attack_speed(TEXT("Encourage_AttackSpeed"), ECharacterStatType::AttackSpeed, 1.15f, true, 8.f);
+	FBuffData cooldown(TEXT("Encourage_Cooldown"), ECharacterStatType::SkillCoolDown, 10.f, false, 8.f);
 
 	for (AActor* ally : TargetResult.target_actors_)
 	{

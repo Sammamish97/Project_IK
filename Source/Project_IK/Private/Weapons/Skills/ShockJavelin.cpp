@@ -66,3 +66,8 @@ void AShockJavelin::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 	if(casted_damage_logic) casted_damage_logic->GetDamage(dmg_data_);
 	Destroy();
 }
+
+void AShockJavelin::SetDamageData(FDamageData dmg_data)
+{
+	dmg_data_ = dmg_data;
+}

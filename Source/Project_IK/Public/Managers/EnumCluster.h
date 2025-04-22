@@ -258,6 +258,8 @@ enum class EActiveSkillType : uint8
 	ThunderStorm UMETA(DisplayName = "ThunderStorm"),
 	FateSpiral UMETA(DisplayName = "FateSpiral"),
 	Encourage UMETA(DisplayName = "Encourage"),
+	DeploySentryGun UMETA(DisplayName = "DeploySentryGun"),
+	DeployCover UMETA(DisplayName = "DeployCover"),
 	
 	TripleFire UMETA(DisplayName = "TripleFire"),
 	RapidFire UMETA(DisplayName = "RapidFire"),

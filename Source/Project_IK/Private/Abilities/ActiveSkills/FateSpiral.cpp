@@ -193,7 +193,7 @@ void AFateSpiral::Tick(float DeltaTime)
 		}
 
 		DrawDebugLine(GetWorld(), departure_->GetActorLocation(), arrival_->GetActorLocation(),
-			color, false, -1, 0U, 4.f);
+			color, false, -1, 0U, 8.f);
 	}
 }
 
