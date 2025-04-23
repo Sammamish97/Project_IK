@@ -10,7 +10,6 @@ See LICENSE file in the project root for full license information.
 #include "Environments/Cover.h"
 #include "Components/SphereComponent.h"
 #include "Components/BoxComponent.h"
-#include "Components/CharacterStatComponent.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
 // Sets default values

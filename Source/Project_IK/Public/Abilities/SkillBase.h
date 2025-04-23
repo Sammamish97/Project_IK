@@ -39,10 +39,13 @@ protected:
 	void ApplyDamage(FDamageData DamageData);
 	bool ApplyBuff(FBuffData buff_data, AActor* buff_target);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FTargetParameters target_param_{};
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float cool_time_ = 0.f;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float scaling_factor_ = 1.f;
 
 	UPROPERTY()
