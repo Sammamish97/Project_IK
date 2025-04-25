@@ -50,12 +50,14 @@ void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
-	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 1);
-	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
-	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 3);
-	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
-	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 5);
+	rune_mechanics_->EquipRune(ERuneSetType::Poet, 0);
+	rune_mechanics_->EquipRune(ERuneSetType::Poet, 1);
+	rune_mechanics_->EquipRune(ERuneSetType::Poet, 2);
+	rune_mechanics_->EquipRune(ERuneSetType::Poet, 3);
+	rune_mechanics_->EquipRune(ERuneSetType::Poet, 4);
+	rune_mechanics_->EquipRune(ERuneSetType::Poet, 5);
+
+	skill_container_->EquipActiveSkill(EActiveSkillType::Thunder);
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -135,6 +137,7 @@ EHeroType AHeroBase::GetHeroType() const
 
 void AHeroBase::InvokeActiveSkill(FTargetResult target_result)
 {
+	DispatchEvent(EUnitEvent::OnActiveSkill, FDamageData());
 	skill_container_->InvokeSkills(target_result);
 }
 

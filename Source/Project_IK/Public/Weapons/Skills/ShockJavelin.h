@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/DamageData.h"
 #include "ShockJavelin.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AShockJavelin : public AActor
 {
 	GENERATED_BODY()

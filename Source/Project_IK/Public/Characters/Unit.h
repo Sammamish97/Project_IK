@@ -28,7 +28,7 @@ struct FBuffData;
 
 DECLARE_DELEGATE_RetVal_OneParam(FDamageData, FOnDamage, FDamageData);
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AUnit : public ACharacter, public IDamageable, public IUnitInterface
 {
 	GENERATED_BODY()
@@ -93,14 +93,6 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
 	UAnimMontage* stun_montage_;
-
-	//TODO: 오직 Stun의 테스트를 위해 사용한다. 적절한 애니메이션을 찾으면 바로 삭제해야 한다!
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
-	UMaterial* original_material;
-	
-	//TODO: 오직 Stun의 테스트를 위해 사용한다. 적절한 애니메이션을 찾으면 바로 삭제해야 한다!
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
-	UMaterial* test_stun_material_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
 	UWidgetComponent* hp_UI_;

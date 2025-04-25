@@ -219,16 +219,12 @@ void AUnit::OnStunned()
 {
 	//BT 역시 stun시키기
 	Cast<AMeleeAIController>(GetController())->GetStunned();
-
-	//Stun Animation 재생
-	GetMesh()->SetMaterial(0, test_stun_material_);
 	PlayAnimMontage(stun_montage_);
 }
 
 void AUnit::FinishStun()
 {
 	UE_LOG(LogTemp, Display, TEXT("AUnit::FinishStunned"));
-	GetMesh()->SetMaterial(0, original_material);
 	Cast<AMeleeAIController>(Controller)->SetUnitState(EUnitState::Forwarding);
 }
 
