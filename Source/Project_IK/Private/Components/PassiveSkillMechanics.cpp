@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Components/PassiveSkillMechanics.h"
 
-#include "Abilities/EquipSkills/EquipSkillBase.h"
+#include "Abilities/PassiveSkills/PassiveSkillBase.h"
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
@@ -43,7 +43,7 @@ FPassiveSkillData UPassiveSkillMechanics::GetEquippedPassiveSkillData()
 void UPassiveSkillMechanics::EquipPassiveSkill(EPassiveSkillType type)
 {
 	equipped_passive_skill_data_ = data_table_cache_->GetPassiveSkillData(type);
-	passive_skill_cache_ = NewObject<UEquipSkillBase>(this, equipped_passive_skill_data_.passive_skill_class);
+	passive_skill_cache_ = NewObject<UPassiveSkillBase>(this, equipped_passive_skill_data_.passive_skill_class);
 	passive_skill_cache_->InitEquipmentSkill(hero_cache_);
 }
 

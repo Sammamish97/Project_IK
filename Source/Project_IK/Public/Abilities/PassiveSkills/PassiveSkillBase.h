@@ -12,14 +12,14 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
 #include "Interfaces/EquipSkill.h"
-#include "EquipSkillBase.generated.h"
+#include "PassiveSkillBase.generated.h"
 
 UCLASS(Abstract)
-class PROJECT_IK_API UEquipSkillBase : public UObject, public IEquipSkill
+class PROJECT_IK_API UPassiveSkillBase : public UObject, public IEquipSkill
 {
 	GENERATED_BODY()
 public:
-	UEquipSkillBase() = default;
+	UPassiveSkillBase() = default;
 
 public:
 	virtual FDamageData OnEquipmentSkill(FDamageData dmg_data) override;
@@ -27,5 +27,4 @@ public:
 
 protected:
 	EUnitEvent bound_target_;
-	class UArmorManager* armor_manager_cache_;
 };
