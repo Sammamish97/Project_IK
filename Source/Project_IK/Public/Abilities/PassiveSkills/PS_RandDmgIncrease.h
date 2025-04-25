@@ -19,5 +19,8 @@ class PROJECT_IK_API UPS_RandDmgIncrease : public UPassiveSkillBase
 	GENERATED_BODY()
 public:
 	virtual void InitEquipmentSkill(AActor* hero_ref) override;
-	virtual FDamageData OnEquipmentSkill(FDamageData dmg_data) override;
+
+protected:
+	UFUNCTION()
+	FDamageData OnEquipmentSkill(FDamageData dmg_data);
 };

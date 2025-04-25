@@ -16,7 +16,7 @@ void UPS_FixedDmgReduce::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
 	bound_target_ = EUnitEvent::OnHitAfterCalc;
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_ref, bound_target_, this, &UPS_FixedDmgReduce::OnEquipmentSkill, FName(TEXT("UFixedDmgReduceSkill::OnEquipmentSkill")));
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_ref, bound_target_, this, &UPS_FixedDmgReduce::OnEquipmentSkill);
 }
 
 FDamageData UPS_FixedDmgReduce::OnEquipmentSkill(FDamageData dmg_data)

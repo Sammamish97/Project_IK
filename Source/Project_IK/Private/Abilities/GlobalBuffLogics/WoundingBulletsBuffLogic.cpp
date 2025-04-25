@@ -21,7 +21,7 @@ bool UWoundingBulletsBuffLogic::IsBuffValidOnTarget(UObject* buff_target)
 
 void UWoundingBulletsBuffLogic::ApplyBuff(UObject* buff_target)
 {
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(buff_target, EUnitEvent::OnHitBeforeCalc, this, &UWoundingBulletsBuffLogic::ApplyBleeding, FName(TEXT("UWoundingBulletsBuffLogic::ApplyBleeding")));
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(buff_target, EUnitEvent::OnHitBeforeCalc, this, &UWoundingBulletsBuffLogic::ApplyBleeding);
 }
 
 FDamageData UWoundingBulletsBuffLogic::ApplyBleeding(FDamageData data)

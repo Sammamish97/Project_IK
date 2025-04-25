@@ -20,5 +20,8 @@ class PROJECT_IK_API UPS_FixedDmgReduce : public UPassiveSkillBase
 
 public:
 	virtual void InitEquipmentSkill(AActor* hero_ref) override;
-	virtual FDamageData OnEquipmentSkill(FDamageData dmg_data) override;
+
+protected:
+	UFUNCTION()
+	FDamageData OnEquipmentSkill(FDamageData dmg_data);
 };

@@ -28,6 +28,8 @@ void UInventoryManager::InitEquipInventory()
 	AddEquipment(EActiveSkillType::ThunderStorm);
 	AddEquipment(EActiveSkillType::DeployCover);
 	AddEquipment(EActiveSkillType::DeploySentryGun);
+
+	AddEquipment(EPassiveSkillType::Agility);
 }
 
 void UInventoryManager::InitRuneInventory()

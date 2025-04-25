@@ -58,6 +58,11 @@ void AUnit::SetForwardDir(const FVector& Forward_Dir)
 	forward_dir_ = Forward_Dir;
 }
 
+EHeroType AUnit::GetCharacterID() const
+{
+	return character_stat_component_->GetCharacterID();
+}
+
 // Called when the game starts or when spawned
 void AUnit::BeginPlay()
 {

@@ -11,20 +11,20 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-#include "Interfaces/EquipSkill.h"
+#include "Interfaces/PassiveSkillInterface.h"
 #include "PassiveSkillBase.generated.h"
 
-UCLASS(Abstract)
-class PROJECT_IK_API UPassiveSkillBase : public UObject, public IEquipSkill
+UCLASS(Blueprintable, Abstract)
+class PROJECT_IK_API UPassiveSkillBase : public UObject, public IPassiveSkillInterface
 {
 	GENERATED_BODY()
 public:
 	UPassiveSkillBase() = default;
 
 public:
-	virtual FDamageData OnEquipmentSkill(FDamageData dmg_data) override;
 	virtual void InitEquipmentSkill(AActor* hero_ref) override;
 
 protected:
+	TWeakObjectPtr<AActor> hero_cache_;
 	EUnitEvent bound_target_;
 };

@@ -39,6 +39,9 @@ public:
 	const UCharacterStatComponent* GetCharacterStat() const;
 	FVector GetForwardDir() const;
 	void SetForwardDir(const FVector& Forward_Dir);
+
+	UFUNCTION(BlueprintCallable)
+	EHeroType GetCharacterID() const;
 	
 	UFUNCTION(BlueprintCallable)
 	virtual void GetDamage(FDamageData data) override;

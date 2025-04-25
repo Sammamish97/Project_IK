@@ -13,10 +13,5 @@ See LICENSE file in the project root for full license information.
 
 void UPassiveSkillBase::InitEquipmentSkill(AActor* hero_ref)
 {
+	hero_cache_ = hero_ref;
 }
-
-FDamageData UPassiveSkillBase::OnEquipmentSkill(FDamageData dmg_data)
-{
-	return dmg_data;
-}
-

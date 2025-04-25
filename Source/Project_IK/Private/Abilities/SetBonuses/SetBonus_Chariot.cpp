@@ -26,14 +26,14 @@ void USetBonus_Chariot::ActivateEdgeBonus()
 void USetBonus_Chariot::ActivateTriangleBonus()
 {
 	Super::ActivateTriangleBonus();
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnReload, this, &USetBonus_Chariot::TriangleBonus, FName(TEXT("USetBonus_Chariot::TriangleBonus")));
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnReload, this, &USetBonus_Chariot::TriangleBonus);
 }
 
 //장전시 2초간 치명타 확률 50%
 void USetBonus_Chariot::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnReload, this, &USetBonus_Chariot::HexagonBonus, FName(TEXT("USetBonus_Chariot::HexagonBonus")));
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnReload, this, &USetBonus_Chariot::HexagonBonus);
 }
 
 FDamageData USetBonus_Chariot::TriangleBonus(FDamageData dmg_data)

@@ -31,6 +31,9 @@ See LICENSE file in the project root for full license information.
 #define BindOnActiveSkill(Object, FuncName) \
 	__Internal_BindOnActiveSkill(Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
+#define BindOnUnitDamageEvent(BoundUnit, Event, Object, FuncName) \
+	__Internal_BindOnUnitDamageEvent(BoundUnit, Event, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
+
 #define BindOnCrowdControlChanged(Component, Object, FuncName) \
 	__Internal_BindOnCrowdControlChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
@@ -64,7 +67,7 @@ public:
 	bool __Internal_BindOnActiveSkill(T* object, FuncType callback, FName func_name);
 
 	template<typename T, typename FuncType>
-	bool BindOnUnitDamageEvent(UObject* bound_unit, EUnitEvent bound_event, T* object, FuncType callback, FName func_name);
+	bool __Internal_BindOnUnitDamageEvent(UObject* bound_unit, EUnitEvent bound_event, T* object, FuncType callback, FName func_name);
 
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnCrowdControlChanged(UObject* bound_crowd_control_component, T* object, FuncType callback, FName func_name);
@@ -143,7 +146,7 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnActiveSkill(T* object, Fu
 }
 
 template<typename T, typename FuncType>
-inline bool UDelegateBridgeSubsystem::BindOnUnitDamageEvent(UObject* bound_actor, EUnitEvent bound_event, T* object, FuncType callback, FName func_name)
+inline bool UDelegateBridgeSubsystem::__Internal_BindOnUnitDamageEvent(UObject* bound_actor, EUnitEvent bound_event, T* object, FuncType callback, FName func_name)
 {
 	if (object == nullptr)
 	{
