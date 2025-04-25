@@ -20,6 +20,8 @@ class PROJECT_IK_API USetBonus_Dagger : public USetBonusBase
 	GENERATED_BODY()
 
 public:
+	USetBonus_Dagger();
+	
 	virtual void ActivateEdgeBonus() override;
 	virtual void ActivateTriangleBonus() override;
 	virtual void ActivateHexagonBonus() override;
@@ -27,9 +29,9 @@ public:
 private:
 	FDamageData TriangleReloadCritRateBuff(FDamageData dmg_data);
 	FDamageData HexagonBonus(FDamageData dmg_data);
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Rune, meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<AActor> bonus_bullet_ = nullptr;
+	TObjectPtr<class UObjectPoolComponent> bullet_pool_;
 
 	UPROPERTY()
 	FTimerHandle bullet_timer_handle_;

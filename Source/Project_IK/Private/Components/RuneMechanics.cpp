@@ -80,7 +80,7 @@ void URuneMechanics::ApplySetBonuses()
 	{
 		if (set_result[i].Key != ERuneSetType::INVALID)
 		{
-			set_bonus_cache_ = bonus_manager_cache_->GetSetBonus(set_result[i].Key);
+			set_bonus_cache_ = bonus_manager_cache_->GetSetBonus(hero_cache_, set_result[i].Key);
 			set_bonus_cache_->ActivateSetBonus(hero_cache_, set_result[i].Value.Num());
 		}
 	}

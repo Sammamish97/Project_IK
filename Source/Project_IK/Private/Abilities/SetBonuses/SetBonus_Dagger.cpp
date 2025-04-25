@@ -9,10 +9,18 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Abilities/SetBonuses/SetBonus_Dagger.h"
 
+#include "Characters/EnemyBase.h"
 #include "Characters/HeroBase.h"
+#include "Components/ObjectPoolComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "Structs/BuffData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
+
+USetBonus_Dagger::USetBonus_Dagger()
+{
+	bullet_pool_ = CreateDefaultSubobject<UObjectPoolComponent>("BulletPool");
+}
 
 //2세트: 공격속도 10% + 치명타율 + 5%
 void USetBonus_Dagger::ActivateEdgeBonus()
@@ -33,6 +41,7 @@ void USetBonus_Dagger::ActivateTriangleBonus()
 void USetBonus_Dagger::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
+	bullet_pool_->InitializePool();
 	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnCriticalFire, this, &USetBonus_Dagger::HexagonBonus, FName(TEXT("USetBonus_Dagger::HexagonBonus")));
 }
 
@@ -45,13 +54,29 @@ FDamageData USetBonus_Dagger::TriangleReloadCritRateBuff(FDamageData dmg_data)
 FDamageData USetBonus_Dagger::HexagonBonus(FDamageData dmg_data)
 {
 	UE_LOG(LogTemp, Display, TEXT("Dagger_CritBuff"));
-	TWeakObjectPtr<AActor> target_ptr = hero_cache_->GetAttackTarget();
-	if (AActor* attack_target = target_ptr.Get())
+
+	TArray<AActor*> ignore_actors;
+	TArray<AActor*> out_actors;
+	TArray<TEnumAsByte<EObjectTypeQuery>> traceObjectTypes;
+	
+	UKismetSystemLibrary::SphereOverlapActors(GetWorld(), hero_cache_->GetActorLocation(),
+				hero_cache_->GetCharacterStat()->GetSightRange(),
+				traceObjectTypes, AEnemyBase::StaticClass(), ignore_actors, out_actors);
+	
+	//IKTODO: 차후 Muzzle Object와 VFX를 사용할것을 생각하면, 교체할 필요성이 있다.
+	FVector muzzle = hero_cache_->GetActorLocation() + FVector(0, 200, 200);
+
+	if (out_actors.Num() >= 2)
 	{
-		FVector muzzle = hero_cache_->GetActorLocation() + FVector(0, 200, 200);
-		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle, attack_target->GetActorLocation());
-		FTransform spawn_transform(rotation, muzzle);
-		GetWorld()->SpawnActor<AActor>(bonus_bullet_, spawn_transform);
+		FRotator rotation_1= UKismetMathLibrary::FindLookAtRotation(muzzle, out_actors[0]->GetActorLocation());
+		FRotator rotation_2= UKismetMathLibrary::FindLookAtRotation(muzzle, out_actors[1]->GetActorLocation());
+		bullet_pool_->SpawnFromPool({rotation_1, muzzle});
+		bullet_pool_->SpawnFromPool({rotation_2, muzzle});
+	}else if (out_actors.Num() == 1)
+	{
+		FRotator rotation_1= UKismetMathLibrary::FindLookAtRotation(muzzle, out_actors[0]->GetActorLocation());
+		bullet_pool_->SpawnFromPool({rotation_1, muzzle});
 	}
+	
 	return dmg_data;
 }
