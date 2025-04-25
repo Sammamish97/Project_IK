@@ -46,12 +46,14 @@ FDamageData USetBonus_Poet::PoetTriangle(FDamageData dmg_data)
 		if (AActor* target_actor = target_ptr.Get())
 		{
 			auto location = (target_actor->GetActorLocation() + hero_cache_->GetActorLocation()) * 0.5f;
+			location.X += FMath::RandRange(-100.f, 100.f);
+			location.Y += FMath::RandRange(-100.f, 100.f);
 			FRotator rotation = UKismetMathLibrary::FindLookAtRotation(location, target_actor->GetActorLocation());
 			GetWorld()->SpawnActor<AActor>(sentry_gun_class_, location, rotation);
 		}
 		else
 		{
-			auto location = hero_cache_->GetActorLocation() + FVector(600, 0, 0);
+			auto location = hero_cache_->GetActorLocation() + FVector(300, 0, 0);
 			FRotator rotation = FRotator(1, 0, 0);
 			GetWorld()->SpawnActor<AActor>(sentry_gun_class_, location, rotation);
 		}
@@ -67,6 +69,8 @@ FDamageData USetBonus_Poet::PoetHexagon(FDamageData dmg_data)
 		if (AActor* target_actor = target_ptr.Get())
 		{
 			auto location = (target_actor->GetActorLocation() + hero_cache_->GetActorLocation()) * 0.5f;
+			location.X += FMath::RandRange(-100.f, 100.f);
+			location.Y += FMath::RandRange(-100.f, 100.f);
 			FRotator rotation = UKismetMathLibrary::FindLookAtRotation(location, target_actor->GetActorLocation());
 			GetWorld()->SpawnActor<AActor>(sentry_gun_class_, location, rotation);
 		}
