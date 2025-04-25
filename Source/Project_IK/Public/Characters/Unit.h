@@ -82,6 +82,7 @@ protected:
 
 	void GetDamageByDot(FDamageData data);
 	void GetDamageByPEM(FDamageData data);
+	void GetDamageByMagic(FDamageData data);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))

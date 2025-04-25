@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SkillBase.h"
 
 #include "Structs/DamageData.h"
+#include "Structs/BuffData.h"
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"
 
@@ -45,4 +46,21 @@ void USkillBase::ApplyDamage(FDamageData DamageData)
 
 		attack_target->GetDamage(DamageData);
 	}
+}
+
+bool USkillBase::ApplyBuff(FBuffData buff_data, AActor* buff_target)
+{
+	if (AUnit* owner_unit = Cast<AUnit>(skill_owner_))
+	{
+		buff_data.value_ = buff_data.value_ + (owner_unit->GetCharacterStat()->GetSkillPower() * scaling_factor_);
+	}
+	if (buff_target && buff_target->IsA<AUnit>())
+	{
+		AUnit* unit = Cast<AUnit>(buff_target);
+		unit->ApplyBuff(buff_data);
+
+		return true;
+	}
+
+	return false;
 }

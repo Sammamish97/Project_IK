@@ -19,7 +19,7 @@ struct PROJECT_IK_API FTargetResult
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
-	TArray<TObjectPtr<AActor>> target_actors_ = TArray<TObjectPtr<AActor>>();
+	TArray<AActor*> target_actors_ = TArray<AActor*>();
 
 	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
 	FVector target_location_ = FVector::ZeroVector;

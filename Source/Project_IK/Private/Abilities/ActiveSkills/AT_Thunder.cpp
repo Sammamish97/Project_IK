@@ -17,8 +17,8 @@ UAT_Thunder::UAT_Thunder()
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Opponents, 1000.f);
 
 	cool_time_ = 5.f;
-
-	damage_ = 50.f;
+	scaling_factor_ = 0.8f;
+	damage_ = 100.f;
 }
 
 bool UAT_Thunder::ActivateSkill_Implementation(const FTargetResult& target_result)

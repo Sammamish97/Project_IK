@@ -25,39 +25,39 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	TSubclassOf<AUnit> unit_class_ = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	FName character_name_ = "";
 
-	UPROPERTY(VisibleAnywhere, Category = "AttackData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackData")
 	float attack_power_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "AttackData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackData")
 	float attack_speed_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "AttackData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackData")
 	float critical_hit_rate_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "AttackData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackData")
 	float accuracy_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "AttackData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackData")
 	float magazine_bonus_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "AttackData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackData")
 	float life_steal_ = 0.f;
 
 
-	UPROPERTY(VisibleAnywhere, Category = "DefenseData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DefenseData")
 	float hit_point_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "DefenseData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DefenseData")
 	float evasion_rate_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "DefenseData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DefenseData")
 	float armor_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "DefenseData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DefenseData")
 	float survivability_ = 0.f;
 
-	UPROPERTY(VisibleAnywhere, Category = "AgilityData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AgilityData")
 	float sight_range_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "AgilityData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AgilityData")
 	float move_speed_ = 0.f;
 
-	UPROPERTY(VisibleAnywhere, Category = "SkillData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SkillData")
 	float skill_power_ = 0.f;
-	UPROPERTY(VisibleAnywhere, Category = "SkillData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SkillData")
 	float skill_cool_down_ = 0.f;
 };

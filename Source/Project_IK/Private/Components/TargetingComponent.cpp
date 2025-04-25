@@ -24,7 +24,6 @@ UTargetingComponent::UTargetingComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 	is_targeting_ = false;
-	is_self_targeting_ = false;
 }
 
 // Called when the game starts
@@ -104,7 +103,7 @@ void UTargetingComponent::CleanUpVisuals()
 	}
 }
 
-void UTargetingComponent::StartTargeting(FTargetParameters target_params, AActor* invoker, bool is_self_targeting)
+void UTargetingComponent::StartTargeting(FTargetParameters target_params, AActor* invoker)
 {
 	StartFocus();
 
@@ -114,7 +113,6 @@ void UTargetingComponent::StartTargeting(FTargetParameters target_params, AActor
 	current_target_result_.target_actors_.Empty();
 	current_target_result_.target_parameters_ = target_parameters_;
 	range_decal_->DecalSize = FVector(target_parameters_.range_);
-	is_self_targeting_ = is_self_targeting;
 
 	CleanUpVisuals();
 }
@@ -145,8 +143,7 @@ void UTargetingComponent::StopTargeting()
 {
 	EndFocus();
 	is_targeting_ = false;
-	is_self_targeting_ = false;
-	target_parameters_.current_mode_ = ETargetingMode::None;
+	target_parameters_ = FTargetParameters();
 	player_controller_->CurrentMouseCursor = EMouseCursor::Default;
 	CleanupTargetingVisuals();
 }
@@ -406,7 +403,7 @@ FVector UTargetingComponent::ProjectPointOntoCircle(const FVector& Point, const 
 
 FVector UTargetingComponent::GetGroundLocation() const
 {
-	if (is_self_targeting_)
+	if (target_parameters_.is_self_targeting_)
 	{
 		if (invoker_)
 		{
@@ -454,7 +451,7 @@ AActor* UTargetingComponent::FindClosestActor(const FVector& TargetLocation)
 	{
 		return nullptr;
 	}
-	if (is_self_targeting_)
+	if (target_parameters_.is_self_targeting_)
 	{
 		return invoker_;
 	}

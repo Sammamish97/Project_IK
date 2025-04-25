@@ -140,7 +140,6 @@ enum class ERarity : uint8
 {
 	Common UMETA(DisplayName = "Common"),
 	Rare UMETA(DisplayName = "Rare"),
-	Epic UMETA(DisplayName = "Epic"),
 	Legendary UMETA(DisplayName = "Legendary")
 };
 
@@ -256,6 +255,11 @@ UENUM(BlueprintType)
 enum class EActiveSkillType : uint8
 {
 	Thunder UMETA(DisplayName = "Thunder"),
+	ThunderStorm UMETA(DisplayName = "ThunderStorm"),
+	FateSpiral UMETA(DisplayName = "FateSpiral"),
+	Encourage UMETA(DisplayName = "Encourage"),
+	DeploySentryGun UMETA(DisplayName = "DeploySentryGun"),
+	DeployCover UMETA(DisplayName = "DeployCover"),
 	
 	TripleFire UMETA(DisplayName = "TripleFire"),
 	RapidFire UMETA(DisplayName = "RapidFire"),
