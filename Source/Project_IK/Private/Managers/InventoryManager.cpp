@@ -30,6 +30,8 @@ void UInventoryManager::InitEquipInventory()
 	AddEquipment(EActiveSkillType::DeploySentryGun);
 
 	AddEquipment(EPassiveSkillType::Agility);
+	AddEquipment(EPassiveSkillType::Regenerate);
+	AddEquipment(EPassiveSkillType::Regenerate);
 }
 
 void UInventoryManager::InitRuneInventory()

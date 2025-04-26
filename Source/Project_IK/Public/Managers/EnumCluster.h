@@ -241,6 +241,7 @@ enum class EPassiveSkillType : uint8
 	FixedDmgReduce UMETA(DisplayName = "FixedDmgReduce"),
 	RandDmgIncrease UMETA(DisplayName = "RandDmgIncrease"),
 	Agility UMETA(DisplayName = "Agility"),
+	Regenerate UMETA(DisplayName = "Regenerate"),
 	INVALID UMETA(DisplayName = "INVALID")
 };
 
