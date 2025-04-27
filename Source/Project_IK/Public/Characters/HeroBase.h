@@ -41,6 +41,7 @@ public:
 	void InvokeActiveSkill(FTargetResult target_result);
 	bool IsActiveSkillOnCoolDown() const;
 	bool HasActiveSkill() const;
+	void ReduceCooltime(float reduce_time);
 
 	void Reposition(FVector target_location);
 	void SetAttackTarget(AActor* target);

@@ -79,6 +79,23 @@ float USkillContainer::GetLeftCoolDown() const
 	return 0.f;
 }
 
+void USkillContainer::ReduceCooltime(float reduce_time)
+{
+	float remain_time = GetLeftCoolDown();
+
+	if (remain_time > 0.f)
+	{
+		GetWorld()->GetTimerManager().ClearTimer(cool_down_handle_);
+
+		float reduced_time = remain_time - reduce_time;
+
+		if (reduced_time > 0.f)
+		{
+			GetWorld()->GetTimerManager().SetTimer(cool_down_handle_, reduced_time, false);
+		}
+	}
+}
+
 FActiveSkillData USkillContainer::GetEquippedActiveSkillData()
 {
 	return equipped_active_skill_data_;
@@ -110,7 +127,7 @@ bool USkillContainer::InvokeSkills(const FTargetResult& TargetResult)
 	{
 		if (GetWorld()->GetTimerManager().IsTimerActive(cool_down_handle_) == false)
 		{
-			active_skill_->ActivateSkill_Implementation(TargetResult);
+			active_skill_->ActivateSkill(TargetResult);
 			GetWorld()->GetTimerManager().SetTimer(cool_down_handle_, GetCooltime(), false);
 			return true;
 		}

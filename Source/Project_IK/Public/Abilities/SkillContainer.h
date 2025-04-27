@@ -41,6 +41,7 @@ public:
 	float GetCooltime() const;
 	bool IsOnCoolDown() const;
 	float GetLeftCoolDown() const;
+	void ReduceCooltime(float reduce_time);
 
 	TOptional<FTargetParameters> GetTargetParameters() const;
 	FActiveSkillData GetEquippedActiveSkillData();
