@@ -18,8 +18,8 @@ struct PROJECT_IK_API FTargetParameters
 {
 	GENERATED_BODY()
 	
-	FTargetParameters(ETargetingMode mode = ETargetingMode::None, ETargetType type = ETargetType::All, float range = 0.f, float radius = 0.f)
-		: current_mode_(mode), target_type_(type), range_(range), radius_(radius)
+	FTargetParameters(ETargetingMode mode = ETargetingMode::None, ETargetType type = ETargetType::All, float range = 0.f, float radius = 0.f, bool is_self_targeting = false)
+		: current_mode_(mode), target_type_(type), range_(range), radius_(radius), is_self_targeting_(is_self_targeting)
 	{	}
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Targeting")
@@ -35,4 +35,7 @@ struct PROJECT_IK_API FTargetParameters
 	// A radius of selected area, an arc width for direction mode
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Targeting")
 	float radius_;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Targeting")
+	bool is_self_targeting_;
 };

@@ -10,7 +10,6 @@ See LICENSE file in the project root for full license information.
 #include "Environments/Cover.h"
 #include "Components/SphereComponent.h"
 #include "Components/BoxComponent.h"
-#include "Components/CharacterStatComponent.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
 // Sets default values
@@ -22,7 +21,6 @@ ACover::ACover()
 	cover_collider_ = CreateDefaultSubobject<UBoxComponent>(FName("cover_collider"));
 	cover_position_ = CreateDefaultSubobject<USphereComponent>(FName("cover_position"));
 	cover_mesh_ = CreateDefaultSubobject<UStaticMeshComponent>(FName("cover_mesh"));
-	character_stat_component_ = CreateDefaultSubobject<UCharacterStatComponent>(FName("character_stat"));
 
 	cover_collider_->SetupAttachment(cover_position_);
 	cover_collider_->SetMobility(EComponentMobility::Movable);
@@ -39,15 +37,29 @@ ACover::ACover()
 void ACover::BeginPlay()
 {
 	Super::BeginPlay();
-
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnDied(character_stat_component_, this, &ACover::Die);
 }
 
 void ACover::GetDamage(FDamageData data)
 {
-	character_stat_component_->GetDamage(data.atk_base_dmg);
+	hit_points_ -= data.atk_base_dmg;
+	hit_points_ -= data.skill_power_base_dmg;
+
+	if (hit_points_ < 0.f)
+	{
+		Die();
+	}
 
 	// Do not record damages worked on covers...
+}
+
+void ACover::SetHitPoints(float hit_points)
+{
+	hit_points_ = hit_points;
+}
+
+float ACover::GetHitPoints()
+{
+	return hit_points_;
 }
 
 void ACover::Die()

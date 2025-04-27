@@ -147,8 +147,7 @@ void AUnit::GetDamage(FDamageData data)
 		GetDamageByDot(data);
 		break;
 	case EDamageType::Magic:
-		// @@ TODO: Remove comment mark on the below line when the function has implemented.
-		// GetDamageByMagic(data);
+		GetDamageByMagic(data);
 		break;
 	default:
 		break;
@@ -267,10 +266,43 @@ void AUnit::GetDamageByDot(FDamageData data)
 void AUnit::GetDamageByPEM(FDamageData data)
 {
 	data = DispatchEvent(EUnitEvent::OnHitBeforeCalc,data);
+	
 	bool is_evaded = character_stat_component_->CalcDamage(data);
 	if (is_evaded == false)
 	{
 		data = DispatchEvent(EUnitEvent::OnHitAfterCalc, data);
+		character_stat_component_->GetDamage(data.atk_base_dmg);
+		character_stat_component_->GetDamage(data.skill_power_base_dmg);
+	}
+	SetDamageUI(data, is_evaded);
+}
+
+void AUnit::GetDamageByMagic(FDamageData data)
+{
+	if (dmg_event_map_.Find(EUnitEvent::OnHitBeforeCalc))
+	{
+		if (dmg_event_map_[EUnitEvent::OnHitBeforeCalc].IsEmpty() == false)
+		{
+			for (auto& delegate : dmg_event_map_[EUnitEvent::OnHitBeforeCalc])
+			{
+				if (delegate.IsBound())data = delegate.Execute(data);
+			}
+		}
+	}
+
+	bool is_evaded = character_stat_component_->CalcDamage(data);
+	if (is_evaded == false)
+	{
+		if (dmg_event_map_.Find(EUnitEvent::OnHitAfterCalc))
+		{
+			if (dmg_event_map_[EUnitEvent::OnHitAfterCalc].IsEmpty() == false)
+			{
+				for (auto& delegate : dmg_event_map_[EUnitEvent::OnHitAfterCalc])
+				{
+					if (delegate.IsBound()) data = delegate.Execute(data);
+				}
+			}
+		}
 		character_stat_component_->GetDamage(data.atk_base_dmg);
 		character_stat_component_->GetDamage(data.skill_power_base_dmg);
 	}

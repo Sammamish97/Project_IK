@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
 #include "Managers/InventoryManager.h"
+#include "Managers/DataTableManager.h"
 #include "UI/RuneStorageWidget.h"
 #include "UI/RuneBoardWidget.h"
 #include "UI/SlotDragDropImage.h"

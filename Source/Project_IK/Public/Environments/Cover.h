@@ -22,37 +22,39 @@ UCLASS()
 class PROJECT_IK_API ACover : public AActor, public IDamageable
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ACover();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	bool HasCoveringOwner() const;
 	void SetCoveringOwner(bool bHas_Covering_Owner);
 	bool IsBroken() const;
 	void SetIsBroken(bool bIs_Broken);
 	virtual void GetDamage(FDamageData data) override;
+	void SetHitPoints(float hit_points);
+	float GetHitPoints();
 
 	UFUNCTION()
 	virtual void Die() override;
 
 private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover", meta = (AllowPrivateAccess = "true", BindWidget))
-	UBoxComponent* cover_collider_;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover", meta = (AllowPrivateAccess = "true", BindWidget))
-	USphereComponent* cover_position_;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover", meta = (AllowPrivateAccess = "true", BindWidget))
-	UStaticMeshComponent* cover_mesh_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UBoxComponent> cover_collider_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover", meta = (AllowPrivateAccess = "true", BindWidget))
-	UCharacterStatComponent* character_stat_component_;
-	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USphereComponent> cover_position_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UStaticMeshComponent> cover_mesh_;
+
 	bool has_covering_owner_ = false;
 	bool is_broken_ = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Cover", meta = (AllowPrivateAccess = "true"))
+	float hit_points_ = 100.f;
 };
