@@ -66,7 +66,8 @@ void UEnemySpawnerManager::SpawnEnemies()
 	{
 		FVector spawn_offset = FVector(0.f, (enemy_spacing_ * (enemy_num_ - 1) / -2.f) + (i * enemy_spacing_), half_enemy_height);
 		// It may return nullptr if enemy_spacing_ is too narrow.
-		AEnemyBase* enemy = GetWorld()->SpawnActor<AEnemyBase>(enemy_class_, spawn_position_ + spawn_offset, FRotator());
+		AEnemyBase* enemy = GetWorld()->SpawnActor<AEnemyBase>(enemy_class_, spawn_position_ + spawn_offset, FRotator::ZeroRotator);
+		
 		if (enemy)
 		{
 			enemy->SpawnDefaultController();

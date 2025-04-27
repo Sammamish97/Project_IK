@@ -18,10 +18,14 @@ See LICENSE file in the project root for full license information.
 void UInventoryManager::InitEquipInventory()
 {
 	equipment_storage_.Init(FInventorySlotData(), max_inventory_size_);
-	AddEquipment(EWeaponType::SniperRifle_A);
-	AddEquipment(EWeaponType::Pistol_A);
-	AddEquipment(EWeaponType::ShotGun_A);
 	AddEquipment(EWeaponType::AssaultRifle_A);
+	AddEquipment(EWeaponType::AssaultRifle_A);
+	AddEquipment(EWeaponType::AssaultRifle_A);
+	AddEquipment(EWeaponType::AssaultRifle_A);
+
+
+	AddEquipment(EActiveSkillType::Accelerate);
+	AddEquipment(EActiveSkillType::Accelerate);
 	
 	AddEquipment(EActiveSkillType::FateSpiral);
 	AddEquipment(EActiveSkillType::Encourage);
@@ -35,24 +39,10 @@ void UInventoryManager::InitRuneInventory()
 	rune_storage_.Init(FRuneSlotData(), max_inventory_size_);
 	
 	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
-	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
-	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
-	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 0));
-	//
-	//
 	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
-	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
-	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 1));
-	//
 	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 2));
-	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 2));
-	//
 	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 3));
-	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 3));
-	//
 	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 4));
-	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 4));
-	//
 	// AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Chariot, 5));
 }
 

@@ -158,5 +158,5 @@ void UIKGameInstance::InitDataTableManager()
 
 void UIKGameInstance::InitSetBonusManager()
 {
-	set_bonus_manager_ = NewObject<USetBonusManager>(this);
+	set_bonus_manager_ = NewObject<USetBonusManager>(this, set_bonus_class_);
 }

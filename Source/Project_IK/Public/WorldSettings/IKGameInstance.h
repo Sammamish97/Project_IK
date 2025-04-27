@@ -82,12 +82,12 @@ private:
 	UPROPERTY()
 	TObjectPtr<UEventManager> event_manager_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UDataTableManager> data_table_class_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<USetBonusManager> set_bonus_class_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UEventManager> event_manager_class_;
 };

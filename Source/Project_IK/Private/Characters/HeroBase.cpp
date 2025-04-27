@@ -49,6 +49,15 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	rune_mechanics_->EquipRune(ERuneSetType::Poet, 0);
+	rune_mechanics_->EquipRune(ERuneSetType::Poet, 1);
+	rune_mechanics_->EquipRune(ERuneSetType::Poet, 2);
+	rune_mechanics_->EquipRune(ERuneSetType::Poet, 3);
+	rune_mechanics_->EquipRune(ERuneSetType::Poet, 4);
+	rune_mechanics_->EquipRune(ERuneSetType::Poet, 5);
+
+	skill_container_->EquipActiveSkill(EActiveSkillType::Thunder);
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -128,11 +137,13 @@ EHeroType AHeroBase::GetHeroType() const
 
 void AHeroBase::InvokeActiveSkill(FTargetResult target_result)
 {
+	DispatchEvent(EUnitEvent::OnActiveSkill, FDamageData());
 	skill_container_->InvokeSkills(target_result);
 }
 
 void AHeroBase::Reposition(FVector target_location)
 {
+	DispatchEvent(EUnitEvent::OnMove, FDamageData());
 	Cast<AHeroAIController>(GetController())->RepositionHero(target_location);
 }
 
@@ -144,6 +155,11 @@ void AHeroBase::SetAttackTarget(AActor* target)
 void AHeroBase::SetIsCovered(bool is_covered)
 {
 	is_covered_ = is_covered;
+}
+
+AActor* AHeroBase::GetAttackTarget() const
+{
+	return Cast<AMeleeAIController>(GetController())->GetTargetActor();
 }
 
 TOptional<FTargetParameters> AHeroBase::GetActiveSkillTargetParameters() const

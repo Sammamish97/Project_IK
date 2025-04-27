@@ -1,8 +1,8 @@
 /******************************************************************************
 Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 3.9.2025
-Summary : Header file for the Chariot Set Bonus.
+Creation Date : 4.22.2025
+Summary : Header file for Dagger Set Bonus.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -12,23 +12,27 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Structs/DamageData.h"
 #include "SetBonusBase.h"
-#include "SetBonus_Chariot.generated.h"
+#include "SetBonus_Dagger.generated.h"
 
-UCLASS()
-class PROJECT_IK_API USetBonus_Chariot : public USetBonusBase
+UCLASS(Blueprintable)
+class PROJECT_IK_API USetBonus_Dagger : public USetBonusBase
 {
 	GENERATED_BODY()
+
 public:
+	USetBonus_Dagger();
+	
 	virtual void ActivateEdgeBonus() override;
 	virtual void ActivateTriangleBonus() override;
 	virtual void ActivateHexagonBonus() override;
 
 private:
-	FDamageData GetShield(FDamageData dmg_data);
-	FDamageData GetShieldAndLifeSteal(FDamageData dmg_data);
+	FDamageData TriangleReloadCritRateBuff(FDamageData dmg_data);
+	FDamageData HexagonBonus(FDamageData dmg_data);
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Rune, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UObjectPoolComponent> bullet_pool_;
 
-
-private:
-	float shield_duration_ = 3.f;
-	float life_steal_percentage = 10.f;
+	UPROPERTY()
+	FTimerHandle bullet_timer_handle_;
 };

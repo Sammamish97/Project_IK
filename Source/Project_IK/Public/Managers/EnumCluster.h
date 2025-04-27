@@ -166,7 +166,9 @@ enum class EUnitEvent : uint8
 	OnReload UMETA(DisplayName = "OnReload"),
 	OnFire UMETA(DisplayName = "OnFire"),
 	OnActiveSkill UMETA(DisplayName = "OnActiveSkill"),
-	NONE
+	OnMove UMETA(DisplayName = "OnMove"),
+	OnEliminate UMETA(DisplayName = "OnEliminate"),
+	OnCriticalFire UMETA(DisplayName = "OnCriticalFire")
 };
 
 UENUM(BlueprintType)
@@ -283,8 +285,13 @@ UENUM(BlueprintType)
 enum class ERuneSetType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
-	ThunderLord UMETA(DisplayName = "ThunderLord"),
-	Chariot UMETA(DisplayName = "Chariot")
+	Chariot UMETA(DisplayName = "Chariot"),
+	GreatBow UMETA(DisplayName = "GreatBow"),
+	Dagger UMETA(DisplayName = "Dagger"),
+	Quake UMETA(DisplayName = "Quake"),
+	Tempest UMETA(DisplayName = "Tempest"),
+	Viper UMETA(DisplayName = "Viper"),
+	Poet UMETA(DisplayName = "Poet"),
 };
 
 UENUM(BlueprintType)
