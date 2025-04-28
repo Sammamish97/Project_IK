@@ -168,14 +168,6 @@ enum class EUnitEvent : uint8
 };
 
 UENUM(BlueprintType)
-enum class EStatEvent : uint8
-{
-	OnHealed UMETA(DisplayName = "OnHeal"),
-	OnHPChanged UMETA(DisplayName = "OnHPChanged"),
-	OnShieldChanged UMETA(DisplayName = "OnAcquireShield"),
-};
-
-UENUM(BlueprintType)
 enum class EDamageEvent : uint8
 {
 	OnHitBeforeCalc UMETA(DisplayName = "OnHitBeforeCalc"),

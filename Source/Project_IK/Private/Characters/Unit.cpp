@@ -73,8 +73,8 @@ void AUnit::BeginPlay()
 	if (ui)
 	{
 		subsystem->BindOnCrowdControlChanged(cc_component_, ui, &UHitPointsUI::UpdateAppliedCCs);
-		subsystem->BindOnStatEvent(character_stat_component_, EStatEvent::OnHPChanged, ui, &UHitPointsUI::UpdateHPWidget);
-		subsystem->BindOnStatEvent(character_stat_component_, EStatEvent::OnShieldChanged, ui, &UHitPointsUI::UpdateShieldWidget);
+		subsystem->BindOnHPChanged(character_stat_component_, ui, &UHitPointsUI::UpdateHPWidget);
+		subsystem->BindOnShieldChanged(character_stat_component_, ui, &UHitPointsUI::UpdateShieldWidget);
 		subsystem->BindOnBuffChanged(character_stat_component_, ui, &UHitPointsUI::UpdateAppliedBuffs);
 	}
 
