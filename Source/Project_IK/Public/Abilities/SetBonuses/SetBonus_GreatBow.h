@@ -25,7 +25,8 @@ public:
 	virtual void ActivateTriangleBonus() override;
 	virtual void ActivateHexagonBonus() override;
 
-	FDamageData TriangleReloadCoolDownBonus(FDamageData dmg_data);
+	UFUNCTION()
+	void TriangleReloadCoolDownBonus();
 
 private:
 	float active_cooldown_amount_ = 3.f;

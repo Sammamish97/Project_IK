@@ -25,14 +25,14 @@ class UDelegateBridgeSubsystem;
 enum class EUnitEvent : uint8;
 struct FBuffData;
 
-
-DECLARE_DELEGATE_RetVal_OneParam(FDamageData, FOnDamage, FDamageData);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUnitEvent);
 
 UCLASS(Abstract)
 class PROJECT_IK_API AUnit : public ACharacter, public IDamageable, public IUnitInterface
 {
 	GENERATED_BODY()
 	friend UDelegateBridgeSubsystem;
+	friend class UWeaponMechanics;
 public:
 	// Sets default values for this character's properties
 	AUnit();
@@ -46,9 +46,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	virtual void GetDamage(FDamageData data) override;
-
-	virtual FDamageData DispatchEvent(EUnitEvent event_type, FDamageData dmg_data);
-
+	
 	UFUNCTION(BlueprintCallable)
 	void Heal(float heal);
 
@@ -85,6 +83,8 @@ protected:
 	void GetDamageByPEM(FDamageData data);
 	void GetDamageByMagic(FDamageData data);
 
+	void DispatchUnitEvent(EUnitEvent type);
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
 	UCharacterStatComponent* character_stat_component_;
@@ -110,7 +110,8 @@ protected:
 	UPROPERTY(Transient)
 	FTimerHandle stun_timer_;
 
-	TMap<EUnitEvent, TArray<FOnDamage>> dmg_event_map_;
+	UPROPERTY()
+	TMap<EUnitEvent, FOnUnitEvent> on_unit_event_;
 
 	float capsule_half_height_ = 0.f;
 	float capsule_radius_ = 0.f;

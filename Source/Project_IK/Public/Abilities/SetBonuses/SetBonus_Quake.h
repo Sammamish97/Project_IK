@@ -24,8 +24,11 @@ public:
 	virtual void ActivateHexagonBonus() override;
 	
 private:
-	FDamageData TriangleAttackSpeedBuff(FDamageData DamageData);
-	FDamageData HexagonSkillEcho(FDamageData DamageData);
+	UFUNCTION()
+	void TriangleAttackSpeedBuff();
+
+	UFUNCTION()
+	void HexagonSkillEcho();
 
 private:
 	float triangle_buff_duration_ = 3.f;

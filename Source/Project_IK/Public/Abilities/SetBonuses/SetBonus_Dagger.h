@@ -27,8 +27,10 @@ public:
 	virtual void ActivateHexagonBonus() override;
 
 private:
-	FDamageData TriangleReloadCritRateBuff(FDamageData dmg_data);
-	FDamageData HexagonBonus(FDamageData dmg_data);
+	UFUNCTION()
+	void TriangleReloadCritRateBuff();
+	UFUNCTION()
+	void HexagonBonus();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Rune, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UObjectPoolComponent> bullet_pool_;

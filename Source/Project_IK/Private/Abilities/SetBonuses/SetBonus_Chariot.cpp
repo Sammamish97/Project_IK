@@ -26,28 +26,25 @@ void USetBonus_Chariot::ActivateEdgeBonus()
 void USetBonus_Chariot::ActivateTriangleBonus()
 {
 	Super::ActivateTriangleBonus();
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnReload, this, &USetBonus_Chariot::GetShield, FName(TEXT("USetBonus_Chariot::TriangleBonus")));
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnReload, this, &USetBonus_Chariot::GetShield);
 }
 
 //6세트: 적 처치/이동/CC기에 걸렸을 때 최대 체력의 15%에 해당하는 실드 획득 + 해당 실드의 지속시간 동안 10%의 흡혈 획득.
 void USetBonus_Chariot::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnStun, this, &USetBonus_Chariot::GetShieldAndLifeSteal, FName(TEXT("USetBonus_Chariot::HexagonBonus")));
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnMove, this, &USetBonus_Chariot::GetShieldAndLifeSteal, FName(TEXT("USetBonus_Chariot::HexagonBonus")));
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnEliminate, this, &USetBonus_Chariot::GetShieldAndLifeSteal, FName(TEXT("USetBonus_Chariot::HexagonBonus")));
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnStun, this, &USetBonus_Chariot::GetShieldAndLifeSteal);
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnMove, this, &USetBonus_Chariot::GetShieldAndLifeSteal);
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnEliminate, this, &USetBonus_Chariot::GetShieldAndLifeSteal);
 }
 
-FDamageData USetBonus_Chariot::GetShield(FDamageData dmg_data)
+void USetBonus_Chariot::GetShield()
 {
 	hero_cache_->AcquireShield(hero_cache_->GetCharacterStat()->GetHitPoint() * 0.15f, shield_duration_);
-	return dmg_data;
 }
 
-FDamageData USetBonus_Chariot::GetShieldAndLifeSteal(FDamageData dmg_data)
+void USetBonus_Chariot::GetShieldAndLifeSteal()
 {
 	hero_cache_->AcquireShield(hero_cache_->GetCharacterStat()->GetHitPoint() * 0.15f, shield_duration_);
 	hero_cache_->ApplyBuff(FBuffData("Chariot_Hexagon", ECharacterStatType::LifeSteal, life_steal_percentage, true, shield_duration_));
-
-	return dmg_data;
 }

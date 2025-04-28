@@ -14,7 +14,7 @@ void URandDmgIncreaseSkill::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
 	bound_target_ = EUnitEvent::OnFire;
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_ref, bound_target_, this, &URandDmgIncreaseSkill::OnEquipmentSkill, FName(TEXT("URandDmgIncreaseSkill::OnEquipmentSkill")));
+	//GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_ref, bound_target_, this, &URandDmgIncreaseSkill::OnEquipmentSkill, FName(TEXT("URandDmgIncreaseSkill::OnEquipmentSkill")));
 }
 
 FDamageData URandDmgIncreaseSkill::OnEquipmentSkill(FDamageData dmg_data)

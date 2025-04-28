@@ -157,10 +157,6 @@ enum class EDamageType : uint8
 UENUM(BlueprintType)
 enum class EUnitEvent : uint8
 {
-	OnHitBeforeCalc UMETA(DisplayName = "OnHitBeforeCalc"),
-	OnHitAfterCalc UMETA(DisplayName = "OnHitAfterCalc"),
-	OnHeal UMETA(DisplayName = "OnHeal"),
-	OnHPChanged UMETA(DisplayName = "OnHPChanged"),
 	OnDie UMETA(DisplayName = "OnDie"),
 	OnStun UMETA(DisplayName = "OnStun"),
 	OnReload UMETA(DisplayName = "OnReload"),
@@ -169,6 +165,15 @@ enum class EUnitEvent : uint8
 	OnMove UMETA(DisplayName = "OnMove"),
 	OnEliminate UMETA(DisplayName = "OnEliminate"),
 	OnCriticalFire UMETA(DisplayName = "OnCriticalFire")
+};
+
+UENUM(BlueprintType)
+enum class EDamageEvent : uint8
+{
+	OnHitBeforeCalc UMETA(DisplayName = "OnHitBeforeCalc"),
+	OnHitAfterCalc UMETA(DisplayName = "OnHitAfterCalc"),
+	OnFireWeapon UMETA(DisplayName = "OnFireWeapon"),
+	OnInvokeActiveSkill UMETA(DisplayName = "OnInvokeActiveSkill"),
 };
 
 UENUM(BlueprintType)

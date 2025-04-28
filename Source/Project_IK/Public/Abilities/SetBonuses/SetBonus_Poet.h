@@ -25,8 +25,11 @@ public:
 	virtual void ActivateHexagonBonus() override;
 	
 private:
-	FDamageData PoetTriangle(FDamageData dmg_data);
-	FDamageData PoetHexagon(FDamageData dmg_data);
+	UFUNCTION()
+	void PoetTriangle();
+
+	UFUNCTION()
+	void PoetHexagon();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Poet, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<class ASentryGun> sentry_gun_class_;

@@ -137,13 +137,13 @@ EHeroType AHeroBase::GetHeroType() const
 
 void AHeroBase::InvokeActiveSkill(FTargetResult target_result)
 {
-	DispatchEvent(EUnitEvent::OnActiveSkill, FDamageData());
+	DispatchUnitEvent(EUnitEvent::OnActiveSkill);
 	skill_container_->InvokeSkills(target_result);
 }
 
 void AHeroBase::Reposition(FVector target_location)
 {
-	DispatchEvent(EUnitEvent::OnMove, FDamageData());
+	DispatchUnitEvent(EUnitEvent::OnMove);
 	Cast<AHeroAIController>(GetController())->RepositionHero(target_location);
 }
 
