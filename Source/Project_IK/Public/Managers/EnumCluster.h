@@ -173,7 +173,7 @@ enum class EDamageEvent : uint8
 	OnHitBeforeCalc UMETA(DisplayName = "OnHitBeforeCalc"),
 	OnHitAfterCalc UMETA(DisplayName = "OnHitAfterCalc"),
 	OnFireWeapon UMETA(DisplayName = "OnFireWeapon"),
-	OnFireActiveSkill UMETA(DisplayName = "OnFireActiveSkill"),
+	OnInvokeActiveSkill UMETA(DisplayName = "OnInvokeActiveSkill"),
 };
 
 UENUM(BlueprintType)
