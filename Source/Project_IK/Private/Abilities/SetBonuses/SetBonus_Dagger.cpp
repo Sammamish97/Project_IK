@@ -34,7 +34,7 @@ void USetBonus_Dagger::ActivateEdgeBonus()
 void USetBonus_Dagger::ActivateTriangleBonus()
 {
 	Super::ActivateTriangleBonus();
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnReload, this, &USetBonus_Dagger::TriangleReloadCritRateBuff, FName(TEXT("USetBonus_Dagger::TriangleBonus")));
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnReload, this, &USetBonus_Dagger::TriangleReloadCritRateBuff);
 }
 
 //6세트: 치명타 공격을 발사할 때 마다 데미지가 치명타 확률에 비례하는 2발의 추가 탄환 발사.
@@ -42,19 +42,16 @@ void USetBonus_Dagger::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
 	bullet_pool_->InitializePool();
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnCriticalFire, this, &USetBonus_Dagger::HexagonBonus, FName(TEXT("USetBonus_Dagger::HexagonBonus")));
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnCriticalFire, this, &USetBonus_Dagger::HexagonBonus);
 }
 
-FDamageData USetBonus_Dagger::TriangleReloadCritRateBuff(FDamageData dmg_data)
+void USetBonus_Dagger::TriangleReloadCritRateBuff()
 {
 	hero_cache_->ApplyBuff({"Dagger_CritBuff", ECharacterStatType::CriticalHitRate, 20.f, true, 5.f});
-	return dmg_data;
 }
 
-FDamageData USetBonus_Dagger::HexagonBonus(FDamageData dmg_data)
+void USetBonus_Dagger::HexagonBonus()
 {
-	UE_LOG(LogTemp, Display, TEXT("Dagger_CritBuff"));
-
 	TArray<AActor*> ignore_actors;
 	TArray<AActor*> out_actors;
 	TArray<TEnumAsByte<EObjectTypeQuery>> traceObjectTypes;
@@ -77,6 +74,4 @@ FDamageData USetBonus_Dagger::HexagonBonus(FDamageData dmg_data)
 		FRotator rotation_1= UKismetMathLibrary::FindLookAtRotation(muzzle, out_actors[0]->GetActorLocation());
 		bullet_pool_->SpawnFromPool({rotation_1, muzzle});
 	}
-	
-	return dmg_data;
 }

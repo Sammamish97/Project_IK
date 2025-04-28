@@ -70,7 +70,7 @@ FDamageData UWeaponMechanics::GetWeaponFireDamageData()
 	dmg_data.atk_base_dmg = total_atk_dmg;
 	dmg_data.damage_type = EDamageType::Projectile;
 	dmg_data.attacker = owner_ref_;
-	return owner_ref_->DispatchEvent(EUnitEvent::OnFire, dmg_data);
+	return dmg_data;
 }
 
 void UWeaponMechanics::BeginFire(AActor* target)
@@ -96,7 +96,7 @@ void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data, bool is_cont
 	if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
 	{
 		dmg_data.atk_base_dmg *= 2;
-		dmg_data = owner_ref_->DispatchEvent(EUnitEvent::OnCriticalFire, dmg_data);
+		owner_ref_->DispatchUnitEvent(EUnitEvent::OnCriticalFire);
 	}
 	
 	FireWeapon(target, dmg_data, is_controlled_fire, offset);
@@ -171,8 +171,8 @@ void UWeaponMechanics::Reload(float duration_multiplier)
 	{
 		if(GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false)
 		{
+			owner_ref_->DispatchUnitEvent(EUnitEvent::OnReload);
 			Cast<AMeleeAIController>(owner_ref_->Controller)->SetUnitState(EUnitState::Reloading);
-			owner_ref_->DispatchEvent(EUnitEvent::OnReload, FDamageData());
 			weapon_actor_->OnReloadStub();
 			FWeaponData weapon_data = GetWeaponData();
 			float reload_play_rate = weapon_data.reload_montage_->GetPlayLength() / weapon_data.reload_duration / duration_multiplier;

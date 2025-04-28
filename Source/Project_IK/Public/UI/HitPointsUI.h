@@ -39,10 +39,10 @@ public:
 	void UpdateAppliedCCs(TArray<ECCType> applied_ccs);
 
 	UFUNCTION()
-	void UpdateHPWidget(float hp_ratio);
+	void UpdateHPWidget(float total, float before, float after);
 
 	UFUNCTION()
-	void UpdateShieldWidget(float shield_ratio);
+	void UpdateShieldWidget(float total, float before, float after);
 
 protected:
 	virtual void NativeConstruct() override;

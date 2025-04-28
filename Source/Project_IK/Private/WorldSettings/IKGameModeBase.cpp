@@ -153,7 +153,6 @@ void AIKGameModeBase::RemoveHero(EHeroType hero_type)
 	int32 target_idx = HeroTypeToInt(hero_type);
 	if (heroes_.IsValidIndex(target_idx))
 	{
-		heroes_[target_idx]->Destroy();
 		heroes_[target_idx] = nullptr;
 		//3. SpawnData의 dead를 false로 update.
 		ULevelTransitionSubsystem* level_transition_cache = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();

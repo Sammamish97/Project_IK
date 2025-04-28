@@ -15,8 +15,8 @@ See LICENSE file in the project root for full license information.
 void UFixedDmgReduceSkill::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
-	bound_target_ = EUnitEvent::OnHitAfterCalc;
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_ref, bound_target_, this, &UFixedDmgReduceSkill::OnEquipmentSkill, FName(TEXT("UFixedDmgReduceSkill::OnEquipmentSkill")));
+	//bound_target_ = EUnitEvent::OnHitAfterCalc;
+	//GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_ref, bound_target_, this, &UFixedDmgReduceSkill::OnEquipmentSkill, FName(TEXT("UFixedDmgReduceSkill::OnEquipmentSkill")));
 }
 
 FDamageData UFixedDmgReduceSkill::OnEquipmentSkill(FDamageData dmg_data)

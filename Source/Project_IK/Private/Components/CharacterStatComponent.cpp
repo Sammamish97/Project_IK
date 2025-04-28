@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Project_IK/Public/Components/CharacterStatComponent.h"
 
+#include "Characters/Unit.h"
 #include "Managers/DataTableManager.h"
 #include "Math/UnrealMathUtility.h"
 
@@ -63,12 +64,11 @@ void UCharacterStatComponent::BeginPlay()
 void UCharacterStatComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-
 	GetWorld()->GetTimerManager().ClearTimer(shield_timer_);
-
-	OnDied.Clear();
-	OnHPChanged.Clear();
-	OnShieldChanged.Clear();
+	for (auto& elem : on_stat_event_)
+	{
+		elem.Value.Clear();
+	}
 	OnBuffChanged.Clear();
 }
 
@@ -275,11 +275,11 @@ void UCharacterStatComponent::SetHitPoint(float hit_point) noexcept
 {
 	stat_.hit_point_ = FMath::Min(hit_point, GetMaxHitPoint());
 
-	OnHPChanged.Broadcast(GetHPRatio());
+	DispatchStatEvent(EStatEvent::OnHPChanged, hit_point, hit_point);
 	if (stat_.hit_point_ < KINDA_SMALL_NUMBER)
 	{
 		stat_.hit_point_ = 0.f;
-		OnDied.Broadcast();
+		Cast<AUnit>(GetOwner())->Die();
 	}
 }
 
@@ -316,7 +316,7 @@ void UCharacterStatComponent::SetSkillCooldown(float skill_cooldown) noexcept
 void UCharacterStatComponent::SetShield(float shield) noexcept
 {
 	shield_ = shield;
-	OnShieldChanged.Broadcast(GetShieldRatio());
+	DispatchStatEvent(EStatEvent::OnShieldChanged, shield_, shield_);
 }
 
 void UCharacterStatComponent::RecordDamage(FDamageData& data_ref)
@@ -415,7 +415,7 @@ void UCharacterStatComponent::SetCharacterID(EHeroType char_id) noexcept
 void UCharacterStatComponent::SetCharacterData(const FCharacterData& character_data) noexcept
 {
 	stat_ = character_data;
-	OnHPChanged.Broadcast(GetHPRatio());
+	DispatchStatEvent(EStatEvent::OnHPChanged, GetMaxHitPoint(), GetMaxHitPoint());
 }
 
 float UCharacterStatComponent::CalculateStat(ECharacterStatType StatType) const
@@ -523,4 +523,21 @@ bool UCharacterStatComponent::RemoveBuff(FName BuffName)
 TArray<FBuffData> UCharacterStatComponent::GetBuffs() const
 {
 	return buffs_;
+}
+
+void UCharacterStatComponent::DispatchStatEvent(EStatEvent type, float before, float after)
+{
+	if (on_stat_event_.Find(type))
+	{
+		switch (type)
+		{
+			case EStatEvent::OnHPChanged:
+			case EStatEvent::OnHealed:
+				on_stat_event_[type].Broadcast(max_hit_points_, before, after);
+				break;
+			case EStatEvent::OnShieldChanged:
+				on_stat_event_[type].Broadcast(max_shield_, before, after);
+				break;
+		}
+	}
 }

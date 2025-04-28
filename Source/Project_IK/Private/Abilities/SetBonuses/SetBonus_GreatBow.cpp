@@ -27,7 +27,7 @@ void USetBonus_GreatBow::ActivateEdgeBonus()
 void USetBonus_GreatBow::ActivateTriangleBonus()
 {
 	Super::ActivateTriangleBonus();
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnReload, this, &USetBonus_GreatBow::TriangleReloadCoolDownBonus, FName(TEXT("USetBonus_GreatBow::TriangleBonus")));
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnReload, this, &USetBonus_GreatBow::TriangleReloadCoolDownBonus);
 }
 
 //6세트: 공격받은 적의 체력이 20% 미만인 일반 적 처형.
@@ -37,8 +37,7 @@ void USetBonus_GreatBow::ActivateHexagonBonus()
 	hero_cache_->GetWeaponMechanics()->GetWeaponActor()->AddOnHitComponent(UBulletDeathBlowEffectComponent::StaticClass());
 }
 
-FDamageData USetBonus_GreatBow::TriangleReloadCoolDownBonus(FDamageData dmg_data)
+void USetBonus_GreatBow::TriangleReloadCoolDownBonus()
 {
 	hero_cache_->ApplyBuff({"GreatBow_Cooldown", ECharacterStatType::SkillCoolDown, 20.f, false, 8.f});
-	return dmg_data;
 }

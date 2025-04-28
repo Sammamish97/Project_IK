@@ -23,8 +23,10 @@ public:
 	virtual void ActivateHexagonBonus() override;
 
 private:
-	FDamageData TriangleAutoReload(FDamageData DamageData);
-	FDamageData HexagonCoolDownBuff(FDamageData DamageData);
+	UFUNCTION()
+	void TriangleAutoReload();
+	UFUNCTION()
+	void HexagonCoolDownBuff();
 
 private:
 	FName cool_down_buff_name = "Tempest_Hexagon";

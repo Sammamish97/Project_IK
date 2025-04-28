@@ -32,8 +32,8 @@ void UHitPointsUI::NativeConstruct()
 
 	// If did not update HP explicitly before this function, it may not work
 		// because initialize HP bar fully in default.
-	UpdateHPWidget(1.f);
-	UpdateShieldWidget(0.f);
+	UpdateHPWidget(1.f, 1.f, 1.f);
+	UpdateShieldWidget(0.f, 0.f, 0.f);
 	UpdateBuffWidgets();
 
 	data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
@@ -63,16 +63,18 @@ void UHitPointsUI::UpdateAppliedCCs(TArray<ECCType> applied_ccs)
 	UpdateBuffWidgets();
 }
 
-void UHitPointsUI::UpdateHPWidget(float hp_ratio)
+void UHitPointsUI::UpdateHPWidget(float total, float before, float after)
 {
+	float hp_ratio = after/total;
 	if (hp_progress_bar_)
 	{
 		hp_progress_bar_->SetPercent(hp_ratio);
 	}
 }
 
-void UHitPointsUI::UpdateShieldWidget(float shield_ratio)
+void UHitPointsUI::UpdateShieldWidget(float total, float before, float after)
 {
+	float shield_ratio = after / total;
 	if (shield_progress_bar_)
 	{
 		if (shield_ratio <= 0.f)

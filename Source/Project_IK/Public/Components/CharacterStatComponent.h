@@ -16,14 +16,12 @@ See LICENSE file in the project root for full license information.
 #include "Structs/BuffData.h"
 #include "CharacterStatComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnStatEvent, float, total, float, before, float, after);
+
 enum class ECharacterStatType : uint8;
 class ADamageUI;
-
 class UDelegateBridgeSubsystem;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDiedDelegate);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHPChangedDelegate, float, hp_ratio);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnShieldChangedDelegate, float, shield_ratio);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffChangedDelegate, TArray<FBuffData>, applied_buffs);
 
 UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
@@ -134,16 +132,10 @@ protected:
 	//TODO: 현재는 HeroType으로 되어있지만, Character stat은 Hero뿐만이 아닌 Enemy역시 사용하므로 이후 리펙토링이 되어야 한다.
 	UPROPERTY(EditAnywhere, Category = "Stats")
 	EHeroType character_id_;
-
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnDiedDelegate OnDied;
-
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnHPChangedDelegate OnHPChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnShieldChangedDelegate OnShieldChanged;
-
+	
+	UPROPERTY()
+	TMap<EStatEvent, FOnStatEvent> on_stat_event_;
+	
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnBuffChangedDelegate OnBuffChanged;
 	
@@ -180,6 +172,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void SetShield(float shield) noexcept;
+
+	void DispatchStatEvent(EStatEvent type, float before, float after);
+
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<ADamageUI> damage_UI_class_;

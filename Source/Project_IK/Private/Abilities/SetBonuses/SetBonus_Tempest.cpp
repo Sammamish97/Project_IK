@@ -26,23 +26,22 @@ void USetBonus_Tempest::ActivateEdgeBonus()
 void USetBonus_Tempest::ActivateTriangleBonus()
 {
 	Super::ActivateTriangleBonus();
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnActiveSkill, this, &USetBonus_Tempest::TriangleAutoReload, FName(TEXT("USetBonus_Tempest::TriangleBonus")));
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnActiveSkill, this, &USetBonus_Tempest::TriangleAutoReload);
 }
 
 //6세트: 스킬을 사용할 때 마다 쿨 다운 보너스를 5씩 얻음. 최대 30을 얻을 수 있음.
 void USetBonus_Tempest::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnActiveSkill, this, &USetBonus_Tempest::HexagonCoolDownBuff, FName(TEXT("USetBonus_Tempest::HexagonBonus")));
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnActiveSkill, this, &USetBonus_Tempest::HexagonCoolDownBuff);
 }
 
-FDamageData USetBonus_Tempest::TriangleAutoReload(FDamageData DamageData)
+void USetBonus_Tempest::TriangleAutoReload()
 {
 	hero_cache_->GetWeaponMechanics()->GetWeaponActor()->Reload();
-	return DamageData;
 }
 
-FDamageData USetBonus_Tempest::HexagonCoolDownBuff(FDamageData DamageData)
+void USetBonus_Tempest::HexagonCoolDownBuff()
 {
 	if (cur_buff_stack < 6)
 	{
@@ -50,5 +49,4 @@ FDamageData USetBonus_Tempest::HexagonCoolDownBuff(FDamageData DamageData)
 		hero_cache_->RemoveBuff(cool_down_buff_name);
 		hero_cache_->ApplyBuff(FBuffData{cool_down_buff_name, ECharacterStatType::SkillCoolDown, cur_buff_stack * 5.f, true, true});
 	}
-	return DamageData;
 }

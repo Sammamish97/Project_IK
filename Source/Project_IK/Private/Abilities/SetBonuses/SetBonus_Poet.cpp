@@ -28,17 +28,17 @@ void USetBonus_Poet::ActivateEdgeBonus()
 void USetBonus_Poet::ActivateTriangleBonus()
 {
 	Super::ActivateTriangleBonus();
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnActiveSkill, this, &USetBonus_Poet::PoetTriangle, FName(TEXT("USetBonus_Poet::TriangleBonus")));
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnActiveSkill, this, &USetBonus_Poet::PoetTriangle);
 }
 
 //6세트: 액티브 스킬 사용 시, 75%의 확률로 미니 소환물 소환.
 void USetBonus_Poet::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnActiveSkill, this, &USetBonus_Poet::PoetHexagon, FName(TEXT("USetBonus_Poet::TriangleBonus")));
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnActiveSkill, this, &USetBonus_Poet::PoetHexagon);
 }
 
-FDamageData USetBonus_Poet::PoetTriangle(FDamageData dmg_data)
+void USetBonus_Poet::PoetTriangle()
 {
 	if (FMath::RandRange(0.f, 100.f) < 25.f)
 	{
@@ -58,10 +58,9 @@ FDamageData USetBonus_Poet::PoetTriangle(FDamageData dmg_data)
 			GetWorld()->SpawnActor<AActor>(sentry_gun_class_, location, rotation);
 		}
 	}
-	return dmg_data;
 }
 
-FDamageData USetBonus_Poet::PoetHexagon(FDamageData dmg_data)
+void USetBonus_Poet::PoetHexagon()
 {
 	if (FMath::RandRange(0.f, 100.f) < 75.f)
 	{
@@ -81,5 +80,4 @@ FDamageData USetBonus_Poet::PoetHexagon(FDamageData dmg_data)
 			GetWorld()->SpawnActor<AActor>(sentry_gun_class_, location, rotation);
 		}
 	}
-	return dmg_data;
 }

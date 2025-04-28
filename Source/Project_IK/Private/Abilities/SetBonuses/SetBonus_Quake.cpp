@@ -25,28 +25,26 @@ void USetBonus_Quake::ActivateEdgeBonus()
 void USetBonus_Quake::ActivateTriangleBonus()
 {
 	Super::ActivateTriangleBonus();
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnActiveSkill, this, &USetBonus_Quake::TriangleAttackSpeedBuff, FName(TEXT("USetBonus_Tempest::QuakeTriangleBonus")));
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnActiveSkill, this, &USetBonus_Quake::TriangleAttackSpeedBuff);
 }
 
 //6세트: 15초에 한번 액티브 스킬의 쿨다운이 80% 감소.
 void USetBonus_Quake::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_cache_, EUnitEvent::OnActiveSkill, this, &USetBonus_Quake::HexagonSkillEcho, FName(TEXT("USetBonus_Tempest::QuakeHexagonBonus")));
+	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnActiveSkill, this, &USetBonus_Quake::HexagonSkillEcho);
 }
 
-FDamageData USetBonus_Quake::TriangleAttackSpeedBuff(FDamageData DamageData)
+void USetBonus_Quake::TriangleAttackSpeedBuff()
 {
 	hero_cache_->ApplyBuff(FBuffData(TEXT("Quake_Triangle"), ECharacterStatType::AttackSpeed, 15.f, true, triangle_buff_duration_));
-	return DamageData;
 }
 
-FDamageData USetBonus_Quake::HexagonSkillEcho(FDamageData DamageData)
+void USetBonus_Quake::HexagonSkillEcho()
 {
 	if (GetWorld()->GetTimerManager().IsTimerActive(skill_echo_timer_handle_) == false)
 	{
 		GetWorld()->GetTimerManager().SetTimer(skill_echo_timer_handle_, hexagon_effect_cooldown, false);
 		hero_cache_->ApplyBuff({"Quake_Hexagon", ECharacterStatType::SkillCoolDown,80.f, false, 1.f});
 	}
-	return DamageData;
 }
