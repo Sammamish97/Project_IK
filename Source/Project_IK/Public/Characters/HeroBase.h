@@ -42,6 +42,7 @@ public:
 	bool IsActiveSkillOnCoolDown() const;
 	bool HasActiveSkill() const;
 	void ReduceCooltime(float reduce_time);
+	void ReduceCooltimeByPercentage(float percentage);
 
 	void Reposition(FVector target_location);
 	void SetAttackTarget(AActor* target);

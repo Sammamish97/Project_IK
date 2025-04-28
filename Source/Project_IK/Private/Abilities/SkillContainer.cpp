@@ -96,6 +96,11 @@ void USkillContainer::ReduceCooltime(float reduce_time)
 	}
 }
 
+void USkillContainer::ReduceCooltimeByPercentage(float percentage)
+{
+	ReduceCooltime(GetCooltime() * percentage);
+}
+
 FActiveSkillData USkillContainer::GetEquippedActiveSkillData()
 {
 	return equipped_active_skill_data_;
