@@ -31,7 +31,9 @@ void UInventoryManager::InitEquipInventory()
 
 	AddEquipment(EPassiveSkillType::Agility);
 	AddEquipment(EPassiveSkillType::Regenerate);
-	AddEquipment(EPassiveSkillType::Regenerate);
+	AddEquipment(EPassiveSkillType::Berserker);
+	AddEquipment(EPassiveSkillType::Berserker);
+	AddEquipment(EPassiveSkillType::Berserker);
 }
 
 void UInventoryManager::InitRuneInventory()

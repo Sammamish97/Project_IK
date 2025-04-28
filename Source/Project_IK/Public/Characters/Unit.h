@@ -36,7 +36,7 @@ class PROJECT_IK_API AUnit : public ACharacter, public IDamageable, public IUnit
 public:
 	// Sets default values for this character's properties
 	AUnit();
-	const UCharacterStatComponent* GetCharacterStat() const;
+	UCharacterStatComponent* GetCharacterStat();
 	FVector GetForwardDir() const;
 	void SetForwardDir(const FVector& Forward_Dir);
 
@@ -86,6 +86,7 @@ protected:
 	void GetDamageByDot(FDamageData data);
 	void GetDamageByPEM(FDamageData data);
 	void GetDamageByMagic(FDamageData data);
+	void RecoverAttackerByLifeSteal(FDamageData data);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
