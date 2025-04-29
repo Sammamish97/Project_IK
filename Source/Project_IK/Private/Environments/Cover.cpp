@@ -64,18 +64,28 @@ float ACover::GetHitPoints()
 
 void ACover::Die()
 {
+	if (AActor* hidden_actor = hidden_unit_.Get())
+	{
+		AUnit* casted_unit = Cast<AUnit>(hidden_actor);
+		casted_unit->DispatchUnitEvent(EUnitEvent::LeaveCover);
+	}
 	is_broken_ = true;
 	Destroy();
 }
 
 bool ACover::HasCoveringOwner() const
 {
-	return has_covering_owner_;
+	return hidden_unit_.IsValid();
 }
 
-void ACover::SetCoveringOwner(bool bHas_Covering_Owner)
+void ACover::SetCoveringOwner(AActor* hided_actor)
 {
-	has_covering_owner_ = bHas_Covering_Owner;
+	hidden_unit_ = hided_actor;
+}
+
+AActor* ACover::GetCoveringOwner()
+{
+	return hidden_unit_.Get();
 }
 
 bool ACover::IsBroken() const

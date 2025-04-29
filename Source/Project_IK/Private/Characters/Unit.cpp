@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/Unit.h"
 
+#include "AI/GunnerAIController.h"
 #include "AI/MeleeAIController.h"
 #include "Components/CharacterStatComponent.h"
 #include "Components/CrowdControlComponent.h"
@@ -58,6 +59,16 @@ void AUnit::SetForwardDir(const FVector& Forward_Dir)
 	forward_dir_ = Forward_Dir;
 }
 
+void AUnit::SetCurHidingCover(AActor* cover)
+{
+	cur_hiding_cover_ = cover;
+}
+
+AActor* AUnit::GetCurHidingCover() const
+{
+	return cur_hiding_cover_.Get();
+}
+
 // Called when the game starts or when spawned
 void AUnit::BeginPlay()
 {
@@ -77,7 +88,6 @@ void AUnit::BeginPlay()
 		subsystem->BindOnShieldChanged(character_stat_component_, ui, &UHitPointsUI::UpdateShieldWidget);
 		subsystem->BindOnBuffChanged(character_stat_component_, ui, &UHitPointsUI::UpdateAppliedBuffs);
 	}
-
 	GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->ApplyBuff(this);
 
 	UCapsuleComponent* capsule_comp = FindComponentByClass<UCapsuleComponent>();

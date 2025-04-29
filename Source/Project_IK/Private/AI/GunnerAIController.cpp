@@ -27,7 +27,7 @@ void AGunnerAIController::OnDie()
 	{
 		ACover* casted_cover = Cast<ACover>(cover);
 		casted_cover->SetIsBroken(false);
-		casted_cover->SetCoveringOwner(false);
+		casted_cover->SetCoveringOwner(nullptr);
 	}
 }
 

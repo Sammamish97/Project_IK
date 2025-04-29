@@ -19,6 +19,7 @@ enum class EUnitState  : uint8
 	HeadingToEnemy UMETA(DisplayName = "Heading To Enemy"),
 	HeadingToCover UMETA(DisplayName = "Heading To Cover"),
 	Attacking UMETA(DisplayName = "Attacking"),
+	OnActiveSkill UMETA(DisplayName = "On Active Skill"),
 	Reloading UMETA(DisplayName = "Reloading"),
 	Stunned UMETA(DisplayName = "Stunned"),
 	Repositioning UMETA(DisplayName = "Repositioning"),
@@ -164,7 +165,9 @@ enum class EUnitEvent : uint8
 	OnActiveSkill UMETA(DisplayName = "OnActiveSkill"),
 	OnMove UMETA(DisplayName = "OnMove"),
 	OnEliminate UMETA(DisplayName = "OnEliminate"),
-	OnCriticalFire UMETA(DisplayName = "OnCriticalFire")
+	OnCriticalFire UMETA(DisplayName = "OnCriticalFire"),
+	HideOnCover UMETA(DisplayName = "HideOnCover"),
+	LeaveCover UMETA(DisplayName = "LeaveCover")
 };
 
 UENUM(BlueprintType)

@@ -32,7 +32,6 @@ class PROJECT_IK_API AUnit : public ACharacter, public IDamageable, public IUnit
 {
 	GENERATED_BODY()
 	friend UDelegateBridgeSubsystem;
-	friend class UWeaponMechanics;
 public:
 	// Sets default values for this character's properties
 	AUnit();
@@ -43,6 +42,9 @@ public:
 	const UCharacterStatComponent* GetCharacterStat() const;
 	FVector GetForwardDir() const;
 	void SetForwardDir(const FVector& Forward_Dir);
+
+	void SetCurHidingCover(AActor* cover);
+	AActor* GetCurHidingCover() const;
 	
 	UFUNCTION(BlueprintCallable)
 	virtual void GetDamage(FDamageData data) override;
@@ -70,8 +72,12 @@ public:
 	UFUNCTION()
 	virtual void FinishStun() override;
 
+	UFUNCTION()
+	void DispatchUnitEvent(EUnitEvent type);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UHitPointsUI> hp_UI_class_;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -82,8 +88,6 @@ protected:
 	void GetDamageByDot(FDamageData data);
 	void GetDamageByPEM(FDamageData data);
 	void GetDamageByMagic(FDamageData data);
-
-	void DispatchUnitEvent(EUnitEvent type);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
@@ -110,9 +114,12 @@ protected:
 	UPROPERTY(Transient)
 	FTimerHandle stun_timer_;
 
+	UPROPERTY(Transient)
+	TWeakObjectPtr<AActor> cur_hiding_cover_ = nullptr;
+
 	UPROPERTY()
 	TMap<EUnitEvent, FOnUnitEvent> on_unit_event_;
-
+	
 	float capsule_half_height_ = 0.f;
 	float capsule_radius_ = 0.f;
 };
