@@ -32,10 +32,15 @@ protected:
 
 public:
 	bool HasCoveringOwner() const;
-	void SetCoveringOwner(bool bHas_Covering_Owner);
+	void SetCoveringOwner(AActor* hidden_unit);
+	AActor* GetCoveringOwner(void);
+
+	
 	bool IsBroken() const;
 	void SetIsBroken(bool bIs_Broken);
+	
 	virtual void GetDamage(FDamageData data) override;
+	
 	void SetHitPoints(float hit_points);
 	float GetHitPoints();
 
@@ -52,7 +57,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UStaticMeshComponent> cover_mesh_;
 
-	bool has_covering_owner_ = false;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover", meta = (AllowPrivateAccess = "true"))
+	TWeakObjectPtr<AActor> hidden_unit_;
+
 	bool is_broken_ = false;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Cover", meta = (AllowPrivateAccess = "true"))
