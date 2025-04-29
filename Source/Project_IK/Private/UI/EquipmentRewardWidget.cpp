@@ -66,7 +66,7 @@ void UEquipmentRewardWidget::PopulateCheckboxButtons()
 				slot->SetPadding(FMargin(64.f, 16.f));
 			}
 
-			cb->SetButtonTexture(data_table_manager->GetRuneSetThumbnail(data.set_type));
+			//cb->SetButtonTexture(data_table_manager->GetRuneSetThumbnail(data.set_type));
 
 			equipment_widgets_.Add(cb);
 			column += 1;

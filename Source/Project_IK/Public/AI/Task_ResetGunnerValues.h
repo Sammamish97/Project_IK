@@ -23,4 +23,7 @@ class PROJECT_IK_API UTask_ResetGunnerValues : public UBTTaskNode
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blackboard", meta = (AllowPrivateAccess = "true"))
 	FBlackboardKeySelector owned_cover_key_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blackboard", meta = (AllowPrivateAccess = "true"))
+	FBlackboardKeySelector attack_target_key_;
 };

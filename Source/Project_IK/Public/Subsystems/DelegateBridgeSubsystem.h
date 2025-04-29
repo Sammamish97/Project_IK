@@ -31,27 +31,21 @@ See LICENSE file in the project root for full license information.
 #define BindOnActiveSkill(Object, FuncName) \
 	__Internal_BindOnActiveSkill(Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
-#define BindOnUnitDamageEvent(BoundUnit, Event, Object, FuncName) \
-	__Internal_BindOnUnitDamageEvent(BoundUnit, Event, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
-
-#define BindOnCrowdControlChanged(Component, Object, FuncName) \
-	__Internal_BindOnCrowdControlChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
-
-#define BindOnDied(Component, Object, FuncName) \
-	__Internal_BindOnDied(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
-
 #define BindOnHPChanged(Component, Object, FuncName) \
 	__Internal_BindOnHPChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
 #define BindOnShieldChanged(Component, Object, FuncName) \
 	__Internal_BindOnShieldChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
+#define BindOnCrowdControlChanged(Component, Object, FuncName) \
+	__Internal_BindOnCrowdControlChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
+
 #define BindOnBuffChanged(Component, Object, FuncName) \
 	__Internal_BindOnBuffChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
-/**
- *
- */
+#define BindOnUnitEvent(Component, Type, Object, FuncName) \
+	__Internal_BindOnUnitEvent(Component, Type, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
+
 UCLASS()
 class PROJECT_IK_API UDelegateBridgeSubsystem : public UWorldSubsystem
 {
@@ -65,22 +59,19 @@ public:
 
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnActiveSkill(T* object, FuncType callback, FName func_name);
-
+	
 	template<typename T, typename FuncType>
-	bool __Internal_BindOnUnitDamageEvent(UObject* bound_unit, EUnitEvent bound_event, T* object, FuncType callback, FName func_name);
-
-	template<typename T, typename FuncType>
-	bool __Internal_BindOnCrowdControlChanged(UObject* bound_crowd_control_component, T* object, FuncType callback, FName func_name);
-
-	template<typename T, typename FuncType>
-	bool __Internal_BindOnDied(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
+	bool __Internal_BindOnUnitEvent(UObject* bound_actor, EUnitEvent bound_event, T* object, FuncType callback, FName func_name);
 
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnHPChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
 
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnShieldChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
-
+	
+	template<typename T, typename FuncType>
+	bool __Internal_BindOnCrowdControlChanged(UObject* bound_crowd_control_component, T* object, FuncType callback, FName func_name);
+	
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnBuffChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
 
@@ -145,8 +136,9 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnActiveSkill(T* object, Fu
 	return false;
 }
 
-template<typename T, typename FuncType>
-inline bool UDelegateBridgeSubsystem::__Internal_BindOnUnitDamageEvent(UObject* bound_actor, EUnitEvent bound_event, T* object, FuncType callback, FName func_name)
+template <typename T, typename FuncType>
+inline bool UDelegateBridgeSubsystem::__Internal_BindOnUnitEvent(UObject* bound_actor, EUnitEvent bound_event, T* object,
+	FuncType callback, FName func_name)
 {
 	if (object == nullptr)
 	{
@@ -155,10 +147,7 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnUnitDamageEvent(UObject* 
 	if (bound_actor != nullptr && bound_actor->IsA<AUnit>())
 	{
 		AUnit* bound_unit = Cast<AUnit>(bound_actor);
-		TArray<FOnDamage>& delegate_array = bound_unit->dmg_event_map_.FindOrAdd(bound_event);
-
-		delegate_array.AddDefaulted();
-		delegate_array.Last().BindUObject(object, callback);
+		bound_unit->on_unit_event_.FindOrAdd(bound_event).__Internal_AddUniqueDynamic(object, callback, func_name);
 		return true;
 	}
 	return false;
@@ -175,22 +164,6 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnCrowdControlChanged(UObje
 	{
 		UCrowdControlComponent* cc = Cast<UCrowdControlComponent>(bound_crowd_control_component);
 		cc->OnCrowdControlChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
-	}
-	return false;
-}
-
-template<typename T, typename FuncType>
-inline bool UDelegateBridgeSubsystem::__Internal_BindOnDied(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name)
-{
-	if (object == nullptr)
-	{
-		return false;
-	}
-	if (bound_character_stat_component != nullptr && bound_character_stat_component->IsA<UCharacterStatComponent>())
-	{
-		UCharacterStatComponent* cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
-		cs->OnDied.__Internal_AddUniqueDynamic(object, callback, func_name);
-		return true;
 	}
 	return false;
 }

@@ -46,20 +46,27 @@ void AGun::Tick(float DeltaTime)
 
 void AGun::Reload()
 {
-	cur_magazine_ = weapon_data_.max_magazine;
+	Reload(weapon_data_.max_magazine);
 }
 
 void AGun::Reload(int32 amount)
 {
+	is_first_bullet_on_magazine_ = true;
 	cur_magazine_ += amount;
 }
 
-void AGun::FireSingleBullet(FVector muzzle_location, FVector target_pos, FDamageData dmg_data)
+void AGun::SpawnBullet(const FTransform& transform, const FDamageData& dmg_data)
 {
-	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, target_pos);
-	FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
-	FTransform spawn_transform(rotation, muzzle_location, scale);
-	ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(spawn_transform));
+	ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(transform));
+	if (is_first_bullet_on_magazine_)
+	{
+		is_first_bullet_on_magazine_ = false;
+		for (auto& elem : on_hit_after_reload_)
+		{
+			bullet->AddOnHitComponent(elem);
+		}
+	}
+	
 	for (auto& elem : on_hit_effect_classes_)
 	{
 		bullet->AddOnHitComponent(elem);
@@ -68,12 +75,20 @@ void AGun::FireSingleBullet(FVector muzzle_location, FVector target_pos, FDamage
 	{
 		bullet->SetShooter(gun_owner_);
 		bullet->SetDamageData(dmg_data);
-		cur_magazine_ -= 1;
 	}
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("Spawning a bullet has failed!"));
 	}
+}
+
+void AGun::FireSingleBullet(FVector muzzle_location, FVector target_pos, FDamageData dmg_data)
+{
+	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, target_pos);
+	FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
+	FTransform spawn_transform(rotation, muzzle_location, scale);
+	SpawnBullet(spawn_transform, dmg_data);
+	cur_magazine_ -= 1;
 }
 
 void AGun::FireBuckShot(FVector muzzle_location, FVector target_pos, FDamageData dmg_data)
@@ -93,20 +108,7 @@ void AGun::FireBuckShot(FVector muzzle_location, FVector target_pos, FDamageData
 		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, end_loc);
 		FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
 		FTransform spawn_transform(rotation, muzzle_location, scale);
-		ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(spawn_transform));
-		for (auto& elem : on_hit_effect_classes_)
-		{
-			bullet->AddOnHitComponent(elem);
-		}
-		if (bullet)
-		{
-			bullet->SetShooter(gun_owner_);
-			bullet->SetDamageData(dmg_data);
-		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("Spawning a bullet has failed!"));
-		}
+		SpawnBullet(spawn_transform, dmg_data);
 	}
 	cur_magazine_ -= 1;
 }
@@ -194,4 +196,19 @@ void AGun::RemoveOnHitComponent(TSubclassOf<UBulletOnHitEffectComponent> target_
 void AGun::ClearOnHitComponents()
 {
 	on_hit_effect_classes_.Empty();
+}
+
+void AGun::AddAfterReloadOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component)
+{
+	on_hit_after_reload_.Add(target_component);
+}
+
+void AGun::RemoveAfterReloadOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component)
+{
+	on_hit_after_reload_.Remove(target_component);
+}
+
+void AGun::ClearAfterReloadOnHitComponents()
+{
+	on_hit_after_reload_.Empty();
 }

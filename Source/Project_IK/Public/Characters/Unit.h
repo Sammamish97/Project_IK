@@ -25,10 +25,9 @@ class UDelegateBridgeSubsystem;
 enum class EUnitEvent : uint8;
 struct FBuffData;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUnitEvent);
 
-DECLARE_DELEGATE_RetVal_OneParam(FDamageData, FOnDamage, FDamageData);
-
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AUnit : public ACharacter, public IDamageable, public IUnitInterface
 {
 	GENERATED_BODY()
@@ -36,18 +35,22 @@ class PROJECT_IK_API AUnit : public ACharacter, public IDamageable, public IUnit
 public:
 	// Sets default values for this character's properties
 	AUnit();
-	UCharacterStatComponent* GetCharacterStat();
+
+	UFUNCTION()
+	virtual void Die() override;
+	
 	FVector GetForwardDir() const;
 	void SetForwardDir(const FVector& Forward_Dir);
 
+	void SetCurHidingCover(AActor* cover);
+	AActor* GetCurHidingCover() const;
 	UFUNCTION(BlueprintCallable)
 	EHeroType GetCharacterID() const;
+	UCharacterStatComponent* GetCharacterStat();
 	
 	UFUNCTION(BlueprintCallable)
 	virtual void GetDamage(FDamageData data) override;
-
-	virtual FDamageData ApplyOnAttackEvent(FDamageData dmg_data);
-
+	
 	UFUNCTION(BlueprintCallable)
 	void Heal(float heal);
 
@@ -71,14 +74,15 @@ public:
 	UFUNCTION()
 	virtual void FinishStun() override;
 
+	UFUNCTION()
+	void DispatchUnitEvent(EUnitEvent type);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UHitPointsUI> hp_UI_class_;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
-	UFUNCTION()
-	virtual void Die() override;
 
 	void SetDamageUI(FDamageData data, bool is_evaded);
 	FTransform GetActorTransformForDamageUI() const noexcept;
@@ -98,14 +102,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
 	UAnimMontage* stun_montage_;
 
-	//TODO: 오직 Stun의 테스트를 위해 사용한다. 적절한 애니메이션을 찾으면 바로 삭제해야 한다!
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
-	UMaterial* original_material;
-	
-	//TODO: 오직 Stun의 테스트를 위해 사용한다. 적절한 애니메이션을 찾으면 바로 삭제해야 한다!
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
-	UMaterial* test_stun_material_;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
 	UWidgetComponent* hp_UI_;
 
@@ -121,8 +117,12 @@ protected:
 	UPROPERTY(Transient)
 	FTimerHandle stun_timer_;
 
-	TMap<EUnitEvent, TArray<FOnDamage>> dmg_event_map_;
+	UPROPERTY(Transient)
+	TWeakObjectPtr<AActor> cur_hiding_cover_ = nullptr;
 
+	UPROPERTY()
+	TMap<EUnitEvent, FOnUnitEvent> on_unit_event_;
+	
 	float capsule_half_height_ = 0.f;
 	float capsule_radius_ = 0.f;
 };

@@ -19,6 +19,7 @@ enum class EUnitState  : uint8
 	HeadingToEnemy UMETA(DisplayName = "Heading To Enemy"),
 	HeadingToCover UMETA(DisplayName = "Heading To Cover"),
 	Attacking UMETA(DisplayName = "Attacking"),
+	OnActiveSkill UMETA(DisplayName = "On Active Skill"),
 	Reloading UMETA(DisplayName = "Reloading"),
 	Stunned UMETA(DisplayName = "Stunned"),
 	Repositioning UMETA(DisplayName = "Repositioning"),
@@ -157,16 +158,25 @@ enum class EDamageType : uint8
 UENUM(BlueprintType)
 enum class EUnitEvent : uint8
 {
-	OnHitBeforeCalc UMETA(DisplayName = "OnHitBeforeCalc"),
-	OnHitAfterCalc UMETA(DisplayName = "OnHitAfterCalc"),
-	OnHeal UMETA(DisplayName = "OnHeal"),
-	OnHPChanged UMETA(DisplayName = "OnHPChanged"),
 	OnDie UMETA(DisplayName = "OnDie"),
 	OnStun UMETA(DisplayName = "OnStun"),
 	OnReload UMETA(DisplayName = "OnReload"),
 	OnFire UMETA(DisplayName = "OnFire"),
 	OnActiveSkill UMETA(DisplayName = "OnActiveSkill"),
-	NONE
+	OnMove UMETA(DisplayName = "OnMove"),
+	OnEliminate UMETA(DisplayName = "OnEliminate"),
+	OnCriticalFire UMETA(DisplayName = "OnCriticalFire"),
+	HideOnCover UMETA(DisplayName = "HideOnCover"),
+	LeaveCover UMETA(DisplayName = "LeaveCover")
+};
+
+UENUM(BlueprintType)
+enum class EDamageEvent : uint8
+{
+	OnHitBeforeCalc UMETA(DisplayName = "OnHitBeforeCalc"),
+	OnHitAfterCalc UMETA(DisplayName = "OnHitAfterCalc"),
+	OnFireWeapon UMETA(DisplayName = "OnFireWeapon"),
+	OnInvokeActiveSkill UMETA(DisplayName = "OnInvokeActiveSkill"),
 };
 
 UENUM(BlueprintType)
@@ -286,8 +296,13 @@ UENUM(BlueprintType)
 enum class ERuneSetType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
-	ThunderLord UMETA(DisplayName = "ThunderLord"),
-	Chariot UMETA(DisplayName = "Chariot")
+	Chariot UMETA(DisplayName = "Chariot"),
+	GreatBow UMETA(DisplayName = "GreatBow"),
+	Dagger UMETA(DisplayName = "Dagger"),
+	Quake UMETA(DisplayName = "Quake"),
+	Tempest UMETA(DisplayName = "Tempest"),
+	Viper UMETA(DisplayName = "Viper"),
+	Poet UMETA(DisplayName = "Poet"),
 };
 
 UENUM(BlueprintType)

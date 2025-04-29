@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 
 UTask_ResetGunnerValues::UTask_ResetGunnerValues()
 {
-	NodeName = "ResetGunnerVaalues";
+	NodeName = "ResetGunnerValues";
 }
 
 EBTNodeResult::Type UTask_ResetGunnerValues::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
@@ -22,8 +22,10 @@ EBTNodeResult::Type UTask_ResetGunnerValues::ExecuteTask(UBehaviorTreeComponent&
 	UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
 	if (auto owned_cover = blackboard->GetValueAsObject(owned_cover_key_.SelectedKeyName))
 	{
-		Cast<ACover>(owned_cover)->SetCoveringOwner(false);
+		Cast<ACover>(owned_cover)->SetCoveringOwner(nullptr);
 		blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, nullptr);
+		blackboard->SetValueAsObject(attack_target_key_.SelectedKeyName, nullptr);
+		
 	}
 	return EBTNodeResult::Succeeded;
 }

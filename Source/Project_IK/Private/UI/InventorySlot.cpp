@@ -14,7 +14,10 @@ See LICENSE file in the project root for full license information.
 #include "Components/Image.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
+#include "Structs/ActiveSkillData.h"
+#include "Structs/OopartData.h"
 #include "Structs/PassiveSkillData.h"
+#include "Structs/WeaponData.h"
 #include "UI/SlotDragDropImage.h"
 #include "WorldSettings/IKGameInstance.h"
 

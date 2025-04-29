@@ -28,6 +28,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/HorizontalBoxSlot.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
+#include "Managers/DataTableManager.h"
 
 bool UStoreWidget::Initialize()
 {

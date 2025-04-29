@@ -10,14 +10,38 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/SetBonusManager.h"
 #include "Abilities/SetBonuses/SetBonus_Chariot.h"
+#include "Abilities/SetBonuses/SetBonus_Dagger.h"
+#include "Abilities/SetBonuses/SetBonus_GreatBow.h"
+#include "Abilities/SetBonuses/SetBonus_Poet.h"
+#include "Abilities/SetBonuses/SetBonus_Quake.h"
+#include "Abilities/SetBonuses/SetBonus_Tempest.h"
+#include "Abilities/SetBonuses/SetBonus_Viper.h"
 
-TObjectPtr<USetBonusBase> USetBonusManager::GetSetBonus(ERuneSetType type)
+TObjectPtr<USetBonusBase> USetBonusManager::GetSetBonus(AActor* hero_ptr, ERuneSetType type)
 {
 	switch (type)
 	{
 	case ERuneSetType::Chariot:
-		return NewObject<USetBonus_Chariot>(this);
-		break;
+		return NewObject<USetBonus_Chariot>(hero_ptr, chariot_);
+
+	case ERuneSetType::GreatBow:
+		return NewObject<USetBonus_GreatBow>(hero_ptr, great_bow_);
+
+	case ERuneSetType::Viper:
+		return NewObject<USetBonus_Viper>(hero_ptr, viper_);
+
+	case ERuneSetType::Dagger:
+		return NewObject<USetBonus_Dagger>(hero_ptr, dagger_);
+
+	case ERuneSetType::Tempest:
+		return NewObject<USetBonus_Tempest>(hero_ptr, tempest_);
+
+	case ERuneSetType::Quake:
+		return NewObject<USetBonus_Quake>(hero_ptr, quake_);
+		
+	case ERuneSetType::Poet:
+		return NewObject<USetBonus_Poet>(hero_ptr, poet_);
+	
 	}
 	return nullptr;
 }

@@ -24,6 +24,13 @@ public:
 	virtual void ActivateHexagonBonus() override;
 
 private:
-	FDamageData TriangleBonus(FDamageData dmg_data);
-	FDamageData HexagonBonus(FDamageData dmg_data);
+	UFUNCTION()
+	void GetShield();
+
+	UFUNCTION()
+	void GetShieldAndLifeSteal();
+
+private:
+	float shield_duration_ = 3.f;
+	float life_steal_percentage = 10.f;
 };

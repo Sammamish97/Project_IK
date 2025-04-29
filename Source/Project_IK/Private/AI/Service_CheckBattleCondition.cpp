@@ -46,7 +46,7 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 	{
 		if (owned_cover)
 		{
-			Cast<ACover>(owned_cover)->SetCoveringOwner(false);
+			Cast<ACover>(owned_cover)->SetCoveringOwner(nullptr);
 			blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, nullptr);
 		}
 		blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Forwarding));
@@ -61,7 +61,7 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 	{
 		if (owned_cover)
 		{
-			Cast<ACover>(owned_cover)->SetCoveringOwner(false);
+			Cast<ACover>(owned_cover)->SetCoveringOwner(nullptr);
 			blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, nullptr);
 		}
 		blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Forwarding));
@@ -98,7 +98,7 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 		if(ACover* best_cover = CommonFunctions::FindBestCover(out_actors, casted_target->GetActorLocation(),
 			weapon_mechanics->GetWeaponData().fire_range))
 		{
-			best_cover->SetCoveringOwner(true);
+			best_cover->SetCoveringOwner(casted_unit);
 			blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, best_cover);
 			blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::HeadingToCover));
 			weapon_mechanics->FinishFire();

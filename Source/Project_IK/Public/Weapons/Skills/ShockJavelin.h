@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/DamageData.h"
 #include "ShockJavelin.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AShockJavelin : public AActor
 {
 	GENERATED_BODY()
@@ -27,14 +27,7 @@ public:
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	void SetDamageData(FDamageData dmg_data);
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
+	
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ShockJavelin", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UBoxComponent> collision_;

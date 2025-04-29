@@ -7,7 +7,6 @@ Summary : Source file for Magnetized Effect Component.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
 #include "Abilities/ActiveSkills/ATC_MagnetizedEffect.h"
 
 #include "Characters/Unit.h"
@@ -42,8 +41,6 @@ void UATC_MagnetizedEffect::TickComponent(float DeltaTime, ELevelTick TickType,
                                           FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	FTimerDelegate expired_delegate = FTimerDelegate::CreateUObject(this, &UATC_MagnetizedEffect::OnDurationExpired);
-	GetWorld()->GetTimerManager().SetTimer(duration_timer_handle_, expired_delegate, duration_, false);
 }
 
 void UATC_MagnetizedEffect::IncreaseStack()

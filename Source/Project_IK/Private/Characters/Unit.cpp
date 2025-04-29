@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/Unit.h"
 
+#include "AI/GunnerAIController.h"
 #include "AI/MeleeAIController.h"
 #include "Components/CharacterStatComponent.h"
 #include "Components/CrowdControlComponent.h"
@@ -58,6 +59,16 @@ void AUnit::SetForwardDir(const FVector& Forward_Dir)
 	forward_dir_ = Forward_Dir;
 }
 
+void AUnit::SetCurHidingCover(AActor* cover)
+{
+	cur_hiding_cover_ = cover;
+}
+
+AActor* AUnit::GetCurHidingCover() const
+{
+	return cur_hiding_cover_.Get();
+}
+
 EHeroType AUnit::GetCharacterID() const
 {
 	return character_stat_component_->GetCharacterID();
@@ -67,9 +78,7 @@ EHeroType AUnit::GetCharacterID() const
 void AUnit::BeginPlay()
 {
 	Super::BeginPlay();
-
 	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
-	subsystem->BindOnDied(character_stat_component_, this, &AUnit::Die);
 
 	if (hp_UI_class_)
 	{
@@ -84,7 +93,6 @@ void AUnit::BeginPlay()
 		subsystem->BindOnShieldChanged(character_stat_component_, ui, &UHitPointsUI::UpdateShieldWidget);
 		subsystem->BindOnBuffChanged(character_stat_component_, ui, &UHitPointsUI::UpdateAppliedBuffs);
 	}
-
 	GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->ApplyBuff(this);
 
 	UCapsuleComponent* capsule_comp = FindComponentByClass<UCapsuleComponent>();
@@ -97,7 +105,6 @@ void AUnit::BeginPlay()
 
 void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 {
-
 	if (is_evaded)
 	{
 		ADamageUI* missed_ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
@@ -135,6 +142,13 @@ void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 
 void AUnit::GetDamage(FDamageData data)
 {
+	if (GetCharacterStat()->GetHitPoint() - data.atk_base_dmg  - data.skill_power_base_dmg <= 0.f )
+	{
+ 		if (AActor* attacker_ptr = data.attacker.Get())
+		{
+			Cast<AUnit>(attacker_ptr)->	DispatchUnitEvent(EUnitEvent::OnEliminate);
+		}
+	}
 	switch (data.damage_type)
 	{
 	case EDamageType::Projectile:
@@ -151,24 +165,6 @@ void AUnit::GetDamage(FDamageData data)
 	default:
 		break;
 	}
-}
-
-FDamageData AUnit::ApplyOnAttackEvent(FDamageData dmg_data)
-{
-	if (dmg_event_map_.Find(EUnitEvent::OnFire))
-	{
-		if (dmg_event_map_[EUnitEvent::OnFire].IsEmpty() == false)
-		{
-			for (auto& delegate : dmg_event_map_[EUnitEvent::OnFire])
-			{
-				if (delegate.IsBound())
-				{
-					dmg_data = delegate.Execute(dmg_data);
-				}
-			}
-		}
-	}
-	return dmg_data;
 }
 
 void AUnit::Heal(float heal)
@@ -205,6 +201,7 @@ void AUnit::AcquireShield(float ShieldAmount, float Duration)
 void AUnit::GetStunned(float stun_duration)
 {
 	UE_LOG(LogTemp, Display, TEXT("AUnit::GetStunned"));
+	DispatchUnitEvent(EUnitEvent::OnStun);
 	if (GetWorld()->GetTimerManager().IsTimerActive(stun_timer_) == false)
 	{
 		OnStunned();
@@ -216,27 +213,21 @@ void AUnit::OnStunned()
 {
 	//BT 역시 stun시키기
 	Cast<AMeleeAIController>(GetController())->GetStunned();
-
-	//Stun Animation 재생
-	GetMesh()->SetMaterial(0, test_stun_material_);
 	PlayAnimMontage(stun_montage_);
 }
 
 void AUnit::FinishStun()
 {
 	UE_LOG(LogTemp, Display, TEXT("AUnit::FinishStunned"));
-	GetMesh()->SetMaterial(0, original_material);
 	Cast<AMeleeAIController>(Controller)->SetUnitState(EUnitState::Forwarding);
 }
 
 void AUnit::Die()
 {
-	for (auto& delegate_array : dmg_event_map_)
+	DispatchUnitEvent(EUnitEvent::OnDie);
+	for (auto& delegate_map : on_unit_event_)
 	{
-		for (auto& delegate_elem : delegate_array.Value)
-		{
-			delegate_elem.Unbind();
-		}
+		delegate_map.Value.Clear();
 	}
 	Destroy();
 }
@@ -267,30 +258,9 @@ void AUnit::GetDamageByDot(FDamageData data)
 
 void AUnit::GetDamageByPEM(FDamageData data)
 {
-	if (dmg_event_map_.Find(EUnitEvent::OnHitBeforeCalc))
-	{
-		if (dmg_event_map_[EUnitEvent::OnHitBeforeCalc].IsEmpty() == false)
-		{
-			for (auto& delegate : dmg_event_map_[EUnitEvent::OnHitBeforeCalc])
-			{
-				if (delegate.IsBound())data = delegate.Execute(data);
-			}
-		}
-	}
-
 	bool is_evaded = character_stat_component_->CalcDamage(data);
 	if (is_evaded == false)
 	{
-		if (dmg_event_map_.Find(EUnitEvent::OnHitAfterCalc))
-		{
-			if (dmg_event_map_[EUnitEvent::OnHitAfterCalc].IsEmpty() == false)
-			{
-				for (auto& delegate : dmg_event_map_[EUnitEvent::OnHitAfterCalc])
-				{
-					if (delegate.IsBound()) data = delegate.Execute(data);
-				}
-			}
-		}
 		character_stat_component_->GetDamage(data.atk_base_dmg);
 		character_stat_component_->GetDamage(data.skill_power_base_dmg);
 		RecoverAttackerByLifeSteal(data);
@@ -300,34 +270,21 @@ void AUnit::GetDamageByPEM(FDamageData data)
 
 void AUnit::GetDamageByMagic(FDamageData data)
 {
-	if (dmg_event_map_.Find(EUnitEvent::OnHitBeforeCalc))
-	{
-		if (dmg_event_map_[EUnitEvent::OnHitBeforeCalc].IsEmpty() == false)
-		{
-			for (auto& delegate : dmg_event_map_[EUnitEvent::OnHitBeforeCalc])
-			{
-				if (delegate.IsBound())data = delegate.Execute(data);
-			}
-		}
-	}
-
 	bool is_evaded = character_stat_component_->CalcDamage(data);
 	if (is_evaded == false)
 	{
-		if (dmg_event_map_.Find(EUnitEvent::OnHitAfterCalc))
-		{
-			if (dmg_event_map_[EUnitEvent::OnHitAfterCalc].IsEmpty() == false)
-			{
-				for (auto& delegate : dmg_event_map_[EUnitEvent::OnHitAfterCalc])
-				{
-					if (delegate.IsBound()) data = delegate.Execute(data);
-				}
-			}
-		}
 		character_stat_component_->GetDamage(data.atk_base_dmg);
 		character_stat_component_->GetDamage(data.skill_power_base_dmg);
 	}
 	SetDamageUI(data, is_evaded);
+}
+
+void AUnit::DispatchUnitEvent(EUnitEvent type)
+{
+	if (on_unit_event_.Find(type))
+	{
+		on_unit_event_[type].Broadcast();
+	}
 }
 
 void AUnit::RecoverAttackerByLifeSteal(FDamageData data)

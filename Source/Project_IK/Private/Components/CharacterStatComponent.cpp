@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Project_IK/Public/Components/CharacterStatComponent.h"
 
+#include "Characters/Unit.h"
 #include "Managers/DataTableManager.h"
 #include "Math/UnrealMathUtility.h"
 
@@ -63,10 +64,7 @@ void UCharacterStatComponent::BeginPlay()
 void UCharacterStatComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-
 	GetWorld()->GetTimerManager().ClearTimer(shield_timer_);
-
-	OnDied.Clear();
 	OnHPChanged.Clear();
 	OnShieldChanged.Clear();
 	OnBuffChanged.Clear();
@@ -274,12 +272,11 @@ void UCharacterStatComponent::SetLifeSteal(float life_steal) noexcept
 void UCharacterStatComponent::SetHitPoint(float hit_point) noexcept
 {
 	stat_.hit_point_ = FMath::Min(hit_point, GetMaxHitPoint());
-
 	OnHPChanged.Broadcast(GetHPRatio());
 	if (stat_.hit_point_ < KINDA_SMALL_NUMBER)
 	{
 		stat_.hit_point_ = 0.f;
-		OnDied.Broadcast();
+		Cast<AUnit>(GetOwner())->Die();
 	}
 }
 

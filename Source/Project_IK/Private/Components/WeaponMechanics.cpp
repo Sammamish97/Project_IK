@@ -66,15 +66,11 @@ FDamageData UWeaponMechanics::GetWeaponFireDamageData()
 {
 	auto char_data = owner_ref_->GetCharacterStat()->GetCharacterData();
 	float total_atk_dmg = weapon_actor_->GetWeaponData().basic_dmg_ + char_data.attack_power_ * weapon_actor_->GetWeaponData().attack_scale;
-	float total_crit_hit_rate = char_data.critical_hit_rate_ + weapon_actor_->GetWeaponData().critical_hit_rate_;
-	if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
-	{
-		total_atk_dmg *= 2;
-	}
 	FDamageData dmg_data;
 	dmg_data.atk_base_dmg = total_atk_dmg;
 	dmg_data.damage_type = EDamageType::Projectile;
-	return owner_ref_->ApplyOnAttackEvent(dmg_data);
+	dmg_data.attacker = owner_ref_;
+	return dmg_data;
 }
 
 void UWeaponMechanics::BeginFire(AActor* target)
@@ -96,6 +92,13 @@ void UWeaponMechanics::BeginFire(AActor* target)
 
 void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data, bool is_controlled_fire, float offset)
 {
+	float total_crit_hit_rate = owner_ref_->GetCharacterStat()->GetCharacterData().critical_hit_rate_ + weapon_actor_->GetWeaponData().critical_hit_rate_;
+	if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
+	{
+		dmg_data.atk_base_dmg *= 2;
+		owner_ref_->DispatchUnitEvent(EUnitEvent::OnCriticalFire);
+	}
+	
 	FireWeapon(target, dmg_data, is_controlled_fire, offset);
 	owner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().fire_montage_);
 	burst_count_ += 1;
@@ -116,19 +119,20 @@ void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data, bool is_cont
 
 void UWeaponMechanics::FireWeapon(AActor* target, FDamageData dmg_data, bool is_controlled_fire, float offset)
 {
-	if(weapon_actor_ && IsValid(target))
+	TWeakObjectPtr<AActor> target_ptr = target;
+	if (auto casted_target = target_ptr.Get())
 	{
-		ACharacter* casted_target = Cast<ACharacter>(target);
+		ACharacter* casted_character = Cast<ACharacter>(casted_target);
 		if (is_controlled_fire)
 		{
-			if(UBlackboardComponent* blackboard = Cast<AAIController>(casted_target->GetController())->GetBlackboardComponent())
+			if(UBlackboardComponent* blackboard = Cast<AAIController>(casted_character->GetController())->GetBlackboardComponent())
 			{
 				UObject* cover = blackboard->GetValueAsObject(owned_cover_key_name_);
 				if(IsValid(cover))
 				{
 					if(FMath::RandRange(0, 100) > 50)
 					{
-						weapon_actor_->FireWeapon(casted_target->GetMesh()->GetSocketLocation(head_socket_name_), dmg_data);
+						weapon_actor_->FireWeapon(casted_character->GetMesh()->GetSocketLocation(head_socket_name_), dmg_data);
 					}
 					else
 					{
@@ -167,6 +171,7 @@ void UWeaponMechanics::Reload(float duration_multiplier)
 	{
 		if(GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false)
 		{
+			owner_ref_->DispatchUnitEvent(EUnitEvent::OnReload);
 			Cast<AMeleeAIController>(owner_ref_->Controller)->SetUnitState(EUnitState::Reloading);
 			weapon_actor_->OnReloadStub();
 			FWeaponData weapon_data = GetWeaponData();

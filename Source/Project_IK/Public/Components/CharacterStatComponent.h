@@ -16,12 +16,11 @@ See LICENSE file in the project root for full license information.
 #include "Structs/BuffData.h"
 #include "CharacterStatComponent.generated.h"
 
+
 enum class ECharacterStatType : uint8;
 class ADamageUI;
-
 class UDelegateBridgeSubsystem;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDiedDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHPChangedDelegate, float, hp_ratio);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnShieldChangedDelegate, float, shield_ratio);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffChangedDelegate, TArray<FBuffData>, applied_buffs);
@@ -136,14 +135,11 @@ protected:
 	EHeroType character_id_;
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnDiedDelegate OnDied;
-
-	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnHPChangedDelegate OnHPChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnShieldChangedDelegate OnShieldChanged;
-
+	
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnBuffChangedDelegate OnBuffChanged;
 	
@@ -180,6 +176,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void SetShield(float shield) noexcept;
+
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<ADamageUI> damage_UI_class_;
