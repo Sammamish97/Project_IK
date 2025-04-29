@@ -24,4 +24,19 @@ class PROJECT_IK_API UPS_Executioner : public UPassiveSkillBase
 	GENERATED_BODY()
 public:
 	virtual void InitEquipmentSkill(AActor* hero_ref) override;
+
+protected:
+	UFUNCTION()
+	void ApplyExecutionerBuff();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
+	float buff_amount_ = 1.15f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
+	bool is_buff_percentage_ = true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
+	float buff_duration_ = 1.f;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
+	float reduce_cooltime_amount_ = 1.f;
 };

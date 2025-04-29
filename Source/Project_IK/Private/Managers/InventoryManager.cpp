@@ -36,8 +36,12 @@ void UInventoryManager::InitEquipInventory()
 	AddEquipment(EPassiveSkillType::Agility);
 	AddEquipment(EPassiveSkillType::Regenerate);
 	AddEquipment(EPassiveSkillType::Berserker);
-	AddEquipment(EPassiveSkillType::Berserker);
-	AddEquipment(EPassiveSkillType::Berserker);
+	AddEquipment(EPassiveSkillType::Executioner);
+	AddEquipment(EPassiveSkillType::Executioner);
+	AddEquipment(EPassiveSkillType::Executioner);
+	AddEquipment(EPassiveSkillType::CloseQuartersMastery);
+	AddEquipment(EPassiveSkillType::CloseQuartersMastery);
+	AddEquipment(EPassiveSkillType::CloseQuartersMastery);
 }
 
 void UInventoryManager::InitRuneInventory()

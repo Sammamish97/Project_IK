@@ -31,6 +31,11 @@ public:
 
 
 protected:
-	//UFUNCTION()
-	//FDamageData CloseQuatersMastery(FDamageData data);
+	UFUNCTION()
+	void CloseQuatersMastery(float& critical_rate);
+
+	float GetDistance2D(const AActor* hero, const AActor* target, float weapon_range);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float max_critical_rate_bonus_ = 50.f;
 };

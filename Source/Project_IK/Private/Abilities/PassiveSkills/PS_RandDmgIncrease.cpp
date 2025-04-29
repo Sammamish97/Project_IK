@@ -13,8 +13,7 @@ See LICENSE file in the project root for full license information.
 void UPS_RandDmgIncrease::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
-	bound_target_ = EUnitEvent::OnFire;
-	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_ref, bound_target_, this, &UPS_RandDmgIncrease::OnEquipmentSkill);
+	//GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitDamageEvent(hero_ref, EUnitEvent::OnFire, this, &UPS_RandDmgIncrease::OnEquipmentSkill);
 }
 
 FDamageData UPS_RandDmgIncrease::OnEquipmentSkill(FDamageData dmg_data)
