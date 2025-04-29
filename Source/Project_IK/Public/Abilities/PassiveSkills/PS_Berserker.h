@@ -22,6 +22,7 @@ UCLASS()
 class PROJECT_IK_API UPS_Berserker : public UPassiveSkillBase
 {
 	GENERATED_BODY()
+public:
 
 	virtual void InitEquipmentSkill(AActor* hero_ref) override;
 

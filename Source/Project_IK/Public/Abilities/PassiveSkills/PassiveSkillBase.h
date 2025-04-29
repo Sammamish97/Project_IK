@@ -26,5 +26,4 @@ public:
 
 protected:
 	TWeakObjectPtr<AActor> hero_cache_;
-	EUnitEvent bound_target_;
 };
