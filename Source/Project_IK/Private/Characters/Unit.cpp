@@ -217,6 +217,11 @@ void AUnit::FinishStun()
 	Cast<AMeleeAIController>(Controller)->SetUnitState(EUnitState::Forwarding);
 }
 
+void AUnit::OnEnterBattle()
+{
+	DispatchUnitEvent(EUnitEvent::LeaveCover);
+}
+
 void AUnit::Die()
 {
 	DispatchUnitEvent(EUnitEvent::OnDie);

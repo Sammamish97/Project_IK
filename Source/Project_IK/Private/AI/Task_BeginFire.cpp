@@ -30,7 +30,7 @@ EBTNodeResult::Type UTask_BeginFire::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 	{
 		if (auto casted_attackable_unit = Cast<IAttackable>(casted_pawn))
 		{
-			TWeakObjectPtr<UObject> target_ptr = blackboard->GetValueAsObject(attack_target_key_.SelectedKeyName);
+			TWeakObjectPtr target_ptr = blackboard->GetValueAsObject(attack_target_key_.SelectedKeyName);
 			if(UObject* casted_target =target_ptr.Get())
 			{
 				casted_attackable_unit->Attack(Cast<AActor>(casted_target));

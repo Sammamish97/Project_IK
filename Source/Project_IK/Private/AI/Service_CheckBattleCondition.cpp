@@ -36,6 +36,7 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
 	UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
 	UObject* attack_target = blackboard->GetValueAsObject(attack_target_key_.SelectedKeyName);
+	AActor* casted_target = Cast<AActor>(attack_target);
 	UObject* owned_cover = blackboard->GetValueAsObject(owned_cover_key_.SelectedKeyName);
 	
 	auto casted_unit = Cast<AUnit>(OwnerComp.GetAIOwner()->GetPawn());
@@ -44,45 +45,13 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 	//적이 죽으면 state변경.
 	if(attack_target == nullptr)
 	{
-		if (owned_cover)
-		{
-			Cast<ACover>(owned_cover)->SetCoveringOwner(nullptr);
-			blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, nullptr);
-		}
-		blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Forwarding));
 		weapon_mechanics->FinishFire();
-		return;
-	}
-
-	//적이 시야 밖으로 사라지면 state변경.
-	AActor* casted_target = Cast<AActor>(attack_target);
-	if(FVector::Dist2D(casted_target->GetActorLocation(), casted_unit->GetActorLocation()) >
-		casted_unit->GetCharacterStat()->GetSightRange())
-	{
-		if (owned_cover)
-		{
-			Cast<ACover>(owned_cover)->SetCoveringOwner(nullptr);
-			blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, nullptr);
-		}
 		blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Forwarding));
-		weapon_mechanics->FinishFire();
 		return;
 	}
 	
 	//만약 전투 중 쓸만한 엄폐물이 나타났거나, 사용하던 엄폐물이 박살나고 새로운 엄폐물을 전투중 발견하면 대응하기 위한 코드.
-	if(owned_cover)
-	{
-		//만약 소유중인 엄폐물이 있다면, 만약 도달하지 않았다면 먼저 도달하도록 state를 변경.
-		AActor* casted_cover = Cast<AActor>(owned_cover);
-		float cover_owner_dist = FVector::Dist2D(casted_cover->GetActorLocation(), casted_unit->GetActorLocation());
-		//TODO: 플레이어-엄폐물 사이 위치 threshold를 하드코딩이 아닌 적절한 값으로 대체해야 한다. 
-		if(cover_owner_dist > 50.0)
-		{
-			blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::HeadingToCover));
-			weapon_mechanics->FinishFire();
-		}
-	}
-	else
+	if(owned_cover == nullptr)
 	{
 		//전투를 하며 계속 엄폐물을 찾는다.
 		TArray<AActor*> ignore_actors;
@@ -104,5 +73,4 @@ void UService_CheckBattleCondition::TickNode(UBehaviorTreeComponent& OwnerComp, 
 			weapon_mechanics->FinishFire();
 		}
 	}
-	
 }

@@ -73,6 +73,9 @@ public:
 	virtual void FinishStun() override;
 
 	UFUNCTION()
+	virtual void OnEnterBattle();
+
+	UFUNCTION()
 	void DispatchUnitEvent(EUnitEvent type);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")

@@ -197,6 +197,7 @@ void UTargetingComponent::HandleLocationTargeting()
 
 			for (AActor* actor : heroes)
 			{
+				//IKTODO: 여기서 actor가 null이 나와 crase가 되는 경우가 있음.
 				FVector to_actor = actor->GetActorLocation() - current_target_result_.target_location_;
 
 				float squared_distance_to_actor = to_actor.SizeSquared();

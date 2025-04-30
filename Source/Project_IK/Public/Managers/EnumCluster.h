@@ -167,7 +167,8 @@ enum class EUnitEvent : uint8
 	OnEliminate UMETA(DisplayName = "OnEliminate"),
 	OnCriticalFire UMETA(DisplayName = "OnCriticalFire"),
 	HideOnCover UMETA(DisplayName = "HideOnCover"),
-	LeaveCover UMETA(DisplayName = "LeaveCover")
+	LeaveCover UMETA(DisplayName = "LeaveCover"),
+	OnEnterBattle UMETA(DisplayName = "OnEnterBattle"),
 };
 
 UENUM(BlueprintType)

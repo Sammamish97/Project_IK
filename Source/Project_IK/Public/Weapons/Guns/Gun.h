@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/WeaponData.h"
 #include "Gun.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AGun : public AActor
 {
 	GENERATED_BODY()

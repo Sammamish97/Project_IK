@@ -1,8 +1,8 @@
 /******************************************************************************
 Copyright(C) 2024
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 11.20.2024
-Summary : Header file for rifle man enemy.
+Creation Date : 4.30.2025
+Summary : Header file for Suppressor enemy.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -10,23 +10,37 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Characters/EnemyBase.h"
+#include "EnemyBase.h"
 #include "Interfaces/Attackable.h"
-#include "Enemy_RifleMan.generated.h"
+#include "Enemy_Suppressor.generated.h"
 
-class UWeaponMechanics;
 UCLASS()
-class PROJECT_IK_API AEnemy_RifleMan : public AEnemyBase, public IAttackable
+class PROJECT_IK_API AEnemy_Suppressor : public AEnemyBase, public IAttackable
 {
 	GENERATED_BODY()
+
 public:
-	AEnemy_RifleMan();
+	// Sets default values for this character's properties
+	AEnemy_Suppressor();
+
+protected:
+	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void OnStunned() override;
 	virtual void Die() override;
+
+	virtual void OnEnterBattle() override;
+
 	virtual void Attack(AActor* target) override;
+
+	void GetBonusPower();
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
-	TObjectPtr<UWeaponMechanics> weapon_mechanics_;
+	TObjectPtr<class UWeaponMechanics> weapon_mechanics_;
+
+	float preheat_duration_ = 3.f;
+
+	UPROPERTY()
+	FTimerHandle preheat_timer_;
 };
