@@ -42,6 +42,7 @@ public:
 	bool IsOnCoolDown() const;
 	float GetLeftCoolDown() const;
 	void ReduceCooltime(float reduce_time);
+	// percentage range [0.f, 1.f]
 	void ReduceCooltimeByPercentage(float percentage);
 
 	TOptional<FTargetParameters> GetTargetParameters() const;
