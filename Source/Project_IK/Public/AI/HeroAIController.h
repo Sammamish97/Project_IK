@@ -36,9 +36,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	void OnArrivedTargetPosition(FAIRequestID request_id, const FPathFollowingResult& result);
-
-private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "HeroAIController", meta = (AllowPrivateAccess = "true"))
 	FName relocate_target_position_key_name_;
 };

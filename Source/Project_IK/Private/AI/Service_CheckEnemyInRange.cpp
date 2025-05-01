@@ -32,17 +32,16 @@ void UService_CheckEnemyInRange::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 	{
 		AActor* casted_actor = Cast<AActor>(target);
 		float distance = FVector::Distance(casted_gunner->GetActorLocation(), casted_actor->GetActorLocation());
-		if (blackboard->GetValueAsEnum(unit_state_key_.SelectedKeyName) != static_cast<uint8>(EUnitState::HeadingToCover))
+		if (auto weapon_mechanics = casted_gunner->GetComponentByClass<UWeaponMechanics>())
 		{
-			if (auto weapon_mechanics = casted_gunner->GetComponentByClass<UWeaponMechanics>())
+			if (weapon_mechanics->GetWeaponData().fire_range > distance)
 			{
-				if (weapon_mechanics->GetWeaponData().fire_range > distance)
-					blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Attacking));
+				blackboard->SetValueAsBool(is_enemy_in_range_key_.SelectedKeyName, true);
+			}
+			else
+			{
+				blackboard->SetValueAsBool(is_enemy_in_range_key_.SelectedKeyName, false);
 			}
 		}
-	}
-	else
-	{
-		blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Forwarding));
 	}
 }

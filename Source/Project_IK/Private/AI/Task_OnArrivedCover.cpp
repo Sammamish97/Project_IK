@@ -26,7 +26,7 @@ EBTNodeResult::Type UTask_OnArrivedCover::ExecuteTask(UBehaviorTreeComponent& Ow
 	UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
 	if (auto owned_cover = blackboard->GetValueAsObject(owned_cover_key_.SelectedKeyName))
 	{
-		blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::Attacking));
+		blackboard->SetValueAsBool(is_arrived_cover_key_.SelectedKeyName, true);
 		AUnit* casted_unit = Cast<AUnit>(OwnerComp.GetAIOwner()->GetPawn());
 		casted_unit->DispatchUnitEvent(EUnitEvent::HideOnCover);
 		ACover* casted_cover = Cast<ACover>(owned_cover);

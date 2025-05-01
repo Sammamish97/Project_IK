@@ -18,7 +18,7 @@ EBTNodeResult::Type UTask_BeginStun::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 {
 	if(	AUnit* casted_unit = Cast<AUnit>(OwnerComp.GetAIOwner()->GetPawn()))
 	{
-		Cast<AMeleeAIController>(casted_unit->GetController())->SetUnitState(EUnitState::Stunned);
+		Cast<AMeleeAIController>(casted_unit->GetController())->SetUnitState(EUnitState::OnStunned);
 		return EBTNodeResult::Succeeded;
 	}
 	return EBTNodeResult::Failed;

@@ -27,5 +27,5 @@ private:
 	FBlackboardKeySelector attack_target_key_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blackboard", meta = (AllowPrivateAccess = "true"))
-	FBlackboardKeySelector unit_state_key_;
+	FBlackboardKeySelector is_enemy_in_range_key_;
 };

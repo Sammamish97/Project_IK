@@ -77,14 +77,18 @@ void UWeaponMechanics::BeginFire(AActor* target)
 {
 	if (stop_fire_ == false)
 	{
-		float total_fire_per_sec =  weapon_actor_->GetWeaponData().fire_per_sec * (1 + owner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
-		float weapon_attack_speed = 1.f / total_fire_per_sec;
-		if (on_burst_cool_down_ == false)
+		TWeakObjectPtr<AActor> target_wptr = target;
+		if (AActor* target_ptr = target_wptr.Get())
 		{
-			if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
+			float total_fire_per_sec =  weapon_actor_->GetWeaponData().fire_per_sec * (1 + owner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
+			float weapon_attack_speed = 1.f / total_fire_per_sec;
+			if (on_burst_cool_down_ == false)
 			{
-				FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target, GetWeaponFireDamageData(), true, 0.f);
-				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, weapon_attack_speed); 
+				if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target_ptr)
+				{
+					FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target_ptr, GetWeaponFireDamageData(), true, 0.f);
+					GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, weapon_attack_speed); 
+				}
 			}
 		}
 	}
@@ -172,7 +176,7 @@ void UWeaponMechanics::Reload(float duration_multiplier)
 		if(GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false)
 		{
 			owner_ref_->DispatchUnitEvent(EUnitEvent::OnReload);
-			Cast<AMeleeAIController>(owner_ref_->Controller)->SetUnitState(EUnitState::Reloading);
+			Cast<AMeleeAIController>(owner_ref_->Controller)->SetUnitState(EUnitState::OnReloading);
 			weapon_actor_->OnReloadStub();
 			FWeaponData weapon_data = GetWeaponData();
 			float reload_play_rate = weapon_data.reload_montage_->GetPlayLength() / weapon_data.reload_duration / duration_multiplier;
@@ -198,7 +202,6 @@ void UWeaponMechanics::OnReload()
 {
 	if(weapon_actor_)weapon_actor_->Reload();
 	burst_count_ = 0;
-	Cast<AMeleeAIController>(owner_ref_->Controller)->SetUnitState(EUnitState::Forwarding);
 }
 
 void UWeaponMechanics::OnStunned()

@@ -24,7 +24,7 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blackboard", meta = (AllowPrivateAccess = "true"))
-	FBlackboardKeySelector unit_state_key_;
+	FBlackboardKeySelector is_arrived_cover_key_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blackboard", meta = (AllowPrivateAccess = "true"))
 	FBlackboardKeySelector owned_cover_key_;

@@ -25,5 +25,5 @@ private:
 	FBlackboardKeySelector owned_cover_key_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blackboard", meta = (AllowPrivateAccess = "true"))
-	FBlackboardKeySelector attack_target_key_;
+	FBlackboardKeySelector is_arrived_cover_key_;
 };

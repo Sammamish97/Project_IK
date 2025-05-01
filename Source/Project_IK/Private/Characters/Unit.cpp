@@ -214,7 +214,7 @@ void AUnit::OnStunned()
 void AUnit::FinishStun()
 {
 	UE_LOG(LogTemp, Display, TEXT("AUnit::FinishStunned"));
-	Cast<AMeleeAIController>(Controller)->SetUnitState(EUnitState::Forwarding);
+	Cast<AMeleeAIController>(Controller)->SetUnitState(EUnitState::OnLogic);
 }
 
 void AUnit::OnEnterBattle()

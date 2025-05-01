@@ -71,9 +71,13 @@ void UService_FindNearestEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 				}
 			}
 			
-			if(nearest_actor != nullptr)
+			if(nearest_actor)
 			{
 				blackboard->SetValueAsObject(attack_target_key_.SelectedKeyName, nearest_actor);
+			}
+			else
+			{
+				blackboard->SetValueAsObject(attack_target_key_.SelectedKeyName, nullptr);
 			}
 		}
 	}
