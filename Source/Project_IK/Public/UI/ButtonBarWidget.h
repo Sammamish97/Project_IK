@@ -122,7 +122,6 @@ private:
 
 	UPROPERTY()
 	TArray<TObjectPtr<UMaterialInstanceDynamic>> button_cooldown_materials_;
-	TArray<float> cooldowns_;
 
 	bool is_item_muted_;
 };

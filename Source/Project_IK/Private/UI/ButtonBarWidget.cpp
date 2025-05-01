@@ -139,18 +139,17 @@ void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 		// Is the skill button connected in cooldown
 		if (buttons[i]->GetVisibility() != ESlateVisibility::Hidden &&buttons[i]->GetIsEnabled() == false)
 		{
-			cooldowns_[i] += InDeltaTime;
-
 			if (skill_containers_[i].IsValid())
 			{
-				const float cooltime = skill_containers_[i]->GetCooltime();
-				if (cooldowns_[i] >= cooltime)
+				float left_cooldown = skill_containers_[i]->GetLeftCoolDown();
+				if (left_cooldown <= 0.f)
 				{
 					buttons[i]->SetIsEnabled(true);
 				}
 				else
 				{
-					button_cooldown_materials_[i]->SetScalarParameterValue("CooldownPercent", cooldowns_[i] / cooltime);
+					const float cooltime = skill_containers_[i]->GetCooltime();
+					button_cooldown_materials_[i]->SetScalarParameterValue("CooldownPercent", 1.f - (left_cooldown / cooltime));
 				}
 			}
 		}
@@ -278,8 +277,7 @@ void UButtonBarWidget::SynchroActiveSkillButtons(EHeroType hero_type)
 		break;
 	}
 	int32 hero_idx = HeroTypeToInt(hero_type);
-	cooldowns_[hero_idx] = 0.f;
-	button_cooldown_materials_[hero_idx]->SetScalarParameterValue("CooldownPercent", cooldowns_[hero_idx]);
+	button_cooldown_materials_[hero_idx]->SetScalarParameterValue("CooldownPercent", 0.f);
 }
 
 void UButtonBarWidget::SilenceSkill(AActor* character)
@@ -377,7 +375,6 @@ void UButtonBarWidget::FindCharacters()
 	TArray<UButton*> temp_array = {skill_button_0_, skill_button_1_, skill_button_2_, skill_button_3_};
 	button_cooldown_materials_.Empty();
 	button_cooldown_materials_.SetNum(temp_array.Num());
-	cooldowns_.SetNum(temp_array.Num());
 
 	if (game_mode)
 	{
@@ -404,8 +401,7 @@ void UButtonBarWidget::FindCharacters()
 						{
 							button_cooldown_materials_[i] = UMaterialInstanceDynamic::Create(material, this);
 							button_cooldown_materials_[i]->SetTextureParameterValue("Texture", image);
-							cooldowns_[i] = 0.f;
-							button_cooldown_materials_[i]->SetScalarParameterValue("CooldownPercent", cooldowns_[i]);
+							button_cooldown_materials_[i]->SetScalarParameterValue("CooldownPercent", 0.f);
 							button_cooldown_materials_[i]->SetVectorParameterValue("Tint",
 								button_style.Normal.TintColor.GetSpecifiedColor());
 							button_style.Disabled.SetResourceObject(button_cooldown_materials_[i]);

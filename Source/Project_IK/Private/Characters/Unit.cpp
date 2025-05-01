@@ -44,7 +44,7 @@ AUnit::AUnit()
 	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
 }
 
-const UCharacterStatComponent* AUnit::GetCharacterStat() const
+UCharacterStatComponent* AUnit::GetCharacterStat()
 {
 	return character_stat_component_;
 }
@@ -67,6 +67,11 @@ void AUnit::SetCurHidingCover(AActor* cover)
 AActor* AUnit::GetCurHidingCover() const
 {
 	return cur_hiding_cover_.Get();
+}
+
+EHeroType AUnit::GetCharacterID() const
+{
+	return character_stat_component_->GetCharacterID();
 }
 
 // Called when the game starts or when spawned
@@ -258,6 +263,7 @@ void AUnit::GetDamageByPEM(FDamageData data)
 	{
 		character_stat_component_->GetDamage(data.atk_base_dmg);
 		character_stat_component_->GetDamage(data.skill_power_base_dmg);
+		RecoverAttackerByLifeSteal(data);
 	}
 	SetDamageUI(data, is_evaded);
 }
@@ -278,5 +284,27 @@ void AUnit::DispatchUnitEvent(EUnitEvent type)
 	if (on_unit_event_.Find(type))
 	{
 		on_unit_event_[type].Broadcast();
+	}
+}
+
+void AUnit::RecoverAttackerByLifeSteal(FDamageData data)
+{
+	if (data.atk_base_dmg <= 0.f)
+	{
+		return;
+	}
+
+	AActor* attacker = data.attacker.Get();
+	if (attacker)
+	{
+		AUnit* unit = Cast<AUnit>(attacker);
+		if (unit)
+		{
+			float attacker_life_steal = unit->GetCharacterStat()->GetLifeSteal();
+			if (attacker_life_steal > 0.f)
+			{
+				unit->Heal(data.atk_base_dmg * attacker_life_steal);
+			}
+		}
 	}
 }

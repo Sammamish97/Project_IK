@@ -39,12 +39,14 @@ public:
 	UFUNCTION()
 	virtual void Die() override;
 	
-	const UCharacterStatComponent* GetCharacterStat() const;
 	FVector GetForwardDir() const;
 	void SetForwardDir(const FVector& Forward_Dir);
 
 	void SetCurHidingCover(AActor* cover);
 	AActor* GetCurHidingCover() const;
+	UFUNCTION(BlueprintCallable)
+	EHeroType GetCharacterID() const;
+	UCharacterStatComponent* GetCharacterStat();
 	
 	UFUNCTION(BlueprintCallable)
 	virtual void GetDamage(FDamageData data) override;
@@ -88,6 +90,7 @@ protected:
 	void GetDamageByDot(FDamageData data);
 	void GetDamageByPEM(FDamageData data);
 	void GetDamageByMagic(FDamageData data);
+	void RecoverAttackerByLifeSteal(FDamageData data);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))

@@ -72,7 +72,7 @@ void UAT_ThunderStorm::DamageEnemies()
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(world_cache_));
 	if (game_mode)
 	{
-		const TArray<AActor*>& enemies = game_mode->GetEnemyContainers();
+		const TArray<AActor*> enemies = game_mode->GetEnemyContainers();
 		for (AActor* enemy : enemies)
 		{
 			FVector to_actor = enemy->GetActorLocation() - storm_location;

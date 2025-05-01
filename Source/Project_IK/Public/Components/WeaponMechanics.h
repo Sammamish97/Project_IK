@@ -19,10 +19,16 @@ See LICENSE file in the project root for full license information.
 
 class UCharacterStatComponent;
 class AGun;
+class UDelegateBridgeSubsystem;
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnCriticalRateCalculationDelegate, float&);
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECT_IK_API UWeaponMechanics : public UActorComponent
 {
 	GENERATED_BODY()
+
+	friend UDelegateBridgeSubsystem;
 
 public:	
 	// Sets default values for this component's properties
@@ -62,6 +68,9 @@ public:
 	
 	UFUNCTION()
 	void EquipWeapon(EWeaponType type);
+
+protected:
+	FOnCriticalRateCalculationDelegate OnCriticalRateCalculation;
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
