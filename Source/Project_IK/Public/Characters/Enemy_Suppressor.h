@@ -28,11 +28,9 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void OnStunned() override;
 	virtual void Die() override;
-
 	virtual void OnEnterBattleOnce() override;
-
 	virtual void Attack(AActor* target) override;
-
+	
 	void GetBonusPower();
 
 private:

@@ -102,12 +102,6 @@ void AHeroBase::Initialize(FSpawnData spawn_data)
 
 void AHeroBase::Die()
 {
-	weapon_mechanics_->OnDestroy();
-	if (auto casted_gunner_aic = Cast<AGunnerAIController>(GetController()))
-	{
-		casted_gunner_aic->OnDie();
-	}
-	//IKTODO: 이후 Delegate를 통해 불러주면 좋을듯.
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if (casted_mode) casted_mode->RemoveHero(GetCharacterStat()->GetCharacterID());
 	Super::Die();

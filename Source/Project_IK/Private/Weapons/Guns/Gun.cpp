@@ -32,18 +32,6 @@ AGun::AGun()
 	SetRootComponent(weapon_mesh_);
 }
 
-// Called when the game starts or when spawned
-void AGun::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-// Called every frame
-void AGun::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
 void AGun::Reload()
 {
 	Reload(weapon_data_.max_magazine);

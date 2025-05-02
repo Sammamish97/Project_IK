@@ -9,7 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Components/WeaponMechanics.h"
 #include "AIController.h"
-#include "AI/GunnerAIController.h"
+#include "BrainComponent.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Character.h"
 #include "Weapons/Guns/Gun.h"
@@ -89,7 +89,7 @@ void UWeaponMechanics::BeginFire(AActor* target)
 				if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target_ptr)
 				{
 					FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target_ptr, GetWeaponFireDamageData(), true, 0.f);
-					GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, false, weapon_attack_speed); 
+					GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, weapon_attack_speed); 
 				}
 			}
 		}
@@ -188,8 +188,6 @@ void UWeaponMechanics::Reload(float duration_multiplier)
 	}
 }
 
-
-
 void UWeaponMechanics::StopFire()
 {
 	FinishFire();
@@ -217,11 +215,6 @@ void UWeaponMechanics::OnStunned()
 {
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
 	GetWorld()->GetTimerManager().ClearTimer(reload_timer_handle_);
-}
-
-void UWeaponMechanics::OnDestroy()
-{
-	if(weapon_actor_) weapon_actor_->Destroy();
 }
 
 bool UWeaponMechanics::IsMagazineEmpty() const

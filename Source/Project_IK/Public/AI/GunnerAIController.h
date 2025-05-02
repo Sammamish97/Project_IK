@@ -10,7 +10,6 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AIController.h"
 #include "AI/MeleeAIController.h"
 #include "GunnerAIController.generated.h"
 
@@ -20,7 +19,7 @@ class PROJECT_IK_API AGunnerAIController : public AMeleeAIController
 	GENERATED_BODY()
 public:
 	AGunnerAIController();
-	virtual void OnDie() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual AActor* GetOwnedCover() override;
 	
 protected:

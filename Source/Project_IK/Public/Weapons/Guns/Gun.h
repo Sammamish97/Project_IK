@@ -21,17 +21,8 @@ class PROJECT_IK_API AGun : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AGun();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-		
 	virtual void Reload();
 	virtual void Reload(int32 amount);
 	virtual void FireWeapon(FVector target_pos, FDamageData damage);

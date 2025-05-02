@@ -82,8 +82,3 @@ void AMeleeAIController::SetUnitState(EUnitState new_state)
 {
 	GetBlackboardComponent()->SetValueAsEnum(unit_state_key_name_, static_cast<uint8>(new_state));
 }
-
-void AMeleeAIController::OnDie()
-{
-
-}

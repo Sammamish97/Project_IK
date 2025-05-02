@@ -32,10 +32,6 @@ public:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
-	void OnDestroy();
-
-	FDamageData GetWeaponFireDamageData();
 	
 	void BeginFire(AActor* target);
 	void OnFire(AActor* target, FDamageData dmg_data, bool is_controlled_fire = true, float offset = 0.f);
@@ -63,6 +59,8 @@ public:
 	
 	UFUNCTION()
 	void EquipWeapon(EWeaponType type);
+
+	FDamageData GetWeaponFireDamageData();
 
 private:
 	FORCEINLINE void StoreReloadRequestID() { reload_request_id_ = next_request_id_++; }
@@ -92,7 +90,6 @@ private:
 	UPROPERTY(Transient)
 	FTimerHandle burst_timer_handle_;
 
-	//Owner는 Hero가 될 수도, Enemy가 될 수도 있다. 지금은 Enemy역시 Weapon mechanics를 사용하여 총을 발사하기 때문.
 	UPROPERTY(Transient)
 	TObjectPtr<class AUnit> owner_ref_ = nullptr;
 
@@ -100,7 +97,6 @@ private:
 	int32 burst_count_ = 0;
 
 	static uint32 next_request_id_;
-	
 	FAIRequestID reload_request_id_;
 
 public:

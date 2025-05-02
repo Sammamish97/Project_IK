@@ -27,7 +27,6 @@ void AEnemy_RifleMan::BeginPlay()
 
 void AEnemy_RifleMan::Die()
 {
-	weapon_mechanics_->OnDestroy();
 	Super::Die();
 }
 

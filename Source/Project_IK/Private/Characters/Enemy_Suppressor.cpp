@@ -31,7 +31,6 @@ void AEnemy_Suppressor::OnStunned()
 
 void AEnemy_Suppressor::Die()
 {
-	weapon_mechanics_->OnDestroy();
 	Super::Die();
 }
 
