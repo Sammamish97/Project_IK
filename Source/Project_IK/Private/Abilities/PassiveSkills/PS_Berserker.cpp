@@ -49,35 +49,41 @@ void UPS_Berserker::BuffBerserker(float hp_ratio)
 
 void UPS_Berserker::ApplyBuff()
 {
-	AActor* actor = hero_cache_.Get();
-	if (actor)
+	if (is_buff_applied_ == false)
 	{
-		AUnit* unit = Cast<AUnit>(actor);
-		if (unit)
+		AActor* actor = hero_cache_.Get();
+		if (actor)
 		{
-			FBuffData life_steal(TEXT("Berserker_lifesteal"), ECharacterStatType::LifeSteal, life_steal_buff_amount_, false, true);
-			FBuffData attack_speed(TEXT("Berserker_attack_speed"), ECharacterStatType::AttackSpeed, attack_speed_buff_amount_, is_attack_speed_buff_percentage_, true);
-			unit->ApplyBuff(life_steal);
-			unit->ApplyBuff(attack_speed);
+			AUnit* unit = Cast<AUnit>(actor);
+			if (unit)
+			{
+				FBuffData life_steal(TEXT("Berserker_lifesteal"), ECharacterStatType::LifeSteal, life_steal_buff_amount_, false, true);
+				FBuffData attack_speed(TEXT("Berserker_attack_speed"), ECharacterStatType::AttackSpeed, attack_speed_buff_amount_, is_attack_speed_buff_percentage_, true);
+				unit->ApplyBuff(life_steal);
+				unit->ApplyBuff(attack_speed);
 
-			is_buff_applied_ = true;
+				is_buff_applied_ = true;
+			}
 		}
 	}
 }
 
 void UPS_Berserker::RemoveBuff()
 {
-	AActor* actor = hero_cache_.Get();
-	if (actor)
+	if (is_buff_applied_)
 	{
-		AUnit* unit = Cast<AUnit>(actor);
-		if (unit)
+		AActor* actor = hero_cache_.Get();
+		if (actor)
 		{
-			unit->RemoveBuff(TEXT("Berserker_lifesteal"));
-			unit->RemoveBuff(TEXT("Berserker_attack_speed"));
+			AUnit* unit = Cast<AUnit>(actor);
+			if (unit)
+			{
+				unit->RemoveBuff(TEXT("Berserker_lifesteal"));
+				unit->RemoveBuff(TEXT("Berserker_attack_speed"));
 
 
-			is_buff_applied_ = false;
+				is_buff_applied_ = false;
+			}
 		}
 	}
 }

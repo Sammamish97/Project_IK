@@ -255,6 +255,8 @@ enum class EPassiveSkillType : uint8
 	Berserker UMETA(DisplayName = "Berserker"),
 	Executioner UMETA(DisplayName = "Executioner"),
 	CloseQuartersMastery UMETA(DisplayName = "CloseQuartersMastery"),
+	LowProfile UMETA(DisplayName = "LowProfile"),
+	StableFirstRound UMETA(DisplayName = "StableFirstRound"),
 	INVALID UMETA(DisplayName = "INVALID")
 };
 

@@ -33,15 +33,12 @@ void UInventoryManager::InitEquipInventory()
 	AddEquipment(EActiveSkillType::DeployCover);
 	AddEquipment(EActiveSkillType::DeploySentryGun);
 
-	AddEquipment(EPassiveSkillType::Agility);
-	AddEquipment(EPassiveSkillType::Regenerate);
-	AddEquipment(EPassiveSkillType::Berserker);
-	AddEquipment(EPassiveSkillType::Executioner);
-	AddEquipment(EPassiveSkillType::Executioner);
-	AddEquipment(EPassiveSkillType::Executioner);
-	AddEquipment(EPassiveSkillType::CloseQuartersMastery);
-	AddEquipment(EPassiveSkillType::CloseQuartersMastery);
-	AddEquipment(EPassiveSkillType::CloseQuartersMastery);
+	AddEquipment(EPassiveSkillType::StableFirstRound);
+	AddEquipment(EPassiveSkillType::StableFirstRound);
+	AddEquipment(EPassiveSkillType::StableFirstRound);
+	AddEquipment(EPassiveSkillType::LowProfile);
+	AddEquipment(EPassiveSkillType::LowProfile);
+	AddEquipment(EPassiveSkillType::LowProfile);
 }
 
 void UInventoryManager::InitRuneInventory()
