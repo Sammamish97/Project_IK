@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Interfaces/Attackable.h"
 #include "Interfaces/Damageable.h"
 #include "Interfaces/UnitInterface.h"
 
@@ -28,7 +29,7 @@ struct FBuffData;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUnitEvent);
 
 UCLASS(Abstract)
-class PROJECT_IK_API AUnit : public ACharacter, public IDamageable, public IUnitInterface
+class PROJECT_IK_API AUnit : public ACharacter, public IAttackable, public IDamageable, public IUnitInterface
 {
 	GENERATED_BODY()
 	friend UDelegateBridgeSubsystem;
@@ -45,7 +46,9 @@ public:
 
 	void SetCurHidingCover(AActor* cover);
 	AActor* GetCurHidingCover() const;
-	
+
+	virtual void Attack(AActor* target) override;
+
 	UFUNCTION(BlueprintCallable)
 	virtual void GetDamage(FDamageData data) override;
 	
@@ -73,7 +76,7 @@ public:
 	virtual void FinishStun() override;
 
 	UFUNCTION()
-	virtual void OnEnterBattle();
+	virtual void OnEnterBattleOnce();
 
 	UFUNCTION()
 	void DispatchUnitEvent(EUnitEvent type);
@@ -122,6 +125,8 @@ protected:
 
 	UPROPERTY()
 	TMap<EUnitEvent, FOnUnitEvent> on_unit_event_;
+
+	bool is_first_attack_ = true;
 	
 	float capsule_half_height_ = 0.f;
 	float capsule_radius_ = 0.f;

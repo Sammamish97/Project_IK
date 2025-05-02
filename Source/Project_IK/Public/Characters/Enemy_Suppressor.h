@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Enemy_Suppressor.generated.h"
 
 UCLASS()
-class PROJECT_IK_API AEnemy_Suppressor : public AEnemyBase, public IAttackable
+class PROJECT_IK_API AEnemy_Suppressor : public AEnemyBase
 {
 	GENERATED_BODY()
 
@@ -29,7 +29,7 @@ protected:
 	virtual void OnStunned() override;
 	virtual void Die() override;
 
-	virtual void OnEnterBattle() override;
+	virtual void OnEnterBattleOnce() override;
 
 	virtual void Attack(AActor* target) override;
 
@@ -39,7 +39,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<class UWeaponMechanics> weapon_mechanics_;
 
-	float preheat_duration_ = 3.f;
+	float preheat_duration_ = 5.f;
+	float attack_speed_bonus_ = 30.f;
 
 	UPROPERTY()
 	FTimerHandle preheat_timer_;

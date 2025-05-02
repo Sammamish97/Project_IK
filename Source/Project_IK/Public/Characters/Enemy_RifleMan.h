@@ -16,7 +16,7 @@ See LICENSE file in the project root for full license information.
 
 class UWeaponMechanics;
 UCLASS()
-class PROJECT_IK_API AEnemy_RifleMan : public AEnemyBase, public IAttackable
+class PROJECT_IK_API AEnemy_RifleMan : public AEnemyBase
 {
 	GENERATED_BODY()
 public:

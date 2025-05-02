@@ -28,7 +28,6 @@ public:
 public:
 	void BeginPassive();
 	void ActivatePassiveSkill();
-	void OnFinishHoldTime();
 	bool IsPassiveAvailable() const;
 	
 	void BanPassive(float duration);

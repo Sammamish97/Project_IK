@@ -20,6 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/KismetMathLibrary.h"
 #include "Managers/DataTableManager.h"
 #include "WorldSettings/IKGameInstance.h"
+uint32 UWeaponMechanics::next_request_id_ = 0;
 
 // Sets default values for this component's properties
 UWeaponMechanics::UWeaponMechanics()
@@ -39,6 +40,7 @@ void UWeaponMechanics::BeginPlay()
 	owner_ref_ = Cast<AUnit>(GetOwner());
 	weapon_actor_ = GetWorld()->SpawnActor<AGun>(weapon_class_);
 	weapon_actor_->AttachToComponent(owner_ref_->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, gun_socket_name_);
+	StoreReloadRequestID();
 }
 
 //TODO: 무기의 장착과 실제 장착 후 생성은 분리되어야 한다.
@@ -65,7 +67,7 @@ void UWeaponMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
 FDamageData UWeaponMechanics::GetWeaponFireDamageData()
 {
 	auto char_data = owner_ref_->GetCharacterStat()->GetCharacterData();
-	float total_atk_dmg = weapon_actor_->GetWeaponData().basic_dmg_ + char_data.attack_power_ * weapon_actor_->GetWeaponData().attack_scale;
+	float total_atk_dmg = weapon_actor_->GetWeaponData().basic_dmg_ + owner_ref_->GetCharacterStat()->GetAttackPower() * weapon_actor_->GetWeaponData().attack_scale;
 	FDamageData dmg_data;
 	dmg_data.atk_base_dmg = total_atk_dmg;
 	dmg_data.damage_type = EDamageType::Projectile;
@@ -87,7 +89,7 @@ void UWeaponMechanics::BeginFire(AActor* target)
 				if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target_ptr)
 				{
 					FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target_ptr, GetWeaponFireDamageData(), true, 0.f);
-					GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, weapon_attack_speed); 
+					GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, false, weapon_attack_speed); 
 				}
 			}
 		}
@@ -175,8 +177,8 @@ void UWeaponMechanics::Reload(float duration_multiplier)
 	{
 		if(GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false)
 		{
+			on_reloading_ = true;
 			owner_ref_->DispatchUnitEvent(EUnitEvent::OnReload);
-			Cast<AMeleeAIController>(owner_ref_->Controller)->SetUnitState(EUnitState::OnReloading);
 			weapon_actor_->OnReloadStub();
 			FWeaponData weapon_data = GetWeaponData();
 			float reload_play_rate = weapon_data.reload_montage_->GetPlayLength() / weapon_data.reload_duration / duration_multiplier;
@@ -185,6 +187,8 @@ void UWeaponMechanics::Reload(float duration_multiplier)
 		}
 	}
 }
+
+
 
 void UWeaponMechanics::StopFire()
 {
@@ -201,7 +205,12 @@ void UWeaponMechanics::ResumeFire()
 void UWeaponMechanics::OnReload()
 {
 	if(weapon_actor_)weapon_actor_->Reload();
+	on_reloading_ = false;
 	burst_count_ = 0;
+	FAIMessage Msg(TEXT("ReloadFinished"), this, reload_request_id_, FAIMessage::Success);
+	FAIMessage::Send(owner_ref_, Msg);
+	//IKTODO: 각 AIMessage를 사용할 때 마다 새로운 ID를 써야하는가? 더 많은 데이터가 필요하다.
+	//reload_request_id_ = FAIRequestID::InvalidRequest;
 }
 
 void UWeaponMechanics::OnStunned()
@@ -233,6 +242,11 @@ FWeaponData UWeaponMechanics::GetWeaponData()
 AGun* UWeaponMechanics::GetWeaponActor()
 {
 	return weapon_actor_;
+}
+
+bool UWeaponMechanics::IsOnReloading() const
+{
+	return on_reloading_;
 }
 
 FTimerHandle& UWeaponMechanics::RentFireTimerHandle()

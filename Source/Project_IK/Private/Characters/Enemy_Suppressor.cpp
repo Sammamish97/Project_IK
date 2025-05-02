@@ -35,19 +35,21 @@ void AEnemy_Suppressor::Die()
 	Super::Die();
 }
 
-void AEnemy_Suppressor::OnEnterBattle()
+void AEnemy_Suppressor::OnEnterBattleOnce()
 {
+	Super::OnEnterBattleOnce();
 	FTimerDelegate timer_delegate = FTimerDelegate::CreateUObject(this, &AEnemy_Suppressor::GetBonusPower);
-	GetWorld()->GetTimerManager().SetTimer(preheat_timer_, timer_delegate, preheat_duration_, false, 0.f);
+	GetWorld()->GetTimerManager().SetTimer(preheat_timer_, timer_delegate, preheat_duration_, false);
 }
 
 void AEnemy_Suppressor::GetBonusPower()
 {
-	FBuffData buff_data = {"Suppressor Bonus", ECharacterStatType::AttackSpeed, 20, true, true};
+	FBuffData buff_data = {"Suppressor Bonus", ECharacterStatType::AttackSpeed, attack_speed_bonus_, true, true};
 	ApplyBuff(buff_data);
 }
 
 void AEnemy_Suppressor::Attack(AActor* target)
 {
+	Super::Attack(target);
 	weapon_mechanics_->BeginFire(target);
 }

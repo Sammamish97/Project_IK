@@ -26,7 +26,8 @@ EBTNodeResult::Type UTask_BeginReload::ExecuteTask(UBehaviorTreeComponent& Owner
 	if(auto casted_component = Cast<UWeaponMechanics>(component))
 	{
 		casted_component->Reload();
-		return EBTNodeResult::Succeeded;
+		WaitForMessage(OwnerComp, TEXT("ReloadFinished"), casted_component->GetReloadRequestId());
+		return EBTNodeResult::InProgress;
 	}
 	return EBTNodeResult::Failed;
 }

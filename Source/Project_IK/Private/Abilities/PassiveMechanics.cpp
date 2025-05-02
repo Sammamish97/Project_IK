@@ -51,7 +51,6 @@ void UPassiveMechanics::BeginPassive()
 	if(IsPassiveAvailable())
 	{
 		ActivatePassiveSkill();
-		GetWorld()->GetTimerManager().SetTimer(hold_time_handle_, this, &UPassiveMechanics::OnFinishHoldTime , GetHoldTime());
 	}
 }
 
@@ -83,12 +82,6 @@ void UPassiveMechanics::BanPassive(float duration)
 			}), duration, false);
 
 	on_banned_ = true;
-}
-
-
-void UPassiveMechanics::OnFinishHoldTime()
-{
-	//Cast<AMeleeAIController>(Cast<APawn>(GetOwner())->Controller)->SetUnitState(EUnitState::Forwarding);
 }
 
 void UPassiveMechanics::ActivatePassiveSkill()

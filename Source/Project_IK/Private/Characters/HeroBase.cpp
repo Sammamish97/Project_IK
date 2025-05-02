@@ -115,6 +115,7 @@ void AHeroBase::Die()
 
 void AHeroBase::Attack(AActor* target)
 {
+	Super::Attack(target);
 	weapon_mechanics_->BeginFire(target);
 }
 

@@ -40,5 +40,6 @@ void AEnemy_RifleMan::OnStunned()
 
 void AEnemy_RifleMan::Attack(AActor* target)
 {
+	Super::Attack(target);
 	weapon_mechanics_->BeginFire(target);
 }
