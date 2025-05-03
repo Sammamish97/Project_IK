@@ -146,7 +146,7 @@ void AUnit::GetDamage(FDamageData data)
 	{
  		if (AActor* attacker_ptr = data.attacker.Get())
 		{
-			Cast<AUnit>(attacker_ptr)->	DispatchUnitEvent(EUnitEvent::OnEliminate);
+			Cast<AUnit>(attacker_ptr)->DispatchUnitEvent(EUnitEvent::OnEliminate);
 		}
 	}
 	switch (data.damage_type)
