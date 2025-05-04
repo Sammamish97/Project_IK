@@ -21,6 +21,7 @@ class URandomDataAssetsManager;
 class UStatInfoDataAsset;
 class UCrowdControlInfoDataAsset;
 class UTexture2D;
+class UCharacterStatDataAsset;
 
 struct FGlobalBuffData;
 struct FRuneSetData;
@@ -75,7 +76,7 @@ public:
 	FItemData GetItemDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	TArray<FItemData> GetUniqueItemDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
-	FCharacterData* GetCharacterData(EHeroType hero_type) const;
+	const FCharacterData& GetCharacterData(EHeroType hero_type) const;
 	FString HeroEnumToString(EHeroType hero_type) const;
 
 	void EnhanceCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float increase_amount);
@@ -103,7 +104,7 @@ private:
 	TObjectPtr<class UOopartDataAsset> oopart_data_asset_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
-	UDataTable* character_table_;
+	TObjectPtr<class UCharacterStatDataAsset> character_stat_data_asset_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class URuneDataAsset> rune_data_asset_;

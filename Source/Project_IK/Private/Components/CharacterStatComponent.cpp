@@ -39,17 +39,14 @@ void UCharacterStatComponent::InitializeComponent()
 
 	if (ik_game_instance)
 	{
-		FCharacterData* character_data = nullptr;
 		if (UDataTableManager* data_table_manager = ik_game_instance->GetDataTableManager())
 		{
-			character_data = data_table_manager->GetCharacterData(character_id_);
+			character_data_ = data_table_manager->GetCharacterData(character_id_);
 		}
-		//TODO: nullptr를 참조할 수 있다...!
-		stat_= *character_data;
 
 
 		// They are initial data of each attributes. Theoretical limitation will be implemented later
-		max_hit_points_ = stat_.hit_point_;
+		max_hit_points_ = character_data_.status_data_.hit_point_;
 		shield_ = 0.f;
 		max_shield_ = 100.f;
 	}
@@ -241,73 +238,78 @@ float UCharacterStatComponent::GetShield() const noexcept
 
 void UCharacterStatComponent::SetAttackPower(float attack_power) noexcept
 {
-	stat_.attack_power_ = attack_power;
+	character_data_.status_data_.attack_power_ = attack_power;
 }
 
 void UCharacterStatComponent::SetAttackSpeed(float attack_speed) noexcept
 {
-	stat_.attack_speed_ = attack_speed;
+	character_data_.status_data_.attack_speed_ = attack_speed;
 }
 
 void UCharacterStatComponent::SetCriticalHitRate(float critical_hit_rate) noexcept
 {
-	stat_.critical_hit_rate_= critical_hit_rate;
+	character_data_.status_data_.critical_hit_rate_= critical_hit_rate;
 }
 
 void UCharacterStatComponent::SetAccuracy(float accuracy) noexcept
 {
-	stat_.accuracy_= accuracy;
+	character_data_.status_data_.accuracy_= accuracy;
 }
 
 void UCharacterStatComponent::SetMagazineBonus(float magazine_bonus) noexcept
 {
-	stat_.magazine_bonus_= magazine_bonus;
+	character_data_.status_data_.magazine_bonus_= magazine_bonus;
 }
 
 void UCharacterStatComponent::SetLifeSteal(float life_steal) noexcept
 {
-	stat_.life_steal_ = life_steal;
+	character_data_.status_data_.life_steal_ = life_steal;
 }
 
 void UCharacterStatComponent::SetHitPoint(float hit_point) noexcept
 {
-	stat_.hit_point_ = FMath::Min(hit_point, GetMaxHitPoint());
+	character_data_.status_data_.hit_point_ = FMath::Min(hit_point, GetMaxHitPoint());
 	OnHPChanged.Broadcast(GetHPRatio());
-	if (stat_.hit_point_ < KINDA_SMALL_NUMBER)
+	if (character_data_.status_data_.hit_point_ < KINDA_SMALL_NUMBER)
 	{
-		stat_.hit_point_ = 0.f;
+		character_data_.status_data_.hit_point_ = 0.f;
 		Cast<AUnit>(GetOwner())->Die();
 	}
 }
 
 void UCharacterStatComponent::SetEvasionRate(float evasion_rate) noexcept
 {
-	stat_.evasion_rate_= evasion_rate;
+	character_data_.status_data_.evasion_rate_= evasion_rate;
 }
 
 void UCharacterStatComponent::SetArmor(float armor) noexcept
 {
-	stat_.armor_= armor;
+	character_data_.status_data_.armor_= armor;
 }
 
 void UCharacterStatComponent::SetSurvivability(float survivability) noexcept
 {
-	stat_.survivability_ = survivability;
+	character_data_.status_data_.survivability_ = survivability;
+}
+
+void UCharacterStatComponent::SetSightRange(float sight_range) noexcept
+{
+	character_data_.sight_range_ = sight_range;
 }
 
 void UCharacterStatComponent::SetMoveSpeed(float move_speed) noexcept
 {
-	stat_.move_speed_ = move_speed;
+	character_data_.move_speed_ = move_speed;
 }
 
 void UCharacterStatComponent::SetSkillPower(float skill_power) noexcept
 {
-	stat_.skill_power_= skill_power;
+	character_data_.status_data_.skill_power_= skill_power;
 }
 
 void UCharacterStatComponent::SetSkillCooldown(float skill_cooldown) noexcept
 {
-	stat_.skill_cool_down_= skill_cooldown;
+	character_data_.status_data_.skill_cool_down_= skill_cooldown;
 }
 
 void UCharacterStatComponent::SetShield(float shield) noexcept
@@ -335,7 +337,7 @@ float UCharacterStatComponent::GetHPRatio() const noexcept
 	}
 	else
 	{
-		return stat_.hit_point_ / max_hit_points_;
+		return character_data_.status_data_.hit_point_ / max_hit_points_;
 	}
 }
 
@@ -401,7 +403,7 @@ float UCharacterStatComponent::GetMaxShield() const noexcept
 
 FCharacterData UCharacterStatComponent::GetCharacterData() const noexcept
 {
-	return stat_;
+	return character_data_;
 }
 
 void UCharacterStatComponent::SetCharacterID(EHeroType char_id) noexcept
@@ -411,7 +413,7 @@ void UCharacterStatComponent::SetCharacterID(EHeroType char_id) noexcept
 
 void UCharacterStatComponent::SetCharacterData(const FCharacterData& character_data) noexcept
 {
-	stat_ = character_data;
+	character_data_ = character_data;
 	OnHPChanged.Broadcast(GetHPRatio());
 }
 
@@ -445,46 +447,46 @@ float UCharacterStatComponent::GetBaseStat(ECharacterStatType StatType) const
 	switch (StatType)
 	{
 	case ECharacterStatType::AttackPower:
-		return stat_.attack_power_;
+		return character_data_.status_data_.attack_power_;
 		break;
 	case ECharacterStatType::AttackSpeed:
-		return stat_.attack_speed_;
+		return character_data_.status_data_.attack_speed_;
 		break;
 	case ECharacterStatType::CriticalHitRate:
-		return stat_.critical_hit_rate_;
+		return character_data_.status_data_.critical_hit_rate_;
 		break;
 	case ECharacterStatType::Accuracy:
-		return stat_.accuracy_;
+		return character_data_.status_data_.accuracy_;
 		break;
 	case ECharacterStatType::MagazineBonus:
-		return stat_.magazine_bonus_;
+		return character_data_.status_data_.magazine_bonus_;
 		break;
 	case ECharacterStatType::LifeSteal:
-		return stat_.life_steal_;
+		return character_data_.status_data_.life_steal_;
 		break;
 	case ECharacterStatType::HitPoints:
-		return stat_.hit_point_;
+		return character_data_.status_data_.hit_point_;
 		break;
 	case ECharacterStatType::EvasionRate:
-		return stat_.evasion_rate_;
+		return character_data_.status_data_.evasion_rate_;
 		break;
 	case ECharacterStatType::Armor:
-		return stat_.armor_;
+		return character_data_.status_data_.armor_;
 		break;
 	case ECharacterStatType::Survivability:
-		return stat_.survivability_;
+		return character_data_.status_data_.survivability_;
 		break;
 	case ECharacterStatType::SightRange:
-		return stat_.sight_range_;
+		return character_data_.sight_range_;
 		break;
 	case ECharacterStatType::MoveSpeed:
-		return stat_.move_speed_;
+		return character_data_.move_speed_;
 		break;
 	case ECharacterStatType::SkillPower:
-		return stat_.skill_power_;
+		return character_data_.status_data_.skill_power_;
 		break;
 	case ECharacterStatType::SkillCoolDown:
-		return stat_.skill_cool_down_;
+		return character_data_.status_data_.skill_cool_down_;
 		break;
 	case ECharacterStatType::Shield:
 		return shield_;

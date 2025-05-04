@@ -12,11 +12,12 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/StatusData.h"
 #include "CharacterData.generated.h"
 
 class AUnit;
 USTRUCT(BlueprintType)
-struct FCharacterData : public FTableRowBase
+struct FCharacterData
 {
 	GENERATED_BODY()
 
@@ -28,36 +29,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	FName character_name_ = "";
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackData")
-	float attack_power_ = 0.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackData")
-	float attack_speed_ = 0.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackData")
-	float critical_hit_rate_ = 0.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackData")
-	float accuracy_ = 0.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackData")
-	float magazine_bonus_ = 0.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttackData")
-	float life_steal_ = 0.f;
-
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DefenseData")
-	float hit_point_ = 0.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DefenseData")
-	float evasion_rate_ = 0.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DefenseData")
-	float armor_ = 0.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DefenseData")
-	float survivability_ = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatusData")
+	FStatusData status_data_ = FStatusData{};
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AgilityData")
 	float sight_range_ = 0.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AgilityData")
 	float move_speed_ = 0.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SkillData")
-	float skill_power_ = 0.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SkillData")
-	float skill_cool_down_ = 0.f;
 };
