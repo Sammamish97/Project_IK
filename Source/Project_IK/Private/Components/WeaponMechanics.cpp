@@ -40,7 +40,6 @@ void UWeaponMechanics::BeginPlay()
 	owner_ref_ = Cast<AUnit>(GetOwner());
 	weapon_actor_ = GetWorld()->SpawnActor<AGun>(weapon_class_);
 	weapon_actor_->AttachToComponent(owner_ref_->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, gun_socket_name_);
-	StoreReloadRequestID();
 }
 
 //TODO: 무기의 장착과 실제 장착 후 생성은 분리되어야 한다.
@@ -66,8 +65,8 @@ void UWeaponMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 FDamageData UWeaponMechanics::GetWeaponFireDamageData()
 {
-	auto char_data = owner_ref_->GetCharacterStat()->GetCharacterData();
-	float total_atk_dmg = weapon_actor_->GetWeaponData().basic_dmg_ + owner_ref_->GetCharacterStat()->GetAttackPower() * weapon_actor_->GetWeaponData().attack_scale;
+	UCharacterStatComponent* stat_component = owner_ref_->GetCharacterStat();
+	float total_atk_dmg = weapon_actor_->GetWeaponData().basic_dmg_ + stat_component->GetAttackPower() * weapon_actor_->GetWeaponData().attack_scale;
 	FDamageData dmg_data;
 	dmg_data.atk_base_dmg = total_atk_dmg;
 	dmg_data.damage_type = EDamageType::Projectile;
@@ -98,9 +97,11 @@ void UWeaponMechanics::BeginFire(AActor* target)
 
 void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data, bool is_controlled_fire, float offset)
 {
-	float total_crit_hit_rate = owner_ref_->GetCharacterStat()->GetCharacterData().critical_hit_rate_ + weapon_actor_->GetWeaponData().critical_hit_rate_;
+	float total_crit_hit_rate = owner_ref_->GetCharacterStat()->GetCriticalHitRate() + weapon_actor_->GetWeaponData().critical_hit_rate_;
+	OnCriticalRateCalculation.Broadcast(total_crit_hit_rate);
 	if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
 	{
+		dmg_data.is_critical_shot_ = true;
 		dmg_data.atk_base_dmg *= 2;
 		owner_ref_->DispatchUnitEvent(EUnitEvent::OnCriticalFire);
 	}

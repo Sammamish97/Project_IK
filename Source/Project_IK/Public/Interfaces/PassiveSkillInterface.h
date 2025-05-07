@@ -2,7 +2,7 @@
 Copyright(C) 2024
 Author: chunmook.kim(chunmook.kim97@gmail.com)
 Creation Date : 2.5.2025
-Summary : Header file for the equip skill interface.
+Summary : Header file for the passive skill interface.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -12,21 +12,20 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
 #include "Structs/DamageData.h"
-#include "EquipSkill.generated.h"
+#include "PassiveSkillInterface.generated.h"
 
 // This class does not need to be modified.
 UINTERFACE()
-class UEquipSkill : public UInterface
+class UPassiveSkillInterface : public UInterface
 {
 	GENERATED_BODY()
 };
 
-class PROJECT_IK_API IEquipSkill
+class PROJECT_IK_API IPassiveSkillInterface
 {
 	GENERATED_BODY()
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	virtual void InitEquipmentSkill(AActor* hero_ref) = 0;
-	virtual FDamageData OnEquipmentSkill(FDamageData dmg_data) = 0;
 };

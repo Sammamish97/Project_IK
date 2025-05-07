@@ -172,6 +172,16 @@ bool AHeroBase::HasActiveSkill() const
 	return skill_container_->HasActiveSkill();
 }
 
+void AHeroBase::ReduceCooltime(float reduce_time)
+{
+	skill_container_->ReduceCooltime(reduce_time);
+}
+
+void AHeroBase::ReduceCooltimeByPercentage(float percentage)
+{
+	skill_container_->ReduceCooltimeByPercentage(percentage);
+}
+
 UWeaponMechanics* AHeroBase::GetWeaponMechanics()
 {
 	return weapon_mechanics_;

@@ -40,6 +40,9 @@ public:
 	void InvokeActiveSkill(FTargetResult target_result);
 	bool IsActiveSkillOnCoolDown() const;
 	bool HasActiveSkill() const;
+	void ReduceCooltime(float reduce_time);
+	// percentage range [0.f, 1.f]
+	void ReduceCooltimeByPercentage(float percentage);
 
 	void Reposition(FVector target_location);
 	void SetAttackTarget(AActor* target);

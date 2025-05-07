@@ -29,7 +29,7 @@ void UInventoryWidget::NativeConstruct()
 	board_switch_button_->OnClicked.AddDynamic(this, &UInventoryWidget::ToggleBoard);
 
 	cur_hero_idx_ = 0;
-	hero_name_text_->SetText(FText::FromName(data_table_cache_->GetCharacterData(IntToHeroType(cur_hero_idx_))->character_name_));
+	hero_name_text_->SetText(FText::FromName(data_table_cache_->GetCharacterData(IntToHeroType(cur_hero_idx_)).character_name_));
 
 	equip_board_->LoadEquipBoard();
 	equip_storage_->LoadEquipStorage();
@@ -108,7 +108,7 @@ void UInventoryWidget::SwitchToLeftHero()
 	UpdateInventoryData();
 	
 	cur_hero_idx_ = FMath::Max(0, cur_hero_idx_ - 1);
-	hero_name_text_->SetText(FText::FromName(data_table_cache_->GetCharacterData(IntToHeroType(cur_hero_idx_))->character_name_));
+	hero_name_text_->SetText(FText::FromName(data_table_cache_->GetCharacterData(IntToHeroType(cur_hero_idx_)).character_name_));
 
 	rune_board_->SetCurHeroIdx(cur_hero_idx_);
 	equip_board_->SetCurHeroIdx(cur_hero_idx_);
@@ -123,7 +123,7 @@ void UInventoryWidget::SwitchToRightHero()
 	UpdateInventoryData();
 	
 	cur_hero_idx_ = FMath::Min(cur_hero_idx_ + 1, 3);
-	hero_name_text_->SetText(FText::FromName(data_table_cache_->GetCharacterData(IntToHeroType(cur_hero_idx_))->character_name_));
+	hero_name_text_->SetText(FText::FromName(data_table_cache_->GetCharacterData(IntToHeroType(cur_hero_idx_)).character_name_));
 
 	rune_board_->SetCurHeroIdx(cur_hero_idx_);
 	equip_board_->SetCurHeroIdx(cur_hero_idx_);

@@ -17,8 +17,10 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKPlayerController.h"
 #include "Components/TargetingComponent.h"
 #include "Characters/Unit.h"
+#include "Characters/HeroBase.h"
 #include "Components/CrowdControlComponent.h"
 #include "Components/CharacterStatComponent.h"
+#include "Components/WeaponMechanics.h"
 
 #include "DelegateBridgeSubsystem.generated.h"
 
@@ -71,9 +73,12 @@ public:
 	
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnCrowdControlChanged(UObject* bound_crowd_control_component, T* object, FuncType callback, FName func_name);
-	
+
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnBuffChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
+
+	template<typename T, typename FuncType>
+	bool BindOnCriticalRateCalculation(UObject* bound_hero, T* object, FuncType callback);
 
 protected:
 	AIKPlayerController* GetAIKPlayerController() const;
@@ -211,6 +216,23 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnBuffChanged(UObject* boun
 	{
 		UCharacterStatComponent* cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
 		cs->OnBuffChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
+		return true;
+	}
+	return false;
+}
+
+template<typename T, typename FuncType>
+inline bool UDelegateBridgeSubsystem::BindOnCriticalRateCalculation(UObject* bound_hero, T* object, FuncType callback)
+{
+	if (object == nullptr)
+	{
+		return false;
+	}
+
+	AHeroBase* hero = Cast<AHeroBase>(bound_hero);
+	if (hero)
+	{
+		hero->GetWeaponMechanics()->OnCriticalRateCalculation.AddUObject(object, callback);
 		return true;
 	}
 	return false;

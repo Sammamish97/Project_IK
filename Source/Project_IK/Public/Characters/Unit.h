@@ -50,6 +50,10 @@ public:
 	virtual void Attack(AActor* target) override;
 
 	UFUNCTION(BlueprintCallable)
+	EHeroType GetCharacterID() const;
+	UCharacterStatComponent* GetCharacterStat();
+	
+	UFUNCTION(BlueprintCallable)
 	virtual void GetDamage(FDamageData data) override;
 	
 	UFUNCTION(BlueprintCallable)
@@ -94,6 +98,7 @@ protected:
 	void GetDamageByDot(FDamageData data);
 	void GetDamageByPEM(FDamageData data);
 	void GetDamageByMagic(FDamageData data);
+	void RecoverAttackerByLifeSteal(FDamageData data);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))

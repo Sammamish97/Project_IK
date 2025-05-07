@@ -20,6 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/ItemDataAsset.h"
 #include "DataAssets/StatInfoDataAsset.h"
 #include "DataAssets/CrowdControlInfoDataAsset.h"
+#include "DataAssets/CharacterStatDataAsset.h"
 #include "Structs/CharacterData.h"
 
 #include "Structs/WrapperEquipmentData.h"
@@ -108,7 +109,7 @@ FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num) const
 		UE_LOG(LogTemp, Error, TEXT("slot_num is out of range"));
 		return FRuneData();
 	}
-	if(rune_data_asset_)
+	if (rune_data_asset_)
 	{
 		return rune_data_asset_->GetRuneSetData(type).rune_set_data_[slot_num];
 	}
@@ -319,13 +320,9 @@ TArray<FItemData> UDataTableManager::GetUniqueItemDataRandomly(int32 n, ERarity 
 	return item_data_asset_->GetUniqueItemDataRandomly(n, rarity);
 }
 
-FCharacterData* UDataTableManager::GetCharacterData(EHeroType hero_type) const
+const FCharacterData& UDataTableManager::GetCharacterData(EHeroType hero_type) const
 {
-	if (character_table_)
-	{
-		return character_table_->FindRow<FCharacterData>(*HeroEnumToString(hero_type), TEXT(""));
-	}
-	return nullptr;
+	return character_stat_data_asset_->GetCharacterData(hero_type);
 }
 
 FString UDataTableManager::HeroEnumToString(EHeroType char_type) const
@@ -354,114 +351,12 @@ FString UDataTableManager::HeroEnumToString(EHeroType char_type) const
 
 void UDataTableManager::EnhanceCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float increase_amount)
 {
-	FCharacterData* data = GetCharacterData(hero_type);
-	if (data)
-	{
-		switch (stat_type)
-		{
-		case ECharacterStatType::AttackPower:
-			data->attack_power_ += increase_amount;
-			break;
-		case ECharacterStatType::AttackSpeed:
-			data->attack_speed_ += increase_amount;
-			break;
-		case ECharacterStatType::CriticalHitRate:
-			data->critical_hit_rate_ += increase_amount;
-			break;
-		case ECharacterStatType::Accuracy:
-			data->accuracy_ += increase_amount;
-			break;
-		case ECharacterStatType::MagazineBonus:
-			data->magazine_bonus_ += increase_amount;
-			break;
-		case ECharacterStatType::LifeSteal:
-			data->life_steal_ += increase_amount;
-			break;
-		case ECharacterStatType::HitPoints:
-			data->hit_point_ += increase_amount;
-			break;
-		case ECharacterStatType::EvasionRate:
-			data->evasion_rate_ += increase_amount;
-			break;
-		case ECharacterStatType::Armor:
-			data->armor_ += increase_amount;
-			break;
-		case ECharacterStatType::Survivability:
-			data->survivability_ += increase_amount;
-			break;
-		case ECharacterStatType::SightRange:
-			data->sight_range_ += increase_amount;
-			break;
-		case ECharacterStatType::MoveSpeed:
-			data->move_speed_ += increase_amount;
-			break;
-		case ECharacterStatType::SkillPower:
-			data->skill_power_ += increase_amount;
-			break;
-		case ECharacterStatType::SkillCoolDown:
-			data->skill_cool_down_ += increase_amount;
-			break;
-		case ECharacterStatType::Shield:
-		default:
-			break;
-		}
-	}
+	character_stat_data_asset_->EnhanceCharacterData(hero_type, stat_type, increase_amount);
 }
 
 void UDataTableManager::DiminishCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float decrease_amount)
 {
-	FCharacterData* data = GetCharacterData(hero_type);
-	if (data)
-	{
-		switch (stat_type)
-		{
-		case ECharacterStatType::AttackPower:
-			data->attack_power_ -= decrease_amount;
-			break;
-		case ECharacterStatType::AttackSpeed:
-			data->attack_speed_ -= decrease_amount;
-			break;
-		case ECharacterStatType::CriticalHitRate:
-			data->critical_hit_rate_ -= decrease_amount;
-			break;
-		case ECharacterStatType::Accuracy:
-			data->accuracy_ -= decrease_amount;
-			break;
-		case ECharacterStatType::MagazineBonus:
-			data->magazine_bonus_ -= decrease_amount;
-			break;
-		case ECharacterStatType::LifeSteal:
-			data->life_steal_ -= decrease_amount;
-			break;
-		case ECharacterStatType::HitPoints:
-			data->hit_point_ -= decrease_amount;
-			break;
-		case ECharacterStatType::EvasionRate:
-			data->evasion_rate_ -= decrease_amount;
-			break;
-		case ECharacterStatType::Armor:
-			data->armor_ -= decrease_amount;
-			break;
-		case ECharacterStatType::Survivability:
-			data->survivability_ -= decrease_amount;
-			break;
-		case ECharacterStatType::SightRange:
-			data->sight_range_ -= decrease_amount;
-			break;
-		case ECharacterStatType::MoveSpeed:
-			data->move_speed_ -= decrease_amount;
-			break;
-		case ECharacterStatType::SkillPower:
-			data->skill_power_ -= decrease_amount;
-			break;
-		case ECharacterStatType::SkillCoolDown:
-			data->skill_cool_down_ -= decrease_amount;
-			break;
-		case ECharacterStatType::Shield:
-		default:
-			break;
-		}
-	}
+	character_stat_data_asset_->DiminishCharacterData(hero_type, stat_type, decrease_amount);
 }
 
 FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type) const
@@ -509,7 +404,7 @@ FWrapperEquipmentData UDataTableManager::GetEquipmentDataRandomly(ERarity weight
 
 FWrapperEquipmentData UDataTableManager::GetUniqueEquipmentDataRandomly(int32 n, ERarity weight_rarity) const
 {
-	TArray<int32> data_counts({0, 0, 0, 0, 0});
+	TArray<int32> data_counts({ 0, 0, 0, 0, 0 });
 
 	for (int32 i = 0; i < n; i++)
 	{

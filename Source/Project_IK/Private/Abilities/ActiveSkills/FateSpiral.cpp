@@ -21,7 +21,7 @@ See LICENSE file in the project root for full license information.
 // Sets default values
 AFateSpiral::AFateSpiral()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
 
@@ -79,7 +79,7 @@ void AFateSpiral::ConductLogic()
 		{
 			HealAlly();
 		}
-		else if(arrival_->IsA<AEnemyBase>())
+		else if (arrival_->IsA<AEnemyBase>())
 		{
 			DamageEnemy();
 		}
@@ -138,13 +138,16 @@ AActor* AFateSpiral::FindNextTarget()
 		}
 		for (AActor* actor : actor_containers)
 		{
-			FVector to_actor = actor->GetActorLocation() - arrival_->GetActorLocation();
-
-			float squared_distance_to_actor = to_actor.SizeSquared();
-			if (squared_distance_to_actor <= min_radius && !traversed_actors_.Contains(actor))
+			if (actor)
 			{
-				result = actor;
-				min_radius = squared_distance_to_actor;
+				FVector to_actor = actor->GetActorLocation() - arrival_->GetActorLocation();
+
+				float squared_distance_to_actor = to_actor.SizeSquared();
+				if (squared_distance_to_actor <= min_radius && !traversed_actors_.Contains(actor))
+				{
+					result = actor;
+					min_radius = squared_distance_to_actor;
+				}
 			}
 		}
 	}

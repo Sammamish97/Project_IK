@@ -71,7 +71,7 @@ void UIKGameInstance::InitSpawnData()
 	for(const auto& type : { EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4 })
 	{
 		FSpawnData spawn_data;
-		spawn_data.character_data_ = *(data_table_manager_->GetCharacterData(type));
+		spawn_data.character_data_ = data_table_manager_->GetCharacterData(type);
 		result.Add(spawn_data);
 	}
 	GetSubsystem<ULevelTransitionSubsystem>()->UpdateSpawnData(result);

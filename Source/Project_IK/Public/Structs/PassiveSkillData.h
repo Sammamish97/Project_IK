@@ -24,7 +24,7 @@ public:
 	EPassiveSkillType type = EPassiveSkillType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
-	TSubclassOf<class UEquipSkillBase> passive_skill_class;
+	TSubclassOf<class UPassiveSkillBase> passive_skill_class;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
 	UTexture2D* thumbnail = nullptr;
