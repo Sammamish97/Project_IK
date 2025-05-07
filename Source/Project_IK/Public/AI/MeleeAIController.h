@@ -20,7 +20,6 @@ class PROJECT_IK_API AMeleeAIController : public AAIController
 	GENERATED_BODY()
 public:
 	AMeleeAIController();
-	virtual void OnDie();
 	virtual void OnPossess(APawn* InPawn) override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 

@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/CharacterData.h"
 #include "Structs/DamageData.h"
 #include "Structs/WeaponData.h"
+#include "AITypes.h"
 #include "WeaponMechanics.generated.h"
 
 class UCharacterStatComponent;
@@ -34,15 +35,9 @@ public:
 	// Sets default values for this component's properties
 	UWeaponMechanics();
 
-public:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
-public:
-	void OnDestroy();
-
-	FDamageData GetWeaponFireDamageData();
 	
 	void BeginFire(AActor* target);
 	void OnFire(AActor* target, FDamageData dmg_data, bool is_controlled_fire = true, float offset = 0.f);
@@ -64,10 +59,17 @@ public:
 	FWeaponData GetWeaponData();
 	AGun* GetWeaponActor();
 
+	bool IsOnReloading() const;
+
 	FTimerHandle& RentFireTimerHandle();
 	
 	UFUNCTION()
 	void EquipWeapon(EWeaponType type);
+
+	FDamageData GetWeaponFireDamageData();
+
+private:
+	FORCEINLINE void StoreReloadRequestID() { reload_request_id_ = next_request_id_++; }
 
 protected:
 	FOnCriticalRateCalculationDelegate OnCriticalRateCalculation;
@@ -97,15 +99,23 @@ private:
 	UPROPERTY(Transient)
 	FTimerHandle burst_timer_handle_;
 
-	//Owner는 Hero가 될 수도, Enemy가 될 수도 있다. 지금은 Enemy역시 Weapon mechanics를 사용하여 총을 발사하기 때문.
 	UPROPERTY(Transient)
 	TObjectPtr<class AUnit> owner_ref_ = nullptr;
 
 	UPROPERTY(Transient)
 	int32 burst_count_ = 0;
 
+	static uint32 next_request_id_;
+	FAIRequestID reload_request_id_;
+
+public:
+	FORCEINLINE FAIRequestID GetReloadRequestId() const { return reload_request_id_; }
+
 	UPROPERTY(Transient)
 	bool on_burst_cool_down_ = false;
+	
+	UPROPERTY(Transient)
+	bool on_reloading_ = false;
 
 	UPROPERTY(Transient)
 	bool stop_fire_ = false;

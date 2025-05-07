@@ -9,7 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Components/WeaponMechanics.h"
 #include "AIController.h"
-#include "AI/GunnerAIController.h"
+#include "BrainComponent.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Character.h"
 #include "Weapons/Guns/Gun.h"
@@ -20,6 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/KismetMathLibrary.h"
 #include "Managers/DataTableManager.h"
 #include "WorldSettings/IKGameInstance.h"
+uint32 UWeaponMechanics::next_request_id_ = 0;
 
 // Sets default values for this component's properties
 UWeaponMechanics::UWeaponMechanics()
@@ -77,14 +78,18 @@ void UWeaponMechanics::BeginFire(AActor* target)
 {
 	if (stop_fire_ == false)
 	{
-		float total_fire_per_sec =  weapon_actor_->GetWeaponData().fire_per_sec * (1 + owner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
-		float weapon_attack_speed = 1.f / total_fire_per_sec;
-		if (on_burst_cool_down_ == false)
+		TWeakObjectPtr<AActor> target_wptr = target;
+		if (AActor* target_ptr = target_wptr.Get())
 		{
-			if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
+			float total_fire_per_sec =  weapon_actor_->GetWeaponData().fire_per_sec * (1 + owner_ref_->GetCharacterStat()->GetAttackSpeed() / 100.f);
+			float weapon_attack_speed = 1.f / total_fire_per_sec;
+			if (on_burst_cool_down_ == false)
 			{
-				FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target, GetWeaponFireDamageData(), true, 0.f);
-				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, weapon_attack_speed); 
+				if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target_ptr)
+				{
+					FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target_ptr, GetWeaponFireDamageData(), true, 0.f);
+					GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, weapon_attack_speed); 
+				}
 			}
 		}
 	}
@@ -173,8 +178,8 @@ void UWeaponMechanics::Reload(float duration_multiplier)
 	{
 		if(GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false)
 		{
+			on_reloading_ = true;
 			owner_ref_->DispatchUnitEvent(EUnitEvent::OnReload);
-			Cast<AMeleeAIController>(owner_ref_->Controller)->SetUnitState(EUnitState::Reloading);
 			weapon_actor_->OnReloadStub();
 			FWeaponData weapon_data = GetWeaponData();
 			float reload_play_rate = weapon_data.reload_montage_->GetPlayLength() / weapon_data.reload_duration / duration_multiplier;
@@ -199,19 +204,18 @@ void UWeaponMechanics::ResumeFire()
 void UWeaponMechanics::OnReload()
 {
 	if(weapon_actor_)weapon_actor_->Reload();
+	on_reloading_ = false;
 	burst_count_ = 0;
-	Cast<AMeleeAIController>(owner_ref_->Controller)->SetUnitState(EUnitState::Forwarding);
+	FAIMessage Msg(TEXT("ReloadFinished"), this, reload_request_id_, FAIMessage::Success);
+	FAIMessage::Send(owner_ref_, Msg);
+	//IKTODO: 각 AIMessage를 사용할 때 마다 새로운 ID를 써야하는가? 더 많은 데이터가 필요하다.
+	//reload_request_id_ = FAIRequestID::InvalidRequest;
 }
 
 void UWeaponMechanics::OnStunned()
 {
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
 	GetWorld()->GetTimerManager().ClearTimer(reload_timer_handle_);
-}
-
-void UWeaponMechanics::OnDestroy()
-{
-	if(weapon_actor_) weapon_actor_->Destroy();
 }
 
 bool UWeaponMechanics::IsMagazineEmpty() const
@@ -232,6 +236,11 @@ FWeaponData UWeaponMechanics::GetWeaponData()
 AGun* UWeaponMechanics::GetWeaponActor()
 {
 	return weapon_actor_;
+}
+
+bool UWeaponMechanics::IsOnReloading() const
+{
+	return on_reloading_;
 }
 
 FTimerHandle& UWeaponMechanics::RentFireTimerHandle()

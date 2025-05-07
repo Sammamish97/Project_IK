@@ -19,9 +19,9 @@ AGunnerAIController::AGunnerAIController()
 	reload_state_key_name_ = TEXT("ReloadState");
 }
 
-void AGunnerAIController::OnDie()
+void AGunnerAIController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	Super::OnDie();
+	Super::EndPlay(EndPlayReason);
 	UObject* cover = GetBlackboardComponent()->GetValueAsObject(owned_cover_key_name_);
 	if(cover != nullptr)
 	{

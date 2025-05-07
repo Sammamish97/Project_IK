@@ -22,11 +22,7 @@ class UBuffDisplayer;
 class UDataTableManager;
 struct FBuffData;
 
-
-/**
- * 
- */
-UCLASS(Blueprintable)
+UCLASS(Blueprintable, Abstract)
 class PROJECT_IK_API UHitPointsUI : public UUserWidget
 {
 	GENERATED_BODY()

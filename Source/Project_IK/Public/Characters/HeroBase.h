@@ -19,7 +19,7 @@ See LICENSE file in the project root for full license information.
 #include "HeroBase.generated.h"
 
 UCLASS()
-class PROJECT_IK_API AHeroBase : public AUnit, public IAttackable
+class PROJECT_IK_API AHeroBase : public AUnit
 {
 	GENERATED_BODY()
 public:

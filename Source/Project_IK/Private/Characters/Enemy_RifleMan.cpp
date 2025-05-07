@@ -21,17 +21,12 @@ AEnemy_RifleMan::AEnemy_RifleMan()
 void AEnemy_RifleMan::BeginPlay()
 {
 	Super::BeginPlay();
-	weapon_mechanics_->EquipWeapon(EWeaponType::DefaultPistol);
-}
-
-void AEnemy_RifleMan::EndPlay(const EEndPlayReason::Type EndPlayReason)
-{
-	Super::EndPlay(EndPlayReason);
+	//IKTODO: 전용 무기 장착.
+	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle_B);
 }
 
 void AEnemy_RifleMan::Die()
 {
-	weapon_mechanics_->OnDestroy();
 	Super::Die();
 }
 
@@ -44,5 +39,6 @@ void AEnemy_RifleMan::OnStunned()
 
 void AEnemy_RifleMan::Attack(AActor* target)
 {
+	Super::Attack(target);
 	weapon_mechanics_->BeginFire(target);
 }

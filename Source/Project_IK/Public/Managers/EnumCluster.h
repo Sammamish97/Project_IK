@@ -15,14 +15,11 @@ See LICENSE file in the project root for full license information.
 UENUM(BlueprintType)
 enum class EUnitState  : uint8
 {
-	Forwarding UMETA(DisplayName = "Forwarding"),
-	HeadingToEnemy UMETA(DisplayName = "Heading To Enemy"),
-	HeadingToCover UMETA(DisplayName = "Heading To Cover"),
-	Attacking UMETA(DisplayName = "Attacking"),
+	OnLogic UMETA(DisplayName = "On Logic"),
+	OnReloading UMETA(DisplayName = "On Reloading"),
 	OnActiveSkill UMETA(DisplayName = "On Active Skill"),
-	Reloading UMETA(DisplayName = "Reloading"),
-	Stunned UMETA(DisplayName = "Stunned"),
-	Repositioning UMETA(DisplayName = "Repositioning"),
+	OnStunned UMETA(DisplayName = "On Stunned"),
+	OnRepositioning UMETA(DisplayName = "On Repositioning"),
 };
 
 UENUM(BlueprintType)
@@ -167,7 +164,8 @@ enum class EUnitEvent : uint8
 	OnEliminate UMETA(DisplayName = "OnEliminate"),
 	OnCriticalFire UMETA(DisplayName = "OnCriticalFire"),
 	HideOnCover UMETA(DisplayName = "HideOnCover"),
-	LeaveCover UMETA(DisplayName = "LeaveCover")
+	LeaveCover UMETA(DisplayName = "LeaveCover"),
+	OnEnterBattle UMETA(DisplayName = "OnEnterBattle"),
 };
 
 UENUM(BlueprintType)

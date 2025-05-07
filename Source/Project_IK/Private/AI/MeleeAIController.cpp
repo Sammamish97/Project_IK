@@ -49,7 +49,7 @@ void AMeleeAIController::OnPossess(APawn* InPawn)
 	}
 	if(GetBlackboardComponent()->IsValidKey(GetBlackboardComponent()->GetKeyID(unit_state_key_name_)))
 	{
-		GetBlackboardComponent()->SetValueAsEnum(unit_state_key_name_, static_cast<uint8>(EUnitState::Forwarding));
+		GetBlackboardComponent()->SetValueAsEnum(unit_state_key_name_, static_cast<uint8>(EUnitState::OnLogic));
 	}
 	else
 	{
@@ -60,7 +60,7 @@ void AMeleeAIController::OnPossess(APawn* InPawn)
 
 void AMeleeAIController::GetStunned()
 {
-	SetUnitState(EUnitState::Stunned);
+	SetUnitState(EUnitState::OnStunned);
 }
 
 void AMeleeAIController::FinishStun()
@@ -81,9 +81,4 @@ AActor* AMeleeAIController::GetTargetActor()
 void AMeleeAIController::SetUnitState(EUnitState new_state)
 {
 	GetBlackboardComponent()->SetValueAsEnum(unit_state_key_name_, static_cast<uint8>(new_state));
-}
-
-void AMeleeAIController::OnDie()
-{
-
 }

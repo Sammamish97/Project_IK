@@ -10,7 +10,6 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/Unit.h"
 
-#include "AI/GunnerAIController.h"
 #include "AI/MeleeAIController.h"
 #include "Components/CharacterStatComponent.h"
 #include "Components/CrowdControlComponent.h"
@@ -67,6 +66,15 @@ void AUnit::SetCurHidingCover(AActor* cover)
 AActor* AUnit::GetCurHidingCover() const
 {
 	return cur_hiding_cover_.Get();
+}
+
+void AUnit::Attack(AActor* target)
+{
+	if (is_first_attack_)
+	{
+		OnEnterBattleOnce();
+		is_first_attack_ = false;
+	}
 }
 
 EHeroType AUnit::GetCharacterID() const
@@ -219,7 +227,12 @@ void AUnit::OnStunned()
 void AUnit::FinishStun()
 {
 	UE_LOG(LogTemp, Display, TEXT("AUnit::FinishStunned"));
-	Cast<AMeleeAIController>(Controller)->SetUnitState(EUnitState::Forwarding);
+	Cast<AMeleeAIController>(Controller)->SetUnitState(EUnitState::OnLogic);
+}
+
+void AUnit::OnEnterBattleOnce()
+{
+	DispatchUnitEvent(EUnitEvent::OnEnterBattle);
 }
 
 void AUnit::Die()

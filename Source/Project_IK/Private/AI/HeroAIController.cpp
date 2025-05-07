@@ -20,7 +20,7 @@ AHeroAIController::AHeroAIController()
 void AHeroAIController::RepositionHero(FVector target_location)
 {
 	GetBlackboardComponent()->SetValueAsVector(relocate_target_position_key_name_, target_location);
-	SetUnitState(EUnitState::Repositioning);
+	SetUnitState(EUnitState::OnRepositioning);
 	DrawDebugSphere(GetWorld(), target_location, 32, 32, FColor::White, true, 1.0);
 }
 
@@ -33,7 +33,6 @@ void AHeroAIController::SetAttackTarget(AActor* target)
 void AHeroAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	GetPathFollowingComponent()->OnRequestFinished.AddUObject(this, &AHeroAIController::OnArrivedTargetPosition);
 }
 
 void AHeroAIController::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -41,11 +40,6 @@ void AHeroAIController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	GetPathFollowingComponent()->OnRequestFinished.RemoveAll(this);
 
 	Super::EndPlay(EndPlayReason);
-}
-
-void AHeroAIController::OnArrivedTargetPosition(FAIRequestID request_id, const FPathFollowingResult& result)
-{
-	SetUnitState(EUnitState::Forwarding);
 }
 
 // Called every frame

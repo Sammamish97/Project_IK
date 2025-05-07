@@ -61,7 +61,6 @@ void UService_FindBestCover::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 				{
 					best_cover->SetCoveringOwner(casted_gunner);
 					blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, best_cover);
-					blackboard->SetValueAsEnum(unit_state_key_.SelectedKeyName, static_cast<uint8>(EUnitState::HeadingToCover));
 				}
 			}
 		}

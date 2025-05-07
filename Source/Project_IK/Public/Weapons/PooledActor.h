@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/Actor.h"
 #include "PooledActor.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API APooledActor : public AActor
 {
 	GENERATED_BODY()
