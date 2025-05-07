@@ -67,10 +67,7 @@ public:
 	void EquipWeapon(EWeaponType type);
 
 	FDamageData GetWeaponFireDamageData();
-
-private:
-	FORCEINLINE void StoreReloadRequestID() { reload_request_id_ = next_request_id_++; }
-
+	
 protected:
 	FOnCriticalRateCalculationDelegate OnCriticalRateCalculation;
 
@@ -105,8 +102,7 @@ private:
 	UPROPERTY(Transient)
 	int32 burst_count_ = 0;
 
-	static uint32 next_request_id_;
-	FAIRequestID reload_request_id_;
+	FAIRequestID reload_request_id_ = 0;
 
 public:
 	FORCEINLINE FAIRequestID GetReloadRequestId() const { return reload_request_id_; }

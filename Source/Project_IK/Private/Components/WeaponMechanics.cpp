@@ -20,7 +20,6 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/KismetMathLibrary.h"
 #include "Managers/DataTableManager.h"
 #include "WorldSettings/IKGameInstance.h"
-uint32 UWeaponMechanics::next_request_id_ = 0;
 
 // Sets default values for this component's properties
 UWeaponMechanics::UWeaponMechanics()

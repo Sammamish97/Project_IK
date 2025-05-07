@@ -119,11 +119,8 @@ void USkillContainer::EquipActiveSkill(EActiveSkillType type)
 
 void USkillContainer::UnEquipActiveSkill()
 {
-	equipped_active_skill_data_ = data_table_cache_->GetActiveSkillData(EActiveSkillType::INVALID);
-	if(active_skill_)
-	{
-		active_skill_ = nullptr;
-	}
+	equipped_active_skill_data_ = FActiveSkillData();
+	active_skill_ = nullptr;
 }
 
 bool USkillContainer::InvokeSkills(const FTargetResult& TargetResult)
