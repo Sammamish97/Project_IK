@@ -167,6 +167,8 @@ protected:
 
 
 	UFUNCTION(BlueprintCallable)
+	void SetSightRange(float sight_range) noexcept;
+	UFUNCTION(BlueprintCallable)
 	void SetMoveSpeed(float move_speed) noexcept;
 	
 	UFUNCTION(BlueprintCallable)
@@ -182,7 +184,7 @@ private:
 	TSubclassOf<ADamageUI> damage_UI_class_;
 
 	UPROPERTY(VisibleInstanceOnly, Category = Stats, Meta = (AllowPrivateAccess = true))
-	FCharacterData stat_;
+	FCharacterData character_data_;
 
 	UPROPERTY(VisibleInstanceOnly, Category = Stats, meta = (AllowPrivateAccess = true))
 	float shield_;

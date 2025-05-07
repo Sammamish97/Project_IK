@@ -96,6 +96,7 @@ void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data, bool is_cont
 	OnCriticalRateCalculation.Broadcast(total_crit_hit_rate);
 	if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
 	{
+		dmg_data.is_critical_shot_ = true;
 		dmg_data.atk_base_dmg *= 2;
 		owner_ref_->DispatchUnitEvent(EUnitEvent::OnCriticalFire);
 	}
