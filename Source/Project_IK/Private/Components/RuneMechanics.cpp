@@ -66,7 +66,10 @@ FStatusData URuneMechanics::GetTotalStatus()
 	{
 		if (elem.IsSet())
 		{
-			total_status += elem.GetValue().rune_status;
+			for(const auto& stat : elem.GetValue().status_map)
+			{
+				total_status[stat.Key] += stat.Value;
+			}
 		}
 	}
 	return total_status;

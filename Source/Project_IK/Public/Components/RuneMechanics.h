@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/RuneData.h"
 #include "RuneMechanics.generated.h"
 
-
+struct FStatusData;
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class PROJECT_IK_API URuneMechanics : public UActorComponent
 {
