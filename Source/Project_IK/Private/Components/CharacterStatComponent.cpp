@@ -446,55 +446,12 @@ float UCharacterStatComponent::GetBaseStat(ECharacterStatType StatType) const
 {
 	switch (StatType)
 	{
-	case ECharacterStatType::AttackPower:
-		return character_data_.status_data_.attack_power_;
-		break;
-	case ECharacterStatType::AttackSpeed:
-		return character_data_.status_data_.attack_speed_;
-		break;
-	case ECharacterStatType::CriticalHitRate:
-		return character_data_.status_data_.critical_hit_rate_;
-		break;
-	case ECharacterStatType::Accuracy:
-		return character_data_.status_data_.accuracy_;
-		break;
-	case ECharacterStatType::MagazineBonus:
-		return character_data_.status_data_.magazine_bonus_;
-		break;
-	case ECharacterStatType::LifeSteal:
-		return character_data_.status_data_.life_steal_;
-		break;
-	case ECharacterStatType::HitPoints:
-		return character_data_.status_data_.hit_point_;
-		break;
-	case ECharacterStatType::EvasionRate:
-		return character_data_.status_data_.evasion_rate_;
-		break;
-	case ECharacterStatType::Armor:
-		return character_data_.status_data_.armor_;
-		break;
-	case ECharacterStatType::Survivability:
-		return character_data_.status_data_.survivability_;
-		break;
-	case ECharacterStatType::SightRange:
-		return character_data_.sight_range_;
-		break;
-	case ECharacterStatType::MoveSpeed:
-		return character_data_.move_speed_;
-		break;
-	case ECharacterStatType::SkillPower:
-		return character_data_.status_data_.skill_power_;
-		break;
-	case ECharacterStatType::SkillCoolDown:
-		return character_data_.status_data_.skill_cool_down_;
-		break;
-	case ECharacterStatType::Shield:
-		return shield_;
-		break;
-	default:
-		break;
+		case ECharacterStatType::SightRange:
+			return character_data_.sight_range_;
+		case ECharacterStatType::MoveSpeed:
+			return character_data_.move_speed_;
 	}
-	return 0.f;
+	return character_data_.status_data_[StatType];
 }
 
 void UCharacterStatComponent::ApplyBuff(FBuffData buff)

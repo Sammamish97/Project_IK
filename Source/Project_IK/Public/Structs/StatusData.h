@@ -8,10 +8,8 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #pragma once
-
 #include "CoreMinimal.h"
 #include "StatusData.generated.h"
-
 USTRUCT(BlueprintType)
 struct PROJECT_IK_API FStatusData
 {
@@ -43,7 +41,49 @@ struct PROJECT_IK_API FStatusData
 	float skill_power_ = 0.f;
 	UPROPERTY(EditAnywhere, Category = "SkillData")
 	float skill_cool_down_ = 0.f;
+	
+	const float& operator[] (ECharacterStatType rhs) const
+	{
+		switch (rhs)
+		{
+		case ECharacterStatType::AttackPower:
+			return attack_power_;
+		case ECharacterStatType::AttackSpeed:
+			return attack_speed_;
+		case ECharacterStatType::CriticalHitRate:
+			return critical_hit_rate_;
+		case ECharacterStatType::Accuracy:
+			return accuracy_;
+		case ECharacterStatType::MagazineBonus:
+			return magazine_bonus_;
+		case ECharacterStatType::LifeSteal:
+			return life_steal_;
+			
+		case ECharacterStatType::HitPoints:
+			return hit_point_;
+		case ECharacterStatType::EvasionRate:
+			return evasion_rate_;
+		case ECharacterStatType::Armor:
+			return armor_;
+		case ECharacterStatType::Survivability:
+			return survivability_;
+			
+		case ECharacterStatType::SkillPower:
+			return skill_power_;
+		case ECharacterStatType::SkillCoolDown:
+			return skill_cool_down_;
+			
+		default:
+			checkNoEntry()
+			return survivability_;
+		}
+	}
 
+	float& operator[] (ECharacterStatType rhs)
+	{
+		return const_cast<float&>(const_cast<const FStatusData*>(this)->operator[](rhs));
+	}
+	
 	FStatusData operator+(const FStatusData& rhs)
 	{
 		FStatusData result = *this;
