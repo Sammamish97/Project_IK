@@ -36,10 +36,9 @@ protected:
 	UFUNCTION()
 	void DamageEnemies();
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float damage_ = 0.f;
-	FVector storm_location = FVector();
-	int32 storm_damage_count_ = 0;
-	FTimerHandle damage_handler_;
 
 	UWorld* world_cache_ = nullptr;
 
