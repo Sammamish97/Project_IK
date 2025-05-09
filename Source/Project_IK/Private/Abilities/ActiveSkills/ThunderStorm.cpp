@@ -12,12 +12,14 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/ThunderStorm.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "EngineUtils.h"
 #include "Sound/SoundCue.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraSystem.h"
 #include "Components/DecalComponent.h"
 
 #include "WorldSettings/IKGameModeBase.h"
+#include "WorldSettings/IKPostProcessVolume.h"
 #include "Structs/DamageData.h"
 
 #include "Characters/Unit.h"
@@ -52,6 +54,9 @@ void AThunderStorm::BeginPlay()
 {
 	Super::BeginPlay();
 
+	FindPostProcessVolume();
+	BeginThunderStormPostProcess();
+
 	if (visual_material_)
 	{
 		decal_->SetDecalMaterial(visual_material_);
@@ -63,14 +68,15 @@ void AThunderStorm::BeginPlay()
 		&AThunderStorm::DamageEnemies,
 		0.5f,
 		true,
-		0.5f
+		1.f
 	);
 }
 
 void AThunderStorm::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	Super::EndPlay(EndPlayReason);
+	EndThunderStormPostProcess();
 	zap_sound_cue_array_.Empty();
+	Super::EndPlay(EndPlayReason);
 }
 
 void AThunderStorm::DamageEnemies()
@@ -148,3 +154,34 @@ void AThunderStorm::SpawnVFX(UWorld* world, const FVector& location)
 	}
 }
 
+void AThunderStorm::FindPostProcessVolume()
+{    
+	// Search for any PostProcessVolume in the level
+	for (TActorIterator<AIKPostProcessVolume> it(GetWorld()); it; ++it)
+	{
+		AIKPostProcessVolume* found_volume = *it;
+		if (found_volume && found_volume->IsValidLowLevel())
+		{
+			post_process_volume_ = found_volume;
+			break;
+		}
+	}
+}
+
+void AThunderStorm::BeginThunderStormPostProcess()
+{
+	AIKPostProcessVolume* ppv = post_process_volume_.Get();
+	if (ppv)
+	{
+		ppv->BeginThunderStorm();
+	}
+}
+
+void AThunderStorm::EndThunderStormPostProcess()
+{
+	AIKPostProcessVolume* ppv = post_process_volume_.Get();
+	if (ppv)
+	{
+		ppv->EndThunderStorm();
+	}
+}

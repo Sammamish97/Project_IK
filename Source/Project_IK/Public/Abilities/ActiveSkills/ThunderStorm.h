@@ -19,6 +19,7 @@ class UNiagaraSystem;
 class UNiagaraComponent;
 class USoundCue;
 struct FDamageData;
+class AIKPostProcessVolume;
 
 UCLASS()
 class PROJECT_IK_API AThunderStorm : public AActor
@@ -51,6 +52,10 @@ protected:
 	void SpawnSFX(UWorld* world, const FVector& location);
 	void SpawnVFX(UWorld* world, const FVector& location);
 
+	void FindPostProcessVolume();
+	void BeginThunderStormPostProcess();
+	void EndThunderStormPostProcess();
+
 	UPROPERTY()
 	TObjectPtr<UAudioComponent> zap_sfx_component_ = nullptr;
 	UPROPERTY()
@@ -64,4 +69,6 @@ protected:
 	float scaling_factor_ = 0.f;
 	float zap_damage_ = 0.f;
 	TWeakObjectPtr<AActor> skill_owner_;
+
+	TWeakObjectPtr<AIKPostProcessVolume> post_process_volume_;
 };
