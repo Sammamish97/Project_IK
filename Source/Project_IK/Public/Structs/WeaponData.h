@@ -26,6 +26,9 @@ public:
 	EBulletType bullet_type = EBulletType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
+	EWeaponAnimationType anim_type = EWeaponAnimationType::INVALID;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
 	TObjectPtr<UTexture2D> thumbnail = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")

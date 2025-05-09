@@ -55,8 +55,11 @@ public:
 	void ResumeFire();
 	
 	bool IsMagazineEmpty() const;
-	
+
+	UFUNCTION(BlueprintCallable)
 	FWeaponData GetWeaponData();
+	
+	UFUNCTION(BlueprintCallable)
 	AGun* GetWeaponActor();
 
 	bool IsOnReloading() const;
