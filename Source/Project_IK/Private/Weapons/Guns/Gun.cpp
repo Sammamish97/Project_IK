@@ -23,12 +23,12 @@ AGun::AGun()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	weapon_mesh_ = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GunMesh"));
+	weapon_skeletal_mesh_ = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GunMesh"));
 	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
-	weapon_mesh_->SetCollisionProfileName(TEXT("NoCollision"));
+	weapon_skeletal_mesh_->SetCollisionProfileName(TEXT("NoCollision"));
 	muzzle_socket_name_ = TEXT("muzzle");
 
-	SetRootComponent(weapon_mesh_);
+	SetRootComponent(weapon_skeletal_mesh_);
 }
 
 void AGun::Reload()
@@ -112,7 +112,7 @@ void AGun::FireWeapon(FVector target_pos, FDamageData damage)
 		// Spawn in obstructed areas might break immersion or functionality.
 		// Such as enemies spawning inside walls.
 		OnFireStub();
-		auto muzzle_location = weapon_mesh_->GetSocketTransform(muzzle_socket_name_).GetLocation();
+		auto muzzle_location = weapon_skeletal_mesh_->GetSocketTransform(muzzle_socket_name_).GetLocation();
 		if (weapon_data_.bullet_type == EBulletType::Buckshot)
 		{
 			FireBuckShot(muzzle_location, target_pos, damage);
@@ -135,7 +135,7 @@ void AGun::SetWeaponData(FWeaponData weapon_data)
 	cur_magazine_ = weapon_data_.max_magazine;
 	object_pool_component_->SetObjectClass(weapon_data_.bullet_class_);
 	
-	weapon_mesh_->SetSkeletalMesh(weapon_data_.weapon_mesh);
+	weapon_skeletal_mesh_->SetSkeletalMesh(weapon_data_.weapon_mesh);
 }
 
 FWeaponData AGun::GetWeaponData()

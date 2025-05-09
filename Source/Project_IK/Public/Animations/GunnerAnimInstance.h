@@ -12,9 +12,9 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
 #include "Managers/EnumCluster.h"
-#include "HeroAnimInstance.generated.h"
+#include "GunnerAnimInstance.generated.h"
 UCLASS()
-class PROJECT_IK_API UHeroAnimInstance : public UAnimInstance
+class PROJECT_IK_API UGunnerAnimInstance : public UAnimInstance
 {
 	GENERATED_BODY()
 	
@@ -24,7 +24,7 @@ public:
 
 private:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Variables", meta=(AllowPrivateAccess=true))
-    TWeakObjectPtr<class AHeroBase> hero_ptr_;
+    TWeakObjectPtr<ACharacter> gunner_ptr_;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Variables", meta=(AllowPrivateAccess=true))
     TWeakObjectPtr<class UCharacterMovementComponent> movement_component_ptr_;

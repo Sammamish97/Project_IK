@@ -22,7 +22,7 @@ void AEnemy_RifleMan::BeginPlay()
 {
 	Super::BeginPlay();
 	//IKTODO: 전용 무기 장착.
-	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle_B);
+	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle_A);
 }
 
 void AEnemy_RifleMan::Die()

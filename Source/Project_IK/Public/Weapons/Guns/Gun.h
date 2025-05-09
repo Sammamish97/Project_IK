@@ -52,7 +52,7 @@ private:
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<class USkeletalMeshComponent> weapon_mesh_;
+	TObjectPtr<class USkeletalMeshComponent> weapon_skeletal_mesh_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UNiagaraComponent> niagara_component_;
