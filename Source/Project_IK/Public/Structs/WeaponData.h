@@ -32,7 +32,7 @@ public:
 	TObjectPtr<UTexture2D> thumbnail = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
-	TObjectPtr<UStaticMesh> weapon_mesh = nullptr;
+	TObjectPtr<USkeletalMesh> weapon_mesh = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
 	TSubclassOf<class ABullet> bullet_class_ = nullptr;
@@ -79,10 +79,7 @@ public:
 	//장전 소요 시간
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true"))
 	float reload_duration = 0.f;
-
-	//TODO: 이 방식은 이 총을 사용하는 모든 Unit의 Skeletal Bone구조가 동일한 경우 사용 가능하다.
-	//TODO: 만약 영웅별로 사용하는 Skeletal Bone구조가 다르다면 다른 방식이 필요하다.
-
+	
 	//발사 애니메이션
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UAnimMontage> fire_montage_ = nullptr;

@@ -52,7 +52,7 @@ private:
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<class UStaticMeshComponent> weapon_mesh_;
+	TObjectPtr<class USkeletalMeshComponent> weapon_mesh_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UNiagaraComponent> niagara_component_;
@@ -77,10 +77,7 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, Category = "Gun")
 	TWeakObjectPtr<AActor> gun_owner_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true", AllowedClass = "Animation"))
-	TSubclassOf<UAnimInstance> anim_instance_class_;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	FName muzzle_socket_name_;
 
