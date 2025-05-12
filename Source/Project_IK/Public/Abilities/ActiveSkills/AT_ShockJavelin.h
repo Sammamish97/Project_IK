@@ -22,6 +22,9 @@ public:
 	UAT_ShockJavelin();
 	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector javelin_location_offset_ = FVector(0.f, 0.f, 3000.f);
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Skills", meta=(AllowPrivateAccess=true))
 	TSubclassOf<class AShockJavelin> javelin_class_;

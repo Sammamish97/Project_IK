@@ -25,11 +25,11 @@ AShockJavelin::AShockJavelin()
 	movement_ = CreateDefaultSubobject<UProjectileMovementComponent>(FName("ProjectileMovement"));
 	javelin_mesh_ = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"));
 	javelin_mesh_->SetupAttachment(collision_);
-	
+
 	collision_->OnComponentBeginOverlap.AddDynamic(this, &AShockJavelin::OnOverlapBegin);
 	collision_->SetCollisionProfileName(FName("HeroBulletPreset"));
 
-	movement_->InitialSpeed = 1000.f;
+	movement_->InitialSpeed = 5000.f;
 	movement_->ProjectileGravityScale = 0.f;
 
 	dmg_data_.atk_base_dmg = 100.f;
@@ -41,20 +41,65 @@ AShockJavelin::AShockJavelin()
 void AShockJavelin::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	IDamageable* casted_damage_logic = Cast<IDamageable>(OtherActor);
-	dmg_data_.attack_target = OtherActor;
-	if (OtherActor->IsA(ACover::StaticClass()))
+
+	// Overlapped on Cover or Characters.
+	if (casted_damage_logic)
 	{
-		dmg_data_.atk_base_dmg *= cover_dmg_scale_;
+		dmg_data_.attack_target = OtherActor;
+		if (OtherActor->IsA(ACover::StaticClass()))
+		{
+			dmg_data_.atk_base_dmg *= cover_dmg_scale_;
+		}
+		else
+		{
+			Cast<AUnit>(OtherActor)->GetStunned(stun_duration_);
+		}
+		if (casted_damage_logic) casted_damage_logic->GetDamage(dmg_data_);
 	}
+
+	// Overlapped on floor as far as I expected.
 	else
 	{
-		Cast<AUnit>(OtherActor)->GetStunned(stun_duration_);
+		BeginCooling();
 	}
-	if(casted_damage_logic) casted_damage_logic->GetDamage(dmg_data_);
-	Destroy();
 }
 
 void AShockJavelin::SetDamageData(FDamageData dmg_data)
 {
 	dmg_data_ = dmg_data;
+}
+
+void AShockJavelin::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (javelin_mesh_)
+	{
+		dynamic_material_instance_ = javelin_mesh_->CreateAndSetMaterialInstanceDynamic(0);
+		dynamic_material_instance_->GetVectorParameterValue(FName("EmissiveColor"), init_emissive_);
+	}
+}
+
+void AShockJavelin::BeginCooling()
+{
+	movement_->StopMovementImmediately();
+	movement_->Velocity = FVector::ZeroVector;
+
+	GetWorld()->GetTimerManager().SetTimer(cooling_timer_, this, &AShockJavelin::Cooling, cooling_step_, true);
+}
+
+void AShockJavelin::Cooling()
+{
+	cooling_alpha_ += cooling_step_;
+	if (cooling_alpha_ >= 1.f)
+	{
+		GetWorld()->GetTimerManager().ClearTimer(cooling_timer_);
+	}
+
+	UMaterialInstanceDynamic* instance = dynamic_material_instance_.Get();
+	if (instance)
+	{
+		FLinearColor lerp_color = FMath::Lerp(init_emissive_, FLinearColor::Transparent, cooling_alpha_);
+		instance->SetVectorParameterValue(FName("EmissiveColor"), lerp_color);
+	}
 }

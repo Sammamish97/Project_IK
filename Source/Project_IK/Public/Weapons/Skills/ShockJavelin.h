@@ -28,7 +28,13 @@ public:
 
 	void SetDamageData(FDamageData dmg_data);
 	
-private:
+protected:
+	virtual void BeginPlay();
+	void BeginCooling();
+
+	UFUNCTION()
+	void Cooling();
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ShockJavelin", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UBoxComponent> collision_;
 	
@@ -41,6 +47,13 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ShockJavelin", meta = (AllowPrivateAccess = "true"))
 	FDamageData dmg_data_;
 
+	TWeakObjectPtr<UMaterialInstanceDynamic> dynamic_material_instance_;
+
 	float cover_dmg_scale_ = 3.f;
 	float stun_duration_ = 2.f;
+
+	FTimerHandle cooling_timer_;
+	float cooling_alpha_ = 0.f;
+	static constexpr float cooling_step_ = 0.01f;
+	FLinearColor init_emissive_ = FLinearColor::Transparent;
 };
