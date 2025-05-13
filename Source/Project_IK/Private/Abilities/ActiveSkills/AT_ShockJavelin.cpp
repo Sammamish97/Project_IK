@@ -24,6 +24,10 @@ UAT_ShockJavelin::UAT_ShockJavelin()
 bool UAT_ShockJavelin::ActivateSkill_Implementation(const FTargetResult& TargetResult)
 {
 	FVector javelin_location = skill_owner_->GetActorLocation() + javelin_location_offset_;
+	if (TargetResult.target_actors_[0] == nullptr)
+	{
+		return false;
+	}
 	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(javelin_location, TargetResult.target_actors_[0]->GetActorLocation());
 	FTransform spawn_transform(rotation, javelin_location);
 	

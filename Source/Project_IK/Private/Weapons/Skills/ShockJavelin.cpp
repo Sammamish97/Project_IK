@@ -15,6 +15,10 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Interfaces/Damageable.h"
 
+#include "NiagaraSystem.h"
+#include "NiagaraComponent.h"
+#include "NiagaraFunctionLibrary.h"
+
 // Sets default values
 AShockJavelin::AShockJavelin()
 {
@@ -36,6 +40,17 @@ AShockJavelin::AShockJavelin()
 	dmg_data_.damage_type = EDamageType::Explosive;
 	
 	SetRootComponent(collision_);
+}
+
+void AShockJavelin::OnConstruction(const FTransform& Transform)
+{
+	if (niagara_system_)
+	{
+		particle_system_0_ = UNiagaraFunctionLibrary::SpawnSystemAttached(niagara_system_, javelin_mesh_, "Mesh", FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::KeepRelativeOffset, true);
+		particle_system_0_->AttachToComponent(javelin_mesh_, FAttachmentTransformRules::KeepRelativeTransform);
+		particle_system_1_ = UNiagaraFunctionLibrary::SpawnSystemAttached(niagara_system_, javelin_mesh_, "Mesh", FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::KeepRelativeOffset, true);
+		particle_system_1_->AttachToComponent(javelin_mesh_, FAttachmentTransformRules::KeepRelativeTransform);
+	}
 }
 
 void AShockJavelin::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -77,6 +92,37 @@ void AShockJavelin::BeginPlay()
 	{
 		dynamic_material_instance_ = javelin_mesh_->CreateAndSetMaterialInstanceDynamic(0);
 		dynamic_material_instance_->GetVectorParameterValue(FName("EmissiveColor"), init_emissive_);
+
+		if (niagara_system_)
+		{
+			if (particle_system_0_ == nullptr)
+			{
+				particle_system_0_ = UNiagaraFunctionLibrary::SpawnSystemAttached(niagara_system_, javelin_mesh_, "Mesh", FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::KeepRelativeOffset, true);
+				particle_system_0_->AttachToComponent(javelin_mesh_, FAttachmentTransformRules::KeepRelativeTransform);
+			}
+			if (particle_system_1_ == nullptr)
+			{
+				particle_system_1_ = UNiagaraFunctionLibrary::SpawnSystemAttached(niagara_system_, javelin_mesh_, "Mesh", FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::KeepRelativeOffset, true);
+				particle_system_1_->AttachToComponent(javelin_mesh_, FAttachmentTransformRules::KeepRelativeTransform);
+			}
+		}
+		if (particle_system_0_)
+		{
+			particle_system_0_->SetAsset(niagara_system_);
+			particle_system_0_->SetNiagaraVariableLinearColor(TEXT("Emissive Color"), init_emissive_);
+			particle_system_0_->SetNiagaraVariableFloat(TEXT("Is Backward"), 1.f);
+			particle_system_0_->SetNiagaraVariableInt(TEXT("unique seed"), 10);
+			particle_system_0_->Activate();
+		}
+
+		if (particle_system_1_)
+		{
+			particle_system_1_->SetAsset(niagara_system_);
+			particle_system_1_->SetNiagaraVariableLinearColor(TEXT("Emissive Color"), init_emissive_);
+			particle_system_1_->SetNiagaraVariableFloat(TEXT("Is Backward"), -1.f);
+			particle_system_1_->SetNiagaraVariableInt(TEXT("unique seed"), 17);
+			particle_system_1_->Activate();
+		}
 	}
 }
 
@@ -94,6 +140,8 @@ void AShockJavelin::Cooling()
 	if (cooling_alpha_ >= 1.f)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(cooling_timer_);
+		particle_system_0_->Deactivate();
+		particle_system_1_->Deactivate();
 	}
 
 	UMaterialInstanceDynamic* instance = dynamic_material_instance_.Get();
@@ -101,5 +149,7 @@ void AShockJavelin::Cooling()
 	{
 		FLinearColor lerp_color = FMath::Lerp(init_emissive_, FLinearColor::Transparent, cooling_alpha_);
 		instance->SetVectorParameterValue(FName("EmissiveColor"), lerp_color);
+		particle_system_0_->SetNiagaraVariableLinearColor(TEXT("Emissive Color"), lerp_color);
+		particle_system_1_->SetNiagaraVariableLinearColor(TEXT("Emissive Color"), lerp_color);
 	}
 }
