@@ -13,8 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 #include "Components/ObjectPoolComponent.h"
 #include "Components/BulletOnHitEffectComponent.h"
-#include "Components/AudioComponent.h"
-#include "NiagaraComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Structs/DamageData.h"
 #include "Weapons/Guns/Bullet.h"
@@ -24,12 +23,12 @@ AGun::AGun()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	weapon_mesh_ = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GunMesh"));
+	weapon_skeletal_mesh_ = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GunMesh"));
 	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
-	weapon_mesh_->SetCollisionProfileName(TEXT("NoCollision"));
-	muzzle_socket_name_ = TEXT("Muzzle");
+	weapon_skeletal_mesh_->SetCollisionProfileName(TEXT("NoCollision"));
+	muzzle_socket_name_ = TEXT("muzzle");
 
-	SetRootComponent(weapon_mesh_);
+	SetRootComponent(weapon_skeletal_mesh_);
 }
 
 void AGun::Reload()
@@ -113,7 +112,7 @@ void AGun::FireWeapon(FVector target_pos, FDamageData damage)
 		// Spawn in obstructed areas might break immersion or functionality.
 		// Such as enemies spawning inside walls.
 		OnFireStub();
-		auto muzzle_location = weapon_mesh_->GetSocketTransform(muzzle_socket_name_).GetLocation();
+		auto muzzle_location = weapon_skeletal_mesh_->GetSocketTransform(muzzle_socket_name_).GetLocation();
 		if (weapon_data_.bullet_type == EBulletType::Buckshot)
 		{
 			FireBuckShot(muzzle_location, target_pos, damage);
@@ -135,7 +134,8 @@ void AGun::SetWeaponData(FWeaponData weapon_data)
 	weapon_data_ = weapon_data;
 	cur_magazine_ = weapon_data_.max_magazine;
 	object_pool_component_->SetObjectClass(weapon_data_.bullet_class_);
-	weapon_mesh_->SetStaticMesh(weapon_data_.weapon_mesh);
+	
+	weapon_skeletal_mesh_->SetSkeletalMesh(weapon_data_.weapon_mesh);
 }
 
 FWeaponData AGun::GetWeaponData()
@@ -152,9 +152,6 @@ void AGun::SetGunOwner(TWeakObjectPtr<AActor> gun_owner)
 	{
 		Cast<ABullet>(elem)->SetCollisionPreset(is_hero);
 	}
-	//TODO: 무기별로 애니메이션을 세팅하는 부분 역시 refactoring이 필요하다.
-	//TODO: 그리고 이 코드는 의도대로 작동하지 않는다.
-	Cast<ACharacter>(gun_owner_)->GetMesh()->AnimClass = anim_instance_class_;
 }
 
 void AGun::OnFireStub()
