@@ -35,9 +35,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UNiagaraSystem* niagara_system_;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ShockJavelin")
+	TSubclassOf<AStaticMeshActor> scorched_mark_class_;
+
 protected:
 	virtual void BeginPlay();
 	void BeginCooling();
+
+	void SpawnLightningParticles();
+	void SpawnHitMark();
+	FVector CalculateCollisionLocationOnFloor();
 
 	UFUNCTION()
 	void Cooling();
@@ -60,7 +67,8 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ShockJavelin", meta = (AllowPrivateAccess = "true"))
 	FDamageData dmg_data_;
 
-	TWeakObjectPtr<UMaterialInstanceDynamic> dynamic_material_instance_;
+	TWeakObjectPtr<UMaterialInstanceDynamic> javelin_dynamic_material_instance_;
+	TWeakObjectPtr<UMaterialInstanceDynamic> ground_dynamic_material_instance_;
 
 	float cover_dmg_scale_ = 3.f;
 	float stun_duration_ = 2.f;
