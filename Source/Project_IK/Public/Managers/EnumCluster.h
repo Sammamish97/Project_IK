@@ -349,3 +349,13 @@ enum class EWeaponAnimationType : uint8
 	Pistol UMETA(DisplayName = "Pistol"),
 	Rifle UMETA(DisplayName = "Rifle"),
 };
+
+UENUM(BlueprintType)
+enum class EAIFindTargetType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Nearest UMETA(DisplayName = "Nearest"),
+	Farthest UMETA(DisplayName = "Farthest"),
+	Random UMETA(DisplayName = "Random"),
+	Weakest UMETA(DisplayName = "Weakest")
+};

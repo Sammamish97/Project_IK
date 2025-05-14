@@ -8,7 +8,7 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "AI/Service_FindNearestEnemy.h"
+#include "AI/Service_FindEnemy.h"
 
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -20,23 +20,22 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "Kismet/KismetSystemLibrary.h"
 
-UService_FindNearestEnemy::UService_FindNearestEnemy()
+UService_FindEnemy::UService_FindEnemy()
 {
 	NodeName = "FindNearestEnemy";
 	Interval = 0.001f;
 	RandomDeviation = 0.f;
 
-	target_class_key_.AddClassFilter(this, GET_MEMBER_NAME_CHECKED(UService_FindNearestEnemy, target_class_key_), UObject::StaticClass());
-	attack_target_key_.AddObjectFilter(this, GET_MEMBER_NAME_CHECKED(UService_FindNearestEnemy, attack_target_key_), UObject::StaticClass());
+	target_class_key_.AddClassFilter(this, GET_MEMBER_NAME_CHECKED(UService_FindEnemy, target_class_key_), UObject::StaticClass());
+	attack_target_key_.AddObjectFilter(this, GET_MEMBER_NAME_CHECKED(UService_FindEnemy, attack_target_key_), UObject::StaticClass());
 }
 
-void UService_FindNearestEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
+void UService_FindEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
 	UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
 	AUnit* casted_gunner = Cast<AUnit>(OwnerComp.GetAIOwner()->GetPawn());
 
-	float min_distance = TNumericLimits<float>::Max();
 	if (blackboard) 
 	{
 		if (UClass* target_class = blackboard->GetValueAsClass(target_class_key_.SelectedKeyName)) {
@@ -58,22 +57,44 @@ void UService_FindNearestEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 				casted_gunner->GetCharacterStat()->GetSightRange(),
 				traceObjectTypes, target_class, ignore_actors, out_actors);
 			
-			AActor* nearest_actor = nullptr;
+			TArray<TPair<float, AActor*>> distance_object_pairs;
 			for(const auto& elem : out_actors)
 			{
 				FVector owner_pos = casted_gunner->GetActorLocation();
 				FVector target_pos = elem->GetActorLocation();
 				float cur_distance = FVector::DistSquared2D(owner_pos, target_pos);
-				if(cur_distance < min_distance)
-				{
-					nearest_actor = elem;
-					min_distance = cur_distance;
-				}
+				distance_object_pairs.Push({cur_distance, elem});
+			}
+
+			switch (static_cast<EAIFindTargetType>(blackboard->GetValueAsEnum(target_type_key_.SelectedKeyName)))
+			{
+			case EAIFindTargetType::Nearest:
+				distance_object_pairs.Sort();
+				break;
+
+			case EAIFindTargetType::Farthest:
+				distance_object_pairs.Sort(TGreater<>());
+				break;
+
+			//IKTODO: 이 함수는 매 프레임 반드시 불린다.
+			//그러므로, Random한 적을 찾는 로직을 다음과 같이 짜면 매 프레임 attack target이 바뀐다.
+			//만약 Random한 적을 찾는 로직이 필요하다면, Attack Target이 없을 때 만 Random한 적을 찾는 로직을 추가해야한다.
+			case EAIFindTargetType::Random:
+				//distance_object_pairs[FMath::RandRange(0, FMath::Max(0, distance_object_pairs.Num()-1))];
+				break;
+				
+			case EAIFindTargetType::Weakest:
+				//IKTODO: 이후 추가.
+				break;
+
+			case EAIFindTargetType::INVALID:
+			default:
+				break;
 			}
 			
-			if(nearest_actor)
+			if (distance_object_pairs.IsEmpty() == false)
 			{
-				blackboard->SetValueAsObject(attack_target_key_.SelectedKeyName, nearest_actor);
+				blackboard->SetValueAsObject(attack_target_key_.SelectedKeyName, distance_object_pairs[0].Value);
 			}
 			else
 			{

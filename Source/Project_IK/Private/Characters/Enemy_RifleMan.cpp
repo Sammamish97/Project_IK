@@ -7,10 +7,7 @@ Summary : Source file for rifle man enemy.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
 #include "Characters/Enemy_RifleMan.h"
-
-#include "Components/CharacterStatComponent.h"
 #include "Components/WeaponMechanics.h"
 
 AEnemy_RifleMan::AEnemy_RifleMan()
@@ -21,8 +18,7 @@ AEnemy_RifleMan::AEnemy_RifleMan()
 void AEnemy_RifleMan::BeginPlay()
 {
 	Super::BeginPlay();
-	//IKTODO: 전용 무기 장착.
-	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle_A);
+	weapon_mechanics_->EquipWeapon(weapon_type_);
 }
 
 void AEnemy_RifleMan::Die()

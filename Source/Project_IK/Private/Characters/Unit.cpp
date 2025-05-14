@@ -36,10 +36,8 @@ AUnit::AUnit()
 	hp_UI_->SetWidgetSpace(EWidgetSpace::Screen);
 	hp_UI_->SetDrawSize({ 100, 50 });
 	hp_UI_->SetupAttachment(RootComponent);
-
-
+	
 	cc_component_ = CreateDefaultSubobject<UCrowdControlComponent>(TEXT("CC Component"));
-
 	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
 }
 
@@ -109,6 +107,8 @@ void AUnit::BeginPlay()
 		capsule_half_height_ = capsule_comp->GetUnscaledCapsuleHalfHeight() / 2.f;
 		capsule_radius_ = capsule_comp->GetUnscaledCapsuleRadius();
 	}
+
+	Cast<AMeleeAIController>(GetController())->SetAIFindTargetType(ai_find_target_type_);
 }
 
 void AUnit::SetDamageUI(FDamageData data, bool is_evaded)

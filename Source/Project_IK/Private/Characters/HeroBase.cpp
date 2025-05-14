@@ -50,6 +50,7 @@ void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//TEST PURPOSE. 
 	rune_mechanics_->EquipRune(ERuneSetType::Poet, 0);
 	rune_mechanics_->EquipRune(ERuneSetType::Poet, 1);
 	rune_mechanics_->EquipRune(ERuneSetType::Poet, 2);
@@ -58,6 +59,8 @@ void AHeroBase::BeginPlay()
 	rune_mechanics_->EquipRune(ERuneSetType::Poet, 5);
 
 	skill_container_->EquipActiveSkill(EActiveSkillType::Thunder);
+	weapon_mechanics_->EquipWeapon(DEBUG_INITIAL_WEAPON_TYPE);
+	//
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
