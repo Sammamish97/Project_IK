@@ -359,3 +359,20 @@ enum class EAIFindTargetType : uint8
 	Random UMETA(DisplayName = "Random"),
 	Weakest UMETA(DisplayName = "Weakest")
 };
+
+UENUM(BlueprintType)
+enum class EUnitBoneType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	HeroHumanoid UMETA(DisplayName = "HeroHumanoid"),
+	EnemySoldier UMETA(DisplayName = "EnemySoldier"),
+	EnemyKnight UMETA(DisplayName = "EnemyKnight"),
+};
+
+UENUM(BlueprintType)
+enum class EWeaponAction : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Fire UMETA(DisplayName = "Fire"),
+	Reload UMETA(DisplayName = "Reload"),
+};

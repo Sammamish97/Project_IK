@@ -90,6 +90,8 @@ public:
 	UTexture2D* GetStatTexture(ECharacterStatType stat_type);
 	UTexture2D* GetCCTexture(ECCType cc_type);
 
+	TSoftObjectPtr<UAnimMontage> GetUnitWeaponAnimMontage(EUnitBoneType bone, EWeaponAnimationType weapon, EWeaponAction action);
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UWeaponDataAsset> weapon_data_asset_;
@@ -120,4 +122,7 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UCrowdControlInfoDataAsset> cc_info_data_asset_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UWeaponAnimDataAsset> unit_weapon_anim_asset_;
 };

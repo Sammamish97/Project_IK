@@ -21,6 +21,7 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/StatInfoDataAsset.h"
 #include "DataAssets/CrowdControlInfoDataAsset.h"
 #include "DataAssets/CharacterStatDataAsset.h"
+#include "DataAssets/WeaponAnimDataAsset.h"
 #include "Structs/CharacterData.h"
 
 #include "Structs/WrapperEquipmentData.h"
@@ -432,4 +433,10 @@ UTexture2D* UDataTableManager::GetStatTexture(ECharacterStatType stat_type)
 UTexture2D* UDataTableManager::GetCCTexture(ECCType cc_type)
 {
 	return cc_info_data_asset_->GetCCTexture(cc_type);
+}
+
+TSoftObjectPtr<UAnimMontage> UDataTableManager::GetUnitWeaponAnimMontage(EUnitBoneType bone, EWeaponAnimationType weapon,
+	EWeaponAction action)
+{
+	return unit_weapon_anim_asset_->GetUnitWeaponAnimData(bone, weapon, action);
 }

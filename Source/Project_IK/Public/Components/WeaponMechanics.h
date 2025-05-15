@@ -102,6 +102,12 @@ private:
 	UPROPERTY(Transient)
 	int32 burst_count_ = 0;
 
+	UPROPERTY()
+	TObjectPtr<UAnimMontage> fire_montage_ = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UAnimMontage> reload_montage_ = nullptr;
+
 	FAIRequestID reload_request_id_ = 0;
 
 public:
