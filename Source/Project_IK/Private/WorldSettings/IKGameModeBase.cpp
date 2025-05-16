@@ -68,7 +68,6 @@ void AIKGameModeBase::SpawnHeroes()
 		AHeroBase* hero = GetWorld()->SpawnActor<AHeroBase>(save_data_array[i].character_data_.unit_class_, hero_spawn_position_ + FVector(0, (300.f * (save_data_array.Num() - 1) / -2.f) + (i * 300), 90), spawn_rotation);
 		hero->SpawnDefaultController();
 		hero->GetComponentByClass<UCharacterStatComponent>()->SetCharacterData(save_data_array[0].character_data_);
-		hero->GetComponentByClass<UCharacterStatComponent>()->SetCharacterID(IntToHeroType(i));
 		hero->Initialize(save_data_array[i]);
 		heroes_.Add(hero);
 	}

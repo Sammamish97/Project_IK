@@ -76,11 +76,11 @@ public:
 	FItemData GetItemDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	TArray<FItemData> GetUniqueItemDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
-	const FCharacterData& GetCharacterData(EHeroType hero_type) const;
-	FString HeroEnumToString(EHeroType hero_type) const;
+	const FCharacterData& GetCharacterData(ECharacterType char_type) const;
+	FString HeroEnumToString(ECharacterType char_type) const;
 
-	void EnhanceCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float increase_amount);
-	void DiminishCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float decrease_amount);
+	void EnhanceCharacterData(ECharacterType char_type, ECharacterStatType stat_type, float increase_amount);
+	void DiminishCharacterData(ECharacterType char_type, ECharacterStatType stat_type, float decrease_amount);
 
 	FGlobalBuffData GetGlobalBuffData(EGlobalBuffType buff_type) const;
 

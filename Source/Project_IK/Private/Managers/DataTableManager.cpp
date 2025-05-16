@@ -321,26 +321,26 @@ TArray<FItemData> UDataTableManager::GetUniqueItemDataRandomly(int32 n, ERarity 
 	return item_data_asset_->GetUniqueItemDataRandomly(n, rarity);
 }
 
-const FCharacterData& UDataTableManager::GetCharacterData(EHeroType hero_type) const
+const FCharacterData& UDataTableManager::GetCharacterData(ECharacterType char_type) const
 {
-	return character_stat_data_asset_->GetCharacterData(hero_type);
+	return character_stat_data_asset_->GetCharacterData(char_type);
 }
 
-FString UDataTableManager::HeroEnumToString(EHeroType char_type) const
+FString UDataTableManager::HeroEnumToString(ECharacterType char_type) const
 {
 	FString char_string;
 	switch (char_type)
 	{
-	case EHeroType::Hero1:
+	case ECharacterType::Hero1:
 		char_string = TEXT("1");
 		break;
-	case EHeroType::Hero2:
+	case ECharacterType::Hero2:
 		char_string = TEXT("2");
 		break;
-	case EHeroType::Hero3:
+	case ECharacterType::Hero3:
 		char_string = TEXT("3");
 		break;
-	case EHeroType::Hero4:
+	case ECharacterType::Hero4:
 		char_string = TEXT("4");
 		break;
 	default:
@@ -350,14 +350,14 @@ FString UDataTableManager::HeroEnumToString(EHeroType char_type) const
 	return char_string;
 }
 
-void UDataTableManager::EnhanceCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float increase_amount)
+void UDataTableManager::EnhanceCharacterData(ECharacterType char_type, ECharacterStatType stat_type, float increase_amount)
 {
-	character_stat_data_asset_->EnhanceCharacterData(hero_type, stat_type, increase_amount);
+	character_stat_data_asset_->EnhanceCharacterData(char_type, stat_type, increase_amount);
 }
 
-void UDataTableManager::DiminishCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float decrease_amount)
+void UDataTableManager::DiminishCharacterData(ECharacterType char_type, ECharacterStatType stat_type, float decrease_amount)
 {
-	character_stat_data_asset_->DiminishCharacterData(hero_type, stat_type, decrease_amount);
+	character_stat_data_asset_->DiminishCharacterData(char_type, stat_type, decrease_amount);
 }
 
 FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type) const

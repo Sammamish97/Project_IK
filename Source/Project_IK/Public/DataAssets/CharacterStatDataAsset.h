@@ -23,12 +23,12 @@ class PROJECT_IK_API UCharacterStatDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 public:
-	const FCharacterData& GetCharacterData(EHeroType hero_type);
+	const FCharacterData& GetCharacterData(ECharacterType unit_type);
 
-	void EnhanceCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float increase_amount);
-	void DiminishCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float decrease_amount);
+	void EnhanceCharacterData(ECharacterType unit_type, ECharacterStatType stat_type, float increase_amount);
+	void DiminishCharacterData(ECharacterType unit_type, ECharacterStatType stat_type, float decrease_amount);
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<EHeroType, FCharacterData> character_data_map_;
+	TMap<ECharacterType, FCharacterData> character_data_map_;
 };

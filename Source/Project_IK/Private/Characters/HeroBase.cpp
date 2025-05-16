@@ -106,7 +106,7 @@ void AHeroBase::Initialize(FSpawnData spawn_data)
 void AHeroBase::Die()
 {
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
-	if (casted_mode) casted_mode->RemoveHero(GetCharacterStat()->GetCharacterID());
+	if (casted_mode) casted_mode->RemoveHero(hero_type_);
 	Super::Die();
 }
 

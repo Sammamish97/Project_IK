@@ -24,7 +24,7 @@ See LICENSE file in the project root for full license information.
 
 // Sets default values
 UCharacterStatComponent::UCharacterStatComponent()
-	: character_id_(EHeroType::Hero1), max_hit_points_(0.f)
+	: character_id_(ECharacterType::Hero1), max_hit_points_(0.f)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 
@@ -127,7 +127,7 @@ bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 	return is_evaded;
 }
 
-EHeroType UCharacterStatComponent::GetCharacterID() const
+ECharacterType UCharacterStatComponent::GetCharacterID() const
 {
 	return character_id_;
 }
@@ -406,7 +406,7 @@ FCharacterData UCharacterStatComponent::GetCharacterData() const noexcept
 	return character_data_;
 }
 
-void UCharacterStatComponent::SetCharacterID(EHeroType char_id) noexcept
+void UCharacterStatComponent::SetCharacterID(ECharacterType char_id) noexcept
 {
 	character_id_ = char_id;
 }

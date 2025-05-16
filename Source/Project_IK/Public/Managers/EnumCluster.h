@@ -89,6 +89,18 @@ enum class EDialogueEventType : uint8
 };
 
 UENUM(BlueprintType)
+enum class ECharacterType  : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Hero1 UMETA(DisplayName = "Hero1"),
+	Hero2 UMETA(DisplayName = "Hero2"),
+	Hero3 UMETA(DisplayName = "Hero3"),
+	Hero4 UMETA(DisplayName = "Hero4"),
+	EnemySoldier UMETA(DisplayName = "EnemySoldier"),
+	EnemyKnight UMETA(DisplayName = "EnemyKnight"),
+};
+
+UENUM(BlueprintType)
 enum class EHeroType  : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),

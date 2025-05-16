@@ -75,7 +75,7 @@ void AUnit::Attack(AActor* target)
 	}
 }
 
-EHeroType AUnit::GetCharacterID() const
+ECharacterType AUnit::GetCharacterID() const
 {
 	return character_stat_component_->GetCharacterID();
 }

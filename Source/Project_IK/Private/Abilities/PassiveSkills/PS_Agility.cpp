@@ -27,13 +27,13 @@ void UPS_Agility::BuffAttackSpeed(EHeroType hero_idx)
 {
 	FBuffData attack_speed(TEXT("AgilityBuff"), ECharacterStatType::AttackSpeed, buff_amount_, is_buff_percentage_, buff_duration_);
 
-	AActor* hero = hero_cache_.Get();
-	if (hero)
+	AActor* hero_actor = hero_cache_.Get();
+	if (hero_actor)
 	{
-		AUnit* unit = Cast<AUnit>(hero);
-		if (unit->GetCharacterID() == hero_idx)
+		AHeroBase* hero = Cast<AHeroBase>(hero_actor);
+		if (hero->GetHeroType() == hero_idx)
 		{
-			unit->ApplyBuff(attack_speed);
+			hero->ApplyBuff(attack_speed);
 		}
 	}
 }

@@ -50,7 +50,7 @@ public:
 	virtual void Attack(AActor* target) override;
 
 	UFUNCTION(BlueprintCallable)
-	EHeroType GetCharacterID() const;
+	ECharacterType GetCharacterID() const;
 	UCharacterStatComponent* GetCharacterStat();
 	
 	UFUNCTION(BlueprintCallable)

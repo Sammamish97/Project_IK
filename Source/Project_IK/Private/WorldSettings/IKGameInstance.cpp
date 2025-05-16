@@ -51,8 +51,7 @@ void UIKGameInstance::Shutdown()
 	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
 	const TArray<FPerkNode>& tree = GetSubsystem<UPerkTreeSubsystem>()->GetTree();
 
-	TArray<EHeroType> types{ EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4 };
-	for (EHeroType type : types)
+	for (ECharacterType type : { ECharacterType::Hero1, ECharacterType::Hero2, ECharacterType::Hero3, ECharacterType::Hero4 })
 	{
 		const TSet<int32>& progress = progress_system->GetProgress(type);
 		for (int32 p : progress)
@@ -68,7 +67,7 @@ void UIKGameInstance::Shutdown()
 void UIKGameInstance::InitSpawnData()
 {
 	TArray<FSpawnData> result;
-	for(const auto& type : { EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4 })
+	for(const auto& type : { ECharacterType::Hero1, ECharacterType::Hero2, ECharacterType::Hero3, ECharacterType::Hero4 })
 	{
 		FSpawnData spawn_data;
 		spawn_data.character_data_ = data_table_manager_->GetCharacterData(type);
@@ -123,7 +122,7 @@ void UIKGameInstance::InitializeCharacterDataManager()
 	// Enhance data by recorded progress.
 	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
 	const TArray<FPerkNode>& tree = GetSubsystem<UPerkTreeSubsystem>()->GetTree();
-	for (EHeroType type : { EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4 })
+	for (ECharacterType type : { ECharacterType::Hero1, ECharacterType::Hero2, ECharacterType::Hero3, ECharacterType::Hero4 })
 	{
 		const TSet<int32>& progress = progress_system->GetProgress(type);
 		for (int32 p : progress)

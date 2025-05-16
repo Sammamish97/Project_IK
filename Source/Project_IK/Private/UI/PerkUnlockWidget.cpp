@@ -44,7 +44,7 @@ void UPerkUnlockWidget::NativeConstruct()
 	ConstructPerkTree();
 
 	link_animation_percent_ = 0.f;
-	current_hero_type_ = EHeroType::Hero1;
+	current_hero_type_ = ECharacterType::Hero1;
 	left_button_->OnClicked.AddDynamic(this, &UPerkUnlockWidget::OnLeftButtonClicked);
 	right_button_->OnClicked.AddDynamic(this, &UPerkUnlockWidget::OnRightButtonClicked);
 
@@ -377,21 +377,21 @@ void UPerkUnlockWidget::OnLeftButtonClicked()
 {
 	switch (current_hero_type_)
 	{
-	case EHeroType::Hero1:
-		current_hero_type_ = EHeroType::Hero4;
+	case ECharacterType::Hero1:
+		current_hero_type_ = ECharacterType::Hero4;
 		break;
-	case EHeroType::Hero2:
-		current_hero_type_ = EHeroType::Hero1;
+	case ECharacterType::Hero2:
+		current_hero_type_ = ECharacterType::Hero1;
 		break;
-	case EHeroType::Hero3:
-		current_hero_type_ = EHeroType::Hero2;
+	case ECharacterType::Hero3:
+		current_hero_type_ = ECharacterType::Hero2;
 		break;
-	case EHeroType::Hero4:
-		current_hero_type_ = EHeroType::Hero3;
+	case ECharacterType::Hero4:
+		current_hero_type_ = ECharacterType::Hero3;
 		break;
-	case EHeroType::INVALID:
+	case ECharacterType::INVALID:
 	default:
-		current_hero_type_ = EHeroType::Hero1;
+		current_hero_type_ = ECharacterType::Hero1;
 		break;
 	}
 
@@ -402,19 +402,19 @@ void UPerkUnlockWidget::OnRightButtonClicked()
 {
 	switch (current_hero_type_)
 	{
-	case EHeroType::Hero1:
-		current_hero_type_ = EHeroType::Hero2;
+	case ECharacterType::Hero1:
+		current_hero_type_ = ECharacterType::Hero2;
 		break;
-	case EHeroType::Hero2:
-		current_hero_type_ = EHeroType::Hero3;
+	case ECharacterType::Hero2:
+		current_hero_type_ = ECharacterType::Hero3;
 		break;
-	case EHeroType::Hero3:
-		current_hero_type_ = EHeroType::Hero4;
+	case ECharacterType::Hero3:
+		current_hero_type_ = ECharacterType::Hero4;
 		break;
-	case EHeroType::Hero4:
-	case EHeroType::INVALID:
+	case ECharacterType::Hero4:
+	case ECharacterType::INVALID:
 	default:
-		current_hero_type_ = EHeroType::Hero1;
+		current_hero_type_ = ECharacterType::Hero1;
 		break;
 	}
 
@@ -432,16 +432,16 @@ void UPerkUnlockWidget::UpdateHeroData()
 	FString text_name;
 	switch (current_hero_type_)
 	{
-	case EHeroType::Hero1:
+	case ECharacterType::Hero1:
 		portrait_image_->SetBrushFromTexture(hero_portrait_image_1_);
 		break;
-	case EHeroType::Hero2:
+	case ECharacterType::Hero2:
 		portrait_image_->SetBrushFromTexture(hero_portrait_image_2_);
 		break;
-	case EHeroType::Hero3:
+	case ECharacterType::Hero3:
 		portrait_image_->SetBrushFromTexture(hero_portrait_image_3_);
 		break;
-	case EHeroType::Hero4:
+	case ECharacterType::Hero4:
 		portrait_image_->SetBrushFromTexture(hero_portrait_image_4_);
 		break;
 	default:
