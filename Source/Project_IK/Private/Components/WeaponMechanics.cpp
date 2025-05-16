@@ -46,21 +46,25 @@ void UWeaponMechanics::EquipWeapon(EWeaponType type)
 	auto data_table_manager = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 	weapon_actor_ = GetWorld()->SpawnActor<AGun>(weapon_class_);
 	weapon_actor_->SetWeaponData(data_table_manager->GetWeaponData(type));
+	
+	EWeaponAnimationType weapon_anim_type = GetWeaponData().anim_type;
+	auto bone_type = owner_ref_->GetCharacterStat()->GetCharacterData().bone_type_;
+	
+	TSoftObjectPtr<UAnimMontage> soft_fire_anim = data_table_manager->GetUnitWeaponAnimMontage(bone_type, weapon_anim_type, EWeaponAction::Fire);
+	TSoftObjectPtr<UAnimMontage> soft_reload_anim = data_table_manager->GetUnitWeaponAnimMontage(bone_type, weapon_anim_type, EWeaponAction::Reload);
+	
+	fire_montage_ = soft_fire_anim.LoadSynchronous();
+	reload_montage_ = soft_reload_anim.LoadSynchronous();
+	
 	FName socket_name;
-	switch (GetWeaponData().anim_type)
+	switch (weapon_anim_type)
 	{
 	case EWeaponAnimationType::Pistol:
 		socket_name = TEXT("pistol_socket");
-		//auto soft_fire_anim = data_table_manager->GetUnitWeaponAnimMontage(EUnitBoneType::HeroHumanoid, EWeaponAnimationType::Rifle, EWeaponAction::Fire);
-		//auto soft_reload_anim = data_table_manager->GetUnitWeaponAnimMontage(EUnitBoneType::HeroHumanoid, EWeaponAnimationType::Rifle, EWeaponAction::Reload);
-		//IKTODO: 다음의 작업은 스톨링을 유발하기에, Loading Scene에서 하는것이 바람직하다!
-		//fire_montage_ = soft_fire_anim.LoadSynchronous();
-		//reload_montage_ = soft_reload_anim.LoadSynchronous();
 		break;
 
 	case EWeaponAnimationType::Rifle:
 		socket_name = TEXT("rifle_socket");
-		//IKTODO: Rifle를 위한 애니메이션 초기화 코드 삽입.
 		break;
 
 	case EWeaponAnimationType::INVALID:

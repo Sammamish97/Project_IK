@@ -29,6 +29,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	FName character_name_ = "";
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	EUnitBoneType bone_type_;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatusData")
 	FStatusData status_data_ = FStatusData{};
 
