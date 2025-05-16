@@ -14,20 +14,23 @@ See LICENSE file in the project root for full license information.
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+
 // Sets default values
 ABullet::ABullet()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	collision_ = CreateDefaultSubobject<USphereComponent>(FName("Sphere"));
 	movement_ = CreateDefaultSubobject<UProjectileMovementComponent>(FName("ProjectileMovement"));
 	bullet_mesh_ = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"));
 	bullet_mesh_->SetupAttachment(collision_);
-	
+
 	collision_->OnComponentBeginOverlap.AddDynamic(this, &ABullet::OnOverlapBegin);
 	movement_->InitialSpeed = 1000.f;
 	movement_->ProjectileGravityScale = 0.f;
-	
+
 	SetRootComponent(collision_);
 }
 
@@ -35,18 +38,75 @@ ABullet::ABullet()
 void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
+
+	original_material_ = bullet_mesh_->GetMaterial(0);
+}
+
+void ABullet::ClearComponentsAttachedOnMesh()
+{
+	TArray<USceneComponent*> attached_components;
+	bullet_mesh_->GetChildrenComponents(true, attached_components);
+
+	for (USceneComponent* component : attached_components)
+	{
+		if (component)
+		{
+			component->Deactivate();
+			component->DestroyComponent();
+		}
+	}
 }
 
 void ABullet::SetInUse(bool in_use)
 {
 	Super::SetInUse(in_use);
-	if(in_use_)
+	if (in_use_)
 	{
 		movement_->Velocity = GetActorForwardVector() * movement_->InitialSpeed;
 	}
 	else
 	{
 		movement_->Velocity = FVector::ZeroVector;
+	}
+}
+
+void ABullet::AttachParticleEffects(const TArray<UNiagaraSystem*>& niagara_systems,
+	const TMap<UNiagaraSystem*, TMap<FName, float>>& float_parameters,
+	const TMap<UNiagaraSystem*, TMap<FName, FVector>>& vector_parameters)
+{
+	for (UNiagaraSystem* system : niagara_systems)
+	{
+		UNiagaraComponent* component = UNiagaraFunctionLibrary::SpawnSystemAttached(system, bullet_mesh_, NAME_None, FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, false);
+
+		// Send user parameters
+		if (component)
+		{
+			if (const TMap<FName, float>* float_map = float_parameters.Find(system))
+			{
+				for (const TPair<FName, float>& pair : *float_map)
+				{
+					component->SetVariableFloat(pair.Key, pair.Value);
+				}
+			}
+
+			if (const TMap<FName, FVector>* vector_map = vector_parameters.Find(system))
+			{
+				for (const TPair<FName, FVector>& pair : *vector_map)
+				{
+					component->SetVariableVec3(pair.Key, pair.Value);
+				}
+			}
+		}
+
+		component->Activate(true);
+	}
+}
+
+void ABullet::ApplyMaterials(const TArray<UMaterialInterface*>& materials)
+{
+	for (int32 i = 0; i < materials.Num(); i++)
+	{
+		bullet_mesh_->SetMaterial(i, materials[i]);
 	}
 }
 
@@ -81,21 +141,29 @@ void ABullet::RemoveOnHitComponent(TSubclassOf<UBulletOnHitEffectComponent> targ
 	}
 }
 
-void ABullet::ClearOnHitComponents()
+void ABullet::Clear()
 {
 	on_hit_components_.Empty();
+
+	ClearComponentsAttachedOnMesh();
+
+	UMaterialInterface* material = original_material_.Get();
+	if (material)
+	{
+		bullet_mesh_->SetMaterial(0, material);
+	}
 }
 
 void ABullet::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	IDamageable* casted_damage_logic = Cast<IDamageable>(OtherActor);
 	dmg_data_.attack_target = OtherActor;
-	if(casted_damage_logic) casted_damage_logic->GetDamage(dmg_data_);
+	if (casted_damage_logic) casted_damage_logic->GetDamage(dmg_data_);
 	for (const auto& elem : on_hit_components_)
 	{
 		elem->OnHit(OtherActor);
 	}
-	ClearOnHitComponents();
+	Clear();
 	ReturnToPool();
 }
 

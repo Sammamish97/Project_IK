@@ -132,14 +132,14 @@ void AShockJavelin::SpawnLightningParticles()
 		particle_system_0_->SetAsset(niagara_system_);
 		if (init_emissive_ != FLinearColor::Transparent)
 		{
-			particle_system_0_->SetNiagaraVariableLinearColor(TEXT("Emissive Color"), init_emissive_);
+			particle_system_0_->SetVariableLinearColor(FName("Emissive Color"), init_emissive_);
 		}
 		else
 		{
-			particle_system_0_->SetNiagaraVariableLinearColor(TEXT("Emissive Color"), FLinearColor::Red);
+			particle_system_0_->SetVariableLinearColor(FName("Emissive Color"), FLinearColor::Red);
 		}
-		particle_system_0_->SetNiagaraVariableFloat(TEXT("Is Backward"), 1.f);
-		particle_system_0_->SetNiagaraVariableInt(TEXT("unique seed"), 10);
+		particle_system_0_->SetVariableFloat(FName("Is Backward"), 1.f);
+		particle_system_0_->SetVariableInt(FName("unique seed"), 10);
 		particle_system_0_->Activate();
 	}
 
@@ -148,14 +148,14 @@ void AShockJavelin::SpawnLightningParticles()
 		particle_system_1_->SetAsset(niagara_system_);
 		if (init_emissive_ != FLinearColor::Transparent)
 		{
-			particle_system_1_->SetNiagaraVariableLinearColor(TEXT("Emissive Color"), init_emissive_);
+			particle_system_1_->SetVariableLinearColor(FName("Emissive Color"), init_emissive_);
 		}
 		else
 		{
-			particle_system_1_->SetNiagaraVariableLinearColor(TEXT("Emissive Color"), FLinearColor::Red);
+			particle_system_1_->SetVariableLinearColor(FName("Emissive Color"), FLinearColor::Red);
 		}
-		particle_system_1_->SetNiagaraVariableFloat(TEXT("Is Backward"), -1.f);
-		particle_system_1_->SetNiagaraVariableInt(TEXT("unique seed"), 17);
+		particle_system_1_->SetVariableFloat(FName("Is Backward"), -1.f);
+		particle_system_1_->SetVariableInt(FName("unique seed"), 17);
 		particle_system_1_->Activate();
 	}
 }
@@ -216,8 +216,8 @@ void AShockJavelin::Cooling()
 	{
 		FLinearColor lerp_color = FMath::Lerp(init_emissive_, FLinearColor::Transparent, cooling_alpha_);
 		instance->SetVectorParameterValue(FName("EmissiveColor"), lerp_color);
-		particle_system_0_->SetNiagaraVariableLinearColor(TEXT("Emissive Color"), lerp_color);
-		particle_system_1_->SetNiagaraVariableLinearColor(TEXT("Emissive Color"), lerp_color);
+		particle_system_0_->SetVariableLinearColor(FName("Emissive Color"), lerp_color);
+		particle_system_1_->SetVariableLinearColor(FName("Emissive Color"), lerp_color);
 
 		FLinearColor decal_lerp_color = FMath::Lerp(init_emissive_, FLinearColor::Black, cooling_alpha_);
 		ground_dynamic_material_instance_->SetVectorParameterValue(FName("EmissiveColor"), decal_lerp_color);

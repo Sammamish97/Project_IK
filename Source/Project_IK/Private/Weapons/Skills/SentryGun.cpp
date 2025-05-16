@@ -81,10 +81,9 @@ void ASentryGun::Tick(float DeltaSeconds)
 
 void ASentryGun::OnFire(AActor* nearest_actor)
 {
-	TWeakObjectPtr<AActor> target_ptr = nearest_actor;
-	if (AActor* target = target_ptr.Get())
+	if (nearest_actor)
 	{
-		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_->GetComponentLocation(), target->GetActorLocation());
+		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_->GetComponentLocation(), nearest_actor->GetActorLocation());
 		FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
 		FTransform spawn_transform(rotation, muzzle_->GetComponentLocation(), scale);
 		ABullet* bullet = Cast<ABullet>(bullet_pool_->SpawnFromPool(spawn_transform));

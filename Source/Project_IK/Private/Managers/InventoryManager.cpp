@@ -31,7 +31,7 @@ void UInventoryManager::InitEquipInventory()
 	AddEquipment(EActiveSkillType::Encourage);
 	AddEquipment(EActiveSkillType::ThunderStorm);
 	AddEquipment(EActiveSkillType::DeployCover);
-	AddEquipment(EActiveSkillType::DeploySentryGun);
+	AddEquipment(EActiveSkillType::MagnetizedBullet);
 	AddEquipment(EActiveSkillType::ShockJavelin);
 }
 

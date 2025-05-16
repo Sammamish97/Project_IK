@@ -59,6 +59,10 @@ void AGun::SpawnBullet(const FTransform& transform, const FDamageData& dmg_data)
 	{
 		bullet->AddOnHitComponent(elem);
 	}
+
+	bullet->AttachParticleEffects(niagara_systems_, float_parameters_, vector_parameters_);
+	bullet->ApplyMaterials(materials_);
+
 	if (bullet)
 	{
 		bullet->SetShooter(gun_owner_);
@@ -68,6 +72,77 @@ void AGun::SpawnBullet(const FTransform& transform, const FDamageData& dmg_data)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Spawning a bullet has failed!"));
 	}
+}
+
+void AGun::AttachParticleEffect(UNiagaraSystem* niagara_system)
+{
+	if (niagara_system)
+	{
+		niagara_systems_.Add(niagara_system);
+		float_parameters_.Add(niagara_system);
+		vector_parameters_.Add(niagara_system);
+	}
+}
+
+void AGun::RemoveParticleEffect(UNiagaraSystem* niagara_system)
+{
+	if (niagara_system)
+	{
+		niagara_systems_.Remove(niagara_system);
+		float_parameters_.Remove(niagara_system);
+		vector_parameters_.Remove(niagara_system);
+	}
+}
+
+void AGun::ClearParticleEffects()
+{
+	niagara_systems_.Empty();
+	float_parameters_.Empty();
+	vector_parameters_.Empty();
+}
+
+void AGun::AddParticleParameterFloat(UNiagaraSystem* niagara_system, FName name, float float_data)
+{
+	if (niagara_system)
+	{
+		float_parameters_[niagara_system].Add(name, float_data);
+	}
+}
+
+void AGun::AddParticleParameterVector(UNiagaraSystem* niagara_system, FName name, const FVector& vector_data)
+{
+	if (niagara_system)
+	{
+		vector_parameters_[niagara_system].Add(name, vector_data);
+	}
+}
+
+void AGun::ApplyMaterial(UMaterialInterface* material)
+{
+	if (material)
+	{
+		materials_.Add(material);
+	}
+}
+
+void AGun::RemoveMaterial(UMaterialInterface* material)
+{
+	materials_.Remove(material);
+}
+
+void AGun::ClearMaterials()
+{
+	materials_.Empty();
+}
+
+void AGun::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	ClearOnHitComponents();
+	ClearAfterReloadOnHitComponents();
+	ClearParticleEffects();
+	ClearMaterials();
+
+	Super::EndPlay(EndPlayReason);
 }
 
 void AGun::FireSingleBullet(FVector muzzle_location, FVector target_pos, FDamageData dmg_data)

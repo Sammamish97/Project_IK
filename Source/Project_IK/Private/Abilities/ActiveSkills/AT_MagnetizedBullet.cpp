@@ -16,7 +16,7 @@ See LICENSE file in the project root for full license information.
 
 UAT_MagnetizedBullet::UAT_MagnetizedBullet()
 {
-	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Allies, 1000.f);
+	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Allies, 0.f, 0.f, true);
 	cool_time_ = 5.f;
 	duration_ = 3.f;
 }
@@ -27,11 +27,18 @@ bool UAT_MagnetizedBullet::ActivateSkill_Implementation(const FTargetResult& Tar
 		//a. 총알이 3명의 적에게 도탄 되어야 함.
 		//b. 총알을 맞은 적은 추가 데미지와 함께 스택이 쌓임.
 		//c. 스택이 n스택이 되면 터지면서 효과 발생.
-	TWeakObjectPtr<AHeroBase> owner_hero_ptr = Cast<AHeroBase>(skill_owner_);
-	if (auto hero = owner_hero_ptr.Get())
+	AHeroBase* hero = Cast<AHeroBase>(skill_owner_);
+	if (hero)
 	{
-		auto weapon_actor =  hero->GetWeaponMechanics()->GetWeaponActor();
+		auto weapon_actor = hero->GetWeaponMechanics()->GetWeaponActor();
 		weapon_actor->AddOnHitComponent(UBulletChainEffectComponent::StaticClass());
+		UNiagaraSystem* system = skill_particle_system_.Get();
+		weapon_actor->AttachParticleEffect(system);
+		weapon_actor->AddParticleParameterFloat(system, FName("SphereRadius"), 10.f);
+		weapon_actor->AddParticleParameterVector(system, FName("BulletVelocity"), hero->GetActorForwardVector());
+		weapon_actor->ApplyMaterial(skill_bullet_material_.Get());
+
+
 		FTimerDelegate timer_delegate = FTimerDelegate::CreateUObject(this, &UAT_MagnetizedBullet::OnFinishSkill);
 		GetWorld()->GetTimerManager().SetTimer(duration_timer_handle_, timer_delegate, duration_, false);
 		return true;
@@ -44,8 +51,10 @@ void UAT_MagnetizedBullet::OnFinishSkill()
 	TWeakObjectPtr<AHeroBase> owner_hero_ptr = Cast<AHeroBase>(skill_owner_);
 	if (auto hero = owner_hero_ptr.Get())
 	{
-		auto weapon_actor =  hero->GetWeaponMechanics()->GetWeaponActor();
+		auto weapon_actor = hero->GetWeaponMechanics()->GetWeaponActor();
 		weapon_actor->RemoveOnHitComponent(UBulletChainEffectComponent::StaticClass());
+		weapon_actor->RemoveParticleEffect(skill_particle_system_.Get());
+		weapon_actor->RemoveMaterial(skill_bullet_material_.Get());
 		GetWorld()->GetTimerManager().ClearTimer(duration_timer_handle_);
 	}
 }

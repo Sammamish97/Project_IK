@@ -45,7 +45,20 @@ public:
 	void RemoveAfterReloadOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
 	void ClearAfterReloadOnHitComponents();
 
+	void AttachParticleEffect(UNiagaraSystem* niagara_system);
+	void RemoveParticleEffect(UNiagaraSystem* niagara_system);
+	void ClearParticleEffects();
+	void AddParticleParameterFloat(UNiagaraSystem* niagara_system, FName name, float float_data);
+	void AddParticleParameterVector(UNiagaraSystem* niagara_system, FName name, const FVector& vector_data);
+
+	void ApplyMaterial(UMaterialInterface* material);
+	void RemoveMaterial(UMaterialInterface* material);
+	void ClearMaterials();
+
+
 private:
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason);
+
 	void FireSingleBullet(FVector muzzle_location, FVector target_pos, FDamageData dmg_data);
 	void FireBuckShot(FVector muzzle_location, FVector target_pos, FDamageData dmg_data);
 	void SpawnBullet(const FTransform& transform, const FDamageData& dmg_data);
@@ -83,6 +96,15 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	FName muzzle_socket_name_;
+
+	UPROPERTY()
+	TArray<UNiagaraSystem*> niagara_systems_;
+
+	UPROPERTY()
+	TArray<UMaterialInterface*> materials_;
+
+	TMap<UNiagaraSystem*, TMap<FName, float>> float_parameters_;
+	TMap<UNiagaraSystem*, TMap<FName, FVector>> vector_parameters_;
 
 	bool is_first_bullet_on_magazine_ = true;
 };
