@@ -24,32 +24,18 @@ See LICENSE file in the project root for full license information.
 
 // Sets default values
 UCharacterStatComponent::UCharacterStatComponent()
-	: character_id_(ECharacterType::Hero1), max_hit_points_(0.f)
+	: max_hit_points_(0.f)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 
 	bWantsInitializeComponent = true;
 }
 
-void UCharacterStatComponent::InitializeComponent()
+void UCharacterStatComponent::InitAfterCharacterDataSet()
 {
-	Super::InitializeComponent();
-
-	auto ik_game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
-	if (ik_game_instance)
-	{
-		if (UDataTableManager* data_table_manager = ik_game_instance->GetDataTableManager())
-		{
-			character_data_ = data_table_manager->GetCharacterData(character_id_);
-		}
-
-
-		// They are initial data of each attributes. Theoretical limitation will be implemented later
-		max_hit_points_ = character_data_.status_data_.hit_point_;
-		shield_ = 0.f;
-		max_shield_ = 100.f;
-	}
+	max_hit_points_ = character_data_.status_data_.hit_point_;
+	shield_ = 0.f;
+	max_shield_ = 100.f;
 }
 
 // Called when the game starts or when spawned
@@ -127,9 +113,9 @@ bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 	return is_evaded;
 }
 
-ECharacterType UCharacterStatComponent::GetCharacterID() const
+ECharacterType UCharacterStatComponent::GetCharacterType() const
 {
-	return character_id_;
+	return character_data_.character_type_;
 }
 
 void UCharacterStatComponent::GetDamage(float damage)
@@ -404,11 +390,6 @@ float UCharacterStatComponent::GetMaxShield() const noexcept
 FCharacterData UCharacterStatComponent::GetCharacterData() const noexcept
 {
 	return character_data_;
-}
-
-void UCharacterStatComponent::SetCharacterID(ECharacterType char_id) noexcept
-{
-	character_id_ = char_id;
 }
 
 void UCharacterStatComponent::SetCharacterData(const FCharacterData& character_data) noexcept

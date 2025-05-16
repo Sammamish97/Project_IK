@@ -30,6 +30,9 @@ public:
 	FName character_name_ = "";
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	ECharacterType character_type_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	EUnitBoneType bone_type_;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatusData")

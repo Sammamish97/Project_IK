@@ -7,14 +7,15 @@ Summary : Source file for manager that controls spawning enemies.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
-
 #include "Managers/EnemySpawnerManager.h"
 
 #include "Characters/EnemyBase.h"
+#include "Components/CharacterStatComponent.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKPlayerController.h"
+#include "Managers/DataTableManager.h"
 
 UEnemySpawnerManager::UEnemySpawnerManager()
 	:spawn_distance_(), enemy_waves_(0), spawn_position_(), enemy_spacing_(300), enemy_num_(1)
@@ -70,8 +71,10 @@ void UEnemySpawnerManager::SpawnEnemies()
 		
 		if (enemy)
 		{
+			UDataTableManager* data_table =  Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
+			enemy->GetComponentByClass<UCharacterStatComponent>()->SetCharacterData(data_table->GetCharacterData(ECharacterType::EnemySoldier));
 			enemy->SpawnDefaultController();
-
+			enemy->InitAfterCharacterDataAndControllerSet();
 			enemies_.Add(enemy);
 		}
 	}

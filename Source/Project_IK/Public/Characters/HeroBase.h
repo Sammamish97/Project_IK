@@ -25,9 +25,10 @@ class PROJECT_IK_API AHeroBase : public AUnit
 public:
 	AHeroBase();
 	virtual void BeginPlay() override;
+	virtual void InitAfterCharacterDataAndControllerSet() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
-	virtual void Initialize(FSpawnData spawn_data);
+	virtual void EquipGears(FSpawnData spawn_data);
 	virtual void Die() override;
 	
 	virtual void Attack(AActor* target) override;

@@ -35,13 +35,13 @@ class PROJECT_IK_API UCharacterStatComponent : public UActorComponent
 public:	
 	// Sets default values for this actor's properties
 	UCharacterStatComponent();
-
-	virtual void InitializeComponent() override;
+	
+	void InitAfterCharacterDataSet();
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunctionoverride);
 
 	UFUNCTION(BlueprintCallable)
-	ECharacterType GetCharacterID() const;
+	ECharacterType GetCharacterType() const;
 
 	UFUNCTION(BlueprintCallable)
 	bool CalcDamage(FDamageData& data_ref);
@@ -107,9 +107,6 @@ public:
 	FCharacterData GetCharacterData() const noexcept;
 
 	UFUNCTION(BlueprintCallable)
-	void SetCharacterID(ECharacterType char_id) noexcept;
-	
-	UFUNCTION(BlueprintCallable)
 	void SetCharacterData(const FCharacterData& character_data) noexcept;
 
 	UFUNCTION(BlueprintCallable)
@@ -129,11 +126,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
-	//TODO: 현재는 HeroType으로 되어있지만, Character stat은 Hero뿐만이 아닌 Enemy역시 사용하므로 이후 리펙토링이 되어야 한다.
-	UPROPERTY(EditAnywhere, Category = "Stats")
-	ECharacterType character_id_;
-
+	
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnHPChangedDelegate OnHPChanged;
 

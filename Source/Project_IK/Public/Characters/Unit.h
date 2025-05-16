@@ -39,6 +39,8 @@ public:
 
 	UFUNCTION()
 	virtual void Die() override;
+
+	virtual void InitAfterCharacterDataAndControllerSet();
 	
 	const UCharacterStatComponent* GetCharacterStat() const;
 	FVector GetForwardDir() const;
@@ -50,7 +52,7 @@ public:
 	virtual void Attack(AActor* target) override;
 
 	UFUNCTION(BlueprintCallable)
-	ECharacterType GetCharacterID() const;
+	ECharacterType GetCharacterType() const;
 	UCharacterStatComponent* GetCharacterStat();
 	
 	UFUNCTION(BlueprintCallable)

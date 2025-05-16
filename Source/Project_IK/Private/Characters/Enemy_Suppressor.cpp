@@ -19,7 +19,11 @@ AEnemy_Suppressor::AEnemy_Suppressor()
 void AEnemy_Suppressor::BeginPlay()
 {
 	Super::BeginPlay();
-	//IKTODO: 전용 무기 장착.
+}
+
+void AEnemy_Suppressor::InitAfterCharacterDataAndControllerSet()
+{
+	Super::InitAfterCharacterDataAndControllerSet();
 	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle_B);
 }
 

@@ -59,8 +59,33 @@ void AHeroBase::BeginPlay()
 	rune_mechanics_->EquipRune(ERuneSetType::Poet, 5);
 
 	skill_container_->EquipActiveSkill(EActiveSkillType::Thunder);
+	//
+}
+
+void AHeroBase::InitAfterCharacterDataAndControllerSet()
+{
+	Super::InitAfterCharacterDataAndControllerSet();
+	//TEST PURPOSE. 
 	weapon_mechanics_->EquipWeapon(DEBUG_INITIAL_WEAPON_TYPE);
 	//
+	switch (GetCharacterType())
+	{
+	case ECharacterType::Hero1:
+		hero_type_ = EHeroType::Hero1;
+		break;
+	case ECharacterType::Hero2:
+		hero_type_ = EHeroType::Hero2;
+		break;
+	case ECharacterType::Hero3:
+		hero_type_ = EHeroType::Hero3;
+		break;
+	case ECharacterType::Hero4:
+		hero_type_ = EHeroType::Hero4;
+		break;
+
+	default:
+		checkNoEntry();
+	}
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -68,7 +93,7 @@ void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
-void AHeroBase::Initialize(FSpawnData spawn_data)
+void AHeroBase::EquipGears(FSpawnData spawn_data)
 {
 	if (spawn_data.weapon_data_.IsSet())
 	{

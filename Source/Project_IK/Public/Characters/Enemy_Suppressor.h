@@ -26,6 +26,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void InitAfterCharacterDataAndControllerSet() override;
 	virtual void OnStunned() override;
 	virtual void Die() override;
 	virtual void OnEnterBattleOnce() override;

@@ -75,40 +75,22 @@ void AUnit::Attack(AActor* target)
 	}
 }
 
-ECharacterType AUnit::GetCharacterID() const
+ECharacterType AUnit::GetCharacterType() const
 {
-	return character_stat_component_->GetCharacterID();
+	return character_stat_component_->GetCharacterType();
 }
 
 // Called when the game starts or when spawned
 void AUnit::BeginPlay()
 {
 	Super::BeginPlay();
-	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
-
-	if (hp_UI_class_)
-	{
-		hp_UI_->SetWidgetClass(hp_UI_class_);
-		hp_UI_->InitWidget();
-	}
-	UHitPointsUI* ui = Cast<UHitPointsUI>(hp_UI_->GetWidget());
-	if (ui)
-	{
-		subsystem->BindOnCrowdControlChanged(cc_component_, ui, &UHitPointsUI::UpdateAppliedCCs);
-		subsystem->BindOnHPChanged(character_stat_component_, ui, &UHitPointsUI::UpdateHPWidget);
-		subsystem->BindOnShieldChanged(character_stat_component_, ui, &UHitPointsUI::UpdateShieldWidget);
-		subsystem->BindOnBuffChanged(character_stat_component_, ui, &UHitPointsUI::UpdateAppliedBuffs);
-	}
 	GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->ApplyBuff(this);
-
 	UCapsuleComponent* capsule_comp = FindComponentByClass<UCapsuleComponent>();
 	if (capsule_comp)
 	{
 		capsule_half_height_ = capsule_comp->GetUnscaledCapsuleHalfHeight() / 2.f;
 		capsule_radius_ = capsule_comp->GetUnscaledCapsuleRadius();
 	}
-
-	Cast<AMeleeAIController>(GetController())->SetAIFindTargetType(ai_find_target_type_);
 }
 
 void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
@@ -243,6 +225,29 @@ void AUnit::Die()
 		delegate_map.Value.Clear();
 	}
 	Destroy();
+}
+
+void AUnit::InitAfterCharacterDataAndControllerSet()
+{
+	character_stat_component_->InitAfterCharacterDataSet();
+	if (hp_UI_class_)
+	{
+		hp_UI_->SetWidgetClass(hp_UI_class_);
+		hp_UI_->InitWidget();
+	}
+	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
+	UHitPointsUI* ui = Cast<UHitPointsUI>(hp_UI_->GetWidget());
+	if (ui)
+	{
+		subsystem->BindOnCrowdControlChanged(cc_component_, ui, &UHitPointsUI::UpdateAppliedCCs);
+		subsystem->BindOnHPChanged(character_stat_component_, ui, &UHitPointsUI::UpdateHPWidget);
+		subsystem->BindOnShieldChanged(character_stat_component_, ui, &UHitPointsUI::UpdateShieldWidget);
+		subsystem->BindOnBuffChanged(character_stat_component_, ui, &UHitPointsUI::UpdateAppliedBuffs);
+	}
+	if (auto casted_controller = Cast<AMeleeAIController>(GetController()))
+	{
+		casted_controller->SetAIFindTargetType(ai_find_target_type_);
+	}
 }
 
 FTransform AUnit::GetActorTransformForDamageUI() const noexcept
