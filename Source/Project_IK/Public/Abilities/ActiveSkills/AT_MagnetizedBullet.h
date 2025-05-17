@@ -26,10 +26,10 @@ public:
 	void OnFinishSkill();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TWeakObjectPtr<UNiagaraSystem> skill_particle_system_;
+	TObjectPtr<UNiagaraSystem> skill_particle_system_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TWeakObjectPtr<UMaterialInstance> skill_bullet_material_;
+	TObjectPtr<UMaterialInstance> skill_bullet_material_;
 
 private:
 	float duration_ = 0.f;

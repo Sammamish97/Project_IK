@@ -32,11 +32,10 @@ bool UAT_MagnetizedBullet::ActivateSkill_Implementation(const FTargetResult& Tar
 	{
 		auto weapon_actor = hero->GetWeaponMechanics()->GetWeaponActor();
 		weapon_actor->AddOnHitComponent(UBulletChainEffectComponent::StaticClass());
-		UNiagaraSystem* system = skill_particle_system_.Get();
-		weapon_actor->AttachParticleEffect(system);
-		weapon_actor->AddParticleParameterFloat(system, FName("SphereRadius"), 10.f);
-		weapon_actor->AddParticleParameterVector(system, FName("BulletVelocity"), hero->GetActorForwardVector());
-		weapon_actor->ApplyMaterial(skill_bullet_material_.Get());
+		weapon_actor->AttachParticleEffect(skill_particle_system_);
+		weapon_actor->AddParticleParameterFloat(skill_particle_system_, FName("SphereRadius"), 10.f);
+		weapon_actor->AddParticleParameterVector(skill_particle_system_, FName("BulletVelocity"), hero->GetActorForwardVector());
+		weapon_actor->ApplyMaterial(skill_bullet_material_);
 
 
 		FTimerDelegate timer_delegate = FTimerDelegate::CreateUObject(this, &UAT_MagnetizedBullet::OnFinishSkill);
@@ -53,8 +52,8 @@ void UAT_MagnetizedBullet::OnFinishSkill()
 	{
 		auto weapon_actor = hero->GetWeaponMechanics()->GetWeaponActor();
 		weapon_actor->RemoveOnHitComponent(UBulletChainEffectComponent::StaticClass());
-		weapon_actor->RemoveParticleEffect(skill_particle_system_.Get());
-		weapon_actor->RemoveMaterial(skill_bullet_material_.Get());
+		weapon_actor->RemoveParticleEffect(skill_particle_system_);
+		weapon_actor->RemoveMaterial(skill_bullet_material_);
 		GetWorld()->GetTimerManager().ClearTimer(duration_timer_handle_);
 	}
 }
