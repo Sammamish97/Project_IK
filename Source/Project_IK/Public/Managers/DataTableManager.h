@@ -92,6 +92,8 @@ public:
 
 	TSoftObjectPtr<UAnimMontage> GetUnitWeaponAnimMontage(EUnitBoneType bone, EWeaponAnimationType weapon, EWeaponAction action);
 
+	TSubclassOf<class AUnit> GetUnitType(ECharacterType type);
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UWeaponDataAsset> weapon_data_asset_;
@@ -125,4 +127,7 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UWeaponAnimDataAsset> unit_weapon_anim_asset_;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UUnitTypeDataAsset> unit_type_asset_;
 };

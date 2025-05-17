@@ -18,12 +18,7 @@ AEnemy_RifleMan::AEnemy_RifleMan()
 void AEnemy_RifleMan::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-void AEnemy_RifleMan::InitAfterCharacterDataAndControllerSet()
-{
-	Super::InitAfterCharacterDataAndControllerSet();
-	weapon_mechanics_->EquipWeapon(weapon_type_);
+	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle_B);
 }
 
 void AEnemy_RifleMan::Die()

@@ -15,14 +15,13 @@ See LICENSE file in the project root for full license information.
 #include "Enemy_RifleMan.generated.h"
 
 class UWeaponMechanics;
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AEnemy_RifleMan : public AEnemyBase
 {
 	GENERATED_BODY()
 public:
 	AEnemy_RifleMan();
 	virtual void BeginPlay() override;
-	virtual void InitAfterCharacterDataAndControllerSet() override;
 	virtual void OnStunned() override;
 	virtual void Die() override;
 	virtual void Attack(AActor* target) override;

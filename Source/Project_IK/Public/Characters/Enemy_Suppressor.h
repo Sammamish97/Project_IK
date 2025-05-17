@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Interfaces/Attackable.h"
 #include "Enemy_Suppressor.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AEnemy_Suppressor : public AEnemyBase
 {
 	GENERATED_BODY()
@@ -26,7 +26,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	virtual void InitAfterCharacterDataAndControllerSet() override;
 	virtual void OnStunned() override;
 	virtual void Die() override;
 	virtual void OnEnterBattleOnce() override;

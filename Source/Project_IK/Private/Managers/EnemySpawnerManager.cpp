@@ -73,8 +73,6 @@ void UEnemySpawnerManager::SpawnEnemies()
 		{
 			UDataTableManager* data_table =  Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 			enemy->GetComponentByClass<UCharacterStatComponent>()->SetCharacterData(data_table->GetCharacterData(ECharacterType::EnemySoldier));
-			enemy->SpawnDefaultController();
-			enemy->InitAfterCharacterDataAndControllerSet();
 			enemies_.Add(enemy);
 		}
 	}

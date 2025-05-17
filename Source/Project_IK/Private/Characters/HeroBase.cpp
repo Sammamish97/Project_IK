@@ -49,25 +49,6 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	//TEST PURPOSE. 
-	rune_mechanics_->EquipRune(ERuneSetType::Poet, 0);
-	rune_mechanics_->EquipRune(ERuneSetType::Poet, 1);
-	rune_mechanics_->EquipRune(ERuneSetType::Poet, 2);
-	rune_mechanics_->EquipRune(ERuneSetType::Poet, 3);
-	rune_mechanics_->EquipRune(ERuneSetType::Poet, 4);
-	rune_mechanics_->EquipRune(ERuneSetType::Poet, 5);
-
-	skill_container_->EquipActiveSkill(EActiveSkillType::Thunder);
-	//
-}
-
-void AHeroBase::InitAfterCharacterDataAndControllerSet()
-{
-	Super::InitAfterCharacterDataAndControllerSet();
-	//TEST PURPOSE. 
-	weapon_mechanics_->EquipWeapon(DEBUG_INITIAL_WEAPON_TYPE);
-	//
 	switch (GetCharacterType())
 	{
 	case ECharacterType::Hero1:

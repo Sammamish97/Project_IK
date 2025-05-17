@@ -21,12 +21,6 @@ void AEnemy_Suppressor::BeginPlay()
 	Super::BeginPlay();
 }
 
-void AEnemy_Suppressor::InitAfterCharacterDataAndControllerSet()
-{
-	Super::InitAfterCharacterDataAndControllerSet();
-	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle_B);
-}
-
 void AEnemy_Suppressor::OnStunned()
 {
 	Super::OnStunned();

@@ -48,7 +48,7 @@ void UWeaponMechanics::EquipWeapon(EWeaponType type)
 	weapon_actor_->SetWeaponData(data_table_manager->GetWeaponData(type));
 	
 	EWeaponAnimationType weapon_anim_type = GetWeaponData().anim_type;
-	auto bone_type = owner_ref_->GetCharacterStat()->GetCharacterData().bone_type_;
+	auto bone_type = owner_ref_->GetBoneType();
 	
 	TSoftObjectPtr<UAnimMontage> soft_fire_anim = data_table_manager->GetUnitWeaponAnimMontage(bone_type, weapon_anim_type, EWeaponAction::Fire);
 	TSoftObjectPtr<UAnimMontage> soft_reload_anim = data_table_manager->GetUnitWeaponAnimMontage(bone_type, weapon_anim_type, EWeaponAction::Reload);

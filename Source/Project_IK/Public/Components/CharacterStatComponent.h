@@ -35,13 +35,9 @@ class PROJECT_IK_API UCharacterStatComponent : public UActorComponent
 public:	
 	// Sets default values for this actor's properties
 	UCharacterStatComponent();
-	
-	void InitAfterCharacterDataSet();
+	virtual void InitializeComponent() override;
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunctionoverride);
-
-	UFUNCTION(BlueprintCallable)
-	ECharacterType GetCharacterType() const;
 
 	UFUNCTION(BlueprintCallable)
 	bool CalcDamage(FDamageData& data_ref);

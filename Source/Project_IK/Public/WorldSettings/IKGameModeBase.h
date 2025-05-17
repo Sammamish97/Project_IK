@@ -75,9 +75,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void RestoreGlobalTimeDilation();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnemySpawner")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Spawn")
 	TSubclassOf<UEnemySpawnerManager> enemy_spawner_manager_class_;
-
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Spawn")
+	TArray<TSubclassOf<class AHeroBase>> hero_bp_class_;
+	
 protected:
 	void DisplayCombatResult();
 	bool IsDefeated() const;

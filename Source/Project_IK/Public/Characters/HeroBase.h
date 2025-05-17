@@ -18,14 +18,13 @@ See LICENSE file in the project root for full license information.
 #include "Structs/SpawnData.h"
 #include "HeroBase.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AHeroBase : public AUnit
 {
 	GENERATED_BODY()
 public:
 	AHeroBase();
 	virtual void BeginPlay() override;
-	virtual void InitAfterCharacterDataAndControllerSet() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
 	virtual void EquipGears(FSpawnData spawn_data);

@@ -31,17 +31,29 @@ UCharacterStatComponent::UCharacterStatComponent()
 	bWantsInitializeComponent = true;
 }
 
-void UCharacterStatComponent::InitAfterCharacterDataSet()
+void UCharacterStatComponent::InitializeComponent()
 {
-	max_hit_points_ = character_data_.status_data_.hit_point_;
-	shield_ = 0.f;
-	max_shield_ = 100.f;
+	Super::InitializeComponent();
+	if (auto ik_game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
+	{
+		if (UDataTableManager* data_table_manager = ik_game_instance->GetDataTableManager())
+		{
+			character_data_ = data_table_manager->GetCharacterData(Cast<AUnit>(GetOwner())->GetCharacterType());
+		}
+		// They are initial data of each attributes. Theoretical limitation will be implemented later
+		max_hit_points_ = character_data_.status_data_.hit_point_;
+		shield_ = 0.f;
+		max_shield_ = 100.f;
+	}
 }
 
 // Called when the game starts or when spawned
 void UCharacterStatComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	max_hit_points_ = character_data_.status_data_.hit_point_;
+	shield_ = 0.f;
+	max_shield_ = 100.f;
 }
 
 void UCharacterStatComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -111,11 +123,6 @@ bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 
 	data_ref.atk_base_dmg = remaining_damage;
 	return is_evaded;
-}
-
-ECharacterType UCharacterStatComponent::GetCharacterType() const
-{
-	return character_data_.character_type_;
 }
 
 void UCharacterStatComponent::GetDamage(float damage)
