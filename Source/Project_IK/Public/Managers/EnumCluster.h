@@ -99,7 +99,8 @@ enum class ECharacterType  : uint8
 	EnemySoldier UMETA(DisplayName = "EnemySoldier"),
 	EnemySniper UMETA(DisplayName = "EnemySniper"),
 	EnemyKnight UMETA(DisplayName = "EnemyKnight"),
-	EnemyLaserDrone	UMETA(DisplayName = "EnemyLaserDrone")
+	EnemyLaserDrone	UMETA(DisplayName = "EnemyLaserDrone"),
+	EnemyHealingPillar UMETA(DisplayName = "EnemyHealingPillar"),
 };
 
 UENUM(BlueprintType)

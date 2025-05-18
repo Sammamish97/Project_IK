@@ -177,6 +177,10 @@ void UWeaponMechanics::FireWeapon(AActor* target, FDamageData dmg_data, bool is_
 					weapon_actor_->FireWeapon(target->GetActorLocation(), dmg_data);
 				}
 			}
+			else
+			{
+				weapon_actor_->FireWeapon(target->GetActorLocation(), dmg_data);
+			}
 		}
 		else
 		{
