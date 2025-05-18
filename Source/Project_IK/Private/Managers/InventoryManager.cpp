@@ -31,14 +31,8 @@ void UInventoryManager::InitEquipInventory()
 	AddEquipment(EActiveSkillType::Encourage);
 	AddEquipment(EActiveSkillType::ThunderStorm);
 	AddEquipment(EActiveSkillType::DeployCover);
-	AddEquipment(EActiveSkillType::DeploySentryGun);
-
-	AddEquipment(EPassiveSkillType::StableFirstRound);
-	AddEquipment(EPassiveSkillType::StableFirstRound);
-	AddEquipment(EPassiveSkillType::StableFirstRound);
-	AddEquipment(EPassiveSkillType::LowProfile);
-	AddEquipment(EPassiveSkillType::LowProfile);
-	AddEquipment(EPassiveSkillType::LowProfile);
+	AddEquipment(EActiveSkillType::MagnetizedBullet);
+	AddEquipment(EActiveSkillType::ShockJavelin);
 }
 
 void UInventoryManager::InitRuneInventory()

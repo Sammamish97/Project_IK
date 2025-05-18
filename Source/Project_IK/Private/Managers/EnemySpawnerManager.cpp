@@ -41,31 +41,9 @@ void UEnemySpawnerManager::SpawnEnemies()
 	// Spawn enemies in a distance from the point.
 	spawn_position_ += spawn_distance_;
 
-	float half_enemy_height = 90.f;
-	if (enemy_class_)
-	{
-		AEnemyBase* default_enemy = enemy_class_->GetDefaultObject<AEnemyBase>();
-		if (default_enemy)
-		{
-			UStaticMeshComponent* static_mesh_component = default_enemy->FindComponentByClass<UStaticMeshComponent>();
-			if (static_mesh_component && static_mesh_component->GetStaticMesh())
-			{
-				half_enemy_height = static_mesh_component->GetStaticMesh()->GetBoundingBox().GetExtent().Z;
-			}
-			else 
-			{
-				USkeletalMeshComponent* skeletal_mesh_component = default_enemy->FindComponentByClass<USkeletalMeshComponent>();
-				if (skeletal_mesh_component && skeletal_mesh_component->GetSkeletalMeshAsset())
-				{
-					half_enemy_height = skeletal_mesh_component->GetSkeletalMeshAsset()->GetBounds().BoxExtent.Z;
-				}
-			}
-		}
-	}
-
 	for (int32 i = 0; i < enemy_num_; i++)
 	{
-		FVector spawn_offset = FVector(0.f, (enemy_spacing_ * (enemy_num_ - 1) / -2.f) + (i * enemy_spacing_), half_enemy_height);
+		FVector spawn_offset = FVector(0.f, (enemy_spacing_ * (enemy_num_ - 1) / -2.f) + (i * enemy_spacing_), 0.f);
 		// It may return nullptr if enemy_spacing_ is too narrow.
 		AEnemyBase* enemy = GetWorld()->SpawnActor<AEnemyBase>(enemy_class_, spawn_position_ + spawn_offset, FRotator::ZeroRotator);
 		
