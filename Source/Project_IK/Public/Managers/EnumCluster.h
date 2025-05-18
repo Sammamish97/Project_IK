@@ -91,11 +91,11 @@ enum class EDialogueEventType : uint8
 UENUM(BlueprintType)
 enum class EHeroType  : uint8
 {
+	INVALID UMETA(DisplayName = "INVALID"),
 	Hero1 UMETA(DisplayName = "Hero1"),
 	Hero2 UMETA(DisplayName = "Hero2"),
 	Hero3 UMETA(DisplayName = "Hero3"),
 	Hero4 UMETA(DisplayName = "Hero4"),
-	INVALID UMETA(DisplayName = "INVALID")
 };
 
 inline EHeroType IntToHeroType(int32 hero_idx)
@@ -144,12 +144,12 @@ enum class ERarity : uint8
 UENUM(BlueprintType)
 enum class EDamageType : uint8
 {
+	INVALID UMETA(DisplayName = "INVALID"), 
 	Projectile UMETA(DisplayName = "Projectile"),
 	Explosive UMETA(DisplayName = "Explosive"),
 	Melee UMETA(DisplayName = "Melee"),
 	Dot UMETA(DisplayName = "Dot"),
 	Magic UMETA(DisplayName = "Magic"),
-	INVALID UMETA(DisplayName = "INVALID")
 };
 
 UENUM(BlueprintType)
@@ -180,22 +180,22 @@ enum class EDamageEvent : uint8
 UENUM(BlueprintType)
 enum class EGearType : uint8
 {
+	INVALID UMETA(DisplayName = "INVALID"),
 	Weapon UMETA(DisplayName = "Weapon"),
 	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
 	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
 	Oopart UMETA(DisplayName = "Oopart"),
-	INVALID UMETA(DisplayName = "INVALID")
 };
 
 UENUM(BlueprintType)
 enum class EInventorySlotType : uint8
 {
+	INVALID UMETA(DisplayName = "INVALID"),
 	WeaponBoardSlot UMETA(DisplayName = "WeaponBoardSlot"),
 	ActiveSkillBoardSlot UMETA(DisplayName = "ActiveSkillBoardSlot"),
 	PassiveSkillBoardSlot UMETA(DisplayName = "PassiveSkillBoardSlot"),
 	OopartBoardSlot UMETA(DisplayName = "OopartBoardSlot"),
 	InventorySlot UMETA(DisplayName = "InventorySlot"),
-	INVALID UMETA(DisplayName = "INVALID")
 };
 
 UENUM(BlueprintType)
@@ -246,6 +246,7 @@ enum class EBulletType : uint8
 UENUM(BlueprintType)
 enum class EPassiveSkillType : uint8
 {
+	INVALID UMETA(DisplayName = "INVALID"),
 	FixedDmgReduce UMETA(DisplayName = "FixedDmgReduce"),
 	RandDmgIncrease UMETA(DisplayName = "RandDmgIncrease"),
 	Agility UMETA(DisplayName = "Agility"),
@@ -255,7 +256,6 @@ enum class EPassiveSkillType : uint8
 	CloseQuartersMastery UMETA(DisplayName = "CloseQuartersMastery"),
 	LowProfile UMETA(DisplayName = "LowProfile"),
 	StableFirstRound UMETA(DisplayName = "StableFirstRound"),
-	INVALID UMETA(DisplayName = "INVALID")
 };
 
 UENUM(BlueprintType)
@@ -269,6 +269,8 @@ enum class EOopartType : uint8
 UENUM(BlueprintType)
 enum class EActiveSkillType : uint8
 {
+	INVALID UMETA(DisplayName = "INVALID"),
+	
 	Thunder UMETA(DisplayName = "Thunder"),
 	ThunderStorm UMETA(DisplayName = "ThunderStorm"),
 	FateSpiral UMETA(DisplayName = "FateSpiral"),
@@ -282,7 +284,6 @@ enum class EActiveSkillType : uint8
 	MagnetizedBullet UMETA(DisplayName = "MagnetizedBullet"),
 	ShockJavelin UMETA(DisplayName = "ShockJaveline"),
 	Accelerate UMETA(DisplayName = "Accelerate"),
-	INVALID UMETA(DisplayName = "INVALID")
 };
 
 UENUM(BlueprintType)
@@ -334,9 +335,17 @@ enum class ERunResultState : uint8
 UENUM(BlueprintType)
 enum class EEventType : uint8
 {
+	INVALID UMETA(DisplayName = "INVALID"),
 	EventType_1 UMETA(DisplayName = "EventType_1"),
 	EventType_2 UMETA(DisplayName = "EventType_2"),
 	EventType_3 UMETA(DisplayName = "EventType_3"),
 	EventType_4 UMETA(DisplayName = "EventType_4"),
-	INVALID UMETA(DisplayName = "INVALID")
+};
+
+UENUM(BlueprintType)
+enum class EWeaponAnimationType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Pistol UMETA(DisplayName = "Pistol"),
+	Rifle UMETA(DisplayName = "Rifle"),
 };

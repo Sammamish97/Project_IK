@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/WeaponMechanics.h"
 #include "AIController.h"
 #include "BrainComponent.h"
+#include "MovieSceneTracksComponentTypes.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Character.h"
 #include "Weapons/Guns/Gun.h"
@@ -28,7 +29,6 @@ UWeaponMechanics::UWeaponMechanics()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 	head_socket_name_ = TEXT("head_socket");
-	gun_socket_name_ = TEXT("rifle_socket");
 	owned_cover_key_name_ = TEXT("OwnedCover");
 }
 
@@ -37,15 +37,30 @@ void UWeaponMechanics::BeginPlay()
 {
 	Super::BeginPlay();
 	owner_ref_ = Cast<AUnit>(GetOwner());
-	weapon_actor_ = GetWorld()->SpawnActor<AGun>(weapon_class_);
-	weapon_actor_->AttachToComponent(owner_ref_->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, gun_socket_name_);
 }
 
 //TODO: 무기의 장착과 실제 장착 후 생성은 분리되어야 한다.
 //TODO: 인벤토리 프리뷰가 3D일때 역시 생각해야 한다.
 void UWeaponMechanics::EquipWeapon(EWeaponType type)
 {
+	weapon_actor_ = GetWorld()->SpawnActor<AGun>(weapon_class_);
 	weapon_actor_->SetWeaponData(Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager()->GetWeaponData(type));
+	FName socket_name;
+	switch (GetWeaponData().anim_type)
+	{
+	case EWeaponAnimationType::Pistol:
+		socket_name = TEXT("pistol_socket");
+		break;
+
+	case EWeaponAnimationType::Rifle:
+		socket_name = TEXT("rifle_socket");
+		break;
+
+	case EWeaponAnimationType::INVALID:
+	default:
+		break;
+	}
+	weapon_actor_->AttachToComponent(owner_ref_->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, socket_name);
 	weapon_actor_->SetGunOwner(GetOwner());
 }
 
@@ -125,6 +140,7 @@ void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data, bool is_cont
 
 void UWeaponMechanics::FireWeapon(AActor* target, FDamageData dmg_data, bool is_controlled_fire, float offset)
 {
+	//IKTODO: 간헐적으로 target이 null이라 터짐.
 	TWeakObjectPtr<AActor> target_ptr = target;
 	if (auto casted_target = target_ptr.Get())
 	{

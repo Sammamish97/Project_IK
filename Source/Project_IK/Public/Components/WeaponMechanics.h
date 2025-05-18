@@ -55,8 +55,11 @@ public:
 	void ResumeFire();
 	
 	bool IsMagazineEmpty() const;
-	
+
+	UFUNCTION(BlueprintCallable)
 	FWeaponData GetWeaponData();
+	
+	UFUNCTION(BlueprintCallable)
 	AGun* GetWeaponActor();
 
 	bool IsOnReloading() const;
@@ -80,9 +83,6 @@ private:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
 	FName head_socket_name_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
-	FName gun_socket_name_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
 	FName owned_cover_key_name_;
