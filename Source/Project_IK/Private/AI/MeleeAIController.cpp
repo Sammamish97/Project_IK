@@ -20,6 +20,7 @@ AMeleeAIController::AMeleeAIController()
 	unit_state_key_name_ = TEXT("UnitState");
 	stun_state_key_name_ = TEXT("StunState");
 	attack_target_key_name_ = TEXT("AttackTarget");
+	ai_find_target_key_name_ = TEXT("FindTarget");
 }
 
 void AMeleeAIController::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -81,4 +82,9 @@ AActor* AMeleeAIController::GetTargetActor()
 void AMeleeAIController::SetUnitState(EUnitState new_state)
 {
 	GetBlackboardComponent()->SetValueAsEnum(unit_state_key_name_, static_cast<uint8>(new_state));
+}
+
+void AMeleeAIController::SetAIFindTargetType(EAIFindTargetType type)
+{
+	GetBlackboardComponent()->SetValueAsEnum(ai_find_target_key_name_, static_cast<uint8>(type));
 }

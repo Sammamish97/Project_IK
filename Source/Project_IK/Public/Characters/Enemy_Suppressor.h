@@ -11,10 +11,9 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "EnemyBase.h"
-#include "Interfaces/Attackable.h"
 #include "Enemy_Suppressor.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AEnemy_Suppressor : public AEnemyBase
 {
 	GENERATED_BODY()

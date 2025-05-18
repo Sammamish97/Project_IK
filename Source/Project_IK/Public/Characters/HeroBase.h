@@ -18,7 +18,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/SpawnData.h"
 #include "HeroBase.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AHeroBase : public AUnit
 {
 	GENERATED_BODY()
@@ -27,7 +27,7 @@ public:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
-	virtual void Initialize(FSpawnData spawn_data);
+	virtual void EquipGears(FSpawnData spawn_data);
 	virtual void Die() override;
 	
 	virtual void Attack(AActor* target) override;
@@ -58,20 +58,25 @@ public:
 	class USphereComponent* oopart_pos_;
 	
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	class USkillContainer* skill_container_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	class UWeaponMechanics* weapon_mechanics_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	class UPassiveSkillMechanics* passive_skill_mechanics_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	class URuneMechanics* rune_mechanics_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	class UOopartMechanics* oopart_mechanics_;
+
+	//TEST_PURPOSE
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
+	EWeaponType DEBUG_INITIAL_WEAPON_TYPE = EWeaponType::DefaultPistol;
+	//
 
 private:
 	EHeroType hero_type_;

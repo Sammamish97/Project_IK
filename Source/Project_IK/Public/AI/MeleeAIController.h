@@ -32,6 +32,8 @@ public:
 	
 	UFUNCTION(Blueprintable)
 	void SetUnitState(EUnitState new_state);
+
+	virtual void SetAIFindTargetType(EAIFindTargetType type);
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "MeleeAI", meta = (AllowPrivateAccess = "true", BindWidget))
@@ -51,6 +53,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "MeleeAI", meta = (AllowPrivateAccess = "true", BindWidget))
 	FName attack_target_key_name_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "GunnerAIController", meta = (AllowPrivateAccess = "true"))
+	FName ai_find_target_key_name_;
 
 	UPROPERTY()
 	class UAIDebugDrawComponent* debug_draw_component_;

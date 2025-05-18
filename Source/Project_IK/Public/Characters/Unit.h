@@ -36,11 +36,12 @@ class PROJECT_IK_API AUnit : public ACharacter, public IAttackable, public IDama
 public:
 	// Sets default values for this character's properties
 	AUnit();
-
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+	
 	UFUNCTION()
 	virtual void Die() override;
 	
-	const UCharacterStatComponent* GetCharacterStat() const;
 	FVector GetForwardDir() const;
 	void SetForwardDir(const FVector& Forward_Dir);
 
@@ -50,8 +51,11 @@ public:
 	virtual void Attack(AActor* target) override;
 
 	UFUNCTION(BlueprintCallable)
-	EHeroType GetCharacterID() const;
+	ECharacterType GetCharacterType() const;
 	UCharacterStatComponent* GetCharacterStat();
+
+	EUnitBoneType GetBoneType() const;
+
 	
 	UFUNCTION(BlueprintCallable)
 	virtual void GetDamage(FDamageData data) override;
@@ -89,9 +93,6 @@ public:
 	TSubclassOf<UHitPointsUI> hp_UI_class_;
 	
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
 	void SetDamageUI(FDamageData data, bool is_evaded);
 	FTransform GetActorTransformForDamageUI() const noexcept;
 
@@ -101,27 +102,41 @@ protected:
 	void RecoverAttackerByLifeSteal(FDamageData data);
 
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
-	UCharacterStatComponent* character_stat_component_;
+	//Name/Character Type/Bone Type은 BP에서 초기화 되는것을 기대한다.
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data")
+	FName character_name_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data")
+	ECharacterType character_type_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data")
+	EUnitBoneType bone_type_;
+	
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UCharacterStatComponent> character_stat_component_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Unit")
-	UCrowdControlComponent* cc_component_;
+	TObjectPtr<UCrowdControlComponent> cc_component_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
-	UAnimMontage* stun_montage_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UAnimMontage> stun_montage_;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
-	UWidgetComponent* hp_UI_;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UWidgetComponent> hp_UI_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true", BindWidget))
-	FVector forward_dir_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Animation", meta = (AllowPrivateAccess = "true", BindWidget))
-	UAnimMontage* stunned_montage_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Animation", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UAnimMontage> stunned_montage_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DamageUI", meta = (AllowPrivateAccess = "true"))
-	UObjectPoolComponent* object_pool_component_;
+	TObjectPtr<UObjectPoolComponent> object_pool_component_;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true"))
+	EAIFindTargetType ai_find_target_type_;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
+	FVector forward_dir_;
+	
 	UPROPERTY(Transient)
 	FTimerHandle stun_timer_;
 

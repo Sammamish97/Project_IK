@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Enemy_RifleMan.generated.h"
 
 class UWeaponMechanics;
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AEnemy_RifleMan : public AEnemyBase
 {
 	GENERATED_BODY()
@@ -27,6 +27,9 @@ public:
 	virtual void Attack(AActor* target) override;
 
 private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UWeaponMechanics> weapon_mechanics_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true"))
+	EWeaponType weapon_type_;
 };

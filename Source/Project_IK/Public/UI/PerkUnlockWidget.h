@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Managers/EnumCluster.h"
 #include "PerkUnlockWidget.generated.h"
 
 class UCanvasPanel;
@@ -144,7 +145,7 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> right_button_;
 
-	EHeroType current_hero_type_;
+	ECharacterType current_hero_type_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> perk_points_text_;

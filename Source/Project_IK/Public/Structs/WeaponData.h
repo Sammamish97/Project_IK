@@ -80,14 +80,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true"))
 	float reload_duration = 0.f;
 	
-	//발사 애니메이션
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
-	TObjectPtr<UAnimMontage> fire_montage_ = nullptr;
-
-	//장전 애니메이션
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true", BindWidget))
-	TObjectPtr<UAnimMontage> reload_montage_ = nullptr;
-
 	//머즐 플래쉬 vfx
 	UPROPERTY(EditAnywhere, Category = "Firing")
 	TObjectPtr<class UNiagaraSystem> fire_muzzle_effect_;

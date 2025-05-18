@@ -24,7 +24,7 @@ See LICENSE file in the project root for full license information.
 
 // Sets default values
 UCharacterStatComponent::UCharacterStatComponent()
-	: character_id_(EHeroType::Hero1), max_hit_points_(0.f)
+	: max_hit_points_(0.f)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 
@@ -34,17 +34,12 @@ UCharacterStatComponent::UCharacterStatComponent()
 void UCharacterStatComponent::InitializeComponent()
 {
 	Super::InitializeComponent();
-
-	auto ik_game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
-	if (ik_game_instance)
+	if (auto ik_game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
 	{
 		if (UDataTableManager* data_table_manager = ik_game_instance->GetDataTableManager())
 		{
-			character_data_ = data_table_manager->GetCharacterData(character_id_);
+			character_data_ = data_table_manager->GetCharacterData(Cast<AUnit>(GetOwner())->GetCharacterType());
 		}
-
-
 		// They are initial data of each attributes. Theoretical limitation will be implemented later
 		max_hit_points_ = character_data_.status_data_.hit_point_;
 		shield_ = 0.f;
@@ -56,6 +51,9 @@ void UCharacterStatComponent::InitializeComponent()
 void UCharacterStatComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	max_hit_points_ = character_data_.status_data_.hit_point_;
+	shield_ = 0.f;
+	max_shield_ = 100.f;
 }
 
 void UCharacterStatComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -125,11 +123,6 @@ bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 
 	data_ref.atk_base_dmg = remaining_damage;
 	return is_evaded;
-}
-
-EHeroType UCharacterStatComponent::GetCharacterID() const
-{
-	return character_id_;
 }
 
 void UCharacterStatComponent::GetDamage(float damage)
@@ -404,11 +397,6 @@ float UCharacterStatComponent::GetMaxShield() const noexcept
 FCharacterData UCharacterStatComponent::GetCharacterData() const noexcept
 {
 	return character_data_;
-}
-
-void UCharacterStatComponent::SetCharacterID(EHeroType char_id) noexcept
-{
-	character_id_ = char_id;
 }
 
 void UCharacterStatComponent::SetCharacterData(const FCharacterData& character_data) noexcept

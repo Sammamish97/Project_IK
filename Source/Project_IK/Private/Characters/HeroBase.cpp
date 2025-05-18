@@ -49,15 +49,30 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
+	switch (GetCharacterType())
+	{
+	case ECharacterType::Hero1:
+		hero_type_ = EHeroType::Hero1;
+		break;
+	case ECharacterType::Hero2:
+		hero_type_ = EHeroType::Hero2;
+		break;
+	case ECharacterType::Hero3:
+		hero_type_ = EHeroType::Hero3;
+		break;
+	case ECharacterType::Hero4:
+		hero_type_ = EHeroType::Hero4;
+		break;
 
-	rune_mechanics_->EquipRune(ERuneSetType::Poet, 0);
-	rune_mechanics_->EquipRune(ERuneSetType::Poet, 1);
-	rune_mechanics_->EquipRune(ERuneSetType::Poet, 2);
-	rune_mechanics_->EquipRune(ERuneSetType::Poet, 3);
-	rune_mechanics_->EquipRune(ERuneSetType::Poet, 4);
-	rune_mechanics_->EquipRune(ERuneSetType::Poet, 5);
-
-	skill_container_->EquipActiveSkill(EActiveSkillType::Thunder);
+	default:
+		checkNoEntry();
+	}
+	//TEST PURPOSE
+	if (weapon_mechanics_->GetWeaponActor() == nullptr)
+	{
+		weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle_B);
+	}
+	//
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -65,7 +80,7 @@ void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
-void AHeroBase::Initialize(FSpawnData spawn_data)
+void AHeroBase::EquipGears(FSpawnData spawn_data)
 {
 	if (spawn_data.weapon_data_.IsSet())
 	{
@@ -103,7 +118,7 @@ void AHeroBase::Initialize(FSpawnData spawn_data)
 void AHeroBase::Die()
 {
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
-	if (casted_mode) casted_mode->RemoveHero(GetCharacterStat()->GetCharacterID());
+	if (casted_mode) casted_mode->RemoveHero(hero_type_);
 	Super::Die();
 }
 

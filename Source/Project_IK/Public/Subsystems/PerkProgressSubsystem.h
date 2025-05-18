@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Managers/EnumCluster.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "PerkProgressSubsystem.generated.h"
 
@@ -31,9 +32,9 @@ public:
 
 	virtual void Deinitialize() override;
 
-	const TSet<int32>& GetProgress(EHeroType hero_type);
-	bool AddProgress(EHeroType hero_type, int32 progress);
+	const TSet<int32>& GetProgress(ECharacterType hero_type);
+	bool AddProgress(ECharacterType hero_type, int32 progress);
 
 protected:
-	TMap<EHeroType, TSet<int32>> progresses_;
+	TMap<ECharacterType, TSet<int32>> progresses_;
 };

@@ -43,10 +43,21 @@ void UWeaponMechanics::BeginPlay()
 //TODO: 인벤토리 프리뷰가 3D일때 역시 생각해야 한다.
 void UWeaponMechanics::EquipWeapon(EWeaponType type)
 {
+	auto data_table_manager = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 	weapon_actor_ = GetWorld()->SpawnActor<AGun>(weapon_class_);
-	weapon_actor_->SetWeaponData(Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager()->GetWeaponData(type));
+	weapon_actor_->SetWeaponData(data_table_manager->GetWeaponData(type));
+	
+	EWeaponAnimationType weapon_anim_type = GetWeaponData().anim_type;
+	auto bone_type = owner_ref_->GetBoneType();
+	
+	TSoftObjectPtr<UAnimMontage> soft_fire_anim = data_table_manager->GetUnitWeaponAnimMontage(bone_type, weapon_anim_type, EWeaponAction::Fire);
+	TSoftObjectPtr<UAnimMontage> soft_reload_anim = data_table_manager->GetUnitWeaponAnimMontage(bone_type, weapon_anim_type, EWeaponAction::Reload);
+	
+	fire_montage_ = soft_fire_anim.LoadSynchronous();
+	reload_montage_ = soft_reload_anim.LoadSynchronous();
+	
 	FName socket_name;
-	switch (GetWeaponData().anim_type)
+	switch (weapon_anim_type)
 	{
 	case EWeaponAnimationType::Pistol:
 		socket_name = TEXT("pistol_socket");
@@ -121,7 +132,7 @@ void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data, bool is_cont
 	}
 	
 	FireWeapon(target, dmg_data, is_controlled_fire, offset);
-	owner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().fire_montage_);
+	owner_ref_->PlayAnimMontage(fire_montage_);
 	burst_count_ += 1;
 	if(IsMagazineEmpty())
 	{
@@ -166,6 +177,10 @@ void UWeaponMechanics::FireWeapon(AActor* target, FDamageData dmg_data, bool is_
 					weapon_actor_->FireWeapon(target->GetActorLocation(), dmg_data);
 				}
 			}
+			else
+			{
+				weapon_actor_->FireWeapon(target->GetActorLocation(), dmg_data);
+			}
 		}
 		else
 		{
@@ -197,8 +212,8 @@ void UWeaponMechanics::Reload(float duration_multiplier)
 			owner_ref_->DispatchUnitEvent(EUnitEvent::OnReload);
 			weapon_actor_->OnReloadStub();
 			FWeaponData weapon_data = GetWeaponData();
-			float reload_play_rate = weapon_data.reload_montage_->GetPlayLength() / weapon_data.reload_duration / duration_multiplier;
-			owner_ref_->PlayAnimMontage(weapon_actor_->GetWeaponData().reload_montage_, reload_play_rate);
+			float reload_play_rate = reload_montage_->GetPlayLength() / weapon_data.reload_duration / duration_multiplier;
+			owner_ref_->PlayAnimMontage(reload_montage_, reload_play_rate);
 			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &UWeaponMechanics::OnReload, weapon_data.reload_duration * duration_multiplier);
 		}
 	}

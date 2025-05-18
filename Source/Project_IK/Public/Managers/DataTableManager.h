@@ -76,11 +76,11 @@ public:
 	FItemData GetItemDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	TArray<FItemData> GetUniqueItemDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
-	const FCharacterData& GetCharacterData(EHeroType hero_type) const;
-	FString HeroEnumToString(EHeroType hero_type) const;
+	const FCharacterData& GetCharacterData(ECharacterType char_type) const;
+	FString HeroEnumToString(ECharacterType char_type) const;
 
-	void EnhanceCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float increase_amount);
-	void DiminishCharacterData(EHeroType hero_type, ECharacterStatType stat_type, float decrease_amount);
+	void EnhanceCharacterData(ECharacterType char_type, ECharacterStatType stat_type, float increase_amount);
+	void DiminishCharacterData(ECharacterType char_type, ECharacterStatType stat_type, float decrease_amount);
 
 	FGlobalBuffData GetGlobalBuffData(EGlobalBuffType buff_type) const;
 
@@ -89,6 +89,10 @@ public:
 
 	UTexture2D* GetStatTexture(ECharacterStatType stat_type);
 	UTexture2D* GetCCTexture(ECCType cc_type);
+
+	TSoftObjectPtr<UAnimMontage> GetUnitWeaponAnimMontage(EUnitBoneType bone, EWeaponAnimationType weapon, EWeaponAction action);
+
+	TSubclassOf<class AUnit> GetUnitType(ECharacterType type);
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
@@ -120,4 +124,10 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UCrowdControlInfoDataAsset> cc_info_data_asset_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UWeaponAnimDataAsset> unit_weapon_anim_asset_;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UUnitTypeDataAsset> unit_type_asset_;
 };

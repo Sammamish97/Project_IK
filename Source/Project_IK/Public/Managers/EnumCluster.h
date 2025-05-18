@@ -89,6 +89,21 @@ enum class EDialogueEventType : uint8
 };
 
 UENUM(BlueprintType)
+enum class ECharacterType  : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Hero1 UMETA(DisplayName = "Hero1"),
+	Hero2 UMETA(DisplayName = "Hero2"),
+	Hero3 UMETA(DisplayName = "Hero3"),
+	Hero4 UMETA(DisplayName = "Hero4"),
+	EnemySoldier UMETA(DisplayName = "EnemySoldier"),
+	EnemySniper UMETA(DisplayName = "EnemySniper"),
+	EnemyKnight UMETA(DisplayName = "EnemyKnight"),
+	EnemyLaserDrone	UMETA(DisplayName = "EnemyLaserDrone"),
+	EnemyHealingPillar UMETA(DisplayName = "EnemyHealingPillar"),
+};
+
+UENUM(BlueprintType)
 enum class EHeroType  : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
@@ -348,4 +363,30 @@ enum class EWeaponAnimationType : uint8
 	INVALID UMETA(DisplayName = "INVALID"),
 	Pistol UMETA(DisplayName = "Pistol"),
 	Rifle UMETA(DisplayName = "Rifle"),
+};
+
+UENUM(BlueprintType)
+enum class EAIFindTargetType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Nearest UMETA(DisplayName = "Nearest"),
+	Farthest UMETA(DisplayName = "Farthest"),
+	Random UMETA(DisplayName = "Random"),
+	Weakest UMETA(DisplayName = "Weakest")
+};
+
+UENUM(BlueprintType)
+enum class EUnitBoneType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	HeroHumanoid UMETA(DisplayName = "HeroHumanoid"),
+	EnemySoldier UMETA(DisplayName = "EnemySoldier"),
+};
+
+UENUM(BlueprintType)
+enum class EWeaponAction : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Fire UMETA(DisplayName = "Fire"),
+	Reload UMETA(DisplayName = "Reload"),
 };

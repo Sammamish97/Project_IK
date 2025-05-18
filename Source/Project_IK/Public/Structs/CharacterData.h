@@ -20,20 +20,13 @@ USTRUCT(BlueprintType)
 struct FCharacterData
 {
 	GENERATED_BODY()
-
-public:
-	// Unit Type
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	TSubclassOf<AUnit> unit_class_ = nullptr;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	FName character_name_ = "";
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatusData")
 	FStatusData status_data_ = FStatusData{};
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AgilityData")
 	float sight_range_ = 0.f;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AgilityData")
 	float move_speed_ = 0.f;
 };
