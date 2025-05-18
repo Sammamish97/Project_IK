@@ -6,7 +6,8 @@ Summary : Source file for the unit type data asset.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
-******************************************************************************/#include "DataAssets/UnitTypeDataAsset.h"
+******************************************************************************/
+#include "DataAssets/UnitTypeDataAsset.h"
 #include "Characters/Unit.h"
 TSubclassOf<AUnit> UUnitTypeDataAsset::GetUnitClass(ECharacterType unit_type)
 {

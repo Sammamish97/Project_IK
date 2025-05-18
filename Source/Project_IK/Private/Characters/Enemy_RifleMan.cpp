@@ -18,7 +18,7 @@ AEnemy_RifleMan::AEnemy_RifleMan()
 void AEnemy_RifleMan::BeginPlay()
 {
 	Super::BeginPlay();
-	weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle_B);
+	weapon_mechanics_->EquipWeapon(weapon_type_);
 }
 
 void AEnemy_RifleMan::Die()

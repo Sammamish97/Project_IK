@@ -97,6 +97,7 @@ enum class ECharacterType  : uint8
 	Hero3 UMETA(DisplayName = "Hero3"),
 	Hero4 UMETA(DisplayName = "Hero4"),
 	EnemySoldier UMETA(DisplayName = "EnemySoldier"),
+	EnemySniper UMETA(DisplayName = "EnemySniper"),
 	EnemyKnight UMETA(DisplayName = "EnemyKnight"),
 };
 
@@ -378,7 +379,6 @@ enum class EUnitBoneType : uint8
 	INVALID UMETA(DisplayName = "INVALID"),
 	HeroHumanoid UMETA(DisplayName = "HeroHumanoid"),
 	EnemySoldier UMETA(DisplayName = "EnemySoldier"),
-	EnemyKnight UMETA(DisplayName = "EnemyKnight"),
 };
 
 UENUM(BlueprintType)
