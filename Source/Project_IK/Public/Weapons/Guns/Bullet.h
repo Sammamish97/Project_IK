@@ -16,6 +16,8 @@ See LICENSE file in the project root for full license information.
 
 class USphereComponent;
 class UProjectileMovementComponent;
+class UNiagaraSystem;
+
 UCLASS(Abstract)
 class PROJECT_IK_API ABullet : public APooledActor
 {
@@ -38,13 +40,20 @@ public:
 	UFUNCTION()
 	void AddOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
 	void RemoveOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
-	void ClearOnHitComponents();
+	void Clear();
 
 	virtual void SetInUse(bool in_use) override;
+
+	void AttachParticleEffects(const TArray<UNiagaraSystem*>& niagara_systems, 
+		const TMap<UNiagaraSystem*, TMap<FName, float>>& float_parameters, 
+		const TMap<UNiagaraSystem*, TMap<FName, FVector>>& vector_parameters);
+	void ApplyMaterials(const TArray<UMaterialInterface*>& material);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	void ClearComponentsAttachedOnMesh();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
@@ -64,4 +73,6 @@ protected:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
 	FDamageData dmg_data_;
+
+	TWeakObjectPtr<UMaterialInterface> original_material_;
 };
