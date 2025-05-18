@@ -67,6 +67,12 @@ void AHeroBase::BeginPlay()
 	default:
 		checkNoEntry();
 	}
+	//TEST PURPOSE
+	if (weapon_mechanics_->GetWeaponActor() == nullptr)
+	{
+		weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle_B);
+	}
+	//
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)

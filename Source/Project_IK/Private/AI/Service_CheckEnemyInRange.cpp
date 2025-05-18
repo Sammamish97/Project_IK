@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "AIController.h"
 #include "Components/CharacterStatComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Characters/Enemy_LaserDrone.h"
 #include "Components/WeaponMechanics.h"
 UService_CheckEnemyInRange::UService_CheckEnemyInRange()
 {
@@ -32,15 +33,32 @@ void UService_CheckEnemyInRange::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 	{
 		AActor* casted_actor = Cast<AActor>(target);
 		float distance = FVector::Distance(casted_gunner->GetActorLocation(), casted_actor->GetActorLocation());
-		if (auto weapon_mechanics = casted_gunner->GetComponentByClass<UWeaponMechanics>())
+		if (is_drone_)
 		{
-			if (weapon_mechanics->GetWeaponData().fire_range > distance)
+			if (auto drone = Cast<AEnemy_LaserDrone>(casted_gunner))
 			{
-				blackboard->SetValueAsBool(is_enemy_in_range_key_.SelectedKeyName, true);
+				if (drone->GetLaserRange() > distance)
+				{
+					blackboard->SetValueAsBool(is_enemy_in_range_key_.SelectedKeyName, true);
+				}
+				else
+				{
+					blackboard->SetValueAsBool(is_enemy_in_range_key_.SelectedKeyName, false);
+				}
 			}
-			else
+		}
+		else
+		{
+			if (auto weapon_mechanics = casted_gunner->GetComponentByClass<UWeaponMechanics>())
 			{
-				blackboard->SetValueAsBool(is_enemy_in_range_key_.SelectedKeyName, false);
+				if (weapon_mechanics->GetWeaponData().fire_range > distance)
+				{
+					blackboard->SetValueAsBool(is_enemy_in_range_key_.SelectedKeyName, true);
+				}
+				else
+				{
+					blackboard->SetValueAsBool(is_enemy_in_range_key_.SelectedKeyName, false);
+				}
 			}
 		}
 	}
