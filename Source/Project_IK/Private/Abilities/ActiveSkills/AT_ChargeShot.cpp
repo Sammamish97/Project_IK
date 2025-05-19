@@ -51,7 +51,7 @@ bool UAT_ChargeShot::ActivateSkill_Implementation(const FTargetResult& TargetRes
 
 void UAT_ChargeShot::OnChargeShot(AActor* target, UWeaponMechanics* weapon_mechanics_cache, FDamageData dmg_data)
 {
-	weapon_mechanics_cache->OnFire(target, dmg_data);
+	weapon_mechanics_cache->OnFire(target, dmg_data, recoil_time_);
 	weapon_mechanics_cache->FinishFire();
 	weapon_mechanics_cache->ResumeFire();
 }

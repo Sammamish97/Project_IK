@@ -40,7 +40,7 @@ public:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
 	void BeginFire(AActor* target);
-	void OnFire(AActor* target, FDamageData dmg_data, bool is_controlled_fire = true, float offset = 0.f);
+	void OnFire(AActor* target, FDamageData dmg_data, float attack_speed, bool is_controlled_fire = true, float offset = 0.f);
 	void FireWeapon(AActor* target, FDamageData dmg_data, bool is_controlled_fire = true, float offset = 0.f);
 	void FinishFire();
 	

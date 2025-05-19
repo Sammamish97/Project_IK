@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"
+#include "Components/WeaponMechanics.h"
 #include "Managers/EnumCluster.h"
 #include "Kismet/KismetSystemLibrary.h"
 
@@ -40,6 +41,11 @@ void UService_FindEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Node
 	{
 		if (blackboard->GetValueAsObject(attack_target_key_.SelectedKeyName) == nullptr)
 		{
+			//IKTODO: 새로운 적을 찾아야 한다면 발사를 멈춘다. 공격은 timer로 loop하기 때문이다. 더 좋은 방법이 있을 것이다.
+			if (auto weapon_mechanics = casted_gunner->GetComponentByClass<UWeaponMechanics>())
+			{
+				weapon_mechanics->FinishFire();
+			}
 			if (UClass* target_class = blackboard->GetValueAsClass(target_class_key_.SelectedKeyName))
 			{
 				TArray<AActor*> ignore_actors;
@@ -78,10 +84,7 @@ void UService_FindEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Node
 				case EAIFindTargetType::Farthest:
 					distance_object_pairs.Sort(TGreater<>());
 					break;
-
-				//IKTODO: 이 함수는 매 프레임 반드시 불린다.
-				//그러므로, Random한 적을 찾는 로직을 다음과 같이 짜면 매 프레임 attack target이 바뀐다.
-				//만약 Random한 적을 찾는 로직이 필요하다면, Attack Target이 없을 때 만 Random한 적을 찾는 로직을 추가해야한다.
+					
 				case EAIFindTargetType::Random:
 					//distance_object_pairs[FMath::RandRange(0, FMath::Max(0, distance_object_pairs.Num()-1))];
 					break;
@@ -94,7 +97,6 @@ void UService_FindEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Node
 				default:
 					break;
 				}
-				
 				if (distance_object_pairs.IsEmpty() == false)
 				{
 					blackboard->SetValueAsObject(attack_target_key_.SelectedKeyName, distance_object_pairs[0].Value);

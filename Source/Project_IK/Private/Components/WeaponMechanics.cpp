@@ -112,7 +112,7 @@ void UWeaponMechanics::BeginFire(AActor* target)
 			{
 				if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target_ptr)
 				{
-					FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target_ptr, GetWeaponFireDamageData(), true, 0.f);
+					FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target_ptr, GetWeaponFireDamageData(), weapon_attack_speed, true, 0.f);
 					GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, weapon_attack_speed); 
 				}
 			}
@@ -120,7 +120,7 @@ void UWeaponMechanics::BeginFire(AActor* target)
 	}
 }
 
-void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data, bool is_controlled_fire, float offset)
+void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data, float attack_speed, bool is_controlled_fire, float offset)
 {
 	float total_crit_hit_rate = owner_ref_->GetCharacterStat()->GetCriticalHitRate() + weapon_actor_->GetWeaponData().critical_hit_rate_;
 	OnCriticalRateCalculation.Broadcast(total_crit_hit_rate);
@@ -132,7 +132,7 @@ void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data, bool is_cont
 	}
 	
 	FireWeapon(target, dmg_data, is_controlled_fire, offset);
-	owner_ref_->PlayAnimMontage(fire_montage_);
+	owner_ref_->PlayAnimMontage(fire_montage_, fire_montage_->GetPlayLength() / attack_speed);
 	burst_count_ += 1;
 	if(IsMagazineEmpty())
 	{
@@ -161,6 +161,7 @@ void UWeaponMechanics::FireWeapon(AActor* target, FDamageData dmg_data, bool is_
 			if(UBlackboardComponent* blackboard = Cast<AAIController>(casted_character->GetController())->GetBlackboardComponent())
 			{
 				UObject* cover = blackboard->GetValueAsObject(owned_cover_key_name_);
+				//엄폐물이 있으면 확률에 따라 엄폐물에 사격.
 				if(IsValid(cover))
 				{
 					if(FMath::RandRange(0, 100) > 50)
@@ -172,16 +173,19 @@ void UWeaponMechanics::FireWeapon(AActor* target, FDamageData dmg_data, bool is_
 						weapon_actor_->FireWeapon(target->GetActorLocation() - FVector(0, 0, 50), dmg_data);
 					}
 				}
+				//엄폐물이 없다면 다이렉트하게 적에게 사격.
 				else
 				{
 					weapon_actor_->FireWeapon(target->GetActorLocation(), dmg_data);
 				}
 			}
+			//엄폐를 하지 않는 적(BB 없음)에게는 다이렉트하게 사격.
 			else
 			{
 				weapon_actor_->FireWeapon(target->GetActorLocation(), dmg_data);
 			}
 		}
+		//난사 중이면 랜덤 벡터를 더해서 사격.
 		else
 		{
 			FVector rand_vec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, offset);

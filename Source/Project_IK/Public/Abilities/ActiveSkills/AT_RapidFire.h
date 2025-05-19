@@ -22,7 +22,7 @@ public:
 	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
 
 private:
-	virtual void OnRapidFire(AActor* target, class UWeaponMechanics* weapon_mechanics_cache, FDamageData dmg_data);
+	virtual void OnRapidFire(AActor* target, class UWeaponMechanics* weapon_mechanics_cache, FDamageData dmg_data, float attack_speed);
 
 private:
 	float attack_speed_increase_amount_ = 3.f;
