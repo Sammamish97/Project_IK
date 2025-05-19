@@ -30,7 +30,7 @@ void UInventoryManager::InitEquipInventory()
 	AddEquipment(EActiveSkillType::FateSpiral);
 	AddEquipment(EActiveSkillType::Encourage);
 	AddEquipment(EActiveSkillType::ThunderStorm);
-	AddEquipment(EActiveSkillType::DeployCover);
+	AddEquipment(EPassiveSkillType::LowProfile);
 	AddEquipment(EActiveSkillType::MagnetizedBullet);
 	AddEquipment(EActiveSkillType::ShockJavelin);
 }

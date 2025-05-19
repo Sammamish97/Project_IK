@@ -33,7 +33,7 @@ public:
 	void SetDamageData(FDamageData dmg_data);
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UNiagaraSystem* niagara_system_;
+	TObjectPtr<UNiagaraSystem> niagara_system_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ShockJavelin")
 	TSubclassOf<AStaticMeshActor> scorched_mark_class_;
