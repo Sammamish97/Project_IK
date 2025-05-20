@@ -16,6 +16,10 @@ See LICENSE file in the project root for full license information.
 #include "Structs/BuffData.h"
 #include "Characters/Unit.h"
 
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+#include "Components/CapsuleComponent.h"
+
 void UPS_Berserker::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
@@ -24,6 +28,8 @@ void UPS_Berserker::InitEquipmentSkill(AActor* hero_ref)
 	if (unit)
 	{
 		hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnHPChanged(unit->GetCharacterStat(), this, &UPS_Berserker::BuffBerserker);
+
+		SpawnParticles(unit);
 	}
 }
 
@@ -62,6 +68,8 @@ void UPS_Berserker::ApplyBuff()
 				unit->ApplyBuff(life_steal);
 				unit->ApplyBuff(attack_speed);
 
+				ActivateParticles();
+
 				is_buff_applied_ = true;
 			}
 		}
@@ -81,9 +89,39 @@ void UPS_Berserker::RemoveBuff()
 				unit->RemoveBuff(TEXT("Berserker_lifesteal"));
 				unit->RemoveBuff(TEXT("Berserker_attack_speed"));
 
+				DeactivateParticles();
 
 				is_buff_applied_ = false;
 			}
 		}
+	}
+}
+
+void UPS_Berserker::SpawnParticles(AUnit* actor)
+{
+	USceneComponent* component = actor->GetRootComponent();
+	berserker_particle_component_ = UNiagaraFunctionLibrary::SpawnSystemAttached(skill_particle_system_, component, FName(), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, false, false);
+	
+	UCapsuleComponent* capsule_component = Cast<UCapsuleComponent>(component);
+	if (capsule_component)
+	{
+		berserker_particle_component_->SetVariableFloat(FName("Cylinder Height"), capsule_component->GetUnscaledCapsuleHalfHeight() * 2.f);
+		berserker_particle_component_->SetVariableFloat(FName("Cylinder Radius"), capsule_component->GetUnscaledCapsuleRadius());
+	}
+}
+
+void UPS_Berserker::ActivateParticles()
+{
+	if (berserker_particle_component_)
+	{
+		berserker_particle_component_->Activate();
+	}
+}
+
+void UPS_Berserker::DeactivateParticles()
+{
+	if (berserker_particle_component_)
+	{
+		berserker_particle_component_->Deactivate();
 	}
 }

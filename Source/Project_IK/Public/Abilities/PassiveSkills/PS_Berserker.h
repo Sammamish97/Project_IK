@@ -15,6 +15,10 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/PassiveSkills/PassiveSkillBase.h"
 #include "PS_Berserker.generated.h"
 
+class AUnit;
+class UNiagaraSystem;
+class UNiagaraComponent;
+ 
 /**
  * 
  */
@@ -26,7 +30,8 @@ public:
 
 	virtual void InitEquipmentSkill(AActor* hero_ref) override;
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UNiagaraSystem> skill_particle_system_;
 
 protected:
 	UFUNCTION()
@@ -34,6 +39,10 @@ protected:
 
 	void ApplyBuff();
 	void RemoveBuff();
+
+	void SpawnParticles(AUnit* actor);
+	void ActivateParticles();
+	void DeactivateParticles();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
 	float hp_ratio_threshold_ = 0.2f;
@@ -45,4 +54,7 @@ protected:
 	bool is_attack_speed_buff_percentage_ = true;
 
 	bool is_buff_applied_ = false;
+
+	UPROPERTY()
+	TObjectPtr<UNiagaraComponent> berserker_particle_component_;
 };
