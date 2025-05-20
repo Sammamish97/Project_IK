@@ -85,6 +85,8 @@ public:
 
 	UFUNCTION()
 	virtual void OnEnterBattleOnce();
+	
+	float GetPitchDiffBetweenTarget();
 
 	UFUNCTION()
 	void DispatchUnitEvent(EUnitEvent type);
