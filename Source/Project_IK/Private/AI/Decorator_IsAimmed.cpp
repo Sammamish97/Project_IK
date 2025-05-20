@@ -23,6 +23,7 @@ bool UDecorator_IsAimmed::CalculateRawConditionValue(UBehaviorTreeComponent& Own
 	UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
 	AAIController* controller = OwnerComp.GetAIOwner();
 	APawn* casted_pawn = controller->GetPawn();
+	casted_pawn->GetBaseAimRotation();
 	AActor* attack_target = Cast<AActor>(blackboard->GetValueAsObject(attack_target_key_.SelectedKeyName));
 
 	if(attack_target)
@@ -31,7 +32,10 @@ bool UDecorator_IsAimmed::CalculateRawConditionValue(UBehaviorTreeComponent& Own
 		controller->StopMovement();
 		FVector owner_to_target = attack_target->GetActorLocation() - casted_pawn->GetActorLocation();
 		owner_to_target.Normalize();
-		return FVector::DotProduct(owner_to_target, casted_pawn->GetActorForwardVector()) >= 0.9999;
+		FVector owner_forward = casted_pawn->GetActorForwardVector();
+		owner_forward.Normalize();
+		
+		return FVector::DotProduct({owner_to_target.X, owner_to_target.Y, 0}, {owner_forward.X, owner_forward.Y, 0})  >= 0.8;
 	}
 	return false;
 }

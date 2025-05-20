@@ -43,7 +43,7 @@ bool UAT_TripleFire::ActivateSkill_Implementation(const FTargetResult& TargetRes
 			{
 				weapon_actor->Reload(3);
 				
-				FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UAT_TripleFire::OnTripleFire, target, weapon_mechanics_cache, weapon_mechanics_cache->GetWeaponFireDamageData());
+				FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UAT_TripleFire::OnTripleFire, target, weapon_mechanics_cache, weapon_mechanics_cache->GetWeaponFireDamageData(), boosted_attack_speed);
 				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle, fire_del, boosted_attack_speed, true, 0); 
 			}
 			return true;
@@ -52,11 +52,11 @@ bool UAT_TripleFire::ActivateSkill_Implementation(const FTargetResult& TargetRes
 	return false;
 }
 
-void UAT_TripleFire::OnTripleFire(AActor* target, UWeaponMechanics* weapon_mechanics_cache, FDamageData dmg_data)
+void UAT_TripleFire::OnTripleFire(AActor* target, UWeaponMechanics* weapon_mechanics_cache, FDamageData dmg_data, float attack_speed)
 {
 	static int32 counter = 0;
 	counter += 1;
-	weapon_mechanics_cache->OnFire(target, dmg_data);
+	weapon_mechanics_cache->OnFire(target, dmg_data, attack_speed);
 	if (counter == 3)
 	{
 		counter = 0;

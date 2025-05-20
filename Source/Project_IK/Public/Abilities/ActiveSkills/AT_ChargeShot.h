@@ -26,4 +26,5 @@ public:
 private:
 	float charge_time_ = 1.0f;
 	float dmg_scale_ = 1.5f;
+	float recoil_time_ = 1.0f;
 };

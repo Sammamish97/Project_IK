@@ -24,7 +24,7 @@ public:
 
 private:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Variables", meta=(AllowPrivateAccess=true))
-    TWeakObjectPtr<ACharacter> gunner_ptr_;
+    TWeakObjectPtr<class AUnit> gunner_ptr_;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Variables", meta=(AllowPrivateAccess=true))
     TWeakObjectPtr<class UCharacterMovementComponent> movement_component_ptr_;
@@ -34,4 +34,7 @@ private:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Variables", meta=(AllowPrivateAccess=true))
     float speed_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Variables", meta=(AllowPrivateAccess=true))
+	float pitch_;
 };

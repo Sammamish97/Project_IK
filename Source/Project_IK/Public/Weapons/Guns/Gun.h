@@ -64,7 +64,7 @@ private:
 	void SpawnBullet(const FTransform& transform, const FDamageData& dmg_data);
 	
 protected:
-	UPROPERTY(BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class USkeletalMeshComponent> weapon_skeletal_mesh_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon", meta = (AllowPrivateAccess = "true"))

@@ -18,6 +18,7 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/HitPointsUI.h"
 #include "Components/ObjectPoolComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "UI/DamageUI.h"
 
 #include "Subsystems/GlobalBuffSubsystem.h"
@@ -240,6 +241,18 @@ void AUnit::FinishStun()
 void AUnit::OnEnterBattleOnce()
 {
 	DispatchUnitEvent(EUnitEvent::OnEnterBattle);
+}
+
+float AUnit::GetPitchDiffBetweenTarget()
+{
+	if (auto controller = Cast<AMeleeAIController>(GetController()))
+	{
+		if (AActor* target = controller->GetTargetActor())
+		{
+			return UKismetMathLibrary::FindLookAtRotation(Owner->GetActorLocation(), target->GetActorLocation()).Pitch;
+		}
+	}
+	return 0.f;
 }
 
 void AUnit::Die()
