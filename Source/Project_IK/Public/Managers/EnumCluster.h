@@ -379,8 +379,7 @@ UENUM(BlueprintType)
 enum class EUnitBoneType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
-	HeroHumanoid UMETA(DisplayName = "HeroHumanoid"),
-	EnemySoldier UMETA(DisplayName = "EnemySoldier"),
+	Humanoid_Gunner UMETA(DisplayName = "HeroHumanoid"),
 };
 
 UENUM(BlueprintType)
