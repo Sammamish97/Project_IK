@@ -112,7 +112,6 @@ protected:
 
 	//
 	float HARD_CODED_REPOSITION_RADIUS = 1000.f;
-	bool on_reposition_ = true;
 	const float max_cost_ = 10.f;
 	float cur_cost_ = 0.f;
 

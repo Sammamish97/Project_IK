@@ -240,7 +240,7 @@ void AIKPlayerController::CancelTargeting()
 void AIKPlayerController::ToggleBetweenRepositionAndSupport()
 {
 	CancelTargeting();
-	if (on_reposition_)
+	if (targeting_state_ == ETargetingState::EnterRepositioning)
 	{
 		targeting_state_ = ETargetingState::EnterSupporting;
 		if (equipped_support_skill_)
@@ -248,18 +248,16 @@ void AIKPlayerController::ToggleBetweenRepositionAndSupport()
 			targeting_component_->StartTargeting(equipped_support_skill_->GetTargetParameters());
 		}
 	}
-	else
+	else if (targeting_state_ == ETargetingState::EnterSupporting)
 	{
 		targeting_state_ = ETargetingState::EnterRepositioning;
 		targeting_component_->StartTargeting( {ETargetingMode::Actor, ETargetType::Allies, HARD_CODED_REPOSITION_RADIUS, HARD_CODED_REPOSITION_RADIUS}, nullptr);
 	}
-	on_reposition_ = !on_reposition_;
 }
 
 void AIKPlayerController::EnterRepositioningMode()
 {
 	targeting_state_ = ETargetingState::EnterRepositioning;
-	on_reposition_ = true;
 	targeting_component_->StartTargeting( {ETargetingMode::Actor, ETargetType::Allies, HARD_CODED_REPOSITION_RADIUS, HARD_CODED_REPOSITION_RADIUS}, nullptr);
 }
 
