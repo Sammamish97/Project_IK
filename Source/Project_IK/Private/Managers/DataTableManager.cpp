@@ -21,6 +21,7 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/StatInfoDataAsset.h"
 #include "DataAssets/CrowdControlInfoDataAsset.h"
 #include "DataAssets/CharacterStatDataAsset.h"
+#include "DataAssets/SupportSkillDataAsset.h"
 #include "DataAssets/UnitTypeDataAsset.h"
 #include "DataAssets/WeaponAnimDataAsset.h"
 
@@ -443,4 +444,9 @@ TSoftObjectPtr<UAnimMontage> UDataTableManager::GetUnitWeaponAnimMontage(EUnitBo
 TSubclassOf<AUnit> UDataTableManager::GetUnitType(ECharacterType type)
 {
 	return unit_type_asset_->GetUnitClass(type);
+}
+
+TSubclassOf<class USupportSkillBase> UDataTableManager::GetSupportSkillType(ESupportSkillType type)
+{
+	return support_skill_type_asset_->GetSupportSkillClass(type);
 }

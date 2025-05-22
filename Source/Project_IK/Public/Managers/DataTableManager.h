@@ -93,6 +93,8 @@ public:
 	TSoftObjectPtr<UAnimMontage> GetUnitWeaponAnimMontage(EUnitBoneType bone, EWeaponAnimationType weapon, EWeaponAction action);
 
 	TSubclassOf<class AUnit> GetUnitType(ECharacterType type);
+	TSubclassOf<class USupportSkillBase> GetSupportSkillType(ESupportSkillType type);
+	
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
@@ -130,4 +132,7 @@ private:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UUnitTypeDataAsset> unit_type_asset_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class USupportSkillDataAsset> support_skill_type_asset_;
 };

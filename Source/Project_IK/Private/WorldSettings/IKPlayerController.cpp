@@ -14,8 +14,10 @@ See LICENSE file in the project root for full license information.
 #include "EnhancedInputSubsystems.h"
 #include "Abilities/Item.h"
 #include "Abilities/ItemInventory.h"
+#include "Abilities/SupportSkills/SupportSkillBase.h"
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "Managers/DataTableManager.h"
 #include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKHUD.h"
@@ -39,15 +41,18 @@ void AIKPlayerController::BeginPlay()
 	{
 		subsystem->AddMappingContext(player_input_mapping_context, 0);
 	}
+	
+	auto type =Cast<UIKGameInstance>(GetGameInstance())->GetDataTableManager()->GetSupportSkillType(ESupportSkillType::SupportFire);
+	equipped_support_skill_ = NewObject<USupportSkillBase>(this, type);
 }
 
 void AIKPlayerController::Tick(float dt)
 {
 	Super::Tick(dt);
-	if (cur_charge_time_ <= reposition_stack_)
+	if (cur_cost_ <= max_cost_)
 	{
-		cur_charge_time_ += dt;
-		cur_charge_time_ = FMath::Clamp(cur_charge_time_, 0.f, reposition_stack_);
+		cur_cost_ += dt;
+		cur_cost_ = FMath::Clamp(cur_cost_, 0.f, max_cost_);
 	}
 }
 
@@ -69,7 +74,8 @@ void AIKPlayerController::SetupInputComponent()
 		enhanced_input_component->BindAction(activate_third_hero_active_skill_action, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateThirdHeroActiveSkill);
 		enhanced_input_component->BindAction(activate_fourth_hero_active_skill_action, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateFourthHeroActiveSkill);
 		
-		enhanced_input_component->BindAction(enter_repositioning_mode_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::EnterRepositioningMode);
+		enhanced_input_component->BindAction(enter_action_mode_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::EnterRepositioningMode);
+		enhanced_input_component->BindAction(support_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::ToggleBetweenRepositionAndSupport);
 		
 		enhanced_input_component->BindAction(decide_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::Decide);
 		enhanced_input_component->BindAction(cancel_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::CancelTargeting);
@@ -201,17 +207,27 @@ void AIKPlayerController::Decide()
 		case ETargetingState::PickRepositionTargetLocation:
 			{
 				UE_LOG(LogTemp, Display, TEXT("AIKPlayerController::PickRepositionTargetLocation"));
-				if (cur_charge_time_ > 1.f && repositioning_hero_ != nullptr)
+				if (cur_cost_ > 1.f && repositioning_hero_ != nullptr)
 				{
-					cur_charge_time_ -= 1.f;
+					cur_cost_ -= 1.f;
 					Cast<AHeroBase>(repositioning_hero_)->Reposition(target_result.target_location_);
 					targeting_state_ = ETargetingState::Idle;
 					repositioning_hero_ = nullptr;
 				}
 			}
 			break;
-			case ETargetingState::Idle:
-			default:
+		
+		case ETargetingState::EnterSupporting:
+			if (equipped_support_skill_ && cur_cost_ > equipped_support_skill_->GetCost())
+			{
+				cur_cost_ -= equipped_support_skill_->GetCost();
+				equipped_support_skill_->ActivateSkill(target_result);
+				targeting_state_ = ETargetingState::Idle;
+			}
+			break;
+		
+		case ETargetingState::Idle:
+		default:
 				break;
 	}
 }
@@ -221,11 +237,30 @@ void AIKPlayerController::CancelTargeting()
 	targeting_component_->CancelTargeting();
 }
 
+void AIKPlayerController::ToggleBetweenRepositionAndSupport()
+{
+	CancelTargeting();
+	if (on_reposition_)
+	{
+		targeting_state_ = ETargetingState::EnterSupporting;
+		if (equipped_support_skill_)
+		{
+			targeting_component_->StartTargeting(equipped_support_skill_->GetTargetParameters());
+		}
+	}
+	else
+	{
+		targeting_state_ = ETargetingState::EnterRepositioning;
+		targeting_component_->StartTargeting( {ETargetingMode::Actor, ETargetType::Allies, HARD_CODED_REPOSITION_RADIUS, HARD_CODED_REPOSITION_RADIUS}, nullptr);
+	}
+	on_reposition_ = !on_reposition_;
+}
+
 void AIKPlayerController::EnterRepositioningMode()
 {
-	float HARD_CODED_RADIUS = 1000;
 	targeting_state_ = ETargetingState::EnterRepositioning;
-	targeting_component_->StartTargeting( {ETargetingMode::Actor, ETargetType::Allies, HARD_CODED_RADIUS, HARD_CODED_RADIUS}, nullptr);
+	on_reposition_ = true;
+	targeting_component_->StartTargeting( {ETargetingMode::Actor, ETargetType::Allies, HARD_CODED_REPOSITION_RADIUS, HARD_CODED_REPOSITION_RADIUS}, nullptr);
 }
 
 void AIKPlayerController::RotateCameraLeft()
@@ -247,5 +282,5 @@ void AIKPlayerController::OnToggleInventory()
 
 float AIKPlayerController::GetChargeTime() const
 {
-	return cur_charge_time_;
+	return cur_cost_;
 }

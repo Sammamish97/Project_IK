@@ -337,7 +337,8 @@ enum class ETargetingState : uint8
 	ActiveSKill UMETA(DisplayName = "ActiveSKill"),
 	Item UMETA(DisplayName = "Item"),
 	EnterRepositioning UMETA(DisplayName = "Repositioning"),
-	PickRepositionTargetLocation UMETA(DisplayName = "PickRepositionTargetLocation")
+	PickRepositionTargetLocation UMETA(DisplayName = "PickRepositionTargetLocation"),
+	EnterSupporting UMETA(DisplayName = "Supporting"),
 };
 
 UENUM(BlueprintType)
@@ -388,4 +389,12 @@ enum class EWeaponAction : uint8
 	INVALID UMETA(DisplayName = "INVALID"),
 	Fire UMETA(DisplayName = "Fire"),
 	Reload UMETA(DisplayName = "Reload"),
+};
+
+UENUM(BlueprintType)
+enum class ESupportSkillType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	SupportFire UMETA(DisplayName = "SupportFire"),
+	InstantRepair UMETA(DisplayName = "InstantRepair"),
 };
