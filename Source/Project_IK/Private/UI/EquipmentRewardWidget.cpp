@@ -53,7 +53,6 @@ void UEquipmentRewardWidget::PopulateCheckboxButtons()
 	// @@ TODO: number of requested data count may differ by acts.
 	UDataTableManager* data_table_manager = game_instance->GetDataTableManager();
 	CreateCheckboxButton(equipments_.active_skills_, row, column);
-	CreateCheckboxButton(equipments_.ooparts_, row, column);
 	CreateCheckboxButton(equipments_.passive_skills_, row, column);
 	for (const FRuneData& data : equipments_.runes_)
 	{
@@ -82,7 +81,6 @@ void UEquipmentRewardWidget::OnConfirmButtonClicked()
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	UInventoryManager* inventory_manager = game_instance->GetInventoryManager();
 	AddToInventory(equipments_.active_skills_, index, inventory_manager);
-	AddToInventory(equipments_.ooparts_, index, inventory_manager);
 	AddToInventory(equipments_.passive_skills_, index, inventory_manager);
 	AddToInventory(equipments_.weapons_, index, inventory_manager);
 

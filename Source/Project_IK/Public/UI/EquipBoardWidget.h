@@ -35,9 +35,6 @@ private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<UInventorySlot> active_skill_;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<UInventorySlot> oopart_;
-
 	UPROPERTY(Transient)
 	int32 cur_hero_idx_ = 0;
 	

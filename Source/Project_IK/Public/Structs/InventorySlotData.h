@@ -31,8 +31,5 @@ struct PROJECT_IK_API FInventorySlotData
 	EActiveSkillType active_skill_type = EActiveSkillType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
-	EOopartType oopart_type = EOopartType::INVALID;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "inventory slot data")
 	bool is_empty = true;
 };

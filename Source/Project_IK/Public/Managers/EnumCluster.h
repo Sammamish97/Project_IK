@@ -199,7 +199,6 @@ enum class EGearType : uint8
 	Weapon UMETA(DisplayName = "Weapon"),
 	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
 	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
-	Oopart UMETA(DisplayName = "Oopart"),
 };
 
 UENUM(BlueprintType)
@@ -209,7 +208,6 @@ enum class EInventorySlotType : uint8
 	WeaponBoardSlot UMETA(DisplayName = "WeaponBoardSlot"),
 	ActiveSkillBoardSlot UMETA(DisplayName = "ActiveSkillBoardSlot"),
 	PassiveSkillBoardSlot UMETA(DisplayName = "PassiveSkillBoardSlot"),
-	OopartBoardSlot UMETA(DisplayName = "OopartBoardSlot"),
 	InventorySlot UMETA(DisplayName = "InventorySlot"),
 };
 
@@ -271,14 +269,6 @@ enum class EPassiveSkillType : uint8
 	CloseQuartersMastery UMETA(DisplayName = "CloseQuartersMastery"),
 	LowProfile UMETA(DisplayName = "LowProfile"),
 	StableFirstRound UMETA(DisplayName = "StableFirstRound"),
-};
-
-UENUM(BlueprintType)
-enum class EOopartType : uint8
-{
-	HealingWaves UMETA(DisplayName = "HealingWaves"),
-	AttackSpeedBoost UMETA(DisplayName = "AttackSpeedBoost"),
-	INVALID UMETA(DisplayName = "INVALID")
 };
 
 UENUM(BlueprintType)

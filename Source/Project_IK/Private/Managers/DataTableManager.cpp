@@ -15,7 +15,6 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/RuneDataAsset.h"
 #include "DataAssets/WeaponDataAsset.h"
 #include "DataAssets/GlobalBuffDataAsset.h"
-#include "DataAssets/OopartDataAsset.h"
 #include "DataAssets/PassiveSkillDataAsset.h"
 #include "DataAssets/ItemDataAsset.h"
 #include "DataAssets/StatInfoDataAsset.h"
@@ -246,39 +245,6 @@ TArray<FActiveSkillData> UDataTableManager::GetUniqueActiveSkillDataRandomly(int
 	return active_skill_data_asset_->GetUniqueActiveSkillDataRandomly(n, weight_rarity);
 }
 
-FOopartData UDataTableManager::GetOopartData(EOopartType type) const
-{
-	return oopart_data_asset_->GetOopartData(type);
-}
-
-FString UDataTableManager::OopartEnumToString(EOopartType oopart_type) const
-{
-	FString string;
-	switch (oopart_type)
-	{
-	case EOopartType::HealingWaves:
-		string = TEXT("HealingWaves");
-		break;
-	case EOopartType::AttackSpeedBoost:
-		string = TEXT("AttackSpeedBoost");
-		break;
-	default:
-		string = TEXT("Empty");
-		break;
-	}
-	return string;
-}
-
-FOopartData UDataTableManager::GetOopartDataRandomly(ERarity weight_rarity) const
-{
-	return oopart_data_asset_->GetOopartDataRandomly(weight_rarity);
-}
-
-TArray<FOopartData> UDataTableManager::GetUniqueOopartDataRandomly(int32 n, ERarity weight_rarity) const
-{
-	return oopart_data_asset_->GetUniqueOopartDataRandomly(n, weight_rarity);
-}
-
 FItemData UDataTableManager::GetItemData(EItemType type) const
 {
 	return item_data_asset_->GetItemData(type);
@@ -376,7 +342,7 @@ FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type) 
 
 FWrapperEquipmentData UDataTableManager::GetEquipmentDataRandomly(ERarity weight_rarity) const
 {
-	int32 data_type = FMath::RandRange(0, 4);
+	int32 data_type = FMath::RandRange(0, 3);
 
 	FWrapperEquipmentData result;
 	switch (data_type)
@@ -385,15 +351,12 @@ FWrapperEquipmentData UDataTableManager::GetEquipmentDataRandomly(ERarity weight
 		result.active_skills_.Add(GetActiveSkillDataRandomly(weight_rarity));
 		break;
 	case 1:
-		result.ooparts_.Add(GetOopartDataRandomly(weight_rarity));
-		break;
-	case 2:
 		result.passive_skills_.Add(GetPassiveSkillDataRandomly(weight_rarity));
 		break;
-	case 3:
+	case 2:
 		result.runes_.Add(GetRuneDataRandomly(weight_rarity));
 		break;
-	case 4:
+	case 3:
 		result.weapons_.Add(GetWeaponDataRandomly(weight_rarity));
 		break;
 	default:
@@ -417,7 +380,6 @@ FWrapperEquipmentData UDataTableManager::GetUniqueEquipmentDataRandomly(int32 n,
 
 	FWrapperEquipmentData result;
 	result.active_skills_ = GetUniqueActiveSkillDataRandomly(data_counts[0], weight_rarity);
-	result.ooparts_ = GetUniqueOopartDataRandomly(data_counts[1], weight_rarity);
 	result.passive_skills_ = GetUniquePassiveSkillDataRandomly(data_counts[2], weight_rarity);
 	result.runes_ = GetUniqueRuneDataRandomly(data_counts[3], weight_rarity);
 	result.weapons_ = GetUniqueWeaponDataRandomly(data_counts[4], weight_rarity);

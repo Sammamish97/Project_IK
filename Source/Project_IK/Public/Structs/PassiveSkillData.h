@@ -32,6 +32,6 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
 	FString flavor_text;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "OopartData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PassiveSkillData")
 	ERarity rarity_;
 };

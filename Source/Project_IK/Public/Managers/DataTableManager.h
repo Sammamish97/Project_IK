@@ -30,7 +30,6 @@ struct FWrapperEquipmentData;
 struct FCharacterData;
 struct FWeaponData;
 struct FPassiveSkillData;
-struct FOopartData;
 struct FRuneData;
 struct FActiveSkillData;
 struct FGlobalBuffData;
@@ -66,11 +65,6 @@ public:
 	FActiveSkillData GetActiveSkillDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	TArray<FActiveSkillData> GetUniqueActiveSkillDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
-	FOopartData GetOopartData(EOopartType type) const;
-	FString OopartEnumToString(EOopartType oopart_type) const;
-	FOopartData GetOopartDataRandomly(ERarity weight_rarity = ERarity::Common) const;
-	TArray<FOopartData> GetUniqueOopartDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
-
 	FItemData GetItemData(EItemType type) const;
 	FString ItemEnumToString(EItemType item_type) const;
 	FItemData GetItemDataRandomly(ERarity weight_rarity = ERarity::Common) const;
@@ -105,9 +99,6 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UActiveSkillDataAsset> active_skill_data_asset_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<class UOopartDataAsset> oopart_data_asset_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UCharacterStatDataAsset> character_stat_data_asset_;

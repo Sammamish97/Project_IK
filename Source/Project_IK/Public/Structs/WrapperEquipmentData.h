@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Structs/ActiveSKillData.h"
-#include "Structs/OopartData.h"
 #include "Structs/PassiveSkillData.h"
 #include "Structs/RuneData.h"
 #include "Structs/WeaponData.h"
@@ -25,7 +24,6 @@ struct FWrapperEquipmentData
 
 public:
 	TArray<FActiveSkillData> active_skills_;
-	TArray<FOopartData> ooparts_;
 	TArray<FPassiveSkillData> passive_skills_;
 	TArray<FRuneData> runes_;
 	TArray<FWeaponData> weapons_;

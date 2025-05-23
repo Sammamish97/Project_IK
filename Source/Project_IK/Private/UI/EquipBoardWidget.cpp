@@ -30,9 +30,6 @@ void UEquipBoardWidget::NativeConstruct()
 
 	active_skill_->slot_type_ = EInventorySlotType::ActiveSkillBoardSlot;
 	active_skill_->slot_data_.gear_type = EGearType::ActiveSkill;
-
-	oopart_->slot_type_ = EInventorySlotType::OopartBoardSlot;
-	oopart_->slot_data_.gear_type = EGearType::Oopart;
 }
 
 
@@ -43,7 +40,7 @@ void UEquipBoardWidget::SetCurHeroIdx(int32 hero_idx)
 
 void UEquipBoardWidget::LoadEquipBoard()
 {
-	slot_array_ = {weapon_, passive_skill_, active_skill_, oopart_};
+	slot_array_ = {weapon_, passive_skill_, active_skill_};
 	for (auto& elem : slot_array_)
 	{
 		elem->ClearData();
@@ -52,7 +49,6 @@ void UEquipBoardWidget::LoadEquipBoard()
 	weapon_->slot_data_.gear_type = EGearType::Weapon;
 	passive_skill_->slot_data_.gear_type = EGearType::PassiveSkill;
 	active_skill_->slot_data_.gear_type = EGearType::ActiveSkill;
-	oopart_->slot_data_.gear_type = EGearType::Oopart;
 	
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
@@ -75,11 +71,6 @@ void UEquipBoardWidget::LoadEquipBoard()
 		{
 			active_skill_->slot_data_.active_skill_type = data_cache.active_skill_data_.GetValue().type;
 			active_skill_->slot_data_.is_empty = false;
-		}
-		if (data_cache.oopart_data_.IsSet())
-		{
-			oopart_->slot_data_.oopart_type = data_cache.oopart_data_.GetValue().type;
-			oopart_->slot_data_.is_empty = false;
 		}
 		for (auto& elem : slot_array_)
 		{
@@ -114,7 +105,6 @@ void UEquipBoardWidget::UpdateEquipBoard()
 		{
 			data_cache.active_skill_data_.Reset();
 		}
-		
 		if (passive_skill_->slot_data_.is_empty == false)
 		{
 			data_cache.passive_skill_data_ = data_table_manager->GetPassiveSkillData(passive_skill_->slot_data_.passive_skill_type);
@@ -122,15 +112,6 @@ void UEquipBoardWidget::UpdateEquipBoard()
 		else
 		{
 			data_cache.passive_skill_data_.Reset();
-		}
-		
-		if (oopart_->slot_data_.is_empty == false)
-		{
-			data_cache.oopart_data_=  data_table_manager->GetOopartData(oopart_->slot_data_.oopart_type);
-		}
-		else
-		{
-			data_cache.oopart_data_.Reset();
 		}
 		transition_system->UpdateSpawnDataIdx(cur_hero_idx_, data_cache);
 	}
