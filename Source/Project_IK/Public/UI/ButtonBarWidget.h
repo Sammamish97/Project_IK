@@ -17,7 +17,6 @@ See LICENSE file in the project root for full license information.
 
 class UButton;
 class USkillContainer;
-class UItemInventory;
 struct FTargetResult;
 class UTexture2D;
 class UCreditWidget;
@@ -38,11 +37,6 @@ public:
 	void SilenceSkill(AActor* character);
 	void UnsilenceSkill(AActor* character);
 
-	UFUNCTION()
-	void MuteItems();
-	UFUNCTION()
-	void UnmuteItems();
-	
 protected:
 
 	virtual void NativeConstruct() override;
@@ -65,18 +59,6 @@ protected:
 	void ActivateSkillTargeting(EHeroType caster);
 
 	UFUNCTION()
-	void OnItemButtonClicked0();
-	
-	UFUNCTION()
-	void OnItemButtonClicked1();
-	
-	UFUNCTION()
-	void OnItemButtonClicked2();
-
-	UFUNCTION()
-	void ActivateItemTargeting(int32 item_idx);
-	
-	UFUNCTION()
 	void FindCharacters();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Textures")
@@ -96,15 +78,6 @@ private:
 	TObjectPtr<UButton> skill_button_3_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> item_button_0_;
-
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> item_button_1_;
-
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> item_button_2_;
-
-	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UTextBlock> repositioning_point_;
 	
 	UPROPERTY(meta = (BindWidget))
@@ -118,8 +91,6 @@ private:
 
 	TArray<TWeakObjectPtr<USkillContainer>> skill_containers_;
 	
-	TWeakObjectPtr<UItemInventory> item_inventory_;
-
 	UPROPERTY()
 	TArray<TObjectPtr<UMaterialInstanceDynamic>> button_cooldown_materials_;
 

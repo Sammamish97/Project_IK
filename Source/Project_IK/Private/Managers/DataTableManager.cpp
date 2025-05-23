@@ -16,7 +16,6 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/WeaponDataAsset.h"
 #include "DataAssets/GlobalBuffDataAsset.h"
 #include "DataAssets/PassiveSkillDataAsset.h"
-#include "DataAssets/ItemDataAsset.h"
 #include "DataAssets/StatInfoDataAsset.h"
 #include "DataAssets/CrowdControlInfoDataAsset.h"
 #include "DataAssets/CharacterStatDataAsset.h"
@@ -243,48 +242,6 @@ FActiveSkillData UDataTableManager::GetActiveSkillDataRandomly(ERarity weight_ra
 TArray<FActiveSkillData> UDataTableManager::GetUniqueActiveSkillDataRandomly(int32 n, ERarity weight_rarity) const
 {
 	return active_skill_data_asset_->GetUniqueActiveSkillDataRandomly(n, weight_rarity);
-}
-
-FItemData UDataTableManager::GetItemData(EItemType type) const
-{
-	return item_data_asset_->GetItemData(type);
-}
-
-FString UDataTableManager::ItemEnumToString(EItemType item_type) const
-{
-	FString string;
-	switch (item_type)
-	{
-	case EItemType::HPPotion:
-		string = TEXT("HPPotion");
-		break;
-	case EItemType::Missile:
-		string = TEXT("Missile");
-		break;
-	case EItemType::Stimuli:
-		string = TEXT("Stimuli");
-		break;
-	case EItemType::SmokeGrenade:
-		string = TEXT("SmokeGrenade");
-		break;
-	case EItemType::Flashbang:
-		string = TEXT("Flashbang");
-		break;
-	default:
-		string = TEXT("Empty");
-		break;
-	}
-	return string;
-}
-
-FItemData UDataTableManager::GetItemDataRandomly(ERarity weight_rarity) const
-{
-	return item_data_asset_->GetItemDataRandomly(weight_rarity);
-}
-
-TArray<FItemData> UDataTableManager::GetUniqueItemDataRandomly(int32 n, ERarity rarity) const
-{
-	return item_data_asset_->GetUniqueItemDataRandomly(n, rarity);
 }
 
 const FCharacterData& UDataTableManager::GetCharacterData(ECharacterType char_type) const

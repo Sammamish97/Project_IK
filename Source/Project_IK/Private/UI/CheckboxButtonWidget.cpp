@@ -18,8 +18,6 @@ bool UCheckboxButtonWidget::Initialize()
 {
 	Super::Initialize();
 
-
-	item_data_ = FItemData();
 	is_checked_ = false;
 	return true;
 }
@@ -29,17 +27,6 @@ void UCheckboxButtonWidget::NativeTick(const FGeometry& MyGeometry, float DeltaT
 	Super::NativeTick(MyGeometry, DeltaTime);
 
 	UpdateImageColor();
-}
-
-void UCheckboxButtonWidget::SetItem(FItemData item)
-{
-	item_data_ = item;
-	SetButtonTexture(item_data_.item_icon_);
-}
-
-FItemData UCheckboxButtonWidget::GetItem() const
-{
-	return item_data_;
 }
 
 void UCheckboxButtonWidget::SetButtonTexture(UTexture2D* texture)

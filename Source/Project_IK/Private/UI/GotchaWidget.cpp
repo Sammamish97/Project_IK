@@ -14,9 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 
 #include "WorldSettings/IKGameInstance.h"
-#include "Structs/ItemData.h"
 #include "Managers/DataTableManager.h"
-#include "Abilities/ItemInventory.h"
 #include "Managers/InventoryManager.h"
 
 #include "Blueprint/WidgetTree.h"
@@ -49,9 +47,9 @@ void UGotchaWidget::NativeConstruct()
 
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	tickets_ = game_instance->GetInventoryManager()->GetTickets();
-	
+
 	UpdateGotchaTicketCount();
-	
+
 	ClearContainers();
 }
 
@@ -121,25 +119,23 @@ void UGotchaWidget::Gotcha(int32 pulls)
 
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	const UDataTableManager* data_table_manager = game_instance->GetDataTableManager();
-	
+
 	TArray<UTexture2D*> textures;
 	// @@ TODO: Expand it from only item to item, DP, manuals, money
 	for (int32 i = 0; i < pulls; i++)
 	{
-		int32 tmp = FMath::RandRange(0, 2);
-		FItemData data_item = FItemData();
-		switch (tmp)
-		{
-		case 0:
-			data_item = data_table_manager->GetItemDataRandomly();
-			pulled_items_.Add(data_item);
-			textures.Add(data_item.item_icon_);
-			break;
-		default:
-			textures.Add(credits_texture_);
-			pulled_credits_ += 20;
-			break;
-		}
+		//int32 tmp = FMath::RandRange(0, 2);
+		//switch (tmp)
+		//{
+		//default:
+		//	textures.Add(credits_texture_);
+		//	pulled_credits_ += 20;
+		//	break;
+		//}
+
+		// Rewarded credits only.
+		textures.Add(credits_texture_);
+		pulled_credits_ += 20;
 	}
 	if (pulls <= 1)
 	{
@@ -154,14 +150,12 @@ void UGotchaWidget::Gotcha(int32 pulls)
 void UGotchaWidget::ClearContainers()
 {
 	pulled_credits_ = 0;
-	pulled_items_.Empty();
 }
 
 void UGotchaWidget::StorePulledData()
 {
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	game_instance->GetItemInventory()->AddItems(pulled_items_);
-	
+
 	UInventoryManager* inventory_manager = game_instance->GetInventoryManager();
 	inventory_manager->SetCredits(inventory_manager->GetCredits() + pulled_credits_);
 }

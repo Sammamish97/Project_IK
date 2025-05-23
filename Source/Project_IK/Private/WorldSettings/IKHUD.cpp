@@ -99,22 +99,6 @@ void AIKHUD::UnsilenceSkill(AActor* character)
 	}
 }
 
-void AIKHUD::MuteItems()
-{
-	if (button_widget_)
-	{
-		button_widget_->MuteItems();
-	}
-}
-
-void AIKHUD::UnmuteItems()
-{
-	if (button_widget_)
-	{
-		button_widget_->UnmuteItems();
-	}
-}
-
 void AIKHUD::ToggleInventory()
 {
 	if (inventory_widget_->GetVisibility() == ESlateVisibility::Hidden)

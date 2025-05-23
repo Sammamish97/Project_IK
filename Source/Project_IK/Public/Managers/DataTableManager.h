@@ -16,7 +16,6 @@ See LICENSE file in the project root for full license information.
 #include "DataTableManager.generated.h"
 
 class UGlobalBuffDataAsset;
-class UItemDataAsset;
 class URandomDataAssetsManager;
 class UStatInfoDataAsset;
 class UCrowdControlInfoDataAsset;
@@ -25,7 +24,6 @@ class UCharacterStatDataAsset;
 
 struct FGlobalBuffData;
 struct FRuneSetData;
-struct FItemData;
 struct FWrapperEquipmentData;
 struct FCharacterData;
 struct FWeaponData;
@@ -65,11 +63,6 @@ public:
 	FActiveSkillData GetActiveSkillDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	TArray<FActiveSkillData> GetUniqueActiveSkillDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
-	FItemData GetItemData(EItemType type) const;
-	FString ItemEnumToString(EItemType item_type) const;
-	FItemData GetItemDataRandomly(ERarity weight_rarity = ERarity::Common) const;
-	TArray<FItemData> GetUniqueItemDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
-
 	const FCharacterData& GetCharacterData(ECharacterType char_type) const;
 	FString HeroEnumToString(ECharacterType char_type) const;
 
@@ -108,9 +101,6 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GlobalBuffs", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UGlobalBuffDataAsset> global_buff_data_asset_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UItemDataAsset> item_data_asset_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UStatInfoDataAsset> stat_info_data_asset_;

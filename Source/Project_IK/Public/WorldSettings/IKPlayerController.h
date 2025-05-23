@@ -42,9 +42,6 @@ public:
 	UFUNCTION()
 	void ActivateSkillTargeting(EHeroType hero_type);
 
-	UFUNCTION()
-	void ActivateItemTargeting(int32 item_idx);
-
 	void UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies);
 	
 protected:
@@ -68,15 +65,6 @@ private:
 
 	UFUNCTION()
 	void ActivateFourthHeroActiveSkill();
-	
-	UFUNCTION()
-	void ActivateFirstItem();
-
-	UFUNCTION()
-	void ActivateSecondItem();
-
-	UFUNCTION()
-	void ActivateThirdItem();
 	
 	UFUNCTION()
 	void Decide();
@@ -150,18 +138,6 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> activate_fourth_hero_active_skill_action;
 
-	//
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> activate_first_item_action_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> activate_second_item_action_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> activate_third_item_action_;
-
-	//
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> rotate_camera_left_action_;
 

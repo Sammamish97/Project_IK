@@ -12,8 +12,6 @@ See LICENSE file in the project root for full license information.
 #include "Components/TargetingComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "Abilities/Item.h"
-#include "Abilities/ItemInventory.h"
 #include "Abilities/SupportSkills/SupportSkillBase.h"
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
@@ -80,10 +78,6 @@ void AIKPlayerController::SetupInputComponent()
 		enhanced_input_component->BindAction(decide_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::Decide);
 		enhanced_input_component->BindAction(cancel_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::CancelTargeting);
 		
-		enhanced_input_component->BindAction(activate_first_item_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateFirstItem);
-		enhanced_input_component->BindAction(activate_second_item_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateSecondItem);
-		enhanced_input_component->BindAction(activate_third_item_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateThirdItem);
-
 		enhanced_input_component->BindAction(rotate_camera_left_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::RotateCameraLeft);
 		enhanced_input_component->BindAction(rotate_camera_right_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::RotateCameraRight);
 
@@ -141,34 +135,6 @@ void AIKPlayerController::ActivateSkillTargeting(EHeroType hero_type)
 	}
 }
 
-void AIKPlayerController::ActivateFirstItem()
-{
-	ActivateItemTargeting(0);
-}
-
-void AIKPlayerController::ActivateSecondItem()
-{
-	ActivateItemTargeting(1);
-}
-
-void AIKPlayerController::ActivateThirdItem()
-{
-	ActivateItemTargeting(2);
-}
-
-void AIKPlayerController::ActivateItemTargeting(int32 item_idx)
-{
-	auto item_inventory = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetItemInventory();
-	auto cur_item = item_inventory->GetItem(item_idx);
-	if (cur_item == nullptr)
-	{
-		return;
-	}
-	selected_item_idx_ = item_idx;
-	targeting_state_ = ETargetingState::Item;
-	targeting_component_->StartTargeting(cur_item->GetTargetParameters());
-}
-
 void AIKPlayerController::Decide()
 {
 	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
@@ -180,15 +146,6 @@ void AIKPlayerController::Decide()
 			{
 				Cast<AHeroBase>(game_mode_cache->GetHero(selected_hero_type_))->InvokeActiveSkill(target_result);
 				on_active_skill_.Broadcast(selected_hero_type_);
-				targeting_state_ = ETargetingState::Idle;
-			}
-			break;
-		case ETargetingState::Item:
-			{
-				auto item_inventory = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetItemInventory();
-				//IKTODO: Item의 사용 가능 유무를 확인 후 발동해야 함!
-				item_inventory->UseItem(selected_item_idx_, target_result);
-				on_item_used_.Broadcast(selected_item_idx_);
 				targeting_state_ = ETargetingState::Idle;
 			}
 			break;

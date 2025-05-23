@@ -25,9 +25,7 @@ enum class EUnitState  : uint8
 UENUM(BlueprintType)
 enum class ECCType : uint8
 {
-	DroneJamming UMETA(DisplayName = "DroneJamming"),
 	Silence UMETA(DisplayName = "Silence"),
-	MuteItems UMETA(DisplayName = "MuteItems"),
 	Stun UMETA(DisplayName = "Stun"),
 	Bleeding UMETA(DisplayName = "Bleeding"),
 };
@@ -46,7 +44,6 @@ UENUM(BlueprintType)
 enum class ECombatEndState : uint8
 {
 	ShowingCombatResultUI UMETA(DisplayName = "ShowingCombatResultUI"),
-	ShowingItemPickerUI UMETA(DisplayName = "ShowingItemPickerUI"),
 	ShowingEquipmentRewardUI UMETA(DisplayName = "ShowingEquipmentRewardUI"),
 	ShowingMapUI UMETA(DisplayName = "ShowingMapUI"),
 };
@@ -325,7 +322,6 @@ enum class ETargetingState : uint8
 {
 	Idle UMETA(DisplayName = "Idle"),
 	ActiveSKill UMETA(DisplayName = "ActiveSKill"),
-	Item UMETA(DisplayName = "Item"),
 	EnterRepositioning UMETA(DisplayName = "Repositioning"),
 	PickRepositionTargetLocation UMETA(DisplayName = "PickRepositionTargetLocation"),
 	EnterSupporting UMETA(DisplayName = "Supporting"),

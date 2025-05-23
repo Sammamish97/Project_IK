@@ -19,8 +19,6 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 
 #include "Abilities/SkillContainer.h"
-#include "Abilities/ItemInventory.h"
-#include "Abilities/Item.h"
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
@@ -47,24 +45,6 @@ void UButtonBarWidget::NativeConstruct()
 		skill_button_3_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked3);
 	}
 
-	if (item_button_0_)
-	{
-		item_button_0_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnItemButtonClicked0);
-	}
-	if (item_button_1_)
-	{
-		item_button_1_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnItemButtonClicked1);
-	}
-	if (item_button_2_)
-	{
-		item_button_2_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnItemButtonClicked2);
-	}
-
-	if (UIKGameInstance* GI = Cast<UIKGameInstance>(GetGameInstance()))
-	{
-		item_inventory_ = GI->GetItemInventory();
-	}
-	
 	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	UDelegateBridgeSubsystem* delegate_bridge_subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
 	if (delegate_bridge_subsystem)
@@ -113,19 +93,6 @@ void UButtonBarWidget::NativeDestruct()
 	if (skill_button_3_)
 	{
 		skill_button_3_->OnClicked.Clear();
-	}
-
-	if (item_button_0_)
-	{
-		item_button_0_->OnClicked.Clear();
-	}
-	if (item_button_1_)
-	{
-		item_button_1_->OnClicked.Clear();
-	}
-	if (item_button_2_)
-	{
-		item_button_2_->OnClicked.Clear();
 	}
 }
 
@@ -182,35 +149,6 @@ void UButtonBarWidget::ActivateSkillTargeting(EHeroType caster)
 	player_controller_cache_->ActivateSkillTargeting(caster);
 }
 
-void UButtonBarWidget::OnItemButtonClicked0()
-{
-	if (item_inventory_->GetItem(0) && !is_item_muted_)
-	{
-		ActivateItemTargeting(0);
-	}
-}
-
-void UButtonBarWidget::OnItemButtonClicked1()
-{
-	if (item_inventory_->GetItem(1) && !is_item_muted_)
-	{
-		ActivateItemTargeting(1);
-	}
-}
-
-void UButtonBarWidget::OnItemButtonClicked2()
-{
-	if (item_inventory_->GetItem(2) && !is_item_muted_)
-	{
-		ActivateItemTargeting(2);
-	}
-}
-
-void UButtonBarWidget::ActivateItemTargeting(int32 item_idx)
-{
-	player_controller_cache_->ActivateItemTargeting(item_idx);
-}
-
 void UButtonBarWidget::SynchroItemButtons(int32 item_idx)
 {
 	if (is_item_muted_)
@@ -233,26 +171,6 @@ void UButtonBarWidget::SynchroItemButtons(int32 item_idx)
 	disabled_brush.SetResourceObject(empty_item_icon);
 
 	button_style.SetDisabled(disabled_brush);
-
-	TArray item_buttons = {item_button_0_, item_button_1_, item_button_2_};
-	if (item_inventory_->GetItem(item_idx) != nullptr)
-	{
-		UTexture2D* item_icon = item_inventory_->GetItem(item_idx)->GetData().item_icon_;
-		normal_brush.SetResourceObject(item_icon);
-		button_style.SetNormal(normal_brush);
-		hovered_brush.SetResourceObject(item_icon);
-		button_style.SetHovered(hovered_brush);
-		pressed_brush.SetResourceObject(item_icon);
-		button_style.SetPressed(pressed_brush);
-
-		item_buttons[item_idx]->SetIsEnabled(true);
-		item_buttons[item_idx]->SetStyle(button_style);
-	}
-	else
-	{
-		item_buttons[item_idx]->SetIsEnabled(false);
-		item_buttons[item_idx]->SetStyle(button_style);
-	}
 }
 
 void UButtonBarWidget::SynchroActiveSkillButtons(EHeroType hero_type)
@@ -341,29 +259,6 @@ void UButtonBarWidget::UnsilenceSkill(AActor* character)
 
 			break;
 		}
-	}
-}
-
-void UButtonBarWidget::MuteItems()
-{
-	is_item_muted_ = true;
-
-	// Disable item buttons
-	item_button_0_->SetIsEnabled(false);
-	item_button_1_->SetIsEnabled(false);
-	item_button_2_->SetIsEnabled(false);
-	
-	// Cancel if user is targeting by item
-	//IKTODO: 만약 아이템 침묵이 된다면, 다른 위치에서 아래의 코드를 발동 시켜야함.
-	//targeting_component_cache_->StopItemTargeting();
-}
-
-void UButtonBarWidget::UnmuteItems()
-{
-	is_item_muted_ = false;
-	for (int32 i = 0; i < 3; ++i)
-	{
-		SynchroItemButtons(i);
 	}
 }
 
