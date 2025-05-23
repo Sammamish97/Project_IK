@@ -112,7 +112,7 @@ void UEventManager::Event_2_SecondOptionResult()
 
 void UEventManager::Event_2_ThirdOptionResult()
 {
-	inventory_manager_->AddEquipment(EOopartType::AttackSpeedBoost);
+	inventory_manager_->AddEquipment(EActiveSkillType::Thunder);
 }
 
 //Event 3: 룬

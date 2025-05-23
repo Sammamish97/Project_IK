@@ -42,9 +42,6 @@ public:
 	UFUNCTION()
 	void ActivateSkillTargeting(EHeroType hero_type);
 
-	UFUNCTION()
-	void ActivateItemTargeting(int32 item_idx);
-
 	void UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies);
 	
 protected:
@@ -70,23 +67,17 @@ private:
 	void ActivateFourthHeroActiveSkill();
 	
 	UFUNCTION()
-	void ActivateFirstItem();
-
-	UFUNCTION()
-	void ActivateSecondItem();
-
-	UFUNCTION()
-	void ActivateThirdItem();
-	
-	UFUNCTION()
 	void Decide();
 
 	UFUNCTION()
 	void CancelTargeting();
 
 	UFUNCTION()
-	void EnterRepositioningMode();
+	void ToggleBetweenRepositionAndSupport();
 
+	UFUNCTION()
+	void EnterRepositioningMode();
+	
 	UFUNCTION()
 	void RotateCameraLeft();
 
@@ -108,9 +99,12 @@ protected:
 	TObjectPtr<UTargetingComponent> targeting_component_;
 
 	//
-	int32 reposition_stack_ = 2;
-	const float charge_time_per_stack_ = 1.0f;
-	float cur_charge_time_ = 0.f;
+	float HARD_CODED_REPOSITION_RADIUS = 1000.f;
+	const float max_cost_ = 10.f;
+	float cur_cost_ = 0.f;
+
+	UPROPERTY()
+	TObjectPtr<class USupportSkillBase> equipped_support_skill_ = nullptr;
 	//
 
 public:
@@ -127,7 +121,10 @@ private:
 	TObjectPtr<UInputAction> cancel_action_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> enter_repositioning_mode_action_;
+	TObjectPtr<UInputAction> support_action_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> enter_action_mode_action_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> activate_first_hero_active_skill_action_;
@@ -141,18 +138,6 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> activate_fourth_hero_active_skill_action;
 
-	//
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> activate_first_item_action_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> activate_second_item_action_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> activate_third_item_action_;
-
-	//
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> rotate_camera_left_action_;
 

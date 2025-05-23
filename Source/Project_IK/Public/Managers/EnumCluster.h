@@ -25,9 +25,7 @@ enum class EUnitState  : uint8
 UENUM(BlueprintType)
 enum class ECCType : uint8
 {
-	DroneJamming UMETA(DisplayName = "DroneJamming"),
 	Silence UMETA(DisplayName = "Silence"),
-	MuteItems UMETA(DisplayName = "MuteItems"),
 	Stun UMETA(DisplayName = "Stun"),
 	Bleeding UMETA(DisplayName = "Bleeding"),
 };
@@ -46,7 +44,6 @@ UENUM(BlueprintType)
 enum class ECombatEndState : uint8
 {
 	ShowingCombatResultUI UMETA(DisplayName = "ShowingCombatResultUI"),
-	ShowingItemPickerUI UMETA(DisplayName = "ShowingItemPickerUI"),
 	ShowingEquipmentRewardUI UMETA(DisplayName = "ShowingEquipmentRewardUI"),
 	ShowingMapUI UMETA(DisplayName = "ShowingMapUI"),
 };
@@ -199,7 +196,6 @@ enum class EGearType : uint8
 	Weapon UMETA(DisplayName = "Weapon"),
 	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
 	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
-	Oopart UMETA(DisplayName = "Oopart"),
 };
 
 UENUM(BlueprintType)
@@ -209,7 +205,6 @@ enum class EInventorySlotType : uint8
 	WeaponBoardSlot UMETA(DisplayName = "WeaponBoardSlot"),
 	ActiveSkillBoardSlot UMETA(DisplayName = "ActiveSkillBoardSlot"),
 	PassiveSkillBoardSlot UMETA(DisplayName = "PassiveSkillBoardSlot"),
-	OopartBoardSlot UMETA(DisplayName = "OopartBoardSlot"),
 	InventorySlot UMETA(DisplayName = "InventorySlot"),
 };
 
@@ -274,14 +269,6 @@ enum class EPassiveSkillType : uint8
 };
 
 UENUM(BlueprintType)
-enum class EOopartType : uint8
-{
-	HealingWaves UMETA(DisplayName = "HealingWaves"),
-	AttackSpeedBoost UMETA(DisplayName = "AttackSpeedBoost"),
-	INVALID UMETA(DisplayName = "INVALID")
-};
-
-UENUM(BlueprintType)
 enum class EActiveSkillType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
@@ -335,9 +322,9 @@ enum class ETargetingState : uint8
 {
 	Idle UMETA(DisplayName = "Idle"),
 	ActiveSKill UMETA(DisplayName = "ActiveSKill"),
-	Item UMETA(DisplayName = "Item"),
 	EnterRepositioning UMETA(DisplayName = "Repositioning"),
-	PickRepositionTargetLocation UMETA(DisplayName = "PickRepositionTargetLocation")
+	PickRepositionTargetLocation UMETA(DisplayName = "PickRepositionTargetLocation"),
+	EnterSupporting UMETA(DisplayName = "Supporting"),
 };
 
 UENUM(BlueprintType)
@@ -388,4 +375,12 @@ enum class EWeaponAction : uint8
 	INVALID UMETA(DisplayName = "INVALID"),
 	Fire UMETA(DisplayName = "Fire"),
 	Reload UMETA(DisplayName = "Reload"),
+};
+
+UENUM(BlueprintType)
+enum class ESupportSkillType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	SupportFire UMETA(DisplayName = "SupportFire"),
+	InstantRepair UMETA(DisplayName = "InstantRepair"),
 };

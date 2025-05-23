@@ -52,11 +52,6 @@ public:
 	
 	class UWeaponMechanics* GetWeaponMechanics();
 
-public:
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true", BindWidget))
-	class USphereComponent* oopart_pos_;
-	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	class USkillContainer* skill_container_;
@@ -69,9 +64,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	class URuneMechanics* rune_mechanics_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	class UOopartMechanics* oopart_mechanics_;
 
 	//TEST_PURPOSE
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))

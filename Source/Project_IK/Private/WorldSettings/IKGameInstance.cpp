@@ -9,7 +9,6 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "WorldSettings/IKGameInstance.h"
 
-#include "Abilities/ItemInventory.h"
 #include "UI/IKMaps.h"
 #include "Managers/InventoryManager.h"
 #include "Managers/SetBonusManager.h"
@@ -17,7 +16,6 @@ See LICENSE file in the project root for full license information.
 #include "Managers/DataTableManager.h"
 
 #include "Structs/SpawnData.h"
-#include "Structs/ItemData.h"
 
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "Subsystems/PerkTreeSubsystem.h"
@@ -34,15 +32,12 @@ void UIKGameInstance::Init()
 	Super::Init();
 
 	InitializeCharacterDataManager();
-	InitializeItemInventory();
 	InitializeMaps();
 	InitDataTableManager();
 	InitInventoryManager();
 	InitSpawnData();
 	InitSetBonusManager();
 	InitEventManager();
-
-	item_inventory_->AddItem(data_table_manager_->GetItemDataRandomly());
 }
 
 void UIKGameInstance::Shutdown()
@@ -74,11 +69,6 @@ void UIKGameInstance::InitSpawnData()
 		result.Add(spawn_data);
 	}
 	GetSubsystem<ULevelTransitionSubsystem>()->UpdateSpawnData(result);
-}
-
-UItemInventory* UIKGameInstance::GetItemInventory() const noexcept
-{
-	return item_inventory_;
 }
 
 UIKMaps* UIKGameInstance::GetMapPtr() const noexcept
@@ -130,11 +120,6 @@ void UIKGameInstance::InitializeCharacterDataManager()
 			data_table_manager_->EnhanceCharacterData(type, tree[p].stat_, tree[p].modifier_);
 		}
 	}
-}
-
-void UIKGameInstance::InitializeItemInventory()
-{
-	item_inventory_ = NewObject<UItemInventory>(this, item_inventory_class_);
 }
 
 void UIKGameInstance::InitializeMaps()

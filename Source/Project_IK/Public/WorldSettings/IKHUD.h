@@ -40,11 +40,6 @@ public:
 	void SilenceSkill(AActor* character);
 	void UnsilenceSkill(AActor* character);
 
-	UFUNCTION()
-	void MuteItems();
-	UFUNCTION()
-	void UnmuteItems();
-
 	UFUNCTION(BlueprintCallable)
 	void ToggleInventory();
 

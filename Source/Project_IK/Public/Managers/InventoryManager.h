@@ -25,7 +25,6 @@ public:
 	bool AddEquipment(EWeaponType weapon_type);
 	bool AddEquipment(EPassiveSkillType passive_skill_type);
 	bool AddEquipment(EActiveSkillType active_skill_type);
-	bool AddEquipment(EOopartType oopart_type);
 
 	bool AddRune(FRuneData rune_data);
 	bool AddRune(ERuneSetType set_type, int32 slot_idx);

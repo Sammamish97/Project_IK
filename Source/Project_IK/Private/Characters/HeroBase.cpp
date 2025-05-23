@@ -14,8 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "AI/GunnerAIController.h"
 #include "AI/HeroAIController.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/CharacterStatComponent.h"
-#include "Components/OopartMechanics.h"
 #include "Components/PassiveSkillMechanics.h"
 #include "Components/RuneMechanics.h"
 #include "Components/WeaponMechanics.h"
@@ -30,12 +28,7 @@ AHeroBase::AHeroBase()
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
 	passive_skill_mechanics_ = CreateDefaultSubobject<UPassiveSkillMechanics>(TEXT("PassiveMechanics"));
 	rune_mechanics_ = CreateDefaultSubobject<URuneMechanics>(TEXT("RuneMechanics"));
-	oopart_mechanics_ = CreateDefaultSubobject<UOopartMechanics>(TEXT("OopartMechanics"));
-
-	oopart_pos_ = CreateDefaultSubobject<USphereComponent>(TEXT("Oopart Pos"));
-	oopart_pos_->SetupAttachment(GetRootComponent());
-	oopart_pos_->SetRelativeLocation({ 0, -49, 90 });
-
+	
 	GetCharacterMovement()->bUseRVOAvoidance = true;
 	GetCharacterMovement()->AvoidanceConsiderationRadius = 100;
 
@@ -97,10 +90,6 @@ void AHeroBase::EquipGears(FSpawnData spawn_data)
 	if (spawn_data.active_skill_data_.IsSet())
 	{
 		skill_container_->EquipActiveSkill(spawn_data.active_skill_data_.GetValue().type);
-	}
-	if (spawn_data.oopart_data_.IsSet())
-	{
-		oopart_mechanics_->EquipOopart(spawn_data.oopart_data_.GetValue().type);
 	}
 
 	TArray rune_data_array = {spawn_data.rune_data_1, spawn_data.rune_data_2, spawn_data.rune_data_3, spawn_data.rune_data_4, spawn_data.rune_data_5, spawn_data.rune_data_6};

@@ -69,7 +69,6 @@ protected:
 
 	void DroneJamming(bool is_applying = true);
 	void Silence(bool is_applying = true);
-	void MuteItems(bool is_applying = true);
 	void Stun(float duration, bool is_applying = true);
 	void Bleeding(float duration, AActor* applier, bool is_applying = true);
 	void ApplyBleedDamage();

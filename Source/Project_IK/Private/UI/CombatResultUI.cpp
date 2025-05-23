@@ -275,7 +275,7 @@ FReply UCombatResultUI::NativeOnMouseButtonDown(const FGeometry& InGeometry, con
 		AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 		if (hud)
 		{
-			hud->SwitchUIByState(ECombatEndState::ShowingItemPickerUI);
+			hud->SwitchUIByState(ECombatEndState::ShowingEquipmentRewardUI);
 
 			return FReply::Handled();
 		}

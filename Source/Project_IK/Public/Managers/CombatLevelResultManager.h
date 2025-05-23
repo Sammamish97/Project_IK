@@ -16,7 +16,6 @@ See LICENSE file in the project root for full license information.
 
 enum class ECombatEndState : uint8;
 class UCombatResultUI;
-class UItemPickerUI;
 class UEquipmentRewardWidget;
 /**
  * 
@@ -39,9 +38,6 @@ public:
 	TSubclassOf<UCombatResultUI> combat_result_widget_class_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UItemPickerUI> item_picker_widget_class_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UEquipmentRewardWidget> equipment_reward_widget_class_;
 
 
@@ -50,9 +46,6 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UCombatResultUI> combat_result_widget_;
-
-	UPROPERTY()
-	TObjectPtr<UItemPickerUI> item_picker_widget_;
 
 	UPROPERTY()
 	TObjectPtr<UEquipmentRewardWidget> equipment_reward_widget_;

@@ -15,7 +15,6 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
 #include "Structs/ActiveSkillData.h"
-#include "Structs/OopartData.h"
 #include "Structs/PassiveSkillData.h"
 #include "Structs/WeaponData.h"
 #include "UI/SlotDragDropImage.h"
@@ -79,13 +78,6 @@ bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 			return false;
 		}
 	}
-	if(slot_type_ == EInventorySlotType::OopartBoardSlot)
-	{
-		if(slot_from->slot_data_.gear_type != EGearType::Oopart)
-		{
-			return false;
-		}
-	}
 	Swap(slot_data_, slot_from->slot_data_);
 	SetImageTexture();
 	slot_from->SetImageTexture();
@@ -120,10 +112,6 @@ void UInventorySlot::SetImageTexture()
 	else if(slot_data_.gear_type == EGearType::ActiveSkill)
 	{
 		new_texture = data_table_manager->GetActiveSkillData(slot_data_.active_skill_type).thumbnail;
-	}
-	else if(slot_data_.gear_type == EGearType::Oopart)
-	{
-		new_texture = data_table_manager->GetOopartData(slot_data_.oopart_type).thumbnail;
 	}
 	//
 	image_->SetBrushFromTexture(new_texture);

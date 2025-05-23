@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "ActiveSkillData.h"
-#include "OopartData.h"
 #include "PassiveSkillData.h"
 #include "RuneData.h"
 #include "WeaponData.h"
@@ -38,9 +37,6 @@ struct PROJECT_IK_API FSpawnData
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
 	TOptional<FActiveSkillData> active_skill_data_;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	TOptional<FOopartData> oopart_data_;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
 	TOptional<FRuneData> rune_data_1;

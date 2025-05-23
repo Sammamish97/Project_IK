@@ -135,14 +135,8 @@ void UCrowdControlComponent::BeginCC(ECCType cc_type, float duration, AActor* ap
 {
 	switch (cc_type)
 	{
-	case ECCType::DroneJamming:
-		DroneJamming();
-		break;
 	case ECCType::Silence:
 		Silence();
-		break;
-	case ECCType::MuteItems:
-		MuteItems();
 		break;
 	case ECCType::Stun:
 		Stun(duration);
@@ -160,14 +154,8 @@ void UCrowdControlComponent::EndCC(ECCType cc_type)
 	// Do something when cc has resolved
 	switch (cc_type)
 	{
-	case ECCType::DroneJamming:
-		DroneJamming(false);
-		break;
 	case ECCType::Silence:
 		Silence(false);
-		break;
-	case ECCType::MuteItems:
-		MuteItems(false);
 		break;
 	case ECCType::Stun:
 		Stun(0.f, false);
@@ -177,18 +165,6 @@ void UCrowdControlComponent::EndCC(ECCType cc_type)
 		break;
 	default:
 		break;
-	}
-}
-
-void UCrowdControlComponent::DroneJamming(bool is_applying)
-{
-	if (is_applying)
-	{
-		// @@ TODO: Applying jamming drone
-	}
-	else
-	{
-		// @@ TODO: Removing jamming drone
 	}
 }
 
@@ -208,27 +184,6 @@ void UCrowdControlComponent::Silence(bool is_applying)
 			else
 			{
 				HUD->UnsilenceSkill(GetOwner());
-			}
-		}
-	}
-}
-
-void UCrowdControlComponent::MuteItems(bool is_applying)
-{
-	UWorld* world = GetWorld();
-	if (world)
-	{
-		APlayerController* player_controller = world->GetFirstPlayerController();
-		if (player_controller)
-		{
-			AIKHUD* HUD = Cast<AIKHUD>(player_controller->GetHUD());
-			if (is_applying)
-			{
-				HUD->MuteItems();
-			}
-			else
-			{
-				HUD->UnmuteItems();
 			}
 		}
 	}

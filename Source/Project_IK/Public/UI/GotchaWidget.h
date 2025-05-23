@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Structs/ItemData.h"
 #include "GotchaWidget.generated.h"
 
 class UButton;
@@ -66,7 +65,6 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UGotchaResultWidget> result_widget_;
 
-	TArray<FItemData> pulled_items_;
 	int32 pulled_credits_;
 
 	int32 tickets_;
