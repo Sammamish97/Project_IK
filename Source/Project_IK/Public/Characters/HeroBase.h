@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Characters/Unit.h"
-#include "Interfaces/Attackable.h"
 #include "Structs/TargetResult.h"
 #include "Structs/TargetParameters.h"
 #include "Managers/EnumCluster.h"
@@ -70,6 +69,7 @@ protected:
 	EWeaponType DEBUG_INITIAL_WEAPON_TYPE = EWeaponType::DefaultPistol;
 	//
 
+	
 private:
 	EHeroType hero_type_;
 	bool is_covered_ = false;

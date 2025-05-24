@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/ActiveSkillData.h"
 #include "Structs/TargetParameters.h"
 #include "Structs/TargetResult.h"
+#include "AITypes.h"
 #include "SkillContainer.generated.h"
 
 
@@ -39,6 +40,7 @@ public:
 
 	bool HasActiveSkill() const;
 	float GetCooltime() const;
+	float GetCastingTime() const;
 	bool IsOnCoolDown() const;
 	float GetLeftCoolDown() const;
 	void ReduceCooltime(float reduce_time);
@@ -51,6 +53,9 @@ public:
 	void EquipActiveSkill(EActiveSkillType type);
 	void UnEquipActiveSkill();
 
+	void OnCastingFinish();
+	FAIRequestID GetCastingRequestID() const;
+
 private:
 	FActiveSkillData equipped_active_skill_data_;
 	UPROPERTY()
@@ -61,4 +66,8 @@ private:
 	TWeakObjectPtr <AHeroBase> hero_cache_;
 	UPROPERTY()
 	FTimerHandle cool_down_handle_;
+	UPROPERTY()
+	FTimerHandle casting_time_handle_;
+	UPROPERTY()
+	FAIRequestID active_skill_request_id_ = 1;
 };

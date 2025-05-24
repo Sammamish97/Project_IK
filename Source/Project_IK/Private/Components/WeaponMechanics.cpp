@@ -10,7 +10,6 @@ See LICENSE file in the project root for full license information.
 #include "Components/WeaponMechanics.h"
 #include "AIController.h"
 #include "BrainComponent.h"
-#include "MovieSceneTracksComponentTypes.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Character.h"
 #include "Weapons/Guns/Gun.h"

@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Interfaces/Attackable.h"
 #include "Interfaces/Damageable.h"
 #include "Interfaces/UnitInterface.h"
+#include "AITypes.h"
 
 #include "Unit.generated.h"
 class UHitPointsUI;
@@ -88,6 +89,8 @@ public:
 	
 	float GetPitchDiffBetweenTarget();
 
+	float GetStunRequestID() const;
+
 	UFUNCTION()
 	void DispatchUnitEvent(EUnitEvent type);
 
@@ -147,6 +150,9 @@ protected:
 
 	UPROPERTY()
 	TMap<EUnitEvent, FOnUnitEvent> on_unit_event_;
+
+	UPROPERTY()
+	FAIRequestID stun_ai_request_id_ = 2;
 
 	bool is_first_attack_ = true;
 	

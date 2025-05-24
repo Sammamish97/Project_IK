@@ -28,6 +28,7 @@ public:
 
 	FTargetParameters GetTargetParameters() const;
 	float GetCoolTime() const;
+	float GetCastingTime() const;
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	bool ActivateSkill(const FTargetResult& TargetResult);
@@ -44,6 +45,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float cool_time_ = 0.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float casting_time_ = 0.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float scaling_factor_ = 1.f;

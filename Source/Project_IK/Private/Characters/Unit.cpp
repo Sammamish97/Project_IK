@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/Unit.h"
 
+#include "BrainComponent.h"
 #include "AI/MeleeAIController.h"
 #include "Components/CharacterStatComponent.h"
 #include "Components/CrowdControlComponent.h"
@@ -235,7 +236,8 @@ void AUnit::OnStunned()
 void AUnit::FinishStun()
 {
 	UE_LOG(LogTemp, Display, TEXT("AUnit::FinishStunned"));
-	Cast<AMeleeAIController>(Controller)->SetUnitState(EUnitState::OnLogic);
+	FAIMessage Msg(TEXT("StunFinished"), this, stun_ai_request_id_, FAIMessage::Success);
+	FAIMessage::Send(this, Msg);
 }
 
 void AUnit::OnEnterBattleOnce()
@@ -340,4 +342,9 @@ void AUnit::RecoverAttackerByLifeSteal(FDamageData data)
 			}
 		}
 	}
+}
+
+float AUnit::GetStunRequestID() const
+{
+	return stun_ai_request_id_;
 }
