@@ -120,6 +120,12 @@ void AUnit::BeginPlay()
 	}
 }
 
+void AUnit::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	GetWorld()->GetTimerManager().ClearTimer(stun_timer_);
+}
+
 void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 {
 	if (is_evaded)

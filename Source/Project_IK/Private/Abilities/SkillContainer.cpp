@@ -39,6 +39,13 @@ void USkillContainer::BeginPlay()
 	data_table_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 }
 
+void USkillContainer::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	GetWorld()->GetTimerManager().ClearTimer(cool_down_handle_);
+	GetWorld()->GetTimerManager().ClearTimer(casting_time_handle_);
+	Super::EndPlay(EndPlayReason);
+}
+
 void USkillContainer::InitializeComponent()
 {
 	Super::InitializeComponent();
