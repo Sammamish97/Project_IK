@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/DamageData.h"
 #include "SetBonus_Quake.generated.h"
 
-UCLASS()
+UCLASS(Blueprintable )
 class PROJECT_IK_API USetBonus_Quake : public USetBonusBase
 {
 	GENERATED_BODY()
