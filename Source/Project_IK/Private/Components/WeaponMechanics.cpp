@@ -43,6 +43,7 @@ void UWeaponMechanics::BeginPlay()
 void UWeaponMechanics::EquipWeapon(EWeaponType type)
 {
 	auto data_table_manager = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
+	//IKTODO: weapon_class는 모든 WeaponMechanics를 사용하는 유닛 사이에 동일하다. 지금은 BP마다 Class를 꽃아주지만, 이후 바꿔야 한다.
 	weapon_actor_ = GetWorld()->SpawnActor<AGun>(weapon_class_);
 	weapon_actor_->SetWeaponData(data_table_manager->GetWeaponData(type));
 	
