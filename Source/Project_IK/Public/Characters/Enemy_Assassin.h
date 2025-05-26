@@ -26,8 +26,15 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void Attack(AActor* target) override;
+	UFUNCTION()
 	void OnAction(float hp_ratio);
 	
-protected:
+private:
 	bool is_cloaked_ = true;
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = true))
+	TObjectPtr<UMaterialInstance> head_material_;
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = true))
+	TObjectPtr<UMaterialInstance> limb_material_;
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = true))
+	TObjectPtr<UMaterialInstance> torso_material_;
 };

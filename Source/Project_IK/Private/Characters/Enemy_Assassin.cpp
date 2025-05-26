@@ -44,11 +44,14 @@ void AEnemy_Assassin::OnAction(float hp_ratio)
 		is_cloaked_ = false;
 		GetCapsuleComponent()->SetCollisionProfileName(TEXT("EnemyPreset"));
 		//Cloaking 해제 VFX 발동.
+		GetMesh()->SetMaterial(0, head_material_);
+		GetMesh()->SetMaterial(1, torso_material_);
+		GetMesh()->SetMaterial(2, limb_material_);
 	}
 }
 
 void AEnemy_Assassin::Attack(AActor* target)
 {
 	Super::Attack(target);
-	OnAction(0.f);
+	OnAction(1.f);
 }
