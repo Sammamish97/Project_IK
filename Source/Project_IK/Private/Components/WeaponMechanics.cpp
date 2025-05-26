@@ -54,6 +54,11 @@ void UWeaponMechanics::EquipWeapon(EWeaponType type)
 	
 	fire_montage_ = soft_fire_anim.LoadSynchronous();
 	reload_montage_ = soft_reload_anim.LoadSynchronous();
+	if (GetWeaponData().fire_type == EFireType::PreHeating)
+	{
+		TSoftObjectPtr<UAnimMontage> soft_preheat_anim = data_table_manager->GetUnitWeaponAnimMontage(bone_type, weapon_anim_type, EWeaponAction::Preheat);
+		preheat_montage_ = soft_preheat_anim.LoadSynchronous();
+	}
 	
 	FName socket_name;
 	switch (weapon_anim_type)
@@ -65,6 +70,8 @@ void UWeaponMechanics::EquipWeapon(EWeaponType type)
 	case EWeaponAnimationType::Rifle:
 		socket_name = TEXT("rifle_socket");
 		break;
+
+	
 
 	case EWeaponAnimationType::INVALID:
 	default:
@@ -112,7 +119,11 @@ void UWeaponMechanics::BeginFire(AActor* target)
 				if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target_ptr)
 				{
 					FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UWeaponMechanics::OnFire, target_ptr, GetWeaponFireDamageData(), weapon_attack_speed, true, 0.f);
-					GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, weapon_attack_speed); 
+					GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, FMath::Max(weapon_attack_speed, weapon_actor_->GetWeaponData().preheating_time));
+					if (weapon_actor_->GetWeaponData().fire_type == EFireType::PreHeating)
+					{
+						//만약 총기를 예열해야 한다면, 예열 VFX(에너지 집중), 혹은 애니메이션(총열 회전)을 여기서 발동해야 함.
+					}
 				}
 			}
 		}

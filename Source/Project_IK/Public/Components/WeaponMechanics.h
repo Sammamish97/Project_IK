@@ -108,6 +108,9 @@ private:
 	UPROPERTY()
 	TObjectPtr<UAnimMontage> reload_montage_ = nullptr;
 
+	UPROPERTY()
+	TObjectPtr<UAnimMontage> preheat_montage_ = nullptr;
+
 	FAIRequestID reload_request_id_ = 0;
 
 public:

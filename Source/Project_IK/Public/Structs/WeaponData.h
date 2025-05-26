@@ -79,6 +79,10 @@ public:
 	//장전 소요 시간
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true"))
 	float reload_duration = 0.f;
+
+	//예열 소요 시간
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true"))
+	float preheating_time = 0.f;
 	
 	//머즐 플래쉬 vfx
 	UPROPERTY(EditAnywhere, Category = "Firing")

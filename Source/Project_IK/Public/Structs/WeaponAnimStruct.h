@@ -22,6 +22,9 @@ struct PROJECT_IK_API FWeaponAnimStruct
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Weapon Anim Data")
 	TSoftObjectPtr<UAnimMontage> reload_montage_;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Weapon Anim Data")
+	TSoftObjectPtr<UAnimMontage> preheat_montage_;
 	
 	const TSoftObjectPtr<UAnimMontage>& operator[] (EWeaponAction action_type) const
 	{
@@ -32,6 +35,9 @@ struct PROJECT_IK_API FWeaponAnimStruct
 
 		case EWeaponAction::Reload:
 			return reload_montage_;
+
+		case EWeaponAction::Preheat:
+			return preheat_montage_;
 
 		case EWeaponAction::INVALID:
 		default:
