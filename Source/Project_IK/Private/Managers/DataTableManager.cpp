@@ -360,6 +360,11 @@ TSoftObjectPtr<UAnimMontage> UDataTableManager::GetUnitWeaponAnimMontage(EUnitBo
 	return unit_weapon_anim_asset_->GetUnitWeaponAnimData(bone, weapon, action);
 }
 
+TSoftObjectPtr<UAnimBlueprint> UDataTableManager::GetWeaponAnimInstance(EUnitBoneType bone, EWeaponAnimationType weapon)
+{
+	return unit_weapon_anim_asset_->GetUnitWeaponAnimInstance(bone, weapon);
+}
+
 TSubclassOf<AUnit> UDataTableManager::GetUnitType(ECharacterType type)
 {
 	return unit_type_asset_->GetUnitClass(type);

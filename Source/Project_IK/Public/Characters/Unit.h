@@ -55,8 +55,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	ECharacterType GetCharacterType() const;
 	UCharacterStatComponent* GetCharacterStat();
-
 	EUnitBoneType GetBoneType() const;
+	bool IsHero() const;
 
 	
 	UFUNCTION(BlueprintCallable)
@@ -142,6 +142,9 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	FVector forward_dir_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
+	bool is_hero_ = false;
 	
 	UPROPERTY(Transient)
 	FTimerHandle stun_timer_;

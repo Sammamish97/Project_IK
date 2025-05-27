@@ -87,6 +87,11 @@ EUnitBoneType AUnit::GetBoneType() const
 	return bone_type_;
 }
 
+bool AUnit::IsHero() const
+{
+	return is_hero_;
+}
+
 // Called when the game starts or when spawned
 void AUnit::BeginPlay()
 {

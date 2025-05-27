@@ -13,46 +13,23 @@ See LICENSE file in the project root for full license information.
 #include "Components/ActorComponent.h"
 #include "Managers/EnumCluster.h"
 #include "Structs/CharacterData.h"
-#include "Structs/DamageData.h"
 #include "Structs/WeaponData.h"
 #include "AITypes.h"
 #include "WeaponMechanics.generated.h"
-
-class UCharacterStatComponent;
-class AGun;
-class UDelegateBridgeSubsystem;
-
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnCriticalRateCalculationDelegate, float&);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECT_IK_API UWeaponMechanics : public UActorComponent
 {
 	GENERATED_BODY()
-
-	friend UDelegateBridgeSubsystem;
-
 public:	
-	// Sets default values for this component's properties
-	UWeaponMechanics();
-
-	// Called when the game starts
+	UFUNCTION()
+	void EquipWeapon(EWeaponType type);
+	
 	virtual void BeginPlay() override;
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
 	void BeginFire(AActor* target);
-	void OnFire(AActor* target, FDamageData dmg_data, float attack_speed, bool is_controlled_fire = true, float offset = 0.f);
-	void FireWeapon(AActor* target, FDamageData dmg_data, bool is_controlled_fire = true, float offset = 0.f);
-	void FinishFire();
-	
-	void FinishBurstCooldown();
-	
 	void Reload(float duration_multiplier = 1.0f);
-	void OnReload();
-
-	void OnStunned();
-
-	void StopFire();
-	void ResumeFire();
+	void FinishFire();
 	
 	bool IsMagazineEmpty() const;
 
@@ -60,68 +37,17 @@ public:
 	FWeaponData GetWeaponData();
 	
 	UFUNCTION(BlueprintCallable)
-	AGun* GetWeaponActor();
+	AGunBase* GetWeaponActor();
 
-	bool IsOnReloading() const;
-
-	FTimerHandle& RentFireTimerHandle();
+	FAIRequestID GetReloadRequestId() const;
 	
-	UFUNCTION()
-	void EquipWeapon(EWeaponType type);
-
-	FDamageData GetWeaponFireDamageData();
-	
-protected:
-	FOnCriticalRateCalculationDelegate OnCriticalRateCalculation;
-
 private:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<AGun> weapon_class_ = nullptr;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AGunBase> weapon_class_ = nullptr;
 	
 	UPROPERTY(Transient)
-	TObjectPtr<AGun> weapon_actor_ = nullptr;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
-	FName head_socket_name_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
-	FName owned_cover_key_name_;
-
-	UPROPERTY(Transient)
-	FTimerHandle fire_timer_handle_;
-
-	UPROPERTY(Transient)
-	FTimerHandle reload_timer_handle_;
-
-	UPROPERTY(Transient)
-	FTimerHandle burst_timer_handle_;
-
-	UPROPERTY(Transient)
-	TObjectPtr<class AUnit> owner_ref_ = nullptr;
-
-	UPROPERTY(Transient)
-	int32 burst_count_ = 0;
-
-	UPROPERTY()
-	TObjectPtr<UAnimMontage> fire_montage_ = nullptr;
-
-	UPROPERTY()
-	TObjectPtr<UAnimMontage> reload_montage_ = nullptr;
-
-	UPROPERTY()
-	TObjectPtr<UAnimMontage> preheat_montage_ = nullptr;
-
-	FAIRequestID reload_request_id_ = 0;
-
-public:
-	FORCEINLINE FAIRequestID GetReloadRequestId() const { return reload_request_id_; }
-
-	UPROPERTY(Transient)
-	bool on_burst_cool_down_ = false;
+	TObjectPtr<AGunBase> weapon_actor_ = nullptr;
 	
 	UPROPERTY(Transient)
-	bool on_reloading_ = false;
-
-	UPROPERTY(Transient)
-	bool stop_fire_ = false;
+	TObjectPtr<AUnit> owner_ref_ = nullptr;
 };

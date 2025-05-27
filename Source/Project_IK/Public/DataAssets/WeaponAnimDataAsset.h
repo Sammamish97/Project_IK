@@ -22,7 +22,8 @@ class PROJECT_IK_API UWeaponAnimDataAsset : public UPrimaryDataAsset
 	
 public:
 	TSoftObjectPtr<UAnimMontage> GetUnitWeaponAnimData(EUnitBoneType bone, EWeaponAnimationType weapon, EWeaponAction action);
-	
+	TSoftObjectPtr<UAnimBlueprint> GetUnitWeaponAnimInstance(EUnitBoneType bone, EWeaponAnimationType weapon);
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Anim Data", meta = (AllowPrivateAccess = "true"))
 	TMap<EUnitBoneType, FUnitWeaponAnimMap> unit_weapon_anim_map_;

@@ -24,7 +24,7 @@ void AEnemy_Suppressor::BeginPlay()
 void AEnemy_Suppressor::OnStunned()
 {
 	Super::OnStunned();
-	weapon_mechanics_->OnStunned();
+	//weapon_mechanics_->OnStunned();
 }
 
 void AEnemy_Suppressor::Die()

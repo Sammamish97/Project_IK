@@ -20,6 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 #include "Components/CrowdControlComponent.h"
 #include "Components/CharacterStatComponent.h"
+#include "Weapons/Guns/GunBase.h"
 #include "Components/WeaponMechanics.h"
 
 #include "DelegateBridgeSubsystem.generated.h"
@@ -232,7 +233,7 @@ inline bool UDelegateBridgeSubsystem::BindOnCriticalRateCalculation(UObject* bou
 	AHeroBase* hero = Cast<AHeroBase>(bound_hero);
 	if (hero)
 	{
-		hero->GetWeaponMechanics()->OnCriticalRateCalculation.AddUObject(object, callback);
+		hero->GetWeaponMechanics()->GetWeaponActor()->OnCriticalRateCalculation.AddUObject(object, callback);
 		return true;
 	}
 	return false;

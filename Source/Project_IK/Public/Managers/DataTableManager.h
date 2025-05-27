@@ -78,6 +78,7 @@ public:
 	UTexture2D* GetCCTexture(ECCType cc_type);
 
 	TSoftObjectPtr<UAnimMontage> GetUnitWeaponAnimMontage(EUnitBoneType bone, EWeaponAnimationType weapon, EWeaponAction action);
+	TSoftObjectPtr<UAnimBlueprint> GetWeaponAnimInstance(EUnitBoneType bone, EWeaponAnimationType weapon);
 
 	TSubclassOf<class AUnit> GetUnitType(ECharacterType type);
 	TSubclassOf<class USupportSkillBase> GetSupportSkillType(ESupportSkillType type);

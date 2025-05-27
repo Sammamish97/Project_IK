@@ -384,7 +384,6 @@ enum class EWeaponAction : uint8
 	INVALID UMETA(DisplayName = "INVALID"),
 	Fire UMETA(DisplayName = "Fire"),
 	Reload UMETA(DisplayName = "Reload"),
-	Preheat UMETA(DisplayName = "Preheat"),
 };
 
 UENUM(BlueprintType)

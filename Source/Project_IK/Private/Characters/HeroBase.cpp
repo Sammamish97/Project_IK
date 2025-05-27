@@ -36,6 +36,7 @@ AHeroBase::AHeroBase()
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("HeroPreset"));
 
 	forward_dir_ = { 1,0, 0 };
+	is_hero_ = true;
 }
 
 //TODO: 특수 효과같은 경우, 장착과 발동이 달라야 한다. BeginPlay에 넣으면 구별할 수가 없다.
@@ -63,7 +64,7 @@ void AHeroBase::BeginPlay()
 	//TEST PURPOSE
 	if (weapon_mechanics_->GetWeaponActor() == nullptr)
 	{
-		weapon_mechanics_->EquipWeapon(EWeaponType::DefaultPistol);
+		weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle_B);
 	}
 	//
 }
@@ -126,7 +127,7 @@ void AHeroBase::OnStunned()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hero Stunned"));
 	Super::OnStunned();
-	weapon_mechanics_->OnStunned();
+	//weapon_mechanics_->OnStunned();
 }
 
 EHeroType AHeroBase::GetHeroType() const
