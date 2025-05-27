@@ -11,6 +11,9 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SetBonuses/SetBonusBase.h"
 
 #include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+#include "Components/CapsuleComponent.h"
+
 #include "Characters/HeroBase.h"
 
 void USetBonusBase::ActivateSetBonus(TObjectPtr<AHeroBase> owner, int32 set_amount)
@@ -56,6 +59,8 @@ void USetBonusBase::SpawnNiagara(AHeroBase* hero)
 	if (rune_particle_ && hero)
 	{
 		USceneComponent* component = hero->GetRootComponent();
-		UNiagaraFunctionLibrary::SpawnSystemAttached(rune_particle_, component, FName(), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
+		UNiagaraComponent* niagara = UNiagaraFunctionLibrary::SpawnSystemAttached(rune_particle_, component, FName(), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
+		UCapsuleComponent* capsule = Cast<UCapsuleComponent>(component);
+		niagara->SetVariableFloat(FName("User.Height Offset"), capsule->GetUnscaledCapsuleHalfHeight() * 1.5f);
 	}
 }
