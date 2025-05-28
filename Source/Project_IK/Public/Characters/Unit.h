@@ -50,6 +50,9 @@ public:
 	void SetCurHidingCover(AActor* cover);
 	AActor* GetCurHidingCover() const;
 
+	void SetAttackTarget(AActor* target);
+	AActor* GetAttackTarget();
+
 	virtual void Attack(AActor* target) override;
 
 	UFUNCTION(BlueprintCallable)

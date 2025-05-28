@@ -78,6 +78,9 @@ protected:
 	TObjectPtr<USkeletalMeshComponent> weapon_skeletal_mesh_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class USphereComponent> root_sphere_mesh_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	FWeaponData weapon_data_;
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))

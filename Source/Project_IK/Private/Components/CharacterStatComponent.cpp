@@ -61,6 +61,7 @@ void UCharacterStatComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 	GetWorld()->GetTimerManager().ClearTimer(shield_timer_);
 	OnHPChanged.Clear();
+	OnHPChangedWithOwner.Clear();
 	OnShieldChanged.Clear();
 	OnBuffChanged.Clear();
 }
@@ -263,6 +264,7 @@ void UCharacterStatComponent::SetHitPoint(float hit_point) noexcept
 {
 	character_data_.status_data_.hit_point_ = FMath::Min(hit_point, GetMaxHitPoint());
 	OnHPChanged.Broadcast(GetHPRatio());
+	OnHPChangedWithOwner.Broadcast(GetHPRatio(), GetOwner());
 	if (character_data_.status_data_.hit_point_ < KINDA_SMALL_NUMBER)
 	{
 		character_data_.status_data_.hit_point_ = 0.f;
@@ -317,8 +319,8 @@ void UCharacterStatComponent::RecordDamage(FDamageData& data_ref)
 	{
 		AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		// @@ TODO: Record atk&skill dmg differently.
-		game_mode->RecordDamage(data_ref.atk_base_dmg, data_ref.attacker);
-		game_mode->RecordDamage(data_ref.skill_power_base_dmg, data_ref.attacker);
+		//game_mode->RecordDamage(data_ref.atk_base_dmg, data_ref.attacker);
+		//game_mode->RecordDamage(data_ref.skill_power_base_dmg, data_ref.attacker);
 	}
 }
 
@@ -403,6 +405,7 @@ void UCharacterStatComponent::SetCharacterData(const FCharacterData& character_d
 {
 	character_data_ = character_data;
 	OnHPChanged.Broadcast(GetHPRatio());
+	OnHPChangedWithOwner.Broadcast(GetHPRatio(), GetOwner());
 }
 
 float UCharacterStatComponent::CalculateStat(ECharacterStatType StatType) const

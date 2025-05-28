@@ -64,12 +64,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	class URuneMechanics* rune_mechanics_;
 
-	//TEST_PURPOSE
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	EWeaponType DEBUG_INITIAL_WEAPON_TYPE = EWeaponType::DefaultPistol;
-	//
-
-	
 private:
 	EHeroType hero_type_;
 	bool is_covered_ = false;

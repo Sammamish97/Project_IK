@@ -68,6 +68,16 @@ AActor* AUnit::GetCurHidingCover() const
 	return cur_hiding_cover_.Get();
 }
 
+void AUnit::SetAttackTarget(AActor* target)
+{
+	return Cast<AMeleeAIController>(GetController())->SetTargetActor(target);
+}
+
+AActor* AUnit::GetAttackTarget()
+{
+	return Cast<AMeleeAIController>(GetController())->GetTargetActor();
+}
+
 void AUnit::Attack(AActor* target)
 {
 	if (is_first_attack_)

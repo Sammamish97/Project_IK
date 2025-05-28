@@ -15,8 +15,10 @@ See LICENSE file in the project root for full license information.
 #include "Structs/DamageData.h"
 #include "Weapons/Guns/Bullet.h"
 #include "BrainComponent.h"
+#include "MovieSceneTracksComponentTypes.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/CharacterStatComponent.h"
+#include "Components/SphereComponent.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
 AGunBase::AGunBase()
@@ -26,13 +28,18 @@ AGunBase::AGunBase()
 	
 	weapon_skeletal_mesh_ = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GunMesh"));
 	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
+	root_sphere_mesh_ = CreateDefaultSubobject<USphereComponent>(TEXT("RootSphere"));
 	
 	weapon_skeletal_mesh_->SetCollisionProfileName(TEXT("NoCollision"));
+	root_sphere_mesh_->SetCollisionProfileName(TEXT("NoCollision"));
+	
 	muzzle_socket_name_ = TEXT("muzzle");
 	head_socket_name_ = TEXT("head_socket");
 	owned_cover_key_name_ = TEXT("OwnedCover");
 	
-	SetRootComponent(weapon_skeletal_mesh_);
+	SetRootComponent(root_sphere_mesh_);
+
+	weapon_skeletal_mesh_->AttachToComponent(root_sphere_mesh_, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void AGunBase::BeginPlay()
