@@ -59,8 +59,8 @@ void USetBonusBase::SpawnNiagara(AHeroBase* hero)
 	if (rune_particle_ && hero)
 	{
 		USceneComponent* component = hero->GetRootComponent();
-		UNiagaraComponent* niagara = UNiagaraFunctionLibrary::SpawnSystemAttached(rune_particle_, component, FName(), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
-		UCapsuleComponent* capsule = Cast<UCapsuleComponent>(component);
-		niagara->SetVariableFloat(FName("User.Height Offset"), capsule->GetUnscaledCapsuleHalfHeight() * 1.5f);
+		const UCapsuleComponent* capsule = Cast<UCapsuleComponent>(component);
+		const FVector offset = FVector(0.0, 0.0, capsule->GetUnscaledCapsuleHalfHeight() * 1.5);
+		UNiagaraComponent* niagara = UNiagaraFunctionLibrary::SpawnSystemAttached(rune_particle_, component, FName(), offset, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
 	}
 }
