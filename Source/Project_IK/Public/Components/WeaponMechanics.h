@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/ActorComponent.h"
 #include "Managers/EnumCluster.h"
 #include "Structs/CharacterData.h"
-#include "Structs/WeaponData.h"
+#include "Structs/WeaponStatusData.h"
 #include "AITypes.h"
 #include "WeaponMechanics.generated.h"
 
@@ -23,9 +23,10 @@ class PROJECT_IK_API UWeaponMechanics : public UActorComponent
 	GENERATED_BODY()
 public:	
 	UFUNCTION()
-	void EquipWeapon(EWeaponType type);
+	void EquipWeapon(TSubclassOf<class AGunBase> weapon_class);
 	
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
 	void BeginFire(AActor* target);
 	void Reload(float duration_multiplier = 1.0f);
@@ -34,7 +35,7 @@ public:
 	bool IsMagazineEmpty() const;
 
 	UFUNCTION(BlueprintCallable)
-	FWeaponData GetWeaponData();
+	FWeaponStatusData GetWeaponData();
 	
 	UFUNCTION(BlueprintCallable)
 	AGunBase* GetWeaponActor();
@@ -42,9 +43,6 @@ public:
 	FAIRequestID GetReloadRequestId() const;
 	
 private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "WeaponMechanics", meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<AGunBase> weapon_class_ = nullptr;
-	
 	UPROPERTY(Transient)
 	TObjectPtr<AGunBase> weapon_actor_ = nullptr;
 	

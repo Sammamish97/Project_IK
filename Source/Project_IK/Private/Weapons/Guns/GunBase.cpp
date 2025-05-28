@@ -45,7 +45,7 @@ AGunBase::AGunBase()
 void AGunBase::BeginPlay()
 {
 	Super::BeginPlay();
-	cur_magazine_ = weapon_data_.max_magazine;
+	cur_magazine_ = weapon_status_data_.max_magazine;
 }
 
 void AGunBase::Reload()
@@ -55,9 +55,9 @@ void AGunBase::Reload()
 		if(AUnit* gun_owner = weak_gun_owner_.Get())
 		{
 			gun_owner->DispatchUnitEvent(EUnitEvent::OnReload);
-			float reload_play_rate = reload_montage_->GetPlayLength() / weapon_data_.reload_duration;
+			float reload_play_rate = reload_montage_->GetPlayLength() / weapon_status_data_.reload_duration;
 			gun_owner->PlayAnimMontage(reload_montage_, reload_play_rate);
-			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &AGunBase::OnReload, weapon_data_.reload_duration);
+			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &AGunBase::OnReload, weapon_status_data_.reload_duration);
 		}
 	}
 }
@@ -115,6 +115,30 @@ void AGunBase::FireSingleBullet(FVector target_pos, const FDamageData& dmg_data)
 	SpawnBullet(spawn_transform, dmg_data);
 }
 
+void AGunBase::FireBuckShot(FVector target_pos, const FDamageData& dmg_data)
+{
+	float TEMP_DISTANCE_TO_SPHERE = 100;
+	float TEMP_SPHERE_RADIUS = 10;
+
+	auto muzzle_location = weapon_skeletal_mesh_->GetSocketTransform(muzzle_socket_name_).GetLocation();
+
+	FVector to_target_normalized = (target_pos - muzzle_location).GetSafeNormal();
+	FVector sphere_center = muzzle_location + to_target_normalized * TEMP_DISTANCE_TO_SPHERE;
+
+	int32 TEMP_SHOTGUN_PALLET = 5;
+	for (int32 i = 0; i < TEMP_SHOTGUN_PALLET; ++i)
+	{
+		FVector randVec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, TEMP_SPHERE_RADIUS);
+		FVector end_loc = sphere_center + randVec;
+		
+		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, end_loc);
+		FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
+		FTransform spawn_transform(rotation, muzzle_location, scale);
+		SpawnBullet(spawn_transform, dmg_data);
+	}
+	cur_magazine_ -= 1;
+}
+
 void AGunBase::BeginFire(AActor* target)
 {
 }
@@ -124,7 +148,7 @@ void AGunBase::OnReload()
 	if(AUnit* gun_owner = weak_gun_owner_.Get())
 	{
 		is_first_bullet_on_magazine_ = true;
-		cur_magazine_ = weapon_data_.max_magazine;
+		cur_magazine_ = weapon_status_data_.max_magazine;
 		FAIMessage Msg(TEXT("ReloadFinished"), this, reload_request_id_, FAIMessage::Success);
 		FAIMessage::Send(gun_owner, Msg);
 	}
@@ -140,9 +164,9 @@ bool AGunBase::IsMagazineEmpty() const
 	return cur_magazine_ <= 0;
 }
 
-FWeaponData AGunBase::GetWeaponData()
+FWeaponStatusData AGunBase::GetWeaponStatusData()
 {
-	return weapon_data_;
+	return weapon_status_data_;
 }
 
 TObjectPtr<USkeletalMeshComponent> AGunBase::GetWeaponSkeletalMesh()
@@ -161,15 +185,15 @@ FDamageData AGunBase::GetWeaponFireDamageData()
 	if(AUnit* gun_owner = weak_gun_owner_.Get())
 	{
 		UCharacterStatComponent* stat_component = gun_owner->GetCharacterStat();
-		float total_atk_dmg = weapon_data_.basic_dmg_ + stat_component->GetAttackPower() * weapon_data_.attack_scale;
-		float total_skill_dmg = stat_component->GetSkillPower() * weapon_data_.skill_power_scale;
+		float total_atk_dmg = weapon_status_data_.basic_dmg_ + stat_component->GetAttackPower() * weapon_status_data_.attack_scale;
+		float total_skill_dmg = stat_component->GetSkillPower() * weapon_status_data_.skill_power_scale;
 		FDamageData dmg_data;
 		dmg_data.atk_base_dmg = total_atk_dmg;
 		dmg_data.skill_power_base_dmg = total_skill_dmg;
 		dmg_data.damage_type = EDamageType::Projectile;
 		dmg_data.attacker = weak_gun_owner_;
 
-		float total_crit_hit_rate = gun_owner->GetCharacterStat()->GetCriticalHitRate() + weapon_data_.critical_hit_rate_;
+		float total_crit_hit_rate = gun_owner->GetCharacterStat()->GetCriticalHitRate() + weapon_status_data_.critical_hit_rate_;
 		OnCriticalRateCalculation.Broadcast(total_crit_hit_rate);
 		if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
 		{
@@ -190,13 +214,6 @@ void AGunBase::SetGunOwner(TWeakObjectPtr<AUnit> gun_owner, bool is_hero)
 		Cast<ABullet>(elem)->SetCollisionPreset(is_hero);
 	}
 }
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 
 void AGunBase::AddOnHitComponent(TSubclassOf<UBulletOnHitEffectComponent> target_component)
 {

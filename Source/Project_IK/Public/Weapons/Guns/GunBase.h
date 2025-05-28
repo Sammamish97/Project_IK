@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Structs/DamageData.h"
-#include "Structs/WeaponData.h"
+#include "Structs/WeaponStatusData.h"
 #include "AITypes.h"
 #include "NiagaraSystem.h"
 #include "GunBase.generated.h"
@@ -38,7 +38,7 @@ public:
 	virtual void FinishFire();
 	
 	bool IsMagazineEmpty() const;
-	FWeaponData GetWeaponData();
+	FWeaponStatusData GetWeaponStatusData();
 	TObjectPtr<USkeletalMeshComponent> GetWeaponSkeletalMesh();
 	FName GetGrabSocketName();
 
@@ -58,6 +58,7 @@ public:
 
 protected:
 	void FireSingleBullet(FVector target_pos, const FDamageData& dmg_data);
+	void FireBuckShot(FVector target_pos, const FDamageData& dmg_data);
 	void SpawnBullet(const FTransform& transform, const FDamageData& dmg_data);
 
 public:
@@ -81,7 +82,7 @@ protected:
 	TObjectPtr<class USphereComponent> root_sphere_mesh_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
-	FWeaponData weapon_data_;
+	FWeaponStatusData weapon_status_data_;
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> fire_montage_;

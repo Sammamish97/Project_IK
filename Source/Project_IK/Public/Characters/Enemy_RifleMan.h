@@ -30,5 +30,8 @@ private:
 	TObjectPtr<UWeaponMechanics> weapon_mechanics_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class AGunBase> weapon_class_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true"))
 	EWeaponType weapon_type_;
 };

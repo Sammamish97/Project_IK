@@ -10,11 +10,10 @@ See LICENSE file in the project root for full license information.
 #include "Components/WeaponMechanics.h"
 #include "Weapons/Guns/GunBase.h"
 #include "Characters/Unit.h"
-#include "Components/CharacterStatComponent.h"
 
-void UWeaponMechanics::EquipWeapon(EWeaponType type)
+void UWeaponMechanics::EquipWeapon(TSubclassOf<AGunBase> weapon_class)
 {
-	weapon_actor_ = GetWorld()->SpawnActor<AGunBase>(weapon_class_);
+	weapon_actor_ = GetWorld()->SpawnActor<AGunBase>(weapon_class);
 	weapon_actor_->AttachToComponent(owner_ref_->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, weapon_actor_->GetGrabSocketName());
 	weapon_actor_->SetGunOwner(owner_ref_, owner_ref_->IsHero());
 }
@@ -23,6 +22,12 @@ void UWeaponMechanics::BeginPlay()
 {
 	Super::BeginPlay();
 	owner_ref_ = Cast<AUnit>(GetOwner());
+}
+
+void UWeaponMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	weapon_actor_->Destroy();
 }
 
 void UWeaponMechanics::BeginFire(AActor* target)
@@ -45,14 +50,14 @@ bool UWeaponMechanics::IsMagazineEmpty() const
 	return weapon_actor_->IsMagazineEmpty();
 }
 
-FWeaponData UWeaponMechanics::GetWeaponData()
+FWeaponStatusData UWeaponMechanics::GetWeaponData()
 {
 	if (weapon_actor_)
 	{
-		return weapon_actor_->GetWeaponData();
+		return weapon_actor_->GetWeaponStatusData();
 	}
 	//TODO: 적절한 예외처리가 필요하다.
-	return FWeaponData();
+	return FWeaponStatusData();
 }
 
 AGunBase* UWeaponMechanics::GetWeaponActor()

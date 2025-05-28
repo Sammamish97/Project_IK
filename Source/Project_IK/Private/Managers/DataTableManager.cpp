@@ -22,11 +22,11 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/SupportSkillDataAsset.h"
 #include "DataAssets/UnitTypeDataAsset.h"
 #include "DataAssets/WeaponAnimDataAsset.h"
-
+#include "Structs/WeaponStatusData.h"
 #include "Structs/WrapperEquipmentData.h"
 
 
-FWeaponData UDataTableManager::GetWeaponData(EWeaponType type) const
+FWeaponData UDataTableManager::GetWeaponStatusData(EWeaponType type) const
 {
 	return weapon_data_asset_->GetWeaponData(type);
 }

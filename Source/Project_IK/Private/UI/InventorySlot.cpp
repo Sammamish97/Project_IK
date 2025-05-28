@@ -103,7 +103,7 @@ void UInventorySlot::SetImageTexture()
 	UTexture2D* new_texture = nullptr;
 	if(slot_data_.gear_type == EGearType::Weapon)
 	{
-		new_texture = data_table_manager->GetWeaponData(slot_data_.weapon_type).thumbnail;
+		new_texture = data_table_manager->GetWeaponStatusData(slot_data_.weapon_type).thumbnail;
 	}
 	else if(slot_data_.gear_type == EGearType::PassiveSkill)
 	{

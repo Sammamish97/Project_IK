@@ -17,7 +17,6 @@ See LICENSE file in the project root for full license information.
 #include "Components/PassiveSkillMechanics.h"
 #include "Components/RuneMechanics.h"
 #include "Components/WeaponMechanics.h"
-#include "Components/SphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameModeBase.h"
@@ -64,7 +63,7 @@ void AHeroBase::BeginPlay()
 	//TEST PURPOSE
 	if (weapon_mechanics_->GetWeaponActor() == nullptr)
 	{
-		weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle_B);
+		weapon_mechanics_->EquipWeapon(default_weapon_class_);
 	}
 	//
 }
@@ -78,11 +77,11 @@ void AHeroBase::EquipGears(FSpawnData spawn_data)
 {
 	if (spawn_data.weapon_data_.IsSet())
 	{
-		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue().type);
+		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue().weapon_class_);
 	}
 	else
 	{
-		weapon_mechanics_->EquipWeapon(EWeaponType::DefaultPistol);
+		weapon_mechanics_->EquipWeapon(default_weapon_class_);
 	}
 	if (spawn_data.passive_skill_data_.IsSet())
 	{

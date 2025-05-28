@@ -38,7 +38,7 @@ class PROJECT_IK_API UDataTableManager : public UObject
 	GENERATED_BODY()
 
 public:
-	FWeaponData GetWeaponData(EWeaponType type) const;
+	FWeaponData GetWeaponStatusData(EWeaponType type) const;
 	FString WeaponEnumToString(EWeaponType weapon_type) const;
 	FWeaponData GetWeaponDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	TArray<FWeaponData> GetUniqueWeaponDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
