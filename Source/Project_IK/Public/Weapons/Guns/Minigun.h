@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "GunBase.h"
 #include "Minigun.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AMinigun : public AGunBase
 {
 	GENERATED_BODY()
@@ -24,7 +24,7 @@ public:
 	void FinishFire() override;
 
 private:
-	float pre_heat_time_ = 3.f;
+	float pre_heat_time_ = 1.f;
 	FTimerHandle pre_heat_timer_;
 	bool on_fire_ = false;
 };

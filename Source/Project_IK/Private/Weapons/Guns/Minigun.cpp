@@ -21,6 +21,7 @@ void AMinigun::BeginFire(AActor* target)
 	Super::BeginFire(target);
 	if(GetWorld()->GetTimerManager().IsTimerActive(pre_heat_timer_) == false && on_fire_ == false)
 	{
+		on_fire_ = true;
 		FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &AMinigun::OnFinishPreheat, target);
 		GetWorld()->GetTimerManager().SetTimer(pre_heat_timer_, fire_del, pre_heat_time_, false);
 		//예열 Anim Play
@@ -67,4 +68,5 @@ void AMinigun::FinishFire()
 {
 	Super::FinishFire();
 	Cast<UMinigunAnimInstance>(GetWeaponSkeletalMesh()->GetAnimInstance())->SetMinigunState(EMinigunAnimState::Cooling);
+	on_fire_ = false;
 }

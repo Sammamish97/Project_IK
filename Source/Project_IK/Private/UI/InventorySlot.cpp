@@ -97,22 +97,23 @@ void UInventorySlot::SetImageTexture()
 		image_->SetBrushFromTexture(nullptr);
 		return;
 	}
-	//TODO: 마음에 안드는 부분이다. 더 좋은 방법이 있을것이다.
+	//IKTODO: 마음에 안드는 부분이다. 더 좋은 방법이 있을것이다.
 	UIKGameInstance* instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	UDataTableManager* data_table_manager = instance->GetDataTableManager();
 	UTexture2D* new_texture = nullptr;
-	if(slot_data_.gear_type == EGearType::Weapon)
-	{
-		new_texture = data_table_manager->GetWeaponStatusData(slot_data_.weapon_type).thumbnail;
-	}
-	else if(slot_data_.gear_type == EGearType::PassiveSkill)
-	{
-		new_texture = data_table_manager->GetPassiveSkillData(slot_data_.passive_skill_type).thumbnail;
-	}
-	else if(slot_data_.gear_type == EGearType::ActiveSkill)
-	{
-		new_texture = data_table_manager->GetActiveSkillData(slot_data_.active_skill_type).thumbnail;
-	}
+	//IKTODO: 터진다!!!
+	// if(slot_data_.gear_type == EGearType::Weapon)
+	// {
+	// 	new_texture = data_table_manager->GetWeaponStatusData(slot_data_.weapon_type).thumbnail;
+	// }
+	// else if(slot_data_.gear_type == EGearType::PassiveSkill)
+	// {
+	// 	new_texture = data_table_manager->GetPassiveSkillData(slot_data_.passive_skill_type).thumbnail;
+	// }
+	// else if(slot_data_.gear_type == EGearType::ActiveSkill)
+	// {
+	// 	new_texture = data_table_manager->GetActiveSkillData(slot_data_.active_skill_type).thumbnail;
+	// }
 	//
 	image_->SetBrushFromTexture(new_texture);
 }

@@ -113,6 +113,7 @@ void AGunBase::FireSingleBullet(FVector target_pos, const FDamageData& dmg_data)
 	FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
 	FTransform spawn_transform(rotation, muzzle_location, scale);
 	SpawnBullet(spawn_transform, dmg_data);
+	cur_magazine_ -= 1;
 }
 
 void AGunBase::FireBuckShot(FVector target_pos, const FDamageData& dmg_data)

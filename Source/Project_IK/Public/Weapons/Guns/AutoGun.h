@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "GunBase.h"
 #include "AutoGun.generated.h"
 
-UCLASS()
+UCLASS(ABstract)
 class PROJECT_IK_API AAutoGun : public AGunBase
 {
 	GENERATED_BODY()

@@ -319,8 +319,8 @@ void UCharacterStatComponent::RecordDamage(FDamageData& data_ref)
 	{
 		AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		// @@ TODO: Record atk&skill dmg differently.
-		//game_mode->RecordDamage(data_ref.atk_base_dmg, data_ref.attacker);
-		//game_mode->RecordDamage(data_ref.skill_power_base_dmg, data_ref.attacker);
+		game_mode->RecordDamage(data_ref.atk_base_dmg, data_ref.attacker);
+		game_mode->RecordDamage(data_ref.skill_power_base_dmg, data_ref.attacker);
 	}
 }
 
