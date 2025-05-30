@@ -21,7 +21,7 @@ class UObjectPoolComponent;
 class UWidgetComponent;
 class UCharacterStatComponent;
 class UCrowdControlComponent;
-class UDamageUI;
+class ADamageUI;
 class UDelegateBridgeSubsystem;
 enum class EUnitEvent : uint8;
 struct FBuffData;
@@ -94,7 +94,8 @@ public:
 	
 protected:
 	void SetDamageUI(FDamageData data, bool is_evaded);
-	FTransform GetActorTransformForDamageUI() const noexcept;
+
+	ADamageUI* SpawnDamageUI();
 
 	void GetDamageByDot(FDamageData data);
 	void GetDamageByPEM(FDamageData data);

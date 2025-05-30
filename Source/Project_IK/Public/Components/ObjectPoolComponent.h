@@ -28,7 +28,7 @@ protected:
 public:
 	virtual void BeginPlay() override;
 	void InitializePool();
-	APooledActor* SpawnFromPool(FTransform spawn_transform);
+	APooledActor* SpawnFromPool(const FRotator& rotator, const FVector& translator);
 	TSubclassOf<APooledActor> GetObjectClass() const;
 	void SetObjectClass(const TSubclassOf<APooledActor>& target_class);
 	TArray<APooledActor*>& GetObjectPool();

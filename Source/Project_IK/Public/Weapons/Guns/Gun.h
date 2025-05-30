@@ -61,7 +61,7 @@ private:
 
 	void FireSingleBullet(FVector muzzle_location, FVector target_pos, FDamageData dmg_data);
 	void FireBuckShot(FVector muzzle_location, FVector target_pos, FDamageData dmg_data);
-	void SpawnBullet(const FTransform& transform, const FDamageData& dmg_data);
+	void SpawnBullet(const FRotator& rotator, const FVector& translator, const FDamageData& dmg_data);
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))

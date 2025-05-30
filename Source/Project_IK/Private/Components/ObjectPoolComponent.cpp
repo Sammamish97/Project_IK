@@ -56,12 +56,13 @@ APooledActor* UObjectPoolComponent::FindFirstAvailableActor()
 	return nullptr;
 }
 
-APooledActor* UObjectPoolComponent::SpawnFromPool(FTransform spawn_transform)
+APooledActor* UObjectPoolComponent::SpawnFromPool(const FRotator& rotator, const FVector& translator)
 {
 	auto available_actor = FindFirstAvailableActor();
 	if(available_actor != nullptr)
 	{
-		available_actor->SetActorTransform(spawn_transform);
+		available_actor->SetActorRotation(rotator);
+		available_actor->SetActorLocation(translator);
 		available_actor->SetInUse(true);
 		return available_actor;
 	}
