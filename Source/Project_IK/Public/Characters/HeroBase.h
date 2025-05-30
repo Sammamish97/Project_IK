@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Characters/Unit.h"
-#include "Interfaces/Attackable.h"
 #include "Structs/TargetResult.h"
 #include "Structs/TargetParameters.h"
 #include "Managers/EnumCluster.h"
@@ -54,6 +53,9 @@ public:
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AGunBase> default_weapon_class_ = nullptr;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	class USkillContainer* skill_container_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
@@ -64,11 +66,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	class URuneMechanics* rune_mechanics_;
-
-	//TEST_PURPOSE
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	EWeaponType DEBUG_INITIAL_WEAPON_TYPE = EWeaponType::DefaultPistol;
-	//
 
 private:
 	EHeroType hero_type_;

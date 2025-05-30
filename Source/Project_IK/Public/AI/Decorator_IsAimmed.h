@@ -14,9 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "BehaviorTree/BTDecorator.h"
 #include "Decorator_IsAimmed.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class PROJECT_IK_API UDecorator_IsAimmed : public UBTDecorator
 {

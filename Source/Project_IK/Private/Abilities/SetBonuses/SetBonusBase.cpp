@@ -37,8 +37,10 @@ void USetBonusBase::ActivateEdgeBonus()
 
 void USetBonusBase::ActivateTriangleBonus()
 {
+	ActivateEdgeBonus();
 }
 
 void USetBonusBase::ActivateHexagonBonus()
 {
+	ActivateTriangleBonus();
 }

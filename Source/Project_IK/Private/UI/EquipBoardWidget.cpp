@@ -90,7 +90,7 @@ void UEquipBoardWidget::UpdateEquipBoard()
 		FSpawnData data_cache = transition_system->GetSpawnData(cur_hero_idx_);
 		if (weapon_->slot_data_.is_empty == false)
 		{
-			data_cache.weapon_data_ = data_table_manager->GetWeaponData(weapon_->slot_data_.weapon_type);
+			data_cache.weapon_data_ = data_table_manager->GetWeaponStatusData(weapon_->slot_data_.weapon_type);
 		}
 		else
 		{

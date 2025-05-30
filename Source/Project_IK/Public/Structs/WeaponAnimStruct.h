@@ -22,6 +22,9 @@ struct PROJECT_IK_API FWeaponAnimStruct
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Weapon Anim Data")
 	TSoftObjectPtr<UAnimMontage> reload_montage_;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Weapon Anim Data")
+	TSoftObjectPtr<UAnimBlueprint> weapon_anim_instance_;
 	
 	const TSoftObjectPtr<UAnimMontage>& operator[] (EWeaponAction action_type) const
 	{

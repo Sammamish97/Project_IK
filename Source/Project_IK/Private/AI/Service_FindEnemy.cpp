@@ -100,16 +100,16 @@ void UService_FindEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Node
 			}
 
 			auto last_target = blackboard->GetValueAsObject(last_attack_target_key_.SelectedKeyName);
-			if(auto last_target_actor = Cast<AActor>(last_target))
+			if(distance_object_pairs.IsEmpty() == false)
 			{
-				if(last_target_actor != distance_object_pairs[0].Value)
+				if(last_target != distance_object_pairs[0].Value)
 				{
 					if (auto weapon_mechanics = casted_gunner->GetComponentByClass<UWeaponMechanics>())
 					{
 						weapon_mechanics->FinishFire();
 						blackboard->SetValueAsObject(last_attack_target_key_.SelectedKeyName, distance_object_pairs[0].Value);
 					}
-				}
+				}	
 			}
 		}
 	}

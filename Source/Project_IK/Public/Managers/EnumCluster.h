@@ -98,6 +98,9 @@ enum class ECharacterType  : uint8
 	EnemyKnight UMETA(DisplayName = "EnemyKnight"),
 	EnemyLaserDrone	UMETA(DisplayName = "EnemyLaserDrone"),
 	EnemyHealingPillar UMETA(DisplayName = "EnemyHealingPillar"),
+	EnemyHeavyGunner UMETA(DisplayName = "EnemyHeavyGunner"),
+	EnemyOfficer UMETA(DisplayName = "EnemyOfficer"),
+	EnemyAssassin UMETA(DisplayName = "EnemyAssassin"),
 };
 
 UENUM(BlueprintType)
@@ -243,6 +246,10 @@ enum class EWeaponType : uint8
 	AssaultRifle_A UMETA(DisplayName = "AssaultRifle_A"),
 	ShotGun_A UMETA(DisplayName = "ShotGun_A"),
 	SniperRifle_A UMETA(DisplayName = "SniperRifle_A"),
+
+	HeavyGunnerWeapon UMETA(DisplayName = "HeavyGunnerWeapon"),
+	OfficerWeapon UMETA(DisplayName = "OfficerWeapon"),
+	AssassinWeapon UMETA(DisplayName = "AssassinWeapon")
 };
 
 UENUM(BlueprintType)
@@ -294,6 +301,7 @@ enum class EFireType : uint8
 	INVALID UMETA(DisplayName = "INVALID"),
 	Auto UMETA(DisplayName = "Auto"),
 	Burst UMETA(DisplayName = "Burst"),
+	PreHeating UMETA(DisplayName = "PreHeating"),
 	BoltAction UMETA(DisplayName = "BoltAction")
 };
 
@@ -350,6 +358,7 @@ enum class EWeaponAnimationType : uint8
 	INVALID UMETA(DisplayName = "INVALID"),
 	Pistol UMETA(DisplayName = "Pistol"),
 	Rifle UMETA(DisplayName = "Rifle"),
+	Minigun UMETA(DisplayName = "Minigun"),
 };
 
 UENUM(BlueprintType)

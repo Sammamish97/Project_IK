@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 #include "Components/BulletChainEffectComponent.h"
 #include "Components/WeaponMechanics.h"
-#include "Weapons/Guns/Gun.h"
+#include "Weapons/Guns/GunBase.h"
 
 UAT_MagnetizedBullet::UAT_MagnetizedBullet()
 {

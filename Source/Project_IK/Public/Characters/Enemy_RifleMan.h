@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Characters/EnemyBase.h"
-#include "Interfaces/Attackable.h"
 #include "Enemy_RifleMan.generated.h"
 
 class UWeaponMechanics;
@@ -29,6 +28,9 @@ public:
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UWeaponMechanics> weapon_mechanics_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class AGunBase> weapon_class_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true"))
 	EWeaponType weapon_type_;

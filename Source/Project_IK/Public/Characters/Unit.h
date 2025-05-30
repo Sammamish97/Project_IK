@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Interfaces/Attackable.h"
 #include "Interfaces/Damageable.h"
 #include "Interfaces/UnitInterface.h"
+#include "AITypes.h"
 
 #include "Unit.generated.h"
 class UHitPointsUI;
@@ -38,6 +39,7 @@ public:
 	AUnit();
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
 	UFUNCTION()
 	virtual void Die() override;
@@ -48,13 +50,16 @@ public:
 	void SetCurHidingCover(AActor* cover);
 	AActor* GetCurHidingCover() const;
 
+	void SetAttackTarget(AActor* target);
+	AActor* GetAttackTarget();
+
 	virtual void Attack(AActor* target) override;
 
 	UFUNCTION(BlueprintCallable)
 	ECharacterType GetCharacterType() const;
 	UCharacterStatComponent* GetCharacterStat();
-
 	EUnitBoneType GetBoneType() const;
+	bool IsHero() const;
 
 	
 	UFUNCTION(BlueprintCallable)
@@ -87,6 +92,8 @@ public:
 	virtual void OnEnterBattleOnce();
 	
 	float GetPitchDiffBetweenTarget();
+
+	float GetStunRequestID() const;
 
 	UFUNCTION()
 	void DispatchUnitEvent(EUnitEvent type);
@@ -138,6 +145,9 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	FVector forward_dir_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
+	bool is_hero_ = false;
 	
 	UPROPERTY(Transient)
 	FTimerHandle stun_timer_;
@@ -147,6 +157,9 @@ protected:
 
 	UPROPERTY()
 	TMap<EUnitEvent, FOnUnitEvent> on_unit_event_;
+
+	UPROPERTY()
+	FAIRequestID stun_ai_request_id_ = 2;
 
 	bool is_first_attack_ = true;
 	

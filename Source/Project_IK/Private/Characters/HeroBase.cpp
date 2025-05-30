@@ -17,7 +17,6 @@ See LICENSE file in the project root for full license information.
 #include "Components/PassiveSkillMechanics.h"
 #include "Components/RuneMechanics.h"
 #include "Components/WeaponMechanics.h"
-#include "Components/SphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameModeBase.h"
@@ -36,6 +35,7 @@ AHeroBase::AHeroBase()
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("HeroPreset"));
 
 	forward_dir_ = { 1,0, 0 };
+	is_hero_ = true;
 }
 
 //TODO: 특수 효과같은 경우, 장착과 발동이 달라야 한다. BeginPlay에 넣으면 구별할 수가 없다.
@@ -63,7 +63,7 @@ void AHeroBase::BeginPlay()
 	//TEST PURPOSE
 	if (weapon_mechanics_->GetWeaponActor() == nullptr)
 	{
-		weapon_mechanics_->EquipWeapon(EWeaponType::DefaultPistol);
+		weapon_mechanics_->EquipWeapon(default_weapon_class_);
 	}
 	//
 }
@@ -77,11 +77,11 @@ void AHeroBase::EquipGears(FSpawnData spawn_data)
 {
 	if (spawn_data.weapon_data_.IsSet())
 	{
-		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue().type);
+		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue().weapon_class_);
 	}
 	else
 	{
-		weapon_mechanics_->EquipWeapon(EWeaponType::DefaultPistol);
+		weapon_mechanics_->EquipWeapon(default_weapon_class_);
 	}
 	if (spawn_data.passive_skill_data_.IsSet())
 	{
@@ -126,7 +126,7 @@ void AHeroBase::OnStunned()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hero Stunned"));
 	Super::OnStunned();
-	weapon_mechanics_->OnStunned();
+	//weapon_mechanics_->OnStunned();
 }
 
 EHeroType AHeroBase::GetHeroType() const

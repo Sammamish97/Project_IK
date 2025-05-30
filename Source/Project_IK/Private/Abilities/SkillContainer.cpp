@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
 #include "WorldSettings/IKGameInstance.h"
+#include "BrainComponent.h"
 
 #include "Components/CharacterStatComponent.h"
 
@@ -36,6 +37,13 @@ void USkillContainer::BeginPlay()
 	Super::BeginPlay();
 	hero_cache_ = Cast<AHeroBase>(GetOwner());
 	data_table_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
+}
+
+void USkillContainer::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	GetWorld()->GetTimerManager().ClearTimer(cool_down_handle_);
+	GetWorld()->GetTimerManager().ClearTimer(casting_time_handle_);
+	Super::EndPlay(EndPlayReason);
 }
 
 void USkillContainer::InitializeComponent()
@@ -61,6 +69,15 @@ float USkillContainer::GetCooltime() const
 	if (active_skill_)
 	{
 		return active_skill_->GetCoolTime() * (100 / (100 + hero_cache_->GetCharacterStat()->GetSkillCooldown()));
+	}
+	return 0.f;
+}
+
+float USkillContainer::GetCastingTime() const
+{
+	if (active_skill_)
+	{
+		return active_skill_->GetCastingTime();
 	}
 	return 0.f;
 }
@@ -131,8 +148,22 @@ bool USkillContainer::InvokeSkills(const FTargetResult& TargetResult)
 		{
 			active_skill_->ActivateSkill(TargetResult);
 			GetWorld()->GetTimerManager().SetTimer(cool_down_handle_, GetCooltime(), false);
+
+			FTimerDelegate cast_finish_delegate = FTimerDelegate::CreateUObject(this, &USkillContainer::OnCastingFinish);
+			GetWorld()->GetTimerManager().SetTimer(casting_time_handle_, cast_finish_delegate, GetCastingTime(), false);
 			return true;
 		}
 	}
 	return false;
+}
+
+void USkillContainer::OnCastingFinish()
+{
+	FAIMessage Msg(TEXT("CastingFinished"), this, active_skill_request_id_, FAIMessage::Success);
+	FAIMessage::Send(Cast<APawn>(GetOwner()), Msg);
+}
+
+FAIRequestID USkillContainer::GetCastingRequestID() const
+{
+	return active_skill_request_id_;
 }

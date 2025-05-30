@@ -20,6 +20,7 @@ AEnemyBase::AEnemyBase()
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("EnemyPreset"));
 	GetMesh()->SetCollisionProfileName(TEXT("NoCollision"));
 	forward_dir_ = {-1,0, 0};
+	is_hero_ = false;
 }
 
 void AEnemyBase::Die()

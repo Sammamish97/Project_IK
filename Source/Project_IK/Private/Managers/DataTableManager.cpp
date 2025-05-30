@@ -22,11 +22,11 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/SupportSkillDataAsset.h"
 #include "DataAssets/UnitTypeDataAsset.h"
 #include "DataAssets/WeaponAnimDataAsset.h"
-
+#include "Structs/WeaponStatusData.h"
 #include "Structs/WrapperEquipmentData.h"
 
 
-FWeaponData UDataTableManager::GetWeaponData(EWeaponType type) const
+FWeaponData UDataTableManager::GetWeaponStatusData(EWeaponType type) const
 {
 	return weapon_data_asset_->GetWeaponData(type);
 }
@@ -358,6 +358,11 @@ TSoftObjectPtr<UAnimMontage> UDataTableManager::GetUnitWeaponAnimMontage(EUnitBo
 	EWeaponAction action)
 {
 	return unit_weapon_anim_asset_->GetUnitWeaponAnimData(bone, weapon, action);
+}
+
+TSoftObjectPtr<UAnimBlueprint> UDataTableManager::GetWeaponAnimInstance(EUnitBoneType bone, EWeaponAnimationType weapon)
+{
+	return unit_weapon_anim_asset_->GetUnitWeaponAnimInstance(bone, weapon);
 }
 
 TSubclassOf<AUnit> UDataTableManager::GetUnitType(ECharacterType type)
