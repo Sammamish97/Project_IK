@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Weapons/Guns/Bullet.h"
 #include "DaggerProjectiles.generated.h"
 
+class UNiagaraComponent;
+
 /**
  * 
  */
@@ -42,6 +44,9 @@ protected:
 
 	UFUNCTION()
 	void LaunchForward();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UNiagaraComponent> niagara_;
 
 	FTimerHandle dagger_timer_;
 	float init_speed_ = 0.f;

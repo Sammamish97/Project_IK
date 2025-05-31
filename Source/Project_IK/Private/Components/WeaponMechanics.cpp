@@ -151,35 +151,37 @@ void UWeaponMechanics::OnFire(AActor* target, FDamageData dmg_data, bool is_cont
 
 void UWeaponMechanics::FireWeapon(AActor* target, FDamageData dmg_data, bool is_controlled_fire, float offset)
 {
-	//IKTODO: 간헐적으로 target이 null이라 터짐.
-	TWeakObjectPtr<AActor> target_ptr = target;
-	if (auto casted_target = target_ptr.Get())
+	if (target)
 	{
-		ACharacter* casted_character = Cast<ACharacter>(casted_target);
+		ACharacter* casted_character = Cast<ACharacter>(target);
 		if (is_controlled_fire)
 		{
-			if(UBlackboardComponent* blackboard = Cast<AAIController>(casted_character->GetController())->GetBlackboardComponent())
+			AAIController* controller = Cast<AAIController>(casted_character->GetController());
+			if (controller)
 			{
-				UObject* cover = blackboard->GetValueAsObject(owned_cover_key_name_);
-				if(IsValid(cover))
+				if (UBlackboardComponent* blackboard = controller->GetBlackboardComponent())
 				{
-					if(FMath::RandRange(0, 100) > 50)
+					UObject* cover = blackboard->GetValueAsObject(owned_cover_key_name_);
+					if (IsValid(cover))
 					{
-						weapon_actor_->FireWeapon(casted_character->GetMesh()->GetSocketLocation(head_socket_name_), dmg_data);
+						if (FMath::RandRange(0, 100) > 50)
+						{
+							weapon_actor_->FireWeapon(casted_character->GetMesh()->GetSocketLocation(head_socket_name_), dmg_data);
+						}
+						else
+						{
+							weapon_actor_->FireWeapon(target->GetActorLocation() - FVector(0, 0, 50), dmg_data);
+						}
 					}
 					else
 					{
-						weapon_actor_->FireWeapon(target->GetActorLocation() - FVector(0, 0, 50), dmg_data);
+						weapon_actor_->FireWeapon(target->GetActorLocation(), dmg_data);
 					}
 				}
 				else
 				{
 					weapon_actor_->FireWeapon(target->GetActorLocation(), dmg_data);
 				}
-			}
-			else
-			{
-				weapon_actor_->FireWeapon(target->GetActorLocation(), dmg_data);
 			}
 		}
 		else
