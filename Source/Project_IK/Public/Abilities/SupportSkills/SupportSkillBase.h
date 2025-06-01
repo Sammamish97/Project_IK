@@ -25,7 +25,10 @@ public:
 	FTargetParameters GetTargetParameters() const;
 	float GetCoolTime() const;
 	float GetCost() const;
-	virtual bool ActivateSkill(const FTargetResult& TargetResult);
+	virtual bool ActivateSkill();
+	virtual void Decide(const FTargetResult& TargetResult);
+	virtual void Reset();
+	virtual void BeginCoolDown();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)

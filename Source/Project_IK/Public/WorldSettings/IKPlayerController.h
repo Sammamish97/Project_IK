@@ -13,13 +13,15 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/TargetParameters.h"
 #include "IKPlayerController.generated.h"
 
 class UInputMappingContext;
 class UInputAction;
 class UDelegateBridgeSubsystem;
+class USupportSkillBase;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnItemUsed, int32, item_idx);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSupportSkill, int32, skill_idx);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveSKill, EHeroType, hero_idx);
 
 UCLASS()
@@ -42,13 +44,22 @@ public:
 	UFUNCTION()
 	void ActivateSkillTargeting(EHeroType hero_type);
 
+	UFUNCTION()
+	void ActivateSupportSkill(int32 support_num);
+
+	UFUNCTION()
+	void StartTargeting(const FTargetParameters& target_params, ETargetingState state, AActor* invoker = nullptr);
+
+	UFUNCTION()
+	void ClearTargetingState();
+	
 	void UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies);
 	
 protected:
 	virtual void BeginPlay();
 
 	UPROPERTY()
-	FOnItemUsed on_item_used_;
+	FOnSupportSkill on_support_skill_;
 
 	UPROPERTY()
 	FOnActiveSKill on_active_skill_;
@@ -65,6 +76,15 @@ private:
 
 	UFUNCTION()
 	void ActivateFourthHeroActiveSkill();
+
+	UFUNCTION()
+	void ActivateFirstSupportSkill();
+	
+	UFUNCTION()
+	void ActivateSecondSupportSkill();
+	
+	UFUNCTION()
+	void ActivateThirdSupportSkill();
 	
 	UFUNCTION()
 	void Decide();
@@ -72,12 +92,6 @@ private:
 	UFUNCTION()
 	void CancelTargeting();
 
-	UFUNCTION()
-	void ToggleBetweenRepositionAndSupport();
-
-	UFUNCTION()
-	void EnterRepositioningMode();
-	
 	UFUNCTION()
 	void RotateCameraLeft();
 
@@ -88,44 +102,37 @@ private:
 	void OnToggleInventory();
 	
 protected:
-	ETargetingState targeting_state_ = ETargetingState::Idle;
+	ETargetingState cur_targeting_state_ = ETargetingState::Idle;
 	EHeroType selected_hero_type_ = EHeroType::INVALID;
-	int32 selected_item_idx_ = -1;
-
-	UPROPERTY(Transient)
-	TObjectPtr<AActor> repositioning_hero_ = nullptr;
+	int32 selected_support_skill_ = -1;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Targeting")
 	TObjectPtr<UTargetingComponent> targeting_component_;
-
-	//
-	float HARD_CODED_REPOSITION_RADIUS = 1000.f;
-	const float max_cost_ = 10.f;
-	float cur_cost_ = 0.f;
+	
+	UPROPERTY()
+	TObjectPtr<USupportSkillBase> equipped_first_support_skill_ = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<class USupportSkillBase> equipped_support_skill_ = nullptr;
+	TObjectPtr<USupportSkillBase> equipped_second_support_skill_ = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<USupportSkillBase> equipped_third_support_skill_ = nullptr;
+
+	UPROPERTY()
+    TObjectPtr<USupportSkillBase> last_invoked_support_skill_ = nullptr;
 	//
 
-public:
-	float GetChargeTime() const;
-	
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputMappingContext> player_input_mapping_context;
-	
+
+	//
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> decide_action_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> cancel_action_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> support_action_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> enter_action_mode_action_;
-	
+	//
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> activate_first_hero_active_skill_action_;
 
@@ -137,14 +144,25 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> activate_fourth_hero_active_skill_action;
+	//
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> activate_first_support_skill_action_;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> activate_second_support_skill_action;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> activate_third_support_skill_action;
+	//
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> rotate_camera_left_action_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> rotate_camera_right_action_;
-
 	//
+	
+	//IKTODO: 전투 레벨에서는 인벤토리를 열 수 없어야 한다! 그래서 이 IA는 Debug전용이다.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UInputAction> inventory_toggle_action_;
+	//
 };

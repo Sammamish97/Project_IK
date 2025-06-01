@@ -49,7 +49,7 @@ void UButtonBarWidget::NativeConstruct()
 	UDelegateBridgeSubsystem* delegate_bridge_subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
 	if (delegate_bridge_subsystem)
 	{
-		delegate_bridge_subsystem->BindOnItemUsed(this, &UButtonBarWidget::SynchroItemButtons);
+		delegate_bridge_subsystem->BindOnSupportSkill(this, &UButtonBarWidget::SynchroItemButtons);
 		delegate_bridge_subsystem->BindOnActiveSkill(this, &UButtonBarWidget::SynchroActiveSkillButtons);
 	}
 
@@ -121,7 +121,6 @@ void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 			}
 		}
 	}
-	repositioning_point_->SetText(FText::AsNumber(player_controller_cache_->GetChargeTime()));
 }
 
 void UButtonBarWidget::OnSkillButtonClicked0()

@@ -76,9 +76,6 @@ private:
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> skill_button_3_;
-
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UTextBlock> repositioning_point_;
 	
 	UPROPERTY(meta = (BindWidget))
 	UCreditWidget* credit_widget_;
