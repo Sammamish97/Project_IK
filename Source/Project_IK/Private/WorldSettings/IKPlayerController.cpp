@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKPlayerController.h"
 
 #include "Components/TargetingComponent.h"
+#include "Components/EnergySystemComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Abilities/SupportSkills/SupportSkillBase.h"
@@ -25,7 +26,7 @@ AIKPlayerController::AIKPlayerController()
 	: Super::APlayerController()
 {
 	targeting_component_ = CreateDefaultSubobject<UTargetingComponent>(TEXT("Targeting Component"));
-	
+	energy_system_component_ = CreateDefaultSubobject<UEnergySystemComponent>(TEXT("Energy System Component"));
 }
 
 void AIKPlayerController::BeginPlay()
@@ -41,7 +42,7 @@ void AIKPlayerController::BeginPlay()
 	}
 	
 	auto type =Cast<UIKGameInstance>(GetGameInstance())->GetDataTableManager()->GetSupportSkillType(ESupportSkillType::Reposition);
-	equipped_first_support_skill_ = NewObject<USupportSkillBase>(this, type);
+	equipped_support_skills_.Push(NewObject<USupportSkillBase>(this, type));
 }
 
 void AIKPlayerController::Tick(float dt)
@@ -115,20 +116,26 @@ void AIKPlayerController::ActivateFourthHeroActiveSkill()
 
 void AIKPlayerController::ActivateFirstSupportSkill()
 {
-	ActivateSupportSkill(0);
-	last_invoked_support_skill_ = equipped_first_support_skill_;
+	if (equipped_support_skills_[0])
+	{
+		ActivateSupportSkill(0);
+	}
 }
 
 void AIKPlayerController::ActivateSecondSupportSkill()
 {
-	ActivateSupportSkill(1);
-	last_invoked_support_skill_ = equipped_second_support_skill_;
+	if (equipped_support_skills_[1])
+	{
+		ActivateSupportSkill(1);
+	}
 }
 
 void AIKPlayerController::ActivateThirdSupportSkill()
 {
-	ActivateSupportSkill(2);
-	last_invoked_support_skill_ = equipped_third_support_skill_;
+	if (equipped_support_skills_[2])
+	{
+		ActivateSupportSkill(2);
+	}
 }
 
 void AIKPlayerController::ActivateSkillTargeting(EHeroType hero_type)
@@ -150,28 +157,10 @@ void AIKPlayerController::ActivateSkillTargeting(EHeroType hero_type)
 
 void AIKPlayerController::ActivateSupportSkill(int32 support_num)
 {
-	switch (support_num)
+	if (energy_system_component_->GetEnergy() >  equipped_support_skills_[support_num]->GetCost())
 	{
-		case 0:
-			if (equipped_first_support_skill_)
-			{
-				equipped_first_support_skill_->ActivateSkill();
-			}
-		break;
-
-		case 1:
-			if (equipped_second_support_skill_)
-			{
-				equipped_second_support_skill_->ActivateSkill();
-			}
-		break;
-
-		case 2:
-			if (equipped_third_support_skill_)
-			{
-				equipped_third_support_skill_->ActivateSkill();
-			}
-		break;
+		last_invoked_support_skill_ = equipped_support_skills_[support_num];
+		last_invoked_support_skill_->ActivateSkill();
 	}
 }
 
@@ -189,6 +178,11 @@ void AIKPlayerController::ClearTargetingState()
 	cur_targeting_state_ = ETargetingState::Idle;
 }
 
+bool AIKPlayerController::UseEnergy(float amount)
+{
+	return energy_system_component_->UseEnergy(amount);
+}
+
 void AIKPlayerController::Decide()
 {
 	switch (cur_targeting_state_)
@@ -204,7 +198,7 @@ void AIKPlayerController::Decide()
 			break;
 		case ETargetingState::SupportSkill:
 			{
-				equipped_first_support_skill_->Decide(targeting_component_->DecideTargetings());
+				last_invoked_support_skill_->Decide(targeting_component_->DecideTargetings());
 				on_support_skill_.Broadcast(0);
 			}
 			break;

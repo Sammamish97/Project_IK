@@ -28,12 +28,12 @@ void USP_Reposition::Reset()
 
 void USP_Reposition::Decide(const FTargetResult& target_result)
 {
-	auto controller = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if (selected_hero_)
 	{
 		selected_hero_->Reposition(target_result.target_location_);
+		player_controller_cache_->ClearTargetingState();
 		Reset();
-		controller->ClearTargetingState();
+		UseEnergy();
 		BeginCoolDown();
 	}
 	else
@@ -41,8 +41,8 @@ void USP_Reposition::Decide(const FTargetResult& target_result)
 		if (target_result.target_actors_.Num() > 0 && target_result.target_actors_[0]->IsA(AHeroBase::StaticClass()))
 		{
 			selected_hero_ = Cast<AHeroBase>(target_result.target_actors_[0]);
-			controller->ClearTargetingState();
-			controller->StartTargeting(reposition_location_params_, ETargetingState::SupportSkill);
+			player_controller_cache_->ClearTargetingState();
+			player_controller_cache_->StartTargeting(reposition_location_params_, ETargetingState::SupportSkill);
 		}
 	}
 }

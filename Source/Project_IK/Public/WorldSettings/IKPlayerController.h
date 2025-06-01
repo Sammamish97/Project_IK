@@ -52,6 +52,9 @@ public:
 
 	UFUNCTION()
 	void ClearTargetingState();
+
+	UFUNCTION()
+	bool UseEnergy(float amount);
 	
 	void UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies);
 	
@@ -108,18 +111,15 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, Category = "Targeting")
 	TObjectPtr<UTargetingComponent> targeting_component_;
-	
-	UPROPERTY()
-	TObjectPtr<USupportSkillBase> equipped_first_support_skill_ = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Targeting")
+	TObjectPtr<class UEnergySystemComponent> energy_system_component_;
 
 	UPROPERTY()
-	TObjectPtr<USupportSkillBase> equipped_second_support_skill_ = nullptr;
+	TArray<TObjectPtr<USupportSkillBase>> equipped_support_skills_;
 
 	UPROPERTY()
-	TObjectPtr<USupportSkillBase> equipped_third_support_skill_ = nullptr;
-
-	UPROPERTY()
-    TObjectPtr<USupportSkillBase> last_invoked_support_skill_ = nullptr;
+	TObjectPtr<USupportSkillBase> last_invoked_support_skill_ = nullptr;
 	//
 
 private:

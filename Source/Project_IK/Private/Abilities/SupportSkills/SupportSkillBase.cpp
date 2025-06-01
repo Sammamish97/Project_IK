@@ -31,8 +31,11 @@ bool USupportSkillBase::ActivateSkill()
 {
 	if (GetWorld()->GetTimerManager().IsTimerActive(cool_down_handle_) == false)
 	{
-		auto controller = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-		controller->StartTargeting(target_param_, ETargetingState::SupportSkill);
+		if (player_controller_cache_ == nullptr)
+		{
+			player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+		}
+		player_controller_cache_->StartTargeting(target_param_, ETargetingState::SupportSkill);
 		return true;
 	}
 	return false;
@@ -44,7 +47,6 @@ void USupportSkillBase::Reset()
 
 void USupportSkillBase::Decide(const FTargetResult& TargetResult)
 {
-	
 }
 
 void USupportSkillBase::BeginCoolDown()
@@ -53,4 +55,9 @@ void USupportSkillBase::BeginCoolDown()
 	{
 		GetWorld()->GetTimerManager().SetTimer(cool_down_handle_, cool_time_, false);
 	}
+}
+
+void USupportSkillBase::UseEnergy()
+{
+	player_controller_cache_->UseEnergy(cost_);
 }

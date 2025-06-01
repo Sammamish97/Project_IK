@@ -29,8 +29,12 @@ public:
 	virtual void Decide(const FTargetResult& TargetResult);
 	virtual void Reset();
 	virtual void BeginCoolDown();
+	virtual void UseEnergy();
 
 protected:
+	UPROPERTY()
+	TObjectPtr<class AIKPlayerController> player_controller_cache_;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FTargetParameters target_param_{};
 	
