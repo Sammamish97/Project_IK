@@ -101,19 +101,18 @@ void UInventorySlot::SetImageTexture()
 	UIKGameInstance* instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	UDataTableManager* data_table_manager = instance->GetDataTableManager();
 	UTexture2D* new_texture = nullptr;
-	//IKTODO: 터진다!!!
-	// if(slot_data_.gear_type == EGearType::Weapon)
-	// {
-	// 	new_texture = data_table_manager->GetWeaponStatusData(slot_data_.weapon_type).thumbnail;
-	// }
-	// else if(slot_data_.gear_type == EGearType::PassiveSkill)
-	// {
-	// 	new_texture = data_table_manager->GetPassiveSkillData(slot_data_.passive_skill_type).thumbnail;
-	// }
-	// else if(slot_data_.gear_type == EGearType::ActiveSkill)
-	// {
-	// 	new_texture = data_table_manager->GetActiveSkillData(slot_data_.active_skill_type).thumbnail;
-	// }
-	//
+	if(slot_data_.gear_type == EGearType::Weapon)
+	{
+		new_texture = data_table_manager->GetWeaponStatusData(slot_data_.weapon_type).thumbnail;
+	}
+	else if(slot_data_.gear_type == EGearType::PassiveSkill)
+	{
+		new_texture = data_table_manager->GetPassiveSkillData(slot_data_.passive_skill_type).thumbnail;
+	}
+	else if(slot_data_.gear_type == EGearType::ActiveSkill)
+	{
+		new_texture = data_table_manager->GetActiveSkillData(slot_data_.active_skill_type).thumbnail;
+	}
+	
 	image_->SetBrushFromTexture(new_texture);
 }
