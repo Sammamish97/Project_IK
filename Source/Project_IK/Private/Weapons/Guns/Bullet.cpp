@@ -113,6 +113,12 @@ void ABullet::ApplyMaterials(const TArray<UMaterialInterface*>& materials)
 	}
 }
 
+void ABullet::ReturnToPool()
+{
+	Clear();
+	Super::ReturnToPool();
+}
+
 void ABullet::SetCollisionPreset(bool is_hero)
 {
 	if (is_hero)
@@ -166,7 +172,6 @@ void ABullet::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 	{
 		elem->OnHit(OtherActor);
 	}
-	Clear();
 	ReturnToPool();
 }
 
