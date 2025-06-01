@@ -15,6 +15,9 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/PassiveSkills/PassiveSkillBase.h"
 #include "PS_LowProfile.generated.h"
 
+class UNiagaraSystem;
+class UNiagaraComponent;
+
 /**
  * 
  */
@@ -26,7 +29,8 @@ public:
 
 	virtual void InitEquipmentSkill(AActor* hero_ref) override;
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UNiagaraSystem> skill_particle_system_;
 
 protected:
 	UFUNCTION()
@@ -34,11 +38,26 @@ protected:
 	UFUNCTION()
 	void RemoveBuff();
 
+	void AttachParticles(USceneComponent* attached_component);
+	void ActivateParticles();
+	void DeactivateParticles();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
 	float evasion_rate_buff_amount_ = 0.1f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
 	bool is_evasion_rate_buff_percentage_ = false;
 
 	bool is_buff_applied_ = false;
-	
+
+	UPROPERTY()
+	TObjectPtr<UNiagaraComponent> left_elbow_particle_;
+
+	UPROPERTY()
+	TObjectPtr<UNiagaraComponent> right_elbow_particle_;
+
+	UPROPERTY()
+	TObjectPtr<UNiagaraComponent> left_foot_particle_;
+
+	UPROPERTY()
+	TObjectPtr<UNiagaraComponent> right_foot_particle_;
 };

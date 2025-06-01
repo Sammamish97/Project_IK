@@ -59,7 +59,7 @@ public:
 protected:
 	void FireSingleBullet(FVector target_pos, const FDamageData& dmg_data);
 	void FireBuckShot(FVector target_pos, const FDamageData& dmg_data);
-	void SpawnBullet(const FTransform& transform, const FDamageData& dmg_data);
+	void SpawnBullet(const FRotator& rotation, const FVector& translation, const FDamageData& dmg_data);
 
 public:
 	void AttachParticleEffect(UNiagaraSystem* niagara_system);

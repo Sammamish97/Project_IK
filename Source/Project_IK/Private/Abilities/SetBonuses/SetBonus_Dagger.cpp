@@ -17,6 +17,8 @@ See LICENSE file in the project root for full license information.
 #include "Structs/BuffData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
+#include "Weapons/Runes/DaggerProjectiles.h"
+
 USetBonus_Dagger::USetBonus_Dagger()
 {
 	bullet_pool_ = CreateDefaultSubobject<UObjectPoolComponent>("BulletPool");
@@ -42,6 +44,7 @@ void USetBonus_Dagger::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
 	bullet_pool_->InitializePool();
+	bullet_pool_->SetObjectClass(dagger_actor_);
 	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnCriticalFire, this, &USetBonus_Dagger::HexagonBonus);
 }
 
@@ -60,18 +63,35 @@ void USetBonus_Dagger::HexagonBonus()
 				hero_cache_->GetCharacterStat()->GetSightRange(),
 				traceObjectTypes, AEnemyBase::StaticClass(), ignore_actors, out_actors);
 	
-	//IKTODO: 차후 Muzzle Object와 VFX를 사용할것을 생각하면, 교체할 필요성이 있다.
-	FVector muzzle = hero_cache_->GetActorLocation() + FVector(0, 200, 200);
+
+	const FDamageData dmg_data = { dagger_damage_, 0, EDamageType::Projectile, hero_cache_};
+
 
 	if (out_actors.Num() >= 2)
 	{
-		FRotator rotation_1= UKismetMathLibrary::FindLookAtRotation(muzzle, out_actors[0]->GetActorLocation());
-		FRotator rotation_2= UKismetMathLibrary::FindLookAtRotation(muzzle, out_actors[1]->GetActorLocation());
-		bullet_pool_->SpawnFromPool({rotation_1, muzzle});
-		bullet_pool_->SpawnFromPool({rotation_2, muzzle});
+		SpawnDaggers(out_actors[0]->GetActorLocation(), dmg_data);
+		SpawnDaggers(out_actors[1]->GetActorLocation(), dmg_data);
+
 	}else if (out_actors.Num() == 1)
 	{
-		FRotator rotation_1= UKismetMathLibrary::FindLookAtRotation(muzzle, out_actors[0]->GetActorLocation());
-		bullet_pool_->SpawnFromPool({rotation_1, muzzle});
+		SpawnDaggers(out_actors[0]->GetActorLocation(), dmg_data);
 	}
+}
+
+void USetBonus_Dagger::SpawnDaggers(const FVector& target_position, const FDamageData& damage_data)
+{
+	const FVector position = GetDaggerSpawnPosition();
+	FRotator rotator = UKismetMathLibrary::FindLookAtRotation(position, target_position);
+	ADaggerProjectiles* dagger = Cast<ADaggerProjectiles>(bullet_pool_->SpawnFromPool(rotator, position));
+	if (dagger)
+	{
+		dagger->SetDamageData(damage_data);
+		dagger->BeginDaggerMovements();
+	}
+	
+}
+
+FVector USetBonus_Dagger::GetDaggerSpawnPosition()
+{
+	return hero_cache_->GetActorLocation() + position_offset + (FMath::VRand() * random_offset_radius + FVector(0.f, 0.f, random_offset_radius / 2.f));
 }

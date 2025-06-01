@@ -23,7 +23,7 @@ See LICENSE file in the project root for full license information.
 FReply UInventorySlot::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnPreviewMouseButtonDown(InGeometry, InMouseEvent);
-	if(InMouseEvent.IsMouseButtonDown(EKeys::LeftMouseButton))
+	if (InMouseEvent.IsMouseButtonDown(EKeys::LeftMouseButton))
 	{
 		FEventReply ReplyResult = UWidgetBlueprintLibrary::DetectDragIfPressed(InMouseEvent, this, EKeys::LeftMouseButton);
 		return ReplyResult.NativeReply;
@@ -35,18 +35,18 @@ void UInventorySlot::NativeOnDragDetected(const FGeometry& InGeometry, const FPo
 	UDragDropOperation*& OutOperation)
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
-	if(slot_data_.is_empty == true) return;
-	
+	if (slot_data_.is_empty == true) return;
+
 	UDragDropOperation* dragdrop_operation = UWidgetBlueprintLibrary::CreateDragDropOperation(UDragDropOperation::StaticClass());
 	dragdrop_operation->Payload = this;
-	
+
 	auto dragged_image_widget = CreateWidget(GetWorld(), dragdrop_image_class_);
 	Cast<USlotDragDropImage>(dragged_image_widget)->image_->
-	SetBrushFromTexture(UWidgetBlueprintLibrary::GetBrushResourceAsTexture2D(image_->GetBrush()));
-	
+		SetBrushFromTexture(UWidgetBlueprintLibrary::GetBrushResourceAsTexture2D(image_->GetBrush()));
+
 	dragdrop_operation->DefaultDragVisual = dragged_image_widget;
 	dragdrop_operation->Pivot = EDragPivot::CenterCenter;
-	
+
 	OutOperation = dragdrop_operation;
 }
 
@@ -54,26 +54,26 @@ bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 	UDragDropOperation* InOperation)
 {
 	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
-	if(InOperation->Payload == this) return false;
+	if (InOperation->Payload == this) return false;
 
 	UInventorySlot* slot_from = Cast<UInventorySlot>(InOperation->Payload);
-	if(slot_type_ == EInventorySlotType::WeaponBoardSlot)
+	if (slot_type_ == EInventorySlotType::WeaponBoardSlot)
 	{
-		if(slot_from->slot_data_.gear_type != EGearType::Weapon)
+		if (slot_from->slot_data_.gear_type != EGearType::Weapon)
 		{
 			return false;
 		}
 	}
-	if(slot_type_ == EInventorySlotType::PassiveSkillBoardSlot)
+	if (slot_type_ == EInventorySlotType::PassiveSkillBoardSlot)
 	{
-		if(slot_from->slot_data_.gear_type != EGearType::PassiveSkill)
+		if (slot_from->slot_data_.gear_type != EGearType::PassiveSkill)
 		{
 			return false;
 		}
 	}
-	if(slot_type_ == EInventorySlotType::ActiveSkillBoardSlot)
+	if (slot_type_ == EInventorySlotType::ActiveSkillBoardSlot)
 	{
-		if(slot_from->slot_data_.gear_type != EGearType::ActiveSkill)
+		if (slot_from->slot_data_.gear_type != EGearType::ActiveSkill)
 		{
 			return false;
 		}
@@ -92,7 +92,7 @@ void UInventorySlot::ClearData()
 
 void UInventorySlot::SetImageTexture()
 {
-	if(slot_data_.is_empty == true)
+	if (slot_data_.is_empty == true)
 	{
 		image_->SetBrushFromTexture(nullptr);
 		return;
@@ -101,19 +101,18 @@ void UInventorySlot::SetImageTexture()
 	UIKGameInstance* instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	UDataTableManager* data_table_manager = instance->GetDataTableManager();
 	UTexture2D* new_texture = nullptr;
-	//IKTODO: 터진다!!!
-	// if(slot_data_.gear_type == EGearType::Weapon)
-	// {
-	// 	new_texture = data_table_manager->GetWeaponStatusData(slot_data_.weapon_type).thumbnail;
-	// }
-	// else if(slot_data_.gear_type == EGearType::PassiveSkill)
-	// {
-	// 	new_texture = data_table_manager->GetPassiveSkillData(slot_data_.passive_skill_type).thumbnail;
-	// }
-	// else if(slot_data_.gear_type == EGearType::ActiveSkill)
-	// {
-	// 	new_texture = data_table_manager->GetActiveSkillData(slot_data_.active_skill_type).thumbnail;
-	// }
-	//
+	if (slot_data_.gear_type == EGearType::Weapon)
+	{
+		new_texture = data_table_manager->GetWeaponStatusData(slot_data_.weapon_type).thumbnail;
+	}
+	else if (slot_data_.gear_type == EGearType::PassiveSkill)
+	{
+		new_texture = data_table_manager->GetPassiveSkillData(slot_data_.passive_skill_type).thumbnail;
+	}
+	else if (slot_data_.gear_type == EGearType::ActiveSkill)
+	{
+		new_texture = data_table_manager->GetActiveSkillData(slot_data_.active_skill_type).thumbnail;
+	}
+
 	image_->SetBrushFromTexture(new_texture);
 }

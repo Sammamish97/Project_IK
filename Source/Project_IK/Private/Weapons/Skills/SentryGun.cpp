@@ -84,9 +84,7 @@ void ASentryGun::OnFire(AActor* nearest_actor)
 	if (nearest_actor)
 	{
 		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_->GetComponentLocation(), nearest_actor->GetActorLocation());
-		FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
-		FTransform spawn_transform(rotation, muzzle_->GetComponentLocation(), scale);
-		ABullet* bullet = Cast<ABullet>(bullet_pool_->SpawnFromPool(spawn_transform));
+		ABullet* bullet = Cast<ABullet>(bullet_pool_->SpawnFromPool(rotation, muzzle_->GetComponentLocation()));
 		if (bullet)
 		{
 			bullet->SetShooter(this);
