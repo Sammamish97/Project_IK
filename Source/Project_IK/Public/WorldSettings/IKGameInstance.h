@@ -15,7 +15,6 @@ See LICENSE file in the project root for full license information.
 #include "IKGameInstance.generated.h"
 
 class USetBonusManager;
-class UItemInventory;
 class UIKMaps;
 class UCharacterDataManager;
 
@@ -30,8 +29,6 @@ public:
 	virtual void Init() override;
 	virtual void Shutdown() override;
 
-	UFUNCTION(BlueprintPure)
-	class UItemInventory* GetItemInventory() const noexcept;
 	UFUNCTION(BlueprintPure)
 	class UIKMaps* GetMapPtr() const noexcept;
 	UFUNCTION(BlueprintPure)
@@ -51,21 +48,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelTransition")
 	TSubclassOf<AActor> enemy_blueprint_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemInventory")
-	TSubclassOf<UItemInventory> item_inventory_class_;
-
 private:
 	void InitializeCharacterDataManager();
-	void InitializeItemInventory();
 	void InitializeMaps();
 	void InitInventoryManager();
 	void InitDataTableManager();
 	void InitSpawnData();
 	void InitSetBonusManager();
 	void InitEventManager();
-
-	UPROPERTY()
-	class UItemInventory* item_inventory_;
 
 	UPROPERTY()
 	class UIKMaps* maps_;

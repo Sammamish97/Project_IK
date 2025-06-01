@@ -32,6 +32,11 @@ float USkillBase::GetCoolTime() const
 	return cool_time_;
 }
 
+float USkillBase::GetCastingTime() const
+{
+	return casting_time_;
+}
+
 void USkillBase::ApplyDamage(FDamageData DamageData)
 {
 	if (DamageData.attack_target.IsValid() && DamageData.attack_target->IsA<AUnit>())

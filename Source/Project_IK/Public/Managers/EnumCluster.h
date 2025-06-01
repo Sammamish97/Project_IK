@@ -25,9 +25,7 @@ enum class EUnitState  : uint8
 UENUM(BlueprintType)
 enum class ECCType : uint8
 {
-	DroneJamming UMETA(DisplayName = "DroneJamming"),
 	Silence UMETA(DisplayName = "Silence"),
-	MuteItems UMETA(DisplayName = "MuteItems"),
 	Stun UMETA(DisplayName = "Stun"),
 	Bleeding UMETA(DisplayName = "Bleeding"),
 };
@@ -46,7 +44,6 @@ UENUM(BlueprintType)
 enum class ECombatEndState : uint8
 {
 	ShowingCombatResultUI UMETA(DisplayName = "ShowingCombatResultUI"),
-	ShowingItemPickerUI UMETA(DisplayName = "ShowingItemPickerUI"),
 	ShowingEquipmentRewardUI UMETA(DisplayName = "ShowingEquipmentRewardUI"),
 	ShowingMapUI UMETA(DisplayName = "ShowingMapUI"),
 };
@@ -101,6 +98,9 @@ enum class ECharacterType  : uint8
 	EnemyKnight UMETA(DisplayName = "EnemyKnight"),
 	EnemyLaserDrone	UMETA(DisplayName = "EnemyLaserDrone"),
 	EnemyHealingPillar UMETA(DisplayName = "EnemyHealingPillar"),
+	EnemyHeavyGunner UMETA(DisplayName = "EnemyHeavyGunner"),
+	EnemyOfficer UMETA(DisplayName = "EnemyOfficer"),
+	EnemyAssassin UMETA(DisplayName = "EnemyAssassin"),
 };
 
 UENUM(BlueprintType)
@@ -199,7 +199,6 @@ enum class EGearType : uint8
 	Weapon UMETA(DisplayName = "Weapon"),
 	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
 	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
-	Oopart UMETA(DisplayName = "Oopart"),
 };
 
 UENUM(BlueprintType)
@@ -209,7 +208,6 @@ enum class EInventorySlotType : uint8
 	WeaponBoardSlot UMETA(DisplayName = "WeaponBoardSlot"),
 	ActiveSkillBoardSlot UMETA(DisplayName = "ActiveSkillBoardSlot"),
 	PassiveSkillBoardSlot UMETA(DisplayName = "PassiveSkillBoardSlot"),
-	OopartBoardSlot UMETA(DisplayName = "OopartBoardSlot"),
 	InventorySlot UMETA(DisplayName = "InventorySlot"),
 };
 
@@ -248,6 +246,10 @@ enum class EWeaponType : uint8
 	AssaultRifle_A UMETA(DisplayName = "AssaultRifle_A"),
 	ShotGun_A UMETA(DisplayName = "ShotGun_A"),
 	SniperRifle_A UMETA(DisplayName = "SniperRifle_A"),
+
+	HeavyGunnerWeapon UMETA(DisplayName = "HeavyGunnerWeapon"),
+	OfficerWeapon UMETA(DisplayName = "OfficerWeapon"),
+	AssassinWeapon UMETA(DisplayName = "AssassinWeapon")
 };
 
 UENUM(BlueprintType)
@@ -271,14 +273,6 @@ enum class EPassiveSkillType : uint8
 	CloseQuartersMastery UMETA(DisplayName = "CloseQuartersMastery"),
 	LowProfile UMETA(DisplayName = "LowProfile"),
 	StableFirstRound UMETA(DisplayName = "StableFirstRound"),
-};
-
-UENUM(BlueprintType)
-enum class EOopartType : uint8
-{
-	HealingWaves UMETA(DisplayName = "HealingWaves"),
-	AttackSpeedBoost UMETA(DisplayName = "AttackSpeedBoost"),
-	INVALID UMETA(DisplayName = "INVALID")
 };
 
 UENUM(BlueprintType)
@@ -307,6 +301,7 @@ enum class EFireType : uint8
 	INVALID UMETA(DisplayName = "INVALID"),
 	Auto UMETA(DisplayName = "Auto"),
 	Burst UMETA(DisplayName = "Burst"),
+	PreHeating UMETA(DisplayName = "PreHeating"),
 	BoltAction UMETA(DisplayName = "BoltAction")
 };
 
@@ -335,9 +330,9 @@ enum class ETargetingState : uint8
 {
 	Idle UMETA(DisplayName = "Idle"),
 	ActiveSKill UMETA(DisplayName = "ActiveSKill"),
-	Item UMETA(DisplayName = "Item"),
 	EnterRepositioning UMETA(DisplayName = "Repositioning"),
-	PickRepositionTargetLocation UMETA(DisplayName = "PickRepositionTargetLocation")
+	PickRepositionTargetLocation UMETA(DisplayName = "PickRepositionTargetLocation"),
+	EnterSupporting UMETA(DisplayName = "Supporting"),
 };
 
 UENUM(BlueprintType)
@@ -363,6 +358,7 @@ enum class EWeaponAnimationType : uint8
 	INVALID UMETA(DisplayName = "INVALID"),
 	Pistol UMETA(DisplayName = "Pistol"),
 	Rifle UMETA(DisplayName = "Rifle"),
+	Minigun UMETA(DisplayName = "Minigun"),
 };
 
 UENUM(BlueprintType)
@@ -379,8 +375,7 @@ UENUM(BlueprintType)
 enum class EUnitBoneType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
-	HeroHumanoid UMETA(DisplayName = "HeroHumanoid"),
-	EnemySoldier UMETA(DisplayName = "EnemySoldier"),
+	Humanoid_Gunner UMETA(DisplayName = "HeroHumanoid"),
 };
 
 UENUM(BlueprintType)
@@ -389,4 +384,12 @@ enum class EWeaponAction : uint8
 	INVALID UMETA(DisplayName = "INVALID"),
 	Fire UMETA(DisplayName = "Fire"),
 	Reload UMETA(DisplayName = "Reload"),
+};
+
+UENUM(BlueprintType)
+enum class ESupportSkillType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	SupportFire UMETA(DisplayName = "SupportFire"),
+	InstantRepair UMETA(DisplayName = "InstantRepair"),
 };

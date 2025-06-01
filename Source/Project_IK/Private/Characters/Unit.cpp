@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/Unit.h"
 
+#include "BrainComponent.h"
 #include "AI/MeleeAIController.h"
 #include "Components/CharacterStatComponent.h"
 #include "Components/CrowdControlComponent.h"
@@ -18,6 +19,7 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/HitPointsUI.h"
 #include "Components/ObjectPoolComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "UI/DamageUI.h"
 
 #include "Subsystems/GlobalBuffSubsystem.h"
@@ -66,6 +68,16 @@ AActor* AUnit::GetCurHidingCover() const
 	return cur_hiding_cover_.Get();
 }
 
+void AUnit::SetAttackTarget(AActor* target)
+{
+	return Cast<AMeleeAIController>(GetController())->SetTargetActor(target);
+}
+
+AActor* AUnit::GetAttackTarget()
+{
+	return Cast<AMeleeAIController>(GetController())->GetTargetActor();
+}
+
 void AUnit::Attack(AActor* target)
 {
 	if (is_first_attack_)
@@ -83,6 +95,11 @@ ECharacterType AUnit::GetCharacterType() const
 EUnitBoneType AUnit::GetBoneType() const
 {
 	return bone_type_;
+}
+
+bool AUnit::IsHero() const
+{
+	return is_hero_;
 }
 
 // Called when the game starts or when spawned
@@ -116,6 +133,12 @@ void AUnit::BeginPlay()
 		subsystem->BindOnShieldChanged(character_stat_component_, ui, &UHitPointsUI::UpdateShieldWidget);
 		subsystem->BindOnBuffChanged(character_stat_component_, ui, &UHitPointsUI::UpdateAppliedBuffs);
 	}
+}
+
+void AUnit::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	GetWorld()->GetTimerManager().ClearTimer(stun_timer_);
 }
 
 void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
@@ -234,12 +257,25 @@ void AUnit::OnStunned()
 void AUnit::FinishStun()
 {
 	UE_LOG(LogTemp, Display, TEXT("AUnit::FinishStunned"));
-	Cast<AMeleeAIController>(Controller)->SetUnitState(EUnitState::OnLogic);
+	FAIMessage Msg(TEXT("StunFinished"), this, stun_ai_request_id_, FAIMessage::Success);
+	FAIMessage::Send(this, Msg);
 }
 
 void AUnit::OnEnterBattleOnce()
 {
 	DispatchUnitEvent(EUnitEvent::OnEnterBattle);
+}
+
+float AUnit::GetPitchDiffBetweenTarget()
+{
+	if (auto controller = Cast<AMeleeAIController>(GetController()))
+	{
+		if (AActor* target = controller->GetTargetActor())
+		{
+			return UKismetMathLibrary::FindLookAtRotation(Owner->GetActorLocation(), target->GetActorLocation()).Pitch;
+		}
+	}
+	return 0.f;
 }
 
 void AUnit::Die()
@@ -329,4 +365,9 @@ void AUnit::RecoverAttackerByLifeSteal(FDamageData data)
 			}
 		}
 	}
+}
+
+float AUnit::GetStunRequestID() const
+{
+	return stun_ai_request_id_;
 }

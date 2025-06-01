@@ -13,8 +13,6 @@ See LICENSE file in the project root for full license information.
 
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameInstance.h"
-#include "Structs/ItemData.h"
-#include "Abilities/ItemInventory.h"
 #include "Managers/InventoryManager.h"
 #include "Managers/DataTableManager.h"
 
@@ -48,25 +46,13 @@ void UStoreWidget::NativeConstruct()
 		return;
 	}
 
-	items_ = game_instance->GetDataTableManager()->GetUniqueItemDataRandomly(STOCK);
-	item_slots_.Empty();
-	
 	credits_ = game_instance->GetInventoryManager()->GetCredits();
 	
 	if (store_widget_class_)
 	{
 		for (int32 i = 0; i < STOCK; i++)
 		{
-			UStoreSlot* slot = WidgetTree->ConstructWidget<UStoreSlot>(store_widget_class_);
-			slot->SetTexture(items_[i].item_icon_);
-			slot->SetPrice(GetPriceByRarity(items_[i].rarity_));
-			slot->OnStoreSlotClickedDelegate.AddDynamic(this, &UStoreWidget::OnStoreSlotClicked);
-			UHorizontalBoxSlot* box_slot = item_container_->AddChildToHorizontalBox(slot);
-			if (box_slot)
-			{
-				box_slot->SetPadding(FMargin(120.f, 0.f));
-			}
-			item_slots_.Add(slot);
+			// Fill here to list items
 		}
 	}
 
@@ -90,8 +76,6 @@ void UStoreWidget::NativeDestruct()
 	{
 		confirmation_widget_->OnConfirmation.Clear();
 	}
-
-	item_slots_.Empty();
 }
 
 void UStoreWidget::OnPayButtonClicked()
@@ -124,10 +108,7 @@ void UStoreWidget::OnStoreSlotClicked()
 	total_cost_ = 0;
 	for (int32 i = 0; i < STOCK; i++)
 	{
-		if (item_slots_[i]->IsChecked())
-		{
-			total_cost_ += item_slots_[i]->GetPrice();
-		}
+		// Fill here to list items
 	}
 
 	total_cost_text_->SetText(FText::FromString(FString::FromInt(total_cost_)));
@@ -170,24 +151,10 @@ void UStoreWidget::GoToNextLevel()
 	credit_widget_->UpdateCreditText();
 	
 
-	TArray<FItemData> selected_items;
 	for (int32 i = 0; i < STOCK; i++)
 	{
-		if (item_slots_[i]->IsChecked())
-		{
-			selected_items.Add(items_[i]);
-		}
+		// Fill here to list items
 	}
-
-	game_instance->GetItemInventory()->AddItems(selected_items, [this]() {
-		// Update HUD status
-		AIKStoreHUD* hud = Cast<AIKStoreHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
-		if (hud)
-		{
-			hud->DisplayMapWidget();
-		}
-		}
-	);
 
 	// Pop up map widget to go to next levels.
 }

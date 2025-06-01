@@ -15,19 +15,18 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/RuneDataAsset.h"
 #include "DataAssets/WeaponDataAsset.h"
 #include "DataAssets/GlobalBuffDataAsset.h"
-#include "DataAssets/OopartDataAsset.h"
 #include "DataAssets/PassiveSkillDataAsset.h"
-#include "DataAssets/ItemDataAsset.h"
 #include "DataAssets/StatInfoDataAsset.h"
 #include "DataAssets/CrowdControlInfoDataAsset.h"
 #include "DataAssets/CharacterStatDataAsset.h"
+#include "DataAssets/SupportSkillDataAsset.h"
 #include "DataAssets/UnitTypeDataAsset.h"
 #include "DataAssets/WeaponAnimDataAsset.h"
-
+#include "Structs/WeaponStatusData.h"
 #include "Structs/WrapperEquipmentData.h"
 
 
-FWeaponData UDataTableManager::GetWeaponData(EWeaponType type) const
+FWeaponData UDataTableManager::GetWeaponStatusData(EWeaponType type) const
 {
 	return weapon_data_asset_->GetWeaponData(type);
 }
@@ -245,81 +244,6 @@ TArray<FActiveSkillData> UDataTableManager::GetUniqueActiveSkillDataRandomly(int
 	return active_skill_data_asset_->GetUniqueActiveSkillDataRandomly(n, weight_rarity);
 }
 
-FOopartData UDataTableManager::GetOopartData(EOopartType type) const
-{
-	return oopart_data_asset_->GetOopartData(type);
-}
-
-FString UDataTableManager::OopartEnumToString(EOopartType oopart_type) const
-{
-	FString string;
-	switch (oopart_type)
-	{
-	case EOopartType::HealingWaves:
-		string = TEXT("HealingWaves");
-		break;
-	case EOopartType::AttackSpeedBoost:
-		string = TEXT("AttackSpeedBoost");
-		break;
-	default:
-		string = TEXT("Empty");
-		break;
-	}
-	return string;
-}
-
-FOopartData UDataTableManager::GetOopartDataRandomly(ERarity weight_rarity) const
-{
-	return oopart_data_asset_->GetOopartDataRandomly(weight_rarity);
-}
-
-TArray<FOopartData> UDataTableManager::GetUniqueOopartDataRandomly(int32 n, ERarity weight_rarity) const
-{
-	return oopart_data_asset_->GetUniqueOopartDataRandomly(n, weight_rarity);
-}
-
-FItemData UDataTableManager::GetItemData(EItemType type) const
-{
-	return item_data_asset_->GetItemData(type);
-}
-
-FString UDataTableManager::ItemEnumToString(EItemType item_type) const
-{
-	FString string;
-	switch (item_type)
-	{
-	case EItemType::HPPotion:
-		string = TEXT("HPPotion");
-		break;
-	case EItemType::Missile:
-		string = TEXT("Missile");
-		break;
-	case EItemType::Stimuli:
-		string = TEXT("Stimuli");
-		break;
-	case EItemType::SmokeGrenade:
-		string = TEXT("SmokeGrenade");
-		break;
-	case EItemType::Flashbang:
-		string = TEXT("Flashbang");
-		break;
-	default:
-		string = TEXT("Empty");
-		break;
-	}
-	return string;
-}
-
-FItemData UDataTableManager::GetItemDataRandomly(ERarity weight_rarity) const
-{
-	return item_data_asset_->GetItemDataRandomly(weight_rarity);
-}
-
-TArray<FItemData> UDataTableManager::GetUniqueItemDataRandomly(int32 n, ERarity rarity) const
-{
-	return item_data_asset_->GetUniqueItemDataRandomly(n, rarity);
-}
-
 const FCharacterData& UDataTableManager::GetCharacterData(ECharacterType char_type) const
 {
 	return character_stat_data_asset_->GetCharacterData(char_type);
@@ -375,7 +299,7 @@ FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type) 
 
 FWrapperEquipmentData UDataTableManager::GetEquipmentDataRandomly(ERarity weight_rarity) const
 {
-	int32 data_type = FMath::RandRange(0, 4);
+	int32 data_type = FMath::RandRange(0, 3);
 
 	FWrapperEquipmentData result;
 	switch (data_type)
@@ -384,15 +308,12 @@ FWrapperEquipmentData UDataTableManager::GetEquipmentDataRandomly(ERarity weight
 		result.active_skills_.Add(GetActiveSkillDataRandomly(weight_rarity));
 		break;
 	case 1:
-		result.ooparts_.Add(GetOopartDataRandomly(weight_rarity));
-		break;
-	case 2:
 		result.passive_skills_.Add(GetPassiveSkillDataRandomly(weight_rarity));
 		break;
-	case 3:
+	case 2:
 		result.runes_.Add(GetRuneDataRandomly(weight_rarity));
 		break;
-	case 4:
+	case 3:
 		result.weapons_.Add(GetWeaponDataRandomly(weight_rarity));
 		break;
 	default:
@@ -416,7 +337,6 @@ FWrapperEquipmentData UDataTableManager::GetUniqueEquipmentDataRandomly(int32 n,
 
 	FWrapperEquipmentData result;
 	result.active_skills_ = GetUniqueActiveSkillDataRandomly(data_counts[0], weight_rarity);
-	result.ooparts_ = GetUniqueOopartDataRandomly(data_counts[1], weight_rarity);
 	result.passive_skills_ = GetUniquePassiveSkillDataRandomly(data_counts[2], weight_rarity);
 	result.runes_ = GetUniqueRuneDataRandomly(data_counts[3], weight_rarity);
 	result.weapons_ = GetUniqueWeaponDataRandomly(data_counts[4], weight_rarity);
@@ -440,7 +360,17 @@ TSoftObjectPtr<UAnimMontage> UDataTableManager::GetUnitWeaponAnimMontage(EUnitBo
 	return unit_weapon_anim_asset_->GetUnitWeaponAnimData(bone, weapon, action);
 }
 
+TSoftObjectPtr<UAnimBlueprint> UDataTableManager::GetWeaponAnimInstance(EUnitBoneType bone, EWeaponAnimationType weapon)
+{
+	return unit_weapon_anim_asset_->GetUnitWeaponAnimInstance(bone, weapon);
+}
+
 TSubclassOf<AUnit> UDataTableManager::GetUnitType(ECharacterType type)
 {
 	return unit_type_asset_->GetUnitClass(type);
+}
+
+TSubclassOf<class USupportSkillBase> UDataTableManager::GetSupportSkillType(ESupportSkillType type)
+{
+	return support_skill_type_asset_->GetSupportSkillClass(type);
 }

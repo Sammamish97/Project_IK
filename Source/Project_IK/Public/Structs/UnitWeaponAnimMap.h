@@ -25,6 +25,11 @@ public:
 		checkf(weapon_anim_map_.Find(weapon), TEXT("Can't find Weapon Type in the Weapon data map!"));
 		return weapon_anim_map_[weapon][action];
 	}
+
+	TSoftObjectPtr<UAnimBlueprint> GetWeaponAnimInstance(EWeaponAnimationType weapon)
+	{
+		return weapon_anim_map_[weapon].weapon_anim_instance_;
+	}
 	
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Anim Data", meta = (AllowPrivateAccess = "true"))

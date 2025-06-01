@@ -64,12 +64,13 @@ void UEquipStorageWidget::UpdateEquipStorage()
 
 	auto& equip_storage_data = inventory_manager_cache->GetEquipStorageData();
 	equip_storage_data.Empty();
-	
-	for (auto& elem : equip_inventory_slots_)
+	equip_storage_data.Init(FInventorySlotData(), inventory_manager_cache->GetMaxInventorySize());
+
+	for (int32 i = 0; i < equip_inventory_slots_.Num(); i++)
 	{
-		if (elem != nullptr && elem->slot_data_.is_empty == false)
+		if (equip_inventory_slots_[i] != nullptr && equip_inventory_slots_[i] ->slot_data_.is_empty == false)
 		{
-			equip_storage_data.Add(elem->slot_data_);
+			equip_storage_data[i] = equip_inventory_slots_[i]->slot_data_;
 		}
 	}
 }

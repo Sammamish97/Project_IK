@@ -29,6 +29,7 @@ public:
 
 	virtual AActor* GetOwnedCover();
 	AActor* GetTargetActor();
+	void SetTargetActor(AActor* target_actor);
 	
 	UFUNCTION(Blueprintable)
 	void SetUnitState(EUnitState new_state);

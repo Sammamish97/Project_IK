@@ -14,12 +14,9 @@ See LICENSE file in the project root for full license information.
 #include "AI/GunnerAIController.h"
 #include "AI/HeroAIController.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/CharacterStatComponent.h"
-#include "Components/OopartMechanics.h"
 #include "Components/PassiveSkillMechanics.h"
 #include "Components/RuneMechanics.h"
 #include "Components/WeaponMechanics.h"
-#include "Components/SphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameModeBase.h"
@@ -30,12 +27,7 @@ AHeroBase::AHeroBase()
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
 	passive_skill_mechanics_ = CreateDefaultSubobject<UPassiveSkillMechanics>(TEXT("PassiveMechanics"));
 	rune_mechanics_ = CreateDefaultSubobject<URuneMechanics>(TEXT("RuneMechanics"));
-	oopart_mechanics_ = CreateDefaultSubobject<UOopartMechanics>(TEXT("OopartMechanics"));
-
-	oopart_pos_ = CreateDefaultSubobject<USphereComponent>(TEXT("Oopart Pos"));
-	oopart_pos_->SetupAttachment(GetRootComponent());
-	oopart_pos_->SetRelativeLocation({ 0, -49, 90 });
-
+	
 	GetCharacterMovement()->bUseRVOAvoidance = true;
 	GetCharacterMovement()->AvoidanceConsiderationRadius = 100;
 
@@ -43,6 +35,7 @@ AHeroBase::AHeroBase()
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("HeroPreset"));
 
 	forward_dir_ = { 1,0, 0 };
+	is_hero_ = true;
 }
 
 //TODO: 특수 효과같은 경우, 장착과 발동이 달라야 한다. BeginPlay에 넣으면 구별할 수가 없다.
@@ -70,7 +63,7 @@ void AHeroBase::BeginPlay()
 	//TEST PURPOSE
 	if (weapon_mechanics_->GetWeaponActor() == nullptr)
 	{
-		weapon_mechanics_->EquipWeapon(EWeaponType::AssaultRifle_B);
+		weapon_mechanics_->EquipWeapon(default_weapon_class_);
 	}
 	//
 }
@@ -84,11 +77,11 @@ void AHeroBase::EquipGears(FSpawnData spawn_data)
 {
 	if (spawn_data.weapon_data_.IsSet())
 	{
-		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue().type);
+		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue().weapon_class_);
 	}
 	else
 	{
-		weapon_mechanics_->EquipWeapon(EWeaponType::DefaultPistol);
+		weapon_mechanics_->EquipWeapon(default_weapon_class_);
 	}
 	if (spawn_data.passive_skill_data_.IsSet())
 	{
@@ -97,10 +90,6 @@ void AHeroBase::EquipGears(FSpawnData spawn_data)
 	if (spawn_data.active_skill_data_.IsSet())
 	{
 		skill_container_->EquipActiveSkill(spawn_data.active_skill_data_.GetValue().type);
-	}
-	if (spawn_data.oopart_data_.IsSet())
-	{
-		oopart_mechanics_->EquipOopart(spawn_data.oopart_data_.GetValue().type);
 	}
 
 	TArray rune_data_array = {spawn_data.rune_data_1, spawn_data.rune_data_2, spawn_data.rune_data_3, spawn_data.rune_data_4, spawn_data.rune_data_5, spawn_data.rune_data_6};
@@ -137,7 +126,7 @@ void AHeroBase::OnStunned()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hero Stunned"));
 	Super::OnStunned();
-	weapon_mechanics_->OnStunned();
+	//weapon_mechanics_->OnStunned();
 }
 
 EHeroType AHeroBase::GetHeroType() const

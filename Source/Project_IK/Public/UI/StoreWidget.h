@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Structs/ItemData.h"
 #include "StoreWidget.generated.h"
 
 enum class ERarity : uint8;
@@ -65,8 +64,6 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHorizontalBox> item_container_;
-	UPROPERTY()
-	TArray<TObjectPtr<UStoreSlot>> item_slots_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> total_cost_text_;
@@ -82,8 +79,6 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UCreditWidget> credit_widget_;
-
-	TArray<FItemData> items_;
 
 	UPROPERTY()
 	int32 total_cost_;

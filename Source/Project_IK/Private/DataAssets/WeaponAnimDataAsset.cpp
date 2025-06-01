@@ -16,3 +16,10 @@ TSoftObjectPtr<UAnimMontage> UWeaponAnimDataAsset::GetUnitWeaponAnimData(EUnitBo
 	checkf(unit_weapon_anim_map_.Find(bone), TEXT("Can't find Bone Type in the Weapon data map!"));
 	return unit_weapon_anim_map_[bone].GetWeaponAnimData(weapon, action);
 }
+
+TSoftObjectPtr<UAnimBlueprint> UWeaponAnimDataAsset::GetUnitWeaponAnimInstance(EUnitBoneType bone,
+	EWeaponAnimationType weapon)
+{
+	checkf(unit_weapon_anim_map_.Find(bone), TEXT("Can't find Bone Type in the Weapon data map!"));
+	return unit_weapon_anim_map_[bone].GetWeaponAnimInstance(weapon);
+}

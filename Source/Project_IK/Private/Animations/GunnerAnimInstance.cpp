@@ -17,7 +17,7 @@ See LICENSE file in the project root for full license information.
 void UGunnerAnimInstance::NativeInitializeAnimation()
 {
 	Super::NativeInitializeAnimation();
-	gunner_ptr_ = Cast<ACharacter>(TryGetPawnOwner());
+	gunner_ptr_ = Cast<AUnit>(TryGetPawnOwner());
 	if(auto hero = gunner_ptr_.Get())
 	{
 		movement_component_ptr_ = hero->GetCharacterMovement();
@@ -40,5 +40,14 @@ void UGunnerAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	if(auto movement_component = movement_component_ptr_.Get())
 	{
 		speed_ = movement_component->Velocity.Size2D();
+	}
+	
+	if(auto gunner = gunner_ptr_.Get())
+	{
+		pitch_ = gunner->GetPitchDiffBetweenTarget();
+		if (pitch_ > 180.f)
+		{
+			pitch_ = 360.f - pitch_;
+		}
 	}
 }

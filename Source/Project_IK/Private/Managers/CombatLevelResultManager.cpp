@@ -14,7 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/LevelTransitionSubsystem.h"
 
 #include "UI/CombatResultUI.h"
-#include "UI/ItemPickerUI.h"
 #include "UI/EquipmentRewardWidget.h"
 
 void UCombatLevelResultManager::InitializeUI()
@@ -28,16 +27,6 @@ void UCombatLevelResultManager::InitializeUI()
 		{
 			combat_result_widget_->AddToViewport();
 			combat_result_widget_->SetVisibility(ESlateVisibility::Hidden);
-		}
-	}
-
-	if (item_picker_widget_class_)
-	{
-		item_picker_widget_ = CreateWidget<UItemPickerUI>(world, item_picker_widget_class_);
-		if (item_picker_widget_)
-		{
-			item_picker_widget_->AddToViewport();
-			item_picker_widget_->SetVisibility(ESlateVisibility::Hidden);
 		}
 	}
 
@@ -67,7 +56,7 @@ void UCombatLevelResultManager::DisplayCombatResult(const TArray<AActor*>& heroe
 
 void UCombatLevelResultManager::SwitchUIByState(ECombatEndState state)
 {
-	if (!combat_result_widget_ || !item_picker_widget_)
+	if (!combat_result_widget_)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Any of the widgets serialized in LevelEndUIManager is NOT valid!"));
 		return;
@@ -77,17 +66,10 @@ void UCombatLevelResultManager::SwitchUIByState(ECombatEndState state)
 	{
 	case ECombatEndState::ShowingCombatResultUI:
 		combat_result_widget_->SetVisibility(ESlateVisibility::Visible);
-		item_picker_widget_->SetVisibility(ESlateVisibility::Hidden);
-		equipment_reward_widget_->SetVisibility(ESlateVisibility::Hidden);
-		break;
-	case ECombatEndState::ShowingItemPickerUI:
-		combat_result_widget_->SetVisibility(ESlateVisibility::Hidden);
-		item_picker_widget_->SetVisibility(ESlateVisibility::Visible);
 		equipment_reward_widget_->SetVisibility(ESlateVisibility::Hidden);
 		break;
 	case ECombatEndState::ShowingEquipmentRewardUI:
 		combat_result_widget_->SetVisibility(ESlateVisibility::Hidden);
-		item_picker_widget_->SetVisibility(ESlateVisibility::Hidden);
 		equipment_reward_widget_->SetVisibility(ESlateVisibility::Visible);
 			break;
 	case ECombatEndState::ShowingMapUI:

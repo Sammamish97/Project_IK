@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/WeaponMechanics.h"
 #include "Structs/BuffData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "Weapons/Guns/Gun.h"
+#include "Weapons/Guns/GunBase.h"
 
 //2세트: 공격력 20% 증가.
 void USetBonus_GreatBow::ActivateEdgeBonus()

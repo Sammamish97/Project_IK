@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Enemy_PillarBase.h"
 #include "Enemy_HealingPillar.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AEnemy_HealingPillar : public AEnemy_PillarBase
 {
 	GENERATED_BODY()

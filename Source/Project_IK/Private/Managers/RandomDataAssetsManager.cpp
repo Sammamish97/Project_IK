@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/RandomDataAssetsManager.h"
 
-#include "Structs/ItemData.h"
 #include "Managers/EnumCluster.h"
 
 ERarity URandomDataAssetsManager::GetRarityRandomly(ERarity weight_rarity)

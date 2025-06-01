@@ -20,6 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 #include "Components/CrowdControlComponent.h"
 #include "Components/CharacterStatComponent.h"
+#include "Weapons/Guns/GunBase.h"
 #include "Components/WeaponMechanics.h"
 
 #include "DelegateBridgeSubsystem.generated.h"
@@ -35,6 +36,9 @@ See LICENSE file in the project root for full license information.
 
 #define BindOnHPChanged(Component, Object, FuncName) \
 	__Internal_BindOnHPChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
+
+#define BindOnHPChangedWithOwner(Component, Object, FuncName) \
+	__Internal_BindOnHPChangedWithOwner(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
 #define BindOnShieldChanged(Component, Object, FuncName) \
 	__Internal_BindOnShieldChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
@@ -67,6 +71,9 @@ public:
 
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnHPChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
+
+	template<typename T, typename FuncType>
+	bool __Internal_BindOnHPChangedWithOwner(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
 
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnShieldChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
@@ -189,6 +196,23 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnHPChanged(UObject* bound_
 	return false;
 }
 
+template <typename T, typename FuncType>
+inline bool UDelegateBridgeSubsystem::__Internal_BindOnHPChangedWithOwner(UObject* bound_character_stat_component, T* object,
+	FuncType callback, FName func_name)
+{
+	if (object == nullptr)
+	{
+		return false;
+	}
+	if (bound_character_stat_component != nullptr && bound_character_stat_component->IsA<UCharacterStatComponent>())
+	{
+		UCharacterStatComponent* cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
+		cs->OnHPChangedWithOwner.__Internal_AddUniqueDynamic(object, callback, func_name);
+		return true;
+	}
+	return false;
+}
+
 template<typename T, typename FuncType>
 inline bool UDelegateBridgeSubsystem::__Internal_BindOnShieldChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name)
 {
@@ -232,7 +256,7 @@ inline bool UDelegateBridgeSubsystem::BindOnCriticalRateCalculation(UObject* bou
 	AHeroBase* hero = Cast<AHeroBase>(bound_hero);
 	if (hero)
 	{
-		hero->GetWeaponMechanics()->OnCriticalRateCalculation.AddUObject(object, callback);
+		hero->GetWeaponMechanics()->GetWeaponActor()->OnCriticalRateCalculation.AddUObject(object, callback);
 		return true;
 	}
 	return false;

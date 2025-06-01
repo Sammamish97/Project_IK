@@ -1,0 +1,42 @@
+/******************************************************************************
+Copyright(C) 2025
+Author: chunmook.kim(chunmook.kim97@gmail.com)
+Creation Date : 5.22.2025
+Summary : Header file for the Support Skill Base.
+
+Licensed under the MIT License.
+See LICENSE file in the project root for full license information.
+******************************************************************************/
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Structs/TargetParameters.h"
+#include "Structs/TargetResult.h"
+#include "UObject/Object.h"
+#include "SupportSkillBase.generated.h"
+
+UCLASS(Abstract, Blueprintable)
+class PROJECT_IK_API USupportSkillBase : public UObject
+{
+	GENERATED_BODY()
+	
+public:
+	FTargetParameters GetTargetParameters() const;
+	float GetCoolTime() const;
+	float GetCost() const;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult);
+
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	FTargetParameters target_param_{};
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	float cool_time_ = 0.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	float cost_ = 0.f;
+
+	UPROPERTY()
+	FTimerHandle cool_down_handle_;
+};

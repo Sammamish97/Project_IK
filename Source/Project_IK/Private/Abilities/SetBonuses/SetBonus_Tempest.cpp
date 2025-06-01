@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/WeaponMechanics.h"
 #include "Structs/BuffData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "Weapons/Guns/Gun.h"
+#include "Weapons/Guns/GunBase.h"
 
 //2세트: 스킬 쿨다운 20% 감소
 void USetBonus_Tempest::ActivateEdgeBonus()

@@ -21,6 +21,7 @@ class PROJECT_IK_API UTask_BeginFire : public UBTTaskNode
 public:
 	UTask_BeginFire();
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+	virtual EBTNodeResult::Type AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BB", meta = (AllowPrivateAccess = "true"))

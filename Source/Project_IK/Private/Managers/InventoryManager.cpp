@@ -145,21 +145,6 @@ bool UInventoryManager::AddEquipment(EActiveSkillType active_skill_type)
 	return false;
 }
 
-bool UInventoryManager::AddEquipment(EOopartType oopart_type)
-{
-	int32 index = GetEquipmentEmptyIndex();
-	if (index != -1)
-	{
-		FInventorySlotData data;
-		data.oopart_type = oopart_type;
-		data.gear_type = EGearType::Oopart;
-		data.is_empty = false;
-		equipment_storage_[index] = data;
-		return true;
-	}
-	return false;
-}
-
 bool UInventoryManager::AddRune(FRuneData rune_data)
 {
 	int32 index = GetRuneEmptyIndex();
