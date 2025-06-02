@@ -40,9 +40,6 @@ void AIKPlayerController::BeginPlay()
 	{
 		subsystem->AddMappingContext(player_input_mapping_context, 0);
 	}
-	
-	auto type =Cast<UIKGameInstance>(GetGameInstance())->GetDataTableManager()->GetSupportSkillType(ESupportSkillType::Reposition);
-	equipped_support_skills_.Push(NewObject<USupportSkillBase>(this, type));
 }
 
 void AIKPlayerController::Tick(float dt)
