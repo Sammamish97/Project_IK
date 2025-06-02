@@ -87,6 +87,11 @@ UTargetingComponent* AIKPlayerController::GetTargetingComponent()
 	return targeting_component_;
 }
 
+class UEnergySystemComponent* AIKPlayerController::GetEnergySystemComponent()
+{
+	return energy_system_component_;
+}
+
 void AIKPlayerController::UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies)
 {
 	AIKPlayerCameraManager * camera_manger = Cast<AIKPlayerCameraManager>(PlayerCameraManager);
@@ -116,26 +121,17 @@ void AIKPlayerController::ActivateFourthHeroActiveSkill()
 
 void AIKPlayerController::ActivateFirstSupportSkill()
 {
-	if (equipped_support_skills_[0])
-	{
-		ActivateSupportSkill(0);
-	}
+	ActivateSupportSkill(0);
 }
 
 void AIKPlayerController::ActivateSecondSupportSkill()
 {
-	if (equipped_support_skills_[1])
-	{
-		ActivateSupportSkill(1);
-	}
+	ActivateSupportSkill(1);
 }
 
 void AIKPlayerController::ActivateThirdSupportSkill()
 {
-	if (equipped_support_skills_[2])
-	{
-		ActivateSupportSkill(2);
-	}
+	ActivateSupportSkill(2);
 }
 
 void AIKPlayerController::ActivateSkillTargeting(EHeroType hero_type)
@@ -157,10 +153,13 @@ void AIKPlayerController::ActivateSkillTargeting(EHeroType hero_type)
 
 void AIKPlayerController::ActivateSupportSkill(int32 support_num)
 {
-	if (energy_system_component_->GetEnergy() >  equipped_support_skills_[support_num]->GetCost())
+	if (equipped_support_skills_.IsValidIndex(support_num))
 	{
-		last_invoked_support_skill_ = equipped_support_skills_[support_num];
-		last_invoked_support_skill_->ActivateSkill();
+		if (energy_system_component_->GetEnergy() >  equipped_support_skills_[support_num]->GetCost())
+		{
+			last_invoked_support_skill_ = equipped_support_skills_[support_num];
+			last_invoked_support_skill_->ActivateSkill();
+		}
 	}
 }
 

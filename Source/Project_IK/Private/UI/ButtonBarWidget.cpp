@@ -28,21 +28,34 @@ void UButtonBarWidget::NativeConstruct()
 
 	FindCharacters();
 	
-	if (skill_button_0_)
+	if (active_skill_button_0_)
 	{
-		skill_button_0_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked0);
+		active_skill_button_0_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnActiveSkillButtonClicked0);
 	}
-	if (skill_button_1_)
+	if (active_skill_button_1_)
 	{
-		skill_button_1_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked1);
+		active_skill_button_1_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnActiveSkillButtonClicked1);
 	}
-	if (skill_button_2_)
+	if (active_skill_button_2_)
 	{
-		skill_button_2_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked2);
+		active_skill_button_2_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnActiveSkillButtonClicked2);
 	}
-	if (skill_button_3_)
+	if (active_skill_button_3_)
 	{
-		skill_button_3_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSkillButtonClicked3);
+		active_skill_button_3_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnActiveSkillButtonClicked3);
+	}
+	
+	if (support_skill_button_0_)
+	{
+		support_skill_button_0_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSupportSkillButtonClicked0);
+	}
+	if (support_skill_button_1_)
+	{
+		support_skill_button_1_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSupportSkillButtonClicked1);
+	}
+	if (support_skill_button_2_)
+	{
+		support_skill_button_2_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSupportSkillButtonClicked2);
 	}
 
 	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
@@ -61,13 +74,13 @@ void UButtonBarWidget::NativeConstruct()
 	switch (characters_.Num())
 	{
 	case 0:
-		skill_button_0_->SetVisibility(ESlateVisibility::Hidden);
+		active_skill_button_0_->SetVisibility(ESlateVisibility::Hidden);
 	case 1:
-		skill_button_1_->SetVisibility(ESlateVisibility::Hidden);
+		active_skill_button_1_->SetVisibility(ESlateVisibility::Hidden);
 	case 2:
-		skill_button_2_->SetVisibility(ESlateVisibility::Hidden);
+		active_skill_button_2_->SetVisibility(ESlateVisibility::Hidden);
 	case 3:
-		skill_button_3_->SetVisibility(ESlateVisibility::Hidden);
+		active_skill_button_3_->SetVisibility(ESlateVisibility::Hidden);
 		break;
 	default:
 		break;
@@ -78,21 +91,34 @@ void UButtonBarWidget::NativeConstruct()
 
 void UButtonBarWidget::NativeDestruct()
 {
-	if (skill_button_0_)
+	if (active_skill_button_0_)
 	{
-		skill_button_0_->OnClicked.Clear();
+		active_skill_button_0_->OnClicked.Clear();
 	}
-	if (skill_button_1_)
+	if (active_skill_button_1_)
 	{
-		skill_button_1_->OnClicked.Clear();
+		active_skill_button_1_->OnClicked.Clear();
 	}
-	if (skill_button_2_)
+	if (active_skill_button_2_)
 	{
-		skill_button_2_->OnClicked.Clear();
+		active_skill_button_2_->OnClicked.Clear();
 	}
-	if (skill_button_3_)
+	if (active_skill_button_3_)
 	{
-		skill_button_3_->OnClicked.Clear();
+		active_skill_button_3_->OnClicked.Clear();
+	}
+	
+	if (support_skill_button_0_)
+	{
+		support_skill_button_0_->OnClicked.Clear();
+	}
+	if (support_skill_button_1_)
+	{
+		support_skill_button_1_->OnClicked.Clear();
+	}
+	if (support_skill_button_2_)
+	{
+		support_skill_button_2_->OnClicked.Clear();
 	}
 }
 
@@ -100,7 +126,7 @@ void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
 
-	TArray<UButton*> buttons = { skill_button_0_, skill_button_1_, skill_button_2_, skill_button_3_ };
+	TArray<UButton*> buttons = { active_skill_button_0_, active_skill_button_1_, active_skill_button_2_, active_skill_button_3_ };
 	for (int32 i = 0; i < buttons.Num(); ++i)
 	{
 		// Is the skill button connected in cooldown
@@ -123,30 +149,41 @@ void UButtonBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 	}
 }
 
-void UButtonBarWidget::OnSkillButtonClicked0()
+void UButtonBarWidget::OnActiveSkillButtonClicked0()
 {
-	ActivateSkillTargeting(EHeroType::Hero1);
+	player_controller_cache_->ActivateSkillTargeting(EHeroType::Hero1);
 }
 
-void UButtonBarWidget::OnSkillButtonClicked1()
+void UButtonBarWidget::OnActiveSkillButtonClicked1()
 {
-	ActivateSkillTargeting(EHeroType::Hero2);
+	player_controller_cache_->ActivateSkillTargeting(EHeroType::Hero2);
 }
 
-void UButtonBarWidget::OnSkillButtonClicked2()
+void UButtonBarWidget::OnActiveSkillButtonClicked2()
 {
-	ActivateSkillTargeting(EHeroType::Hero3);
+	player_controller_cache_->ActivateSkillTargeting(EHeroType::Hero3);
 }
 
-void UButtonBarWidget::OnSkillButtonClicked3()
+void UButtonBarWidget::OnActiveSkillButtonClicked3()
 {
-	ActivateSkillTargeting(EHeroType::Hero4);
+	player_controller_cache_->ActivateSkillTargeting(EHeroType::Hero4);
 }
 
-void UButtonBarWidget::ActivateSkillTargeting(EHeroType caster)
+void UButtonBarWidget::OnSupportSkillButtonClicked0()
 {
-	player_controller_cache_->ActivateSkillTargeting(caster);
+	player_controller_cache_->ActivateSupportSkill(0);
 }
+
+void UButtonBarWidget::OnSupportSkillButtonClicked1()
+{
+	player_controller_cache_->ActivateSupportSkill(1);
+}
+
+void UButtonBarWidget::OnSupportSkillButtonClicked2()
+{
+	player_controller_cache_->ActivateSupportSkill(2);
+}
+
 
 void UButtonBarWidget::SynchroItemButtons(int32 item_idx)
 {
@@ -177,16 +214,16 @@ void UButtonBarWidget::SynchroActiveSkillButtons(EHeroType hero_type)
 	switch (hero_type)
 	{
 	case EHeroType::Hero1:
-		skill_button_0_->SetIsEnabled(false);
+		active_skill_button_0_->SetIsEnabled(false);
 		break;
 	case EHeroType::Hero2:
-		skill_button_1_->SetIsEnabled(false);
+		active_skill_button_1_->SetIsEnabled(false);
 		break;
 	case EHeroType::Hero3:
-		skill_button_2_->SetIsEnabled(false);
+		active_skill_button_2_->SetIsEnabled(false);
 		break;
 	case EHeroType::Hero4:
-		skill_button_3_->SetIsEnabled(false);
+		active_skill_button_3_->SetIsEnabled(false);
 		break;
 	case EHeroType::INVALID:
 	default:
@@ -207,16 +244,16 @@ void UButtonBarWidget::SilenceSkill(AActor* character)
 			switch (i)
 			{
 			case 0:
-				skill_button_0_->SetIsEnabled(false);
+				active_skill_button_0_->SetIsEnabled(false);
 				break;
 			case 1:
-				skill_button_1_->SetIsEnabled(false);
+				active_skill_button_1_->SetIsEnabled(false);
 				break;
 			case 2:
-				skill_button_2_->SetIsEnabled(false);
+				active_skill_button_2_->SetIsEnabled(false);
 				break;
 			case 3:
-				skill_button_3_->SetIsEnabled(false);
+				active_skill_button_3_->SetIsEnabled(false);
 				break;
 			default:
 				break;
@@ -241,16 +278,16 @@ void UButtonBarWidget::UnsilenceSkill(AActor* character)
 			switch (i)
 			{
 			case 0:
-				skill_button_0_->SetIsEnabled(true);
+				active_skill_button_0_->SetIsEnabled(true);
 				break;
 			case 1:
-				skill_button_1_->SetIsEnabled(true);
+				active_skill_button_1_->SetIsEnabled(true);
 				break;
 			case 2:
-				skill_button_2_->SetIsEnabled(true);
+				active_skill_button_2_->SetIsEnabled(true);
 				break;
 			case 3:
-				skill_button_3_->SetIsEnabled(true);
+				active_skill_button_3_->SetIsEnabled(true);
 				break;
 			default:
 				break;
@@ -266,7 +303,7 @@ void UButtonBarWidget::FindCharacters()
 	skill_containers_.Empty();
 
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	TArray<UButton*> temp_array = {skill_button_0_, skill_button_1_, skill_button_2_, skill_button_3_};
+	TArray<UButton*> temp_array = {active_skill_button_0_, active_skill_button_1_, active_skill_button_2_, active_skill_button_3_};
 	button_cooldown_materials_.Empty();
 	button_cooldown_materials_.SetNum(temp_array.Num());
 

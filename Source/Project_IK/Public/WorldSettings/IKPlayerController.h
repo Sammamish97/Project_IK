@@ -40,6 +40,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Targeting")
 	class UTargetingComponent* GetTargetingComponent();
+
+	UFUNCTION(BlueprintPure)
+	class UEnergySystemComponent* GetEnergySystemComponent();
 	
 	UFUNCTION()
 	void ActivateSkillTargeting(EHeroType hero_type);
