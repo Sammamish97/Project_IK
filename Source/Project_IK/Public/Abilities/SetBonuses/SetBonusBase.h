@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "SetBonusBase.generated.h"
 
 class AHeroBase;
+class UNiagaraSystem;
 
 UCLASS(Abstract)
 class PROJECT_IK_API USetBonusBase : public UObject
@@ -23,6 +24,9 @@ class PROJECT_IK_API USetBonusBase : public UObject
 public:
 	//전투 직전 실제로 효과를 적용하기위한 함수.
 	void ActivateSetBonus(TObjectPtr<AHeroBase> owner, int32 set_amount);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UNiagaraSystem> rune_particle_;
 
 protected:
 	//2세트: 단순한 스테이터스 상승 효과.
@@ -34,6 +38,8 @@ protected:
 	//6세트: 해당 세트의 이름의 이유를 나타내는 특징적인 효과.
 	virtual void ActivateHexagonBonus();
 	
+	void SpawnNiagara(AHeroBase* hero);
+
 protected:
 	TObjectPtr<AHeroBase> hero_cache_;
 };

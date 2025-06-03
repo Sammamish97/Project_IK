@@ -49,6 +49,9 @@ public:
 		const TMap<UNiagaraSystem*, TMap<FName, FVector>>& vector_parameters);
 	void ApplyMaterials(const TArray<UMaterialInterface*>& material);
 
+	// Destructor of pooled actors
+	virtual void ReturnToPool() override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "SetBonusBase.h"
 #include "SetBonus_Dagger.generated.h"
 
+class APooledActor;
+
 UCLASS(Blueprintable)
 class PROJECT_IK_API USetBonus_Dagger : public USetBonusBase
 {
@@ -26,13 +28,28 @@ public:
 	virtual void ActivateTriangleBonus() override;
 	virtual void ActivateHexagonBonus() override;
 
-private:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Daggers")
+	TSubclassOf<APooledActor> dagger_actor_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Daggers")
+	float dagger_damage_ = 20.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpawnPosition")
+	FVector position_offset = FVector(0, 200, 200);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpawnPosition")
+	float random_offset_radius = 50.f;
+
+protected:
 	UFUNCTION()
 	void TriangleReloadCritRateBuff();
 	UFUNCTION()
 	void HexagonBonus();
+
+	void SpawnDaggers(const FVector& target_position, const FDamageData& damage_data);
+	FVector GetDaggerSpawnPosition();
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Rune, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY()
 	TObjectPtr<class UObjectPoolComponent> bullet_pool_;
 
 	UPROPERTY()

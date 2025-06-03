@@ -19,6 +19,7 @@ See LICENSE file in the project root for full license information.
 
 // Sets default values
 ABullet::ABullet()
+	: APooledActor()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -26,8 +27,10 @@ ABullet::ABullet()
 	movement_ = CreateDefaultSubobject<UProjectileMovementComponent>(FName("ProjectileMovement"));
 	bullet_mesh_ = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"));
 	bullet_mesh_->SetupAttachment(collision_);
+	bullet_mesh_->SetCollisionProfileName(FName("NoCollision"));
 
 	collision_->OnComponentBeginOverlap.AddDynamic(this, &ABullet::OnOverlapBegin);
+	collision_->SetCollisionProfileName(FName("HeroBulletPreset"));
 	movement_->InitialSpeed = 1000.f;
 	movement_->ProjectileGravityScale = 0.f;
 
@@ -110,6 +113,12 @@ void ABullet::ApplyMaterials(const TArray<UMaterialInterface*>& materials)
 	}
 }
 
+void ABullet::ReturnToPool()
+{
+	Clear();
+	Super::ReturnToPool();
+}
+
 void ABullet::SetCollisionPreset(bool is_hero)
 {
 	if (is_hero)
@@ -163,7 +172,6 @@ void ABullet::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 	{
 		elem->OnHit(OtherActor);
 	}
-	Clear();
 	ReturnToPool();
 }
 

@@ -62,9 +62,9 @@ void AGunBase::Reload()
 	}
 }
 
-void AGunBase::SpawnBullet(const FTransform& transform, const FDamageData& dmg_data)
+void AGunBase::SpawnBullet(const FRotator& rotation, const FVector& translation, const FDamageData& dmg_data)
 {
-	ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(transform));
+	ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(rotation, translation));
 	if (is_first_bullet_on_magazine_)
 	{
 		is_first_bullet_on_magazine_ = false;
@@ -110,9 +110,7 @@ void AGunBase::FireSingleBullet(FVector target_pos, const FDamageData& dmg_data)
 {
 	auto muzzle_location = weapon_skeletal_mesh_->GetSocketTransform(muzzle_socket_name_).GetLocation();
 	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, target_pos);
-	FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
-	FTransform spawn_transform(rotation, muzzle_location, scale);
-	SpawnBullet(spawn_transform, dmg_data);
+	SpawnBullet(rotation, muzzle_location, dmg_data);
 	cur_magazine_ -= 1;
 }
 
@@ -133,9 +131,7 @@ void AGunBase::FireBuckShot(FVector target_pos, const FDamageData& dmg_data)
 		FVector end_loc = sphere_center + randVec;
 		
 		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, end_loc);
-		FVector scale = object_pool_component_->GetObjectClass()->GetDefaultObject<AActor>()->GetRootComponent()->GetRelativeScale3D();
-		FTransform spawn_transform(rotation, muzzle_location, scale);
-		SpawnBullet(spawn_transform, dmg_data);
+		SpawnBullet(rotation, muzzle_location, dmg_data);
 	}
 	cur_magazine_ -= 1;
 }

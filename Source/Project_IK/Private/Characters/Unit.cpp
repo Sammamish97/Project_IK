@@ -145,7 +145,7 @@ void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 {
 	if (is_evaded)
 	{
-		ADamageUI* missed_ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
+		ADamageUI* missed_ui = SpawnDamageUI();
 		if (missed_ui)
 		{
 			missed_ui->SetMissed();
@@ -155,7 +155,7 @@ void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 	{
 		if (data.atk_base_dmg > 0.f)
 		{
-			ADamageUI* atk_ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
+			ADamageUI* atk_ui = SpawnDamageUI();
 			if (atk_ui)
 			{
 				atk_ui->SetDamageAmount(data.atk_base_dmg, FLinearColor::White);
@@ -168,7 +168,7 @@ void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 
 		if (data.skill_power_base_dmg > 0.f)
 		{
-			ADamageUI* skill_ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
+			ADamageUI* skill_ui = SpawnDamageUI();
 			skill_ui->SetDamageAmount(data.skill_power_base_dmg, FLinearColor::Blue);
 		}
 		else if (data.skill_power_base_dmg < 0.f)
@@ -209,7 +209,7 @@ void AUnit::Heal(float heal)
 {
 	character_stat_component_->Heal(heal);
 
-	ADamageUI* ui = Cast<ADamageUI>(object_pool_component_->SpawnFromPool(GetActorTransformForDamageUI()));
+	ADamageUI* ui = SpawnDamageUI();
 	if (ui)
 	{
 		ui->SetHealAmount(heal);
@@ -288,12 +288,12 @@ void AUnit::Die()
 	Destroy();
 }
 
-FTransform AUnit::GetActorTransformForDamageUI() const noexcept
+ADamageUI* AUnit::SpawnDamageUI()
 {
 	// Randomize spawn locations
 	FTransform transform = GetActorTransform();
-	FVector rand_offsets = FVector(0.f, capsule_radius_+ FMath::RandRange(-10.f, 50.f), capsule_half_height_ + FMath::RandRange(-10.f, 50.f));
-	
+	FVector rand_offsets = FVector(0.f, capsule_radius_ + FMath::RandRange(-10.f, 50.f), capsule_half_height_ + FMath::RandRange(-10.f, 50.f));
+
 	APlayerController* player_controller = GetWorld()->GetFirstPlayerController();
 	if (player_controller && player_controller->PlayerCameraManager)
 	{
@@ -301,7 +301,9 @@ FTransform AUnit::GetActorTransformForDamageUI() const noexcept
 	}
 
 	transform.SetLocation(transform.GetLocation() + rand_offsets);
-	return transform;
+
+
+	return Cast<ADamageUI>(object_pool_component_->SpawnFromPool(transform.Rotator(), transform.GetLocation()));
 }
 
 void AUnit::GetDamageByDot(FDamageData data)
