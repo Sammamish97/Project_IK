@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/SupportSkillData.h"
 #include "Structs/TargetParameters.h"
 #include "IKPlayerController.generated.h"
 
@@ -21,7 +22,6 @@ class UInputAction;
 class UDelegateBridgeSubsystem;
 class USupportSkillBase;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSupportSkill, int32, skill_idx);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveSKill, EHeroType, hero_idx);
 
 UCLASS()
@@ -33,10 +33,9 @@ class PROJECT_IK_API AIKPlayerController : public APlayerController
 
 public:
 	AIKPlayerController();
-
+	virtual void BeginPlay();
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void SetupInputComponent() override;
-	virtual void Tick(float dt) override;
 
 	UFUNCTION(BlueprintPure, Category = "Targeting")
 	class UTargetingComponent* GetTargetingComponent();
@@ -60,13 +59,12 @@ public:
 	bool UseEnergy(float amount);
 	
 	void UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies);
-	
+
+	const TArray<FSupportSkillData>& GetSupportSkillData() const;
+
+	const TArray<TObjectPtr<USupportSkillBase>>& GetSupportSkillPtr() const;
+
 protected:
-	virtual void BeginPlay();
-
-	UPROPERTY()
-	FOnSupportSkill on_support_skill_;
-
 	UPROPERTY()
 	FOnActiveSKill on_active_skill_;
 
@@ -116,7 +114,7 @@ protected:
 	TObjectPtr<UTargetingComponent> targeting_component_;
 
 	UPROPERTY(VisibleAnywhere, Category = "Targeting")
-	TObjectPtr<class UEnergySystemComponent> energy_system_component_;
+	TObjectPtr<UEnergySystemComponent> energy_system_component_;
 
 	UPROPERTY()
 	TArray<TObjectPtr<USupportSkillBase>> equipped_support_skills_;
@@ -129,6 +127,12 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputMappingContext> player_input_mapping_context;
 
+	//
+	//IKTODO:이 변수들은 테스트를 위한 변수들이다! 이후 BP에서 직접 설정해 주는 것이 아닌, UI 와 인벤토리를 통해 장착 되도록 변경되어야 한다.
+	//UPROPERTY(Transient)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TArray<FSupportSkillData> support_skill_data_;
+	
 	//
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> decide_action_;

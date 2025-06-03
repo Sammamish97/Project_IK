@@ -8,6 +8,7 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "UI/ButtonBarWidget.h"
+#include "UI/SkillButtonWidget.h"
 
 #include "Kismet/GameplayStatics.h"
 
@@ -16,7 +17,6 @@ See LICENSE file in the project root for full license information.
 
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKPlayerController.h"
-#include "WorldSettings/IKGameInstance.h"
 
 #include "Abilities/SkillContainer.h"
 
@@ -47,28 +47,22 @@ void UButtonBarWidget::NativeConstruct()
 	
 	if (support_skill_button_0_)
 	{
-		support_skill_button_0_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSupportSkillButtonClicked0);
+		support_skill_button_0_->button_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSupportSkillButtonClicked0);
 	}
 	if (support_skill_button_1_)
 	{
-		support_skill_button_1_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSupportSkillButtonClicked1);
+		support_skill_button_1_->button_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSupportSkillButtonClicked1);
 	}
 	if (support_skill_button_2_)
 	{
-		support_skill_button_2_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSupportSkillButtonClicked2);
+		support_skill_button_2_->button_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSupportSkillButtonClicked2);
 	}
 
 	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	UDelegateBridgeSubsystem* delegate_bridge_subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
 	if (delegate_bridge_subsystem)
 	{
-		delegate_bridge_subsystem->BindOnSupportSkill(this, &UButtonBarWidget::SynchroItemButtons);
 		delegate_bridge_subsystem->BindOnActiveSkill(this, &UButtonBarWidget::SynchroActiveSkillButtons);
-	}
-
-	for (int32 i = 0; i < 3; ++i)
-	{
-		SynchroItemButtons(i);
 	}
 
 	switch (characters_.Num())
@@ -110,15 +104,15 @@ void UButtonBarWidget::NativeDestruct()
 	
 	if (support_skill_button_0_)
 	{
-		support_skill_button_0_->OnClicked.Clear();
+		support_skill_button_0_->button_->OnClicked.Clear();
 	}
 	if (support_skill_button_1_)
 	{
-		support_skill_button_1_->OnClicked.Clear();
+		support_skill_button_1_->button_->OnClicked.Clear();
 	}
 	if (support_skill_button_2_)
 	{
-		support_skill_button_2_->OnClicked.Clear();
+		support_skill_button_2_->button_->OnClicked.Clear();
 	}
 }
 
@@ -184,31 +178,6 @@ void UButtonBarWidget::OnSupportSkillButtonClicked2()
 	player_controller_cache_->ActivateSupportSkill(2);
 }
 
-
-void UButtonBarWidget::SynchroItemButtons(int32 item_idx)
-{
-	if (is_item_muted_)
-	{
-		// Do not synchro if muted.
-		// CC component may synchro it after the effect has expired.
-		return ;
-	}
-
-	FButtonStyle button_style;
-	FSlateBrush normal_brush;
-	normal_brush.DrawAs = ESlateBrushDrawType::Type::Image;
-	normal_brush.SetImageSize(FVector2D(128.0, 128.0));
-	normal_brush.TintColor = FSlateColor(FLinearColor(0.69f, 0.69f, 0.69f));
-	FSlateBrush hovered_brush = normal_brush;
-	hovered_brush.TintColor = FSlateColor(FLinearColor(0.95f, 0.95f, 0.95f));
-	FSlateBrush pressed_brush = normal_brush;
-	pressed_brush.TintColor = FSlateColor(FLinearColor(0.5f, 0.5f, 0.5f));
-	FSlateBrush disabled_brush = pressed_brush;
-	disabled_brush.SetResourceObject(empty_item_icon);
-
-	button_style.SetDisabled(disabled_brush);
-}
-
 void UButtonBarWidget::SynchroActiveSkillButtons(EHeroType hero_type)
 {
 	switch (hero_type)
@@ -232,6 +201,21 @@ void UButtonBarWidget::SynchroActiveSkillButtons(EHeroType hero_type)
 	}
 	int32 hero_idx = HeroTypeToInt(hero_type);
 	button_cooldown_materials_[hero_idx]->SetScalarParameterValue("CooldownPercent", 0.f);
+}
+
+USkillButtonWidget* UButtonBarWidget::GetSkillButtonWidget(int32 idx)
+{
+	switch (idx)
+	{
+		case 0:
+			return support_skill_button_0_;
+		case 1:
+			return support_skill_button_1_;
+		case 2:
+			return support_skill_button_2_;
+		default:
+			return nullptr;
+	}
 }
 
 void UButtonBarWidget::SilenceSkill(AActor* character)

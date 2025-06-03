@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/TargetResult.h"
 #include "UObject/Object.h"
 #include "SupportSkillBase.generated.h"
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSupportSkill, float , cool_time);
 
 UCLASS(Abstract, Blueprintable)
 class PROJECT_IK_API USupportSkillBase : public UObject
@@ -25,9 +26,13 @@ public:
 	FTargetParameters GetTargetParameters() const;
 	float GetCoolTime() const;
 	float GetCost() const;
+	
 	virtual bool ActivateSkill();
 	virtual void Decide(const FTargetResult& TargetResult);
 	virtual void Reset();
+	virtual void OnDecide();
+
+private:
 	virtual void BeginCoolDown();
 	virtual void UseEnergy();
 
@@ -46,4 +51,8 @@ protected:
 
 	UPROPERTY()
 	FTimerHandle cool_down_handle_;
+
+public:
+	UPROPERTY()
+	FOnSupportSkill on_decide_;
 };

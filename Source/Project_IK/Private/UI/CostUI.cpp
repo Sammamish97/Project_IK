@@ -31,7 +31,6 @@ void UCostUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	if (progress_bar_ && energy_system_cache_)
 	{
 		progress_bar_->SetPercent(energy_system_cache_->GetEnergyRatio());
-		auto text = FString::FromInt(static_cast<int>(energy_system_cache_->GetEnergy()));
-		cost_text_->SetText(FText::FromString(text));
+		cost_text_->SetText(FText::AsNumber(static_cast<int>(energy_system_cache_->GetEnergy())));
 	}
 }

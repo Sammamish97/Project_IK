@@ -16,8 +16,6 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SupportSkills/SupportSkillBase.h"
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
-#include "Managers/DataTableManager.h"
-#include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKHUD.h"
 #include "WorldSettings/IKPlayerCameraManager.h"
@@ -27,6 +25,8 @@ AIKPlayerController::AIKPlayerController()
 {
 	targeting_component_ = CreateDefaultSubobject<UTargetingComponent>(TEXT("Targeting Component"));
 	energy_system_component_ = CreateDefaultSubobject<UEnergySystemComponent>(TEXT("Energy System Component"));
+	support_skill_data_.Init(FSupportSkillData(), 3);
+	equipped_support_skills_.Init(TObjectPtr<USupportSkillBase>(), 3);
 }
 
 void AIKPlayerController::BeginPlay()
@@ -40,18 +40,21 @@ void AIKPlayerController::BeginPlay()
 	{
 		subsystem->AddMappingContext(player_input_mapping_context, 0);
 	}
-}
 
-void AIKPlayerController::Tick(float dt)
-{
-	Super::Tick(dt);
+	for (int32 i = 0; i < 3; i++)
+	{
+		if (support_skill_data_[i].type_ != ESupportSkillType::INVALID)
+		{
+			equipped_support_skills_[i] = NewObject<USupportSkillBase>(this, support_skill_data_[i].support_skill_class_);
+		}
+	}
 }
 
 void AIKPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-	on_support_skill_.Clear();
 	on_active_skill_.Clear();
+	//IKTOOD: equipped_support_skills_가 EndPlay에서 자동으로 GC되는지, 아니면 수동 삭제가 필요한지 체크해야함.
 }
 
 void AIKPlayerController::SetupInputComponent()
@@ -94,6 +97,16 @@ void AIKPlayerController::UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_e
 	AIKPlayerCameraManager * camera_manger = Cast<AIKPlayerCameraManager>(PlayerCameraManager);
 
 	camera_manger->UpdateEnemies(tracked_enemies);
+}
+
+const TArray<FSupportSkillData>& AIKPlayerController::GetSupportSkillData() const
+{
+	return support_skill_data_;
+}
+
+const TArray<TObjectPtr<USupportSkillBase>>& AIKPlayerController::GetSupportSkillPtr() const
+{
+	return equipped_support_skills_;
 }
 
 void AIKPlayerController::ActivateFirstHeroActiveSkill()
@@ -189,17 +202,14 @@ void AIKPlayerController::Decide()
 				auto target_result = targeting_component_->DecideTargetings();
 				Cast<AHeroBase>(game_mode_cache->GetHero(selected_hero_type_))->InvokeActiveSkill(target_result);
 				on_active_skill_.Broadcast(selected_hero_type_);
-				ClearTargetingState();
 			}
 			break;
 		case ETargetingState::SupportSkill:
 			{
 				last_invoked_support_skill_->Decide(targeting_component_->DecideTargetings());
-				on_support_skill_.Broadcast(0);
 			}
 			break;
 	}
-	
 }
 
 void AIKPlayerController::CancelTargeting()

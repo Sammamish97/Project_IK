@@ -26,7 +26,6 @@ void USP_InstantRepair::Decide(const FTargetResult& target_result)
 	{
 		AUnit* target_unit = Cast<AUnit>(target_result.target_actors_[0]);
 		target_unit->Heal(healing_amount_);
-		UseEnergy();
-		BeginCoolDown();
+		OnDecide();
 	}
 }

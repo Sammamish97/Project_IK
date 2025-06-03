@@ -18,9 +18,12 @@ See LICENSE file in the project root for full license information.
 class UButton;
 class USkillContainer;
 class UCostUI;
-struct FTargetResult;
 class UTexture2D;
 class UCreditWidget;
+class USkillButtonWidget;
+
+struct FTargetResult;
+
 
 UCLASS()
 class PROJECT_IK_API UButtonBarWidget : public UUserWidget
@@ -29,11 +32,11 @@ class PROJECT_IK_API UButtonBarWidget : public UUserWidget
 
 public:
 	UFUNCTION()
-	void SynchroItemButtons(int32 item_idx);
-
-	UFUNCTION()
 	void SynchroActiveSkillButtons(EHeroType hero_type);
 
+	UFUNCTION()
+	USkillButtonWidget* GetSkillButtonWidget(int32 idx);
+	
 	//IKTODO: 현재 액티브 스킬은 버튼 클릭 외에도 QWER입력을 통해 발동할 수 있다.
 	//그러므로 침묵을 구현한다면, UI단이 아닌, SkillContainer단에서 구현해야 할 듯 하다.
 	UFUNCTION()
@@ -93,13 +96,13 @@ private:
 	//
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> support_skill_button_0_;
+	TObjectPtr<USkillButtonWidget> support_skill_button_0_;
 	
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> support_skill_button_1_;
+	TObjectPtr<USkillButtonWidget> support_skill_button_1_;
 	
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> support_skill_button_2_;
+	TObjectPtr<USkillButtonWidget> support_skill_button_2_;
 
 	//
 	

@@ -31,17 +31,14 @@ void USP_Reposition::Decide(const FTargetResult& target_result)
 	if (selected_hero_)
 	{
 		selected_hero_->Reposition(target_result.target_location_);
-		player_controller_cache_->ClearTargetingState();
-		Reset();
-		UseEnergy();
-		BeginCoolDown();
+		OnDecide();
 	}
 	else
 	{
 		if (target_result.target_actors_.Num() > 0 && target_result.target_actors_[0]->IsA(AHeroBase::StaticClass()))
 		{
-			selected_hero_ = Cast<AHeroBase>(target_result.target_actors_[0]);
 			player_controller_cache_->ClearTargetingState();
+			selected_hero_ = Cast<AHeroBase>(target_result.target_actors_[0]);
 			player_controller_cache_->StartTargeting(reposition_location_params_, ETargetingState::SupportSkill);
 		}
 	}

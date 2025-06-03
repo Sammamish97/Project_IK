@@ -30,8 +30,7 @@ void USP_SupportFire::Decide(const FTargetResult& target_result)
 		{
 			AUnit* attack_target = Cast<AUnit>(dmg_data_.attack_target);
 			attack_target->GetDamage(dmg_data_);
-			BeginCoolDown();
-			UseEnergy();
+			OnDecide();
 		}
 	}
 }

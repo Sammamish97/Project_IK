@@ -49,6 +49,15 @@ void USupportSkillBase::Decide(const FTargetResult& TargetResult)
 {
 }
 
+void USupportSkillBase::OnDecide()
+{
+	player_controller_cache_->ClearTargetingState();
+	Reset();
+	UseEnergy();
+	BeginCoolDown();
+	on_decide_.Broadcast(cool_time_);
+}
+
 void USupportSkillBase::BeginCoolDown()
 {
 	if (GetWorld()->GetTimerManager().IsTimerActive(cool_down_handle_) == false)

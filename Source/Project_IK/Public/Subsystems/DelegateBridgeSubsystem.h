@@ -28,9 +28,6 @@ See LICENSE file in the project root for full license information.
 #define BindOnTargetingCanceled(Object, FuncName) \
 	__Internal_BindOnTargetingCanceled(Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
-#define BindOnSupportSkill(Object, FuncName) \
-	__Internal_BindOnSupportSkill(Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
-
 #define BindOnActiveSkill(Object, FuncName) \
 	__Internal_BindOnActiveSkill(Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
@@ -59,10 +56,7 @@ class PROJECT_IK_API UDelegateBridgeSubsystem : public UWorldSubsystem
 public:
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnTargetingCanceled(T* object, FuncType callback, FName func_name);
-
-	template<typename T, typename FuncType>
-	bool __Internal_BindOnSupportSkill(T* object, FuncType callback, FName func_name);
-
+	
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnActiveSkill(T* object, FuncType callback, FName func_name);
 	
@@ -111,23 +105,6 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnTargetingCanceled(T* obje
 		}
 	}
 
-	return false;
-}
-
-template<typename T, typename FuncType>
-inline bool UDelegateBridgeSubsystem::__Internal_BindOnSupportSkill(T* object, FuncType callback, FName func_name)
-{
-	if (object == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("BindOnSupportSkill:: Object is null"));
-		return false;
-	}
-	AIKPlayerController* pc = GetAIKPlayerController();
-	if (pc != nullptr)
-	{
-		pc->on_support_skill_.__Internal_AddUniqueDynamic(object, callback, func_name);
-		return true;
-	}
 	return false;
 }
 
