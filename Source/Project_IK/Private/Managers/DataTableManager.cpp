@@ -22,7 +22,7 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/SupportSkillDataAsset.h"
 #include "DataAssets/UnitTypeDataAsset.h"
 #include "DataAssets/WeaponAnimDataAsset.h"
-#include "Structs/WeaponStatusData.h"
+#include "Structs/SupportSkillData.h"
 #include "Structs/WrapperEquipmentData.h"
 
 
@@ -370,7 +370,7 @@ TSubclassOf<AUnit> UDataTableManager::GetUnitType(ECharacterType type)
 	return unit_type_asset_->GetUnitClass(type);
 }
 
-TSubclassOf<class USupportSkillBase> UDataTableManager::GetSupportSkillType(ESupportSkillType type)
+FSupportSkillData UDataTableManager::GetSupportSkillType(ESupportSkillType type)
 {
 	return support_skill_type_asset_->GetSupportSkillClass(type);
 }

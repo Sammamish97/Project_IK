@@ -14,11 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/GameStateBase.h"
 #include "IKGameState.generated.h"
 
-class UEnergySystemComponent;
-
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API AIKGameState : public AGameStateBase
 {
@@ -26,8 +21,4 @@ class PROJECT_IK_API AIKGameState : public AGameStateBase
 	
 public:
 	AIKGameState();
-
-
-	UPROPERTY(VisibleAnywhere)
-	UEnergySystemComponent* energy_system_;
 };

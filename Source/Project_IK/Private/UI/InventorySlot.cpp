@@ -113,6 +113,5 @@ void UInventorySlot::SetImageTexture()
 	{
 		new_texture = data_table_manager->GetActiveSkillData(slot_data_.active_skill_type).thumbnail;
 	}
-
 	image_->SetBrushFromTexture(new_texture);
 }

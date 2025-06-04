@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/SupportSkillDataAsset.h"
 #include "Abilities/SupportSkills/SupportSkillBase.h"
 
-TSubclassOf<USupportSkillBase> USupportSkillDataAsset::GetSupportSkillClass(ESupportSkillType type)
+FSupportSkillData USupportSkillDataAsset::GetSupportSkillClass(ESupportSkillType type)
 {
 	checkf(support_skill_data_map_.Find(type), TEXT("Can't find stat type in the stat info data map!"));
 	return support_skill_data_map_[type];
