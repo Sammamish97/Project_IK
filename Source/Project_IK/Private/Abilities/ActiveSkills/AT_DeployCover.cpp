@@ -44,13 +44,17 @@ bool UAT_DeployCover::ActivateSkill_Implementation(const FTargetResult& TargetRe
 	if (actor_class_ && skill_owner_)
 	{
 		actor_ = skill_owner_->GetWorld()->SpawnActor<ACover>(actor_class_, spawn_location_, FRotator::ZeroRotator);
-		AUnit* owner_unit = Cast<AUnit>(skill_owner_);
-		actor_->SetHitPoints(deployed_cover_hit_points_ + owner_unit->GetCharacterStat()->GetSkillPower() * hit_points_scaling_factor_);
-		ApplyBuff(attack_speed, skill_owner_);
-		is_deploying_ = true;
-		deploying_timer_ = 0.f;
+		if (actor_)
+		{
+			AUnit* owner_unit = Cast<AUnit>(skill_owner_);
+			actor_->SetHitPoints(deployed_cover_hit_points_ + owner_unit->GetCharacterStat()->GetSkillPower() * hit_points_scaling_factor_);
+			actor_->SetMobility(EComponentMobility::Movable);
+			ApplyBuff(attack_speed, skill_owner_);
+			is_deploying_ = true;
+			deploying_timer_ = 0.f;
 
-		return true;
+			return true;
+		}
 	}
 
 	return false;
@@ -66,15 +70,18 @@ void UAT_DeployCover::Tick(float DeltaTime)
 			{
 				deploying_timer_ = deploy_time_;
 				actor_->SetActorLocation(FMath::Lerp(spawn_location_, deploy_location_, deploying_timer_ / deploy_time_));
-				UpdateNavMesh();
 
 				UBoxComponent* comp = actor_->GetComponentByClass<UBoxComponent>();
 				// Need to be changed if Cover's hierarchy has changed.
 				FVector offset = FVector(0.f, 0.f, actor_->GetRootComponent()->GetComponentLocation().Z - comp->GetComponentLocation().Z);
 				UNiagaraFunctionLibrary::SpawnSystemAttached(deploy_particle_, comp, NAME_None, offset, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
-				
+
+				actor_->SetMobility(EComponentMobility::Static);
+
 				is_deploying_ = false;
 				deploying_timer_ = 0.f;
+
+				actor_ = nullptr;
 				return;
 			}
 
@@ -86,18 +93,4 @@ void UAT_DeployCover::Tick(float DeltaTime)
 			deploying_timer_ = 0.f;
 		}
 	}
-}
-
-void UAT_DeployCover::UpdateNavMesh()
-{
-	// @@ TODO: Need to figure it out why.
-	//if (skill_owner_)
-	//{
-	//	UNavigationSystemV1* nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(skill_owner_->GetWorld());
-	//	if (nav)
-	//	{
-	//		nav->UpdateNavOctreeBounds(actor_);
-	//		nav->Build();
-	//	}
-	//}
 }

@@ -421,7 +421,9 @@ FVector UTargetingComponent::GetGroundLocation() const
 		FCollisionQueryParams query_params;
 		query_params.AddIgnoredActor(GetOwner());
 
-		if (GetWorld()->LineTraceSingleByChannel(hit_result, world_location, trace_end, ECC_Visibility, query_params))
+		// ECC_GameTraceChannel6 is a Trace_FloorDetect at least from June 4.
+		// If any changes happened in ProjectSettings->Engine->Collision->TraceChannels, this code need to be changed.
+		if (GetWorld()->LineTraceSingleByChannel(hit_result, world_location, trace_end, ECC_GameTraceChannel6, query_params))
 		{
 			return hit_result.Location;
 		}

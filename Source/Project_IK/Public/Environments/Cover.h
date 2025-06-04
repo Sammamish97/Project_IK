@@ -47,6 +47,8 @@ public:
 	UFUNCTION()
 	virtual void Die() override;
 
+	void SetMobility(EComponentMobility::Type type);
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover")
 	TObjectPtr<UBoxComponent> cover_collider_;

@@ -38,7 +38,6 @@ public:
 	TSubclassOf<ACover> actor_class_;
 
 protected:
-	void UpdateNavMesh();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UNiagaraSystem> deploy_particle_ = nullptr;

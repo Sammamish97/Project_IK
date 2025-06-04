@@ -73,6 +73,13 @@ void ACover::Die()
 	Destroy();
 }
 
+void ACover::SetMobility(EComponentMobility::Type type)
+{
+	cover_collider_->SetMobility(type);
+	cover_position_->SetMobility(type);
+	cover_mesh_->SetMobility(type);
+}
+
 bool ACover::HasCoveringOwner() const
 {
 	return hidden_unit_.IsValid();
