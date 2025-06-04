@@ -33,27 +33,11 @@ public:
 	void EquipRune(ERuneSetType set_type, int32 idx);
 	FStatusData GetTotalStatus();
 	void ApplySetBonuses();
+	const TArray<FRuneData>& GetEquippedRunes();
 	
 private:
 	UPROPERTY(Transient)
-	TOptional<FRuneData> rune_data_1;
-
-	UPROPERTY(Transient)
-	TOptional<FRuneData> rune_data_2;
-	
-	UPROPERTY(Transient)
-	TOptional<FRuneData> rune_data_3;
-
-	UPROPERTY(Transient)
-	TOptional<FRuneData> rune_data_4;
-	
-	UPROPERTY(Transient)
-	TOptional<FRuneData> rune_data_5;
-
-	UPROPERTY(Transient)
-	TOptional<FRuneData> rune_data_6;
-	
-	//
+	TArray<FRuneData> equipped_runes_;
 	
 	UPROPERTY(Transient)
 	TObjectPtr<class USetBonusManager> bonus_manager_cache_;

@@ -23,11 +23,11 @@ class PROJECT_IK_API USetBonusManager : public UObject
 	GENERATED_BODY()
 public:
 	TObjectPtr<USetBonusBase> GetSetBonus(AActor* hero_ptr, ERuneSetType type);
-	TArray<TPair<ERuneSetType, TArray<int32>>> FigureOutRuneSet(const TArray<TOptional<FRuneData>>& rune_slots);
+	TArray<TPair<ERuneSetType, TArray<int32>>> FigureOutRuneSet(const TArray<FRuneData>& rune_slots);
 private:
-	TOptional<TPair<ERuneSetType, TArray<int32>>> FigureOutHexagonSet(const TArray<TOptional<FRuneData>>& rune_slot);
-	TOptional<TPair<ERuneSetType, TArray<int32>>> FigureOutTriangleSet(const TArray<TOptional<FRuneData>>& rune_slots, TArray<int32>& indices, TArray<int32>& inv_indices);
-	TArray<TPair<ERuneSetType, TArray<int32>>> FigureOutEdgeSet(const TArray<TOptional<FRuneData>>& rune_slot);
+	TOptional<TPair<ERuneSetType, TArray<int32>>> FigureOutHexagonSet(const TArray<FRuneData>& rune_slot);
+	TOptional<TPair<ERuneSetType, TArray<int32>>> FigureOutTriangleSet(const TArray<FRuneData>& rune_slots, TArray<int32>& indices, TArray<int32>& inv_indices);
+	TArray<TPair<ERuneSetType, TArray<int32>>> FigureOutEdgeSet(const TArray<FRuneData>& rune_slot);
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bonus", meta = (AllowPrivateAccess = "true"))

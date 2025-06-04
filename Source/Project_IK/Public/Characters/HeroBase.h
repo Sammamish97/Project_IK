@@ -50,6 +50,7 @@ public:
 	AActor* GetAttackTarget() const;
 	
 	class UWeaponMechanics* GetWeaponMechanics();
+	class URuneMechanics* GetRuneMechanics();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))

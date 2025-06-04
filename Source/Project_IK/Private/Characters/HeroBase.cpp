@@ -190,3 +190,8 @@ UWeaponMechanics* AHeroBase::GetWeaponMechanics()
 {
 	return weapon_mechanics_;
 }
+
+class URuneMechanics* AHeroBase::GetRuneMechanics()
+{
+	return rune_mechanics_;
+}

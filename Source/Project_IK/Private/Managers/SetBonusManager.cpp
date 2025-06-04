@@ -47,12 +47,12 @@ TObjectPtr<USetBonusBase> USetBonusManager::GetSetBonus(AActor* hero_ptr, ERuneS
 }
 
 TOptional<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutHexagonSet(
-	const TArray<TOptional<FRuneData>>& rune_slots)
+	const TArray<FRuneData>& rune_slots)
 {
 	bool is_all_equipped = true;
 	for (int32 i = 0; i < rune_slots.Num(); i++)
 	{
-		if (rune_slots[i].IsSet() == false)
+		if (rune_slots[i].set_type == ERuneSetType::INVALID)
 		{
 			is_all_equipped = false;
 		}
@@ -63,14 +63,14 @@ TOptional<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutHexagon
 		bool is_all_same_type = true;
 		for (int32 i = 0; i < rune_slots.Num(); i++)
 		{
-			if (rune_slots[0].GetValue().set_type != rune_slots[i].GetValue().set_type)
+			if (rune_slots[0].set_type != rune_slots[i].set_type)
 			{
 				is_all_same_type = false;
 			}
 		}
-		if (is_all_same_type && rune_slots[0].GetValue().set_type != ERuneSetType::INVALID)
+		if (is_all_same_type && rune_slots[0].set_type != ERuneSetType::INVALID)
 		{
-			TPair<ERuneSetType, TArray<int32>> result = {rune_slots[0].GetValue().set_type, TArray{0, 1, 2, 3, 4, 5}};
+			TPair<ERuneSetType, TArray<int32>> result = {rune_slots[0].set_type, TArray{0, 1, 2, 3, 4, 5}};
 			return result;
 		}
 	}
@@ -78,12 +78,12 @@ TOptional<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutHexagon
 }
 
 TOptional<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutTriangleSet(
-	const TArray<TOptional<FRuneData>>& rune_slots, TArray<int32>& indices, TArray<int32>& inv_indices)
+	const TArray<FRuneData>& rune_slots, TArray<int32>& indices, TArray<int32>& inv_indices)
 {
 	float is_all_equipped = true;
 	for (int32 i :  indices)
 	{
-		if (rune_slots[i].IsSet() == false)
+		if (rune_slots[i].set_type == ERuneSetType::INVALID)
 		{
 			is_all_equipped = false;
 		}
@@ -93,24 +93,24 @@ TOptional<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutTriangl
 		bool is_all_same_type = true;
 		for (int32 i : indices)
 		{
-			if (rune_slots[indices[0]].GetValue().set_type != rune_slots[i].GetValue().set_type)
+			if (rune_slots[indices[0]].set_type != rune_slots[i].set_type)
 			{
 				is_all_same_type = false;
 			}
 		}
 		for (int32 i : inv_indices)
 		{
-			if (rune_slots[i].IsSet())
+			if (rune_slots[i].set_type != ERuneSetType::INVALID)
 			{
-				if (rune_slots[indices[0]].GetValue().set_type == rune_slots[i].GetValue().set_type)
+				if (rune_slots[indices[0]].set_type == rune_slots[i].set_type)
 				{
 					is_all_same_type = false;
 				}
 			}
 		}
-		if (is_all_same_type && rune_slots[indices[0]].GetValue().set_type != ERuneSetType::INVALID)
+		if (is_all_same_type && rune_slots[indices[0]].set_type != ERuneSetType::INVALID)
 		{
-			TPair<ERuneSetType, TArray<int32>> result = {rune_slots[indices[0]].GetValue().set_type, indices};
+			TPair<ERuneSetType, TArray<int32>> result = {rune_slots[indices[0]].set_type, indices};
 			return result;
 		}
 	}
@@ -118,7 +118,7 @@ TOptional<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutTriangl
 }
 
 TArray<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutEdgeSet(
-	const TArray<TOptional<FRuneData>>& rune_slots)
+	const TArray<FRuneData>& rune_slots)
 {
 	TArray<TPair<ERuneSetType, TArray<int32>>> result;
 	
@@ -126,11 +126,11 @@ TArray<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutEdgeSet(
 
 	//3개 이상 연속되는 index는 skip을 통해 이후 검사에서 제외.
 	for (int i = 0; i < 6; i++) {
-		if (rune_slots[i].IsSet() && rune_slots[(i + 1) % 6].IsSet() && rune_slots[(i + 2) % 6].IsSet())
+		if (rune_slots[i].set_type != ERuneSetType::INVALID && rune_slots[(i + 1) % 6].set_type != ERuneSetType::INVALID && rune_slots[(i + 2) % 6].set_type != ERuneSetType::INVALID)
 		{
-			if (rune_slots[i].GetValue().set_type == rune_slots[(i + 1) % 6].GetValue().set_type
+			if (rune_slots[i].set_type == rune_slots[(i + 1) % 6].set_type
 				&&
-				rune_slots[i].GetValue().set_type == rune_slots[(i + 2) % 6].GetValue().set_type) {
+				rune_slots[i].set_type == rune_slots[(i + 2) % 6].set_type) {
 				skip[i] = skip[(i + 1) % 6] = skip[(i + 2) % 6] = true;
 			}
 		}
@@ -138,15 +138,15 @@ TArray<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutEdgeSet(
 
 	for (int i = 0; i < 6; i++)
 	{
-		if (rune_slots[i].IsSet() && rune_slots[(i + 1) % 6].IsSet())
+		if (rune_slots[i].set_type != ERuneSetType::INVALID && rune_slots[(i + 1) % 6].set_type != ERuneSetType::INVALID)
 		{
 			if (skip[i] == false
 				&&
-				rune_slots[i].GetValue().set_type != ERuneSetType::INVALID
+				rune_slots[i].set_type != ERuneSetType::INVALID
 				&&
-				rune_slots[i].GetValue().set_type == rune_slots[(i + 1) % 6].GetValue().set_type)
+				rune_slots[i].set_type == rune_slots[(i + 1) % 6].set_type)
 			{
-				result.Push({rune_slots[i].GetValue().set_type, TArray{i, (i + 1) % 6}});
+				result.Push({rune_slots[i].set_type, TArray{i, (i + 1) % 6}});
 			}
 		}
 	}
@@ -154,7 +154,7 @@ TArray<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutEdgeSet(
 }
 
 
-TArray<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutRuneSet(const TArray<TOptional<FRuneData>>& rune_slots)
+TArray<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutRuneSet(const TArray<FRuneData>& rune_slots)
 {
 	TArray<TPair<ERuneSetType, TArray<int32>>> bonus_result;
 	auto hex_result = FigureOutHexagonSet(rune_slots);
