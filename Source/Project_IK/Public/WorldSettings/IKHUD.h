@@ -14,9 +14,9 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/HUD.h"
 #include "IKHUD.generated.h"
 
+class USkillButtonWidget;
 class UButtonBarWidget;
 class UCombatResultUI;
-class UItemPickerUI;
 class UCombatLevelResultManager;
 
 enum class ECombatEndState : uint8;
@@ -34,14 +34,14 @@ public:
 	void SwitchUIByState(ECombatEndState state);
 
 	UFUNCTION()
-	void SynchroItemButtons();
-
-	UFUNCTION()
 	void SilenceSkill(AActor* character);
 	void UnsilenceSkill(AActor* character);
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleInventory();
+	
+	UFUNCTION(BlueprintCallable)
+	USkillButtonWidget* GetSkillButtonWidget(int32 idx);
 
 	// Reference to the Widget Blueprint class to create
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")

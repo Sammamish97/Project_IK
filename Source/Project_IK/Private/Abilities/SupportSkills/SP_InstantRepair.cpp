@@ -20,16 +20,12 @@ USP_InstantRepair::USP_InstantRepair()
 	cost_ = 3.f;
 }
 
-bool USP_InstantRepair::ActivateSkill(const FTargetResult& target_result)
+void USP_InstantRepair::Decide(const FTargetResult& target_result)
 {
-	if (Super::ActivateSkill(target_result))
+	if(target_result.target_actors_[0])
 	{
-		if(target_result.target_actors_[0])
-		{
-			AUnit* target_unit = Cast<AUnit>(target_result.target_actors_[0]);
-			target_unit->Heal(healing_amount_);
-			return true;
-		}
+		AUnit* target_unit = Cast<AUnit>(target_result.target_actors_[0]);
+		target_unit->Heal(healing_amount_);
+		OnDecide();
 	}
-	return false;
 }

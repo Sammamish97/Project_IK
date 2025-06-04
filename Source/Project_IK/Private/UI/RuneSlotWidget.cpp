@@ -16,26 +16,21 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
 #include "Managers/InventoryManager.h"
-#include "Managers/DataTableManager.h"
 #include "UI/RuneStorageWidget.h"
 #include "UI/RuneBoardWidget.h"
 #include "UI/SlotDragDropImage.h"
 #include "WorldSettings/IKGameInstance.h"
 
-class UIKGameInstance;
-
 void URuneSlotWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	selected_image_->SetVisibility(ESlateVisibility::Hidden);
-	button_->OnClicked.AddDynamic(this, &URuneSlotWidget::OnClicked);
 }
 
 void URuneSlotWidget::NativeDestruct()
 {
 	Super::NativeDestruct();
 	UE_LOG(LogTemp, Display, TEXT("URuneSlotWidget::NativeDestruct"));
-	button_->OnClicked.Clear();
 }
 
 FReply URuneSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -43,6 +38,7 @@ FReply URuneSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InGeomet
 	Super::NativeOnPreviewMouseButtonDown(InGeometry, InMouseEvent);
 	if(InMouseEvent.IsMouseButtonDown(EKeys::LeftMouseButton))
 	{
+		OnClicked();
 		FEventReply ReplyResult = UWidgetBlueprintLibrary::DetectDragIfPressed(InMouseEvent, this, EKeys::LeftMouseButton);
 		return ReplyResult.NativeReply;
 	}

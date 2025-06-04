@@ -39,6 +39,8 @@ public:
 	UFUNCTION(BlueprintPure)
 	float GetEnergy() const noexcept;
 	UFUNCTION(BlueprintPure)
+	float GetEnergyRatio() const noexcept;
+	UFUNCTION(BlueprintPure)
 	float GetRegenRate() const noexcept;
 	UFUNCTION(BlueprintPure)
 	float GetMaxEnergy() const noexcept;
