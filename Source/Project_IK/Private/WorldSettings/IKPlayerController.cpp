@@ -54,6 +54,8 @@ void AIKPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 	on_active_skill_.Clear();
+
+	equipped_support_skills_.Empty();
 	//IKTOOD: equipped_support_skills_가 EndPlay에서 자동으로 GC되는지, 아니면 수동 삭제가 필요한지 체크해야함.
 }
 
