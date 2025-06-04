@@ -33,6 +33,7 @@ public:
 	void EquipRune(ERuneSetType set_type, int32 idx);
 	FStatusData GetTotalStatus();
 	void ApplySetBonuses();
+	TArray<TPair<ERuneSetType, TArray<int32>>> GetSetBonusData();
 	const TArray<FRuneData>& GetEquippedRunes();
 	
 private:

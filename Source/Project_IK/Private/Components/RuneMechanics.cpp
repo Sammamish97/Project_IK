@@ -57,7 +57,7 @@ FStatusData URuneMechanics::GetTotalStatus()
 //세트 보너스가 적용되는 시점은 전투레벨의 Begin Play이후이다.
 void URuneMechanics::ApplySetBonuses()
 {
-	auto set_result = bonus_manager_cache_->FigureOutRuneSet(equipped_runes_);
+	auto set_result = GetSetBonusData();
 	for (int i = 0; i < set_result.Num(); i++)
 	{
 		if (set_result[i].Key != ERuneSetType::INVALID)
@@ -66,6 +66,11 @@ void URuneMechanics::ApplySetBonuses()
 			set_bonus_cache_->ActivateSetBonus(hero_cache_, set_result[i].Value.Num());
 		}
 	}
+}
+
+TArray<TPair<ERuneSetType, TArray<int32>>> URuneMechanics::GetSetBonusData()
+{
+	return bonus_manager_cache_->FigureOutRuneSet(equipped_runes_);
 }
 
 const TArray<FRuneData>& URuneMechanics::GetEquippedRunes()

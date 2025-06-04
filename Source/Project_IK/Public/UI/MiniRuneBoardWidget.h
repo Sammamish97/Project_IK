@@ -19,6 +19,7 @@ class PROJECT_IK_API UMiniRuneBoardWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
+	virtual void NativePreConstruct() override;
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 	
@@ -48,4 +49,49 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UImage> rune_5_;
+
+	//
+	
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_0_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_1_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_2_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_3_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_4_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_5_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_6_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_7_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_8_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_9_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_10_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<class UProgressBar> line_11_ = nullptr;
+	//
+
+	UPROPERTY(Transient)
+	TArray<TObjectPtr<UImage>> rune_array_;
+	
+	UPROPERTY(Transient)
+	TArray<TObjectPtr<UProgressBar>> line_array_;
 };
