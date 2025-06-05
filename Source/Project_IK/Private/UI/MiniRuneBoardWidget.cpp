@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/Image.h"
 #include "Components/RuneMechanics.h"
 #include "Components/ProgressBar.h"
+#include "UI/MiniRuneSlotWidget.h"
 
 void UMiniRuneBoardWidget::NativePreConstruct()
 {
@@ -60,11 +61,11 @@ void UMiniRuneBoardWidget::InitMiniRuneBoard(AHeroBase* owner)
 	{
 		if(rune_data_array[i].set_type != ERuneSetType::INVALID)
 		{
-			rune_widget_array[i]->SetColorAndOpacity(FLinearColor::Red);	
+			rune_widget_array[i]->image_->SetColorAndOpacity(FLinearColor::Red);	
 		}
 		else
 		{
-			rune_widget_array[i]->SetVisibility(ESlateVisibility::Hidden);
+			rune_widget_array[i]->image_->SetVisibility(ESlateVisibility::Hidden);
 		}
 	}
 

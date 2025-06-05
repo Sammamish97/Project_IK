@@ -68,6 +68,17 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	class URuneMechanics* rune_mechanics_;
 
+	//
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class UMiniRuneBoardWidget> mini_rune_board_widget_class_ = nullptr;
+	
+	UPROPERTY(Transient)
+	TObjectPtr<UWidgetComponent> mini_rune_board_widget_ = nullptr;
+
+	//
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class USphereComponent> ui_position_ = nullptr;
 private:
 	EHeroType hero_type_;
 	bool is_covered_ = false;

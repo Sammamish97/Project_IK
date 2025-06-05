@@ -13,8 +13,9 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/UserWidget.h"
 #include "MiniRuneBoardWidget.generated.h"
 
+class UMiniRuneSlotWidget;
 class UImage;
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UMiniRuneBoardWidget : public UUserWidget
 {
 	GENERATED_BODY()
@@ -33,22 +34,22 @@ private:
 	TObjectPtr<class UBorder> border_;
 	
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UImage> rune_0_;
+	TObjectPtr<UMiniRuneSlotWidget> rune_0_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UImage> rune_1_;
+	TObjectPtr<UMiniRuneSlotWidget> rune_1_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UImage> rune_2_;
+	TObjectPtr<UMiniRuneSlotWidget> rune_2_;
 	
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UImage> rune_3_;
+	TObjectPtr<UMiniRuneSlotWidget> rune_3_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UImage> rune_4_;
+	TObjectPtr<UMiniRuneSlotWidget> rune_4_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UImage> rune_5_;
+	TObjectPtr<UMiniRuneSlotWidget> rune_5_;
 
 	//
 	
@@ -90,7 +91,7 @@ private:
 	//
 
 	UPROPERTY(Transient)
-	TArray<TObjectPtr<UImage>> rune_array_;
+	TArray<TObjectPtr<UMiniRuneSlotWidget>> rune_array_;
 	
 	UPROPERTY(Transient)
 	TArray<TObjectPtr<UProgressBar>> line_array_;

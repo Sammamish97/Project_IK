@@ -16,9 +16,12 @@ See LICENSE file in the project root for full license information.
 #include "Components/CapsuleComponent.h"
 #include "Components/PassiveSkillMechanics.h"
 #include "Components/RuneMechanics.h"
+#include "Components/SphereComponent.h"
 #include "Components/WeaponMechanics.h"
+#include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "UI/MiniRuneBoardWidget.h"
 #include "WorldSettings/IKGameModeBase.h"
 
 AHeroBase::AHeroBase()
@@ -34,6 +37,12 @@ AHeroBase::AHeroBase()
 	GetMesh()->SetCollisionProfileName(TEXT("NoCollision"));
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("HeroPreset"));
 
+	ui_position_ = CreateDefaultSubobject<USphereComponent>(TEXT("ui position"));
+	ui_position_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
+	mini_rune_board_widget_ = CreateDefaultSubobject<UWidgetComponent>(TEXT("MiniRuneBoard"));
+	mini_rune_board_widget_->AttachToComponent(ui_position_, FAttachmentTransformRules::KeepRelativeTransform);
+	
 	forward_dir_ = { 1,0, 0 };
 	is_hero_ = true;
 }
@@ -65,7 +74,12 @@ void AHeroBase::BeginPlay()
 	{
 		weapon_mechanics_->EquipWeapon(default_weapon_class_);
 	}
-	//
+	mini_rune_board_widget_->SetWidgetSpace(EWidgetSpace::Screen);
+	mini_rune_board_widget_->SetDrawSize({ 30, 30 });
+	
+	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
+	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
+	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -102,6 +116,15 @@ void AHeroBase::EquipGears(FSpawnData spawn_data)
 		}
 	}
 	rune_mechanics_->ApplySetBonuses();
+	//
+	if (mini_rune_board_widget_class_)
+	{
+		mini_rune_board_widget_->SetWidgetClass(mini_rune_board_widget_class_);
+		mini_rune_board_widget_->InitWidget();
+		auto rune_board_widget = Cast<UMiniRuneBoardWidget>(mini_rune_board_widget_->GetWidget());
+		rune_board_widget->InitMiniRuneBoard(this);
+	}
+	//
 }
 
 void AHeroBase::Die()
