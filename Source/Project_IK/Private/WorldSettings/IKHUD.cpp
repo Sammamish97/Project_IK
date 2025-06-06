@@ -19,6 +19,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/InventoryWidget.h"
 #include "UI/SkillButtonWidget.h"
 #include "WorldSettings/IKGameInstance.h"
+#include "WorldSettings/IKGameState.h"
 #include "WorldSettings/IKPlayerController.h"
 
 void AIKHUD::BeginPlay()
@@ -32,9 +33,9 @@ void AIKHUD::BeginPlay()
 	{
 		button_widget_ = CreateWidget<UButtonBarWidget>(world, button_widget_class_);
 		
-		auto player_controller_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-		auto equipped_support_data = player_controller_->GetSupportSkillData();
-		auto equipped_support_skills = player_controller_->GetSupportSkillPtr();
+		auto game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
+		auto equipped_support_data = game_state->GetSupportSkillData();
+		auto equipped_support_skills = game_state->GetSupportSkillPtr();
 		for (int32 i = 0; i < 3; i++)
 		{
 			if (equipped_support_skills[i] != nullptr)

@@ -116,6 +116,9 @@ private:
 	TWeakObjectPtr<class AIKPlayerController> player_controller_cache_;
 
 	UPROPERTY()
+	TWeakObjectPtr<class AIKGameState> game_state_cache_;
+
+	UPROPERTY()
 	TArray<AActor*> characters_;
 
 	TArray<TWeakObjectPtr<USkillContainer>> skill_containers_;

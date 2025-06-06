@@ -13,21 +13,18 @@ See LICENSE file in the project root for full license information.
 #include "Components/TextBlock.h"
 #include "Components/EnergySystemComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "WorldSettings/IKPlayerController.h"
+#include "WorldSettings/IKGameState.h"
 
 void UCostUI::NativeConstruct()
 {
 	Super::NativeConstruct();
 	progress_bar_->SetPercent(0.f);
+	energy_system_cache_ = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()))->GetEnergySystemComponent();
 }
 
 void UCostUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	if(energy_system_cache_ == nullptr)
-	{
-		energy_system_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0))->GetEnergySystemComponent();
-	}
 	if (progress_bar_ && energy_system_cache_)
 	{
 		progress_bar_->SetPercent(energy_system_cache_->GetEnergyRatio());

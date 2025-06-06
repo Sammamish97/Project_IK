@@ -10,7 +10,14 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SupportSkills/SupportSkillBase.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "WorldSettings/IKGameState.h"
 #include "WorldSettings/IKPlayerController.h"
+
+void USupportSkillBase::InitSupportSkill()
+{
+	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	game_state_cache_ = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
+}
 
 FTargetParameters USupportSkillBase::GetTargetParameters() const
 {
@@ -31,10 +38,7 @@ bool USupportSkillBase::ActivateSkill()
 {
 	if (GetWorld()->GetTimerManager().IsTimerActive(cool_down_handle_) == false)
 	{
-		if (player_controller_cache_ == nullptr)
-		{
-			player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-		}
+		
 		player_controller_cache_->StartTargeting(target_param_, ETargetingState::SupportSkill);
 		return true;
 	}
@@ -68,5 +72,5 @@ void USupportSkillBase::BeginCoolDown()
 
 void USupportSkillBase::UseEnergy()
 {
-	player_controller_cache_->UseEnergy(cost_);
+	game_state_cache_->UseEnergy(cost_);
 }

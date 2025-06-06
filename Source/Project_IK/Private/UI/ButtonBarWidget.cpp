@@ -21,6 +21,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SkillContainer.h"
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
+#include "WorldSettings/IKGameState.h"
 
 void UButtonBarWidget::NativeConstruct()
 {
@@ -58,6 +59,7 @@ void UButtonBarWidget::NativeConstruct()
 		support_skill_button_2_->button_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSupportSkillButtonClicked2);
 	}
 
+	game_state_cache_ = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
 	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	UDelegateBridgeSubsystem* delegate_bridge_subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
 	if (delegate_bridge_subsystem)
@@ -165,17 +167,17 @@ void UButtonBarWidget::OnActiveSkillButtonClicked3()
 
 void UButtonBarWidget::OnSupportSkillButtonClicked0()
 {
-	player_controller_cache_->ActivateSupportSkill(0);
+	game_state_cache_->ActivateSupportSkill(0);
 }
 
 void UButtonBarWidget::OnSupportSkillButtonClicked1()
 {
-	player_controller_cache_->ActivateSupportSkill(1);
+	game_state_cache_->ActivateSupportSkill(1);
 }
 
 void UButtonBarWidget::OnSupportSkillButtonClicked2()
 {
-	player_controller_cache_->ActivateSupportSkill(2);
+	game_state_cache_->ActivateSupportSkill(2);
 }
 
 void UButtonBarWidget::SynchroActiveSkillButtons(EHeroType hero_type)

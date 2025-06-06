@@ -23,6 +23,7 @@ class PROJECT_IK_API USupportSkillBase : public UObject
 	GENERATED_BODY()
 	
 public:
+	void InitSupportSkill();
 	FTargetParameters GetTargetParameters() const;
 	float GetCoolTime() const;
 	float GetCost() const;
@@ -39,6 +40,7 @@ private:
 protected:
 	UPROPERTY()
 	TObjectPtr<class AIKPlayerController> player_controller_cache_;
+	TObjectPtr<class AIKGameState> game_state_cache_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FTargetParameters target_param_{};

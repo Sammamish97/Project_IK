@@ -10,13 +10,13 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKPlayerController.h"
 
 #include "Components/TargetingComponent.h"
-#include "Components/EnergySystemComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Abilities/SupportSkills/SupportSkillBase.h"
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameModeBase.h"
+#include "WorldSettings/IKGameState.h"
 #include "WorldSettings/IKHUD.h"
 #include "WorldSettings/IKPlayerCameraManager.h"
 
@@ -24,9 +24,6 @@ AIKPlayerController::AIKPlayerController()
 	: Super::APlayerController()
 {
 	targeting_component_ = CreateDefaultSubobject<UTargetingComponent>(TEXT("Targeting Component"));
-	energy_system_component_ = CreateDefaultSubobject<UEnergySystemComponent>(TEXT("Energy System Component"));
-	support_skill_data_.Init(FSupportSkillData(), 3);
-	equipped_support_skills_.Init(TObjectPtr<USupportSkillBase>(), 3);
 }
 
 void AIKPlayerController::BeginPlay()
@@ -36,17 +33,11 @@ void AIKPlayerController::BeginPlay()
 	bEnableClickEvents = true;
 	bEnableMouseOverEvents = true;
 
+	game_state_cache_ = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
+
 	if (UEnhancedInputLocalPlayerSubsystem* subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		subsystem->AddMappingContext(player_input_mapping_context, 0);
-	}
-
-	for (int32 i = 0; i < 3; i++)
-	{
-		if (support_skill_data_[i].type_ != ESupportSkillType::INVALID)
-		{
-			equipped_support_skills_[i] = NewObject<USupportSkillBase>(this, support_skill_data_[i].support_skill_class_);
-		}
 	}
 }
 
@@ -54,9 +45,6 @@ void AIKPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 	on_active_skill_.Clear();
-
-	equipped_support_skills_.Empty();
-	//IKTOOD: equipped_support_skills_가 EndPlay에서 자동으로 GC되는지, 아니면 수동 삭제가 필요한지 체크해야함.
 }
 
 void AIKPlayerController::SetupInputComponent()
@@ -89,26 +77,11 @@ UTargetingComponent* AIKPlayerController::GetTargetingComponent()
 	return targeting_component_;
 }
 
-class UEnergySystemComponent* AIKPlayerController::GetEnergySystemComponent()
-{
-	return energy_system_component_;
-}
-
 void AIKPlayerController::UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies)
 {
 	AIKPlayerCameraManager * camera_manger = Cast<AIKPlayerCameraManager>(PlayerCameraManager);
 
 	camera_manger->UpdateEnemies(tracked_enemies);
-}
-
-const TArray<FSupportSkillData>& AIKPlayerController::GetSupportSkillData() const
-{
-	return support_skill_data_;
-}
-
-const TArray<TObjectPtr<USupportSkillBase>>& AIKPlayerController::GetSupportSkillPtr() const
-{
-	return equipped_support_skills_;
 }
 
 void AIKPlayerController::ActivateFirstHeroActiveSkill()
@@ -133,17 +106,17 @@ void AIKPlayerController::ActivateFourthHeroActiveSkill()
 
 void AIKPlayerController::ActivateFirstSupportSkill()
 {
-	ActivateSupportSkill(0);
+	game_state_cache_->ActivateSupportSkill(0);
 }
 
 void AIKPlayerController::ActivateSecondSupportSkill()
 {
-	ActivateSupportSkill(1);
+	game_state_cache_->ActivateSupportSkill(1);
 }
 
 void AIKPlayerController::ActivateThirdSupportSkill()
 {
-	ActivateSupportSkill(2);
+	game_state_cache_->ActivateSupportSkill(2);
 }
 
 void AIKPlayerController::ActivateSkillTargeting(EHeroType hero_type)
@@ -163,18 +136,6 @@ void AIKPlayerController::ActivateSkillTargeting(EHeroType hero_type)
 	}
 }
 
-void AIKPlayerController::ActivateSupportSkill(int32 support_num)
-{
-	if (equipped_support_skills_.IsValidIndex(support_num))
-	{
-		if (energy_system_component_->GetEnergy() >  equipped_support_skills_[support_num]->GetCost())
-		{
-			last_invoked_support_skill_ = equipped_support_skills_[support_num];
-			last_invoked_support_skill_->ActivateSkill();
-		}
-	}
-}
-
 void AIKPlayerController::StartTargeting(const FTargetParameters& target_params, ETargetingState state, AActor* invoker)
 {
 	if (cur_targeting_state_ == ETargetingState::Idle)
@@ -187,11 +148,6 @@ void AIKPlayerController::StartTargeting(const FTargetParameters& target_params,
 void AIKPlayerController::ClearTargetingState()
 {
 	cur_targeting_state_ = ETargetingState::Idle;
-}
-
-bool AIKPlayerController::UseEnergy(float amount)
-{
-	return energy_system_component_->UseEnergy(amount);
 }
 
 void AIKPlayerController::Decide()
@@ -208,7 +164,7 @@ void AIKPlayerController::Decide()
 			break;
 		case ETargetingState::SupportSkill:
 			{
-				last_invoked_support_skill_->Decide(targeting_component_->DecideTargetings());
+				game_state_cache_->DecideLastInvokedSkill(targeting_component_->DecideTargetings());
 			}
 			break;
 	}
@@ -217,11 +173,8 @@ void AIKPlayerController::Decide()
 void AIKPlayerController::CancelTargeting()
 {
 	targeting_component_->CancelTargeting();
+	game_state_cache_->ClearLastInvokedSkill();
 	ClearTargetingState();
-	if (last_invoked_support_skill_)
-	{
-		last_invoked_support_skill_->Reset();
-	}
 }
 
 void AIKPlayerController::RotateCameraLeft()

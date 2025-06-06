@@ -24,8 +24,10 @@ void USP_InstantRepair::Decide(const FTargetResult& target_result)
 {
 	if(target_result.target_actors_[0])
 	{
-		AUnit* target_unit = Cast<AUnit>(target_result.target_actors_[0]);
-		target_unit->AcquireShield(300.f, 3.f);
-		OnDecide();
+		if (AUnit* target_unit = Cast<AUnit>(target_result.target_actors_[0]))
+		{
+			target_unit->AcquireShield(300.f, 3.f);
+			OnDecide();
+		}
 	}
 }
