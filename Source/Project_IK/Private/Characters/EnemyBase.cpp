@@ -38,9 +38,8 @@ void AEnemyBase::BeginPlay()
 		subsystem->BindOnShieldChanged(character_stat_component_, ui, &UHitPointsUI::UpdateShieldWidget);
 		subsystem->BindOnBuffChanged(character_stat_component_, ui, &UHitPointsUI::UpdateAppliedBuffs);
 	}
-	hp_UI_->SetupAttachment(RootComponent);
+	hp_UI_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	hp_UI_->SetDrawSize({ 100, 50 });
-
 }
 
 void AEnemyBase::Die()

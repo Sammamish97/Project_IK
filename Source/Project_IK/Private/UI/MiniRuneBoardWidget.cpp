@@ -9,7 +9,6 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "UI/MiniRuneBoardWidget.h"
-#include "Characters/HeroBase.h"
 #include "Components/Image.h"
 #include "Components/RuneMechanics.h"
 #include "Components/ProgressBar.h"
@@ -51,11 +50,9 @@ void UMiniRuneBoardWidget::NativeDestruct()
 	Super::NativeDestruct();
 }
 
-void UMiniRuneBoardWidget::InitMiniRuneBoard(AHeroBase* owner)
+void UMiniRuneBoardWidget::InitMiniRuneBoard(URuneMechanics* rune_mechanics)
 {
-	owner_hero_ = owner;
-	auto owner_rune_mechanics = owner_hero_->GetRuneMechanics();
-	auto rune_data_array = owner_rune_mechanics->GetEquippedRunes();
+	auto rune_data_array = rune_mechanics->GetEquippedRunes();
 	TArray rune_widget_array = {rune_0_, rune_1_, rune_2_, rune_3_, rune_4_, rune_5_};
 	for(int32 i = 0; i < 6; ++i)
 	{
@@ -69,7 +66,7 @@ void UMiniRuneBoardWidget::InitMiniRuneBoard(AHeroBase* owner)
 		}
 	}
 
-	auto result = owner_rune_mechanics->GetSetBonusData();
+	auto result = rune_mechanics->GetSetBonusData();
 	for (const auto& elem : result)
 	{
 		if (elem.Value.Num() == 2)

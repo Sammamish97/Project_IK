@@ -24,12 +24,9 @@ public:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 	
-	void InitMiniRuneBoard(class AHeroBase* owner);
+	void InitMiniRuneBoard(class URuneMechanics* rune_mechanics);
 	
 private:
-	UPROPERTY()
-	TObjectPtr<class AHeroBase> owner_hero_;
-	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UBorder> border_;
 	

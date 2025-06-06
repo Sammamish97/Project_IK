@@ -22,8 +22,8 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
+#include "UI/HeroWidget.h"
 #include "UI/HP_UI_Widget.h"
-#include "UI/MiniRuneBoardWidget.h"
 #include "WorldSettings/IKGameModeBase.h"
 
 AHeroBase::AHeroBase()
@@ -32,15 +32,15 @@ AHeroBase::AHeroBase()
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
 	passive_skill_mechanics_ = CreateDefaultSubobject<UPassiveSkillMechanics>(TEXT("PassiveMechanics"));
 	rune_mechanics_ = CreateDefaultSubobject<URuneMechanics>(TEXT("RuneMechanics"));
+	ui_position_ = CreateDefaultSubobject<USphereComponent>(TEXT("ui position"));
+	ui_position_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	
 	GetCharacterMovement()->bUseRVOAvoidance = true;
 	GetCharacterMovement()->AvoidanceConsiderationRadius = 100;
 
 	GetMesh()->SetCollisionProfileName(TEXT("NoCollision"));
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("HeroPreset"));
-
-	ui_position_ = CreateDefaultSubobject<USphereComponent>(TEXT("ui position"));
-	ui_position_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	ui_position_->SetCollisionProfileName(TEXT("NoCollision"));
 	
 	forward_dir_ = { 1,0, 0 };
 	is_hero_ = true;
@@ -68,18 +68,6 @@ void AHeroBase::BeginPlay()
 	default:
 		checkNoEntry();
 	}
-
-	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
-	UHP_UI_Widget* ui = Cast<UHP_UI_Widget>(hp_UI_->GetWidget());
-	if (ui)
-	{
-		subsystem->BindOnHPOrShieldChanged(character_stat_component_, ui, &UHP_UI_Widget::UpdateWidget);
-	}
-	hp_UI_->AttachToComponent(ui_position_, FAttachmentTransformRules::KeepRelativeTransform);
-	hp_UI_->SetDrawSize({ 200, 25 });
-
-	ui->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
-
 	
 	//TEST PURPOSE
 	if (weapon_mechanics_->GetWeaponActor() == nullptr)
@@ -90,6 +78,17 @@ void AHeroBase::BeginPlay()
 	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
 	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
 	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
+	//
+	
+	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
+	if (UHeroWidget* hero_widget = Cast<UHeroWidget>(hp_UI_->GetWidget()))
+	{
+		hero_widget->InitHeroWidget(rune_mechanics_, character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
+		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hero_widget->GetHPWidget(), &UHP_UI_Widget::UpdateWidget);
+	}
+	
+	hp_UI_->AttachToComponent(ui_position_, FAttachmentTransformRules::KeepRelativeTransform);
+	hp_UI_->SetDrawSize({ 250, 50 });
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
