@@ -227,7 +227,7 @@ float UCharacterStatComponent::GetSkillCooldown() const noexcept
 
 float UCharacterStatComponent::GetShield() const noexcept
 {
-	return CalculateStat(ECharacterStatType::Shield);
+	return shield_;
 }
 
 void UCharacterStatComponent::SetAttackPower(float attack_power) noexcept
@@ -263,7 +263,7 @@ void UCharacterStatComponent::SetLifeSteal(float life_steal) noexcept
 void UCharacterStatComponent::SetHitPoint(float hit_point) noexcept
 {
 	character_data_.status_data_.hit_point_ = FMath::Min(hit_point, GetMaxHitPoint());
-	OnHPChanged.Broadcast(GetHPRatio());
+	OnHPOrShieldChanged.Broadcast(GetHitPoint(), GetShield());
 	OnHPChangedWithOwner.Broadcast(GetHPRatio(), GetOwner());
 	if (character_data_.status_data_.hit_point_ < KINDA_SMALL_NUMBER)
 	{
@@ -278,7 +278,8 @@ void UCharacterStatComponent::SetEvasionRate(float evasion_rate) noexcept
 }
 
 void UCharacterStatComponent::SetArmor(float armor) noexcept
-{
+{	OnHPChanged.Broadcast(GetHPRatio());
+
 	character_data_.status_data_.armor_= armor;
 }
 
@@ -405,6 +406,7 @@ void UCharacterStatComponent::SetCharacterData(const FCharacterData& character_d
 {
 	character_data_ = character_data;
 	OnHPChanged.Broadcast(GetHPRatio());
+	OnHPOrShieldChanged.Broadcast(GetHitPoint(), GetShield());
 	OnHPChangedWithOwner.Broadcast(GetHPRatio(), GetOwner());
 }
 

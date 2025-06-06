@@ -34,10 +34,6 @@ AUnit::AUnit()
 	PrimaryActorTick.bCanEverTick = true;
 	character_stat_component_ = CreateDefaultSubobject<UCharacterStatComponent>(TEXT("CharacterStatComponent"));
 	hp_UI_ = CreateDefaultSubobject<UWidgetComponent>(TEXT("HP UI"));
-
-	hp_UI_->SetWidgetSpace(EWidgetSpace::Screen);
-	hp_UI_->SetDrawSize({ 100, 50 });
-	hp_UI_->SetupAttachment(RootComponent);
 	
 	cc_component_ = CreateDefaultSubobject<UCrowdControlComponent>(TEXT("CC Component"));
 	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
@@ -123,15 +119,7 @@ void AUnit::BeginPlay()
 	{
 		hp_UI_->SetWidgetClass(hp_UI_class_);
 		hp_UI_->InitWidget();
-	}
-	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
-	UHitPointsUI* ui = Cast<UHitPointsUI>(hp_UI_->GetWidget());
-	if (ui)
-	{
-		subsystem->BindOnCrowdControlChanged(cc_component_, ui, &UHitPointsUI::UpdateAppliedCCs);
-		subsystem->BindOnHPChanged(character_stat_component_, ui, &UHitPointsUI::UpdateHPWidget);
-		subsystem->BindOnShieldChanged(character_stat_component_, ui, &UHitPointsUI::UpdateShieldWidget);
-		subsystem->BindOnBuffChanged(character_stat_component_, ui, &UHitPointsUI::UpdateAppliedBuffs);
+		hp_UI_->SetWidgetSpace(EWidgetSpace::Screen);
 	}
 }
 

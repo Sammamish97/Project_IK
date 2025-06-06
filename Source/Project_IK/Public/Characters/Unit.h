@@ -99,7 +99,7 @@ public:
 	void DispatchUnitEvent(EUnitEvent type);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UHitPointsUI> hp_UI_class_;
+	TSubclassOf<UUserWidget> hp_UI_class_;
 	
 protected:
 	void SetDamageUI(FDamageData data, bool is_evaded);

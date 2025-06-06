@@ -19,13 +19,14 @@ class PROJECT_IK_API UHP_UI_Widget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void InitHPWidget(float max_hp);
+	UFUNCTION()
+	void InitHPWidget(float max_hp, float cur_hp);
 
+	UFUNCTION()
+	void UpdateWidget(float cur_hp, float cur_shield);
+	
 	UFUNCTION(BlueprintCallable)
-	void OnHPChanged(float hp_ratio);
-
-	UFUNCTION(BlueprintCallable)
-	void OnShieldChanged(float shield_ratio);
+	void SetMaterialSegmentWidth() const;
 	
 private:
 	UPROPERTY(meta = (BindWidget))
@@ -41,11 +42,8 @@ private:
 	float max_hp_ = 0;
 
 	UPROPERTY(Transient)
-	float temp_max_hp_ = 0;
-
+	float cur_max_hp_ = 0;
+	
 	UPROPERTY(Transient)
-	float cur_hp_ = 0;
-
-	UPROPERTY(Transient)
-	float single_segment_amount_ = 50.f; 
+	float segment_amount = 50.f; 
 };

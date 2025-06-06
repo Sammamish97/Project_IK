@@ -40,6 +40,9 @@ See LICENSE file in the project root for full license information.
 #define BindOnShieldChanged(Component, Object, FuncName) \
 	__Internal_BindOnShieldChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
+#define BindOnHPOrShieldChanged(Component, Object, FuncName) \
+	__Internal_BindOnHPOrShieldChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
+
 #define BindOnCrowdControlChanged(Component, Object, FuncName) \
 	__Internal_BindOnCrowdControlChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
@@ -71,6 +74,9 @@ public:
 
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnShieldChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
+
+	template<typename T, typename FuncType>
+	bool __Internal_BindOnHPOrShieldChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
 	
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnCrowdControlChanged(UObject* bound_crowd_control_component, T* object, FuncType callback, FName func_name);
@@ -201,6 +207,23 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnShieldChanged(UObject* bo
 	{
 		UCharacterStatComponent* cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
 		cs->OnShieldChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
+		return true;
+	}
+	return false;
+}
+
+template <typename T, typename FuncType>
+bool UDelegateBridgeSubsystem::__Internal_BindOnHPOrShieldChanged(UObject* bound_character_stat_component, T* object,
+	FuncType callback, FName func_name)
+{
+	if (object == nullptr)
+	{
+		return false;
+	}
+	if (bound_character_stat_component != nullptr && bound_character_stat_component->IsA<UCharacterStatComponent>())
+	{
+		UCharacterStatComponent* cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
+		cs->OnHPOrShieldChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
 		return true;
 	}
 	return false;

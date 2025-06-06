@@ -21,6 +21,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Subsystems/DelegateBridgeSubsystem.h"
+#include "UI/HP_UI_Widget.h"
 #include "UI/MiniRuneBoardWidget.h"
 #include "WorldSettings/IKGameModeBase.h"
 
@@ -39,9 +41,6 @@ AHeroBase::AHeroBase()
 
 	ui_position_ = CreateDefaultSubobject<USphereComponent>(TEXT("ui position"));
 	ui_position_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-
-	mini_rune_board_widget_ = CreateDefaultSubobject<UWidgetComponent>(TEXT("MiniRuneBoard"));
-	mini_rune_board_widget_->AttachToComponent(ui_position_, FAttachmentTransformRules::KeepRelativeTransform);
 	
 	forward_dir_ = { 1,0, 0 };
 	is_hero_ = true;
@@ -69,13 +68,24 @@ void AHeroBase::BeginPlay()
 	default:
 		checkNoEntry();
 	}
+
+	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
+	UHP_UI_Widget* ui = Cast<UHP_UI_Widget>(hp_UI_->GetWidget());
+	if (ui)
+	{
+		subsystem->BindOnHPOrShieldChanged(character_stat_component_, ui, &UHP_UI_Widget::UpdateWidget);
+	}
+	hp_UI_->AttachToComponent(ui_position_, FAttachmentTransformRules::KeepRelativeTransform);
+	hp_UI_->SetDrawSize({ 200, 25 });
+
+	ui->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
+
+	
 	//TEST PURPOSE
 	if (weapon_mechanics_->GetWeaponActor() == nullptr)
 	{
 		weapon_mechanics_->EquipWeapon(default_weapon_class_);
 	}
-	mini_rune_board_widget_->SetWidgetSpace(EWidgetSpace::Screen);
-	mini_rune_board_widget_->SetDrawSize({ 30, 30 });
 	
 	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
 	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
@@ -116,15 +126,6 @@ void AHeroBase::EquipGears(FSpawnData spawn_data)
 		}
 	}
 	rune_mechanics_->ApplySetBonuses();
-	//
-	if (mini_rune_board_widget_class_)
-	{
-		mini_rune_board_widget_->SetWidgetClass(mini_rune_board_widget_class_);
-		mini_rune_board_widget_->InitWidget();
-		auto rune_board_widget = Cast<UMiniRuneBoardWidget>(mini_rune_board_widget_->GetWidget());
-		rune_board_widget->InitMiniRuneBoard(this);
-	}
-	//
 }
 
 void AHeroBase::Die()

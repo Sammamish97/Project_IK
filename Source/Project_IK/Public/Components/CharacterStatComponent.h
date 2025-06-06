@@ -22,8 +22,9 @@ class ADamageUI;
 class UDelegateBridgeSubsystem;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHPChangedDelegate, float, hp_ratio);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHPChangedWithOwnerDelegate, float, hp_ratio, AActor*, owner_actor);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnShieldChangedDelegate, float, shield_ratio);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHPOrShieldChanged, float, cur_hp, float, cur_shield);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHPChangedWithOwnerDelegate, float, hp_ratio, AActor*, owner_actor);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffChangedDelegate, TArray<FBuffData>, applied_buffs);
 
 UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
@@ -135,7 +136,10 @@ protected:
 	
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnBuffChangedDelegate OnBuffChanged;
-	
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnHPOrShieldChanged OnHPOrShieldChanged;
+
 	UFUNCTION(BlueprintCallable)
 	void SetAttackPower(float attack_power) noexcept;
 	UFUNCTION(BlueprintCallable)
