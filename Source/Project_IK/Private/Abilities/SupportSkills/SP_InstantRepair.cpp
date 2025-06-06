@@ -25,7 +25,7 @@ void USP_InstantRepair::Decide(const FTargetResult& target_result)
 	if(target_result.target_actors_[0])
 	{
 		AUnit* target_unit = Cast<AUnit>(target_result.target_actors_[0]);
-		target_unit->Heal(healing_amount_);
+		target_unit->AcquireShield(300.f, 3.f);
 		OnDecide();
 	}
 }
