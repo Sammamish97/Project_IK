@@ -85,6 +85,8 @@ void AHeroBase::BeginPlay()
 	{
 		hero_widget->InitHeroWidget(rune_mechanics_, character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
 		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hero_widget->GetHPWidget(), &UHP_UI_Widget::UpdateWidget);
+		subsystem->BindOnCrowdControlChanged(cc_component_, hero_widget, &UHeroWidget::UpdateAppliedCCs);
+		subsystem->BindOnBuffChanged(character_stat_component_, hero_widget, &UHeroWidget::UpdateAppliedBuffs);
 	}
 	
 	hp_UI_->AttachToComponent(ui_position_, FAttachmentTransformRules::KeepRelativeTransform);
