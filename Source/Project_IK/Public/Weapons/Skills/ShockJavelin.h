@@ -25,56 +25,36 @@ class PROJECT_IK_API AShockJavelin : public AActor
 public:
 	// Sets default values for this actor's properties
 	AShockJavelin();
-	virtual void OnConstruction(const FTransform& Transform);
+	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-	void SetDamageData(FDamageData dmg_data);
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UNiagaraSystem> niagara_system_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ShockJavelin")
-	TSubclassOf<AStaticMeshActor> scorched_mark_class_;
+	void SetDamageData(const FDamageData& dmg_data);
+	void SetCastingTime(float casting_time);
 
 protected:
 	virtual void BeginPlay();
-	void BeginCooling();
 
-	void SpawnLightningParticles();
-	void SpawnHitMark();
-	FVector CalculateCollisionLocationOnFloor();
-
-	UFUNCTION()
-	void Cooling();
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ShockJavelin", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ShockJavelin")
 	TObjectPtr<class UBoxComponent> collision_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, BlueprintReadWrite, Category = "ShockJavelin", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, BlueprintReadWrite, Category = "ShockJavelin")
 	TObjectPtr<class UProjectileMovementComponent> movement_;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ShockJavelin", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<class UStaticMeshComponent> javelin_mesh_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ShockJavelin")
-	TObjectPtr<UNiagaraComponent> particle_system_0_;
+	TObjectPtr<UNiagaraComponent> particle_system_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ShockJavelin")
-	TObjectPtr<UNiagaraComponent> particle_system_1_;
-
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ShockJavelin", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ShockJavelin")
 	FDamageData dmg_data_;
-
-	TWeakObjectPtr<UMaterialInstanceDynamic> javelin_dynamic_material_instance_;
-	TWeakObjectPtr<UMaterialInstanceDynamic> ground_dynamic_material_instance_;
 
 	float cover_dmg_scale_ = 3.f;
 	float stun_duration_ = 2.f;
 
-	FTimerHandle cooling_timer_;
-	float cooling_alpha_ = 0.f;
-	static constexpr float cooling_step_ = 0.01f;
-	FLinearColor init_emissive_ = FLinearColor::Transparent;
+	float casting_time_ = 0.f;
+	float timer_ = 0.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float javelin_length_ = 300.f;
+	bool has_dispatched_ = false;
 };

@@ -19,6 +19,7 @@ UAT_ShockJavelin::UAT_ShockJavelin()
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Opponents, 1000.f);
 
 	cool_time_ = 5.f;
+	casting_time_ = 0.5f;
 }
 
 bool UAT_ShockJavelin::ActivateSkill_Implementation(const FTargetResult& TargetResult)
@@ -32,5 +33,6 @@ bool UAT_ShockJavelin::ActivateSkill_Implementation(const FTargetResult& TargetR
 	FTransform spawn_transform(rotation, javelin_location);
 	
 	AShockJavelin* spawned_javellin = GetWorld()->SpawnActor<AShockJavelin>(javelin_class_, spawn_transform);
+	spawned_javellin->SetCastingTime(casting_time_);
 	return true;
 }

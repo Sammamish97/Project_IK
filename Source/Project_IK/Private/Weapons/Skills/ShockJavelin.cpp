@@ -16,11 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Interfaces/Damageable.h"
 
-#include "NiagaraSystem.h"
 #include "NiagaraComponent.h"
-#include "NiagaraFunctionLibrary.h"
-
-#include "Engine/StaticMeshActor.h"
 
 // Sets default values
 AShockJavelin::AShockJavelin()
@@ -30,8 +26,7 @@ AShockJavelin::AShockJavelin()
 
 	collision_ = CreateDefaultSubobject<UBoxComponent>(FName("Sphere"));
 	movement_ = CreateDefaultSubobject<UProjectileMovementComponent>(FName("ProjectileMovement"));
-	javelin_mesh_ = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"));
-	javelin_mesh_->SetupAttachment(collision_);
+	particle_system_ = CreateDefaultSubobject<UNiagaraComponent>(FName("Particles"));
 
 	collision_->OnComponentBeginOverlap.AddDynamic(this, &AShockJavelin::OnOverlapBegin);
 	collision_->SetCollisionProfileName(FName("HeroBulletPreset"));
@@ -42,21 +37,32 @@ AShockJavelin::AShockJavelin()
 	dmg_data_.atk_base_dmg = 100.f;
 	dmg_data_.damage_type = EDamageType::Explosive;
 
+	particle_system_->SetupAttachment(collision_);
+
 	SetRootComponent(collision_);
 }
 
-void AShockJavelin::OnConstruction(const FTransform& Transform)
+void AShockJavelin::Tick(float DeltaSeconds)
 {
-	if (javelin_mesh_)
+	if (has_dispatched_)
 	{
-		javelin_dynamic_material_instance_ = javelin_mesh_->CreateAndSetMaterialInstanceDynamic(0);
-		if (javelin_dynamic_material_instance_.IsValid())
-		{
-			javelin_dynamic_material_instance_->GetVectorParameterValue(FName("EmissiveColor"), init_emissive_);
-		}
+		return;
 	}
 
-	SpawnLightningParticles();
+	timer_ += DeltaSeconds;
+	if (timer_ < casting_time_)
+	{
+		// Spawning a shock javelin
+		particle_system_->SetNiagaraVariableFloat(FString("User.Javelin Length"), FMath::Lerp(0.f, javelin_length_, timer_ / casting_time_));
+	}
+	else
+	{
+		// Dispatch the javelin
+		particle_system_->SetNiagaraVariableFloat(FString("User.Javelin Length"), javelin_length_);
+		movement_->Velocity = GetActorForwardVector() * movement_->InitialSpeed;
+		movement_->Activate();
+		has_dispatched_ = true;
+	}
 }
 
 void AShockJavelin::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -75,22 +81,18 @@ void AShockJavelin::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 		{
 			Cast<AUnit>(OtherActor)->GetStunned(stun_duration_);
 		}
-		if (casted_damage_logic) casted_damage_logic->GetDamage(dmg_data_);
-	}
 
-	// Overlapped on floor as far as I expected.
-	else
-	{
-		BeginCooling();
-
-		if (bFromSweep)
-		{
-			SpawnHitMark();
-		}
+		casted_damage_logic->GetDamage(dmg_data_);
+		Destroy();
 	}
 }
 
-void AShockJavelin::SetDamageData(FDamageData dmg_data)
+void AShockJavelin::SetCastingTime(float casting_time)
+{
+	casting_time_ = casting_time;
+}
+
+void AShockJavelin::SetDamageData(const FDamageData& dmg_data)
 {
 	dmg_data_ = dmg_data;
 }
@@ -98,128 +100,6 @@ void AShockJavelin::SetDamageData(FDamageData dmg_data)
 void AShockJavelin::BeginPlay()
 {
 	Super::BeginPlay();
-}
 
-void AShockJavelin::BeginCooling()
-{
-	movement_->StopMovementImmediately();
-	movement_->Velocity = FVector::ZeroVector;
-
-	GetWorld()->GetTimerManager().SetTimer(cooling_timer_, this, &AShockJavelin::Cooling, cooling_step_, true);
-}
-
-void AShockJavelin::SpawnLightningParticles()
-{
-
-	if (niagara_system_)
-	{
-		if (particle_system_0_)
-		{
-			particle_system_0_->Deactivate();
-			particle_system_0_ = nullptr;
-		}
-		if (particle_system_1_)
-		{
-			particle_system_1_->Deactivate();
-			particle_system_1_ = nullptr;
-		}
-
-		particle_system_0_ = UNiagaraFunctionLibrary::SpawnSystemAttached(niagara_system_, javelin_mesh_, "Mesh", FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::KeepRelativeOffset, true);
-		particle_system_1_ = UNiagaraFunctionLibrary::SpawnSystemAttached(niagara_system_, javelin_mesh_, "Mesh", FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::KeepRelativeOffset, true);
-	}
-	if (particle_system_0_)
-	{
-		particle_system_0_->SetAsset(niagara_system_);
-		if (init_emissive_ != FLinearColor::Transparent)
-		{
-			particle_system_0_->SetVariableLinearColor(FName("Emissive Color"), init_emissive_);
-		}
-		else
-		{
-			particle_system_0_->SetVariableLinearColor(FName("Emissive Color"), FLinearColor::Red);
-		}
-		particle_system_0_->SetVariableFloat(FName("Is Backward"), 1.f);
-		particle_system_0_->SetVariableInt(FName("unique seed"), 10);
-		particle_system_0_->Activate();
-	}
-
-	if (particle_system_1_)
-	{
-		particle_system_1_->SetAsset(niagara_system_);
-		if (init_emissive_ != FLinearColor::Transparent)
-		{
-			particle_system_1_->SetVariableLinearColor(FName("Emissive Color"), init_emissive_);
-		}
-		else
-		{
-			particle_system_1_->SetVariableLinearColor(FName("Emissive Color"), FLinearColor::Red);
-		}
-		particle_system_1_->SetVariableFloat(FName("Is Backward"), -1.f);
-		particle_system_1_->SetVariableInt(FName("unique seed"), 17);
-		particle_system_1_->Activate();
-	}
-}
-
-void AShockJavelin::SpawnHitMark()
-{
-	if (scorched_mark_class_)
-	{
-		FVector collision_location = CalculateCollisionLocationOnFloor();
-
-		AStaticMeshActor* mark = GetWorld()->SpawnActor<AStaticMeshActor>(
-			scorched_mark_class_,
-			collision_location,
-			FRotator::ZeroRotator);
-
-
-		ground_dynamic_material_instance_ = mark->GetStaticMeshComponent()->CreateAndSetMaterialInstanceDynamic(0);
-		if (ground_dynamic_material_instance_.IsValid())
-		{
-			ground_dynamic_material_instance_->SetVectorParameterValue(FName("EmissiveColor"), init_emissive_);
-		}
-
-	}
-}
-
-FVector AShockJavelin::CalculateCollisionLocationOnFloor()
-{
-	FVector actor_location = GetActorLocation();
-	FVector forward_vector = GetActorForwardVector();
-
-	if (!FMath::IsNearlyZero(forward_vector.Z))
-	{
-		float t = (1.f - actor_location.Z) / forward_vector.Z;
-		FVector projected_point = actor_location + t * forward_vector;
-
-		return projected_point;
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Forward vector is parallel to plane (no intersection) in AShockJavelin::CalculateCollisionLocationOnFloor."));
-		return FVector::ZeroVector;
-	}
-
-}
-
-void AShockJavelin::Cooling()
-{
-	cooling_alpha_ += cooling_step_;
-	if (cooling_alpha_ >= 1.f)
-	{
-		GetWorld()->GetTimerManager().ClearTimer(cooling_timer_);
-		particle_system_0_->Deactivate();
-		particle_system_1_->Deactivate();
-	}
-
-	UMaterialInstanceDynamic* instance = javelin_dynamic_material_instance_.Get();
-	if (instance)
-	{
-		FLinearColor lerp_color = FMath::Lerp(init_emissive_, FLinearColor::Transparent, cooling_alpha_);
-		instance->SetVectorParameterValue(FName("EmissiveColor"), lerp_color);
-		particle_system_0_->SetVariableLinearColor(FName("Emissive Color"), lerp_color);
-		particle_system_1_->SetVariableLinearColor(FName("Emissive Color"), lerp_color);
-
-		FLinearColor decal_lerp_color = FMath::Lerp(init_emissive_, FLinearColor::Black, cooling_alpha_);
-		ground_dynamic_material_instance_->SetVectorParameterValue(FName("EmissiveColor"), decal_lerp_color);
-	}
+	movement_->Deactivate();
 }

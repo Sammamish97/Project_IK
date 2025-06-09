@@ -97,7 +97,7 @@ void UHitPointsUI::UpdateBuffWidgets()
 	for (const FBuffData& buff : buffs_array_)
 	{
 		// Buff if greater than 0 on raw data, greater than 1 on percentage data
-		TMap<ECharacterStatType, int32>& target_map = (buff.is_percentage_) ? ((buff.value_ > 1.f) ? buff_counts : debuff_counts) : ((buff.value_ > 0.f) ? buff_counts : debuff_counts);
+		TMap<ECharacterStatType, int32>& target_map = (buff.is_percentage_) ? ((buff.value_ >= 1.f) ? buff_counts : debuff_counts) : ((buff.value_ >= 0.f) ? buff_counts : debuff_counts);
 
 		// Find the value associated with a specified key, or if none exists, 
 		// adds a value using the default constructor.

@@ -51,6 +51,4 @@ void ADaggerProjectiles::StartBackwardMotion()
 void ADaggerProjectiles::LaunchForward()
 {
 	movement_->Velocity = GetActorForwardVector() * init_speed_;
-	//movement_->Velocity = GetActorForwardVector() * init_speed_;
-	//movement_->InitialSpeed = init_speed_;
 }
