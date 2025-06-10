@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/CrowdControlComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/OutlineComponent.h"
 
 #include "UI/HitPointsUI.h"
 #include "Components/ObjectPoolComponent.h"
@@ -23,7 +24,6 @@ See LICENSE file in the project root for full license information.
 #include "UI/DamageUI.h"
 
 #include "Subsystems/GlobalBuffSubsystem.h"
-#include "Subsystems/DelegateBridgeSubsystem.h"
 
 #include "Structs/BuffData.h"
 
@@ -37,6 +37,7 @@ AUnit::AUnit()
 	
 	cc_component_ = CreateDefaultSubobject<UCrowdControlComponent>(TEXT("CC Component"));
 	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
+	outline_component_ = CreateDefaultSubobject<UOutlineComponent>(TEXT("OutlineComponent"));
 }
 
 UCharacterStatComponent* AUnit::GetCharacterStat()
@@ -72,6 +73,14 @@ void AUnit::SetAttackTarget(AActor* target)
 AActor* AUnit::GetAttackTarget()
 {
 	return Cast<AMeleeAIController>(GetController())->GetTargetActor();
+}
+
+void AUnit::SetOutlineState(EOutlineState state)
+{
+	if(auto target = GetComponentByClass<UPrimitiveComponent>())
+	{
+		outline_component_->SwitchOutline(target, state);
+	}
 }
 
 void AUnit::Attack(AActor* target)

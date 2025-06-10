@@ -24,6 +24,7 @@ class UCharacterStatComponent;
 class UCrowdControlComponent;
 class ADamageUI;
 class UDelegateBridgeSubsystem;
+class UOutlineComponent;
 enum class EUnitEvent : uint8;
 struct FBuffData;
 
@@ -52,6 +53,8 @@ public:
 
 	void SetAttackTarget(AActor* target);
 	AActor* GetAttackTarget();
+
+	void SetOutlineState(EOutlineState state);
 
 	virtual void Attack(AActor* target) override;
 
@@ -141,7 +144,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DamageUI", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UObjectPoolComponent> object_pool_component_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Unit")
+	TObjectPtr<UOutlineComponent> outline_component_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	EAIFindTargetType ai_find_target_type_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))

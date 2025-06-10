@@ -392,3 +392,13 @@ enum class ESupportSkillType : uint8
 	SupportFire UMETA(DisplayName = "SupportFire"),
 	InstantRepair UMETA(DisplayName = "InstantRepair"),
 };
+
+UENUM(BlueprintType)
+enum class EOutlineState : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Disable UMETA(DisplayName = "Disable"),
+	Red UMETA(DisplayName = "Red"),
+	Yellow UMETA(DisplayName = "Yellow"),
+	Green UMETA(DisplayName = "Green"),
+};
