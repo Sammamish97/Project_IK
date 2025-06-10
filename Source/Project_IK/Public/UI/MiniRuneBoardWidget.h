@@ -50,40 +50,40 @@ private:
 
 	//
 	
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UProgressBar> line_0_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UProgressBar> line_1_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UProgressBar> line_2_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UProgressBar> line_3_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UProgressBar> line_4_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UProgressBar> line_5_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UProgressBar> line_6_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UProgressBar> line_7_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UProgressBar> line_8_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UProgressBar> line_9_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UProgressBar> line_10_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UProgressBar> line_11_ = nullptr;
 	//
 
