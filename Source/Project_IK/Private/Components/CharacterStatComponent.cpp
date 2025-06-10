@@ -312,6 +312,7 @@ void UCharacterStatComponent::SetShield(float shield) noexcept
 {
 	shield_ = shield;
 	OnShieldChanged.Broadcast(GetShieldRatio());
+	OnHPOrShieldChanged.Broadcast(GetHitPoint(), GetShield());
 }
 
 void UCharacterStatComponent::RecordDamage(FDamageData& data_ref)
