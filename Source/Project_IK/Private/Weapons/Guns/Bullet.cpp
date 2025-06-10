@@ -166,7 +166,7 @@ void ABullet::Clear()
 void ABullet::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	IDamageable* casted_damage_logic = Cast<IDamageable>(OtherActor);
-	dmg_data_.attack_target = OtherActor;
+	dmg_data_.attack_target_ = OtherActor;
 	if (casted_damage_logic) casted_damage_logic->GetDamage(dmg_data_);
 	for (const auto& elem : on_hit_components_)
 	{

@@ -185,17 +185,17 @@ FDamageData AGunBase::GetWeaponFireDamageData()
 		float total_atk_dmg = weapon_status_data_.basic_dmg_ + stat_component->GetAttackPower() * weapon_status_data_.attack_scale;
 		float total_skill_dmg = stat_component->GetSkillPower() * weapon_status_data_.skill_power_scale;
 		FDamageData dmg_data;
-		dmg_data.atk_base_dmg = total_atk_dmg;
-		dmg_data.skill_power_base_dmg = total_skill_dmg;
-		dmg_data.damage_type = EDamageType::Projectile;
-		dmg_data.attacker = weak_gun_owner_;
+		dmg_data.atk_base_dmg_ = total_atk_dmg;
+		dmg_data.skill_power_base_dmg_ = total_skill_dmg;
+		dmg_data.damage_type_ = EDamageType::Projectile;
+		dmg_data.attacker_ = weak_gun_owner_;
 
 		float total_crit_hit_rate = gun_owner->GetCharacterStat()->GetCriticalHitRate() + weapon_status_data_.critical_hit_rate_;
 		OnCriticalRateCalculation.Broadcast(total_crit_hit_rate);
 		if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
 		{
 			dmg_data.is_critical_shot_ = true;
-			dmg_data.atk_base_dmg *= 2;
+			dmg_data.atk_base_dmg_ *= 2;
 			gun_owner->DispatchUnitEvent(EUnitEvent::OnCriticalFire);
 		}
 		return dmg_data;

@@ -34,5 +34,6 @@ bool UAT_ShockJavelin::ActivateSkill_Implementation(const FTargetResult& TargetR
 	
 	AShockJavelin* spawned_javellin = GetWorld()->SpawnActor<AShockJavelin>(javelin_class_, spawn_transform);
 	spawned_javellin->SetCastingTime(casting_time_);
+	spawned_javellin->SetDamageData(FDamageData{0.f, skill_dmg_, EDamageType::Magic, skill_owner_});
 	return true;
 }

@@ -33,7 +33,7 @@ void ADaggerProjectiles::BeginDaggerMovements()
 	GetWorldTimerManager().SetTimer(dagger_timer_, this, &ADaggerProjectiles::StartBackwardMotion, summon_times_, false);
 }
 
-void ADaggerProjectiles::BeginPlay()
+void ADaggerProjectiles::BeginPlay() 
 {
 	Super::BeginPlay();
 

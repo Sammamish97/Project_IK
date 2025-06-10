@@ -34,9 +34,6 @@ AShockJavelin::AShockJavelin()
 	movement_->InitialSpeed = 5000.f;
 	movement_->ProjectileGravityScale = 0.f;
 
-	dmg_data_.atk_base_dmg = 100.f;
-	dmg_data_.damage_type = EDamageType::Explosive;
-
 	particle_system_->SetupAttachment(collision_);
 
 	SetRootComponent(collision_);
@@ -53,12 +50,12 @@ void AShockJavelin::Tick(float DeltaSeconds)
 	if (timer_ < casting_time_)
 	{
 		// Spawning a shock javelin
-		particle_system_->SetNiagaraVariableFloat(FString("User.Javelin Length"), FMath::Lerp(0.f, javelin_length_, timer_ / casting_time_));
+		particle_system_->SetFloatParameter(FName("User.Javelin Length"), FMath::Lerp(0.f, javelin_length_, timer_ / casting_time_));
 	}
 	else
 	{
 		// Dispatch the javelin
-		particle_system_->SetNiagaraVariableFloat(FString("User.Javelin Length"), javelin_length_);
+		particle_system_->SetFloatParameter(FName("User.Javelin Length"), javelin_length_);
 		movement_->Velocity = GetActorForwardVector() * movement_->InitialSpeed;
 		movement_->Activate();
 		has_dispatched_ = true;
@@ -72,10 +69,10 @@ void AShockJavelin::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 	// Overlapped on Cover or Characters.
 	if (casted_damage_logic)
 	{
-		dmg_data_.attack_target = OtherActor;
+		dmg_data_.attack_target_ = OtherActor;
 		if (OtherActor->IsA(ACover::StaticClass()))
 		{
-			dmg_data_.atk_base_dmg *= cover_dmg_scale_;
+			dmg_data_.atk_base_dmg_ *= cover_dmg_scale_;
 		}
 		else
 		{
