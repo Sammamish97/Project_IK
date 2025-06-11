@@ -29,8 +29,9 @@ UAT_DeployCover::UAT_DeployCover()
 	cool_time_ = 10.f;
 }
 
-bool UAT_DeployCover::ActivateSkill_Implementation(const FTargetResult& TargetResult)
+void UAT_DeployCover::Decide(const FTargetResult& TargetResult)
 {
+	OnDecide();
 	FBuffData attack_speed(TEXT("DeployCover"), ECharacterStatType::AttackSpeed, 1.1, true, 10.f);
 
 	if (actor_class_ && skill_owner_)
@@ -39,9 +40,5 @@ bool UAT_DeployCover::ActivateSkill_Implementation(const FTargetResult& TargetRe
 		AUnit* owner_unit = Cast<AUnit>(skill_owner_);
 		actor_->SetHitPoints(deployed_cover_hit_points_ + owner_unit->GetCharacterStat()->GetSkillPower() * hit_points_scaling_factor_);
 		ApplyBuff(attack_speed, skill_owner_);
-
-		return true;
 	}
-
-	return false;
 }

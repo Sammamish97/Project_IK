@@ -24,9 +24,9 @@ UAT_FateSpiral::UAT_FateSpiral()
 	cool_time_ = 10;
 }
 
-bool UAT_FateSpiral::ActivateSkill_Implementation(const FTargetResult& TargetResult)
+void UAT_FateSpiral::Decide(const FTargetResult& TargetResult)
 {
-
+	OnDecide();
 	if (actor_class_)
 	{
 		actor_ = skill_owner_->GetWorld()->SpawnActor<AFateSpiral>(actor_class_);
@@ -36,6 +36,4 @@ bool UAT_FateSpiral::ActivateSkill_Implementation(const FTargetResult& TargetRes
 		actor_->SetArrivalActor(TargetResult.target_actors_[0]);
 		actor_->SetRange(target_param_.range_);
 	}
-
-	return true;
 }

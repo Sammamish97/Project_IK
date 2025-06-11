@@ -10,16 +10,16 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Abilities/SkillBase.h"
+#include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_Accelerate.generated.h"
 UCLASS()
-class PROJECT_IK_API UAT_Accelerate : public USkillBase
+class PROJECT_IK_API UAT_Accelerate : public UActiveSkillBase
 {
 	GENERATED_BODY()
 
 public:
 	UAT_Accelerate();
-	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
+	virtual void Decide(const FTargetResult& TargetResult) override;
 
 private:
 	float shield_amount_ = 100.f;

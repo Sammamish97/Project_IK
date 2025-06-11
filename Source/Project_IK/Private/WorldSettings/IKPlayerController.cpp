@@ -44,7 +44,6 @@ void AIKPlayerController::BeginPlay()
 void AIKPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-	on_active_skill_.Clear();
 }
 
 void AIKPlayerController::SetupInputComponent()
@@ -86,22 +85,22 @@ void AIKPlayerController::UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_e
 
 void AIKPlayerController::ActivateFirstHeroActiveSkill()
 {
-	ActivateSkillTargeting(EHeroType::Hero1);
+	game_state_cache_->ActivateActiveSkill(EHeroType::Hero1);
 }
 
 void AIKPlayerController::ActivateSecondHeroActiveSkill()
 {
-	ActivateSkillTargeting(EHeroType::Hero2);
+	game_state_cache_->ActivateActiveSkill(EHeroType::Hero2);
 }
 
 void AIKPlayerController::ActivateThirdHeroActiveSkill()
 {
-	ActivateSkillTargeting(EHeroType::Hero3);
+	game_state_cache_->ActivateActiveSkill(EHeroType::Hero3);
 }
 
 void AIKPlayerController::ActivateFourthHeroActiveSkill()
 {
-	ActivateSkillTargeting(EHeroType::Hero4);
+	game_state_cache_->ActivateActiveSkill(EHeroType::Hero4);
 }
 
 void AIKPlayerController::ActivateFirstSupportSkill()
@@ -119,29 +118,12 @@ void AIKPlayerController::ActivateThirdSupportSkill()
 	game_state_cache_->ActivateSupportSkill(2);
 }
 
-void AIKPlayerController::ActivateSkillTargeting(EHeroType hero_type)
-{
-	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	if (auto selected_hero = game_mode_cache->GetHero(hero_type))
-	{
-		AHeroBase* casted_hero = Cast<AHeroBase>(selected_hero);
-		if (casted_hero->HasActiveSkill())
-		{
-			if (casted_hero->IsActiveSkillOnCoolDown() == false)
-			{
-				selected_hero_type_ = hero_type;
-				StartTargeting(casted_hero->GetActiveSkillTargetParameters().GetValue(), ETargetingState::ActiveSKill, casted_hero);
-			}
-		}
-	}
-}
-
-void AIKPlayerController::StartTargeting(const FTargetParameters& target_params, ETargetingState state, AActor* invoker)
+void AIKPlayerController::StartTargeting(const FTargetParameters& target_params, AActor* invoker)
 {
 	if (cur_targeting_state_ == ETargetingState::Idle)
 	{
 		targeting_component_->StartTargeting(target_params, invoker);
-		cur_targeting_state_ = state;
+		cur_targeting_state_ = ETargetingState::OnTargeting;
 	}
 }
 
@@ -152,22 +134,7 @@ void AIKPlayerController::ClearTargetingState()
 
 void AIKPlayerController::Decide()
 {
-	switch (cur_targeting_state_)
-	{
-		case ETargetingState::ActiveSKill:
-			{
-				auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-				auto target_result = targeting_component_->DecideTargetings();
-				Cast<AHeroBase>(game_mode_cache->GetHero(selected_hero_type_))->InvokeActiveSkill(target_result);
-				on_active_skill_.Broadcast(selected_hero_type_);
-			}
-			break;
-		case ETargetingState::SupportSkill:
-			{
-				game_state_cache_->DecideLastInvokedSkill(targeting_component_->DecideTargetings());
-			}
-			break;
-	}
+	game_state_cache_->DecideLastInvokedSkill(targeting_component_->DecideTargetings());
 }
 
 void AIKPlayerController::CancelTargeting()

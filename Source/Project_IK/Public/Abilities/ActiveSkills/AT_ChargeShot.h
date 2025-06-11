@@ -10,17 +10,17 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Abilities/SkillBase.h"
+#include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_ChargeShot.generated.h"
 
 UCLASS()
-class PROJECT_IK_API UAT_ChargeShot : public USkillBase
+class PROJECT_IK_API UAT_ChargeShot : public UActiveSkillBase
 {
 	GENERATED_BODY()
 	
 public:
 	UAT_ChargeShot();
-	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
+	virtual void Decide(const FTargetResult& TargetResult) override;
 	void OnChargeShot(AActor* target, class UWeaponMechanics* OtherTarget, FDamageData dmg_data);
 
 private:

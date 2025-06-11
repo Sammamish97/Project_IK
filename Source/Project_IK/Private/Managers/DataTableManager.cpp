@@ -224,9 +224,6 @@ FString UDataTableManager::ActiveSkillEnumToString(EActiveSkillType active_skill
 	case EActiveSkillType::Thunder:
 		string = TEXT("Thunder");
 		break;
-	case EActiveSkillType::RapidFire:
-		string = TEXT("RapidFire");
-		break;
 	default:
 		string = TEXT("Empty");
 		break;

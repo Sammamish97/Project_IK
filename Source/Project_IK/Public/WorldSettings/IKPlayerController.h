@@ -21,8 +21,6 @@ class UInputAction;
 class UDelegateBridgeSubsystem;
 class USupportSkillBase;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveSKill, EHeroType, hero_idx);
-
 UCLASS()
 class PROJECT_IK_API AIKPlayerController : public APlayerController
 {
@@ -38,22 +36,15 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Targeting")
 	class UTargetingComponent* GetTargetingComponent();
-	
-	UFUNCTION()
-	void ActivateSkillTargeting(EHeroType hero_type);
 
 	UFUNCTION()
-	void StartTargeting(const FTargetParameters& target_params, ETargetingState state, AActor* invoker = nullptr);
+	void StartTargeting(const FTargetParameters& target_params, AActor* invoker = nullptr);
 
 	UFUNCTION()
 	void ClearTargetingState();
 	
 	void UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies);
-
-protected:
-	UPROPERTY()
-	FOnActiveSKill on_active_skill_;
-
+	
 private:
 	UFUNCTION()
 	void ActivateFirstHeroActiveSkill();
@@ -93,13 +84,12 @@ private:
 	
 protected:
 	ETargetingState cur_targeting_state_ = ETargetingState::Idle;
-	EHeroType selected_hero_type_ = EHeroType::INVALID;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Targeting")
 	TObjectPtr<UTargetingComponent> targeting_component_;
 
 	UPROPERTY(Transient)
-	TObjectPtr<class AIKGameState> game_state_cache_;;
+	TObjectPtr<class AIKGameState> game_state_cache_;
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))

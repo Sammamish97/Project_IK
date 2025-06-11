@@ -39,7 +39,7 @@ void USP_Reposition::Decide(const FTargetResult& target_result)
 		{
 			player_controller_cache_->ClearTargetingState();
 			selected_hero_ = Cast<AHeroBase>(target_result.target_actors_[0]);
-			player_controller_cache_->StartTargeting(reposition_location_params_, ETargetingState::SupportSkill);
+			player_controller_cache_->StartTargeting(reposition_location_params_);
 		}
 	}
 }

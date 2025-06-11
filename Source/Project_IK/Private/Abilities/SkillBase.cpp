@@ -1,25 +1,14 @@
-/******************************************************************************
-Copyright(C) 2024
-Author: sinil.kang(rtd99062@gmail.com)
-Creation Date : 09.21.2024
-Summary : Source file for Skill base class.
-					It will be used like a pure virtual class. A skill class will derived it.
-
-Licensed under the MIT License.
-See LICENSE file in the project root for full license information.
-******************************************************************************/
+// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "Abilities/SkillBase.h"
 
-#include "Structs/DamageData.h"
-#include "Structs/BuffData.h"
-#include "Characters/Unit.h"
-#include "Components/CharacterStatComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "WorldSettings/IKPlayerController.h"
 
-void USkillBase::InitActiveSkill(AActor* skill_owner)
+void USkillBase::InitSkill()
 {
-	skill_owner_ = skill_owner;
+	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 }
 
 FTargetParameters USkillBase::GetTargetParameters() const
@@ -32,40 +21,36 @@ float USkillBase::GetCoolTime() const
 	return cool_time_;
 }
 
-float USkillBase::GetCastingTime() const
+bool USkillBase::ActivateSkill()
 {
-	return casting_time_;
-}
-
-void USkillBase::ApplyDamage(FDamageData DamageData)
-{
-	if (DamageData.attack_target.IsValid() && DamageData.attack_target->IsA<AUnit>())
+	if (GetWorld()->GetTimerManager().IsTimerActive(cool_down_handle_) == false)
 	{
-		AUnit* attack_target = Cast<AUnit>(DamageData.attack_target);
-
-		if (DamageData.attacker.IsValid() && DamageData.attacker->IsA<AUnit>())
-		{
-			AUnit* attacker = Cast<AUnit>(DamageData.attacker);
-			DamageData.skill_power_base_dmg = DamageData.skill_power_base_dmg + (attacker->GetCharacterStat()->GetSkillPower() * scaling_factor_);
-		}
-
-		attack_target->GetDamage(DamageData);
-	}
-}
-
-bool USkillBase::ApplyBuff(FBuffData buff_data, AActor* buff_target)
-{
-	if (AUnit* owner_unit = Cast<AUnit>(skill_owner_))
-	{
-		buff_data.value_ = buff_data.value_ + (owner_unit->GetCharacterStat()->GetSkillPower() * scaling_factor_);
-	}
-	if (buff_target && buff_target->IsA<AUnit>())
-	{
-		AUnit* unit = Cast<AUnit>(buff_target);
-		unit->ApplyBuff(buff_data);
-
+		player_controller_cache_->StartTargeting(target_param_);
 		return true;
 	}
-
 	return false;
+}
+
+void USkillBase::Decide(const FTargetResult& TargetResult)
+{
+}
+
+void USkillBase::Reset()
+{
+}
+
+void USkillBase::OnDecide()
+{
+	player_controller_cache_->ClearTargetingState();
+	Reset();
+	BeginCoolDown();
+	on_decide_.Broadcast(cool_time_);
+}
+
+void USkillBase::BeginCoolDown()
+{
+	if (GetWorld()->GetTimerManager().IsTimerActive(cool_down_handle_) == false)
+	{
+		GetWorld()->GetTimerManager().SetTimer(cool_down_handle_, cool_time_, false);
+	}
 }

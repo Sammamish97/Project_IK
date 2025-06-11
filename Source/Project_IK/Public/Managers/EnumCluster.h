@@ -288,7 +288,6 @@ enum class EActiveSkillType : uint8
 	DeployCover UMETA(DisplayName = "DeployCover"),
 	
 	TripleFire UMETA(DisplayName = "TripleFire"),
-	RapidFire UMETA(DisplayName = "RapidFire"),
 	ChargeShot UMETA(DisplayName = "ChargeShot"),
 	MagnetizedBullet UMETA(DisplayName = "MagnetizedBullet"),
 	ShockJavelin UMETA(DisplayName = "ShockJaveline"),
@@ -329,8 +328,7 @@ UENUM(BlueprintType)
 enum class ETargetingState : uint8
 {
 	Idle UMETA(DisplayName = "Idle"),
-	ActiveSKill UMETA(DisplayName = "ActiveSKill"),
-	SupportSkill UMETA(DisplayName = "SupportSkill"),
+	OnTargeting UMETA(DisplayName = "OnTargeting"),
 };
 
 UENUM(BlueprintType)

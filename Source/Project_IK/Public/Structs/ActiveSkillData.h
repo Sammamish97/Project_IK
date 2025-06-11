@@ -23,7 +23,7 @@ public:
 	EActiveSkillType type = EActiveSkillType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	TSubclassOf<class USkillBase> active_skill_class;
+	TSubclassOf<class UActiveSkillBase> active_skill_class;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	UTexture2D* thumbnail = nullptr;

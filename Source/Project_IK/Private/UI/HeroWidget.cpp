@@ -8,10 +8,33 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "UI/HeroWidget.h"
+
+#include "UI/HP_UI_Widget.h"
 #include "UI/MiniRuneBoardWidget.h"
+#include "UI/SkillButtonWidget.h"
 
 void UHeroWidget::InitHeroWidget(URuneMechanics* rune_mechanics, float max_hp, float cur_hp)
 {
-	InitUnitWidget(max_hp, cur_hp);
+	hp_bar_->InitHPWidget(max_hp, cur_hp);
 	mini_rune_board_->InitMiniRuneBoard(rune_mechanics);
+}
+
+void UHeroWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+}
+
+UHP_UI_Widget* UHeroWidget::GetHPWidget()
+{
+	return hp_bar_;
+}
+
+UMiniRuneBoardWidget* UHeroWidget::GetMiniRuneBoardWidget()
+{
+	return mini_rune_board_;
+}
+
+USkillButtonWidget* UHeroWidget::GetSkillButtonWidget()
+{
+	return active_skill_button_;
 }

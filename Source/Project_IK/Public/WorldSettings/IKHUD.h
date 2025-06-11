@@ -32,11 +32,7 @@ public:
 
 	UFUNCTION()
 	void SwitchUIByState(ECombatEndState state);
-
-	UFUNCTION()
-	void SilenceSkill(AActor* character);
-	void UnsilenceSkill(AActor* character);
-
+	
 	UFUNCTION(BlueprintCallable)
 	void ToggleInventory();
 	

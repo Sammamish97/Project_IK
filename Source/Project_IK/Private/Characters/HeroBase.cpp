@@ -85,8 +85,6 @@ void AHeroBase::BeginPlay()
 	{
 		hero_widget->InitHeroWidget(rune_mechanics_, character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
 		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hero_widget->GetHPWidget(), &UHP_UI_Widget::UpdateWidget);
-		subsystem->BindOnCrowdControlChanged(cc_component_, hero_widget, &UHeroWidget::UpdateAppliedCCs);
-		subsystem->BindOnBuffChanged(character_stat_component_, hero_widget, &UHeroWidget::UpdateAppliedBuffs);
 	}
 	
 	hp_UI_->AttachToComponent(ui_position_, FAttachmentTransformRules::KeepRelativeTransform);
@@ -159,10 +157,14 @@ EHeroType AHeroBase::GetHeroType() const
 	return hero_type_;
 }
 
-void AHeroBase::InvokeActiveSkill(FTargetResult target_result)
+void AHeroBase::ActivateActiveSkill()
 {
-	DispatchUnitEvent(EUnitEvent::OnActiveSkill);
-	skill_container_->InvokeSkills(target_result);
+	skill_container_->ActivateSkill();
+}
+
+void AHeroBase::DecideActdiveSkill(FTargetResult target_result)
+{
+	skill_container_->DecideSkill(target_result);
 }
 
 void AHeroBase::Reposition(FVector target_location)
@@ -216,7 +218,13 @@ UWeaponMechanics* AHeroBase::GetWeaponMechanics()
 	return weapon_mechanics_;
 }
 
-class URuneMechanics* AHeroBase::GetRuneMechanics()
+URuneMechanics* AHeroBase::GetRuneMechanics()
 {
 	return rune_mechanics_;
 }
+
+class USkillBase* AHeroBase::GetActiveSKill()
+{
+	return skill_container_->GetActiveSkill();
+}
+

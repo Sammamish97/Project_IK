@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Abilities/SkillBase.h"
+#include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_DeployCover.generated.h"
 
 class ACover;
@@ -21,13 +21,13 @@ class ACover;
  * 
  */
 UCLASS()
-class PROJECT_IK_API UAT_DeployCover : public USkillBase
+class PROJECT_IK_API UAT_DeployCover : public UActiveSkillBase
 {
 	GENERATED_BODY()
 public:
 
 	UAT_DeployCover();
-	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
+	virtual void Decide(const FTargetResult& TargetResult) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<ACover> actor_class_;
@@ -38,5 +38,6 @@ public:
 	float hit_points_scaling_factor_ = 1.f;
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	ACover* actor_;
 };

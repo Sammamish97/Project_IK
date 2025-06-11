@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Abilities/SkillBase.h"
+#include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_DeploySentryGun.generated.h"
 
 // It will be replaced to ASentryGun or something.
@@ -22,13 +22,13 @@ class ACover;
  * 
  */
 UCLASS()
-class PROJECT_IK_API UAT_DeploySentryGun : public USkillBase
+class PROJECT_IK_API UAT_DeploySentryGun : public UActiveSkillBase
 {
 	GENERATED_BODY()
 public:
 
 	UAT_DeploySentryGun();
-	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
+	virtual void Decide(const FTargetResult& TargetResult) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<ACover> actor_class_;

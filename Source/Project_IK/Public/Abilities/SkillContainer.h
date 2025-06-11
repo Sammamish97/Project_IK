@@ -20,9 +20,10 @@ See LICENSE file in the project root for full license information.
 #include "SkillContainer.generated.h"
 
 
-class USkillBase;
+class UActiveSkillBase;
 class UDataTableManager;
 class AHeroBase;
+class USkillBase;
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECT_IK_API USkillContainer : public UActorComponent
 {
@@ -37,8 +38,8 @@ public:
 	virtual void InitializeComponent() override;
 
 	UFUNCTION(BlueprintCallable)
-	bool InvokeSkills(const FTargetResult& TargetResult);
-
+	bool ActivateSkill();
+	void DecideSkill(const FTargetResult& TargetResult);
 	bool HasActiveSkill() const;
 	float GetCooltime() const;
 	float GetCastingTime() const;
@@ -50,6 +51,7 @@ public:
 
 	TOptional<FTargetParameters> GetTargetParameters() const;
 	FActiveSkillData GetEquippedActiveSkillData();
+	USkillBase* GetActiveSkill() const;
 	
 	void EquipActiveSkill(EActiveSkillType type);
 	void UnEquipActiveSkill();
@@ -62,7 +64,7 @@ private:
 	UPROPERTY()
 	TWeakObjectPtr<UDataTableManager> data_table_cache_;
 	UPROPERTY()
-	TObjectPtr <USkillBase> active_skill_;
+	TObjectPtr <UActiveSkillBase> active_skill_;
 	UPROPERTY()
 	TWeakObjectPtr <AHeroBase> hero_cache_;
 	UPROPERTY()

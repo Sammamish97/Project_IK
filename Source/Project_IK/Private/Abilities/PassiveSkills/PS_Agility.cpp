@@ -8,8 +8,6 @@ Summary : Source file for the agility skill.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
-
 #include "Abilities/PassiveSkills/PS_Agility.h"
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
@@ -19,8 +17,8 @@ See LICENSE file in the project root for full license information.
 void UPS_Agility::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
-
-	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnActiveSkill(this, &UPS_Agility::BuffAttackSpeed);
+	//IKTODO: 바뀐 새로운 Decide - Delegate에 Bind해야 한다!
+	//hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnActiveSkill(this, &UPS_Agility::BuffAttackSpeed);
 }
 
 void UPS_Agility::BuffAttackSpeed(EHeroType hero_idx)

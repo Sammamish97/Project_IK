@@ -25,25 +25,22 @@ UAT_ThunderStorm::UAT_ThunderStorm()
 	damage_ = 120.f;
 }
 
-bool UAT_ThunderStorm::ActivateSkill_Implementation(const FTargetResult& TargetResult)
+void UAT_ThunderStorm::Decide(const FTargetResult& TargetResult)
 {
+	OnDecide();
 	world_cache_ = skill_owner_->GetWorld();
 
-	if (!world_cache_)
+	if (world_cache_)
 	{
-		return false;
+		FActorSpawnParameters spawn_params;
+		spawn_params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+		visual_actor_ = world_cache_->SpawnActor<AThunderStorm>(visual_actor_class_, TargetResult.target_location_, FRotator::ZeroRotator, spawn_params);
+		if (visual_actor_)
+		{
+			visual_actor_->SetNecessaryData(target_param_.radius_, scaling_factor_, damage_, skill_owner_);
+		}
 	}
-
-	FActorSpawnParameters spawn_params;
-	spawn_params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-	visual_actor_ = world_cache_->SpawnActor<AThunderStorm>(visual_actor_class_, TargetResult.target_location_, FRotator::ZeroRotator, spawn_params);
-	if (visual_actor_)
-	{
-		visual_actor_->SetNecessaryData(target_param_.radius_, scaling_factor_, damage_, skill_owner_);
-	}
-
-	return true;
 }
 
 void UAT_ThunderStorm::DamageEnemies()

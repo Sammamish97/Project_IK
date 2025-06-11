@@ -89,22 +89,6 @@ void AIKHUD::SwitchUIByState(ECombatEndState state)
 	}
 }
 
-void AIKHUD::SilenceSkill(AActor* character)
-{
-	if (button_widget_)
-	{
-		button_widget_->SilenceSkill(character);
-	}
-}
-
-void AIKHUD::UnsilenceSkill(AActor* character)
-{
-	if (button_widget_)
-	{
-		button_widget_->UnsilenceSkill(character);
-	}
-}
-
 void AIKHUD::ToggleInventory()
 {
 	if (inventory_widget_->GetVisibility() == ESlateVisibility::Hidden)

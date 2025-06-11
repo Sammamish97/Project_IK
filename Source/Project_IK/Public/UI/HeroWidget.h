@@ -10,17 +10,31 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UnitWidget.h"
+#include "Blueprint/UserWidget.h"
 #include "HeroWidget.generated.h"
 
+class UHP_UI_Widget;
+class UMiniRuneBoardWidget;
+class USkillButtonWidget;
 UCLASS()
-class PROJECT_IK_API UHeroWidget : public UUnitWidget
+class PROJECT_IK_API UHeroWidget : public UUserWidget
 {
 	GENERATED_BODY()
+	
 public:
+	virtual void NativeConstruct() override;
 	void InitHeroWidget(class URuneMechanics* rune_mechanics, float max_hp, float cur_hp);
-
-private:
+	UHP_UI_Widget* GetHPWidget();
+	UMiniRuneBoardWidget* GetMiniRuneBoardWidget();
+	USkillButtonWidget* GetSkillButtonWidget();
+	
+protected:
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UMiniRuneBoardWidget> mini_rune_board_;
+	TObjectPtr<UHP_UI_Widget> hp_bar_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UMiniRuneBoardWidget> mini_rune_board_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<USkillButtonWidget> active_skill_button_;
 };

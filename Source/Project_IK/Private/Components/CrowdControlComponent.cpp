@@ -176,15 +176,16 @@ void UCrowdControlComponent::Silence(bool is_applying)
 		APlayerController* player_controller = world->GetFirstPlayerController();
 		if (player_controller)
 		{
-			AIKHUD* HUD = Cast<AIKHUD>(player_controller->GetHUD());
-			if (is_applying)
-			{
-				HUD->SilenceSkill(GetOwner());
-			}
-			else
-			{
-				HUD->UnsilenceSkill(GetOwner());
-			}
+			//IKTODO: 침묵은 HUD가 아닌, AHeroBase, 혹은 SkillContainer에서 이루어지는것이 적절하다.
+			// AIKHUD* HUD = Cast<AIKHUD>(player_controller->GetHUD());
+			// if (is_applying)
+			// {
+			// 	HUD->SilenceSkill(GetOwner());
+			// }
+			// else
+			// {
+			// 	HUD->UnsilenceSkill(GetOwner());
+			// }
 		}
 	}
 }

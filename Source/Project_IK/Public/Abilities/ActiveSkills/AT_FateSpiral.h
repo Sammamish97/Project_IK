@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Abilities/SkillBase.h"
+#include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_FateSpiral.generated.h"
 
 class AFateSpiral;
@@ -22,17 +22,18 @@ class AFateSpiral;
  * 
  */
 UCLASS()
-class PROJECT_IK_API UAT_FateSpiral : public USkillBase
+class PROJECT_IK_API UAT_FateSpiral : public UActiveSkillBase
 {
 	GENERATED_BODY()
 public:
 
 	UAT_FateSpiral();
-	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
+	virtual void Decide(const FTargetResult& TargetResult) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<AFateSpiral> actor_class_;
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	AFateSpiral* actor_ = nullptr;
 };

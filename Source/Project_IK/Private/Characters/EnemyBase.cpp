@@ -16,7 +16,6 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "UI/HP_UI_Widget.h"
-#include "UI/UnitWidget.h"
 #include "WorldSettings/IKGameModeBase.h"
 
 AEnemyBase::AEnemyBase()
@@ -30,15 +29,6 @@ AEnemyBase::AEnemyBase()
 void AEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
-	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
-	UUnitWidget* unit_widget = Cast<UUnitWidget>(hp_UI_->GetWidget());
-	if (unit_widget)
-	{
-		unit_widget->InitUnitWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
-		subsystem->BindOnHPOrShieldChanged(character_stat_component_, unit_widget->GetHPWidget(), &UHP_UI_Widget::UpdateWidget);
-		subsystem->BindOnCrowdControlChanged(cc_component_, unit_widget, &UUnitWidget::UpdateAppliedCCs);
-		subsystem->BindOnBuffChanged(character_stat_component_, unit_widget, &UUnitWidget::UpdateAppliedBuffs);
-	}
 	hp_UI_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	hp_UI_->SetDrawSize({ 100, 50 });
 }

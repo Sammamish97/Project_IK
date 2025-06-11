@@ -12,13 +12,17 @@ See LICENSE file in the project root for full license information.
 #include "Worldsettings/IKGameState.h"
 
 #include "Abilities/SupportSkills/SupportSkillBase.h"
+#include "Characters/HeroBase.h"
 #include "Components/EnergySystemComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Structs/SupportSkillData.h"
+#include "WorldSettings/IKGameModeBase.h"
 
 AIKGameState::AIKGameState()
 	:Super::AGameStateBase()
 {
 	energy_system_component_ = CreateDefaultSubobject<UEnergySystemComponent>(TEXT("Energy System Component"));
+	
 	support_skill_data_.Init(FSupportSkillData(), 3);
 	equipped_support_skills_.Init(TObjectPtr<USupportSkillBase>(), 3);
 }
@@ -68,21 +72,35 @@ void AIKGameState::ActivateSupportSkill(int32 support_num)
 	{
 		if (energy_system_component_->GetEnergy() >  equipped_support_skills_[support_num]->GetCost())
 		{
-			last_invoked_support_skill_ = equipped_support_skills_[support_num];
-			last_invoked_support_skill_->ActivateSkill();
+			last_activated_skill_ = equipped_support_skills_[support_num];
+			last_activated_skill_->ActivateSkill();
+		}
+	}
+}
+
+void AIKGameState::ActivateActiveSkill(EHeroType hero_type)
+{
+	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (auto selected_hero = game_mode_cache->GetHero(hero_type))
+	{
+		AHeroBase* casted_hero = Cast<AHeroBase>(selected_hero);
+		if (casted_hero->HasActiveSkill())
+		{
+			last_activated_skill_ = casted_hero->GetActiveSKill();
+			casted_hero->ActivateActiveSkill();
 		}
 	}
 }
 
 void AIKGameState::DecideLastInvokedSkill(FTargetResult target_result)
 {
-	last_invoked_support_skill_->Decide(target_result);
+	last_activated_skill_->Decide(target_result);
 }
 
 void AIKGameState::ClearLastInvokedSkill()
 {
-	if (last_invoked_support_skill_)
+	if (last_activated_skill_)
 	{
-		last_invoked_support_skill_->Reset();
+		last_activated_skill_->Reset();
 	}
 }

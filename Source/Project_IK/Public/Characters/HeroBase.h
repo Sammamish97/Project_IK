@@ -36,7 +36,8 @@ public:
 	EHeroType GetHeroType() const;
 	TOptional<FTargetParameters> GetActiveSkillTargetParameters() const;
 
-	void InvokeActiveSkill(FTargetResult target_result);
+	void ActivateActiveSkill();
+	void DecideActdiveSkill(FTargetResult target_result);
 	bool IsActiveSkillOnCoolDown() const;
 	bool HasActiveSkill() const;
 	void ReduceCooltime(float reduce_time);
@@ -51,6 +52,7 @@ public:
 	
 	class UWeaponMechanics* GetWeaponMechanics();
 	class URuneMechanics* GetRuneMechanics();
+	class USkillBase* GetActiveSKill();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
