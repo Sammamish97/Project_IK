@@ -10,7 +10,6 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 
-#include "Abilities/SkillContainer.h"
 #include "AI/GunnerAIController.h"
 #include "AI/HeroAIController.h"
 #include "Components/CapsuleComponent.h"
@@ -19,16 +18,19 @@ See LICENSE file in the project root for full license information.
 #include "Components/SphereComponent.h"
 #include "Components/WeaponMechanics.h"
 #include "Components/WidgetComponent.h"
+#include "Components/ActiveSkillMechanics.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "UI/HeroWidget.h"
+#include "UI/ButtonBarWidget.h"
 #include "UI/HP_UI_Widget.h"
+#include "UI/UnitWidget.h"
 #include "WorldSettings/IKGameModeBase.h"
+#include "WorldSettings/IKHUD.h"
 
 AHeroBase::AHeroBase()
 {
-	skill_container_ = CreateDefaultSubobject<USkillContainer>(TEXT("SkillContainer"));
+	active_skill_mechanics_ = CreateDefaultSubobject<UActiveSkillMechanics>(TEXT("ActiveMechanics"));
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
 	passive_skill_mechanics_ = CreateDefaultSubobject<UPassiveSkillMechanics>(TEXT("PassiveMechanics"));
 	rune_mechanics_ = CreateDefaultSubobject<URuneMechanics>(TEXT("RuneMechanics"));
@@ -50,6 +52,8 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
+	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
+	AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 	switch (GetCharacterType())
 	{
 	case ECharacterType::Hero1:
@@ -68,19 +72,7 @@ void AHeroBase::BeginPlay()
 	default:
 		checkNoEntry();
 	}
-	
-	//TEST PURPOSE
-	if (weapon_mechanics_->GetWeaponActor() == nullptr)
-	{
-		weapon_mechanics_->EquipWeapon(default_weapon_class_);
-	}
-	
-	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
-	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
-	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
-	//
-	
-	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
+
 	if (UHeroWidget* hero_widget = Cast<UHeroWidget>(hp_UI_->GetWidget()))
 	{
 		hero_widget->InitHeroWidget(rune_mechanics_, character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
@@ -91,6 +83,19 @@ void AHeroBase::BeginPlay()
 	
 	hp_UI_->AttachToComponent(ui_position_, FAttachmentTransformRules::KeepRelativeTransform);
 	hp_UI_->SetDrawSize({ 250, 50 });
+	
+	//TEST PURPOSE
+	if (weapon_mechanics_->GetWeaponActor() == nullptr)
+	{
+		weapon_mechanics_->EquipWeapon(default_weapon_class_);
+	}
+	
+	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
+	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
+	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
+
+	active_skill_mechanics_->EquipActiveSkill(EActiveSkillType::ThunderStorm);
+	//
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -114,7 +119,7 @@ void AHeroBase::EquipGears(FSpawnData spawn_data)
 	}
 	if (spawn_data.active_skill_data_.IsSet())
 	{
-		skill_container_->EquipActiveSkill(spawn_data.active_skill_data_.GetValue().type);
+		active_skill_mechanics_->EquipActiveSkill(spawn_data.active_skill_data_.GetValue().type);
 	}
 
 	TArray rune_data_array = {spawn_data.rune_data_1, spawn_data.rune_data_2, spawn_data.rune_data_3, spawn_data.rune_data_4, spawn_data.rune_data_5, spawn_data.rune_data_6};
@@ -162,7 +167,7 @@ EHeroType AHeroBase::GetHeroType() const
 void AHeroBase::InvokeActiveSkill(FTargetResult target_result)
 {
 	DispatchUnitEvent(EUnitEvent::OnActiveSkill);
-	skill_container_->InvokeSkills(target_result);
+	active_skill_mechanics_->InvokeSkills(target_result);
 }
 
 void AHeroBase::Reposition(FVector target_location)
@@ -188,27 +193,27 @@ AActor* AHeroBase::GetAttackTarget() const
 
 TOptional<FTargetParameters> AHeroBase::GetActiveSkillTargetParameters() const
 {
-	return skill_container_->GetTargetParameters();
+	return active_skill_mechanics_->GetTargetParameters();
 }
 
 bool AHeroBase::IsActiveSkillOnCoolDown() const
 {
-	return skill_container_->IsOnCoolDown();
+	return active_skill_mechanics_->IsOnCoolDown();
 }
 
 bool AHeroBase::HasActiveSkill() const
 {
-	return skill_container_->HasActiveSkill();
+	return active_skill_mechanics_->HasActiveSkill();
 }
 
 void AHeroBase::ReduceCooltime(float reduce_time)
 {
-	skill_container_->ReduceCooltime(reduce_time);
+	active_skill_mechanics_->ReduceCooltime(reduce_time);
 }
 
 void AHeroBase::ReduceCooltimeByPercentage(float percentage)
 {
-	skill_container_->ReduceCooltimeByPercentage(percentage);
+	active_skill_mechanics_->ReduceCooltimeByPercentage(percentage);
 }
 
 UWeaponMechanics* AHeroBase::GetWeaponMechanics()
@@ -219,4 +224,9 @@ UWeaponMechanics* AHeroBase::GetWeaponMechanics()
 class URuneMechanics* AHeroBase::GetRuneMechanics()
 {
 	return rune_mechanics_;
+}
+
+class UActiveSkillMechanics* AHeroBase::GetActiveSkillMechanics()
+{
+	return active_skill_mechanics_;
 }

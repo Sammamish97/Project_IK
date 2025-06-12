@@ -51,13 +51,14 @@ public:
 	
 	class UWeaponMechanics* GetWeaponMechanics();
 	class URuneMechanics* GetRuneMechanics();
+	class UActiveSkillMechanics* GetActiveSkillMechanics();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AGunBase> default_weapon_class_ = nullptr;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	class USkillContainer* skill_container_;
+	class UActiveSkillMechanics* active_skill_mechanics_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	class UWeaponMechanics* weapon_mechanics_;

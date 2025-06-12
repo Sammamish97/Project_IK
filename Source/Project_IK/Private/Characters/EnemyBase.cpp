@@ -31,13 +31,13 @@ void AEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
 	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
-	UUnitWidget* unit_widget = Cast<UUnitWidget>(hp_UI_->GetWidget());
+	UHeroWidget* unit_widget = Cast<UHeroWidget>(hp_UI_->GetWidget());
 	if (unit_widget)
 	{
-		unit_widget->InitUnitWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
+		unit_widget->InitHeroWidget(nullptr, character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
 		subsystem->BindOnHPOrShieldChanged(character_stat_component_, unit_widget->GetHPWidget(), &UHP_UI_Widget::UpdateWidget);
-		subsystem->BindOnCrowdControlChanged(cc_component_, unit_widget, &UUnitWidget::UpdateAppliedCCs);
-		subsystem->BindOnBuffChanged(character_stat_component_, unit_widget, &UUnitWidget::UpdateAppliedBuffs);
+		subsystem->BindOnCrowdControlChanged(cc_component_, unit_widget, &UHeroWidget::UpdateAppliedCCs);
+		subsystem->BindOnBuffChanged(character_stat_component_, unit_widget, &UHeroWidget::UpdateAppliedBuffs);
 	}
 	hp_UI_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	hp_UI_->SetDrawSize({ 100, 50 });

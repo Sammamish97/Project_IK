@@ -17,20 +17,23 @@ See LICENSE file in the project root for full license information.
 #include "Structs/TargetParameters.h"
 #include "Structs/TargetResult.h"
 #include "AITypes.h"
-#include "SkillContainer.generated.h"
+#include "ActiveSkillMechanics.generated.h"
 
 
 class USkillBase;
 class UDataTableManager;
 class AHeroBase;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveSkill, float , cool_time);
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class PROJECT_IK_API USkillContainer : public UActorComponent
+class PROJECT_IK_API UActiveSkillMechanics : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	USkillContainer();
+	UActiveSkillMechanics();
 
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
@@ -71,4 +74,7 @@ private:
 	FTimerHandle casting_time_handle_;
 	UPROPERTY()
 	FAIRequestID active_skill_request_id_ = 1;
+
+public:
+	FOnActiveSkill on_active_skill_;
 };

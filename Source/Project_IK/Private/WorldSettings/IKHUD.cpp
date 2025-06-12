@@ -10,28 +10,34 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKHUD.h"
 
 #include "Abilities/SupportSkills/SupportSkillBase.h"
+#include "Characters/HeroBase.h"
+#include "Components/ActiveSkillMechanics.h"
 #include "Runtime/UMG/Public/Blueprint/UserWidget.h"
 
 #include "Kismet/GameplayStatics.h"
 
 #include "Managers/CombatLevelResultManager.h"
+#include "Subsystems/DelegateBridgeSubsystem.h"
 #include "UI/ButtonBarWidget.h"
+#include "UI/HP_UI_Widget.h"
 #include "UI/InventoryWidget.h"
 #include "UI/SkillButtonWidget.h"
+#include "UI/UnitWidget.h"
 #include "WorldSettings/IKGameInstance.h"
+#include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKGameState.h"
-#include "WorldSettings/IKPlayerController.h"
 
 void AIKHUD::BeginPlay()
 {
 	Super::BeginPlay();
 
 	UWorld* world = GetWorld();
+	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
 
 	// Create the widget and add it to the viewport
 	if (button_widget_class_)
 	{
-		button_widget_ = CreateWidget<UButtonBarWidget>(world, button_widget_class_);
+		button_bar_widget_ = CreateWidget<UButtonBarWidget>(world, button_widget_class_);
 		
 		auto game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
 		auto equipped_support_data = game_state->GetSupportSkillData();
@@ -40,14 +46,38 @@ void AIKHUD::BeginPlay()
 		{
 			if (equipped_support_skills[i] != nullptr)
 			{
-				auto cur_skill_button_widget = GetSkillButtonWidget(i);
+				auto cur_skill_button_widget = button_bar_widget_->GetSupportSkillButtonWidget(i);
                 cur_skill_button_widget->SetThumbnailTexture(equipped_support_data[i].thumbnail);
 				equipped_support_skills[i]->on_decide_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 			}
 		}
-		if (button_widget_)
+		
+		auto game_mode =  Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+		auto hero_types = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
+		for(auto elem :hero_types)
 		{
-			button_widget_->AddToViewport();
+			auto cur_hero = Cast<AHeroBase>(game_mode->GetHero(elem));
+			if(cur_hero->HasActiveSkill())
+			{
+				auto cur_skill_button_widget = button_bar_widget_->GetActiveSkillButtonWidget(elem);
+				auto cur_active_skill_mechanics = cur_hero->GetActiveSkillMechanics();
+				cur_skill_button_widget->SetThumbnailTexture(cur_active_skill_mechanics->GetEquippedActiveSkillData().thumbnail);
+				cur_active_skill_mechanics->on_active_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
+				
+				subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType())->GetHPWidget(), &UHP_UI_Widget::UpdateWidget);
+				button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType())->InitHeroWidget(cur_hero->GetRuneMechanics(), cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
+			}
+			else
+			{
+				auto cur_skill_button_widget = button_bar_widget_->GetActiveSkillButtonWidget(elem);
+				//IKTODO: 이후 nullptr에서 Empty Icon같은 걸로 바꿔야 함.
+				cur_skill_button_widget->SetThumbnailTexture(nullptr);
+			}
+		}
+		
+		if (button_bar_widget_)
+		{
+			button_bar_widget_->AddToViewport();
 		}
 	}
 
@@ -89,20 +119,9 @@ void AIKHUD::SwitchUIByState(ECombatEndState state)
 	}
 }
 
-void AIKHUD::SilenceSkill(AActor* character)
+UButtonBarWidget* AIKHUD::GetButtonBarWidget()
 {
-	if (button_widget_)
-	{
-		button_widget_->SilenceSkill(character);
-	}
-}
-
-void AIKHUD::UnsilenceSkill(AActor* character)
-{
-	if (button_widget_)
-	{
-		button_widget_->UnsilenceSkill(character);
-	}
+	return button_bar_widget_;
 }
 
 void AIKHUD::ToggleInventory()
@@ -115,9 +134,4 @@ void AIKHUD::ToggleInventory()
 	{
 		inventory_widget_->SetVisibility(ESlateVisibility::Hidden);
 	}
-}
-
-USkillButtonWidget* AIKHUD::GetSkillButtonWidget(int32 idx)
-{
-	return button_widget_->GetSkillButtonWidget(idx);
 }

@@ -85,11 +85,4 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UProgressBar> line_11_ = nullptr;
-	//
-
-	UPROPERTY(Transient)
-	TArray<TObjectPtr<UMiniRuneSlotWidget>> rune_array_;
-	
-	UPROPERTY(Transient)
-	TArray<TObjectPtr<UProgressBar>> line_array_;
 };

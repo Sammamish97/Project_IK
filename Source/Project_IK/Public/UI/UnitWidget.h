@@ -19,21 +19,29 @@ class UHP_UI_Widget;
 class UHorizontalBox;
 class UBuffDisplayer;
 class UDataTableManager;
+class USkillButtonWidget;
 struct FBuffData;
 
 UCLASS()
-class PROJECT_IK_API UUnitWidget : public UUserWidget
+class PROJECT_IK_API UHeroWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
 public:
 	virtual void NativeConstruct() override;
-	void InitUnitWidget(float max_hp, float cur_hp);
+	void InitHeroWidget(class URuneMechanics* rune_mechanics, float max_hp, float cur_hp);
 	UHP_UI_Widget* GetHPWidget();
-	
+	USkillButtonWidget* GetSkillButtonWidget();
+
 protected:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHP_UI_Widget> hp_bar_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<class UMiniRuneBoardWidget> mini_rune_board_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<class USkillButtonWidget> skill_button_widget_;
 	
 public:
 	UFUNCTION()

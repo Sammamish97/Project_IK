@@ -10,7 +10,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 
-#include "Abilities/SkillContainer.h"
+#include "Components/ActiveSkillMechanics.h"
 
 #include "Abilities/SkillBase.h"
 #include "Characters/HeroBase.h"
@@ -22,7 +22,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/CharacterStatComponent.h"
 
 // Sets default values for this component's properties
-USkillContainer::USkillContainer()
+UActiveSkillMechanics::UActiveSkillMechanics()
 	: Super::UActorComponent(), equipped_active_skill_data_(),data_table_cache_(nullptr), active_skill_(nullptr), hero_cache_(nullptr)
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
@@ -32,25 +32,25 @@ USkillContainer::USkillContainer()
 	bWantsInitializeComponent = true;
 }
 
-void USkillContainer::BeginPlay()
+void UActiveSkillMechanics::BeginPlay()
 {
 	Super::BeginPlay();
 	hero_cache_ = Cast<AHeroBase>(GetOwner());
 	data_table_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 }
 
-void USkillContainer::EndPlay(const EEndPlayReason::Type EndPlayReason)
+void UActiveSkillMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	GetWorld()->GetTimerManager().ClearTimer(cool_down_handle_);
 	GetWorld()->GetTimerManager().ClearTimer(casting_time_handle_);
 	Super::EndPlay(EndPlayReason);
 }
 
-void USkillContainer::InitializeComponent()
+void UActiveSkillMechanics::InitializeComponent()
 {
 	Super::InitializeComponent();
 }
-TOptional<FTargetParameters> USkillContainer::GetTargetParameters() const
+TOptional<FTargetParameters> UActiveSkillMechanics::GetTargetParameters() const
 {
 	if (active_skill_)
 	{
@@ -59,12 +59,12 @@ TOptional<FTargetParameters> USkillContainer::GetTargetParameters() const
 	return NullOpt;
 }
 
-bool USkillContainer::HasActiveSkill() const
+bool UActiveSkillMechanics::HasActiveSkill() const
 {
 	return active_skill_ != nullptr;
 }
 
-float USkillContainer::GetCooltime() const
+float UActiveSkillMechanics::GetCooltime() const
 {
 	if (active_skill_)
 	{
@@ -73,7 +73,7 @@ float USkillContainer::GetCooltime() const
 	return 0.f;
 }
 
-float USkillContainer::GetCastingTime() const
+float UActiveSkillMechanics::GetCastingTime() const
 {
 	if (active_skill_)
 	{
@@ -82,12 +82,12 @@ float USkillContainer::GetCastingTime() const
 	return 0.f;
 }
 
-bool USkillContainer::IsOnCoolDown() const
+bool UActiveSkillMechanics::IsOnCoolDown() const
 {
 	return GetWorld()->GetTimerManager().IsTimerActive(cool_down_handle_);
 }
 
-float USkillContainer::GetLeftCoolDown() const
+float UActiveSkillMechanics::GetLeftCoolDown() const
 {
 	if (IsOnCoolDown())
 	{
@@ -96,7 +96,7 @@ float USkillContainer::GetLeftCoolDown() const
 	return 0.f;
 }
 
-void USkillContainer::ReduceCooltime(float reduce_time)
+void UActiveSkillMechanics::ReduceCooltime(float reduce_time)
 {
 	float remain_time = GetLeftCoolDown();
 
@@ -113,17 +113,17 @@ void USkillContainer::ReduceCooltime(float reduce_time)
 	}
 }
 
-void USkillContainer::ReduceCooltimeByPercentage(float percentage)
+void UActiveSkillMechanics::ReduceCooltimeByPercentage(float percentage)
 {
 	ReduceCooltime(GetCooltime() * percentage);
 }
 
-FActiveSkillData USkillContainer::GetEquippedActiveSkillData()
+FActiveSkillData UActiveSkillMechanics::GetEquippedActiveSkillData()
 {
 	return equipped_active_skill_data_;
 }
 
-void USkillContainer::EquipActiveSkill(EActiveSkillType type)
+void UActiveSkillMechanics::EquipActiveSkill(EActiveSkillType type)
 {
 	if (active_skill_)
 	{
@@ -134,22 +134,24 @@ void USkillContainer::EquipActiveSkill(EActiveSkillType type)
 	active_skill_->InitActiveSkill(hero_cache_.Get());
 }
 
-void USkillContainer::UnEquipActiveSkill()
+void UActiveSkillMechanics::UnEquipActiveSkill()
 {
 	equipped_active_skill_data_ = FActiveSkillData();
 	active_skill_ = nullptr;
 }
 
-bool USkillContainer::InvokeSkills(const FTargetResult& TargetResult)
+bool UActiveSkillMechanics::InvokeSkills(const FTargetResult& TargetResult)
 {
 	if (active_skill_)
 	{
 		if (GetWorld()->GetTimerManager().IsTimerActive(cool_down_handle_) == false)
 		{
 			active_skill_->ActivateSkill(TargetResult);
+			on_active_skill_.Broadcast(GetCooltime());
+			
 			GetWorld()->GetTimerManager().SetTimer(cool_down_handle_, GetCooltime(), false);
 
-			FTimerDelegate cast_finish_delegate = FTimerDelegate::CreateUObject(this, &USkillContainer::OnCastingFinish);
+			FTimerDelegate cast_finish_delegate = FTimerDelegate::CreateUObject(this, &UActiveSkillMechanics::OnCastingFinish);
 			GetWorld()->GetTimerManager().SetTimer(casting_time_handle_, cast_finish_delegate, GetCastingTime(), false);
 			return true;
 		}
@@ -157,13 +159,13 @@ bool USkillContainer::InvokeSkills(const FTargetResult& TargetResult)
 	return false;
 }
 
-void USkillContainer::OnCastingFinish()
+void UActiveSkillMechanics::OnCastingFinish()
 {
 	FAIMessage Msg(TEXT("CastingFinished"), this, active_skill_request_id_, FAIMessage::Success);
 	FAIMessage::Send(Cast<APawn>(GetOwner()), Msg);
 }
 
-FAIRequestID USkillContainer::GetCastingRequestID() const
+FAIRequestID UActiveSkillMechanics::GetCastingRequestID() const
 {
 	return active_skill_request_id_;
 }

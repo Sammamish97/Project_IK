@@ -176,15 +176,7 @@ void UCrowdControlComponent::Silence(bool is_applying)
 		APlayerController* player_controller = world->GetFirstPlayerController();
 		if (player_controller)
 		{
-			AIKHUD* HUD = Cast<AIKHUD>(player_controller->GetHUD());
-			if (is_applying)
-			{
-				HUD->SilenceSkill(GetOwner());
-			}
-			else
-			{
-				HUD->UnsilenceSkill(GetOwner());
-			}
+			//IKTODO: 적절한 침묵 로직 추가.
 		}
 	}
 }

@@ -11,14 +11,17 @@ See LICENSE file in the project root for full license information.
 
 #include "Blueprint/WidgetTree.h"
 #include "Components/HorizontalBox.h"
+#include "Components/RuneMechanics.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
 #include "Structs/BuffData.h"
 #include "UI/BuffDisplayer.h"
 #include "UI/HP_UI_Widget.h"
+#include "UI/MiniRuneBoardWidget.h"
+#include "UI/SkillButtonWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 
-void UUnitWidget::NativeConstruct()
+void UHeroWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	InitializeImages();
@@ -27,29 +30,35 @@ void UUnitWidget::NativeConstruct()
 	data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 }
 
-void UUnitWidget::InitUnitWidget(float max_hp, float cur_hp)
+void UHeroWidget::InitHeroWidget(URuneMechanics* rune_mechanics,float max_hp, float cur_hp)
 {
 	hp_bar_->InitHPWidget(max_hp, cur_hp);
+	mini_rune_board_->InitMiniRuneBoard(rune_mechanics);
 }
 
-UHP_UI_Widget* UUnitWidget::GetHPWidget()
+UHP_UI_Widget* UHeroWidget::GetHPWidget()
 {
 	return hp_bar_;
 }
 
-void UUnitWidget::UpdateAppliedBuffs(TArray<FBuffData> applied_buffs)
+USkillButtonWidget* UHeroWidget::GetSkillButtonWidget()
+{
+	return skill_button_widget_;
+}
+
+void UHeroWidget::UpdateAppliedBuffs(TArray<FBuffData> applied_buffs)
 {
 	buffs_array_ = applied_buffs;
 	UpdateBuffWidgets();
 }
 
-void UUnitWidget::UpdateAppliedCCs(TArray<ECCType> applied_ccs)
+void UHeroWidget::UpdateAppliedCCs(TArray<ECCType> applied_ccs)
 {
 	ccs_array_ = applied_ccs;
 	UpdateBuffWidgets();
 }
 
-void UUnitWidget::InitializeImages()
+void UHeroWidget::InitializeImages()
 {
 	for (int32 i = 0; i < DISPLAYER_SIZE; i++)
 	{
@@ -67,7 +76,7 @@ void UUnitWidget::InitializeImages()
 	}
 }
 
-void UUnitWidget::UpdateBuffWidgets()
+void UHeroWidget::UpdateBuffWidgets()
 {
 	// Display buff icons, hide the rest of them.
 	TMap<ECharacterStatType, int32> buff_counts;
@@ -88,7 +97,7 @@ void UUnitWidget::UpdateBuffWidgets()
 	UpdateDebuffDisplayers(debuff_displayers_, debuff_counts, ccs_array_, FLinearColor::Red);
 }
 
-void UUnitWidget::UpdateBuffDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& displayers,
+void UHeroWidget::UpdateBuffDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& displayers,
 	const TMap<ECharacterStatType, int32>& counts, const FLinearColor& background_color)
 {
 	int i = 0;
@@ -105,7 +114,7 @@ void UUnitWidget::UpdateBuffDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& displ
 	HideUnusedDisplayers(displayers, i);
 }
 
-void UUnitWidget::UpdateDebuffDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& displayers,
+void UHeroWidget::UpdateDebuffDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& displayers,
 	const TMap<ECharacterStatType, int32>& counts, const TArray<ECCType>& appliedCCs,
 	const FLinearColor& background_color)
 {
@@ -132,7 +141,7 @@ void UUnitWidget::UpdateDebuffDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& dis
 	HideUnusedDisplayers(displayers, i);
 }
 
-void UUnitWidget::UpdateDisplayer(UBuffDisplayer* displayer, UTexture2D* texture, const FLinearColor& color,
+void UHeroWidget::UpdateDisplayer(UBuffDisplayer* displayer, UTexture2D* texture, const FLinearColor& color,
 	int32 duplicated_count)
 {
 	if (!displayer)
@@ -157,7 +166,7 @@ void UUnitWidget::UpdateDisplayer(UBuffDisplayer* displayer, UTexture2D* texture
 	}
 }
 
-void UUnitWidget::HideUnusedDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& displayers, int32 start_index)
+void UHeroWidget::HideUnusedDisplayers(TArray<TObjectPtr<UBuffDisplayer>>& displayers, int32 start_index)
 {
 	for (int32 i = start_index; i < DISPLAYER_SIZE; i++)
 	{
