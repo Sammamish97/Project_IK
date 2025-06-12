@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 
 enum class ECharacterStatType : uint8;
 enum class ECCType : uint8;
-class UHP_UI_Widget;
+class USegmentedHPUI;
 class UHorizontalBox;
 class UBuffDisplayer;
 class UDataTableManager;
@@ -30,12 +30,12 @@ class PROJECT_IK_API UHeroWidget : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 	void InitHeroWidget(class URuneMechanics* rune_mechanics, float max_hp, float cur_hp);
-	UHP_UI_Widget* GetHPWidget();
+	USegmentedHPUI* GetHPWidget();
 	USkillButtonWidget* GetSkillButtonWidget();
 
 protected:
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UHP_UI_Widget> hp_bar_;
+	TObjectPtr<USegmentedHPUI> hp_bar_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UMiniRuneBoardWidget> mini_rune_board_;

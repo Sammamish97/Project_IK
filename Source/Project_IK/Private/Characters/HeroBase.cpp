@@ -23,7 +23,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "UI/ButtonBarWidget.h"
-#include "UI/HP_UI_Widget.h"
+#include "UI/SegmentedHPUI.h"
 #include "UI/UnitWidget.h"
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKHUD.h"
@@ -72,18 +72,6 @@ void AHeroBase::BeginPlay()
 	default:
 		checkNoEntry();
 	}
-
-	if (UHeroWidget* hero_widget = Cast<UHeroWidget>(hp_UI_->GetWidget()))
-	{
-		hero_widget->InitHeroWidget(rune_mechanics_, character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
-		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hero_widget->GetHPWidget(), &UHP_UI_Widget::UpdateWidget);
-		subsystem->BindOnCrowdControlChanged(cc_component_, hero_widget, &UHeroWidget::UpdateAppliedCCs);
-		subsystem->BindOnBuffChanged(character_stat_component_, hero_widget, &UHeroWidget::UpdateAppliedBuffs);
-	}
-	
-	hp_UI_->AttachToComponent(ui_position_, FAttachmentTransformRules::KeepRelativeTransform);
-	hp_UI_->SetDrawSize({ 250, 50 });
-	
 	//TEST PURPOSE
 	if (weapon_mechanics_->GetWeaponActor() == nullptr)
 	{

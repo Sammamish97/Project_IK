@@ -16,7 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/DataTableManager.h"
 #include "Structs/BuffData.h"
 #include "UI/BuffDisplayer.h"
-#include "UI/HP_UI_Widget.h"
+#include "UI/SegmentedHPUI.h"
 #include "UI/MiniRuneBoardWidget.h"
 #include "UI/SkillButtonWidget.h"
 #include "WorldSettings/IKGameInstance.h"
@@ -36,7 +36,7 @@ void UHeroWidget::InitHeroWidget(URuneMechanics* rune_mechanics,float max_hp, fl
 	mini_rune_board_->InitMiniRuneBoard(rune_mechanics);
 }
 
-UHP_UI_Widget* UHeroWidget::GetHPWidget()
+USegmentedHPUI* UHeroWidget::GetHPWidget()
 {
 	return hp_bar_;
 }

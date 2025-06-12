@@ -61,6 +61,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	ECharacterType GetCharacterType() const;
 	UCharacterStatComponent* GetCharacterStat();
+	UCrowdControlComponent* GetCCComponent();
 	EUnitBoneType GetBoneType() const;
 	bool IsHero() const;
 
@@ -102,7 +103,7 @@ public:
 	void DispatchUnitEvent(EUnitEvent type);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UUserWidget> hp_UI_class_;
+	TSubclassOf<class UHPUICore> hp_UI_class_;
 	
 protected:
 	void SetDamageUI(FDamageData data, bool is_evaded);

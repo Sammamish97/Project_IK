@@ -11,12 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/EnemyBase.h"
 
 #include "Components/CapsuleComponent.h"
-#include "Components/CharacterStatComponent.h"
-#include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Subsystems/DelegateBridgeSubsystem.h"
-#include "UI/HP_UI_Widget.h"
-#include "UI/UnitWidget.h"
 #include "WorldSettings/IKGameModeBase.h"
 
 AEnemyBase::AEnemyBase()
@@ -30,17 +25,6 @@ AEnemyBase::AEnemyBase()
 void AEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
-	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
-	UHeroWidget* unit_widget = Cast<UHeroWidget>(hp_UI_->GetWidget());
-	if (unit_widget)
-	{
-		unit_widget->InitHeroWidget(nullptr, character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
-		subsystem->BindOnHPOrShieldChanged(character_stat_component_, unit_widget->GetHPWidget(), &UHP_UI_Widget::UpdateWidget);
-		subsystem->BindOnCrowdControlChanged(cc_component_, unit_widget, &UHeroWidget::UpdateAppliedCCs);
-		subsystem->BindOnBuffChanged(character_stat_component_, unit_widget, &UHeroWidget::UpdateAppliedBuffs);
-	}
-	hp_UI_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	hp_UI_->SetDrawSize({ 100, 50 });
 }
 
 void AEnemyBase::Die()

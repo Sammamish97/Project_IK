@@ -26,6 +26,8 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/GlobalBuffSubsystem.h"
 
 #include "Structs/BuffData.h"
+#include "Subsystems/DelegateBridgeSubsystem.h"
+#include "UI/HPUICore.h"
 
 // Sets default values
 AUnit::AUnit()
@@ -43,6 +45,11 @@ AUnit::AUnit()
 UCharacterStatComponent* AUnit::GetCharacterStat()
 {
 	return character_stat_component_;
+}
+
+UCrowdControlComponent* AUnit::GetCCComponent()
+{
+	return cc_component_;
 }
 
 FVector AUnit::GetForwardDir() const
@@ -130,6 +137,15 @@ void AUnit::BeginPlay()
 		hp_UI_->InitWidget();
 		hp_UI_->SetWidgetSpace(EWidgetSpace::Screen);
 	}
+	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
+
+	if (UHPUICore* hp_widget = Cast<UHPUICore>(hp_UI_->GetWidget()))
+	{
+		hp_widget->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
+		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_widget, &UHPUICore::UpdateWidget);
+	}
+	hp_UI_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	hp_UI_->SetDrawSize({ 100, 15 });
 }
 
 void AUnit::EndPlay(const EEndPlayReason::Type EndPlayReason)

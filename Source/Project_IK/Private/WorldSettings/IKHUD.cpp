@@ -19,7 +19,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/CombatLevelResultManager.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "UI/ButtonBarWidget.h"
-#include "UI/HP_UI_Widget.h"
+#include "UI/SegmentedHPUI.h"
 #include "UI/InventoryWidget.h"
 #include "UI/SkillButtonWidget.h"
 #include "UI/UnitWidget.h"
@@ -64,7 +64,7 @@ void AIKHUD::BeginPlay()
 				cur_skill_button_widget->SetThumbnailTexture(cur_active_skill_mechanics->GetEquippedActiveSkillData().thumbnail);
 				cur_active_skill_mechanics->on_active_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 				
-				subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType())->GetHPWidget(), &UHP_UI_Widget::UpdateWidget);
+				subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType())->GetHPWidget(), &USegmentedHPUI::UpdateWidget);
 				button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType())->InitHeroWidget(cur_hero->GetRuneMechanics(), cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
 			}
 			else
@@ -73,6 +73,8 @@ void AIKHUD::BeginPlay()
 				//IKTODO: 이후 nullptr에서 Empty Icon같은 걸로 바꿔야 함.
 				cur_skill_button_widget->SetThumbnailTexture(nullptr);
 			}
+			subsystem->BindOnCrowdControlChanged(cur_hero->GetCCComponent(), button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType()), &UHeroWidget::UpdateAppliedCCs);
+			subsystem->BindOnBuffChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType()), &UHeroWidget::UpdateAppliedBuffs);
 		}
 		
 		if (button_bar_widget_)
