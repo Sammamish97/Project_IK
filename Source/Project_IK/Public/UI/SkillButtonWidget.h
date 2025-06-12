@@ -39,7 +39,7 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UTextBlock> cool_down_text_;
 
-private:
+protected:
 	float left_cool_down_;
 	float cool_time_;
 };

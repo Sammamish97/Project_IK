@@ -22,6 +22,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/SegmentedHPUI.h"
 #include "UI/InventoryWidget.h"
 #include "UI/SkillButtonWidget.h"
+#include "UI/SupportSkillButtonWidget.h"
 #include "UI/UnitWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKGameModeBase.h"
@@ -48,6 +49,7 @@ void AIKHUD::BeginPlay()
 			{
 				auto cur_skill_button_widget = button_bar_widget_->GetSupportSkillButtonWidget(i);
                 cur_skill_button_widget->SetThumbnailTexture(equipped_support_data[i].thumbnail);
+				cur_skill_button_widget->SetSupportSkillCost(equipped_support_skills[i]->GetCost());
 				equipped_support_skills[i]->on_decide_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 			}
 		}

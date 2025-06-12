@@ -15,16 +15,16 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "ButtonBarWidget.generated.h"
 
+class USupportSkillButtonWidget;
+class USkillButtonWidget;
 class UHeroWidget;
 class UButton;
 class UActiveSkillMechanics;
 class UCostUI;
 class UTexture2D;
 class UCreditWidget;
-class USkillButtonWidget;
 
 struct FTargetResult;
-
 
 UCLASS()
 class PROJECT_IK_API UButtonBarWidget : public UUserWidget
@@ -33,7 +33,7 @@ class PROJECT_IK_API UButtonBarWidget : public UUserWidget
 
 public:
 	UFUNCTION()
-	USkillButtonWidget* GetSupportSkillButtonWidget(int32 idx);
+	USupportSkillButtonWidget* GetSupportSkillButtonWidget(int32 idx);
 	USkillButtonWidget* GetActiveSkillButtonWidget(EHeroType idx);
 	UHeroWidget* GetHeroWidget(EHeroType idx);
 
@@ -85,13 +85,13 @@ private:
 	//
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<USkillButtonWidget> support_skill_button_0_;
+	TObjectPtr<USupportSkillButtonWidget> support_skill_button_0_;
 	
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<USkillButtonWidget> support_skill_button_1_;
+	TObjectPtr<USupportSkillButtonWidget> support_skill_button_1_;
 	
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<USkillButtonWidget> support_skill_button_2_;
+	TObjectPtr<USupportSkillButtonWidget> support_skill_button_2_;
 
 	//
 	

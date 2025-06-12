@@ -17,7 +17,7 @@ USP_SupportFire::USP_SupportFire()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Opponents, 1000.f);
 	cool_time_ = 5.f;
-	cost_ = 3.f;
+	cost_ = 2.f;
 	dmg_data_ = FDamageData(100, 0, EDamageType::Projectile);
 }
 

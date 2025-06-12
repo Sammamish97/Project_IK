@@ -8,7 +8,7 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "UI/ButtonBarWidget.h"
-#include "UI/SkillButtonWidget.h"
+#include "UI/SupportSkillButtonWidget.h"
 #include "UI/UnitWidget.h"
 
 #include "Kismet/GameplayStatics.h"
@@ -88,7 +88,7 @@ void UButtonBarWidget::OnSupportSkillButtonClicked2()
 	game_state_cache_->ActivateSupportSkill(2);
 }
 
-USkillButtonWidget* UButtonBarWidget::GetSupportSkillButtonWidget(int32 idx)
+USupportSkillButtonWidget* UButtonBarWidget::GetSupportSkillButtonWidget(int32 idx)
 {
 	switch (idx)
 	{
