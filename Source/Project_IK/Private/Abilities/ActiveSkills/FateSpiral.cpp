@@ -18,37 +18,35 @@ See LICENSE file in the project root for full license information.
 #include "Characters/EnemyBase.h"
 #include "Components/CharacterStatComponent.h"
 
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+
 // Sets default values
 AFateSpiral::AFateSpiral()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 }
 
-void AFateSpiral::SetSkillOwner(AActor* skill_owner)
+void AFateSpiral::SetNecessaryData(AActor* skill_owner, AActor* departure, AActor* arrival, float range)
 {
 	skill_owner_cache_ = skill_owner;
-}
 
-void AFateSpiral::SetDepartureActor(AActor* departure)
-{
 	if (departure)
 	{
 		departure_ = departure;
 	}
-}
 
-void AFateSpiral::SetArrivalActor(AActor* arrival)
-{
 	if (arrival)
 	{
 		arrival_ = arrival;
 	}
-}
 
-void AFateSpiral::SetRange(float range)
-{
+	// Use squared range to prevent using Sqrt operation.
 	range_squared_ = range * range;
+
+
+	SpawnVisualFX();
 }
 
 // Called when the game starts or when spawned
@@ -62,9 +60,9 @@ void AFateSpiral::BeginPlay()
 	GetWorld()->GetTimerManager().SetTimer(
 		fate_sprial_handler_,
 		this, &AFateSpiral::ConductLogic,
-		0.5f,
+		traverse_interval_,
 		true,
-		0.5f
+		traverse_interval_
 	);
 }
 
@@ -84,7 +82,7 @@ void AFateSpiral::ConductLogic()
 			DamageEnemy();
 		}
 
-		if (jump_count_ >= 4)
+		if (jump_count_ >= maximum_traversals_)
 		{
 			EndLogic();
 		}
@@ -95,7 +93,11 @@ void AFateSpiral::ConductLogic()
 			departure_ = arrival_;
 			arrival_ = FindNextTarget();
 
-			if (!arrival_)
+			if (arrival_)
+			{
+				SpawnVisualFX();
+			}
+			else
 			{
 				EndLogic();
 			}
@@ -177,14 +179,13 @@ void AFateSpiral::EndLogic()
 	Destroy();
 }
 
-// Called every frame
-void AFateSpiral::Tick(float DeltaTime)
+void AFateSpiral::SpawnVisualFX()
 {
-	Super::Tick(DeltaTime);
-
-
-	if (arrival_ && departure_)
+	if (skill_particle_system_ && arrival_)
 	{
+
+		UNiagaraComponent* component = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, skill_particle_system_, departure_->GetActorLocation());
+
 		FColor color = FColor::Black;
 		if (arrival_->IsA<AHeroBase>())
 		{
@@ -194,9 +195,8 @@ void AFateSpiral::Tick(float DeltaTime)
 		{
 			color = FColor::Red;
 		}
-
-		DrawDebugLine(GetWorld(), departure_->GetActorLocation(), arrival_->GetActorLocation(),
-			color, false, -1, 0U, 8.f);
+		component->SetVariableLinearColor(FName("User.BeamColor"), color);
+		component->SetVariableVec3(FName("User.TargetEnd"), arrival_->GetActorLocation() - departure_->GetActorLocation());
+		component->SetVariableFloat(FName("User.BeamDuration"), traverse_interval_);
 	}
 }
-
