@@ -55,7 +55,7 @@ void USupportSkillBase::Decide(const FTargetResult& TargetResult)
 
 void USupportSkillBase::OnDecide()
 {
-	player_controller_cache_->ClearTargetingState();
+	player_controller_cache_->FinishTargeting();
 	Reset();
 	UseEnergy();
 	BeginCoolDown();

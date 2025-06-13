@@ -145,7 +145,7 @@ void AIKPlayerController::StartTargeting(const FTargetParameters& target_params,
 	}
 }
 
-void AIKPlayerController::ClearTargetingState()
+void AIKPlayerController::FinishTargeting()
 {
 	cur_targeting_state_ = ETargetingState::Idle;
 }
@@ -174,7 +174,7 @@ void AIKPlayerController::CancelTargeting()
 {
 	targeting_component_->CancelTargeting();
 	game_state_cache_->ClearLastInvokedSkill();
-	ClearTargetingState();
+	FinishTargeting();
 }
 
 void AIKPlayerController::RotateCameraLeft()

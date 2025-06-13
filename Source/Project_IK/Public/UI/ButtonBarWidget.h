@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "ButtonBarWidget.generated.h"
 
+class USkillPopupWidget;
 class USupportSkillButtonWidget;
 class USkillButtonWidget;
 class UHeroWidget;
@@ -97,6 +98,11 @@ private:
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UCostUI> cost_ui_;
+
+	//
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<USkillPopupWidget> skill_popup_widget_;
 	
 	UPROPERTY()
 	TWeakObjectPtr<class AIKPlayerController> player_controller_cache_;

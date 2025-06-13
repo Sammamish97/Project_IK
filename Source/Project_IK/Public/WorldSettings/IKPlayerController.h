@@ -46,7 +46,7 @@ public:
 	void StartTargeting(const FTargetParameters& target_params, ETargetingState state, AActor* invoker = nullptr);
 
 	UFUNCTION()
-	void ClearTargetingState();
+	void FinishTargeting();
 	
 	void UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies);
 
@@ -99,7 +99,7 @@ protected:
 	TObjectPtr<UTargetingComponent> targeting_component_;
 
 	UPROPERTY(Transient)
-	TObjectPtr<class AIKGameState> game_state_cache_;;
+	TObjectPtr<class AIKGameState> game_state_cache_;
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
