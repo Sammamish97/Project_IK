@@ -15,6 +15,9 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/PassiveSkills/PassiveSkillBase.h"
 #include "PS_Agility.generated.h"
 
+class UNiagaraSystem;
+class UNiagaraComponent;
+
 /**
  * 
  */
@@ -26,11 +29,18 @@ public:
 
 	virtual void InitEquipmentSkill(AActor* hero_ref) override;
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UNiagaraSystem> skill_particle_system_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UNiagaraSystem> hand_particle_system_;
 
 protected:
 	UFUNCTION()
 	void BuffAttackSpeed(EHeroType hero_idx);
+
+	void SpawnParticles(AActor* actor);
+	void ActivateParticles();
+	void DeactivateParticles();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
 	float buff_amount_ = 1.2f;
@@ -38,4 +48,12 @@ protected:
 	bool is_buff_percentage_ = true;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
 	float buff_duration_ = 6.f;
+
+	UPROPERTY()
+	TObjectPtr<UNiagaraComponent> agility_particle_component_;
+	UPROPERTY()
+	TObjectPtr<UNiagaraComponent> hand_particle_component_1_;
+	UPROPERTY()
+	TObjectPtr<UNiagaraComponent> hand_particle_component_2_;
+	FTimerHandle particle_deactivator_;
 };

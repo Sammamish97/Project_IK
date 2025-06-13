@@ -33,7 +33,8 @@ void UInventoryManager::InitEquipInventory()
 	AddEquipment(EActiveSkillType::ThunderStorm);
 	AddEquipment(EPassiveSkillType::LowProfile);
 	AddEquipment(EPassiveSkillType::Berserker);
-	AddEquipment(EActiveSkillType::MagnetizedBullet);
+	AddEquipment(EPassiveSkillType::Agility);
+	AddEquipment(EActiveSkillType::ChargeShot);
 	AddEquipment(EActiveSkillType::ShockJavelin);
 }
 
