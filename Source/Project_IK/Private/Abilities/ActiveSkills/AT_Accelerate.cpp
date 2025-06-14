@@ -20,7 +20,7 @@ UAT_Accelerate::UAT_Accelerate()
 	cool_time_ = 5.f;
 }
 
-bool UAT_Accelerate::ActivateSkill_Implementation(const FTargetResult& TargetResult)
+bool UAT_Accelerate::ActivateSkill(const FTargetResult& TargetResult)
 {
 	TWeakObjectPtr<AHeroBase> owner_hero_ptr = Cast<AHeroBase>(skill_owner_);
 	if (auto hero = owner_hero_ptr.Get())

@@ -19,16 +19,6 @@ void USupportSkillBase::InitSupportSkill()
 	game_state_cache_ = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
 }
 
-FTargetParameters USupportSkillBase::GetTargetParameters() const
-{
-	return target_param_;
-}
-
-float USupportSkillBase::GetCoolTime() const
-{
-	return cool_time_;
-}
-
 float USupportSkillBase::GetCost() const
 {
 	return cost_;

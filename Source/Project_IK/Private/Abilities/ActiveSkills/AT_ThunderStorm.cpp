@@ -25,7 +25,7 @@ UAT_ThunderStorm::UAT_ThunderStorm()
 	damage_ = 120.f;
 }
 
-bool UAT_ThunderStorm::ActivateSkill_Implementation(const FTargetResult& TargetResult)
+bool UAT_ThunderStorm::ActivateSkill(const FTargetResult& TargetResult)
 {
 	world_cache_ = skill_owner_->GetWorld();
 

@@ -21,7 +21,7 @@ UAT_TripleFire::UAT_TripleFire()
 	cool_time_ = 5.f;
 }
 
-bool UAT_TripleFire::ActivateSkill_Implementation(const FTargetResult& TargetResult)
+bool UAT_TripleFire::ActivateSkill(const FTargetResult& TargetResult)
 {
 	// TWeakObjectPtr<AHeroBase> owner_hero_ptr = Cast<AHeroBase>(skill_owner_);
 	// if (auto hero = owner_hero_ptr.Get())

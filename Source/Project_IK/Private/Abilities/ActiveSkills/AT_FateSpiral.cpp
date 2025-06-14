@@ -24,7 +24,7 @@ UAT_FateSpiral::UAT_FateSpiral()
 	cool_time_ = 10;
 }
 
-bool UAT_FateSpiral::ActivateSkill_Implementation(const FTargetResult& TargetResult)
+bool UAT_FateSpiral::ActivateSkill(const FTargetResult& TargetResult)
 {
 
 	if (actor_class_)

@@ -29,7 +29,7 @@ UAT_DeployCover::UAT_DeployCover()
 	cool_time_ = 10.f;
 }
 
-bool UAT_DeployCover::ActivateSkill_Implementation(const FTargetResult& TargetResult)
+bool UAT_DeployCover::ActivateSkill(const FTargetResult& TargetResult)
 {
 	FBuffData attack_speed(TEXT("DeployCover"), ECharacterStatType::AttackSpeed, 1.1, true, 10.f);
 

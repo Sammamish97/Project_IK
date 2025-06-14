@@ -26,7 +26,7 @@ UAT_DeploySentryGun::UAT_DeploySentryGun()
 	cool_time_ = 15.f;
 }
 
-bool UAT_DeploySentryGun::ActivateSkill_Implementation(const FTargetResult& TargetResult)
+bool UAT_DeploySentryGun::ActivateSkill(const FTargetResult& TargetResult)
 {
 	if (actor_class_)
 	{

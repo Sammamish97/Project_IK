@@ -21,7 +21,7 @@ UAT_ShockJavelin::UAT_ShockJavelin()
 	cool_time_ = 5.f;
 }
 
-bool UAT_ShockJavelin::ActivateSkill_Implementation(const FTargetResult& TargetResult)
+bool UAT_ShockJavelin::ActivateSkill(const FTargetResult& TargetResult)
 {
 	FVector javelin_location = skill_owner_->GetActorLocation() + javelin_location_offset_;
 	if (TargetResult.target_actors_[0] == nullptr)

@@ -10,17 +10,17 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Abilities/SkillBase.h"
+#include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_TripleFire.generated.h"
 
 UCLASS()
-class PROJECT_IK_API UAT_TripleFire : public USkillBase
+class PROJECT_IK_API UAT_TripleFire : public UActiveSkillBase
 {
 	GENERATED_BODY()
 
 public:
 	UAT_TripleFire();
-	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 private:
 	virtual void OnTripleFire(AActor* target, class UWeaponMechanics* weapon_mechanics_cache, FDamageData dmg_data, float attack_speed);

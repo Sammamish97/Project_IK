@@ -20,7 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "ActiveSkillMechanics.generated.h"
 
 
-class USkillBase;
+class UActiveSkillBase;
 class UDataTableManager;
 class AHeroBase;
 
@@ -65,7 +65,7 @@ private:
 	UPROPERTY()
 	TWeakObjectPtr<UDataTableManager> data_table_cache_;
 	UPROPERTY()
-	TObjectPtr <USkillBase> active_skill_;
+	TObjectPtr <UActiveSkillBase> active_skill_;
 	UPROPERTY()
 	TWeakObjectPtr <AHeroBase> hero_cache_;
 	UPROPERTY()

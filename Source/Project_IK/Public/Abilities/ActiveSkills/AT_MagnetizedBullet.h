@@ -10,19 +10,19 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Abilities/SkillBase.h"
+#include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_MagnetizedBullet.generated.h"
 
 class UNiagaraSystem;
 
 UCLASS()
-class PROJECT_IK_API UAT_MagnetizedBullet : public USkillBase
+class PROJECT_IK_API UAT_MagnetizedBullet : public UActiveSkillBase
 {
 	GENERATED_BODY()
 
 public:
 	UAT_MagnetizedBullet();
-	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 	void OnFinishSkill();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

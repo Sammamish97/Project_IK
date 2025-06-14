@@ -25,7 +25,7 @@ UAT_Encourage::UAT_Encourage()
 	scaling_factor_ = 0.02f;
 }
 
-bool UAT_Encourage::ActivateSkill_Implementation(const FTargetResult& TargetResult)
+bool UAT_Encourage::ActivateSkill(const FTargetResult& TargetResult)
 {
 	FBuffData attack_speed(TEXT("Encourage_AttackSpeed"), ECharacterStatType::AttackSpeed, 1.15f, true, 8.f);
 	FBuffData cooldown(TEXT("Encourage_Cooldown"), ECharacterStatType::SkillCoolDown, 10.f, false, 8.f);

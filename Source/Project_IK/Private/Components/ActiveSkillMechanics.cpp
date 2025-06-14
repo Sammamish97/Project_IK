@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Components/ActiveSkillMechanics.h"
 
-#include "Abilities/SkillBase.h"
+#include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
@@ -130,7 +130,7 @@ void UActiveSkillMechanics::EquipActiveSkill(EActiveSkillType type)
 		UnEquipActiveSkill();
 	}
 	equipped_active_skill_data_ = data_table_cache_->GetActiveSkillData(type);
-	active_skill_ = NewObject<USkillBase>(this, equipped_active_skill_data_.active_skill_class);
+	active_skill_ = NewObject<UActiveSkillBase>(this, equipped_active_skill_data_.active_skill_class);
 	active_skill_->InitActiveSkill(hero_cache_.Get());
 }
 

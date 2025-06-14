@@ -21,7 +21,7 @@ UAT_Thunder::UAT_Thunder()
 	damage_ = 100.f;
 }
 
-bool UAT_Thunder::ActivateSkill_Implementation(const FTargetResult& target_result)
+bool UAT_Thunder::ActivateSkill(const FTargetResult& target_result)
 {
 	if(target_result.target_actors_[0])
 	{
