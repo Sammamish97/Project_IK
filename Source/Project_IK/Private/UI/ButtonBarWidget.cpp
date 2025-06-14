@@ -58,22 +58,22 @@ void UButtonBarWidget::NativeDestruct()
 
 void UButtonBarWidget::OnActiveSkillButtonClicked0()
 {
-	player_controller_cache_->ActivateSkillTargeting(EHeroType::Hero1);
+	game_state_cache_->ActivateSkillTargeting(EHeroType::Hero1);
 }
 
 void UButtonBarWidget::OnActiveSkillButtonClicked1()
 {
-	player_controller_cache_->ActivateSkillTargeting(EHeroType::Hero2);
+	game_state_cache_->ActivateSkillTargeting(EHeroType::Hero2);
 }
 
 void UButtonBarWidget::OnActiveSkillButtonClicked2()
 {
-	player_controller_cache_->ActivateSkillTargeting(EHeroType::Hero3);
+	game_state_cache_->ActivateSkillTargeting(EHeroType::Hero3);
 }
 
 void UButtonBarWidget::OnActiveSkillButtonClicked3()
 {
-	player_controller_cache_->ActivateSkillTargeting(EHeroType::Hero4);
+	game_state_cache_->ActivateSkillTargeting(EHeroType::Hero4);
 }
 
 void UButtonBarWidget::OnSupportSkillButtonClicked0()
@@ -138,4 +138,9 @@ UHeroWidget* UButtonBarWidget::GetHeroWidget(EHeroType idx)
 	default:
 		return nullptr;
 	}
+}
+
+USkillPopupWidget* UButtonBarWidget::GetSkillPopupWidget()
+{
+	return skill_popup_widget_;
 }

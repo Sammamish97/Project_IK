@@ -12,8 +12,15 @@ See LICENSE file in the project root for full license information.
 #include "Worldsettings/IKGameState.h"
 
 #include "Abilities/SupportSkills/SupportSkillBase.h"
+#include "Characters/HeroBase.h"
 #include "Components/EnergySystemComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Structs/SupportSkillData.h"
+#include "UI/ButtonBarWidget.h"
+#include "UI/SkillPopupWidget.h"
+#include "WorldSettings/IKGameModeBase.h"
+#include "WorldSettings/IKHUD.h"
+#include "WorldSettings/IKPlayerController.h"
 
 AIKGameState::AIKGameState()
 	:Super::AGameStateBase()
@@ -34,6 +41,7 @@ void AIKGameState::BeginPlay()
 			equipped_support_skills_[i]->InitSupportSkill();
 		}
 	}
+	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 }
 
 void AIKGameState::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -62,6 +70,25 @@ UEnergySystemComponent* AIKGameState::GetEnergySystemComponent()
 	return energy_system_component_;
 }
 
+void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
+{
+	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (auto selected_hero = game_mode_cache->GetHero(hero_type))
+	{
+		AHeroBase* casted_hero = Cast<AHeroBase>(selected_hero);
+		if (casted_hero->HasActiveSkill())
+		{
+			if (casted_hero->IsActiveSkillOnCoolDown() == false)
+			{
+				selected_hero_type_ = hero_type;
+				player_controller_cache_->StartTargeting(casted_hero->GetActiveSkillTargetParameters().GetValue(), ETargetingState::ActiveSKill, casted_hero);
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->SetVisibility(ESlateVisibility::Visible);
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdateSkillPopupData(hero_type);
+			}
+		}
+	}
+}
+
 void AIKGameState::ActivateSupportSkill(int32 support_num)
 {
 	if (equipped_support_skills_.IsValidIndex(support_num))
@@ -70,8 +97,15 @@ void AIKGameState::ActivateSupportSkill(int32 support_num)
 		{
 			last_invoked_support_skill_ = equipped_support_skills_[support_num];
 			last_invoked_support_skill_->ActivateSkill();
+			Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->SetVisibility(ESlateVisibility::Visible);
+			Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdateSkillPopupData(support_num);
 		}
 	}
+}
+
+EHeroType AIKGameState::GetSelectedHeroType() const
+{
+	return selected_hero_type_;
 }
 
 void AIKGameState::DecideLastInvokedSkill(FTargetResult target_result)

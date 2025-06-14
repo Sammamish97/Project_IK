@@ -53,7 +53,6 @@ void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
 	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
-	AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 	switch (GetCharacterType())
 	{
 	case ECharacterType::Hero1:

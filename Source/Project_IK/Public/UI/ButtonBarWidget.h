@@ -37,6 +37,7 @@ public:
 	USupportSkillButtonWidget* GetSupportSkillButtonWidget(int32 idx);
 	USkillButtonWidget* GetActiveSkillButtonWidget(EHeroType idx);
 	UHeroWidget* GetHeroWidget(EHeroType idx);
+	USkillPopupWidget* GetSkillPopupWidget();
 
 protected:
 	virtual void NativeConstruct() override;

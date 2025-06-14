@@ -40,9 +40,6 @@ public:
 	class UTargetingComponent* GetTargetingComponent();
 	
 	UFUNCTION()
-	void ActivateSkillTargeting(EHeroType hero_type);
-
-	UFUNCTION()
 	void StartTargeting(const FTargetParameters& target_params, ETargetingState state, AActor* invoker = nullptr);
 
 	UFUNCTION()
@@ -93,7 +90,6 @@ private:
 	
 protected:
 	ETargetingState cur_targeting_state_ = ETargetingState::Idle;
-	EHeroType selected_hero_type_ = EHeroType::INVALID;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Targeting")
 	TObjectPtr<UTargetingComponent> targeting_component_;

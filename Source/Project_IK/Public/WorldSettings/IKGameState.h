@@ -16,6 +16,9 @@ See LICENSE file in the project root for full license information.
 #include "Structs/TargetResult.h"
 #include "IKGameState.generated.h"
 
+class UButtonBarWidget;
+class AIKPlayerController;
+
 UCLASS()
 class PROJECT_IK_API AIKGameState : public AGameStateBase
 {
@@ -32,7 +35,11 @@ public:
 	UFUNCTION(BlueprintPure)
 	class UEnergySystemComponent* GetEnergySystemComponent();
 	UFUNCTION()
+	void ActivateSkillTargeting(EHeroType hero_type);
+	UFUNCTION()
 	void ActivateSupportSkill(int32 support_num);
+	EHeroType GetSelectedHeroType() const;
+	
 	void DecideLastInvokedSkill(FTargetResult target_result);
 	void ClearLastInvokedSkill();
 	
@@ -46,6 +53,10 @@ private:
 	UPROPERTY()
 	TObjectPtr<USupportSkillBase> last_invoked_support_skill_ = nullptr;
 
+	EHeroType selected_hero_type_ = EHeroType::INVALID;
+
+	UPROPERTY(VisibleAnywhere, Category = "EnergySystem")
+	TObjectPtr<AIKPlayerController> player_controller_cache_;
 	//
 	//IKTODO:이 변수들은 테스트를 위한 변수들이다! 이후 BP에서 직접 설정해 주는 것이 아닌, UI 와 인벤토리를 통해 장착 되도록 변경되어야 한다.
 	//UPROPERTY(Transient)

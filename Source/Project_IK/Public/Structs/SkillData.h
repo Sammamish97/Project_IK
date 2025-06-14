@@ -1,42 +1,30 @@
 /******************************************************************************
 Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 2.09.2025
-Summary : Structure for Active Skill data.
+Creation Date : 6.02.2025
+Summary : Header file for the skill data structure.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
+
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Managers/EnumCluster.h"
-#include "ActiveSkillData.generated.h"
+#include "UObject/Object.h"
+#include "SkillData.generated.h"
 
 USTRUCT(BlueprintType)
-struct PROJECT_IK_API FActiveSkillData
+struct PROJECT_IK_API FSkillData
 {
-	GENERATED_BODY();
-
-public:
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	EActiveSkillType type = EActiveSkillType::INVALID;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	TSubclassOf<class USkillBase> active_skill_class;
+	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	UTexture2D* thumbnail = nullptr;
-
+	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	FText name_;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	FText detail_;
-	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	FText flavor_text;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ActiveSkillData")
-	ERarity rarity_;
 };

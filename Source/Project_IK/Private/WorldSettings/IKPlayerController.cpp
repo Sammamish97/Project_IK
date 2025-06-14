@@ -15,6 +15,8 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SupportSkills/SupportSkillBase.h"
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "UI/ButtonBarWidget.h"
+#include "UI/SkillPopupWidget.h"
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKGameState.h"
 #include "WorldSettings/IKHUD.h"
@@ -86,22 +88,22 @@ void AIKPlayerController::UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_e
 
 void AIKPlayerController::ActivateFirstHeroActiveSkill()
 {
-	ActivateSkillTargeting(EHeroType::Hero1);
+	game_state_cache_->ActivateSkillTargeting(EHeroType::Hero1);
 }
 
 void AIKPlayerController::ActivateSecondHeroActiveSkill()
 {
-	ActivateSkillTargeting(EHeroType::Hero2);
+	game_state_cache_->ActivateSkillTargeting(EHeroType::Hero2);
 }
 
 void AIKPlayerController::ActivateThirdHeroActiveSkill()
 {
-	ActivateSkillTargeting(EHeroType::Hero3);
+	game_state_cache_->ActivateSkillTargeting(EHeroType::Hero3);
 }
 
 void AIKPlayerController::ActivateFourthHeroActiveSkill()
 {
-	ActivateSkillTargeting(EHeroType::Hero4);
+	game_state_cache_->ActivateSkillTargeting(EHeroType::Hero4);
 }
 
 void AIKPlayerController::ActivateFirstSupportSkill()
@@ -117,23 +119,6 @@ void AIKPlayerController::ActivateSecondSupportSkill()
 void AIKPlayerController::ActivateThirdSupportSkill()
 {
 	game_state_cache_->ActivateSupportSkill(2);
-}
-
-void AIKPlayerController::ActivateSkillTargeting(EHeroType hero_type)
-{
-	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	if (auto selected_hero = game_mode_cache->GetHero(hero_type))
-	{
-		AHeroBase* casted_hero = Cast<AHeroBase>(selected_hero);
-		if (casted_hero->HasActiveSkill())
-		{
-			if (casted_hero->IsActiveSkillOnCoolDown() == false)
-			{
-				selected_hero_type_ = hero_type;
-				StartTargeting(casted_hero->GetActiveSkillTargetParameters().GetValue(), ETargetingState::ActiveSKill, casted_hero);
-			}
-		}
-	}
 }
 
 void AIKPlayerController::StartTargeting(const FTargetParameters& target_params, ETargetingState state, AActor* invoker)
@@ -158,8 +143,8 @@ void AIKPlayerController::Decide()
 			{
 				auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 				auto target_result = targeting_component_->DecideTargetings();
-				Cast<AHeroBase>(game_mode_cache->GetHero(selected_hero_type_))->InvokeActiveSkill(target_result);
-				on_active_skill_.Broadcast(selected_hero_type_);
+				Cast<AHeroBase>(game_mode_cache->GetHero(game_state_cache_->GetSelectedHeroType()))->InvokeActiveSkill(target_result);
+				on_active_skill_.Broadcast(game_state_cache_->GetSelectedHeroType());
 			}
 			break;
 		case ETargetingState::SupportSkill:
@@ -168,6 +153,7 @@ void AIKPlayerController::Decide()
 			}
 			break;
 	}
+	Cast<AIKHUD>(GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void AIKPlayerController::CancelTargeting()
@@ -175,6 +161,7 @@ void AIKPlayerController::CancelTargeting()
 	targeting_component_->CancelTargeting();
 	game_state_cache_->ClearLastInvokedSkill();
 	FinishTargeting();
+	Cast<AIKHUD>(GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void AIKPlayerController::RotateCameraLeft()

@@ -27,7 +27,13 @@ struct PROJECT_IK_API FSupportSkillData
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "SupportSkillData")
 	TObjectPtr<UTexture2D> thumbnail = nullptr;
+	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "SupportSkillData")
+	FText name_;
 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "SupportSkillData")
+	FText detail_;
+	
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "SupportSkillData")
 	FString flavor_text;
 
