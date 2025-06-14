@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/ItemData.h"
 #include "WeaponData.generated.h"
 
 USTRUCT(BlueprintType)
@@ -24,13 +25,6 @@ struct PROJECT_IK_API FWeaponData
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
 	EWeaponType type = EWeaponType::INVALID;
 	
-	//TODO: 이후 현지화를 생각하면 FString대신, Table의 위치를 넣어야 할 수 있다.
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
-	FString flavor_text;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
-	TObjectPtr<UTexture2D> thumbnail = nullptr;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponData")
-	ERarity rarity_;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	FItemData item_data_;
 };

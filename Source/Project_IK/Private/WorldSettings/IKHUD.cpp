@@ -19,7 +19,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/CombatLevelResultManager.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
-#include "Structs/SkillData.h"
+#include "Structs/ItemData.h"
 
 #include "UI/ButtonBarWidget.h"
 #include "UI/SegmentedHPUI.h"
@@ -45,7 +45,7 @@ void AIKHUD::BeginPlay()
 	{
 		button_bar_widget_ = CreateWidget<UButtonBarWidget>(world, button_widget_class_);
 		
-		TMap<EHeroType, FSkillData> hero_skill_data;
+		TMap<EHeroType, FItemData> hero_skill_data;
 		//액티브 스킬 UI에 썸네일을 Bind.
 		auto game_mode =  Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		auto hero_types = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
@@ -58,13 +58,13 @@ void AIKHUD::BeginPlay()
 				auto cur_active_skill_mechanics = cur_hero->GetActiveSkillMechanics();
 				auto cur_skill_data = cur_active_skill_mechanics->GetEquippedActiveSkillData();
 				
-				cur_skill_button_widget->SetThumbnailTexture(cur_skill_data.thumbnail);
+				cur_skill_button_widget->SetThumbnailTexture(cur_skill_data.item_data_.thumbnail);
 				cur_active_skill_mechanics->on_active_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 				
 				subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType())->GetHPWidget(), &USegmentedHPUI::UpdateWidget);
 				button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType())->InitHeroWidget(cur_hero->GetRuneMechanics(), cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
 
-				hero_skill_data.Add(cur_hero->GetHeroType(), FSkillData({cur_skill_data.thumbnail, cur_skill_data.name_, cur_skill_data.detail_}));
+				hero_skill_data.Add(cur_hero->GetHeroType(), FItemData({cur_skill_data.item_data_.thumbnail, cur_skill_data.item_data_.name_, cur_skill_data.item_data_.detail_}));
 			}
 			else
 			{
@@ -76,7 +76,7 @@ void AIKHUD::BeginPlay()
 			subsystem->BindOnBuffChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType()), &UHeroWidget::UpdateAppliedBuffs);
 		}
 		
-		TMap<int32, FSkillData> support_skill_data;
+		TMap<int32, FItemData> support_skill_data;
 		//서포트 스킬 UI에 썸네일과 Cost를 Bind.
 		auto game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
 		auto equipped_support_data = game_state->GetSupportSkillData();
@@ -86,15 +86,13 @@ void AIKHUD::BeginPlay()
 			if (equipped_support_skills[i] != nullptr)
 			{
 				auto cur_skill_button_widget = button_bar_widget_->GetSupportSkillButtonWidget(i);
-				cur_skill_button_widget->SetThumbnailTexture(equipped_support_data[i].thumbnail);
+				cur_skill_button_widget->SetThumbnailTexture(equipped_support_data[i].item_data_.thumbnail);
 				cur_skill_button_widget->SetSupportSkillCost(equipped_support_skills[i]->GetCost());
 				equipped_support_skills[i]->on_decide_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 
-				support_skill_data.Add(i, FSkillData({equipped_support_data[i].thumbnail, equipped_support_data[i].name_, equipped_support_data[i].detail_}));
+				support_skill_data.Add(i, FItemData({equipped_support_data[i].item_data_.thumbnail, equipped_support_data[i].item_data_.name_, equipped_support_data[i].item_data_.detail_}));
 			}
-			
 		}
-
 		
 		auto pop_up_widget = button_bar_widget_->GetSkillPopupWidget();
 		pop_up_widget->InitSupportSkillData(support_skill_data);

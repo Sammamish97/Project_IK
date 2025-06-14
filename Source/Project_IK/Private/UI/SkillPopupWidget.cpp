@@ -11,14 +11,14 @@ See LICENSE file in the project root for full license information.
 #include "UI/SkillPopupWidget.h"
 #include "Components/Image.h"
 #include "Managers/EnumCluster.h"
-#include "Structs/SkillData.h"
+#include "Structs/ItemData.h"
 
-void USkillPopupWidget::InitHeroSkillData(const TMap<EHeroType, FSkillData>& input_data)
+void USkillPopupWidget::InitHeroSkillData(const TMap<EHeroType, FItemData>& input_data)
 {
 	hero_skill_data_ = input_data;
 }
 
-void USkillPopupWidget::InitSupportSkillData(const TMap<int32, FSkillData>& input_data)
+void USkillPopupWidget::InitSupportSkillData(const TMap<int32, FItemData>& input_data)
 {
 	support_skill_data_ = input_data;
 }

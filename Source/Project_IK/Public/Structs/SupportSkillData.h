@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ItemData.h"
 #include "UObject/Object.h"
 #include "Managers/EnumCluster.h"
 #include "SupportSkillData.generated.h"
@@ -24,19 +25,7 @@ struct PROJECT_IK_API FSupportSkillData
 	
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	TSubclassOf<class USupportSkillBase> support_skill_class_;
-
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "SupportSkillData")
-	TObjectPtr<UTexture2D> thumbnail = nullptr;
 	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "SupportSkillData")
-	FText name_;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "SupportSkillData")
-	FText detail_;
-	
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "SupportSkillData")
-	FString flavor_text;
-
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "SupportSkillData")
-	ERarity rarity_;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	FItemData item_data_;
 };

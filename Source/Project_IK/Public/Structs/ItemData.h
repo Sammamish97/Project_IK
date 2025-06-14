@@ -12,10 +12,11 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-#include "SkillData.generated.h"
+#include "Managers/EnumCluster.h"
+#include "ItemData.generated.h"
 
 USTRUCT(BlueprintType)
-struct PROJECT_IK_API FSkillData
+struct PROJECT_IK_API FItemData
 {
 	GENERATED_BODY()
 
@@ -27,4 +28,10 @@ struct PROJECT_IK_API FSkillData
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	FText detail_;
+	
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "SupportSkillData")
+    FString flavor_text;
+    
+    UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "SupportSkillData")
+    ERarity rarity_;
 };

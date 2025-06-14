@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Structs/SkillData.h"
+#include "Structs/ItemData.h"
 #include "Components/TextBlock.h"
 #include "SkillPopupWidget.generated.h"
 
@@ -24,18 +24,18 @@ class PROJECT_IK_API USkillPopupWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void InitHeroSkillData(const TMap<EHeroType, FSkillData>& input_data);
-	void InitSupportSkillData(const TMap<int32, FSkillData>& input_data);
+	void InitHeroSkillData(const TMap<EHeroType, FItemData>& input_data);
+	void InitSupportSkillData(const TMap<int32, FItemData>& input_data);
 
 	void UpdateSkillPopupData(EHeroType type);
 	void UpdateSkillPopupData(int32 support_skill_idx);
 	
 private:
 	UPROPERTY()
-	TMap<EHeroType, FSkillData> hero_skill_data_;
+	TMap<EHeroType, FItemData> hero_skill_data_;
 
 	UPROPERTY()
-	TMap<int32, FSkillData> support_skill_data_;
+	TMap<int32, FItemData> support_skill_data_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UImage> thumbnail_;
