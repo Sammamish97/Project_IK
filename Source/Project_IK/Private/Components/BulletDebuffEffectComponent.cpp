@@ -15,10 +15,9 @@ See LICENSE file in the project root for full license information.
 void UBulletDebuffEffectComponent::OnHit(AActor* target)
 {
 	Super::OnHit(target);
-	TWeakObjectPtr<AActor> target_ptr = target;
-	if (auto casted_target = target_ptr.Get())
+	if (target)
 	{
-		auto casted_unit = Cast<AUnit>(casted_target);
+		auto casted_unit = Cast<AUnit>(target);
 		casted_unit->ApplyBuff(FBuffData(FName("TriangleSetBonus_Viper"), ECharacterStatType::Armor, debuff_amount_, true, debuff_duration_));
 	}
 }
