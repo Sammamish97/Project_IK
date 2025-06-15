@@ -27,7 +27,7 @@ class PROJECT_IK_API UAT_DeployCover : public UActiveSkillBase
 public:
 
 	UAT_DeployCover();
-	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<ACover> actor_class_;

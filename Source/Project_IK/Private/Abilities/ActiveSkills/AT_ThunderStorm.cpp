@@ -25,17 +25,11 @@ UAT_ThunderStorm::UAT_ThunderStorm()
 	damage_ = 120.f;
 }
 
-bool UAT_ThunderStorm::ActivateSkill(const FTargetResult& TargetResult)
+TOptional<FTargetParameters> UAT_ThunderStorm::ActivateSkill(const FTargetResult& TargetResult)
 {
 	Super::ActivateSkill(TargetResult);
 	
 	world_cache_ = skill_owner_->GetWorld();
-
-	if (!world_cache_)
-	{
-		return false;
-	}
-
 	FActorSpawnParameters spawn_params;
 	spawn_params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
@@ -45,7 +39,7 @@ bool UAT_ThunderStorm::ActivateSkill(const FTargetResult& TargetResult)
 		visual_actor_->SetNecessaryData(target_param_.radius_, scaling_factor_, damage_, skill_owner_);
 	}
 
-	return true;
+	return NullOpt;
 }
 
 void UAT_ThunderStorm::DamageEnemies()

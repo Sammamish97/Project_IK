@@ -20,7 +20,7 @@ class PROJECT_IK_API UAT_Thunder : public UActiveSkillBase
 {
 	GENERATED_BODY()
 	UAT_Thunder();
-	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
 
 protected:
 	float damage_ = 0.f;

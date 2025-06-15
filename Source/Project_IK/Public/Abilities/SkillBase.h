@@ -23,7 +23,7 @@ class PROJECT_IK_API USkillBase : public UObject
 public:
 	FTargetParameters GetTargetParameters() const;
 	float GetCoolTime() const;
-	virtual bool ActivateSkill(const FTargetResult& TargetResult);
+	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult);
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

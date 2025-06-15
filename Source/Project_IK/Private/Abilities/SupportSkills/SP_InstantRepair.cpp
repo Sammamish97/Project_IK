@@ -20,7 +20,7 @@ USP_InstantRepair::USP_InstantRepair()
 	cost_ = 3.f;
 }
 
-bool USP_InstantRepair::ActivateSkill(const FTargetResult& target_result)
+TOptional<FTargetParameters> USP_InstantRepair::ActivateSkill(const FTargetResult& target_result)
 {
 	if(target_result.target_actors_[0])
 	{

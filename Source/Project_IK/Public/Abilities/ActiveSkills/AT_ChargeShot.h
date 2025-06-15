@@ -20,7 +20,7 @@ class PROJECT_IK_API UAT_ChargeShot : public UActiveSkillBase
 	
 public:
 	UAT_ChargeShot();
-	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
 	void OnChargeShot(AActor* target, class UWeaponMechanics* OtherTarget, FDamageData dmg_data);
 
 private:

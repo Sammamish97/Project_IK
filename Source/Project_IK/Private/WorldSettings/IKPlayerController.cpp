@@ -137,6 +137,7 @@ void AIKPlayerController::Decide()
 void AIKPlayerController::CancelTargeting()
 {
 	targeting_component_->CancelTargeting();
+	game_state_cache_->ClearTargetingState();
 	FinishTargeting();
 	Cast<AIKHUD>(GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->SetVisibility(ESlateVisibility::Hidden);
 }

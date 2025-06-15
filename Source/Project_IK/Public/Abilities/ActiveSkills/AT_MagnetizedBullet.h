@@ -22,7 +22,7 @@ class PROJECT_IK_API UAT_MagnetizedBullet : public UActiveSkillBase
 
 public:
 	UAT_MagnetizedBullet();
-	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
 	void OnFinishSkill();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

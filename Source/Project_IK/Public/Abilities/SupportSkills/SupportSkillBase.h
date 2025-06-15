@@ -22,7 +22,7 @@ class PROJECT_IK_API USupportSkillBase : public USkillBase
 	
 public:
 	float GetCost() const;
-	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)

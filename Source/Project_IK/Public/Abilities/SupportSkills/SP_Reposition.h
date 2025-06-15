@@ -19,7 +19,7 @@ class PROJECT_IK_API USP_Reposition : public USupportSkillBase
 	GENERATED_BODY()
 public:
 	USP_Reposition();
-	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
 	
 private:
 	FTargetParameters reposition_location_params_ = FTargetParameters();

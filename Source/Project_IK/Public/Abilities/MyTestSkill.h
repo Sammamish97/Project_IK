@@ -25,7 +25,7 @@ class PROJECT_IK_API UMyTestSkill : public UActiveSkillBase
 public:
 	UMyTestSkill();
 
-	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
 
 private:
 

@@ -15,8 +15,8 @@ float USupportSkillBase::GetCost() const
 	return cost_;
 }
 
-bool USupportSkillBase::ActivateSkill(const FTargetResult& TargetResult)
+TOptional<FTargetParameters> USupportSkillBase::ActivateSkill(const FTargetResult& TargetResult)
 {
 	Super::ActivateSkill(TargetResult);
-	return true;
+	return NullOpt;
 }

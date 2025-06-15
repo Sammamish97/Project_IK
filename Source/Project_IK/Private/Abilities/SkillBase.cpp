@@ -19,8 +19,8 @@ float USkillBase::GetCoolTime() const
 	return cool_time_;
 }
 
-bool USkillBase::ActivateSkill(const FTargetResult& TargetResult)
+TOptional<FTargetParameters> USkillBase::ActivateSkill(const FTargetResult& TargetResult)
 {
 	on_activate_skill_.Broadcast(cool_time_);
-	return true;
+	return NullOpt;
 }
