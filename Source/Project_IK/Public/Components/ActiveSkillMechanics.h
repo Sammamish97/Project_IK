@@ -19,12 +19,9 @@ See LICENSE file in the project root for full license information.
 #include "AITypes.h"
 #include "ActiveSkillMechanics.generated.h"
 
-
 class UActiveSkillBase;
 class UDataTableManager;
 class AHeroBase;
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveSkill, float , cool_time);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECT_IK_API UActiveSkillMechanics : public UActorComponent
@@ -45,15 +42,10 @@ public:
 	bool HasActiveSkill() const;
 	float GetCooltime() const;
 	float GetCastingTime() const;
-	bool IsOnCoolDown() const;
-	float GetLeftCoolDown() const;
-	void ReduceCooltime(float reduce_time);
-	// percentage range [0.f, 1.f]
-	void ReduceCooltimeByPercentage(float percentage);
-
-	TOptional<FTargetParameters> GetTargetParameters() const;
-	FActiveSkillData GetEquippedActiveSkillData();
 	
+	FTargetParameters GetTargetParameters() const;
+	FActiveSkillData GetEquippedActiveSkillData();
+	class USkillBase* GetActiveSkill() const;
 	void EquipActiveSkill(EActiveSkillType type);
 	void UnEquipActiveSkill();
 
@@ -69,12 +61,7 @@ private:
 	UPROPERTY()
 	TWeakObjectPtr <AHeroBase> hero_cache_;
 	UPROPERTY()
-	FTimerHandle cool_down_handle_;
-	UPROPERTY()
 	FTimerHandle casting_time_handle_;
 	UPROPERTY()
 	FAIRequestID active_skill_request_id_ = 1;
-
-public:
-	FOnActiveSkill on_active_skill_;
 };

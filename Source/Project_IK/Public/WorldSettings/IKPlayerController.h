@@ -21,8 +21,6 @@ class UInputAction;
 class UDelegateBridgeSubsystem;
 class USupportSkillBase;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveSKill, EHeroType, hero_idx);
-
 UCLASS()
 class PROJECT_IK_API AIKPlayerController : public APlayerController
 {
@@ -32,7 +30,7 @@ class PROJECT_IK_API AIKPlayerController : public APlayerController
 
 public:
 	AIKPlayerController();
-	virtual void BeginPlay();
+	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void SetupInputComponent() override;
 
@@ -40,16 +38,12 @@ public:
 	class UTargetingComponent* GetTargetingComponent();
 	
 	UFUNCTION()
-	void StartTargeting(const FTargetParameters& target_params, ETargetingState state, AActor* invoker = nullptr);
+	void StartTargeting(const FTargetParameters& target_params, AActor* invoker = nullptr);
 
 	UFUNCTION()
 	void FinishTargeting();
 	
 	void UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies);
-
-protected:
-	UPROPERTY()
-	FOnActiveSKill on_active_skill_;
 
 private:
 	UFUNCTION()
@@ -89,8 +83,6 @@ private:
 	void OnToggleInventory();
 	
 protected:
-	ETargetingState cur_targeting_state_ = ETargetingState::Idle;
-	
 	UPROPERTY(VisibleAnywhere, Category = "Targeting")
 	TObjectPtr<UTargetingComponent> targeting_component_;
 

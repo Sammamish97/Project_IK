@@ -41,7 +41,6 @@ void UActiveSkillMechanics::BeginPlay()
 
 void UActiveSkillMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	GetWorld()->GetTimerManager().ClearTimer(cool_down_handle_);
 	GetWorld()->GetTimerManager().ClearTimer(casting_time_handle_);
 	Super::EndPlay(EndPlayReason);
 }
@@ -50,13 +49,10 @@ void UActiveSkillMechanics::InitializeComponent()
 {
 	Super::InitializeComponent();
 }
-TOptional<FTargetParameters> UActiveSkillMechanics::GetTargetParameters() const
+
+FTargetParameters UActiveSkillMechanics::GetTargetParameters() const
 {
-	if (active_skill_)
-	{
-		return active_skill_->GetTargetParameters();
-	}
-	return NullOpt;
+	return active_skill_->GetTargetParameters();
 }
 
 bool UActiveSkillMechanics::HasActiveSkill() const
@@ -82,45 +78,14 @@ float UActiveSkillMechanics::GetCastingTime() const
 	return 0.f;
 }
 
-bool UActiveSkillMechanics::IsOnCoolDown() const
-{
-	return GetWorld()->GetTimerManager().IsTimerActive(cool_down_handle_);
-}
-
-float UActiveSkillMechanics::GetLeftCoolDown() const
-{
-	if (IsOnCoolDown())
-	{
-		return GetWorld()->GetTimerManager().GetTimerRemaining(cool_down_handle_);
-	}
-	return 0.f;
-}
-
-void UActiveSkillMechanics::ReduceCooltime(float reduce_time)
-{
-	float remain_time = GetLeftCoolDown();
-
-	if (remain_time > 0.f)
-	{
-		GetWorld()->GetTimerManager().ClearTimer(cool_down_handle_);
-
-		float reduced_time = remain_time - reduce_time;
-
-		if (reduced_time > 0.f)
-		{
-			GetWorld()->GetTimerManager().SetTimer(cool_down_handle_, reduced_time, false);
-		}
-	}
-}
-
-void UActiveSkillMechanics::ReduceCooltimeByPercentage(float percentage)
-{
-	ReduceCooltime(GetCooltime() * percentage);
-}
-
 FActiveSkillData UActiveSkillMechanics::GetEquippedActiveSkillData()
 {
 	return equipped_active_skill_data_;
+}
+
+USkillBase* UActiveSkillMechanics::GetActiveSkill() const
+{
+	return active_skill_;
 }
 
 void UActiveSkillMechanics::EquipActiveSkill(EActiveSkillType type)
@@ -144,17 +109,10 @@ bool UActiveSkillMechanics::InvokeSkills(const FTargetResult& TargetResult)
 {
 	if (active_skill_)
 	{
-		if (GetWorld()->GetTimerManager().IsTimerActive(cool_down_handle_) == false)
-		{
-			active_skill_->ActivateSkill(TargetResult);
-			on_active_skill_.Broadcast(GetCooltime());
-			
-			GetWorld()->GetTimerManager().SetTimer(cool_down_handle_, GetCooltime(), false);
-
-			FTimerDelegate cast_finish_delegate = FTimerDelegate::CreateUObject(this, &UActiveSkillMechanics::OnCastingFinish);
-			GetWorld()->GetTimerManager().SetTimer(casting_time_handle_, cast_finish_delegate, GetCastingTime(), false);
-			return true;
-		}
+		active_skill_->ActivateSkill(TargetResult);
+		FTimerDelegate cast_finish_delegate = FTimerDelegate::CreateUObject(this, &UActiveSkillMechanics::OnCastingFinish);
+		GetWorld()->GetTimerManager().SetTimer(casting_time_handle_, cast_finish_delegate, GetCastingTime(), false);
+		return true;
 	}
 	return false;
 }

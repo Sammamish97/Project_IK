@@ -57,9 +57,10 @@ void AIKHUD::BeginPlay()
 				auto cur_skill_button_widget = button_bar_widget_->GetActiveSkillButtonWidget(elem);
 				auto cur_active_skill_mechanics = cur_hero->GetActiveSkillMechanics();
 				auto cur_skill_data = cur_active_skill_mechanics->GetEquippedActiveSkillData();
+				auto cur_skill = cur_active_skill_mechanics->GetActiveSkill();
 				
 				cur_skill_button_widget->SetThumbnailTexture(cur_skill_data.item_data_.thumbnail);
-				cur_active_skill_mechanics->on_active_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
+				cur_skill->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 				
 				subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType())->GetHPWidget(), &USegmentedHPUI::UpdateWidget);
 				button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType())->InitHeroWidget(cur_hero->GetRuneMechanics(), cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
@@ -88,7 +89,7 @@ void AIKHUD::BeginPlay()
 				auto cur_skill_button_widget = button_bar_widget_->GetSupportSkillButtonWidget(i);
 				cur_skill_button_widget->SetThumbnailTexture(equipped_support_data[i].item_data_.thumbnail);
 				cur_skill_button_widget->SetSupportSkillCost(equipped_support_skills[i]->GetCost());
-				equipped_support_skills[i]->on_decide_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
+				equipped_support_skills[i]->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 
 				support_skill_data.Add(i, FItemData({equipped_support_data[i].item_data_.thumbnail, equipped_support_data[i].item_data_.name_, equipped_support_data[i].item_data_.detail_}));
 			}

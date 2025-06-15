@@ -34,14 +34,10 @@ public:
 	virtual void OnStunned() override;
 	
 	EHeroType GetHeroType() const;
-	TOptional<FTargetParameters> GetActiveSkillTargetParameters() const;
+	FTargetParameters GetActiveSkillTargetParameters() const;
 
 	void InvokeActiveSkill(FTargetResult target_result);
-	bool IsActiveSkillOnCoolDown() const;
 	bool HasActiveSkill() const;
-	void ReduceCooltime(float reduce_time);
-	// percentage range [0.f, 1.f]
-	void ReduceCooltimeByPercentage(float percentage);
 
 	void Reposition(FVector target_location);
 	void SetAttackTarget(AActor* target);
@@ -52,6 +48,7 @@ public:
 	class UWeaponMechanics* GetWeaponMechanics();
 	class URuneMechanics* GetRuneMechanics();
 	class UActiveSkillMechanics* GetActiveSkillMechanics();
+	class USkillBase* GetActiveSkill();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))

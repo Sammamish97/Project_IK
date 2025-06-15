@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/TargetResult.h"
 #include "UObject/Object.h"
 #include "SkillBase.generated.h"
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActivateSkill, float , cool_time);
 
 UCLASS()
 class PROJECT_IK_API USkillBase : public UObject
@@ -30,4 +31,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float cool_time_ = 0.f;
+	
+public:
+	UPROPERTY()
+	FOnActivateSkill on_activate_skill_;
 };

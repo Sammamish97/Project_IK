@@ -20,7 +20,8 @@ void UPS_Agility::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
 
-	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnActiveSkill(this, &UPS_Agility::BuffAttackSpeed);
+	//IKTODO: 이후 정상적으로 Bind 시켜줘야 함.
+	//hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnActiveSkill(this, &UPS_Agility::BuffAttackSpeed);
 }
 
 void UPS_Agility::BuffAttackSpeed(EHeroType hero_idx)

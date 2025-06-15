@@ -17,6 +17,12 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"
 
+bool UActiveSkillBase::ActivateSkill(const FTargetResult& TargetResult)
+{
+	Super::ActivateSkill(TargetResult);
+	return Super::ActivateSkill(TargetResult);
+}
+
 void UActiveSkillBase::InitActiveSkill(AActor* skill_owner)
 {
 	skill_owner_ = skill_owner;

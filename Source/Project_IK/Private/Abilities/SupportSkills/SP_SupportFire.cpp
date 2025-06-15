@@ -7,8 +7,6 @@ Summary : Source file for the support fire Support Skill.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
-
 #include "Abilities/SupportSkills/SP_SupportFire.h"
 
 #include "Characters/Unit.h"
@@ -21,7 +19,7 @@ USP_SupportFire::USP_SupportFire()
 	dmg_data_ = FDamageData(100, 0, EDamageType::Projectile);
 }
 
-void USP_SupportFire::Decide(const FTargetResult& target_result)
+bool USP_SupportFire::ActivateSkill(const FTargetResult& target_result)
 {
 	if(target_result.target_actors_[0])
 	{
@@ -30,7 +28,7 @@ void USP_SupportFire::Decide(const FTargetResult& target_result)
 		{
 			AUnit* attack_target = Cast<AUnit>(dmg_data_.attack_target);
 			attack_target->GetDamage(dmg_data_);
-			OnDecide();
 		}
 	}
+	return Super::ActivateSkill(target_result);
 }

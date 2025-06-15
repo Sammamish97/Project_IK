@@ -27,6 +27,8 @@ UAT_ThunderStorm::UAT_ThunderStorm()
 
 bool UAT_ThunderStorm::ActivateSkill(const FTargetResult& TargetResult)
 {
+	Super::ActivateSkill(TargetResult);
+	
 	world_cache_ = skill_owner_->GetWorld();
 
 	if (!world_cache_)

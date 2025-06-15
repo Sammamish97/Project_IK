@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 #include "Components/TargetingComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "Abilities/SupportSkills/SupportSkillBase.h"
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/ButtonBarWidget.h"
@@ -46,7 +45,6 @@ void AIKPlayerController::BeginPlay()
 void AIKPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-	on_active_skill_.Clear();
 }
 
 void AIKPlayerController::SetupInputComponent()
@@ -121,45 +119,24 @@ void AIKPlayerController::ActivateThirdSupportSkill()
 	game_state_cache_->ActivateSupportSkill(2);
 }
 
-void AIKPlayerController::StartTargeting(const FTargetParameters& target_params, ETargetingState state, AActor* invoker)
+void AIKPlayerController::StartTargeting(const FTargetParameters& target_params, AActor* invoker)
 {
-	if (cur_targeting_state_ == ETargetingState::Idle)
-	{
-		targeting_component_->StartTargeting(target_params, invoker);
-		cur_targeting_state_ = state;
-	}
+	targeting_component_->StartTargeting(target_params, invoker);
 }
 
 void AIKPlayerController::FinishTargeting()
 {
-	cur_targeting_state_ = ETargetingState::Idle;
 }
 
 void AIKPlayerController::Decide()
 {
-	switch (cur_targeting_state_)
-	{
-		case ETargetingState::ActiveSKill:
-			{
-				auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-				auto target_result = targeting_component_->DecideTargetings();
-				Cast<AHeroBase>(game_mode_cache->GetHero(game_state_cache_->GetSelectedHeroType()))->InvokeActiveSkill(target_result);
-				on_active_skill_.Broadcast(game_state_cache_->GetSelectedHeroType());
-			}
-			break;
-		case ETargetingState::SupportSkill:
-			{
-				game_state_cache_->DecideLastInvokedSkill(targeting_component_->DecideTargetings());
-			}
-			break;
-	}
+	game_state_cache_->OnDecide(targeting_component_->DecideTargetings());
 	Cast<AIKHUD>(GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void AIKPlayerController::CancelTargeting()
 {
 	targeting_component_->CancelTargeting();
-	game_state_cache_->ClearLastInvokedSkill();
 	FinishTargeting();
 	Cast<AIKHUD>(GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->SetVisibility(ESlateVisibility::Hidden);
 }

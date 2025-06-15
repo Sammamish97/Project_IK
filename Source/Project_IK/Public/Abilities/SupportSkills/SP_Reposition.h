@@ -19,9 +19,8 @@ class PROJECT_IK_API USP_Reposition : public USupportSkillBase
 	GENERATED_BODY()
 public:
 	USP_Reposition();
-	virtual void Decide(const FTargetResult& TargetResult) override;
-	virtual void Reset() override;
-
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
+	
 private:
 	FTargetParameters reposition_location_params_ = FTargetParameters();
 	TObjectPtr<class AHeroBase> selected_hero_ = nullptr;

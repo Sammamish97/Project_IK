@@ -178,14 +178,9 @@ AActor* AHeroBase::GetAttackTarget() const
 	return Cast<AMeleeAIController>(GetController())->GetTargetActor();
 }
 
-TOptional<FTargetParameters> AHeroBase::GetActiveSkillTargetParameters() const
+FTargetParameters AHeroBase::GetActiveSkillTargetParameters() const
 {
 	return active_skill_mechanics_->GetTargetParameters();
-}
-
-bool AHeroBase::IsActiveSkillOnCoolDown() const
-{
-	return active_skill_mechanics_->IsOnCoolDown();
 }
 
 bool AHeroBase::HasActiveSkill() const
@@ -193,27 +188,22 @@ bool AHeroBase::HasActiveSkill() const
 	return active_skill_mechanics_->HasActiveSkill();
 }
 
-void AHeroBase::ReduceCooltime(float reduce_time)
-{
-	active_skill_mechanics_->ReduceCooltime(reduce_time);
-}
-
-void AHeroBase::ReduceCooltimeByPercentage(float percentage)
-{
-	active_skill_mechanics_->ReduceCooltimeByPercentage(percentage);
-}
-
 UWeaponMechanics* AHeroBase::GetWeaponMechanics()
 {
 	return weapon_mechanics_;
 }
 
-class URuneMechanics* AHeroBase::GetRuneMechanics()
+URuneMechanics* AHeroBase::GetRuneMechanics()
 {
 	return rune_mechanics_;
 }
 
-class UActiveSkillMechanics* AHeroBase::GetActiveSkillMechanics()
+UActiveSkillMechanics* AHeroBase::GetActiveSkillMechanics()
 {
 	return active_skill_mechanics_;
+}
+
+USkillBase* AHeroBase::GetActiveSkill()
+{
+	return active_skill_mechanics_->GetActiveSkill();
 }

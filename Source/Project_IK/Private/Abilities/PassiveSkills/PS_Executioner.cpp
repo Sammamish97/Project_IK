@@ -33,7 +33,8 @@ void UPS_Executioner::ApplyExecutionerBuff()
 	{
 		AHeroBase* unit = Cast<AHeroBase>(hero);
 		unit->ApplyBuff(attack_speed);
-		unit->ReduceCooltime(reduce_cooltime_amount_);
+		//TODO: 이후 Reduce Cooltime 다시 구현해야 함.
+		//unit->ReduceCooltime(reduce_cooltime_amount_);
 	}
 
 }

@@ -20,26 +20,21 @@ USP_Reposition::USP_Reposition()
 	cost_ = 1.f;
 }
 
-void USP_Reposition::Reset()
-{
-	Super::Reset();
-	selected_hero_ = nullptr;
-}
-
-void USP_Reposition::Decide(const FTargetResult& target_result)
+bool USP_Reposition::ActivateSkill(const FTargetResult& target_result)
 {
 	if (selected_hero_)
 	{
 		selected_hero_->Reposition(target_result.target_location_);
-		OnDecide();
 	}
 	else
 	{
 		if (target_result.target_actors_.Num() > 0 && target_result.target_actors_[0]->IsA(AHeroBase::StaticClass()))
 		{
-			player_controller_cache_->FinishTargeting();
-			selected_hero_ = Cast<AHeroBase>(target_result.target_actors_[0]);
-			player_controller_cache_->StartTargeting(reposition_location_params_, ETargetingState::SupportSkill);
+			//IKTODO: 더 깔끔한 이동 로직을 찾아야 한다.
+			// player_controller_cache_->FinishTargeting();
+			// selected_hero_ = Cast<AHeroBase>(target_result.target_actors_[0]);
+			// player_controller_cache_->StartTargeting(reposition_location_params_, ETargetingState::SupportSkill);
 		}
 	}
+	return Super::ActivateSkill(target_result);
 }
