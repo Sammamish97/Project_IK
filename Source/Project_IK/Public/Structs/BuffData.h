@@ -11,6 +11,9 @@ USTRUCT(BlueprintType)
 struct PROJECT_IK_API FBuffData
 {
 	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
+	FText buff_name_;
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	EBuffType buff_type_ = EBuffType::INVALID;

@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/BuffData.h"
 #include "BuffWidget.generated.h"
 
+class UBuffPopupWidget;
 class UBuffContainer;
 class UProgressBar;
 
@@ -22,9 +23,12 @@ class PROJECT_IK_API UBuffWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void InitWidget(int32 index, UBuffContainer* container);
+	void InitWidget(UBuffPopupWidget* popup, UBuffContainer* container);
 	void BeginBuffUI(FBuffData buff_data);
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+	
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	
 	float GetLeftTime() const;
 	FBuffData GetBuffDataCache() const;
@@ -37,6 +41,9 @@ public:
 private:
 	UPROPERTY()
 	TObjectPtr<UBuffContainer> container_ref_;
+
+	UPROPERTY()
+	TObjectPtr<UBuffPopupWidget> buff_popup_ref_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UProgressBar> buff_image_;
@@ -47,6 +54,4 @@ private:
 	float left_time_ = 0.f;
 	
 	bool is_available_ = true;
-
-	int32 index_ = 0;
 };

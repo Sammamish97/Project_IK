@@ -21,16 +21,20 @@ USP_InstantRepair::USP_InstantRepair()
 
 	test_buff_data_.buff_type_ = EBuffType::InstantRepair;
 	test_buff_data_.thumbnail = nullptr;
-	test_buff_data_.duration_ = 3.f;
+	test_buff_data_.duration_ = 5.f;
 	test_buff_data_.buff_status_.Add({ECharacterStatType::AttackSpeed, 1.5f, true});
 
 	test_buff_data_2 = test_buff_data_;
-	test_buff_data_2.duration_ = 1.f;
+	test_buff_data_2.duration_ = 3.f;
+	test_buff_data_2.buff_status_.Add({ECharacterStatType::AttackPower, 1.5f, true});
+
 
 	test_buff_data_.buff_type_ = EBuffType::Agility;
 	
 	test_buff_data_3 = test_buff_data_2;
-	test_buff_data_3.duration_ = 2.f;
+	test_buff_data_3.duration_ = 4.f;
+	test_buff_data_3.buff_status_.Add({ECharacterStatType::SkillPower, 1.5f, true});
+
 
 	test_buff_data_3.buff_type_ = EBuffType::Berserker;
 }

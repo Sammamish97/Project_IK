@@ -13,6 +13,11 @@ See LICENSE file in the project root for full license information.
 #include "Components/HorizontalBox.h"
 #include "UI/BuffWidget.h"
 
+void UBuffContainer::InitBuffContainer(UBuffPopupWidget* popup_widget)
+{
+	buff_popup_cache_ = popup_widget;
+}
+
 void UBuffContainer::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -20,7 +25,7 @@ void UBuffContainer::NativeConstruct()
 
 	for(int32 i = 0; i < max_buffs_; ++i)
 	{
-		widget_array[i]->InitWidget(i, this);
+		widget_array[i]->InitWidget(buff_popup_cache_, this);
 		widget_array[i]->SetVisibility(ESlateVisibility::Hidden);
 		buff_container_->AddChild(widget_array[i]);
 	}

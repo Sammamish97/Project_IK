@@ -10,15 +10,15 @@ See LICENSE file in the project root for full license information.
 #include "UI/ButtonBarWidget.h"
 #include "UI/SupportSkillButtonWidget.h"
 #include "UI/UnitWidget.h"
+#include "UI/SkillPopupWidget.h"
+#include "UI/BuffPopupWidget.h"
 
 #include "Kismet/GameplayStatics.h"
 
 #include "Components/Button.h"
-#include "UI/SkillPopupWidget.h"
 
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKPlayerController.h"
-
 
 #include "WorldSettings/IKGameState.h"
 
@@ -143,4 +143,9 @@ UHeroWidget* UButtonBarWidget::GetHeroWidget(EHeroType idx)
 USkillPopupWidget* UButtonBarWidget::GetSkillPopupWidget()
 {
 	return skill_popup_widget_;
+}
+
+UBuffPopupWidget* UButtonBarWidget::GetBuffPopupWidget()
+{
+	return buff_popup_widget_;
 }

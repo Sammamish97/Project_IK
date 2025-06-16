@@ -11,11 +11,24 @@ See LICENSE file in the project root for full license information.
 #include "UI/BuffWidget.h"
 
 #include "Components/ProgressBar.h"
+#include "UI/BuffPopupWidget.h"
 
-void UBuffWidget::InitWidget(int32 index, UBuffContainer* container)
+void UBuffWidget::InitWidget(UBuffPopupWidget* popup, UBuffContainer* container)
 {
-	index_ = index;
+	buff_popup_ref_ = popup;
 	container_ref_ = container;
+}
+
+void UBuffWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
+	buff_popup_ref_->SetBuffDetail(buff_data_cache_);
+}
+
+void UBuffWidget::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseLeave(InMouseEvent);
+	buff_popup_ref_->ResetWidget();
 }
 
 void UBuffWidget::BeginBuffUI(FBuffData buff_data)

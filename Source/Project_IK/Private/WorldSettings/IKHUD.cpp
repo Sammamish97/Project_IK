@@ -64,7 +64,7 @@ void AIKHUD::BeginPlay()
 				cur_skill->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 				
 				subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType())->GetHPWidget(), &USegmentedHPUI::UpdateWidget);
-				button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType())->InitHeroWidget(cur_hero->GetRuneMechanics(), cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
+				button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType())->InitHeroWidget(button_bar_widget_->GetBuffPopupWidget(), cur_hero->GetRuneMechanics(), cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
 
 				hero_skill_data.Add(cur_hero->GetHeroType(), FItemData({cur_skill_data.item_data_.thumbnail, cur_skill_data.item_data_.name_, cur_skill_data.item_data_.detail_}));
 			}
@@ -74,9 +74,6 @@ void AIKHUD::BeginPlay()
 				//IKTODO: 이후 nullptr에서 Empty Icon같은 걸로 바꿔야 함.
 				cur_skill_button_widget->SetThumbnailTexture(nullptr);
 			}
-			//IKTODO: 여기서 버프 관련 UI 이벤트를 Bind 해야 함.
-			// subsystem->BindOnCrowdControlChanged(cur_hero->GetCCComponent(), button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType()), &UHeroWidget::UpdateAppliedCCs);
-			//subsystem->BindOnBuffChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType()), &UHeroWidget::UpdateAppliedBuffs);
 			cur_hero->GetCharacterStat()->OnApplyBuff.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType())->GetBuffContainer(), &UBuffContainer::EnqueueBuff);
 			cur_hero->GetCharacterStat()->OnBuffExpired.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero->GetHeroType())->GetBuffContainer(), &UBuffContainer::UpdateQueue);
 		}

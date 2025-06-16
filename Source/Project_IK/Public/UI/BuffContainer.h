@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "BuffContainer.generated.h"
 
+class UBuffPopupWidget;
 class UBuffWidget;
 class UHorizontalBox;
 
@@ -23,6 +24,7 @@ class PROJECT_IK_API UBuffContainer : public UUserWidget
 {
 	GENERATED_BODY()
 public:
+	void InitBuffContainer(UBuffPopupWidget* popup_widget);
 	void NativeConstruct() override;
 	void NativeDestruct() override;
 
@@ -33,6 +35,9 @@ public:
 	void ClearBuffQueue();
 	
 private:
+	UPROPERTY()
+	TObjectPtr<UBuffPopupWidget> buff_popup_cache_;
+	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHorizontalBox> buff_container_;
 

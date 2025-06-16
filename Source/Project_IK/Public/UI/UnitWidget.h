@@ -30,7 +30,7 @@ class PROJECT_IK_API UHeroWidget : public UUserWidget
 	
 public:
 	virtual void NativeConstruct() override;
-	void InitHeroWidget(class URuneMechanics* rune_mechanics, float max_hp, float cur_hp);
+	void InitHeroWidget(class UBuffPopupWidget* popup_widget, class URuneMechanics* rune_mechanics, float max_hp, float cur_hp);
 	USegmentedHPUI* GetHPWidget();
 	USkillButtonWidget* GetSkillButtonWidget();
 	UBuffContainer* GetBuffContainer();

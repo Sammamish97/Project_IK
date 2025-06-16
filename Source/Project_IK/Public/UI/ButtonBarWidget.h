@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "ButtonBarWidget.generated.h"
 
+class UBuffPopupWidget;
 class USkillPopupWidget;
 class USupportSkillButtonWidget;
 class USkillButtonWidget;
@@ -38,6 +39,7 @@ public:
 	USkillButtonWidget* GetActiveSkillButtonWidget(EHeroType idx);
 	UHeroWidget* GetHeroWidget(EHeroType idx);
 	USkillPopupWidget* GetSkillPopupWidget();
+	UBuffPopupWidget* GetBuffPopupWidget();
 
 protected:
 	virtual void NativeConstruct() override;
@@ -104,6 +106,13 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<USkillPopupWidget> skill_popup_widget_;
+
+	//
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UBuffPopupWidget> buff_popup_widget_;
+	
+	//
 	
 	UPROPERTY()
 	TWeakObjectPtr<class AIKPlayerController> player_controller_cache_;
