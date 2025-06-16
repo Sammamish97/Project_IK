@@ -26,7 +26,7 @@ class ADamageUI;
 class UDelegateBridgeSubsystem;
 class UOutlineComponent;
 enum class EUnitEvent : uint8;
-struct FBuffData;
+struct FBuffStatusData;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUnitEvent);
 
@@ -73,7 +73,7 @@ public:
 	void Heal(float heal);
 
 	UFUNCTION(BlueprintCallable)
-	void ApplyBuff(FBuffData buff);
+	void ApplyBuff(FBuffData buff_data);
 
 	UFUNCTION(BlueprintCallable)
 	bool RemoveBuff(FName BuffName);

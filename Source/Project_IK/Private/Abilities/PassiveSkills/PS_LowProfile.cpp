@@ -46,8 +46,9 @@ void UPS_LowProfile::ApplyBuff()
 			AUnit* unit = Cast<AUnit>(actor);
 			if (unit)
 			{
-				FBuffData evade_rate(TEXT("LowProfile"), ECharacterStatType::EvasionRate, evasion_rate_buff_amount_, is_evasion_rate_buff_percentage_, true);
-				unit->ApplyBuff(evade_rate);
+				//IKTODO: 테스트 이후 정상화 시켜야 함.
+				// FBuffStatusData evade_rate(TEXT("LowProfile"), ECharacterStatType::EvasionRate, evasion_rate_buff_amount_, is_evasion_rate_buff_percentage_, true);
+				// unit->ApplyBuff(evade_rate);
 				ActivateParticles();
 
 				is_buff_applied_ = true;

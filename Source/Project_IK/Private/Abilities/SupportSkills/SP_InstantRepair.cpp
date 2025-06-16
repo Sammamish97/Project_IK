@@ -18,6 +18,21 @@ USP_InstantRepair::USP_InstantRepair()
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Allies, 1000.f);
 	cool_time_ = 2.f;
 	cost_ = 3.f;
+
+	test_buff_data_.buff_type_ = EBuffType::InstantRepair;
+	test_buff_data_.thumbnail = nullptr;
+	test_buff_data_.duration_ = 3.f;
+	test_buff_data_.buff_status_.Add({ECharacterStatType::AttackSpeed, 1.5f, true});
+
+	test_buff_data_2 = test_buff_data_;
+	test_buff_data_2.duration_ = 1.f;
+
+	test_buff_data_.buff_type_ = EBuffType::Agility;
+	
+	test_buff_data_3 = test_buff_data_2;
+	test_buff_data_3.duration_ = 2.f;
+
+	test_buff_data_3.buff_type_ = EBuffType::Berserker;
 }
 
 TOptional<FTargetParameters> USP_InstantRepair::ActivateSkill(const FTargetResult& target_result)
@@ -27,6 +42,10 @@ TOptional<FTargetParameters> USP_InstantRepair::ActivateSkill(const FTargetResul
 		if (AUnit* target_unit = Cast<AUnit>(target_result.target_actors_[0]))
 		{
 			target_unit->AcquireShield(300.f, 3.f);
+			target_unit->ApplyBuff(test_buff_data_);
+			target_unit->ApplyBuff(test_buff_data_2);
+			target_unit->ApplyBuff(test_buff_data_3);
+
 		}
 	}
 	return Super::ActivateSkill(target_result);

@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "Managers/EnumCluster.h"
 #include "Structs/TargetParameters.h"
 #include "IKPlayerController.generated.h"
 

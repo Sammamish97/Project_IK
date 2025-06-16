@@ -16,7 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "ActiveSkillBase.generated.h"
 
 struct FDamageData;
-struct FBuffData;
+struct FBuffStatusData;
 
 UCLASS(Blueprintable, Abstract)
 class PROJECT_IK_API UActiveSkillBase : public USkillBase
@@ -31,7 +31,7 @@ public:
 protected:
 	// Helper function to give damage.
 	void ApplyDamage(FDamageData DamageData);
-	bool ApplyBuff(FBuffData buff_data, AActor* buff_target);
+	bool ApplyBuff(FBuffStatusData buff_data, AActor* buff_target);
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float casting_time_ = 0.f;

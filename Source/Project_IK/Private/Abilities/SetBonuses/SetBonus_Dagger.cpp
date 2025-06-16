@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/ObjectPoolComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffStatusData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
 #include "Weapons/Runes/DaggerProjectiles.h"
@@ -28,8 +28,10 @@ USetBonus_Dagger::USetBonus_Dagger()
 void USetBonus_Dagger::ActivateEdgeBonus()
 {
 	Super::ActivateEdgeBonus();
-	hero_cache_->ApplyBuff(FBuffData(TEXT("Dagger_Edge"), ECharacterStatType::AttackSpeed, 10.f, true, true));
-	hero_cache_->ApplyBuff(FBuffData(TEXT("Dagger_Edge"), ECharacterStatType::CriticalHitRate, 5.f, true, true));
+	//IKTODO: 테스트 이후 정상화 시켜야 함.
+
+	// hero_cache_->ApplyBuff(FBuffStatusData(TEXT("Dagger_Edge"), ECharacterStatType::AttackSpeed, 10.f, true, true));
+	// hero_cache_->ApplyBuff(FBuffStatusData(TEXT("Dagger_Edge"), ECharacterStatType::CriticalHitRate, 5.f, true, true));
 }
 
 //3세트: 장전 시 2초간 치명타율 10% 추가.
@@ -50,7 +52,8 @@ void USetBonus_Dagger::ActivateHexagonBonus()
 
 void USetBonus_Dagger::TriangleReloadCritRateBuff()
 {
-	hero_cache_->ApplyBuff({"Dagger_CritBuff", ECharacterStatType::CriticalHitRate, 20.f, true, 5.f});
+	//IKTODO: 테스트 이후 정상화 시켜야 함.
+	//hero_cache_->ApplyBuff({"Dagger_CritBuff", ECharacterStatType::CriticalHitRate, 20.f, true, 5.f});
 }
 
 void USetBonus_Dagger::HexagonBonus()

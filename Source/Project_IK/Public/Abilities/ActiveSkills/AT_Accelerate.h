@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
+#include "Structs/BuffData.h"
 #include "AT_Accelerate.generated.h"
 UCLASS()
 class PROJECT_IK_API UAT_Accelerate : public UActiveSkillBase
@@ -22,6 +23,8 @@ public:
 	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
 
 private:
+	FBuffData buff_data_;
+	
 	float shield_amount_ = 100.f;
 	float attack_speed_increase_amount_ = 50.f;
 	float buff_duration_ = 3.f;

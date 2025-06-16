@@ -43,9 +43,6 @@ See LICENSE file in the project root for full license information.
 #define BindOnCrowdControlChanged(Component, Object, FuncName) \
 	__Internal_BindOnCrowdControlChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
-#define BindOnBuffChanged(Component, Object, FuncName) \
-	__Internal_BindOnBuffChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
-
 #define BindOnUnitEvent(Component, Type, Object, FuncName) \
 	__Internal_BindOnUnitEvent(Component, Type, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
@@ -201,22 +198,6 @@ bool UDelegateBridgeSubsystem::__Internal_BindOnHPOrShieldChanged(UObject* bound
 	{
 		UCharacterStatComponent* cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
 		cs->OnHPOrShieldChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
-		return true;
-	}
-	return false;
-}
-
-template<typename T, typename FuncType>
-inline bool UDelegateBridgeSubsystem::__Internal_BindOnBuffChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name)
-{
-	if (object == nullptr)
-	{
-		return false;
-	}
-	if (bound_character_stat_component != nullptr && bound_character_stat_component->IsA<UCharacterStatComponent>())
-	{
-		UCharacterStatComponent* cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
-		cs->OnBuffChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
 		return true;
 	}
 	return false;

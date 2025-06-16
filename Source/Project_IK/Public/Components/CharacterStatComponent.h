@@ -25,7 +25,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHPChangedDelegate, float, hp_rati
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnShieldChangedDelegate, float, shield_ratio);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHPOrShieldChanged, float, cur_hp, float, cur_shield);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHPChangedWithOwnerDelegate, float, hp_ratio, AActor*, owner_actor);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffChangedDelegate, TArray<FBuffData>, applied_buffs);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffExpired, EBuffType, expired_buff_type);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnApplyBuffDelegate, FBuffData, buff_data);
 
 UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class PROJECT_IK_API UCharacterStatComponent : public UActorComponent
@@ -114,11 +115,14 @@ public:
 	float GetBaseStat(ECharacterStatType StatType) const;
 
 	void ApplyBuff(FBuffData buff);
+	void Removebuff(EBuffType type);
 
-	UFUNCTION(BlueprintCallable)
-	bool RemoveBuff(FName BuffName);
+public:
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnBuffExpired OnBuffExpired;
 
-	TArray<FBuffData> GetBuffs() const;
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnApplyBuffDelegate OnApplyBuff;
 
 protected:
 	// Called when the game starts or when spawned
@@ -134,9 +138,6 @@ protected:
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnShieldChangedDelegate OnShieldChanged;
 	
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnBuffChangedDelegate OnBuffChanged;
-
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnHPOrShieldChanged OnHPOrShieldChanged;
 
@@ -191,5 +192,9 @@ private:
 
 	float max_hit_points_;
 
-	TArray<FBuffData> buffs_;
+	UPROPERTY()
+	TMap<EBuffType, FBuffData> buffs_;
+
+	UPROPERTY()
+	TMap<EBuffType, FTimerHandle> buff_timers_;
 };

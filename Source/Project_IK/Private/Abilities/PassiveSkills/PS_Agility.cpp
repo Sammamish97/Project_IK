@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/PassiveSkills/PS_Agility.h"
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffStatusData.h"
 #include "Characters/Unit.h"
 
 void UPS_Agility::InitEquipmentSkill(AActor* hero_ref)
@@ -26,15 +26,16 @@ void UPS_Agility::InitEquipmentSkill(AActor* hero_ref)
 
 void UPS_Agility::BuffAttackSpeed(EHeroType hero_idx)
 {
-	FBuffData attack_speed(TEXT("AgilityBuff"), ECharacterStatType::AttackSpeed, buff_amount_, is_buff_percentage_, buff_duration_);
-
-	AActor* hero_actor = hero_cache_.Get();
-	if (hero_actor)
-	{
-		AHeroBase* hero = Cast<AHeroBase>(hero_actor);
-		if (hero->GetHeroType() == hero_idx)
-		{
-			hero->ApplyBuff(attack_speed);
-		}
-	}
+	//IKTODO: 테스트 이후 정상화 시켜야 함.
+	// FBuffStatusData attack_speed(TEXT("AgilityBuff"), ECharacterStatType::AttackSpeed, buff_amount_, is_buff_percentage_, buff_duration_);
+	//
+	// AActor* hero_actor = hero_cache_.Get();
+	// if (hero_actor)
+	// {
+	// 	AHeroBase* hero = Cast<AHeroBase>(hero_actor);
+	// 	if (hero->GetHeroType() == hero_idx)
+	// 	{
+	// 		hero->ApplyBuff(attack_speed);
+	// 	}
+	// }
 }

@@ -11,14 +11,15 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SetBonuses/SetBonus_Quake.h"
 
 #include "Characters/HeroBase.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffStatusData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
 //2세트: 스킬 위력 + 20%
 void USetBonus_Quake::ActivateEdgeBonus()
 {
 	Super::ActivateEdgeBonus();
-	hero_cache_->ApplyBuff(FBuffData(TEXT("Quake_Edge"), ECharacterStatType::SkillPower, 20.f, true, true));
+	//IKTODO: 테스트 이후 정상화 시켜야 함.
+	//hero_cache_->ApplyBuff(FBuffStatusData(TEXT("Quake_Edge"), ECharacterStatType::SkillPower, 20.f, true, true));
 }
 
 //3세트: 액티브 스킬을 발동 시 공격속도 + 15%
@@ -37,7 +38,8 @@ void USetBonus_Quake::ActivateHexagonBonus()
 
 void USetBonus_Quake::TriangleAttackSpeedBuff()
 {
-	hero_cache_->ApplyBuff(FBuffData(TEXT("Quake_Triangle"), ECharacterStatType::AttackSpeed, 15.f, true, triangle_buff_duration_));
+	//IKTODO: 테스트 이후 정상화 시켜야 함.
+	//hero_cache_->ApplyBuff(FBuffStatusData(TEXT("Quake_Triangle"), ECharacterStatType::AttackSpeed, 15.f, true, triangle_buff_duration_));
 }
 
 void USetBonus_Quake::HexagonSkillEcho()
@@ -45,6 +47,7 @@ void USetBonus_Quake::HexagonSkillEcho()
 	if (GetWorld()->GetTimerManager().IsTimerActive(skill_echo_timer_handle_) == false)
 	{
 		GetWorld()->GetTimerManager().SetTimer(skill_echo_timer_handle_, hexagon_effect_cooldown, false);
-		hero_cache_->ApplyBuff({"Quake_Hexagon", ECharacterStatType::SkillCoolDown,80.f, false, 1.f});
+		//IKTODO: 테스트 이후 정상화 시켜야 함.
+		//hero_cache_->ApplyBuff({"Quake_Hexagon", ECharacterStatType::SkillCoolDown,80.f, false, 1.f});
 	}
 }

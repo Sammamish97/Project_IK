@@ -21,11 +21,12 @@ See LICENSE file in the project root for full license information.
 #include "UI/HitPointsUI.h"
 #include "Components/ObjectPoolComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Structs/BuffData.h"
 #include "UI/DamageUI.h"
 
 #include "Subsystems/GlobalBuffSubsystem.h"
 
-#include "Structs/BuffData.h"
+#include "Structs/BuffStatusData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "UI/HPUICore.h"
 
@@ -229,14 +230,16 @@ void AUnit::Heal(float heal)
 	}
 }
 
-void AUnit::ApplyBuff(FBuffData buff)
+void AUnit::ApplyBuff(FBuffData buff_data)
 {
-	character_stat_component_->ApplyBuff(buff);
+	character_stat_component_->ApplyBuff(buff_data);
 }
 
 bool AUnit::RemoveBuff(FName BuffName)
 {
-	return character_stat_component_->RemoveBuff(BuffName);
+	//IKTODO: 테스트 후 정상화
+	//return character_stat_component_->RemoveBuff(BuffName);
+	return true;
 }
 
 void AUnit::ApplyCrowdControl(ECCType cc_type, float duration)

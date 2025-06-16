@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/AT_Encourage.h"
 
 #include "Structs/TargetResult.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffStatusData.h"
 
 #include "Characters/Unit.h"
 
@@ -27,14 +27,15 @@ UAT_Encourage::UAT_Encourage()
 
 TOptional<FTargetParameters> UAT_Encourage::ActivateSkill(const FTargetResult& TargetResult)
 {
-	FBuffData attack_speed(TEXT("Encourage_AttackSpeed"), ECharacterStatType::AttackSpeed, 1.15f, true, 8.f);
-	FBuffData cooldown(TEXT("Encourage_Cooldown"), ECharacterStatType::SkillCoolDown, 10.f, false, 8.f);
-
-	for (AActor* ally : TargetResult.target_actors_)
-	{
-		ApplyBuff(attack_speed, ally);
-		ApplyBuff(cooldown, ally);
-	}
+	//IKTODO: 테스트 후 버프 적용
+	// FBuffStatusData attack_speed(TEXT("Encourage_AttackSpeed"), ECharacterStatType::AttackSpeed, 1.15f, true, 8.f);
+	// FBuffStatusData cooldown(TEXT("Encourage_Cooldown"), ECharacterStatType::SkillCoolDown, 10.f, false, 8.f);
+	//
+	// for (AActor* ally : TargetResult.target_actors_)
+	// {
+	// 	ApplyBuff(attack_speed, ally);
+	// 	ApplyBuff(cooldown, ally);
+	// }
 
 	return NullOpt;
 }

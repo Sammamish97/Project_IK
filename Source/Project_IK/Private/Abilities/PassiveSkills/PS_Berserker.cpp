@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/PassiveSkills/PS_Berserker.h"
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffStatusData.h"
 #include "Characters/Unit.h"
 
 #include "NiagaraFunctionLibrary.h"
@@ -63,10 +63,11 @@ void UPS_Berserker::ApplyBuff()
 			AUnit* unit = Cast<AUnit>(actor);
 			if (unit)
 			{
-				FBuffData life_steal(TEXT("Berserker_lifesteal"), ECharacterStatType::LifeSteal, life_steal_buff_amount_, false, true);
-				FBuffData attack_speed(TEXT("Berserker_attack_speed"), ECharacterStatType::AttackSpeed, attack_speed_buff_amount_, is_attack_speed_buff_percentage_, true);
-				unit->ApplyBuff(life_steal);
-				unit->ApplyBuff(attack_speed);
+				//IKTODO: 테스트 이후 정상화 시켜야 함.
+				// FBuffStatusData life_steal(TEXT("Berserker_lifesteal"), ECharacterStatType::LifeSteal, life_steal_buff_amount_, false, true);
+				// FBuffStatusData attack_speed(TEXT("Berserker_attack_speed"), ECharacterStatType::AttackSpeed, attack_speed_buff_amount_, is_attack_speed_buff_percentage_, true);
+				// unit->ApplyBuff(life_steal);
+				// unit->ApplyBuff(attack_speed);
 
 				ActivateParticles();
 

@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "SupportSkillBase.h"
+#include "Structs/BuffData.h"
 #include "SP_InstantRepair.generated.h"
 
 UCLASS()
@@ -23,4 +24,8 @@ public:
 	
 private:
 	float healing_amount_ = 100.f;
+	FBuffData test_buff_data_;
+	FBuffData test_buff_data_2;
+	FBuffData test_buff_data_3;
+
 };

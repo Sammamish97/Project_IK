@@ -52,7 +52,6 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
-	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
 	switch (GetCharacterType())
 	{
 	case ECharacterType::Hero1:

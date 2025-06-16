@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/PassiveSkills/PS_Executioner.h"
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffStatusData.h"
 #include "Characters/HeroBase.h"
 
 void UPS_Executioner::InitEquipmentSkill(AActor* hero_ref)
@@ -26,13 +26,14 @@ void UPS_Executioner::InitEquipmentSkill(AActor* hero_ref)
 
 void UPS_Executioner::ApplyExecutionerBuff()
 {
-	FBuffData attack_speed(TEXT("ExecutionerBuff"), ECharacterStatType::AttackSpeed, buff_amount_, is_buff_percentage_, buff_duration_);
+	//FBuffStatusData attack_speed(TEXT("ExecutionerBuff"), ECharacterStatType::AttackSpeed, buff_amount_, is_buff_percentage_, buff_duration_);
 
 	AActor* hero = hero_cache_.Get();
 	if (hero)
 	{
-		AHeroBase* unit = Cast<AHeroBase>(hero);
-		unit->ApplyBuff(attack_speed);
+		//IKTODO: 테스트 이후 정상화 시켜야 함.
+		// AHeroBase* unit = Cast<AHeroBase>(hero);
+		// unit->ApplyBuff(attack_speed);
 		//TODO: 이후 Reduce Cooltime 다시 구현해야 함.
 		//unit->ReduceCooltime(reduce_cooltime_amount_);
 	}

@@ -19,7 +19,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Structs/TargetParameters.h"
 #include "Structs/TargetResult.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffStatusData.h"
 
 UAT_DeployCover::UAT_DeployCover()
 {
@@ -31,14 +31,15 @@ UAT_DeployCover::UAT_DeployCover()
 
 TOptional<FTargetParameters> UAT_DeployCover::ActivateSkill(const FTargetResult& TargetResult)
 {
-	FBuffData attack_speed(TEXT("DeployCover"), ECharacterStatType::AttackSpeed, 1.1, true, 10.f);
-
-	if (actor_class_ && skill_owner_)
-	{
-		actor_ = skill_owner_->GetWorld()->SpawnActor<ACover>(actor_class_, TargetResult.target_location_, FRotator::ZeroRotator);
-		AUnit* owner_unit = Cast<AUnit>(skill_owner_);
-		actor_->SetHitPoints(deployed_cover_hit_points_ + owner_unit->GetCharacterStat()->GetSkillPower() * hit_points_scaling_factor_);
-		ApplyBuff(attack_speed, skill_owner_);
-	}
+	//IKTODO: 테스트 후 버프 적용
+	// FBuffStatusData attack_speed(TEXT("DeployCover"), ECharacterStatType::AttackSpeed, 1.1, true, 10.f);
+	//
+	// if (actor_class_ && skill_owner_)
+	// {
+	// 	actor_ = skill_owner_->GetWorld()->SpawnActor<ACover>(actor_class_, TargetResult.target_location_, FRotator::ZeroRotator);
+	// 	AUnit* owner_unit = Cast<AUnit>(skill_owner_);
+	// 	actor_->SetHitPoints(deployed_cover_hit_points_ + owner_unit->GetCharacterStat()->GetSkillPower() * hit_points_scaling_factor_);
+	// 	ApplyBuff(attack_speed, skill_owner_);
+	// }
 	return NullOpt;
 }

@@ -9,7 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Characters/Enemy_Suppressor.h"
 #include "Components/WeaponMechanics.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffStatusData.h"
 // Sets default values
 AEnemy_Suppressor::AEnemy_Suppressor()
 {
@@ -41,8 +41,6 @@ void AEnemy_Suppressor::OnEnterBattleOnce()
 
 void AEnemy_Suppressor::GetBonusPower()
 {
-	FBuffData buff_data = {"Suppressor Bonus", ECharacterStatType::AttackSpeed, attack_speed_bonus_, true, true};
-	ApplyBuff(buff_data);
 }
 
 void AEnemy_Suppressor::Attack(AActor* target)

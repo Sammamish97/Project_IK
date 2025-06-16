@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
 
 #include "Structs/DamageData.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffStatusData.h"
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"
 
@@ -48,7 +48,7 @@ void UActiveSkillBase::ApplyDamage(FDamageData DamageData)
 	}
 }
 
-bool UActiveSkillBase::ApplyBuff(FBuffData buff_data, AActor* buff_target)
+bool UActiveSkillBase::ApplyBuff(FBuffStatusData buff_data, AActor* buff_target)
 {
 	if (AUnit* owner_unit = Cast<AUnit>(skill_owner_))
 	{
@@ -57,7 +57,8 @@ bool UActiveSkillBase::ApplyBuff(FBuffData buff_data, AActor* buff_target)
 	if (buff_target && buff_target->IsA<AUnit>())
 	{
 		AUnit* unit = Cast<AUnit>(buff_target);
-		unit->ApplyBuff(buff_data);
+		//IKTODO: 테스트 후 버프 적용
+		//unit->ApplyBuff(buff_data);
 
 		return true;
 	}

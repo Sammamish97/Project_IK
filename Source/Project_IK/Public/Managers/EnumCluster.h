@@ -402,3 +402,31 @@ enum class EOutlineState : uint8
 	Yellow UMETA(DisplayName = "Yellow"),
 	Green UMETA(DisplayName = "Green"),
 };
+
+UENUM(BlueprintType)
+enum class EBuffType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	InstantRepair UMETA(DisplayName = "InstantRepair"),
+	Accelerate UMETA(DisplayName = "Accelerate"),
+	Encourage UMETA(DisplayName = "Encourage"),
+	DeployCover UMETA(DisplayName = "DeployCover"),
+	Agility UMETA(DisplayName = "Agility"),
+	Berserker UMETA(DisplayName = "Berserker"),
+	LowProfile UMETA(DisplayName = "LowProfile"),
+	
+	Chariot_Edge UMETA(DisplayName = "Chariot_Edge"),
+	Chariot_Hexagon UMETA(DisplayName = "Chariot_Hexagon"),
+	GreatBow_Edge UMETA(DisplayName = "GreatBow_Edge"),
+	GreatBow_Triangle UMETA(DisplayName = "GreatBow_Triangle"),
+	Dagger_Edge UMETA(DisplayName = "Dagger_Edge"),
+	Dagger_Triangle UMETA(DisplayName = "Dagger_Triangle"),
+	Poet_Edge UMETA(DisplayName = "Poet_Edge"),
+	Poet_Triangle UMETA(DisplayName = "Poet_Triangle"),
+	Quake_Edge UMETA(DisplayName = "Quake_Edge"),
+	Quake_Triangle UMETA(DisplayName = "Quake_Triangle"),
+	Viper_Edge UMETA(DisplayName = "Viper_Edge"),
+	Viper_Triangle UMETA(DisplayName = "ViperTriangleDebuff"),
+	Tempest_Edge UMETA(DisplayName = "Tempest_Edge"),
+	Tempest_Triangle UMETA(DisplayName = "Tempest_Triangle"),
+};
