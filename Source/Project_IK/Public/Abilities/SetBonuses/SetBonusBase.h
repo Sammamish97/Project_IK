@@ -16,7 +16,7 @@ See LICENSE file in the project root for full license information.
 class AHeroBase;
 class UNiagaraSystem;
 
-UCLASS(Abstract)
+UCLASS(Blueprintable)
 class PROJECT_IK_API USetBonusBase : public UObject
 {
 	GENERATED_BODY()

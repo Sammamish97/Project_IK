@@ -17,7 +17,16 @@ UCLASS()
 class PROJECT_IK_API USetBonus_Viper : public USetBonusBase
 {
 	GENERATED_BODY()
-public:
+
+
+protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UNiagaraSystem> skill_particle_system_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UMaterialInstance> skill_bullet_material_;
+
 	virtual void ActivateEdgeBonus() override;
 	virtual void ActivateTriangleBonus() override;
 	virtual void ActivateHexagonBonus() override;

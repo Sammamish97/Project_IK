@@ -42,12 +42,12 @@ void UInventoryManager::InitRuneInventory()
 {
 	rune_storage_.Init(FRuneSlotData(), max_inventory_size_);
 
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Quake, 0));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Quake, 1));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Quake, 2));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Quake, 3));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Quake, 4));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Quake, 5));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Viper, 0));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Viper, 1));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Viper, 2));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Viper, 3));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Viper, 4));
+	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Viper, 5));
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Dagger, 0));
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Dagger, 1));
 	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Dagger, 2));

@@ -35,5 +35,14 @@ void USetBonus_Viper::ActivateTriangleBonus()
 void USetBonus_Viper::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
-	hero_cache_->GetWeaponMechanics()->GetWeaponActor()->AddOnHitComponent(UBulletViperEffectComponent::StaticClass());
+	auto weapon_actor = hero_cache_->GetWeaponMechanics()->GetWeaponActor();
+	weapon_actor->AddOnHitComponent(UBulletViperEffectComponent::StaticClass());
+	if (skill_particle_system_)
+	{
+		weapon_actor->AttachParticleEffect(skill_particle_system_);
+	}
+	if (skill_bullet_material_)
+	{
+		weapon_actor->ApplyMaterial(skill_bullet_material_);
+	}
 }

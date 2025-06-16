@@ -23,20 +23,20 @@ See LICENSE file in the project root for full license information.
 
 AGunBase::AGunBase()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	
+
 	weapon_skeletal_mesh_ = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GunMesh"));
 	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
 	root_sphere_mesh_ = CreateDefaultSubobject<USphereComponent>(TEXT("RootSphere"));
-	
+
 	weapon_skeletal_mesh_->SetCollisionProfileName(TEXT("NoCollision"));
 	root_sphere_mesh_->SetCollisionProfileName(TEXT("NoCollision"));
-	
+
 	muzzle_socket_name_ = TEXT("muzzle");
 	head_socket_name_ = TEXT("head_socket");
 	owned_cover_key_name_ = TEXT("OwnedCover");
-	
+
 	SetRootComponent(root_sphere_mesh_);
 
 	weapon_skeletal_mesh_->AttachToComponent(root_sphere_mesh_, FAttachmentTransformRules::KeepRelativeTransform);
@@ -50,9 +50,9 @@ void AGunBase::BeginPlay()
 
 void AGunBase::Reload()
 {
-	if(GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false)
+	if (GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false)
 	{
-		if(AUnit* gun_owner = weak_gun_owner_.Get())
+		if (AUnit* gun_owner = weak_gun_owner_.Get())
 		{
 			gun_owner->DispatchUnitEvent(EUnitEvent::OnReload);
 			float reload_play_rate = reload_montage_->GetPlayLength() / weapon_status_data_.reload_duration;
@@ -65,25 +65,27 @@ void AGunBase::Reload()
 void AGunBase::SpawnBullet(const FRotator& rotation, const FVector& translation, const FDamageData& dmg_data)
 {
 	ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(rotation, translation));
-	if (is_first_bullet_on_magazine_)
-	{
-		is_first_bullet_on_magazine_ = false;
-		for (auto& elem : on_hit_after_reload_)
-		{
-			bullet->AddOnHitComponent(elem);
-		}
-	}
-	
-	for (auto& elem : on_hit_effect_classes_)
-	{
-		bullet->AddOnHitComponent(elem);
-	}
 
-	bullet->AttachParticleEffects(niagara_systems_, float_parameters_, vector_parameters_);
-	bullet->ApplyMaterials(materials_);
 
 	if (bullet)
 	{
+		if (is_first_bullet_on_magazine_)
+		{
+			is_first_bullet_on_magazine_ = false;
+			for (auto& elem : on_hit_after_reload_)
+			{
+				bullet->AddOnHitComponent(elem);
+			}
+		}
+
+		for (auto& elem : on_hit_effect_classes_)
+		{
+			bullet->AddOnHitComponent(elem);
+		}
+
+		bullet->AttachParticleEffects(niagara_systems_, float_parameters_, vector_parameters_);
+		bullet->ApplyMaterials(materials_);
+
 		bullet->SetShooter(weak_gun_owner_);
 		bullet->SetDamageData(dmg_data);
 	}
@@ -97,12 +99,12 @@ void AGunBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
 	GetWorld()->GetTimerManager().ClearTimer(reload_timer_handle_);
-	
+
 	ClearOnHitComponents();
 	ClearAfterReloadOnHitComponents();
 	ClearParticleEffects();
 	ClearMaterials();
-	
+
 	Destroy();
 }
 
@@ -129,7 +131,7 @@ void AGunBase::FireBuckShot(FVector target_pos, const FDamageData& dmg_data)
 	{
 		FVector randVec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, TEMP_SPHERE_RADIUS);
 		FVector end_loc = sphere_center + randVec;
-		
+
 		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, end_loc);
 		SpawnBullet(rotation, muzzle_location, dmg_data);
 	}
@@ -142,7 +144,7 @@ void AGunBase::BeginFire(AActor* target)
 
 void AGunBase::OnReload()
 {
-	if(AUnit* gun_owner = weak_gun_owner_.Get())
+	if (AUnit* gun_owner = weak_gun_owner_.Get())
 	{
 		is_first_bullet_on_magazine_ = true;
 		cur_magazine_ = weapon_status_data_.max_magazine;
@@ -179,7 +181,7 @@ FName AGunBase::GetGrabSocketName()
 //이 함수에서 치명타 확률 계산이 이루어지기에, 총알이 발사될 때 마다 이 함수가 호출되어야 한다.
 FDamageData AGunBase::GetWeaponFireDamageData()
 {
-	if(AUnit* gun_owner = weak_gun_owner_.Get())
+	if (AUnit* gun_owner = weak_gun_owner_.Get())
 	{
 		UCharacterStatComponent* stat_component = gun_owner->GetCharacterStat();
 		float total_atk_dmg = weapon_status_data_.basic_dmg_ + stat_component->GetAttackPower() * weapon_status_data_.attack_scale;
