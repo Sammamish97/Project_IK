@@ -14,7 +14,10 @@ See LICENSE file in the project root for full license information.
 #include "Components/EnergySystemComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Structs/SupportSkillData.h"
+#include "UI/ButtonBarWidget.h"
+#include "UI/SkillPopupWidget.h"
 #include "WorldSettings/IKGameModeBase.h"
+#include "WorldSettings/IKHUD.h"
 #include "WorldSettings/IKPlayerController.h"
 
 AIKGameState::AIKGameState()
@@ -29,7 +32,7 @@ void AIKGameState::BeginPlay()
 {
 	Super::BeginPlay();
 	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-
+	
 	for (int32 i = 0; i < 3; i++)
 	{
 		if (support_skill_data_[i].type_ != ESupportSkillType::INVALID)
@@ -90,6 +93,7 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 				player_controller_cache_->StartTargeting(casted_hero->GetActiveSkillTargetParameters());
 				selected_skill_ = casted_hero->GetActiveSkill();
 				selected_hero_type_ = hero_type;
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdateSkillPopupData(selected_hero_type_);
 			}
 		}
 	}
@@ -106,6 +110,7 @@ void AIKGameState::ActivateSupportSkill(int32 support_num)
 				player_controller_cache_->StartTargeting(equipped_support_skills_[support_num]->GetTargetParameters());
 				selected_skill_ = equipped_support_skills_[support_num];
 				selected_support_num_ = support_num;
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdateSkillPopupData(selected_support_num_);
 			}
 		}
 	}
@@ -143,4 +148,5 @@ void AIKGameState::ClearTargetingState()
 	selected_skill_ = nullptr;
 	selected_hero_type_ = EHeroType::INVALID;
 	selected_support_num_ = -1;
+	Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->SetVisibility(ESlateVisibility::Hidden);
 }

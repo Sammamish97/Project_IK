@@ -25,6 +25,7 @@ void USkillPopupWidget::InitSupportSkillData(const TMap<int32, FItemData>& input
 
 void USkillPopupWidget::UpdateSkillPopupData(EHeroType type)
 {
+	SetVisibility(ESlateVisibility::Visible);
 	thumbnail_->SetBrushFromTexture(hero_skill_data_[type].thumbnail);
 	skill_name_->SetText(hero_skill_data_[type].name_);
 	skill_detail_->SetText(hero_skill_data_[type].detail_);
@@ -32,6 +33,7 @@ void USkillPopupWidget::UpdateSkillPopupData(EHeroType type)
 
 void USkillPopupWidget::UpdateSkillPopupData(int32 support_skill_idx)
 {
+	SetVisibility(ESlateVisibility::Visible);
 	thumbnail_->SetBrushFromTexture(support_skill_data_[support_skill_idx].thumbnail);
 	skill_name_->SetText(support_skill_data_[support_skill_idx].name_);
 	skill_detail_->SetText(support_skill_data_[support_skill_idx].detail_);
