@@ -231,6 +231,22 @@ enum class ECharacterStatType : uint8
 	Shield UMETA(DisplayName = "Shield"),
 };
 
+//IKTODO: 로컬라이징 할 시 여기도 영향을 받는것을 잊으면 안됨.
+inline FString ECharStatToString(ECharacterStatType stat)
+{
+	switch (stat)
+	{
+	case ECharacterStatType::AttackPower:
+		return FString("Attack Power");
+	case ECharacterStatType::AttackSpeed:
+		return FString("Attack Speed");
+	case ECharacterStatType::SkillPower:
+		return FString("SKill Power");
+	default:
+		return FString("");
+	}
+}
+
 UENUM(BlueprintType)
 enum class EWeaponType : uint8
 {

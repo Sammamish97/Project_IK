@@ -26,6 +26,9 @@ struct PROJECT_IK_API FBuffData
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Buff")
 	bool is_permanent_ = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Buff")
+	FString detail_;
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	TArray<FBuffStatusData> buff_status_;

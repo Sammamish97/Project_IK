@@ -25,7 +25,6 @@ public:
 	virtual void NativeConstruct() override;
 	void SetBuffDetail(FBuffData target_data);
 	void ResetWidget();
-	FString StatToString(ECharacterStatType stat);
 	
 private:
 	UPROPERTY(meta = (BindWidget))
@@ -35,11 +34,5 @@ private:
 	TObjectPtr<UTextBlock> name_;
 	
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> detail_0_;
-	
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> detail_1_;
-	
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> detail_2_;
+	TObjectPtr<UTextBlock> detail_;
 };

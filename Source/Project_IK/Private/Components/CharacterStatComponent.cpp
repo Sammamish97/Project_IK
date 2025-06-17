@@ -449,11 +449,14 @@ void UCharacterStatComponent::ApplyBuff(FBuffData buff_data)
 	{
 		buff_timers_.Add(buff_type, FTimerHandle());
 	}
-	FTimerDelegate expired_delegate = FTimerDelegate::CreateUObject(this, &UCharacterStatComponent::Removebuff, buff_type);
 
-	GetWorld()->GetTimerManager().SetTimer(buff_timers_[buff_data.buff_type_], expired_delegate, buff_data.duration_, false);
-	buffs_.Add(buff_type, buff_data);
+	if(buff_data.is_permanent_ == false)
+	{
+		FTimerDelegate expired_delegate = FTimerDelegate::CreateUObject(this, &UCharacterStatComponent::Removebuff, buff_type);
+		GetWorld()->GetTimerManager().SetTimer(buff_timers_[buff_data.buff_type_], expired_delegate, buff_data.duration_, false);
+	}
 	
+	buffs_.Add(buff_type, buff_data);
 	OnApplyBuff.Broadcast(buff_data);
 }
 

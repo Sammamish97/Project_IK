@@ -23,19 +23,21 @@ USP_InstantRepair::USP_InstantRepair()
 	test_buff_data_.thumbnail = nullptr;
 	test_buff_data_.duration_ = 5.f;
 	test_buff_data_.buff_status_.Add({ECharacterStatType::AttackSpeed, 1.5f, true});
+	test_buff_data_.detail_ = FString::Printf(TEXT("%d 초간 %d 의 %s를 얻습니다."), test_buff_data_.duration_, 1.5f, *ECharStatToString(ECharacterStatType::AttackSpeed));
 
 	test_buff_data_2 = test_buff_data_;
 	test_buff_data_2.duration_ = 3.f;
 	test_buff_data_2.buff_status_.Add({ECharacterStatType::AttackPower, 1.5f, true});
-
+	test_buff_data_2.detail_ = FString("Test1");
+	test_buff_data_2.is_permanent_ = true;
 
 	test_buff_data_.buff_type_ = EBuffType::Agility;
 	
 	test_buff_data_3 = test_buff_data_2;
 	test_buff_data_3.duration_ = 4.f;
 	test_buff_data_3.buff_status_.Add({ECharacterStatType::SkillPower, 1.5f, true});
-
-
+	test_buff_data_3.detail_ = FString("Test2");
+	
 	test_buff_data_3.buff_type_ = EBuffType::Berserker;
 }
 

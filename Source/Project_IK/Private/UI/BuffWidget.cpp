@@ -56,7 +56,7 @@ void UBuffWidget::BeginBuffUI(FBuffData buff_data)
 void UBuffWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	if (left_time_ > 0)
+	if (buff_data_cache_.is_permanent_ == false && left_time_ > 0)
 	{
 		left_time_ -= InDeltaTime;
 		left_time_ = FMath::Max(left_time_, 0.f);
