@@ -13,6 +13,9 @@ See LICENSE file in the project root for full license information.
 #include "SetBonusBase.h"
 #include "SetBonus_Viper.generated.h"
 
+class UBulletDebuffEffectComponent;
+class UBulletViperEffectComponent;
+
 UCLASS()
 class PROJECT_IK_API USetBonus_Viper : public USetBonusBase
 {
@@ -20,12 +23,11 @@ class PROJECT_IK_API USetBonus_Viper : public USetBonusBase
 
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UBulletDebuffEffectComponent> triangle_on_hit_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UNiagaraSystem> skill_particle_system_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UMaterialInstance> skill_bullet_material_;
+	TSubclassOf<UBulletViperEffectComponent> hexagon_on_hit_;
 
 	virtual void ActivateEdgeBonus() override;
 	virtual void ActivateTriangleBonus() override;

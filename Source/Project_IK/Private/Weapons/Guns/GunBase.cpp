@@ -83,9 +83,6 @@ void AGunBase::SpawnBullet(const FRotator& rotation, const FVector& translation,
 			bullet->AddOnHitComponent(elem);
 		}
 
-		bullet->AttachParticleEffects(niagara_systems_, float_parameters_, vector_parameters_);
-		bullet->ApplyMaterials(materials_);
-
 		bullet->SetShooter(weak_gun_owner_);
 		bullet->SetDamageData(dmg_data);
 	}
@@ -102,8 +99,6 @@ void AGunBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 	ClearOnHitComponents();
 	ClearAfterReloadOnHitComponents();
-	ClearParticleEffects();
-	ClearMaterials();
 
 	Destroy();
 }
@@ -242,65 +237,4 @@ void AGunBase::RemoveAfterReloadOnHitComponent(TSubclassOf<class UBulletOnHitEff
 void AGunBase::ClearAfterReloadOnHitComponents()
 {
 	on_hit_after_reload_.Empty();
-}
-
-void AGunBase::AttachParticleEffect(UNiagaraSystem* niagara_system)
-{
-	if (niagara_system)
-	{
-		niagara_systems_.Add(niagara_system);
-		float_parameters_.Add(niagara_system);
-		vector_parameters_.Add(niagara_system);
-	}
-}
-
-void AGunBase::RemoveParticleEffect(UNiagaraSystem* niagara_system)
-{
-	if (niagara_system)
-	{
-		niagara_systems_.Remove(niagara_system);
-		float_parameters_.Remove(niagara_system);
-		vector_parameters_.Remove(niagara_system);
-	}
-}
-
-void AGunBase::ClearParticleEffects()
-{
-	niagara_systems_.Empty();
-	float_parameters_.Empty();
-	vector_parameters_.Empty();
-}
-
-void AGunBase::AddParticleParameterFloat(UNiagaraSystem* niagara_system, FName name, float float_data)
-{
-	if (niagara_system)
-	{
-		float_parameters_[niagara_system].Add(name, float_data);
-	}
-}
-
-void AGunBase::AddParticleParameterVector(UNiagaraSystem* niagara_system, FName name, const FVector& vector_data)
-{
-	if (niagara_system)
-	{
-		vector_parameters_[niagara_system].Add(name, vector_data);
-	}
-}
-
-void AGunBase::ApplyMaterial(UMaterialInterface* material)
-{
-	if (material)
-	{
-		materials_.Add(material);
-	}
-}
-
-void AGunBase::RemoveMaterial(UMaterialInterface* material)
-{
-	materials_.Remove(material);
-}
-
-void AGunBase::ClearMaterials()
-{
-	materials_.Empty();
 }

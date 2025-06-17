@@ -28,7 +28,14 @@ void USetBonus_Viper::ActivateEdgeBonus()
 void USetBonus_Viper::ActivateTriangleBonus()
 {
 	Super::ActivateTriangleBonus();
-	hero_cache_->GetWeaponMechanics()->GetWeaponActor()->AddAfterReloadOnHitComponent(UBulletDebuffEffectComponent::StaticClass());
+	if (triangle_on_hit_)
+	{
+		hero_cache_->GetWeaponMechanics()->GetWeaponActor()->AddAfterReloadOnHitComponent(triangle_on_hit_);
+	}
+	else
+	{
+		hero_cache_->GetWeaponMechanics()->GetWeaponActor()->AddAfterReloadOnHitComponent(UBulletDebuffEffectComponent::StaticClass());
+	}
 }
 
 //6세트: 총알에 독사 도트딜 추가.
@@ -36,13 +43,12 @@ void USetBonus_Viper::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
 	auto weapon_actor = hero_cache_->GetWeaponMechanics()->GetWeaponActor();
-	weapon_actor->AddOnHitComponent(UBulletViperEffectComponent::StaticClass());
-	if (skill_particle_system_)
+	if (hexagon_on_hit_)
 	{
-		weapon_actor->AttachParticleEffect(skill_particle_system_);
+		weapon_actor->AddOnHitComponent(hexagon_on_hit_);
 	}
-	if (skill_bullet_material_)
+	else
 	{
-		weapon_actor->ApplyMaterial(skill_bullet_material_);
+		weapon_actor->AddOnHitComponent(UBulletViperEffectComponent::StaticClass());
 	}
 }

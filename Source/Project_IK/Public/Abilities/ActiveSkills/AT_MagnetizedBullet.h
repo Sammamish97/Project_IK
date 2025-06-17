@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "AT_MagnetizedBullet.generated.h"
 
 class UNiagaraSystem;
+class UBulletChainEffectComponent;
 
 UCLASS()
 class PROJECT_IK_API UAT_MagnetizedBullet : public USkillBase
@@ -26,12 +27,9 @@ public:
 	void OnFinishSkill();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UNiagaraSystem> skill_particle_system_;
+	TSubclassOf<UBulletChainEffectComponent> on_hit_class_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UMaterialInstance> skill_bullet_material_;
-
-private:
+protected:
 	float duration_ = 0.f;
 	FTimerHandle duration_timer_handle_;
 };

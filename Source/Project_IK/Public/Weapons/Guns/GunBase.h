@@ -62,15 +62,6 @@ protected:
 	void SpawnBullet(const FRotator& rotation, const FVector& translation, const FDamageData& dmg_data);
 
 public:
-	void AttachParticleEffect(UNiagaraSystem* niagara_system);
-	void RemoveParticleEffect(UNiagaraSystem* niagara_system);
-	void ClearParticleEffects();
-	void AddParticleParameterFloat(UNiagaraSystem* niagara_system, FName name, float float_data);
-	void AddParticleParameterVector(UNiagaraSystem* niagara_system, FName name, const FVector& vector_data);
-
-	void ApplyMaterial(UMaterialInterface* material);
-	void RemoveMaterial(UMaterialInterface* material);
-	void ClearMaterials();
 	
 	FORCEINLINE FAIRequestID GetReloadRequestId() const { return reload_request_id_; }
 
@@ -122,15 +113,6 @@ protected:
 	FName owned_cover_key_name_;
 	
 	FAIRequestID reload_request_id_ = 0;
-
-	UPROPERTY()
-	TArray<UNiagaraSystem*> niagara_systems_;
-
-	UPROPERTY()
-	TArray<UMaterialInterface*> materials_;
-
-	TMap<UNiagaraSystem*, TMap<FName, float>> float_parameters_;
-	TMap<UNiagaraSystem*, TMap<FName, FVector>> vector_parameters_;
 
 	bool is_first_bullet_on_magazine_ = true;
 

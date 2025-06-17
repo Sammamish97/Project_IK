@@ -20,8 +20,10 @@ class PROJECT_IK_API UBulletChainEffectComponent : public UBulletOnHitEffectComp
 
 public:
 	virtual void OnHit(AActor* target) override;
+	virtual void ApplyEffect(ABullet* bullet) const override;
 
-private:
+protected:
+
 	int32 chain_amount_ = 3;
 	float chain_radius_ = 1000.f;
 };

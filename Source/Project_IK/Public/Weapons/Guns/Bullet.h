@@ -44,10 +44,8 @@ public:
 
 	virtual void SetInUse(bool in_use) override;
 
-	void AttachParticleEffects(const TArray<UNiagaraSystem*>& niagara_systems, 
-		const TMap<UNiagaraSystem*, TMap<FName, float>>& float_parameters, 
-		const TMap<UNiagaraSystem*, TMap<FName, FVector>>& vector_parameters);
-	void ApplyMaterials(const TArray<UMaterialInterface*>& material);
+	USceneComponent* GetSceneComponent() const;
+	void ApplyMaterial(int32 element_index, UMaterialInterface* material);
 
 	// Destructor of pooled actors
 	virtual void ReturnToPool() override;
