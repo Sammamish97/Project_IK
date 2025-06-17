@@ -17,7 +17,6 @@ See LICENSE file in the project root for full license information.
 void UBuffPopupWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	SetVisibility(ESlateVisibility::Hidden);
 }
 
 void UBuffPopupWidget::ResetWidget()

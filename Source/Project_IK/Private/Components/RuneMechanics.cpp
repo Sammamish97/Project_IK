@@ -68,7 +68,7 @@ void URuneMechanics::ApplySetBonuses()
 	}
 }
 
-TArray<TPair<ERuneSetType, TArray<int32>>> URuneMechanics::GetSetBonusData()
+TArray<RuneSetBonus> URuneMechanics::GetSetBonusData()
 {
 	return bonus_manager_cache_->FigureOutRuneSet(equipped_runes_);
 }

@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "Structs/RuneData.h"
 #include "RuneMechanics.generated.h"
+typedef TPair<ERuneSetType, TArray<int32>> RuneSetBonus;
 
 struct FStatusData;
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -33,7 +34,7 @@ public:
 	void EquipRune(ERuneSetType set_type, int32 idx);
 	FStatusData GetTotalStatus();
 	void ApplySetBonuses();
-	TArray<TPair<ERuneSetType, TArray<int32>>> GetSetBonusData();
+	TArray<RuneSetBonus> GetSetBonusData();
 	const TArray<FRuneData>& GetEquippedRunes();
 	
 private:

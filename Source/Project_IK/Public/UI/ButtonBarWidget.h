@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 
 class UBuffPopupWidget;
 class USkillPopupWidget;
+class URunePopupWidget;
 class USupportSkillButtonWidget;
 class USkillButtonWidget;
 class UHeroWidget;
@@ -40,6 +41,7 @@ public:
 	UHeroWidget* GetHeroWidget(EHeroType idx);
 	USkillPopupWidget* GetSkillPopupWidget();
 	UBuffPopupWidget* GetBuffPopupWidget();
+	URunePopupWidget* GetRunePopupWidget();
 
 protected:
 	virtual void NativeConstruct() override;
@@ -106,11 +108,12 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<USkillPopupWidget> skill_popup_widget_;
-
-	//
-
+	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UBuffPopupWidget> buff_popup_widget_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<URunePopupWidget> rune_popup_widget_;
 	
 	//
 	

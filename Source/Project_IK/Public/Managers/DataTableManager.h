@@ -53,6 +53,7 @@ public:
 	TArray<FRuneData> GetRuneDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 	TArray<FRuneData> GetUniqueRuneDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 	UTexture2D* GetRuneSetThumbnail(ERuneSetType type) const;
+	FString GetRuneSetBonusDetail(ERuneSetType set_type, ERuneBonusType bonus_type) const;
 
 	FPassiveSkillData GetPassiveSkillData(EPassiveSkillType type) const;
 	FString PassiveSkillEnumToString(EPassiveSkillType weapon_type) const;

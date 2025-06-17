@@ -11,8 +11,10 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Subsystems/PerkProgressSubsystem.h"
 #include "MiniRuneBoardWidget.generated.h"
 
+class URunePopupWidget;
 class UMiniRuneSlotWidget;
 class UImage;
 UCLASS(Abstract)
@@ -20,15 +22,19 @@ class PROJECT_IK_API UMiniRuneBoardWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	virtual void NativePreConstruct() override;
-	virtual void NativeConstruct() override;
-	virtual void NativeDestruct() override;
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	
-	void InitMiniRuneBoard(class URuneMechanics* rune_mechanics);
+	void InitMiniRuneBoard(class URuneMechanics* rune_mechanics, URunePopupWidget* rune_popup_widget, EHeroType type);
 	
 private:
+	UPROPERTY()
+	TObjectPtr<URunePopupWidget> rune_popup_widget_cache_;
+	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UBorder> border_;
+
+	EHeroType hero_type_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UMiniRuneSlotWidget> rune_0_;

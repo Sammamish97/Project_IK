@@ -25,4 +25,7 @@ struct PROJECT_IK_API FRuneSetData
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	FItemData item_data_;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	TMap<ERuneBonusType, FString> bonus_details_;
 };

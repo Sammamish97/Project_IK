@@ -335,6 +335,16 @@ enum class ERuneSetType : uint8
 };
 
 UENUM(BlueprintType)
+enum class ERuneBonusType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Edge UMETA(DisplayName = "Edge"),
+	Triangle UMETA(DisplayName = "Triangle"),
+	Hexagon UMETA(DisplayName = "Hexagon"),
+};
+
+
+UENUM(BlueprintType)
 enum class EGlobalBuffType : uint8
 {
 	WoundingBullets UMETA(DisplayName = "WoundingBullets"),

@@ -46,7 +46,7 @@ TObjectPtr<USetBonusBase> USetBonusManager::GetSetBonus(AActor* hero_ptr, ERuneS
 	return nullptr;
 }
 
-TOptional<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutHexagonSet(
+TOptional<RuneSetBonus> USetBonusManager::FigureOutHexagonSet(
 	const TArray<FRuneData>& rune_slots)
 {
 	bool is_all_equipped = true;
@@ -70,14 +70,14 @@ TOptional<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutHexagon
 		}
 		if (is_all_same_type && rune_slots[0].set_type != ERuneSetType::INVALID)
 		{
-			TPair<ERuneSetType, TArray<int32>> result = {rune_slots[0].set_type, TArray{0, 1, 2, 3, 4, 5}};
+			RuneSetBonus result = {rune_slots[0].set_type, TArray{0, 1, 2, 3, 4, 5}};
 			return result;
 		}
 	}
 	return NullOpt;
 }
 
-TOptional<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutTriangleSet(
+TOptional<RuneSetBonus> USetBonusManager::FigureOutTriangleSet(
 	const TArray<FRuneData>& rune_slots, TArray<int32>& indices, TArray<int32>& inv_indices)
 {
 	float is_all_equipped = true;
@@ -110,17 +110,17 @@ TOptional<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutTriangl
 		}
 		if (is_all_same_type && rune_slots[indices[0]].set_type != ERuneSetType::INVALID)
 		{
-			TPair<ERuneSetType, TArray<int32>> result = {rune_slots[indices[0]].set_type, indices};
+			RuneSetBonus result = {rune_slots[indices[0]].set_type, indices};
 			return result;
 		}
 	}
 	return NullOpt;
 }
 
-TArray<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutEdgeSet(
+TArray<RuneSetBonus> USetBonusManager::FigureOutEdgeSet(
 	const TArray<FRuneData>& rune_slots)
 {
-	TArray<TPair<ERuneSetType, TArray<int32>>> result;
+	TArray<RuneSetBonus> result;
 	
 	bool skip[6] = { false }; // 연속된 3개 이상이면 점수 제외하기 위한 배열
 
@@ -153,10 +153,9 @@ TArray<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutEdgeSet(
 	return result;
 }
 
-
-TArray<TPair<ERuneSetType, TArray<int32>>> USetBonusManager::FigureOutRuneSet(const TArray<FRuneData>& rune_slots)
+TArray<RuneSetBonus> USetBonusManager::FigureOutRuneSet(const TArray<FRuneData>& rune_slots)
 {
-	TArray<TPair<ERuneSetType, TArray<int32>>> bonus_result;
+	TArray<RuneSetBonus> bonus_result;
 	auto hex_result = FigureOutHexagonSet(rune_slots);
 	if (hex_result.IsSet())
 	{

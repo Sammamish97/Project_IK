@@ -25,6 +25,8 @@ public:
 	TArray<FRuneSetData> GetRuneSetDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
 	TArray<FRuneSetData> GetUniqueRuneSetDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
 
+	FString GetRuneSetBonusDetail(ERuneSetType set_type, ERuneBonusType bonus_type);
+
 private:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, meta = (AllowPrivateAccess = true))
 	TMap<ERuneSetType, FRuneSetData> rune_data_map_;

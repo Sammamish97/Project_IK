@@ -55,15 +55,32 @@ void AHeroBase::BeginPlay()
 	switch (GetCharacterType())
 	{
 	case ECharacterType::Hero1:
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
 		hero_type_ = EHeroType::Hero1;
 		break;
 	case ECharacterType::Hero2:
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 1);
 		hero_type_ = EHeroType::Hero2;
 		break;
 	case ECharacterType::Hero3:
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
+		rune_mechanics_->EquipRune(ERuneSetType::Viper, 1);
+		rune_mechanics_->EquipRune(ERuneSetType::Viper, 3);
+		rune_mechanics_->EquipRune(ERuneSetType::Viper, 5);
 		hero_type_ = EHeroType::Hero3;
 		break;
 	case ECharacterType::Hero4:
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 1);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 3);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 5);
 		hero_type_ = EHeroType::Hero4;
 		break;
 
@@ -75,10 +92,6 @@ void AHeroBase::BeginPlay()
 	{
 		weapon_mechanics_->EquipWeapon(default_weapon_class_);
 	}
-	
-	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
-	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
-	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
 
 	active_skill_mechanics_->EquipActiveSkill(EActiveSkillType::ThunderStorm);
 	//

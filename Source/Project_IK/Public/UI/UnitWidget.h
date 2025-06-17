@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Managers/EnumCluster.h"
 #include "UnitWidget.generated.h"
 
 class UBuffContainer;
@@ -29,8 +30,7 @@ class PROJECT_IK_API UHeroWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	virtual void NativeConstruct() override;
-	void InitHeroWidget(class UBuffPopupWidget* popup_widget, class URuneMechanics* rune_mechanics, float max_hp, float cur_hp);
+	void InitHeroWidget(class UBuffPopupWidget* popup_widget, class URuneMechanics* rune_mechanics, class URunePopupWidget* rune_popup_widget, EHeroType hero_type, float max_hp, float cur_hp);
 	USegmentedHPUI* GetHPWidget();
 	USkillButtonWidget* GetSkillButtonWidget();
 	UBuffContainer* GetBuffContainer();

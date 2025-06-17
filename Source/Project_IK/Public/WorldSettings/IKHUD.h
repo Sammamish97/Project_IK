@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/HUD.h"
 #include "IKHUD.generated.h"
 
+class UDataTableManager;
 class USkillButtonWidget;
 class UButtonBarWidget;
 class UCombatResultUI;
@@ -46,8 +47,6 @@ public:
 	TSubclassOf<UCombatLevelResultManager> combat_level_widget_class_;
 	
 protected:
-
-	// Reference to the widget instance
 	UPROPERTY()
 	TObjectPtr<UButtonBarWidget> button_bar_widget_;
 

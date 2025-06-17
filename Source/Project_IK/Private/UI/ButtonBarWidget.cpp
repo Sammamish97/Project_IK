@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 
 #include "Components/Button.h"
+#include "UI/RunePopupWidget.h"
 
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKPlayerController.h"
@@ -35,6 +36,8 @@ void UButtonBarWidget::NativeConstruct()
 	hero_widget_3_->GetSkillButtonWidget()->button_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnActiveSkillButtonClicked3);
 
 	skill_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
+	rune_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
+	buff_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
 
 	game_state_cache_ = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
 	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
@@ -148,4 +151,9 @@ USkillPopupWidget* UButtonBarWidget::GetSkillPopupWidget()
 UBuffPopupWidget* UButtonBarWidget::GetBuffPopupWidget()
 {
 	return buff_popup_widget_;
+}
+
+URunePopupWidget* UButtonBarWidget::GetRunePopupWidget()
+{
+	return rune_popup_widget_;
 }
