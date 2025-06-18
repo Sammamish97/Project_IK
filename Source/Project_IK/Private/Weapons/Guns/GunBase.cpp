@@ -20,6 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/CharacterStatComponent.h"
 #include "Components/SphereComponent.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
+#include "NiagaraFunctionLibrary.h"
 
 AGunBase::AGunBase()
 {
@@ -92,6 +93,14 @@ void AGunBase::SpawnBullet(const FRotator& rotation, const FVector& translation,
 	}
 }
 
+void AGunBase::PlayEjectionParticle() const
+{
+	if (ejection_particle_)
+	{
+		UNiagaraFunctionLibrary::SpawnSystemAttached(ejection_particle_, weapon_skeletal_mesh_, FName("Door"), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
+	}
+}
+
 void AGunBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
@@ -109,6 +118,8 @@ void AGunBase::FireSingleBullet(FVector target_pos, const FDamageData& dmg_data)
 	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, target_pos);
 	SpawnBullet(rotation, muzzle_location, dmg_data);
 	cur_magazine_ -= 1;
+
+	PlayEjectionParticle();
 }
 
 void AGunBase::FireBuckShot(FVector target_pos, const FDamageData& dmg_data)
@@ -131,6 +142,8 @@ void AGunBase::FireBuckShot(FVector target_pos, const FDamageData& dmg_data)
 		SpawnBullet(rotation, muzzle_location, dmg_data);
 	}
 	cur_magazine_ -= 1;
+
+	PlayEjectionParticle();
 }
 
 void AGunBase::BeginFire(AActor* target)
