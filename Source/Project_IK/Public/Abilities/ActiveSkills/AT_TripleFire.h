@@ -20,7 +20,7 @@ class PROJECT_IK_API UAT_TripleFire : public UActiveSkillBase
 
 public:
 	UAT_TripleFire();
-	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 private:
 	virtual void OnTripleFire(AActor* target, class UWeaponMechanics* weapon_mechanics_cache, FDamageData dmg_data, float attack_speed);

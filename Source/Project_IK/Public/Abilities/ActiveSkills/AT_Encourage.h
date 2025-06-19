@@ -24,5 +24,5 @@ class PROJECT_IK_API UAT_Encourage : public UActiveSkillBase
 	GENERATED_BODY()
 public:
 	UAT_Encourage();
-	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 };

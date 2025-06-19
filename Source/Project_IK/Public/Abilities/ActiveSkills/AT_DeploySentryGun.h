@@ -28,7 +28,7 @@ class PROJECT_IK_API UAT_DeploySentryGun : public UActiveSkillBase
 public:
 
 	UAT_DeploySentryGun();
-	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<ACover> actor_class_;

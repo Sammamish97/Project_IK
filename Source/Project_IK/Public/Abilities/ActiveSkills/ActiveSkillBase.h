@@ -24,7 +24,7 @@ class PROJECT_IK_API UActiveSkillBase : public USkillBase
 	GENERATED_BODY()
 	
 public:
-	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 	void InitActiveSkill(AActor* skill_owner);
 	float GetCastingTime() const;
 

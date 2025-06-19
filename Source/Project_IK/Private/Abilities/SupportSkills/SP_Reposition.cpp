@@ -9,6 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Abilities/SupportSkills/SP_Reposition.h"
 #include "Characters/HeroBase.h"
+#include "Components/TargetingComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKPlayerController.h"
 
@@ -20,17 +21,24 @@ USP_Reposition::USP_Reposition()
 	cost_ = 1.f;
 }
 
-TOptional<FTargetParameters> USP_Reposition::ActivateSkill(const FTargetResult& target_result)
+bool USP_Reposition::ActivateSkill(const FTargetResult& target_result)
 {
 	if (selected_hero_)
 	{
 		selected_hero_->Reposition(target_result.target_location_);
-		return NullOpt;
+		return true;
 	}
 	
 	if (target_result.target_actors_.Num() > 0 && target_result.target_actors_[0]->IsA(AHeroBase::StaticClass()))
 	{
 		selected_hero_ = Cast<AHeroBase>(target_result.target_actors_[0]);
+		Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0))->GetTargetingComponent()->StartTargeting(reposition_location_params_);
 	}
-	return reposition_location_params_;
+	return false;
+}
+
+void USP_Reposition::ResetSkill()
+{
+	Super::ResetSkill();
+	selected_hero_ = nullptr;
 }

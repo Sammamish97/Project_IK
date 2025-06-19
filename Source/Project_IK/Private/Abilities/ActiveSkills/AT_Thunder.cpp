@@ -21,11 +21,11 @@ UAT_Thunder::UAT_Thunder()
 	damage_ = 100.f;
 }
 
-TOptional<FTargetParameters> UAT_Thunder::ActivateSkill(const FTargetResult& target_result)
+bool UAT_Thunder::ActivateSkill(const FTargetResult& target_result)
 {
 	if(target_result.target_actors_[0])
 	{
 		ApplyDamage({ 0, damage_, EDamageType::Magic, skill_owner_, target_result.target_actors_[0] });
 	}
-	return NullOpt;
+	return Super::ActivateSkill(target_result);
 }

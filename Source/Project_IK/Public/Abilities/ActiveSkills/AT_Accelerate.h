@@ -20,7 +20,7 @@ class PROJECT_IK_API UAT_Accelerate : public UActiveSkillBase
 
 public:
 	UAT_Accelerate();
-	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 private:
 	FBuffData buff_data_;

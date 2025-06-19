@@ -21,7 +21,7 @@ UAT_MagnetizedBullet::UAT_MagnetizedBullet()
 	duration_ = 3.f;
 }
 
-TOptional<FTargetParameters> UAT_MagnetizedBullet::ActivateSkill(const FTargetResult& TargetResult)
+bool UAT_MagnetizedBullet::ActivateSkill(const FTargetResult& TargetResult)
 {
 	//1. 지속시간동안 다음의 효과를 일으켜야 함
 		//a. 총알이 3명의 적에게 도탄 되어야 함.
@@ -41,7 +41,7 @@ TOptional<FTargetParameters> UAT_MagnetizedBullet::ActivateSkill(const FTargetRe
 		FTimerDelegate timer_delegate = FTimerDelegate::CreateUObject(this, &UAT_MagnetizedBullet::OnFinishSkill);
 		GetWorld()->GetTimerManager().SetTimer(duration_timer_handle_, timer_delegate, duration_, false);
 	}
-	return NullOpt;
+	return Super::ActivateSkill(TargetResult);
 }
 
 void UAT_MagnetizedBullet::OnFinishSkill()

@@ -26,7 +26,7 @@ UAT_DeploySentryGun::UAT_DeploySentryGun()
 	cool_time_ = 15.f;
 }
 
-TOptional<FTargetParameters> UAT_DeploySentryGun::ActivateSkill(const FTargetResult& TargetResult)
+bool UAT_DeploySentryGun::ActivateSkill(const FTargetResult& TargetResult)
 {
 	if (actor_class_)
 	{
@@ -34,5 +34,5 @@ TOptional<FTargetParameters> UAT_DeploySentryGun::ActivateSkill(const FTargetRes
 		AUnit* owner_unit = Cast<AUnit>(skill_owner_);
 		actor_->SetHitPoints(deployed_sentry_hit_points_ + owner_unit->GetCharacterStat()->GetSkillPower() * hit_points_scaling_factor_);
 	}
-	return NullOpt;
+	return Super::ActivateSkill(TargetResult);
 }

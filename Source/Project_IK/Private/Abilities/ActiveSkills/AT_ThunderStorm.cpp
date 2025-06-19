@@ -25,7 +25,7 @@ UAT_ThunderStorm::UAT_ThunderStorm()
 	damage_ = 120.f;
 }
 
-TOptional<FTargetParameters> UAT_ThunderStorm::ActivateSkill(const FTargetResult& TargetResult)
+bool UAT_ThunderStorm::ActivateSkill(const FTargetResult& TargetResult)
 {
 	Super::ActivateSkill(TargetResult);
 	
@@ -39,7 +39,7 @@ TOptional<FTargetParameters> UAT_ThunderStorm::ActivateSkill(const FTargetResult
 		visual_actor_->SetNecessaryData(target_param_.radius_, scaling_factor_, damage_, skill_owner_);
 	}
 
-	return NullOpt;
+	return Super::ActivateSkill(TargetResult);
 }
 
 void UAT_ThunderStorm::DamageEnemies()

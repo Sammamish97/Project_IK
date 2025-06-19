@@ -20,7 +20,7 @@ class PROJECT_IK_API USP_InstantRepair : public USupportSkillBase
 	GENERATED_BODY()
 public:
 	USP_InstantRepair();
-	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 	
 private:
 	float healing_amount_ = 100.f;

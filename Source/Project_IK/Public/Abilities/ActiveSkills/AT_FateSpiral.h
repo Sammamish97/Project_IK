@@ -28,7 +28,7 @@ class PROJECT_IK_API UAT_FateSpiral : public UActiveSkillBase
 public:
 
 	UAT_FateSpiral();
-	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<AFateSpiral> actor_class_;

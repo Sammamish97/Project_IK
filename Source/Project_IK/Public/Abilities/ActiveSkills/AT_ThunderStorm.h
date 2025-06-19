@@ -26,7 +26,7 @@ class PROJECT_IK_API UAT_ThunderStorm : public UActiveSkillBase
 	GENERATED_BODY()
 public:
 	UAT_ThunderStorm();
-	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")

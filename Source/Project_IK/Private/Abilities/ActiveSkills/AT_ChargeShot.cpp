@@ -19,7 +19,7 @@ UAT_ChargeShot::UAT_ChargeShot()
 	cool_time_ = 5.f;
 }
 
-TOptional<FTargetParameters> UAT_ChargeShot::ActivateSkill(const FTargetResult& TargetResult)
+bool UAT_ChargeShot::ActivateSkill(const FTargetResult& TargetResult)
 {
 	// TWeakObjectPtr<AHeroBase> owner_hero_ptr = Cast<AHeroBase>(skill_owner_);
 	// if (owner_hero_ptr.IsValid())
@@ -46,7 +46,7 @@ TOptional<FTargetParameters> UAT_ChargeShot::ActivateSkill(const FTargetResult& 
 	// 		return true;
 	// 	}
 	// }
-	return NullOpt;
+	return Super::ActivateSkill(TargetResult);
 }
 
 void UAT_ChargeShot::OnChargeShot(AActor* target, UWeaponMechanics* weapon_mechanics_cache, FDamageData dmg_data)

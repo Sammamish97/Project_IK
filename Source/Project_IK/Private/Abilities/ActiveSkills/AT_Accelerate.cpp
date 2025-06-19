@@ -25,7 +25,7 @@ UAT_Accelerate::UAT_Accelerate()
 	buff_data_.buff_status_.Push(FBuffStatusData(ECharacterStatType::AttackSpeed, 1.5f, true));
 }
 
-TOptional<FTargetParameters> UAT_Accelerate::ActivateSkill(const FTargetResult& TargetResult)
+bool UAT_Accelerate::ActivateSkill(const FTargetResult& TargetResult)
 {
 	TWeakObjectPtr<AHeroBase> owner_hero_ptr = Cast<AHeroBase>(skill_owner_);
 	if (auto hero = owner_hero_ptr.Get())
@@ -35,5 +35,5 @@ TOptional<FTargetParameters> UAT_Accelerate::ActivateSkill(const FTargetResult& 
 		owner_hero_ptr->ApplyBuff(buff_data_);
 		hero->AcquireShield(shield_amount_, buff_duration_);
 	}
-	return NullOpt;
+	return Super::ActivateSkill(TargetResult);
 }

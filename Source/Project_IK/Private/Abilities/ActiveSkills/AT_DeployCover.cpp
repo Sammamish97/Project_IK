@@ -29,7 +29,7 @@ UAT_DeployCover::UAT_DeployCover()
 	cool_time_ = 10.f;
 }
 
-TOptional<FTargetParameters> UAT_DeployCover::ActivateSkill(const FTargetResult& TargetResult)
+bool UAT_DeployCover::ActivateSkill(const FTargetResult& TargetResult)
 {
 	//IKTODO: 테스트 후 버프 적용
 	// FBuffStatusData attack_speed(TEXT("DeployCover"), ECharacterStatType::AttackSpeed, 1.1, true, 10.f);
@@ -41,5 +41,5 @@ TOptional<FTargetParameters> UAT_DeployCover::ActivateSkill(const FTargetResult&
 	// 	actor_->SetHitPoints(deployed_cover_hit_points_ + owner_unit->GetCharacterStat()->GetSkillPower() * hit_points_scaling_factor_);
 	// 	ApplyBuff(attack_speed, skill_owner_);
 	// }
-	return NullOpt;
+	return Super::ActivateSkill(TargetResult);
 }

@@ -17,7 +17,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"
 
-TOptional<FTargetParameters> UActiveSkillBase::ActivateSkill(const FTargetResult& TargetResult)
+bool UActiveSkillBase::ActivateSkill(const FTargetResult& TargetResult)
 {
 	return Super::ActivateSkill(TargetResult);
 }

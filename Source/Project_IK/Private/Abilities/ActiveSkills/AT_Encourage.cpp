@@ -25,7 +25,7 @@ UAT_Encourage::UAT_Encourage()
 	scaling_factor_ = 0.02f;
 }
 
-TOptional<FTargetParameters> UAT_Encourage::ActivateSkill(const FTargetResult& TargetResult)
+bool UAT_Encourage::ActivateSkill(const FTargetResult& TargetResult)
 {
 	//IKTODO: 테스트 후 버프 적용
 	// FBuffStatusData attack_speed(TEXT("Encourage_AttackSpeed"), ECharacterStatType::AttackSpeed, 1.15f, true, 8.f);
@@ -37,5 +37,5 @@ TOptional<FTargetParameters> UAT_Encourage::ActivateSkill(const FTargetResult& T
 	// 	ApplyBuff(cooldown, ally);
 	// }
 
-	return NullOpt;
+	return Super::ActivateSkill(TargetResult);
 }

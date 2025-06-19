@@ -19,7 +19,7 @@ USP_SupportFire::USP_SupportFire()
 	dmg_data_ = FDamageData(100, 0, EDamageType::Projectile);
 }
 
-TOptional<FTargetParameters> USP_SupportFire::ActivateSkill(const FTargetResult& target_result)
+bool USP_SupportFire::ActivateSkill(const FTargetResult& target_result)
 {
 	if(target_result.target_actors_[0])
 	{

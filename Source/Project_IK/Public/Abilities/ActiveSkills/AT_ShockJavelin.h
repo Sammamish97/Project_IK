@@ -20,7 +20,7 @@ class PROJECT_IK_API UAT_ShockJavelin : public UActiveSkillBase
 	
 public:
 	UAT_ShockJavelin();
-	virtual TOptional<FTargetParameters> ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector javelin_location_offset_ = FVector(0.f, 0.f, 3000.f);

@@ -21,7 +21,7 @@ UAT_TripleFire::UAT_TripleFire()
 	cool_time_ = 5.f;
 }
 
-TOptional<FTargetParameters> UAT_TripleFire::ActivateSkill(const FTargetResult& TargetResult)
+bool UAT_TripleFire::ActivateSkill(const FTargetResult& TargetResult)
 {
 	// TWeakObjectPtr<AHeroBase> owner_hero_ptr = Cast<AHeroBase>(skill_owner_);
 	// if (auto hero = owner_hero_ptr.Get())
@@ -49,7 +49,7 @@ TOptional<FTargetParameters> UAT_TripleFire::ActivateSkill(const FTargetResult& 
 	// 		return true;
 	// 	}
 	// }
-	return NullOpt;
+	return Super::ActivateSkill(TargetResult);
 }
 
 void UAT_TripleFire::OnTripleFire(AActor* target, UWeaponMechanics* weapon_mechanics_cache, FDamageData dmg_data, float attack_speed)

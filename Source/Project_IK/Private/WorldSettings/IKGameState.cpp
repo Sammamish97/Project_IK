@@ -129,13 +129,8 @@ bool AIKGameState::OnDecide(const FTargetResult& result)
 		{
 			GetWorld()->GetTimerManager().SetTimer(active_skill_timers_[selected_hero_type_],selected_skill_->GetCoolTime(), false);
 		}
-		auto next_targeting = selected_skill_->ActivateSkill(result);
-		if (next_targeting.IsSet())
-		{
-			player_controller_cache_->StartTargeting(next_targeting.GetValue());
-		}
-		else
-		{
+		if (selected_skill_->ActivateSkill(result))
+		{			
 			ClearTargetingState();
 		}
 		return true;
@@ -145,7 +140,11 @@ bool AIKGameState::OnDecide(const FTargetResult& result)
 
 void AIKGameState::ClearTargetingState()
 {
-	selected_skill_ = nullptr;
+	if(selected_skill_)
+	{
+		selected_skill_->ResetSkill();
+		selected_skill_ = nullptr;
+	}
 	selected_hero_type_ = EHeroType::INVALID;
 	selected_support_num_ = -1;
 	Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->SetVisibility(ESlateVisibility::Hidden);
