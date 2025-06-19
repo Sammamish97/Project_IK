@@ -19,12 +19,12 @@ struct FBuffStatusData
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Buff")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Buff")
 	ECharacterStatType stat_type_;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Buff")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Buff")
 	float value_;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Buff")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Buff")
 	bool is_percentage_;
 };

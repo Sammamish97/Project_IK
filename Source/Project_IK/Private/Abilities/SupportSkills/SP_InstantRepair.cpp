@@ -7,25 +7,16 @@ Summary : Source file for the Instant Repair Support SKill.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
-
 #include "Abilities/SupportSkills/SP_InstantRepair.h"
 
 #include "Characters/Unit.h"
+#include "DataAssets/BuffDataAsset.h"
 
 USP_InstantRepair::USP_InstantRepair()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Allies, 1000.f);
 	cool_time_ = 2.f;
 	cost_ = 3.f;
-
-	test_buff_data_.buff_type_ = EBuffType::InstantRepair;
-	test_buff_data_.thumbnail = nullptr;
-	test_buff_data_.duration_ = 5.f;
-	test_buff_data_.buff_status_.Add({ECharacterStatType::AttackSpeed, 1.5f, true});
-	test_buff_data_.detail_ = FString::Printf(TEXT("%d 초간 %d 의 %s를 얻습니다."), test_buff_data_.duration_, 1.5f, *ECharStatToString(ECharacterStatType::AttackSpeed));
-	
-	test_buff_data_3.buff_type_ = EBuffType::Berserker;
 }
 
 bool USP_InstantRepair::ActivateSkill(const FTargetResult& target_result)
@@ -34,8 +25,7 @@ bool USP_InstantRepair::ActivateSkill(const FTargetResult& target_result)
 	{
 		if (AUnit* target_unit = Cast<AUnit>(target_result.target_actors_[0]))
 		{
-			target_unit->AcquireShield(300.f, 3.f);
-			target_unit->ApplyBuff(test_buff_data_);
+			target_unit->ApplyBuff(buff_data_->buff_data_);
 		}
 	}
 	return Super::ActivateSkill(target_result);

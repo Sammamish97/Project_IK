@@ -12,24 +12,24 @@ struct PROJECT_IK_API FBuffData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "ActiveSkillData")
 	FText buff_name_;
 	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "ActiveSkillData")
 	EBuffType buff_type_ = EBuffType::INVALID;
 	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "ActiveSkillData")
 	UTexture2D* thumbnail = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Buff")
+	UPROPERTY( BlueprintReadWrite, EditDefaultsOnly,Category = "Buff")
 	float duration_ = 0.f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Buff")
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Buff")
 	bool is_permanent_ = false;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Buff")
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Buff")
 	FString detail_;
 	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "ActiveSkillData")
 	TArray<FBuffStatusData> buff_status_;
 };
