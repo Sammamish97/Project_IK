@@ -41,6 +41,19 @@ AUnit::AUnit()
 	
 	cc_component_ = CreateDefaultSubobject<UCrowdControlComponent>(TEXT("CC Component"));
 	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
+
+
+
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Pawn"));
+	USkeletalMeshComponent* skeletal = GetMesh();
+	if (skeletal)
+	{
+		skeletal->SetGenerateOverlapEvents(true);
+		// It want ragdollings, need to turn it on.
+		skeletal->SetSimulatePhysics(false);
+		skeletal->bReceivesDecals = false;
+
+	}
 }
 
 UCharacterStatComponent* AUnit::GetCharacterStat()

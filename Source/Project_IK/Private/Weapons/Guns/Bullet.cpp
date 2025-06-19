@@ -60,6 +60,14 @@ void ABullet::ClearComponentsAttachedOnMesh()
 	}
 }
 
+void ABullet::SpawnImpactParticle(FVector impact_location, FVector impact_normal)
+{
+	if (impact_particle_)
+	{
+		UNiagaraComponent* component = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, impact_particle_, impact_location, impact_normal.ToOrientationRotator());
+	}
+}
+
 void ABullet::SetInUse(bool in_use)
 {
 	Super::SetInUse(in_use);
@@ -143,6 +151,7 @@ void ABullet::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 	{
 		elem->OnHit(OtherActor);
 	}
+	SpawnImpactParticle(SweepResult.ImpactPoint, SweepResult.ImpactNormal);
 	ReturnToPool();
 }
 

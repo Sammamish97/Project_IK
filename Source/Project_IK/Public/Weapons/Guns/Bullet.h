@@ -56,23 +56,28 @@ protected:
 
 	void ClearComponentsAttachedOnMesh();
 
+
+	void SpawnImpactParticle(FVector impact_location, FVector impact_normal);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Particles")
+	TObjectPtr<UNiagaraSystem> impact_particle_;
+
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bullet")
 	TObjectPtr<USphereComponent> collision_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, BlueprintReadWrite, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, BlueprintReadWrite, Category = "Bullet")
 	TObjectPtr<UProjectileMovementComponent> movement_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bullet")
 	TObjectPtr<UStaticMeshComponent> bullet_mesh_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bullet")
 	TArray<TObjectPtr<UBulletOnHitEffectComponent>> on_hit_components_;
 
 	UPROPERTY(VisibleAnywhere, Category = "Bullet")
 	TWeakObjectPtr<AActor> shooter_;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Bullet")
 	FDamageData dmg_data_;
 
 	TWeakObjectPtr<UMaterialInterface> original_material_;
