@@ -80,7 +80,7 @@ void UPS_Berserker::RemoveBuff()
 			AUnit* unit = Cast<AUnit>(actor);
 			if (unit)
 			{
-				unit->RemoveBuff(buff_data_asset_->buff_data_.buff_type_);
+				unit->RemoveBuff(buff_data_asset_->buff_data_);
 				DeactivateParticles();
 				is_buff_applied_ = false;
 			}

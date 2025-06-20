@@ -18,6 +18,8 @@ USTRUCT(BlueprintType)
 struct PROJECT_IK_API FBuffData
 {
 	GENERATED_BODY()
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "ActiveSkillData")
+	bool is_invisible_ = false;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "ActiveSkillData")
 	FText buff_name_;

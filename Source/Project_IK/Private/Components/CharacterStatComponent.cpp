@@ -453,25 +453,34 @@ void UCharacterStatComponent::ApplyBuff(FBuffData buff_data)
 
 	if(buff_data.is_permanent_ == false)
 	{
-		FTimerDelegate expired_delegate = FTimerDelegate::CreateUObject(this, &UCharacterStatComponent::RemoveBuff, buff_type);
+		FTimerDelegate expired_delegate = FTimerDelegate::CreateUObject(this, &UCharacterStatComponent::RemoveBuff, buff_data);
 		GetWorld()->GetTimerManager().SetTimer(buff_timers_[buff_data.buff_type_], expired_delegate, buff_data.duration_, false);
 	}
 	
+	if(buff_data.is_invisible_ == false)
+	{
+		OnApplyBuff.Broadcast(buff_data);
+	}
 	buffs_.Add(buff_type, buff_data);
-	OnApplyBuff.Broadcast(buff_data);
 }
 
 void UCharacterStatComponent::PostInitBuffBroadCast()
 {
 	for(const auto& elem : buffs_)
 	{
-		OnApplyBuff.Broadcast(elem.Value);
+		if(elem.Value.is_invisible_ == false)
+		{
+			OnApplyBuff.Broadcast(elem.Value);
+		}
 	}
 }
 
-void UCharacterStatComponent::RemoveBuff(EBuffType type)
+void UCharacterStatComponent::RemoveBuff(FBuffData buff_data)
 {
-	buffs_.Remove(type);
-	buff_timers_.Remove(type);
-	OnBuffExpired.Broadcast(type);
+	buffs_.Remove(buff_data.buff_type_);
+	buff_timers_.Remove(buff_data.buff_type_);
+	if(buff_data.is_invisible_ == false)
+	{
+		OnBuffExpired.Broadcast(buff_data);
+	}
 }

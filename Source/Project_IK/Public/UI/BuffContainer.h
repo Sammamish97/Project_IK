@@ -30,7 +30,7 @@ public:
 	UFUNCTION()
 	void EnqueueBuff(FBuffData buff_data);
 	UFUNCTION()
-	void UpdateQueue(EBuffType remove_target_type);
+	void UpdateQueue(FBuffData buff_data);
 	void ClearBuffQueue();
 	
 private:

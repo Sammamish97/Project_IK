@@ -43,7 +43,7 @@ void UBuffContainer::EnqueueBuff(FBuffData buff_data)
 {
 	TArray widget_array = {buff_widget_0_, buff_widget_1_, buff_widget_2_, buff_widget_3_, buff_widget_4_};
 	//겹치는 버프 제거.
-	UpdateQueue(buff_data.buff_type_);
+	UpdateQueue(buff_data);
 	
 	for(int32 i = 0; i < max_buffs_; ++i)
 	{
@@ -55,13 +55,13 @@ void UBuffContainer::EnqueueBuff(FBuffData buff_data)
 	}
 }
 
-void UBuffContainer::UpdateQueue(EBuffType remove_target_type)
+void UBuffContainer::UpdateQueue(FBuffData buff_data)
 {
 	TArray widget_array = {buff_widget_0_, buff_widget_1_, buff_widget_2_, buff_widget_3_, buff_widget_4_};
 	int32 target_index = -1;
 	for(int32 i = 0; i < max_buffs_; ++i)
 	{
-		if(widget_array[i]->IsWidgetAvailable() == false && widget_array[i]->GetBuffDataCache().buff_type_ == remove_target_type)
+		if(widget_array[i]->IsWidgetAvailable() == false && widget_array[i]->GetBuffDataCache().buff_type_ == buff_data.buff_type_)
 		{
 			target_index = i;
 			break;

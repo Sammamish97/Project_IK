@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "SetBonusBase.h"
 #include "SetBonus_Viper.generated.h"
 
-UCLASS()
+UCLASS(Blueprintable)
 class PROJECT_IK_API USetBonus_Viper : public USetBonusBase
 {
 	GENERATED_BODY()

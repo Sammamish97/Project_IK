@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Characters/Unit.h"
-#include "Structs/TargetResult.h"
 #include "Structs/TargetParameters.h"
 #include "Managers/EnumCluster.h"
 #include "Structs/SpawnData.h"

@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "UObject/Object.h"
 #include "SetBonusBase.generated.h"
 
+class UBuffDataAsset;
 class AHeroBase;
 class UNiagaraSystem;
 
@@ -42,4 +43,13 @@ protected:
 
 protected:
 	TObjectPtr<AHeroBase> hero_cache_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rune")
+	TObjectPtr<UBuffDataAsset> edge_buff_data_asset_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rune")
+	TObjectPtr<UBuffDataAsset> triangle_buff_data_asset_;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rune")
+	TObjectPtr<UBuffDataAsset> hexagon_buff_data_asset_;
 };

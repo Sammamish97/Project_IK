@@ -25,7 +25,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHPChangedDelegate, float, hp_rati
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnShieldChangedDelegate, float, shield_ratio);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHPOrShieldChanged, float, cur_hp, float, cur_shield);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHPChangedWithOwnerDelegate, float, hp_ratio, AActor*, owner_actor);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffExpired, EBuffType, expired_buff_type);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffExpired, FBuffData, buff_data);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnApplyBuffDelegate, FBuffData, buff_data);
 
 UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
@@ -116,7 +116,7 @@ public:
 
 	void PostInitBuffBroadCast();
 	void ApplyBuff(FBuffData buff);
-	void RemoveBuff(EBuffType type);
+	void RemoveBuff(FBuffData type);
 
 public:
 	UPROPERTY(BlueprintAssignable, Category = "Events")

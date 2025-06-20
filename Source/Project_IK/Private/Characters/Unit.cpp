@@ -235,9 +235,9 @@ void AUnit::ApplyBuff(FBuffData buff_data)
 	character_stat_component_->ApplyBuff(buff_data);
 }
 
-void AUnit::RemoveBuff(EBuffType buff_type)
+void AUnit::RemoveBuff(FBuffData buff_data)
 {
-	return character_stat_component_->RemoveBuff(buff_type);
+	return character_stat_component_->RemoveBuff(buff_data);
 }
 
 void AUnit::ApplyCrowdControl(ECCType cc_type, float duration)
