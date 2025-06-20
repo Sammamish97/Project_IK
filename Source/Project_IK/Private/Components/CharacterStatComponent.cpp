@@ -244,6 +244,7 @@ void UCharacterStatComponent::SetLifeSteal(float life_steal) noexcept
 void UCharacterStatComponent::SetHitPoint(float hit_point) noexcept
 {
 	character_data_.status_data_.hit_point_ = FMath::Min(hit_point, GetMaxHitPoint());
+	OnHPChanged.Broadcast(GetHPRatio());
 	OnHPOrShieldChanged.Broadcast(GetHitPoint(), GetShield());
 	OnHPChangedWithOwner.Broadcast(GetHPRatio(), GetOwner());
 	if (character_data_.status_data_.hit_point_ < KINDA_SMALL_NUMBER)
@@ -452,7 +453,7 @@ void UCharacterStatComponent::ApplyBuff(FBuffData buff_data)
 
 	if(buff_data.is_permanent_ == false)
 	{
-		FTimerDelegate expired_delegate = FTimerDelegate::CreateUObject(this, &UCharacterStatComponent::Removebuff, buff_type);
+		FTimerDelegate expired_delegate = FTimerDelegate::CreateUObject(this, &UCharacterStatComponent::RemoveBuff, buff_type);
 		GetWorld()->GetTimerManager().SetTimer(buff_timers_[buff_data.buff_type_], expired_delegate, buff_data.duration_, false);
 	}
 	
@@ -460,7 +461,15 @@ void UCharacterStatComponent::ApplyBuff(FBuffData buff_data)
 	OnApplyBuff.Broadcast(buff_data);
 }
 
-void UCharacterStatComponent::Removebuff(EBuffType type)
+void UCharacterStatComponent::PostInitBuffBroadCast()
+{
+	for(const auto& elem : buffs_)
+	{
+		OnApplyBuff.Broadcast(elem.Value);
+	}
+}
+
+void UCharacterStatComponent::RemoveBuff(EBuffType type)
 {
 	buffs_.Remove(type);
 	buff_timers_.Remove(type);

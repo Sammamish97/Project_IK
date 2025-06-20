@@ -235,11 +235,9 @@ void AUnit::ApplyBuff(FBuffData buff_data)
 	character_stat_component_->ApplyBuff(buff_data);
 }
 
-bool AUnit::RemoveBuff(FName BuffName)
+void AUnit::RemoveBuff(EBuffType buff_type)
 {
-	//IKTODO: 테스트 후 정상화
-	//return character_stat_component_->RemoveBuff(BuffName);
-	return true;
+	return character_stat_component_->RemoveBuff(buff_type);
 }
 
 void AUnit::ApplyCrowdControl(ECCType cc_type, float duration)

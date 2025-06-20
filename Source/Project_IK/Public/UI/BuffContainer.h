@@ -26,7 +26,6 @@ class PROJECT_IK_API UBuffContainer : public UUserWidget
 public:
 	void InitBuffContainer(UBuffPopupWidget* popup_widget);
 	void NativeConstruct() override;
-	void NativeDestruct() override;
 
 	UFUNCTION()
 	void EnqueueBuff(FBuffData buff_data);

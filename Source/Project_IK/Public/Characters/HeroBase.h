@@ -36,7 +36,6 @@ public:
 	EHeroType GetHeroType() const;
 	FTargetParameters GetActiveSkillTargetParameters() const;
 
-	void InvokeActiveSkill(FTargetResult target_result);
 	bool HasActiveSkill() const;
 
 	void Reposition(FVector target_location);

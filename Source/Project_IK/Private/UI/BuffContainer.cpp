@@ -18,6 +18,7 @@ void UBuffContainer::InitBuffContainer(UBuffPopupWidget* popup_widget)
 	buff_popup_cache_ = popup_widget;
 }
 
+//EnqueBuff가 NativeConstruct이전에 실행될 수 있다.
 void UBuffContainer::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -26,14 +27,16 @@ void UBuffContainer::NativeConstruct()
 	for(int32 i = 0; i < max_buffs_; ++i)
 	{
 		widget_array[i]->InitWidget(buff_popup_cache_, this);
-		widget_array[i]->SetVisibility(ESlateVisibility::Hidden);
 		buff_container_->AddChild(widget_array[i]);
+		if(widget_array[i]->IsWidgetAvailable())
+		{
+			widget_array[i]->SetVisibility(ESlateVisibility::Hidden);
+		}
+		else
+		{
+			widget_array[i]->SetVisibility(ESlateVisibility::Visible);
+		}
 	}
-}
-
-void UBuffContainer::NativeDestruct()
-{
-	Super::NativeDestruct();
 }
 
 void UBuffContainer::EnqueueBuff(FBuffData buff_data)

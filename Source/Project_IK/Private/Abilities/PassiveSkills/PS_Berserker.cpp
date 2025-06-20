@@ -13,12 +13,12 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/PassiveSkills/PS_Berserker.h"
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "Structs/BuffStatusData.h"
 #include "Characters/Unit.h"
 
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "DataAssets/BuffDataAsset.h"
 
 void UPS_Berserker::InitEquipmentSkill(AActor* hero_ref)
 {
@@ -28,7 +28,6 @@ void UPS_Berserker::InitEquipmentSkill(AActor* hero_ref)
 	if (unit)
 	{
 		hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnHPChanged(unit->GetCharacterStat(), this, &UPS_Berserker::BuffBerserker);
-
 		SpawnParticles(unit);
 	}
 }
@@ -63,14 +62,8 @@ void UPS_Berserker::ApplyBuff()
 			AUnit* unit = Cast<AUnit>(actor);
 			if (unit)
 			{
-				//IKTODO: 테스트 이후 정상화 시켜야 함.
-				// FBuffStatusData life_steal(TEXT("Berserker_lifesteal"), ECharacterStatType::LifeSteal, life_steal_buff_amount_, false, true);
-				// FBuffStatusData attack_speed(TEXT("Berserker_attack_speed"), ECharacterStatType::AttackSpeed, attack_speed_buff_amount_, is_attack_speed_buff_percentage_, true);
-				// unit->ApplyBuff(life_steal);
-				// unit->ApplyBuff(attack_speed);
-
+				unit->ApplyBuff(buff_data_asset_->buff_data_);
 				ActivateParticles();
-
 				is_buff_applied_ = true;
 			}
 		}
@@ -87,11 +80,8 @@ void UPS_Berserker::RemoveBuff()
 			AUnit* unit = Cast<AUnit>(actor);
 			if (unit)
 			{
-				unit->RemoveBuff(TEXT("Berserker_lifesteal"));
-				unit->RemoveBuff(TEXT("Berserker_attack_speed"));
-
+				unit->RemoveBuff(buff_data_asset_->buff_data_.buff_type_);
 				DeactivateParticles();
-
 				is_buff_applied_ = false;
 			}
 		}

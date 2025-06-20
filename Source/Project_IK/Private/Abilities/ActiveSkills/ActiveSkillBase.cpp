@@ -14,11 +14,12 @@ See LICENSE file in the project root for full license information.
 
 #include "Structs/DamageData.h"
 #include "Structs/BuffStatusData.h"
-#include "Characters/Unit.h"
+#include "Characters/HeroBase.h"
 #include "Components/CharacterStatComponent.h"
 
 bool UActiveSkillBase::ActivateSkill(const FTargetResult& TargetResult)
 {
+	Cast<AHeroBase>(skill_owner_)->DispatchUnitEvent(EUnitEvent::OnActiveSkill);
 	return Super::ActivateSkill(TargetResult);
 }
 

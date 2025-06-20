@@ -25,17 +25,11 @@ class PROJECT_IK_API UPS_Agility : public UPassiveSkillBase
 public:
 
 	virtual void InitEquipmentSkill(AActor* hero_ref) override;
-
-
-
+	
 protected:
 	UFUNCTION()
-	void BuffAttackSpeed(EHeroType hero_idx);
-
+	void BuffAttackSpeed();
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	float buff_amount_ = 1.2f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	bool is_buff_percentage_ = true;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	float buff_duration_ = 6.f;
+	TObjectPtr<class UBuffDataAsset> buff_data_asset_;
 };

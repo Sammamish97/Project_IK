@@ -88,6 +88,8 @@ void AIKHUD::BeginPlay()
 			}
 			cur_hero->GetCharacterStat()->OnApplyBuff.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::EnqueueBuff);
 			cur_hero->GetCharacterStat()->OnBuffExpired.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::UpdateQueue);
+			
+			cur_hero->GetCharacterStat()->PostInitBuffBroadCast();
 
 			auto set_bonus_data = cur_hero->GetRuneMechanics()->GetSetBonusData();
 			TArray<FString> bonus_data;
@@ -136,7 +138,7 @@ void AIKHUD::BeginPlay()
 			button_bar_widget_->AddToViewport();
 		}
 	}
-
+	
 	combat_level_result_manager_ = NewObject<UCombatLevelResultManager>(world, combat_level_widget_class_);
 	if (combat_level_result_manager_)
 	{

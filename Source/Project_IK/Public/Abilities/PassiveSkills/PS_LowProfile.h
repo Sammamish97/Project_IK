@@ -18,9 +18,6 @@ See LICENSE file in the project root for full license information.
 class UNiagaraSystem;
 class UNiagaraComponent;
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API UPS_LowProfile : public UPassiveSkillBase
 {
@@ -28,7 +25,6 @@ class PROJECT_IK_API UPS_LowProfile : public UPassiveSkillBase
 public:
 
 	virtual void InitEquipmentSkill(AActor* hero_ref) override;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UNiagaraSystem> skill_particle_system_;
 
@@ -43,10 +39,8 @@ protected:
 	void DeactivateParticles();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	float evasion_rate_buff_amount_ = 0.1f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	bool is_evasion_rate_buff_percentage_ = false;
-
+	TObjectPtr<class UBuffDataAsset> buff_data_asset_;
+	
 	bool is_buff_applied_ = false;
 
 	UPROPERTY()

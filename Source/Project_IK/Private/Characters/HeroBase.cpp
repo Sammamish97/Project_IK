@@ -12,21 +12,18 @@ See LICENSE file in the project root for full license information.
 
 #include "AI/GunnerAIController.h"
 #include "AI/HeroAIController.h"
+
 #include "Components/CapsuleComponent.h"
 #include "Components/PassiveSkillMechanics.h"
 #include "Components/RuneMechanics.h"
 #include "Components/SphereComponent.h"
 #include "Components/WeaponMechanics.h"
-#include "Components/WidgetComponent.h"
 #include "Components/ActiveSkillMechanics.h"
+
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "UI/ButtonBarWidget.h"
-#include "UI/SegmentedHPUI.h"
-#include "UI/UnitWidget.h"
 #include "WorldSettings/IKGameModeBase.h"
-#include "WorldSettings/IKHUD.h"
 
 AHeroBase::AHeroBase()
 {
@@ -58,11 +55,14 @@ void AHeroBase::BeginPlay()
 		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
 		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
 		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
+		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Berserker);
 		hero_type_ = EHeroType::Hero1;
 		break;
 	case ECharacterType::Hero2:
 		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
 		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 1);
+		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Berserker);
+
 		hero_type_ = EHeroType::Hero2;
 		break;
 	case ECharacterType::Hero3:
@@ -72,6 +72,7 @@ void AHeroBase::BeginPlay()
 		rune_mechanics_->EquipRune(ERuneSetType::Viper, 1);
 		rune_mechanics_->EquipRune(ERuneSetType::Viper, 3);
 		rune_mechanics_->EquipRune(ERuneSetType::Viper, 5);
+		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Berserker);
 		hero_type_ = EHeroType::Hero3;
 		break;
 	case ECharacterType::Hero4:
@@ -81,6 +82,8 @@ void AHeroBase::BeginPlay()
 		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 3);
 		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
 		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 5);
+		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Berserker);
+
 		hero_type_ = EHeroType::Hero4;
 		break;
 
@@ -161,12 +164,6 @@ void AHeroBase::OnStunned()
 EHeroType AHeroBase::GetHeroType() const
 {
 	return hero_type_;
-}
-
-void AHeroBase::InvokeActiveSkill(FTargetResult target_result)
-{
-	DispatchUnitEvent(EUnitEvent::OnActiveSkill);
-	active_skill_mechanics_->InvokeSkills(target_result);
 }
 
 void AHeroBase::Reposition(FVector target_location)

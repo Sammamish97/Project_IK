@@ -76,7 +76,7 @@ public:
 	void ApplyBuff(FBuffData buff_data);
 
 	UFUNCTION(BlueprintCallable)
-	bool RemoveBuff(FName BuffName);
+	void RemoveBuff(EBuffType buff_type);
 
 	UFUNCTION(BlueprintCallable)
 	void ApplyCrowdControl(ECCType cc_type, float duration);

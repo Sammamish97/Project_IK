@@ -45,14 +45,11 @@ protected:
 	void DeactivateParticles();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
+	TObjectPtr<class UBuffDataAsset> buff_data_asset_;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
 	float hp_ratio_threshold_ = 0.2f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	float life_steal_buff_amount_ = 0.05f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	float attack_speed_buff_amount_ = 1.2f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	bool is_attack_speed_buff_percentage_ = true;
-
+	
 	bool is_buff_applied_ = false;
 
 	UPROPERTY()

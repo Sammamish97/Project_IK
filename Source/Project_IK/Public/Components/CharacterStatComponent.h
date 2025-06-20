@@ -114,8 +114,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetBaseStat(ECharacterStatType StatType) const;
 
+	void PostInitBuffBroadCast();
 	void ApplyBuff(FBuffData buff);
-	void Removebuff(EBuffType type);
+	void RemoveBuff(EBuffType type);
 
 public:
 	UPROPERTY(BlueprintAssignable, Category = "Events")

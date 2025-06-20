@@ -1,5 +1,12 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+/******************************************************************************
+Copyright(C) 2025
+Author: chunmook.kim(chunmook.kim97@gmail.com)
+Creation Date : 06.20.2025
+Summary : Header file for Event Data Struct.
 
+Licensed under the MIT License.
+See LICENSE file in the project root for full license information.
+******************************************************************************/
 #pragma once
 
 #include "CoreMinimal.h"

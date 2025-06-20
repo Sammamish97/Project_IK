@@ -13,29 +13,22 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/PassiveSkills/PS_Agility.h"
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "Structs/BuffStatusData.h"
 #include "Characters/Unit.h"
+#include "DataAssets/BuffDataAsset.h"
 
 void UPS_Agility::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
-
-	//IKTODO: 이후 정상적으로 Bind 시켜줘야 함.
-	//hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnActiveSkill(this, &UPS_Agility::BuffAttackSpeed);
+	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::OnActiveSkill, this, &UPS_Agility::BuffAttackSpeed);
 }
 
-void UPS_Agility::BuffAttackSpeed(EHeroType hero_idx)
+void UPS_Agility::BuffAttackSpeed()
 {
-	//IKTODO: 테스트 이후 정상화 시켜야 함.
-	// FBuffStatusData attack_speed(TEXT("AgilityBuff"), ECharacterStatType::AttackSpeed, buff_amount_, is_buff_percentage_, buff_duration_);
-	//
-	// AActor* hero_actor = hero_cache_.Get();
-	// if (hero_actor)
-	// {
-	// 	AHeroBase* hero = Cast<AHeroBase>(hero_actor);
-	// 	if (hero->GetHeroType() == hero_idx)
-	// 	{
-	// 		hero->ApplyBuff(attack_speed);
-	// 	}
-	// }
+	 if (AActor* hero_actor = hero_cache_.Get())
+	 {
+	 	if(AUnit* hero = Cast<AUnit>(hero_actor))
+	 	{
+	 		hero->ApplyBuff(buff_data_asset_->buff_data_);
+	 	}
+	 }
 }
