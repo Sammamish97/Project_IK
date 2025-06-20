@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/ProjectileMovementComponent.h"
 
 #include "NiagaraFunctionLibrary.h"
-#include "NiagaraComponent.h"
+#include "Characters/Unit.h"
 
 // Sets default values
 ABullet::ABullet()
@@ -60,11 +60,21 @@ void ABullet::ClearComponentsAttachedOnMesh()
 	}
 }
 
-void ABullet::SpawnImpactParticle(FVector impact_location, FVector impact_normal)
+void ABullet::SpawnImpactParticle(FVector impact_location, FVector impact_normal, const FDamageData& damage_data)
 {
-	if (impact_particle_)
+	UNiagaraSystem* impact_particle = nullptr;
+	if (Cast<AUnit>(damage_data.attack_target_))
 	{
-		UNiagaraComponent* component = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, impact_particle_, impact_location, impact_normal.ToOrientationRotator());
+		impact_particle = (damage_data.atk_base_dmg_ >= damage_data.skill_power_base_dmg_) ? attack_impact_particle_ : magic_impact_particle_;
+	}
+	else
+	{
+		impact_particle = concrete_impact_particle_;
+	}
+	
+	if (impact_particle)
+	{
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, impact_particle, impact_location, impact_normal.ToOrientationRotator());
 	}
 }
 
@@ -151,7 +161,7 @@ void ABullet::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 	{
 		elem->OnHit(OtherActor);
 	}
-	SpawnImpactParticle(SweepResult.ImpactPoint, SweepResult.ImpactNormal);
+	SpawnImpactParticle(SweepResult.ImpactPoint, SweepResult.ImpactNormal, dmg_data_);
 	ReturnToPool();
 }
 

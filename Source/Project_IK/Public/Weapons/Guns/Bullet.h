@@ -57,9 +57,13 @@ protected:
 	void ClearComponentsAttachedOnMesh();
 
 
-	void SpawnImpactParticle(FVector impact_location, FVector impact_normal);
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Particles")
-	TObjectPtr<UNiagaraSystem> impact_particle_;
+	void SpawnImpactParticle(FVector impact_location, FVector impact_normal, const FDamageData& damage_data);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Impact Particles")
+	TObjectPtr<UNiagaraSystem> attack_impact_particle_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Impact Particles")
+	TObjectPtr<UNiagaraSystem> magic_impact_particle_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Impact Particles")
+	TObjectPtr<UNiagaraSystem> concrete_impact_particle_;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bullet")
