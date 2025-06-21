@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/BulletViperEffectComponent.h"
 
 #include "Abilities/ActiveSkills/ATC_ViperHexagonEffect.h"
+#include "Characters/Unit.h"
 
 void UBulletViperEffectComponent::OnHit(AActor* target)
 {
@@ -17,13 +18,16 @@ void UBulletViperEffectComponent::OnHit(AActor* target)
 	TWeakObjectPtr<AActor> target_ptr = target;
 	if (AActor* casted_target = target_ptr.Get())
 	{
-		if (auto viper_effect = casted_target->FindComponentByClass<UATC_ViperHexagonEffect>())
+		if(AUnit* casted_unit = Cast<AUnit>(casted_target))
 		{
-			viper_effect->IncreaseStack();
-		}
-		else
-		{
-			casted_target->AddComponentByClass(UATC_ViperHexagonEffect::StaticClass(), false, casted_target->GetTransform(), false);
+			if (auto viper_effect = casted_unit->FindComponentByClass<UATC_ViperHexagonEffect>())
+			{
+				viper_effect->IncreaseStack();
+			}
+			else
+			{
+				casted_unit->AddComponentByClass(UATC_ViperHexagonEffect::StaticClass(), false, casted_unit->GetTransform(), false);
+			}
 		}
 	}
 }
