@@ -12,6 +12,10 @@ See LICENSE file in the project root for full license information.
 #include "Characters/EnemyBase.h"
 #include "Characters/HeroBase.h"
 
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+#include "Weapons/Guns/Bullet.h"
+
 // Called when the game starts
 void UBulletOnHitEffectComponent::BeginPlay()
 {
@@ -29,4 +33,16 @@ void UBulletOnHitEffectComponent::BeginPlay()
 
 void UBulletOnHitEffectComponent::OnHit(AActor* target)
 {
+}
+
+void UBulletOnHitEffectComponent::ApplyEffect(ABullet* bullet_actor) const
+{
+	if (on_hit_effect_)
+	{
+		UNiagaraComponent* component = UNiagaraFunctionLibrary::SpawnSystemAttached(on_hit_effect_, bullet_actor->GetSceneComponent(), NAME_None, FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, false);
+	}
+	if (on_hit_material_)
+	{
+		bullet_actor->ApplyMaterial(0, on_hit_material_);
+	}
 }

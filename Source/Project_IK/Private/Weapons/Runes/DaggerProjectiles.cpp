@@ -33,7 +33,7 @@ void ADaggerProjectiles::BeginDaggerMovements()
 	GetWorldTimerManager().SetTimer(dagger_timer_, this, &ADaggerProjectiles::StartBackwardMotion, summon_times_, false);
 }
 
-void ADaggerProjectiles::BeginPlay()
+void ADaggerProjectiles::BeginPlay() 
 {
 	Super::BeginPlay();
 
@@ -51,6 +51,4 @@ void ADaggerProjectiles::StartBackwardMotion()
 void ADaggerProjectiles::LaunchForward()
 {
 	movement_->Velocity = GetActorForwardVector() * init_speed_;
-	//movement_->Velocity = GetActorForwardVector() * init_speed_;
-	//movement_->InitialSpeed = init_speed_;
 }

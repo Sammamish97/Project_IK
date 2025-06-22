@@ -41,8 +41,8 @@ void ACover::BeginPlay()
 
 void ACover::GetDamage(FDamageData data)
 {
-	hit_points_ -= data.atk_base_dmg;
-	hit_points_ -= data.skill_power_base_dmg;
+	hit_points_ -= data.atk_base_dmg_;
+	hit_points_ -= data.skill_power_base_dmg_;
 
 	if (hit_points_ < 0.f)
 	{
@@ -71,6 +71,13 @@ void ACover::Die()
 	}
 	is_broken_ = true;
 	Destroy();
+}
+
+void ACover::SetMobility(EComponentMobility::Type type)
+{
+	cover_collider_->SetMobility(type);
+	cover_position_->SetMobility(type);
+	cover_mesh_->SetMobility(type);
 }
 
 bool ACover::HasCoveringOwner() const

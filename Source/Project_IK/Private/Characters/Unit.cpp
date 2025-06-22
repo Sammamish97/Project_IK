@@ -41,6 +41,19 @@ AUnit::AUnit()
 	
 	cc_component_ = CreateDefaultSubobject<UCrowdControlComponent>(TEXT("CC Component"));
 	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
+
+
+
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Pawn"));
+	USkeletalMeshComponent* skeletal = GetMesh();
+	if (skeletal)
+	{
+		skeletal->SetGenerateOverlapEvents(true);
+		// It want ragdollings, need to turn it on.
+		skeletal->SetSimulatePhysics(false);
+		skeletal->bReceivesDecals = false;
+
+	}
 }
 
 UCharacterStatComponent* AUnit::GetCharacterStat()
@@ -153,25 +166,25 @@ void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 	}
 	else
 	{
-		if (data.atk_base_dmg > 0.f)
+		if (data.atk_base_dmg_ > 0.f)
 		{
 			ADamageUI* atk_ui = SpawnDamageUI();
 			if (atk_ui)
 			{
-				atk_ui->SetDamageAmount(data.atk_base_dmg, FLinearColor::White);
+				atk_ui->SetDamageAmount(data.atk_base_dmg_, FLinearColor::White);
 			}
 		}
-		else if (data.atk_base_dmg < 0.f)
+		else if (data.atk_base_dmg_ < 0.f)
 		{
 			UE_LOG(LogTemp, Error, TEXT("atk_base_dmg less than 0 has come."));
 		}
 
-		if (data.skill_power_base_dmg > 0.f)
+		if (data.skill_power_base_dmg_ > 0.f)
 		{
 			ADamageUI* skill_ui = SpawnDamageUI();
-			skill_ui->SetDamageAmount(data.skill_power_base_dmg, FLinearColor::Blue);
+			skill_ui->SetDamageAmount(data.skill_power_base_dmg_, FLinearColor::Blue);
 		}
-		else if (data.skill_power_base_dmg < 0.f)
+		else if (data.skill_power_base_dmg_ < 0.f)
 		{
 			UE_LOG(LogTemp, Error, TEXT("skill_power_base_dmg less than 0 has come."));
 		}
@@ -180,14 +193,14 @@ void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 
 void AUnit::GetDamage(FDamageData data)
 {
-	if (GetCharacterStat()->GetHitPoint() - data.atk_base_dmg  - data.skill_power_base_dmg <= 0.f )
+	if (GetCharacterStat()->GetHitPoint() + GetCharacterStat()->GetShield() - data.atk_base_dmg_  - data.skill_power_base_dmg_ <= 0.f )
 	{
- 		if (AActor* attacker_ptr = data.attacker.Get())
+ 		if (AActor* attacker_ptr = data.attacker_.Get())
 		{
 			Cast<AUnit>(attacker_ptr)->DispatchUnitEvent(EUnitEvent::OnEliminate);
 		}
 	}
-	switch (data.damage_type)
+	switch (data.damage_type_)
 	{
 	case EDamageType::Projectile:
 	case EDamageType::Explosive:
@@ -308,8 +321,8 @@ ADamageUI* AUnit::SpawnDamageUI()
 
 void AUnit::GetDamageByDot(FDamageData data)
 {
-	character_stat_component_->GetDamage(data.atk_base_dmg);
-	character_stat_component_->GetDamage(data.skill_power_base_dmg);
+	character_stat_component_->GetDamage(data.atk_base_dmg_);
+	character_stat_component_->GetDamage(data.skill_power_base_dmg_);
 	character_stat_component_->RecordDamage(data);
 	SetDamageUI(data, false);
 }
@@ -319,9 +332,9 @@ void AUnit::GetDamageByPEM(FDamageData data)
 	bool is_evaded = character_stat_component_->CalcDamage(data);
 	if (is_evaded == false)
 	{
-		character_stat_component_->GetDamage(data.atk_base_dmg);
-		character_stat_component_->GetDamage(data.skill_power_base_dmg);
 		RecoverAttackerByLifeSteal(data);
+		character_stat_component_->GetDamage(data.atk_base_dmg_);
+		character_stat_component_->GetDamage(data.skill_power_base_dmg_);
 	}
 	SetDamageUI(data, is_evaded);
 }
@@ -331,8 +344,8 @@ void AUnit::GetDamageByMagic(FDamageData data)
 	bool is_evaded = character_stat_component_->CalcDamage(data);
 	if (is_evaded == false)
 	{
-		character_stat_component_->GetDamage(data.atk_base_dmg);
-		character_stat_component_->GetDamage(data.skill_power_base_dmg);
+		character_stat_component_->GetDamage(data.atk_base_dmg_);
+		character_stat_component_->GetDamage(data.skill_power_base_dmg_);
 	}
 	SetDamageUI(data, is_evaded);
 }
@@ -347,12 +360,12 @@ void AUnit::DispatchUnitEvent(EUnitEvent type)
 
 void AUnit::RecoverAttackerByLifeSteal(FDamageData data)
 {
-	if (data.atk_base_dmg <= 0.f)
+	if (data.atk_base_dmg_ <= 0.f)
 	{
 		return;
 	}
 
-	AActor* attacker = data.attacker.Get();
+	AActor* attacker = data.attacker_.Get();
 	if (attacker)
 	{
 		AUnit* unit = Cast<AUnit>(attacker);
@@ -361,7 +374,7 @@ void AUnit::RecoverAttackerByLifeSteal(FDamageData data)
 			float attacker_life_steal = unit->GetCharacterStat()->GetLifeSteal();
 			if (attacker_life_steal > 0.f)
 			{
-				unit->Heal(data.atk_base_dmg * attacker_life_steal);
+				unit->Heal(data.atk_base_dmg_ * attacker_life_steal);
 			}
 		}
 	}

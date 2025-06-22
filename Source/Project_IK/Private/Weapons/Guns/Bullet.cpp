@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/ProjectileMovementComponent.h"
 
 #include "NiagaraFunctionLibrary.h"
-#include "NiagaraComponent.h"
+#include "Characters/Unit.h"
 
 // Sets default values
 ABullet::ABullet()
@@ -60,6 +60,24 @@ void ABullet::ClearComponentsAttachedOnMesh()
 	}
 }
 
+void ABullet::SpawnImpactParticle(FVector impact_location, FVector impact_normal, const FDamageData& damage_data)
+{
+	UNiagaraSystem* impact_particle = nullptr;
+	if (Cast<AUnit>(damage_data.attack_target_))
+	{
+		impact_particle = (damage_data.atk_base_dmg_ >= damage_data.skill_power_base_dmg_) ? attack_impact_particle_ : magic_impact_particle_;
+	}
+	else
+	{
+		impact_particle = concrete_impact_particle_;
+	}
+	
+	if (impact_particle)
+	{
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, impact_particle, impact_location, impact_normal.ToOrientationRotator());
+	}
+}
+
 void ABullet::SetInUse(bool in_use)
 {
 	Super::SetInUse(in_use);
@@ -73,44 +91,14 @@ void ABullet::SetInUse(bool in_use)
 	}
 }
 
-void ABullet::AttachParticleEffects(const TArray<UNiagaraSystem*>& niagara_systems,
-	const TMap<UNiagaraSystem*, TMap<FName, float>>& float_parameters,
-	const TMap<UNiagaraSystem*, TMap<FName, FVector>>& vector_parameters)
+USceneComponent* ABullet::GetSceneComponent() const
 {
-	for (UNiagaraSystem* system : niagara_systems)
-	{
-		UNiagaraComponent* component = UNiagaraFunctionLibrary::SpawnSystemAttached(system, bullet_mesh_, NAME_None, FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, false);
-
-		// Send user parameters
-		if (component)
-		{
-			if (const TMap<FName, float>* float_map = float_parameters.Find(system))
-			{
-				for (const TPair<FName, float>& pair : *float_map)
-				{
-					component->SetVariableFloat(pair.Key, pair.Value);
-				}
-			}
-
-			if (const TMap<FName, FVector>* vector_map = vector_parameters.Find(system))
-			{
-				for (const TPair<FName, FVector>& pair : *vector_map)
-				{
-					component->SetVariableVec3(pair.Key, pair.Value);
-				}
-			}
-		}
-
-		component->Activate(true);
-	}
+	return bullet_mesh_;
 }
 
-void ABullet::ApplyMaterials(const TArray<UMaterialInterface*>& materials)
+void ABullet::ApplyMaterial(int32 element_index, UMaterialInterface* material)
 {
-	for (int32 i = 0; i < materials.Num(); i++)
-	{
-		bullet_mesh_->SetMaterial(i, materials[i]);
-	}
+	bullet_mesh_->SetMaterial(element_index, material);
 }
 
 void ABullet::ReturnToPool()
@@ -135,6 +123,7 @@ void ABullet::AddOnHitComponent(TSubclassOf<UBulletOnHitEffectComponent> target_
 {
 	UBulletOnHitEffectComponent* new_on_hit_component = NewObject<UBulletOnHitEffectComponent>(this, target_class);
 	new_on_hit_component->RegisterComponent();
+	new_on_hit_component->ApplyEffect(this);
 	on_hit_components_.Add(new_on_hit_component);
 }
 
@@ -166,7 +155,8 @@ void ABullet::Clear()
 void ABullet::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	IDamageable* casted_damage_logic = Cast<IDamageable>(OtherActor);
-	dmg_data_.attack_target = OtherActor;
+	dmg_data_.attack_target_ = OtherActor;
+	SpawnImpactParticle(SweepResult.ImpactPoint, SweepResult.ImpactNormal, dmg_data_);
 	if (casted_damage_logic) casted_damage_logic->GetDamage(dmg_data_);
 	for (const auto& elem : on_hit_components_)
 	{

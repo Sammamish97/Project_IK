@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/Actor.h"
 #include "FateSpiral.generated.h"
 
+class UNiagaraSystem;
+
 UCLASS()
 class PROJECT_IK_API AFateSpiral : public AActor
 {
@@ -23,13 +25,10 @@ public:
 	// Sets default values for this actor's properties
 	AFateSpiral();
 
-	void SetSkillOwner(AActor* skill_owner);
-	void SetDepartureActor(AActor* departure);
-	void SetArrivalActor(AActor* arrival);
-	void SetRange(float radius);
+	void SetNecessaryData(AActor* skill_owner, AActor* departure, AActor* arrival, float radius);
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UNiagaraSystem> skill_particle_system_;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -43,6 +42,8 @@ protected:
 	float GetOwnerSkillPower();
 
 	void EndLogic();
+
+	void SpawnVisualFX();
 public:	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fate Spiral")
@@ -68,4 +69,9 @@ protected:
 	float range_squared_ = FLT_MAX;
 
 	TSet<AActor*> traversed_actors_;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Transient)
+	float traverse_interval_ = 0.5f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Transient)
+	int32 maximum_traversals_ = 4;
 };

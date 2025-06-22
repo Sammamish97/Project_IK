@@ -17,8 +17,7 @@ See LICENSE file in the project root for full license information.
 
 AEnemyBase::AEnemyBase()
 {
-	GetCapsuleComponent()->SetCollisionProfileName(TEXT("EnemyPreset"));
-	GetMesh()->SetCollisionProfileName(TEXT("NoCollision"));
+	GetMesh()->SetCollisionProfileName(TEXT("EnemyPreset"));
 	forward_dir_ = {-1,0, 0};
 	is_hero_ = false;
 }

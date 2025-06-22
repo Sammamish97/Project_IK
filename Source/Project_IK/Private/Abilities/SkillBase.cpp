@@ -39,14 +39,14 @@ float USkillBase::GetCastingTime() const
 
 void USkillBase::ApplyDamage(FDamageData DamageData)
 {
-	if (DamageData.attack_target.IsValid() && DamageData.attack_target->IsA<AUnit>())
+	if (DamageData.attack_target_.IsValid() && DamageData.attack_target_->IsA<AUnit>())
 	{
-		AUnit* attack_target = Cast<AUnit>(DamageData.attack_target);
+		AUnit* attack_target = Cast<AUnit>(DamageData.attack_target_);
 
-		if (DamageData.attacker.IsValid() && DamageData.attacker->IsA<AUnit>())
+		if (DamageData.attacker_.IsValid() && DamageData.attacker_->IsA<AUnit>())
 		{
-			AUnit* attacker = Cast<AUnit>(DamageData.attacker);
-			DamageData.skill_power_base_dmg = DamageData.skill_power_base_dmg + (attacker->GetCharacterStat()->GetSkillPower() * scaling_factor_);
+			AUnit* attacker = Cast<AUnit>(DamageData.attacker_);
+			DamageData.skill_power_base_dmg_ = DamageData.skill_power_base_dmg_ + (attacker->GetCharacterStat()->GetSkillPower() * scaling_factor_);
 		}
 
 		attack_target->GetDamage(DamageData);

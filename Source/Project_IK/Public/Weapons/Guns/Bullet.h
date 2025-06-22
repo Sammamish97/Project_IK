@@ -44,10 +44,8 @@ public:
 
 	virtual void SetInUse(bool in_use) override;
 
-	void AttachParticleEffects(const TArray<UNiagaraSystem*>& niagara_systems, 
-		const TMap<UNiagaraSystem*, TMap<FName, float>>& float_parameters, 
-		const TMap<UNiagaraSystem*, TMap<FName, FVector>>& vector_parameters);
-	void ApplyMaterials(const TArray<UMaterialInterface*>& material);
+	USceneComponent* GetSceneComponent() const;
+	void ApplyMaterial(int32 element_index, UMaterialInterface* material);
 
 	// Destructor of pooled actors
 	virtual void ReturnToPool() override;
@@ -58,23 +56,32 @@ protected:
 
 	void ClearComponentsAttachedOnMesh();
 
+
+	void SpawnImpactParticle(FVector impact_location, FVector impact_normal, const FDamageData& damage_data);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Impact Particles")
+	TObjectPtr<UNiagaraSystem> attack_impact_particle_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Impact Particles")
+	TObjectPtr<UNiagaraSystem> magic_impact_particle_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Impact Particles")
+	TObjectPtr<UNiagaraSystem> concrete_impact_particle_;
+
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bullet")
 	TObjectPtr<USphereComponent> collision_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, BlueprintReadWrite, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, BlueprintReadWrite, Category = "Bullet")
 	TObjectPtr<UProjectileMovementComponent> movement_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bullet")
 	TObjectPtr<UStaticMeshComponent> bullet_mesh_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bullet")
 	TArray<TObjectPtr<UBulletOnHitEffectComponent>> on_hit_components_;
 
 	UPROPERTY(VisibleAnywhere, Category = "Bullet")
 	TWeakObjectPtr<AActor> shooter_;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Bullet", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Bullet")
 	FDamageData dmg_data_;
 
 	TWeakObjectPtr<UMaterialInterface> original_material_;

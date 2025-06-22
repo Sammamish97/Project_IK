@@ -26,7 +26,7 @@ void UWoundingBulletsBuffLogic::ApplyBuff(UObject* buff_target)
 
 FDamageData UWoundingBulletsBuffLogic::ApplyBleeding(FDamageData data)
 {
-	TWeakObjectPtr<AUnit> unit = Cast<AUnit>(data.attack_target);
+	TWeakObjectPtr<AUnit> unit = Cast<AUnit>(data.attack_target_);
 	unit->ApplyCrowdControl(ECCType::Bleeding, 5.f);
 	return data;
 }

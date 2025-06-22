@@ -31,12 +31,15 @@ bool UAT_MagnetizedBullet::ActivateSkill_Implementation(const FTargetResult& Tar
 	if (hero)
 	{
 		auto weapon_actor = hero->GetWeaponMechanics()->GetWeaponActor();
-		weapon_actor->AddOnHitComponent(UBulletChainEffectComponent::StaticClass());
-		weapon_actor->AttachParticleEffect(skill_particle_system_);
-		weapon_actor->AddParticleParameterFloat(skill_particle_system_, FName("SphereRadius"), 10.f);
-		weapon_actor->AddParticleParameterVector(skill_particle_system_, FName("BulletVelocity"), hero->GetActorForwardVector());
-		weapon_actor->ApplyMaterial(skill_bullet_material_);
 
+		if (on_hit_class_)
+		{
+			weapon_actor->AddOnHitComponent(on_hit_class_);
+		}
+		else
+		{
+			weapon_actor->AddOnHitComponent(UBulletChainEffectComponent::StaticClass());
+		}
 
 		FTimerDelegate timer_delegate = FTimerDelegate::CreateUObject(this, &UAT_MagnetizedBullet::OnFinishSkill);
 		GetWorld()->GetTimerManager().SetTimer(duration_timer_handle_, timer_delegate, duration_, false);
@@ -47,13 +50,18 @@ bool UAT_MagnetizedBullet::ActivateSkill_Implementation(const FTargetResult& Tar
 
 void UAT_MagnetizedBullet::OnFinishSkill()
 {
-	TWeakObjectPtr<AHeroBase> owner_hero_ptr = Cast<AHeroBase>(skill_owner_);
-	if (auto hero = owner_hero_ptr.Get())
+	AHeroBase* owner_hero_ptr = Cast<AHeroBase>(skill_owner_);
+	if (owner_hero_ptr)
 	{
-		auto weapon_actor = hero->GetWeaponMechanics()->GetWeaponActor();
-		weapon_actor->RemoveOnHitComponent(UBulletChainEffectComponent::StaticClass());
-		weapon_actor->RemoveParticleEffect(skill_particle_system_);
-		weapon_actor->RemoveMaterial(skill_bullet_material_);
+		auto weapon_actor = owner_hero_ptr->GetWeaponMechanics()->GetWeaponActor();
+		if (on_hit_class_)
+		{
+			weapon_actor->RemoveOnHitComponent(on_hit_class_);
+		}
+		else
+		{
+			weapon_actor->RemoveOnHitComponent(UBulletChainEffectComponent::StaticClass());
+		}
 		GetWorld()->GetTimerManager().ClearTimer(duration_timer_handle_);
 	}
 }

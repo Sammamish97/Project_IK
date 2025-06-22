@@ -14,16 +14,15 @@ See LICENSE file in the project root for full license information.
 void UBulletViperEffectComponent::OnHit(AActor* target)
 {
 	Super::OnHit(target);
-	TWeakObjectPtr<AActor> target_ptr = target;
-	if (AActor* casted_target = target_ptr.Get())
+	if (target)
 	{
-		if (auto viper_effect = casted_target->FindComponentByClass<UATC_ViperHexagonEffect>())
+		if (auto viper_effect = target->FindComponentByClass<UATC_ViperHexagonEffect>())
 		{
 			viper_effect->IncreaseStack();
 		}
 		else
 		{
-			casted_target->AddComponentByClass(UATC_ViperHexagonEffect::StaticClass(), false, casted_target->GetTransform(), false);
+			target->AddComponentByClass(UATC_ViperHexagonEffect::StaticClass(), false, target->GetTransform(), false);
 		}
 	}
 }
