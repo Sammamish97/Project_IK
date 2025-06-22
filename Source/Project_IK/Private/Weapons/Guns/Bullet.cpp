@@ -156,12 +156,12 @@ void ABullet::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 {
 	IDamageable* casted_damage_logic = Cast<IDamageable>(OtherActor);
 	dmg_data_.attack_target_ = OtherActor;
+	SpawnImpactParticle(SweepResult.ImpactPoint, SweepResult.ImpactNormal, dmg_data_);
 	if (casted_damage_logic) casted_damage_logic->GetDamage(dmg_data_);
 	for (const auto& elem : on_hit_components_)
 	{
 		elem->OnHit(OtherActor);
 	}
-	SpawnImpactParticle(SweepResult.ImpactPoint, SweepResult.ImpactNormal, dmg_data_);
 	ReturnToPool();
 }
 
