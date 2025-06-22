@@ -10,11 +10,7 @@ See LICENSE file in the project root for full license information.
 
 
 #include "Worldsettings/IKGameState.h"
-
-#include "Components/EnergySystemComponent.h"
-
 AIKGameState::AIKGameState()
 	:Super::AGameStateBase()
 {
-	energy_system_ = CreateDefaultSubobject<UEnergySystemComponent>(TEXT("EnergySystem"));
 }

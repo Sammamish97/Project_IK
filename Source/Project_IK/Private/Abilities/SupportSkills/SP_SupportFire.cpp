@@ -21,20 +21,16 @@ USP_SupportFire::USP_SupportFire()
 	dmg_data_ = FDamageData(100, 0, EDamageType::Projectile);
 }
 
-bool USP_SupportFire::ActivateSkill(const FTargetResult& target_result)
+void USP_SupportFire::Decide(const FTargetResult& target_result)
 {
-	if (Super::ActivateSkill(target_result))
+	if(target_result.target_actors_[0])
 	{
-		if(target_result.target_actors_[0])
+		dmg_data_.attack_target_ = target_result.target_actors_[0];
+		if (dmg_data_.attack_target_.IsValid() && dmg_data_.attack_target_->IsA<AUnit>())
 		{
-			dmg_data_.attack_target_ = target_result.target_actors_[0];
-			if (dmg_data_.attack_target_.IsValid() && dmg_data_.attack_target_->IsA<AUnit>())
-			{
-				AUnit* attack_target = Cast<AUnit>(dmg_data_.attack_target_);
-				attack_target->GetDamage(dmg_data_);
-				return true;
-			}
+			AUnit* attack_target = Cast<AUnit>(dmg_data_.attack_target_);
+			attack_target->GetDamage(dmg_data_);
+			OnDecide();
 		}
 	}
-	return false;
 }

@@ -8,15 +8,19 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "WorldSettings/IKHUD.h"
+
+#include "Abilities/SupportSkills/SupportSkillBase.h"
 #include "Runtime/UMG/Public/Blueprint/UserWidget.h"
 
 #include "Kismet/GameplayStatics.h"
 
-#include "UI/CombatResultUI.h"
 #include "Managers/CombatLevelResultManager.h"
 #include "UI/ButtonBarWidget.h"
 #include "UI/InventoryWidget.h"
+#include "UI/SkillButtonWidget.h"
 #include "WorldSettings/IKGameInstance.h"
+#include "WorldSettings/IKPlayerController.h"
+
 void AIKHUD::BeginPlay()
 {
 	Super::BeginPlay();
@@ -27,6 +31,19 @@ void AIKHUD::BeginPlay()
 	if (button_widget_class_)
 	{
 		button_widget_ = CreateWidget<UButtonBarWidget>(world, button_widget_class_);
+		
+		auto player_controller_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+		auto equipped_support_data = player_controller_->GetSupportSkillData();
+		auto equipped_support_skills = player_controller_->GetSupportSkillPtr();
+		for (int32 i = 0; i < 3; i++)
+		{
+			if (equipped_support_skills[i] != nullptr)
+			{
+				auto cur_skill_button_widget = GetSkillButtonWidget(i);
+                cur_skill_button_widget->SetThumbnailTexture(equipped_support_data[i].thumbnail);
+				equipped_support_skills[i]->on_decide_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
+			}
+		}
 		if (button_widget_)
 		{
 			button_widget_->AddToViewport();
@@ -44,8 +61,7 @@ void AIKHUD::BeginPlay()
 		inventory_widget_ = CreateWidget<UInventoryWidget>(GetWorld(), inventory_widget_class_);
 		if(inventory_widget_)
 		{
-			auto instance = UGameplayStatics::GetGameInstance(GetWorld());
-			auto ik_instance = Cast<UIKGameInstance>(instance);
+			auto ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 			if(ik_instance)
 			{
 				inventory_widget_->InitInventoryWidget(ik_instance->GetInventoryManager());
@@ -69,17 +85,6 @@ void AIKHUD::SwitchUIByState(ECombatEndState state)
 	if (combat_level_result_manager_)
 	{
 		combat_level_result_manager_->SwitchUIByState(state);
-	}
-}
-
-void AIKHUD::SynchroItemButtons()
-{
-	if (button_widget_)
-	{
-		for (int32 i = 0; i < 3; ++i)
-		{
-			button_widget_->SynchroItemButtons(i);
-		}
 	}
 }
 
@@ -109,4 +114,9 @@ void AIKHUD::ToggleInventory()
 	{
 		inventory_widget_->SetVisibility(ESlateVisibility::Hidden);
 	}
+}
+
+USkillButtonWidget* AIKHUD::GetSkillButtonWidget(int32 idx)
+{
+	return button_widget_->GetSkillButtonWidget(idx);
 }

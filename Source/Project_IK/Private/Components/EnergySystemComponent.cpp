@@ -54,6 +54,11 @@ float UEnergySystemComponent::GetEnergy() const noexcept
 	return energy_;
 }
 
+float UEnergySystemComponent::GetEnergyRatio() const noexcept
+{
+	return energy_ / max_energy_;
+}
+
 float UEnergySystemComponent::GetRegenRate() const noexcept
 {
 	return regen_rate_;

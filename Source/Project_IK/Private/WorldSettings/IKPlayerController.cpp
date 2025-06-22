@@ -10,13 +10,12 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKPlayerController.h"
 
 #include "Components/TargetingComponent.h"
+#include "Components/EnergySystemComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Abilities/SupportSkills/SupportSkillBase.h"
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
-#include "Managers/DataTableManager.h"
-#include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKHUD.h"
 #include "WorldSettings/IKPlayerCameraManager.h"
@@ -25,7 +24,9 @@ AIKPlayerController::AIKPlayerController()
 	: Super::APlayerController()
 {
 	targeting_component_ = CreateDefaultSubobject<UTargetingComponent>(TEXT("Targeting Component"));
-	
+	energy_system_component_ = CreateDefaultSubobject<UEnergySystemComponent>(TEXT("Energy System Component"));
+	support_skill_data_.Init(FSupportSkillData(), 3);
+	equipped_support_skills_.Init(TObjectPtr<USupportSkillBase>(), 3);
 }
 
 void AIKPlayerController::BeginPlay()
@@ -39,26 +40,23 @@ void AIKPlayerController::BeginPlay()
 	{
 		subsystem->AddMappingContext(player_input_mapping_context, 0);
 	}
-	
-	auto type =Cast<UIKGameInstance>(GetGameInstance())->GetDataTableManager()->GetSupportSkillType(ESupportSkillType::SupportFire);
-	equipped_support_skill_ = NewObject<USupportSkillBase>(this, type);
-}
 
-void AIKPlayerController::Tick(float dt)
-{
-	Super::Tick(dt);
-	if (cur_cost_ <= max_cost_)
+	for (int32 i = 0; i < 3; i++)
 	{
-		cur_cost_ += dt;
-		cur_cost_ = FMath::Clamp(cur_cost_, 0.f, max_cost_);
+		if (support_skill_data_[i].type_ != ESupportSkillType::INVALID)
+		{
+			equipped_support_skills_[i] = NewObject<USupportSkillBase>(this, support_skill_data_[i].support_skill_class_);
+		}
 	}
 }
 
 void AIKPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-	on_item_used_.Clear();
 	on_active_skill_.Clear();
+
+	equipped_support_skills_.Empty();
+	//IKTOOD: equipped_support_skills_가 EndPlay에서 자동으로 GC되는지, 아니면 수동 삭제가 필요한지 체크해야함.
 }
 
 void AIKPlayerController::SetupInputComponent()
@@ -71,9 +69,10 @@ void AIKPlayerController::SetupInputComponent()
 		enhanced_input_component->BindAction(activate_second_hero_active_skill_action, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateSecondHeroActiveSkill);
 		enhanced_input_component->BindAction(activate_third_hero_active_skill_action, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateThirdHeroActiveSkill);
 		enhanced_input_component->BindAction(activate_fourth_hero_active_skill_action, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateFourthHeroActiveSkill);
-		
-		enhanced_input_component->BindAction(enter_action_mode_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::EnterRepositioningMode);
-		enhanced_input_component->BindAction(support_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::ToggleBetweenRepositionAndSupport);
+
+		enhanced_input_component->BindAction(activate_first_support_skill_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateFirstSupportSkill);
+		enhanced_input_component->BindAction(activate_second_support_skill_action, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateSecondSupportSkill);
+		enhanced_input_component->BindAction(activate_third_support_skill_action, ETriggerEvent::Triggered, this, &AIKPlayerController::ActivateThirdSupportSkill);
 		
 		enhanced_input_component->BindAction(decide_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::Decide);
 		enhanced_input_component->BindAction(cancel_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::CancelTargeting);
@@ -90,11 +89,26 @@ UTargetingComponent* AIKPlayerController::GetTargetingComponent()
 	return targeting_component_;
 }
 
+class UEnergySystemComponent* AIKPlayerController::GetEnergySystemComponent()
+{
+	return energy_system_component_;
+}
+
 void AIKPlayerController::UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies)
 {
 	AIKPlayerCameraManager * camera_manger = Cast<AIKPlayerCameraManager>(PlayerCameraManager);
 
 	camera_manger->UpdateEnemies(tracked_enemies);
+}
+
+const TArray<FSupportSkillData>& AIKPlayerController::GetSupportSkillData() const
+{
+	return support_skill_data_;
+}
+
+const TArray<TObjectPtr<USupportSkillBase>>& AIKPlayerController::GetSupportSkillPtr() const
+{
+	return equipped_support_skills_;
 }
 
 void AIKPlayerController::ActivateFirstHeroActiveSkill()
@@ -117,6 +131,21 @@ void AIKPlayerController::ActivateFourthHeroActiveSkill()
 	ActivateSkillTargeting(EHeroType::Hero4);
 }
 
+void AIKPlayerController::ActivateFirstSupportSkill()
+{
+	ActivateSupportSkill(0);
+}
+
+void AIKPlayerController::ActivateSecondSupportSkill()
+{
+	ActivateSupportSkill(1);
+}
+
+void AIKPlayerController::ActivateThirdSupportSkill()
+{
+	ActivateSupportSkill(2);
+}
+
 void AIKPlayerController::ActivateSkillTargeting(EHeroType hero_type)
 {
 	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
@@ -128,94 +157,71 @@ void AIKPlayerController::ActivateSkillTargeting(EHeroType hero_type)
 			if (casted_hero->IsActiveSkillOnCoolDown() == false)
 			{
 				selected_hero_type_ = hero_type;
-				targeting_state_ = ETargetingState::ActiveSKill;
-				targeting_component_->StartTargeting(casted_hero->GetActiveSkillTargetParameters().GetValue(), casted_hero);
+				StartTargeting(casted_hero->GetActiveSkillTargetParameters().GetValue(), ETargetingState::ActiveSKill, casted_hero);
 			}
 		}
 	}
 }
 
+void AIKPlayerController::ActivateSupportSkill(int32 support_num)
+{
+	if (equipped_support_skills_.IsValidIndex(support_num))
+	{
+		if (energy_system_component_->GetEnergy() >  equipped_support_skills_[support_num]->GetCost())
+		{
+			last_invoked_support_skill_ = equipped_support_skills_[support_num];
+			last_invoked_support_skill_->ActivateSkill();
+		}
+	}
+}
+
+void AIKPlayerController::StartTargeting(const FTargetParameters& target_params, ETargetingState state, AActor* invoker)
+{
+	if (cur_targeting_state_ == ETargetingState::Idle)
+	{
+		targeting_component_->StartTargeting(target_params, invoker);
+		cur_targeting_state_ = state;
+	}
+}
+
+void AIKPlayerController::ClearTargetingState()
+{
+	cur_targeting_state_ = ETargetingState::Idle;
+}
+
+bool AIKPlayerController::UseEnergy(float amount)
+{
+	return energy_system_component_->UseEnergy(amount);
+}
+
 void AIKPlayerController::Decide()
 {
-	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	auto target_result = targeting_component_->DecideTargetings();
-	
-	switch (targeting_state_)
+	switch (cur_targeting_state_)
 	{
 		case ETargetingState::ActiveSKill:
 			{
+				auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+				auto target_result = targeting_component_->DecideTargetings();
 				Cast<AHeroBase>(game_mode_cache->GetHero(selected_hero_type_))->InvokeActiveSkill(target_result);
 				on_active_skill_.Broadcast(selected_hero_type_);
-				targeting_state_ = ETargetingState::Idle;
 			}
 			break;
-		case ETargetingState::EnterRepositioning:
+		case ETargetingState::SupportSkill:
 			{
-				UE_LOG(LogTemp, Display, TEXT("AIKPlayerController::EnterRepositioning"));
-				if (target_result.target_actors_.IsEmpty() == false)
-				{
-					//IKTODO: 영웅의 선택과 이동명령 사이 영웅이 죽을 수 있다. WeakPtr이 좋을지도...?
-					targeting_component_->StartTargeting({ETargetingMode::Location, ETargetType::None, 1000, 1000});
-					repositioning_hero_ = target_result.target_actors_[0];
-					targeting_state_ = ETargetingState::PickRepositionTargetLocation;
-				}
+				last_invoked_support_skill_->Decide(targeting_component_->DecideTargetings());
 			}
 			break;
-		case ETargetingState::PickRepositionTargetLocation:
-			{
-				UE_LOG(LogTemp, Display, TEXT("AIKPlayerController::PickRepositionTargetLocation"));
-				if (cur_cost_ > 1.f && repositioning_hero_ != nullptr)
-				{
-					cur_cost_ -= 1.f;
-					Cast<AHeroBase>(repositioning_hero_)->Reposition(target_result.target_location_);
-					targeting_state_ = ETargetingState::Idle;
-					repositioning_hero_ = nullptr;
-				}
-			}
-			break;
-		
-		case ETargetingState::EnterSupporting:
-			if (equipped_support_skill_ && cur_cost_ > equipped_support_skill_->GetCost())
-			{
-				cur_cost_ -= equipped_support_skill_->GetCost();
-				equipped_support_skill_->ActivateSkill(target_result);
-				targeting_state_ = ETargetingState::Idle;
-			}
-			break;
-		
-		case ETargetingState::Idle:
-		default:
-				break;
 	}
 }
 
 void AIKPlayerController::CancelTargeting()
 {
 	targeting_component_->CancelTargeting();
-}
-
-void AIKPlayerController::ToggleBetweenRepositionAndSupport()
-{
-	CancelTargeting();
-	if (targeting_state_ == ETargetingState::EnterRepositioning)
+	ClearTargetingState();
+	if (last_invoked_support_skill_)
 	{
-		targeting_state_ = ETargetingState::EnterSupporting;
-		if (equipped_support_skill_)
-		{
-			targeting_component_->StartTargeting(equipped_support_skill_->GetTargetParameters());
-		}
+		last_invoked_support_skill_->Reset();
 	}
-	else if (targeting_state_ == ETargetingState::EnterSupporting)
-	{
-		targeting_state_ = ETargetingState::EnterRepositioning;
-		targeting_component_->StartTargeting( {ETargetingMode::Actor, ETargetType::Allies, HARD_CODED_REPOSITION_RADIUS, HARD_CODED_REPOSITION_RADIUS}, nullptr);
-	}
-}
-
-void AIKPlayerController::EnterRepositioningMode()
-{
-	targeting_state_ = ETargetingState::EnterRepositioning;
-	targeting_component_->StartTargeting( {ETargetingMode::Actor, ETargetType::Allies, HARD_CODED_REPOSITION_RADIUS, HARD_CODED_REPOSITION_RADIUS}, nullptr);
 }
 
 void AIKPlayerController::RotateCameraLeft()
@@ -233,9 +239,4 @@ void AIKPlayerController::RotateCameraRight()
 void AIKPlayerController::OnToggleInventory()
 {
 	Cast<AIKHUD>(GetHUD())->ToggleInventory();
-}
-
-float AIKPlayerController::GetChargeTime() const
-{
-	return cur_cost_;
 }

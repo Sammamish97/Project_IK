@@ -31,6 +31,7 @@ struct FPassiveSkillData;
 struct FRuneData;
 struct FActiveSkillData;
 struct FGlobalBuffData;
+struct FSupportSkillData;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UDataTableManager : public UObject
@@ -81,7 +82,7 @@ public:
 	TSoftObjectPtr<UAnimBlueprint> GetWeaponAnimInstance(EUnitBoneType bone, EWeaponAnimationType weapon);
 
 	TSubclassOf<class AUnit> GetUnitType(ECharacterType type);
-	TSubclassOf<class USupportSkillBase> GetSupportSkillType(ESupportSkillType type);
+	FSupportSkillData GetSupportSkillType(ESupportSkillType type);
 	
 
 private:

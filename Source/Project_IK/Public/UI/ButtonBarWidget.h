@@ -17,9 +17,13 @@ See LICENSE file in the project root for full license information.
 
 class UButton;
 class USkillContainer;
-struct FTargetResult;
+class UCostUI;
 class UTexture2D;
 class UCreditWidget;
+class USkillButtonWidget;
+
+struct FTargetResult;
+
 
 UCLASS()
 class PROJECT_IK_API UButtonBarWidget : public UUserWidget
@@ -28,11 +32,13 @@ class PROJECT_IK_API UButtonBarWidget : public UUserWidget
 
 public:
 	UFUNCTION()
-	void SynchroItemButtons(int32 item_idx);
-
-	UFUNCTION()
 	void SynchroActiveSkillButtons(EHeroType hero_type);
 
+	UFUNCTION()
+	USkillButtonWidget* GetSkillButtonWidget(int32 idx);
+	
+	//IKTODO: 현재 액티브 스킬은 버튼 클릭 외에도 QWER입력을 통해 발동할 수 있다.
+	//그러므로 침묵을 구현한다면, UI단이 아닌, SkillContainer단에서 구현해야 할 듯 하다.
 	UFUNCTION()
 	void SilenceSkill(AActor* character);
 	void UnsilenceSkill(AActor* character);
@@ -44,20 +50,30 @@ protected:
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
 
 	UFUNCTION()
-	void OnSkillButtonClicked0();
+	void OnActiveSkillButtonClicked0();
 	
 	UFUNCTION()
-	void OnSkillButtonClicked1();
+	void OnActiveSkillButtonClicked1();
 	
 	UFUNCTION()
-	void OnSkillButtonClicked2();
+	void OnActiveSkillButtonClicked2();
 	
 	UFUNCTION()
-	void OnSkillButtonClicked3();
+	void OnActiveSkillButtonClicked3();
+
+	//
 
 	UFUNCTION()
-	void ActivateSkillTargeting(EHeroType caster);
+	void OnSupportSkillButtonClicked0();
+	
+	UFUNCTION()
+	void OnSupportSkillButtonClicked1();
+	
+	UFUNCTION()
+	void OnSupportSkillButtonClicked2();
 
+	//
+	
 	UFUNCTION()
 	void FindCharacters();
 
@@ -66,19 +82,32 @@ protected:
 
 private:
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> skill_button_0_;
+	TObjectPtr<UButton> active_skill_button_0_;
 	
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> skill_button_1_;
+	TObjectPtr<UButton> active_skill_button_1_;
 	
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> skill_button_2_;
+	TObjectPtr<UButton> active_skill_button_2_;
 	
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> skill_button_3_;
+	TObjectPtr<UButton> active_skill_button_3_;
+
+	//
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UTextBlock> repositioning_point_;
+	TObjectPtr<USkillButtonWidget> support_skill_button_0_;
+	
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<USkillButtonWidget> support_skill_button_1_;
+	
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<USkillButtonWidget> support_skill_button_2_;
+
+	//
+	
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UCostUI> cost_ui_;
 	
 	UPROPERTY(meta = (BindWidget))
 	UCreditWidget* credit_widget_;
