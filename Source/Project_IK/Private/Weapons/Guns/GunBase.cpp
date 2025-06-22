@@ -20,7 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/CharacterStatComponent.h"
 #include "Components/SphereComponent.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 AGunBase::AGunBase()
 {
@@ -37,6 +37,15 @@ AGunBase::AGunBase()
 	muzzle_socket_name_ = TEXT("muzzle");
 	head_socket_name_ = TEXT("head_socket");
 	owned_cover_key_name_ = TEXT("OwnedCover");
+
+	fire_particle_component_ = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Muzzle Fire Particle"));
+	fire_particle_component_->SetupAttachment(weapon_skeletal_mesh_, muzzle_socket_name_);
+	fire_particle_component_->SetAutoActivate(false);
+
+	ejection_particle_component_ = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Ejection Particle"));
+	ejection_particle_component_->SetupAttachment(weapon_skeletal_mesh_, FName("Door"));
+	ejection_particle_component_->SetAutoActivate(false);
+
 
 	SetRootComponent(root_sphere_mesh_);
 
@@ -93,11 +102,15 @@ void AGunBase::SpawnBullet(const FRotator& rotation, const FVector& translation,
 	}
 }
 
-void AGunBase::PlayEjectionParticle() const
+void AGunBase::PlayFireParticle() const
 {
-	if (ejection_particle_)
+	if (fire_particle_component_)
 	{
-		UNiagaraFunctionLibrary::SpawnSystemAttached(ejection_particle_, weapon_skeletal_mesh_, FName("Door"), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
+		fire_particle_component_->Activate(true);
+	}
+	if (ejection_particle_component_)
+	{
+		ejection_particle_component_->Activate(true);
 	}
 }
 
@@ -119,7 +132,7 @@ void AGunBase::FireSingleBullet(FVector target_pos, const FDamageData& dmg_data)
 	SpawnBullet(rotation, muzzle_location, dmg_data);
 	cur_magazine_ -= 1;
 
-	PlayEjectionParticle();
+	PlayFireParticle();
 }
 
 void AGunBase::FireBuckShot(FVector target_pos, const FDamageData& dmg_data)
@@ -143,7 +156,7 @@ void AGunBase::FireBuckShot(FVector target_pos, const FDamageData& dmg_data)
 	}
 	cur_magazine_ -= 1;
 
-	PlayEjectionParticle();
+	PlayFireParticle();
 }
 
 void AGunBase::BeginFire(AActor* target)

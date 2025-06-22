@@ -18,7 +18,7 @@ See LICENSE file in the project root for full license information.
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnCriticalRateCalculationDelegate, float&);
 
-class UNiagaraSystem;
+class UNiagaraComponent;
 
 UCLASS(Abstract)
 class PROJECT_IK_API AGunBase : public AActor
@@ -62,7 +62,7 @@ protected:
 	void FireBuckShot(FVector target_pos, const FDamageData& dmg_data);
 	void SpawnBullet(const FRotator& rotation, const FVector& translation, const FDamageData& dmg_data);
 
-	void PlayEjectionParticle() const;
+	void PlayFireParticle() const;
 
 public:
 	
@@ -104,7 +104,10 @@ protected:
 	TArray<TSubclassOf<class UBulletOnHitEffectComponent>> on_hit_after_reload_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Particles")
-	TObjectPtr<UNiagaraSystem> ejection_particle_;
+	TObjectPtr<UNiagaraComponent> ejection_particle_component_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Particles")
+	TObjectPtr<UNiagaraComponent> fire_particle_component_;
 	
 	UPROPERTY(Transient)
 	TWeakObjectPtr<class AUnit> weak_gun_owner_;
