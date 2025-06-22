@@ -149,3 +149,35 @@ void AIKGameState::ClearTargetingState()
 	selected_support_num_ = -1;
 	Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->SetVisibility(ESlateVisibility::Hidden);
 }
+
+void AIKGameState::ReduceCoolDown(EHeroType hero_type, float amount)
+{
+	if (active_skill_timers_.Contains(hero_type))
+	{
+		float remaining_time = GetWorld()->GetTimerManager().GetTimerRemaining(active_skill_timers_[hero_type]);
+		if (remaining_time < amount)
+		{
+			GetWorld()->GetTimerManager().ClearTimer(active_skill_timers_[hero_type]);
+		}
+		else
+		{
+			GetWorld()->GetTimerManager().SetTimer(active_skill_timers_[hero_type],remaining_time - amount, false);
+		}
+	}
+}
+
+void AIKGameState::ReduceCoolDownPercentage(EHeroType hero_type, float percentage)
+{
+	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (active_skill_timers_.Contains(hero_type))
+	{
+		if (auto selected_hero = game_mode_cache->GetHero(hero_type))
+		{
+			AHeroBase* casted_hero = Cast<AHeroBase>(selected_hero);
+			if (casted_hero->HasActiveSkill())
+			{
+				ReduceCoolDown(hero_type,casted_hero->GetActiveSkill()->GetCoolTime() * percentage);
+			}
+		}
+	}
+}

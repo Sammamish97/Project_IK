@@ -43,6 +43,10 @@ public:
 	bool OnDecide(const FTargetResult& result);
 	UFUNCTION()
 	void ClearTargetingState();
+	UFUNCTION()
+	void ReduceCoolDown(EHeroType hero_type, float amount);
+	UFUNCTION()
+	void ReduceCoolDownPercentage(EHeroType hero_type, float percentage);
 	
 private:
 	UPROPERTY(VisibleAnywhere, Category = "EnergySystem")
