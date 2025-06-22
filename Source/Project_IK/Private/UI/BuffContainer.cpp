@@ -39,11 +39,11 @@ void UBuffContainer::NativeConstruct()
 	}
 }
 
-void UBuffContainer::EnqueueBuff(FBuffData buff_data)
+void UBuffContainer::EnqueueBuff(FBuffUIData buff_data)
 {
 	TArray widget_array = {buff_widget_0_, buff_widget_1_, buff_widget_2_, buff_widget_3_, buff_widget_4_};
 	//겹치는 버프 제거.
-	UpdateQueue(buff_data);
+	UpdateQueue(buff_data.buff_type_);
 	
 	for(int32 i = 0; i < max_buffs_; ++i)
 	{
@@ -53,15 +53,21 @@ void UBuffContainer::EnqueueBuff(FBuffData buff_data)
 			break;
 		}
 	}
+	if (buff_data.is_permanent_ == false)
+	{
+		FTimerDelegate expired_delegate = FTimerDelegate::CreateUObject(this, &UBuffContainer::UpdateQueue, buff_data.buff_type_);
+		buff_timers_.FindOrAdd(buff_data.buff_type_);
+		GetWorld()->GetTimerManager().SetTimer(buff_timers_[buff_data.buff_type_], expired_delegate, buff_data.duration_, false);
+	}
 }
 
-void UBuffContainer::UpdateQueue(FBuffData buff_data)
+void UBuffContainer::UpdateQueue(EBuffType buff_type)
 {
 	TArray widget_array = {buff_widget_0_, buff_widget_1_, buff_widget_2_, buff_widget_3_, buff_widget_4_};
 	int32 target_index = -1;
 	for(int32 i = 0; i < max_buffs_; ++i)
 	{
-		if(widget_array[i]->IsWidgetAvailable() == false && widget_array[i]->GetBuffDataCache().buff_type_ == buff_data.buff_type_)
+		if(widget_array[i]->IsWidgetAvailable() == false && widget_array[i]->GetBuffDataCache().buff_type_ == buff_type)
 		{
 			target_index = i;
 			break;
@@ -75,6 +81,11 @@ void UBuffContainer::UpdateQueue(FBuffData buff_data)
 			widget_array[i]->SetWidget(next_widget->GetProgressBarStyle(), next_widget->GetBuffDataCache(), next_widget->GetLeftTime(), next_widget->IsWidgetAvailable());
 		}
 		widget_array[max_buffs_ - 1]->ResetWidget();
+	}
+	if (buff_timers_.Contains(buff_type))
+	{
+		GetWorld()->GetTimerManager().ClearTimer(buff_timers_[buff_type]);
+		buff_timers_.Remove(buff_type);
 	}
 }
 

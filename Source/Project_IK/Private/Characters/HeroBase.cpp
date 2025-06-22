@@ -103,6 +103,9 @@ void AHeroBase::BeginPlay()
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
+
+	OnApplyBuff.Clear();
+	OnBuffExpired.Clear();
 }
 
 void AHeroBase::EquipGears(FSpawnData spawn_data)
@@ -195,6 +198,11 @@ FTargetParameters AHeroBase::GetActiveSkillTargetParameters() const
 bool AHeroBase::HasActiveSkill() const
 {
 	return active_skill_mechanics_->HasActiveSkill();
+}
+
+void AHeroBase::AddBuffUI(FBuffUIData buff_ui_data)
+{
+	OnApplyBuff.Broadcast(buff_ui_data);
 }
 
 UWeaponMechanics* AHeroBase::GetWeaponMechanics()

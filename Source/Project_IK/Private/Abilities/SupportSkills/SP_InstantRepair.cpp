@@ -9,8 +9,8 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Abilities/SupportSkills/SP_InstantRepair.h"
 
-#include "Characters/Unit.h"
-#include "DataAssets/BuffDataAsset.h"
+#include "Characters/HeroBase.h"
+#include "Components/CharacterStatComponent.h"
 
 USP_InstantRepair::USP_InstantRepair()
 {
@@ -21,11 +21,15 @@ USP_InstantRepair::USP_InstantRepair()
 
 bool USP_InstantRepair::ActivateSkill(const FTargetResult& target_result)
 {
+	EBuffType type = EBuffType::InstantRepair;
+	FBuffStatusData status_data = FBuffStatusData(ECharacterStatType::AttackSpeed, 2.0f, true, 3.f, false);
+	
 	if(target_result.target_actors_[0])
 	{
-		if (AUnit* target_unit = Cast<AUnit>(target_result.target_actors_[0]))
+		if (AHeroBase* target_hero = Cast<AHeroBase>(target_result.target_actors_[0]))
 		{
-			target_unit->ApplyBuff(buff_data_->buff_data_);
+			target_hero->ApplyBuff(type, status_data);
+			target_hero->AddBuffUI(FBuffUIData(FText::FromString("InstantRepair"), type, nullptr, 1.f, false, FString("Test Instnatn Repair")));
 		}
 	}
 	return Super::ActivateSkill(target_result);

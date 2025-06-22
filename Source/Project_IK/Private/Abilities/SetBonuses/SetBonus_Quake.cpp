@@ -18,7 +18,7 @@ See LICENSE file in the project root for full license information.
 void USetBonus_Quake::ActivateEdgeBonus()
 {
 	Super::ActivateEdgeBonus();
-	hero_cache_->ApplyBuff(edge_buff_data_asset_->buff_data_);
+	//hero_cache_->ApplyBuff(edge_buff_data_asset_->buff_data_);
 }
 
 //3세트: 액티브 스킬을 발동 시 공격속도 + 15%
@@ -37,7 +37,7 @@ void USetBonus_Quake::ActivateHexagonBonus()
 
 void USetBonus_Quake::TriangleAttackSpeedBuff()
 {
-	hero_cache_->ApplyBuff(triangle_buff_data_asset_->buff_data_);
+	//hero_cache_->ApplyBuff(triangle_buff_data_asset_->buff_data_);
 }
 
 void USetBonus_Quake::HexagonSkillEcho()
@@ -49,7 +49,7 @@ void USetBonus_Quake::HexagonSkillEcho()
 		if (GetWorld()->GetTimerManager().IsTimerActive(skill_echo_timer_handle_) == false)
 		{
 			GetWorld()->GetTimerManager().SetTimer(skill_echo_timer_handle_, hexagon_effect_cooldown, false);
-			hero_cache_->ApplyBuff(hexagon_buff_data_asset_->buff_data_);
+			//hero_cache_->ApplyBuff(hexagon_buff_data_asset_->buff_data_);
 		}
 	}
 }

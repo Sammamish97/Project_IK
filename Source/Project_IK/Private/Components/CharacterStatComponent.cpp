@@ -16,7 +16,6 @@ See LICENSE file in the project root for full license information.
 
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Project_IK/Public/WorldSettings/IKGameInstance.h"
-#include "Structs/BuffData.h"
 #include "WorldSettings/IKGameModeBase.h"
 
 #include "Structs/CharacterData.h"
@@ -62,8 +61,6 @@ void UCharacterStatComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	OnHPChanged.Clear();
 	OnHPChangedWithOwner.Clear();
 	OnShieldChanged.Clear();
-	OnApplyBuff.Clear();
-	OnBuffExpired.Clear();
 }
 
 // Called every frame
@@ -338,25 +335,21 @@ float UCharacterStatComponent::GetMaxHitPoint() const noexcept
 	float percentage_bonus = 0.f;
 	float value_bonus = 0.f;
 
-	for(const auto& buff_pair : buffs_)
+	for (const auto& elem : buffs_)
 	{
-		const auto& buff_stats = buff_pair.Value.buff_status_;
-		for (const auto& buff : buff_stats)
+		if (elem.Value.Contains(ECharacterStatType::Shield))
 		{
-			if (buff.stat_type_ == ECharacterStatType::HitPoints)
+			FBuffStatusData stat_data = elem.Value[ECharacterStatType::HitPoints];
+			if (stat_data.is_percentage_)
 			{
-				if (buff.is_percentage_)
-				{
-					percentage_bonus += buff.value_;
-				}
-				else
-				{
-					value_bonus += buff.value_;
-				}
+				percentage_bonus += stat_data.value_;
+			}
+			else
+			{
+				value_bonus += stat_data.value_;
 			}
 		}
 	}
-	
 	return (stat + value_bonus) * (1.f + percentage_bonus);
 }
 
@@ -366,25 +359,21 @@ float UCharacterStatComponent::GetMaxShield() const noexcept
 	float percentage_bonus = 0.f;
 	float value_bonus = 0.f;
 
-	for(const auto& buff_pair : buffs_)
+	for (const auto& elem : buffs_)
 	{
-		const auto& buff_stats = buff_pair.Value.buff_status_;
-		for (const auto& buff : buff_stats)
+		if (elem.Value.Contains(ECharacterStatType::Shield))
 		{
-			if (buff.stat_type_ == ECharacterStatType::Shield)
+			FBuffStatusData stat_data = elem.Value[ECharacterStatType::Shield];
+			if (stat_data.is_percentage_)
 			{
-				if (buff.is_percentage_)
-				{
-					percentage_bonus += buff.value_;
-				}
-				else
-				{
-					value_bonus += buff.value_;
-				}
+				percentage_bonus += stat_data.value_;
+			}
+			else
+			{
+				value_bonus += stat_data.value_;
 			}
 		}
 	}
-
 	return (stat + value_bonus) * (1.f + percentage_bonus);
 }
 
@@ -404,25 +393,21 @@ void UCharacterStatComponent::SetCharacterData(const FCharacterData& character_d
 float UCharacterStatComponent::CalculateStat(ECharacterStatType StatType) const
 {
 	float stat = GetBaseStat(StatType);
-
 	float percentage_bonus = 1.f;
 	float value_bonus = 0.f;
 
-	for(const auto& buff_pair : buffs_)
+	for (const auto& elem : buffs_)
 	{
-		const auto& buff_stats = buff_pair.Value.buff_status_;
-		for (const auto& buff : buff_stats)
+		if (elem.Value.Contains(StatType))
 		{
-			if (buff.stat_type_ == StatType)
+			FBuffStatusData stat_data = elem.Value[StatType];
+			if (stat_data.is_percentage_)
 			{
-				if (buff.is_percentage_)
-				{
-					percentage_bonus += buff.value_;
-				}
-				else
-				{
-					value_bonus += buff.value_;
-				}
+				percentage_bonus += stat_data.value_;
+			}
+			else
+			{
+				value_bonus += stat_data.value_;
 			}
 		}
 	}
@@ -442,45 +427,36 @@ float UCharacterStatComponent::GetBaseStat(ECharacterStatType StatType) const
 	return character_data_.status_data_[StatType];
 }
 
-void UCharacterStatComponent::ApplyBuff(FBuffData buff_data)
+void UCharacterStatComponent::ApplyBuff(EBuffType buff_type, FBuffStatusData status_data)
 {
-	//새로운 버프라면 타이머 역시 새로 생성.
-	EBuffType buff_type = buff_data.buff_type_;
-	if(buffs_.Contains(buff_type) == false)
+	RemoveBuff(buff_type);
+	if (status_data.is_permanent_ == false)
 	{
-		buff_timers_.Add(buff_type, FTimerHandle());
-	}
-
-	if(buff_data.is_permanent_ == false)
-	{
-		FTimerDelegate expired_delegate = FTimerDelegate::CreateUObject(this, &UCharacterStatComponent::RemoveBuff, buff_data);
-		GetWorld()->GetTimerManager().SetTimer(buff_timers_[buff_data.buff_type_], expired_delegate, buff_data.duration_, false);
-	}
+		auto& type_timer_map = buff_timers_.FindOrAdd(buff_type);
+		auto& timer_handle = type_timer_map.FindOrAdd(status_data.stat_type_);
 	
-	if(buff_data.is_invisible_ == false)
-	{
-		OnApplyBuff.Broadcast(buff_data);
+		FTimerDelegate expired_delegate = FTimerDelegate::CreateUObject(this, &UCharacterStatComponent::RemoveBuff, buff_type, status_data.stat_type_);
+		GetWorld()->GetTimerManager().SetTimer(timer_handle, expired_delegate, status_data.duration_, false);
 	}
-	buffs_.Add(buff_type, buff_data);
+	buffs_.FindOrAdd(buff_type).FindOrAdd(status_data.stat_type_, status_data);
 }
 
-void UCharacterStatComponent::PostInitBuffBroadCast()
+void UCharacterStatComponent::RemoveBuff(EBuffType buff_type)
 {
-	for(const auto& elem : buffs_)
+	buffs_.Remove(buff_type);
+	if (buff_timers_.Contains(buff_type))
 	{
-		if(elem.Value.is_invisible_ == false)
+		for (auto& buff_pair : buff_timers_[buff_type])
 		{
-			OnApplyBuff.Broadcast(elem.Value);
+			GetWorld()->GetTimerManager().ClearTimer(buff_pair.Value);
 		}
 	}
+	buff_timers_.Remove(buff_type);
 }
 
-void UCharacterStatComponent::RemoveBuff(FBuffData buff_data)
+void UCharacterStatComponent::RemoveBuff(EBuffType buff_type, ECharacterStatType stat_type)
 {
-	buffs_.Remove(buff_data.buff_type_);
-	buff_timers_.Remove(buff_data.buff_type_);
-	if(buff_data.is_invisible_ == false)
-	{
-		OnBuffExpired.Broadcast(buff_data);
-	}
+	buffs_[buff_type].Remove(stat_type);
+	GetWorld()->GetTimerManager().ClearTimer(buff_timers_[buff_type][stat_type]);
+	buff_timers_[buff_type].Remove(stat_type);
 }

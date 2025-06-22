@@ -23,7 +23,7 @@ See LICENSE file in the project root for full license information.
 void USetBonus_Viper::ActivateEdgeBonus()
 {
 	Super::ActivateEdgeBonus();
-	hero_cache_->ApplyBuff(edge_buff_data_asset_->buff_data_);
+	//hero_cache_->ApplyBuff(edge_buff_data_asset_->buff_data_);
 }
 
 //3세트: 장전 후 초탄에 받는 피해 20%증가 디버프 추가.

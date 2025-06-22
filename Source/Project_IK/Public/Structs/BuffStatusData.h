@@ -21,10 +21,16 @@ struct FBuffStatusData
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Buff")
 	ECharacterStatType stat_type_;
-
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Buff")
 	float value_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Buff")
 	bool is_percentage_;
+
+	UPROPERTY( BlueprintReadWrite, EditDefaultsOnly,Category = "Buff")
+	float duration_ = 0.f;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Buff")
+	bool is_permanent_ = false;
 };

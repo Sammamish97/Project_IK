@@ -13,8 +13,12 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "Structs/TargetParameters.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/BuffUIData.h"
 #include "Structs/SpawnData.h"
 #include "HeroBase.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnApplyBuffDelegate, FBuffUIData, buff_type);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffExpired, EBuffType, ui_data);
 
 UCLASS(Abstract)
 class PROJECT_IK_API AHeroBase : public AUnit
@@ -34,6 +38,8 @@ public:
 	
 	EHeroType GetHeroType() const;
 	FTargetParameters GetActiveSkillTargetParameters() const;
+	
+	void AddBuffUI(FBuffUIData buff_ui_data);
 
 	bool HasActiveSkill() const;
 
@@ -65,7 +71,15 @@ protected:
 	class URuneMechanics* rune_mechanics_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
+	
 	TObjectPtr<class USphereComponent> ui_position_ = nullptr;
+	
+public:
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnBuffExpired OnBuffExpired;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnApplyBuffDelegate OnApplyBuff;
 	
 private:
 	EHeroType hero_type_;

@@ -86,10 +86,10 @@ void AIKHUD::BeginPlay()
 				//IKTODO: 이후 nullptr에서 Empty Icon같은 걸로 바꿔야 함.
 				cur_skill_button_widget->SetThumbnailTexture(nullptr);
 			}
-			cur_hero->GetCharacterStat()->OnApplyBuff.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::EnqueueBuff);
-			cur_hero->GetCharacterStat()->OnBuffExpired.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::UpdateQueue);
+			cur_hero->OnApplyBuff.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::EnqueueBuff);
+			cur_hero->OnBuffExpired.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::UpdateQueue);
 			
-			cur_hero->GetCharacterStat()->PostInitBuffBroadCast();
+			//cur_hero->GetCharacterStat()->PostInitBuffBroadCast();
 
 			auto set_bonus_data = cur_hero->GetRuneMechanics()->GetSetBonusData();
 			TArray<FString> bonus_data;

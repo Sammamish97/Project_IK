@@ -12,14 +12,12 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "BuffStatusData.h"
 #include "UObject/Object.h"
-#include "BuffData.generated.h"
+#include "BuffUIData.generated.h"
 
 USTRUCT(BlueprintType)
-struct PROJECT_IK_API FBuffData
+struct PROJECT_IK_API FBuffUIData
 {
 	GENERATED_BODY()
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "ActiveSkillData")
-	bool is_invisible_ = false;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "ActiveSkillData")
 	FText buff_name_;
@@ -38,7 +36,4 @@ struct PROJECT_IK_API FBuffData
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Buff")
 	FString detail_;
-	
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "ActiveSkillData")
-	TArray<FBuffStatusData> buff_status_;
 };

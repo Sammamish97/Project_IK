@@ -46,7 +46,7 @@ void UPS_LowProfile::ApplyBuff()
 			AUnit* unit = Cast<AUnit>(actor);
 			if (unit)
 			{
-				unit->ApplyBuff(buff_data_asset_->buff_data_);
+				//unit->ApplyBuff(buff_data_asset_->buff_data_);
 				ActivateParticles();
 				is_buff_applied_ = true;
 			}
@@ -64,7 +64,7 @@ void UPS_LowProfile::RemoveBuff()
 			AUnit* unit = Cast<AUnit>(actor);
 			if (unit)
 			{
-				unit->RemoveBuff(buff_data_asset_->buff_data_);
+				//unit->RemoveBuff(buff_data_asset_->buff_data_);
 				DeactivateParticles();
 				is_buff_applied_ = false;
 			}

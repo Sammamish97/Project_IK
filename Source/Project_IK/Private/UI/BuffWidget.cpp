@@ -31,7 +31,7 @@ void UBuffWidget::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 	buff_popup_ref_->ResetWidget();
 }
 
-void UBuffWidget::BeginBuffUI(FBuffData buff_data)
+void UBuffWidget::BeginBuffUI(FBuffUIData buff_data)
 {
 	SetVisibility(ESlateVisibility::Visible);
 	buff_data_cache_ = buff_data;
@@ -69,7 +69,7 @@ float UBuffWidget::GetLeftTime() const
 	return left_time_;
 }
 
-FBuffData UBuffWidget::GetBuffDataCache() const
+FBuffUIData UBuffWidget::GetBuffDataCache() const
 {
 	return buff_data_cache_;
 }
@@ -84,10 +84,10 @@ void UBuffWidget::ResetWidget()
 	SetVisibility(ESlateVisibility::Hidden);
 	left_time_ = 0;
 	is_available_ = true;
-	buff_data_cache_ = FBuffData();
+	buff_data_cache_ = FBuffUIData();
 }
 
-void UBuffWidget::SetWidget(const FProgressBarStyle& style, const FBuffData& data_cache, float left_time,
+void UBuffWidget::SetWidget(const FProgressBarStyle& style, const FBuffUIData& data_cache, float left_time,
 	bool is_available)
 {
 	if(is_available)

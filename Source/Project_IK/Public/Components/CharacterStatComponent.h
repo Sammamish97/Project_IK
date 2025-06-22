@@ -12,8 +12,9 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Structs/BuffStatusData.h"
+#include "Structs/BuffUIData.h"
 #include "Structs/CharacterData.h"
-#include "Structs/BuffData.h"
 #include "CharacterStatComponent.generated.h"
 
 
@@ -25,8 +26,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHPChangedDelegate, float, hp_rati
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnShieldChangedDelegate, float, shield_ratio);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHPOrShieldChanged, float, cur_hp, float, cur_shield);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHPChangedWithOwnerDelegate, float, hp_ratio, AActor*, owner_actor);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffExpired, FBuffData, buff_data);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnApplyBuffDelegate, FBuffData, buff_data);
 
 UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class PROJECT_IK_API UCharacterStatComponent : public UActorComponent
@@ -114,16 +113,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetBaseStat(ECharacterStatType StatType) const;
 
-	void PostInitBuffBroadCast();
-	void ApplyBuff(FBuffData buff);
-	void RemoveBuff(FBuffData type);
-
-public:
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnBuffExpired OnBuffExpired;
-
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnApplyBuffDelegate OnApplyBuff;
+	void ApplyBuff(EBuffType buff_type, FBuffStatusData status_data);
+	void RemoveBuff(EBuffType buff_type);
+	void RemoveBuff(EBuffType buff_type, ECharacterStatType stat_type);
 
 protected:
 	// Called when the game starts or when spawned
@@ -177,7 +169,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void SetShield(float shield) noexcept;
-
+	
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<ADamageUI> damage_UI_class_;
@@ -193,9 +185,6 @@ private:
 
 	float max_hit_points_;
 
-	UPROPERTY()
-	TMap<EBuffType, FBuffData> buffs_;
-
-	UPROPERTY()
-	TMap<EBuffType, FTimerHandle> buff_timers_;
+	TMap<EBuffType, TMap<ECharacterStatType, FBuffStatusData>> buffs_;
+	TMap<EBuffType, TMap<ECharacterStatType, FTimerHandle>> buff_timers_;
 };

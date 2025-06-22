@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffUIData.h"
 #include "Managers/EnumCluster.h"
 #include "BuffContainer.generated.h"
 
@@ -28,12 +28,15 @@ public:
 	void NativeConstruct() override;
 
 	UFUNCTION()
-	void EnqueueBuff(FBuffData buff_data);
+	void EnqueueBuff(FBuffUIData buff_data);
 	UFUNCTION()
-	void UpdateQueue(FBuffData buff_data);
+	void UpdateQueue(EBuffType buff_type);
 	void ClearBuffQueue();
 	
 private:
+	UPROPERTY()
+	TMap<EBuffType, FTimerHandle> buff_timers_;
+	
 	UPROPERTY()
 	TObjectPtr<UBuffPopupWidget> buff_popup_cache_;
 	

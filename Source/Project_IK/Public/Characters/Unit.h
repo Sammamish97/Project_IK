@@ -71,12 +71,12 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void Heal(float heal);
+	
+	UFUNCTION(BlueprintCallable)
+	virtual void ApplyBuff(EBuffType buff_type, FBuffStatusData buff_status);
 
 	UFUNCTION(BlueprintCallable)
-	void ApplyBuff(FBuffData buff_data);
-
-	UFUNCTION(BlueprintCallable)
-	void RemoveBuff(FBuffData buff_data);
+	virtual void RemoveBuff(EBuffType buff_type);
 
 	UFUNCTION(BlueprintCallable)
 	void ApplyCrowdControl(ECCType cc_type, float duration);

@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffUIData.h"
 #include "BuffWidget.generated.h"
 
 class UBuffPopupWidget;
@@ -24,17 +24,17 @@ class PROJECT_IK_API UBuffWidget : public UUserWidget
 	GENERATED_BODY()
 public:
 	void InitWidget(UBuffPopupWidget* popup, UBuffContainer* container);
-	void BeginBuffUI(FBuffData buff_data);
+	void BeginBuffUI(FBuffUIData buff_data);
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	
 	float GetLeftTime() const;
-	FBuffData GetBuffDataCache() const;
+	FBuffUIData GetBuffDataCache() const;
 	FProgressBarStyle GetProgressBarStyle() const;
 	
-	void SetWidget(const FProgressBarStyle& style, const FBuffData& data_cache, float left_time, bool is_available);
+	void SetWidget(const FProgressBarStyle& style, const FBuffUIData& data_cache, float left_time, bool is_available);
 	void ResetWidget();
 	bool IsWidgetAvailable() const;
 	
@@ -49,7 +49,7 @@ private:
 	TObjectPtr<UProgressBar> buff_image_;
 
 	UPROPERTY()
-	FBuffData buff_data_cache_;
+	FBuffUIData buff_data_cache_;
 
 	float left_time_ = 0.f;
 	

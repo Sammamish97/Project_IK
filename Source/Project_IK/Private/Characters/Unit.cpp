@@ -21,7 +21,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/HitPointsUI.h"
 #include "Components/ObjectPoolComponent.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffUIData.h"
 #include "UI/DamageUI.h"
 
 #include "Subsystems/GlobalBuffSubsystem.h"
@@ -230,14 +230,14 @@ void AUnit::Heal(float heal)
 	}
 }
 
-void AUnit::ApplyBuff(FBuffData buff_data)
+void AUnit::ApplyBuff(EBuffType buff_type, FBuffStatusData buff_status)
 {
-	character_stat_component_->ApplyBuff(buff_data);
+	character_stat_component_->ApplyBuff(buff_type, buff_status);
 }
 
-void AUnit::RemoveBuff(FBuffData buff_data)
+void AUnit::RemoveBuff(EBuffType buff_type)
 {
-	return character_stat_component_->RemoveBuff(buff_data);
+	character_stat_component_->RemoveBuff(buff_type);
 }
 
 void AUnit::ApplyCrowdControl(ECCType cc_type, float duration)

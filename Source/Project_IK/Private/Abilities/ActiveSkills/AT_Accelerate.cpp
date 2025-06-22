@@ -22,7 +22,7 @@ UAT_Accelerate::UAT_Accelerate()
 	buff_data_.buff_type_ = EBuffType::Accelerate;
 	buff_data_.duration_ = buff_duration_;
 	buff_data_.thumbnail = nullptr;
-	buff_data_.buff_status_.Push(FBuffStatusData(ECharacterStatType::AttackSpeed, 1.5f, true));
+	//buff_data_.buff_status_.Push(FBuffStatusData(ECharacterStatType::AttackSpeed, 1.5f, true));
 }
 
 bool UAT_Accelerate::ActivateSkill(const FTargetResult& TargetResult)
@@ -32,7 +32,7 @@ bool UAT_Accelerate::ActivateSkill(const FTargetResult& TargetResult)
 	{
 		auto weapon_mechanics_cache = hero->GetWeaponMechanics();
 		weapon_mechanics_cache->Reload(0.5);
-		owner_hero_ptr->ApplyBuff(buff_data_);
+		//owner_hero_ptr->ApplyBuff(buff_data_);
 		hero->AcquireShield(shield_amount_, buff_duration_);
 	}
 	return Super::ActivateSkill(TargetResult);

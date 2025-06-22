@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffUIData.h"
 
 void UBuffPopupWidget::NativeConstruct()
 {
@@ -27,7 +27,7 @@ void UBuffPopupWidget::ResetWidget()
 	detail_->SetText(FText::FromString(""));
 }
 
-void UBuffPopupWidget::SetBuffDetail(FBuffData target_data)
+void UBuffPopupWidget::SetBuffDetail(FBuffUIData target_data)
 {
 	SetVisibility(ESlateVisibility::Visible);
 	thumbnail_->SetBrushFromTexture(target_data.thumbnail);

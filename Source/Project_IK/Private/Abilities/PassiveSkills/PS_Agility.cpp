@@ -28,7 +28,7 @@ void UPS_Agility::BuffAttackSpeed()
 	 {
 	 	if(AUnit* hero = Cast<AUnit>(hero_actor))
 	 	{
-	 		hero->ApplyBuff(buff_data_asset_->buff_data_);
+	 		//hero->ApplyBuff(buff_data_asset_->buff_data_);
 	 	}
 	 }
 }
