@@ -17,20 +17,27 @@ USTRUCT(BlueprintType)
 struct PROJECT_IK_API FDamageData
 {
 GENERATED_BODY()
-	UPROPERTY(Transient)
-	float atk_base_dmg = 0;
+
+public:
+	FDamageData(float atk_base_dmg = 0.f, float skill_power_base_dmg = 0.f, EDamageType damage_type = EDamageType::INVALID, TWeakObjectPtr<AActor> attacker = nullptr, TWeakObjectPtr<AActor> attack_target = nullptr, bool is_critical_shot = false)
+		: atk_base_dmg_(atk_base_dmg), skill_power_base_dmg_(skill_power_base_dmg), damage_type_(damage_type), attacker_(attacker), attack_target_(attack_target), is_critical_shot_(is_critical_shot)
+	{}
 
 	UPROPERTY(Transient)
-	float skill_power_base_dmg = 0;
+	float atk_base_dmg_ = 0;
 
 	UPROPERTY(Transient)
-	EDamageType damage_type = EDamageType::INVALID;
+	float skill_power_base_dmg_ = 0;
 
 	UPROPERTY(Transient)
-	TWeakObjectPtr<AActor> attacker = nullptr;
+	EDamageType damage_type_ = EDamageType::INVALID;
 
 	UPROPERTY(Transient)
-	TWeakObjectPtr<AActor> attack_target = nullptr;
+	TWeakObjectPtr<AActor> attacker_ = nullptr;
+
+	// 
+	UPROPERTY(Transient)
+	TWeakObjectPtr<AActor> attack_target_ = nullptr;
 
 	UPROPERTY(Transient)
 	bool is_critical_shot_ = false;

@@ -13,6 +13,10 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/KismetSystemLibrary.h"
 #include "Characters/Unit.h"
 
+#include "Weapons/Guns/Bullet.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+
 void UBulletChainEffectComponent::OnHit(AActor* target)
 {
 	Super::OnHit(target);
@@ -69,5 +73,18 @@ void UBulletChainEffectComponent::OnHit(AActor* target)
 				cur_unit->AddComponentByClass(UATC_MagnetizedEffect::StaticClass(), false, cur_unit->GetTransform(), false);
 			}
 		}
+	}
+}
+
+void UBulletChainEffectComponent::ApplyEffect(ABullet* bullet) const
+{
+	if (on_hit_effect_)
+	{
+		UNiagaraComponent* component = UNiagaraFunctionLibrary::SpawnSystemAttached(on_hit_effect_, bullet->GetSceneComponent(), NAME_None, FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, false);
+		component->SetVariableFloat(FName("SphereRadius"), 10.f);
+	}
+	if (on_hit_material_)
+	{
+		bullet->ApplyMaterial(0, on_hit_material_);
 	}
 }

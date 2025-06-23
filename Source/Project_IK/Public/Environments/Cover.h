@@ -47,21 +47,23 @@ public:
 	UFUNCTION()
 	virtual void Die() override;
 
-private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover", meta = (AllowPrivateAccess = "true"))
+	void SetMobility(EComponentMobility::Type type);
+
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover")
 	TObjectPtr<UBoxComponent> cover_collider_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover")
 	TObjectPtr<USphereComponent> cover_position_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover")
 	TObjectPtr<UStaticMeshComponent> cover_mesh_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Cover")
 	TWeakObjectPtr<AActor> hidden_unit_;
 
 	bool is_broken_ = false;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Cover", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Cover")
 	float hit_points_ = 100.f;
 };

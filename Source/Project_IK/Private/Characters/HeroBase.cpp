@@ -37,11 +37,9 @@ AHeroBase::AHeroBase()
 	
 	GetCharacterMovement()->bUseRVOAvoidance = true;
 	GetCharacterMovement()->AvoidanceConsiderationRadius = 100;
-
-	GetMesh()->SetCollisionProfileName(TEXT("NoCollision"));
-	GetCapsuleComponent()->SetCollisionProfileName(TEXT("HeroPreset"));
-	ui_position_->SetCollisionProfileName(TEXT("NoCollision"));
 	
+	GetMesh()->SetCollisionProfileName(TEXT("HeroPreset"));
+
 	forward_dir_ = { 1,0, 0 };
 	is_hero_ = true;
 }

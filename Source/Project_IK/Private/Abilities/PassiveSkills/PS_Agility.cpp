@@ -16,6 +16,10 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "DataAssets/BuffDataAsset.h"
 
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+#include "Components/CapsuleComponent.h"
+
 void UPS_Agility::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
@@ -25,6 +29,8 @@ void UPS_Agility::InitEquipmentSkill(AActor* hero_ref)
 	as_buff_amount_ = 2.0f;
 	buff_status_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, as_buff_amount_, true, false, duration_);
 	buff_ui_data_ = FBuffUIData(FText::FromString("Agility"), EBuffType::Agility, nullptr, duration_, false, FText::FromString("Agility Detail"));
+
+	SpawnParticles(Cast<AUnit>(hero_ref));
 }
 
 void UPS_Agility::BuffAttackSpeed()
@@ -35,6 +41,54 @@ void UPS_Agility::BuffAttackSpeed()
 	 	{
 	 		hero->ApplyBuff(EBuffType::Agility, buff_status_data_);
 	 		hero->AddBuffUI(buff_ui_data_);
+			ActivateParticles();
+
 	 	}
 	 }
+}
+
+void UPS_Agility::SpawnParticles(AActor* actor)
+{
+	USceneComponent* component = actor->GetRootComponent();
+	agility_particle_component_ = UNiagaraFunctionLibrary::SpawnSystemAttached(skill_particle_system_, component, FName(), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, false, false);
+
+	UCapsuleComponent* capsule_component = Cast<UCapsuleComponent>(component);
+	if (capsule_component)
+	{
+		agility_particle_component_->SetVariableFloat(FName("Cylinder Height"), capsule_component->GetUnscaledCapsuleHalfHeight() * 2.f);
+		agility_particle_component_->SetVariableFloat(FName("Cylinder Radius"), capsule_component->GetUnscaledCapsuleRadius());
+	}
+
+	if (hand_particle_system_)
+	{
+		AHeroBase* hero = Cast<AHeroBase>(actor);
+		if (hero)
+		{
+			USkeletalMeshComponent* mesh = hero->GetMesh();
+			hand_particle_component_1_ = UNiagaraFunctionLibrary::SpawnSystemAttached(hand_particle_system_, mesh, FName("hand_socket_l"), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, false, false);
+			hand_particle_component_2_ = UNiagaraFunctionLibrary::SpawnSystemAttached(hand_particle_system_, mesh, FName("hand_socket_r"), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, false, false);
+		}
+	}
+}
+
+void UPS_Agility::ActivateParticles()
+{
+	if (agility_particle_component_)
+	{
+		agility_particle_component_->Activate();
+		hand_particle_component_1_->Activate();
+		hand_particle_component_2_->Activate();
+
+		hero_cache_->GetWorld()->GetTimerManager().SetTimer(particle_deactivator_, this, &UPS_Agility::DeactivateParticles, buff_duration_);
+	}
+}
+
+void UPS_Agility::DeactivateParticles()
+{
+	if (agility_particle_component_)
+	{
+		agility_particle_component_->Deactivate();
+		hand_particle_component_1_->Deactivate();
+		hand_particle_component_2_->Deactivate();
+	}
 }

@@ -16,6 +16,9 @@ See LICENSE file in the project root for full license information.
 #include "Structs/BuffUIData.h"
 #include "PS_Agility.generated.h"
 
+class UNiagaraSystem;
+class UNiagaraComponent;
+
 UCLASS()
 class PROJECT_IK_API UPS_Agility : public UPassiveSkillBase
 {
@@ -23,20 +26,38 @@ class PROJECT_IK_API UPS_Agility : public UPassiveSkillBase
 public:
 
 	virtual void InitEquipmentSkill(AActor* hero_ref) override;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UNiagaraSystem> skill_particle_system_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UNiagaraSystem> hand_particle_system_;
+
 protected:
 	UFUNCTION()
 	void BuffAttackSpeed();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
-	float duration_;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
-	float as_buff_amount_;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
 	FBuffStatusData buff_status_data_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
 	FBuffUIData buff_ui_data_;
+
+	void SpawnParticles(AActor* actor);
+	void ActivateParticles();
+	void DeactivateParticles();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
+	float buff_amount_ = 1.2f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
+	bool is_buff_percentage_ = true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
+	float buff_duration_ = 6.f;
+
+	UPROPERTY()
+	TObjectPtr<UNiagaraComponent> agility_particle_component_;
+	UPROPERTY()
+	TObjectPtr<UNiagaraComponent> hand_particle_component_1_;
+	UPROPERTY()
+	TObjectPtr<UNiagaraComponent> hand_particle_component_2_;
+	FTimerHandle particle_deactivator_;
 };

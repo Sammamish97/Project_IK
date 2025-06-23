@@ -25,13 +25,13 @@ public:
 	virtual void Die() override;
 	virtual void Attack(AActor* target) override;
 
-private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true"))
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner")
 	TObjectPtr<UWeaponMechanics> weapon_mechanics_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner")
 	TSubclassOf<class AGunBase> weapon_class_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner")
 	EWeaponType weapon_type_;
 };

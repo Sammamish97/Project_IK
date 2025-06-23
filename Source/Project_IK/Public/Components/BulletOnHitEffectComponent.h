@@ -13,7 +13,11 @@ See LICENSE file in the project root for full license information.
 #include "Components/ActorComponent.h"
 #include "Interfaces/BulletOnHit.h"
 #include "BulletOnHitEffectComponent.generated.h"
-UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Abstract)
+
+class ABullet;
+class UNiagaraSystem;
+
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent), Blueprintable)
 class PROJECT_IK_API UBulletOnHitEffectComponent : public UActorComponent, public IBulletOnHit
 {
 	GENERATED_BODY()
@@ -23,12 +27,18 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	virtual void OnHit(AActor* target) override;
-
+	virtual void OnHit(AActor* target) ;
+	virtual void ApplyEffect(ABullet* bullet_actor) const;
 protected:
 	UPROPERTY()
 	TSubclassOf<AActor> target_class_;
 
 	UPROPERTY()
 	TObjectPtr<AActor> shooter_ = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UMaterialInstance> on_hit_material_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UNiagaraSystem> on_hit_effect_;
+
 };

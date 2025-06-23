@@ -23,10 +23,10 @@ bool USP_SupportFire::ActivateSkill(const FTargetResult& target_result)
 {
 	if(target_result.target_actors_[0])
 	{
-		dmg_data_.attack_target = target_result.target_actors_[0];
-		if (dmg_data_.attack_target.IsValid() && dmg_data_.attack_target->IsA<AUnit>())
+		dmg_data_.attack_target_ = target_result.target_actors_[0];
+		if (dmg_data_.attack_target_.IsValid() && dmg_data_.attack_target_->IsA<AUnit>())
 		{
-			AUnit* attack_target = Cast<AUnit>(dmg_data_.attack_target);
+			AUnit* attack_target = Cast<AUnit>(dmg_data_.attack_target_);
 			attack_target->GetDamage(dmg_data_);
 		}
 	}

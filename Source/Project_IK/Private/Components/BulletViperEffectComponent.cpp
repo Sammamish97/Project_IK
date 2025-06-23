@@ -15,8 +15,7 @@ See LICENSE file in the project root for full license information.
 void UBulletViperEffectComponent::OnHit(AActor* target)
 {
 	Super::OnHit(target);
-	TWeakObjectPtr<AActor> target_ptr = target;
-	if (AActor* casted_target = target_ptr.Get())
+	if (target)
 	{
 		if(AUnit* casted_unit = Cast<AUnit>(casted_target))
 		{

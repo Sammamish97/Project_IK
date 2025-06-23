@@ -20,23 +20,33 @@ See LICENSE file in the project root for full license information.
 #include "Components/CharacterStatComponent.h"
 #include "Components/SphereComponent.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
+#include "NiagaraComponent.h"
 
 AGunBase::AGunBase()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	
+
 	weapon_skeletal_mesh_ = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GunMesh"));
 	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
 	root_sphere_mesh_ = CreateDefaultSubobject<USphereComponent>(TEXT("RootSphere"));
-	
+
 	weapon_skeletal_mesh_->SetCollisionProfileName(TEXT("NoCollision"));
 	root_sphere_mesh_->SetCollisionProfileName(TEXT("NoCollision"));
-	
+
 	muzzle_socket_name_ = TEXT("muzzle");
 	head_socket_name_ = TEXT("head_socket");
 	owned_cover_key_name_ = TEXT("OwnedCover");
-	
+
+	fire_particle_component_ = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Muzzle Fire Particle"));
+	fire_particle_component_->SetupAttachment(weapon_skeletal_mesh_, muzzle_socket_name_);
+	fire_particle_component_->SetAutoActivate(false);
+
+	ejection_particle_component_ = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Ejection Particle"));
+	ejection_particle_component_->SetupAttachment(weapon_skeletal_mesh_, FName("Door"));
+	ejection_particle_component_->SetAutoActivate(false);
+
+
 	SetRootComponent(root_sphere_mesh_);
 
 	weapon_skeletal_mesh_->AttachToComponent(root_sphere_mesh_, FAttachmentTransformRules::KeepRelativeTransform);
@@ -50,9 +60,9 @@ void AGunBase::BeginPlay()
 
 void AGunBase::Reload()
 {
-	if(GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false)
+	if (GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false)
 	{
-		if(AUnit* gun_owner = weak_gun_owner_.Get())
+		if (AUnit* gun_owner = weak_gun_owner_.Get())
 		{
 			gun_owner->DispatchUnitEvent(EUnitEvent::OnReload);
 			float reload_play_rate = reload_montage_->GetPlayLength() / weapon_status_data_.reload_duration;
@@ -65,25 +75,24 @@ void AGunBase::Reload()
 void AGunBase::SpawnBullet(const FRotator& rotation, const FVector& translation, const FDamageData& dmg_data)
 {
 	ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(rotation, translation));
-	if (is_first_bullet_on_magazine_)
-	{
-		is_first_bullet_on_magazine_ = false;
-		for (auto& elem : on_hit_after_reload_)
-		{
-			bullet->AddOnHitComponent(elem);
-		}
-	}
-	
-	for (auto& elem : on_hit_effect_classes_)
-	{
-		bullet->AddOnHitComponent(elem);
-	}
 
-	bullet->AttachParticleEffects(niagara_systems_, float_parameters_, vector_parameters_);
-	bullet->ApplyMaterials(materials_);
 
 	if (bullet)
 	{
+		if (is_first_bullet_on_magazine_)
+		{
+			is_first_bullet_on_magazine_ = false;
+			for (auto& elem : on_hit_after_reload_)
+			{
+				bullet->AddOnHitComponent(elem);
+			}
+		}
+
+		for (auto& elem : on_hit_effect_classes_)
+		{
+			bullet->AddOnHitComponent(elem);
+		}
+
 		bullet->SetShooter(weak_gun_owner_);
 		bullet->SetDamageData(dmg_data);
 	}
@@ -93,16 +102,26 @@ void AGunBase::SpawnBullet(const FRotator& rotation, const FVector& translation,
 	}
 }
 
+void AGunBase::PlayFireParticle() const
+{
+	if (fire_particle_component_)
+	{
+		fire_particle_component_->Activate(true);
+	}
+	if (ejection_particle_component_)
+	{
+		ejection_particle_component_->Activate(true);
+	}
+}
+
 void AGunBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
 	GetWorld()->GetTimerManager().ClearTimer(reload_timer_handle_);
-	
+
 	ClearOnHitComponents();
 	ClearAfterReloadOnHitComponents();
-	ClearParticleEffects();
-	ClearMaterials();
-	
+
 	Destroy();
 }
 
@@ -112,6 +131,8 @@ void AGunBase::FireSingleBullet(FVector target_pos, const FDamageData& dmg_data)
 	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, target_pos);
 	SpawnBullet(rotation, muzzle_location, dmg_data);
 	cur_magazine_ -= 1;
+
+	PlayFireParticle();
 }
 
 void AGunBase::FireBuckShot(FVector target_pos, const FDamageData& dmg_data)
@@ -129,11 +150,13 @@ void AGunBase::FireBuckShot(FVector target_pos, const FDamageData& dmg_data)
 	{
 		FVector randVec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, TEMP_SPHERE_RADIUS);
 		FVector end_loc = sphere_center + randVec;
-		
+
 		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, end_loc);
 		SpawnBullet(rotation, muzzle_location, dmg_data);
 	}
 	cur_magazine_ -= 1;
+
+	PlayFireParticle();
 }
 
 void AGunBase::BeginFire(AActor* target)
@@ -142,7 +165,7 @@ void AGunBase::BeginFire(AActor* target)
 
 void AGunBase::OnReload()
 {
-	if(AUnit* gun_owner = weak_gun_owner_.Get())
+	if (AUnit* gun_owner = weak_gun_owner_.Get())
 	{
 		is_first_bullet_on_magazine_ = true;
 		cur_magazine_ = weapon_status_data_.max_magazine;
@@ -179,23 +202,23 @@ FName AGunBase::GetGrabSocketName()
 //이 함수에서 치명타 확률 계산이 이루어지기에, 총알이 발사될 때 마다 이 함수가 호출되어야 한다.
 FDamageData AGunBase::GetWeaponFireDamageData()
 {
-	if(AUnit* gun_owner = weak_gun_owner_.Get())
+	if (AUnit* gun_owner = weak_gun_owner_.Get())
 	{
 		UCharacterStatComponent* stat_component = gun_owner->GetCharacterStat();
 		float total_atk_dmg = weapon_status_data_.basic_dmg_ + stat_component->GetAttackPower() * weapon_status_data_.attack_scale;
 		float total_skill_dmg = stat_component->GetSkillPower() * weapon_status_data_.skill_power_scale;
 		FDamageData dmg_data;
-		dmg_data.atk_base_dmg = total_atk_dmg;
-		dmg_data.skill_power_base_dmg = total_skill_dmg;
-		dmg_data.damage_type = EDamageType::Projectile;
-		dmg_data.attacker = weak_gun_owner_;
+		dmg_data.atk_base_dmg_ = total_atk_dmg;
+		dmg_data.skill_power_base_dmg_ = total_skill_dmg;
+		dmg_data.damage_type_ = EDamageType::Projectile;
+		dmg_data.attacker_ = weak_gun_owner_;
 
 		float total_crit_hit_rate = gun_owner->GetCharacterStat()->GetCriticalHitRate() + weapon_status_data_.critical_hit_rate_;
 		OnCriticalRateCalculation.Broadcast(total_crit_hit_rate);
 		if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
 		{
 			dmg_data.is_critical_shot_ = true;
-			dmg_data.atk_base_dmg *= 2;
+			dmg_data.atk_base_dmg_ *= 2;
 			gun_owner->DispatchUnitEvent(EUnitEvent::OnCriticalFire);
 		}
 		return dmg_data;
@@ -240,65 +263,4 @@ void AGunBase::RemoveAfterReloadOnHitComponent(TSubclassOf<class UBulletOnHitEff
 void AGunBase::ClearAfterReloadOnHitComponents()
 {
 	on_hit_after_reload_.Empty();
-}
-
-void AGunBase::AttachParticleEffect(UNiagaraSystem* niagara_system)
-{
-	if (niagara_system)
-	{
-		niagara_systems_.Add(niagara_system);
-		float_parameters_.Add(niagara_system);
-		vector_parameters_.Add(niagara_system);
-	}
-}
-
-void AGunBase::RemoveParticleEffect(UNiagaraSystem* niagara_system)
-{
-	if (niagara_system)
-	{
-		niagara_systems_.Remove(niagara_system);
-		float_parameters_.Remove(niagara_system);
-		vector_parameters_.Remove(niagara_system);
-	}
-}
-
-void AGunBase::ClearParticleEffects()
-{
-	niagara_systems_.Empty();
-	float_parameters_.Empty();
-	vector_parameters_.Empty();
-}
-
-void AGunBase::AddParticleParameterFloat(UNiagaraSystem* niagara_system, FName name, float float_data)
-{
-	if (niagara_system)
-	{
-		float_parameters_[niagara_system].Add(name, float_data);
-	}
-}
-
-void AGunBase::AddParticleParameterVector(UNiagaraSystem* niagara_system, FName name, const FVector& vector_data)
-{
-	if (niagara_system)
-	{
-		vector_parameters_[niagara_system].Add(name, vector_data);
-	}
-}
-
-void AGunBase::ApplyMaterial(UMaterialInterface* material)
-{
-	if (material)
-	{
-		materials_.Add(material);
-	}
-}
-
-void AGunBase::RemoveMaterial(UMaterialInterface* material)
-{
-	materials_.Remove(material);
-}
-
-void AGunBase::ClearMaterials()
-{
-	materials_.Empty();
 }

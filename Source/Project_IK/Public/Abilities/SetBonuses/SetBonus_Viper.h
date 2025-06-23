@@ -13,11 +13,22 @@ See LICENSE file in the project root for full license information.
 #include "SetBonusBase.h"
 #include "SetBonus_Viper.generated.h"
 
+class UBulletDebuffEffectComponent;
+class UBulletViperEffectComponent;
+
 UCLASS(Blueprintable)
 class PROJECT_IK_API USetBonus_Viper : public USetBonusBase
 {
 	GENERATED_BODY()
-public:
+
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UBulletDebuffEffectComponent> triangle_on_hit_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UBulletViperEffectComponent> hexagon_on_hit_;
+
 	virtual void ActivateEdgeBonus() override;
 	virtual void ActivateTriangleBonus() override;
 	virtual void ActivateHexagonBonus() override;

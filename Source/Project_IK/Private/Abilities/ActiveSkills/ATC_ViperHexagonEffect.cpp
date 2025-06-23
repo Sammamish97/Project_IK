@@ -47,15 +47,20 @@ void UATC_ViperHexagonEffect::TickComponent(float DeltaTime, ELevelTick TickType
 
 void UATC_ViperHexagonEffect::IncreaseStack()
 {
-	GetWorld()->GetTimerManager().ClearTimer(duration_timer_handle_);
-	FTimerDelegate expired_delegate = FTimerDelegate::CreateUObject(this, &UATC_ViperHexagonEffect::OnDurationExpired);
-	GetWorld()->GetTimerManager().SetTimer(duration_timer_handle_, expired_delegate, effect_duration_, false);
-
-	Cast<AUnit>(GetOwner())->ApplyCrowdControl(ECCType::Bleeding, effect_duration_);
-	stack_ += 1;
-	if (stack_ >= max_stack_)
+	AUnit* unit = Cast<AUnit>(GetOwner());
+	if (unit)
 	{
-		OnMaxStack();
+
+		GetWorld()->GetTimerManager().ClearTimer(duration_timer_handle_);
+		FTimerDelegate expired_delegate = FTimerDelegate::CreateUObject(this, &UATC_ViperHexagonEffect::OnDurationExpired);
+		GetWorld()->GetTimerManager().SetTimer(duration_timer_handle_, expired_delegate, effect_duration_, false);
+
+		unit->ApplyCrowdControl(ECCType::Bleeding, effect_duration_);
+		stack_ += 1;
+		if (stack_ >= max_stack_)
+		{
+			OnMaxStack();
+		}
 	}
 }
 

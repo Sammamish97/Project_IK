@@ -209,8 +209,8 @@ void UCrowdControlComponent::Bleeding(float duration, AActor* applier, bool is_a
 void UCrowdControlComponent::ApplyBleedDamage()
 {
 	FDamageData bleeding_data;
-	bleeding_data.atk_base_dmg = BLEEDING_DAMAGE;
-	bleeding_data.damage_type = EDamageType::Dot;
+	bleeding_data.atk_base_dmg_ = BLEEDING_DAMAGE;
+	bleeding_data.damage_type_ = EDamageType::Dot;
 
 	for (FBleedingData& remains : bleeding_remains_)
 	{

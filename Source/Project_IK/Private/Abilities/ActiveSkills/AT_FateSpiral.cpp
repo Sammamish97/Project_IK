@@ -31,10 +31,7 @@ bool UAT_FateSpiral::ActivateSkill(const FTargetResult& TargetResult)
 	{
 		actor_ = skill_owner_->GetWorld()->SpawnActor<AFateSpiral>(actor_class_);
 
-		actor_->SetSkillOwner(skill_owner_);
-		actor_->SetDepartureActor(skill_owner_);
-		actor_->SetArrivalActor(TargetResult.target_actors_[0]);
-		actor_->SetRange(target_param_.range_);
+		actor_->SetNecessaryData(skill_owner_, skill_owner_, TargetResult.target_actors_[0], target_param_.range_);
 	}
 
 	return Super::ActivateSkill(TargetResult);

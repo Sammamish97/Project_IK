@@ -80,16 +80,21 @@ bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 	}
 
 	float armor = GetArmor();
-	data_ref.atk_base_dmg *= 100.f / (100.f + armor);
+	data_ref.atk_base_dmg_ *= 100.f / (100.f + armor);
 
 	// Calculation of shields
-	float remaining_damage = data_ref.atk_base_dmg;
+	float remaining_atk_damage = data_ref.atk_base_dmg_;
+	float remaining_skill_damage = data_ref.skill_power_base_dmg_;
 
 	if (shield_ > 0.f)
 	{
-		float damage_to_shield = FMath::Min(remaining_damage, shield_);
-		SetShield(shield_ - damage_to_shield);
-		remaining_damage -= damage_to_shield;
+		float atk_damage_to_shield = FMath::Min(remaining_atk_damage, shield_);
+		SetShield(shield_ - atk_damage_to_shield);
+		remaining_atk_damage -= atk_damage_to_shield;
+
+		float skill_damage_to_shield = FMath::Min(remaining_skill_damage, shield_);
+		SetShield(shield_ - skill_damage_to_shield);
+		remaining_skill_damage -= skill_damage_to_shield;
 
 		if (shield_ <= 0.f)
 		{
@@ -98,9 +103,11 @@ bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 		}
 	}
 
-	RecordDamage(data_ref);
+	float hp = GetHitPoint();
+	data_ref.atk_base_dmg_ = FMath::Min(remaining_atk_damage, hp);
+	data_ref.skill_power_base_dmg_ = FMath::Min(remaining_skill_damage, hp - data_ref.atk_base_dmg_);
 
-	data_ref.atk_base_dmg = remaining_damage;
+	RecordDamage(data_ref);
 	return is_evaded;
 }
 
@@ -296,12 +303,12 @@ void UCharacterStatComponent::SetShield(float shield) noexcept
 
 void UCharacterStatComponent::RecordDamage(FDamageData& data_ref)
 {
-	if (data_ref.attacker.IsValid())
+	if (data_ref.attacker_.IsValid())
 	{
 		AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		// @@ TODO: Record atk&skill dmg differently.
-		game_mode->RecordDamage(data_ref.atk_base_dmg, data_ref.attacker);
-		game_mode->RecordDamage(data_ref.skill_power_base_dmg, data_ref.attacker);
+		game_mode->RecordDamage(data_ref.atk_base_dmg_, data_ref.attacker_);
+		game_mode->RecordDamage(data_ref.skill_power_base_dmg_, data_ref.attacker_);
 	}
 }
 
@@ -423,6 +430,8 @@ float UCharacterStatComponent::GetBaseStat(ECharacterStatType StatType) const
 			return character_data_.sight_range_;
 		case ECharacterStatType::MoveSpeed:
 			return character_data_.move_speed_;
+		case ECharacterStatType::Shield:
+			return shield_;
 	}
 	return character_data_.status_data_[StatType];
 }
