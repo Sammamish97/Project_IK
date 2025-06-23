@@ -35,5 +35,5 @@ struct PROJECT_IK_API FBuffUIData
 	bool is_permanent_ = false;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Buff")
-	FString detail_;
+	FText detail_;
 };

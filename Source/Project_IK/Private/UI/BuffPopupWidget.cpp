@@ -32,5 +32,5 @@ void UBuffPopupWidget::SetBuffDetail(FBuffUIData target_data)
 	SetVisibility(ESlateVisibility::Visible);
 	thumbnail_->SetBrushFromTexture(target_data.thumbnail);
 	name_->SetText(target_data.buff_name_);
-	detail_->SetText(FText::FromString(target_data.detail_));
+	detail_->SetText(target_data.detail_);
 }

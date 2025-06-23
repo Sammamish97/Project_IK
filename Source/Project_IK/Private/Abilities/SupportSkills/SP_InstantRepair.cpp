@@ -22,14 +22,15 @@ USP_InstantRepair::USP_InstantRepair()
 bool USP_InstantRepair::ActivateSkill(const FTargetResult& target_result)
 {
 	EBuffType type = EBuffType::InstantRepair;
-	FBuffStatusData status_data = FBuffStatusData(ECharacterStatType::AttackSpeed, 2.0f, true, 3.f, false);
+	FBuffStatusData status_data = FBuffStatusData(ECharacterStatType::AttackSpeed, 2.0f, true, false, 3.f);
 	
 	if(target_result.target_actors_[0])
 	{
 		if (AHeroBase* target_hero = Cast<AHeroBase>(target_result.target_actors_[0]))
 		{
 			target_hero->ApplyBuff(type, status_data);
-			target_hero->AddBuffUI(FBuffUIData(FText::FromString("InstantRepair"), type, nullptr, 1.f, false, FString("Test Instnatn Repair")));
+			target_hero->Heal(300.f);
+			target_hero->AddBuffUI(FBuffUIData(FText::FromString("InstantRepair"), type, nullptr, 1.f, false, FText::FromString("Test Instnatn Repair")));
 		}
 	}
 	return Super::ActivateSkill(target_result);

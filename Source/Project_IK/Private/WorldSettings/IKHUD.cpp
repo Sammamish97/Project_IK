@@ -89,7 +89,7 @@ void AIKHUD::BeginPlay()
 			cur_hero->OnApplyBuff.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::EnqueueBuff);
 			cur_hero->OnBuffExpired.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::UpdateQueue);
 			
-			//cur_hero->GetCharacterStat()->PostInitBuffBroadCast();
+			cur_hero->InitAfterHUD();
 
 			auto set_bonus_data = cur_hero->GetRuneMechanics()->GetSetBonusData();
 			TArray<FString> bonus_data;

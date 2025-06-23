@@ -30,6 +30,10 @@ void UPS_Berserker::InitEquipmentSkill(AActor* hero_ref)
 		hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnHPChanged(unit->GetCharacterStat(), this, &UPS_Berserker::BuffBerserker);
 		SpawnParticles(unit);
 	}
+
+	as_status_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, 2.f, true, true);
+	vamp_status_data_ = FBuffStatusData(ECharacterStatType::LifeSteal, 0.05f, false, true);
+	buff_ui_data_ = FBuffUIData(FText::FromString("Berserker"), EBuffType::Berserker, nullptr, 0.f, true, FText::FromString("Berserker Detail"));
 }
 
 void UPS_Berserker::BuffBerserker(float hp_ratio)
@@ -59,10 +63,12 @@ void UPS_Berserker::ApplyBuff()
 		AActor* actor = hero_cache_.Get();
 		if (actor)
 		{
-			AUnit* unit = Cast<AUnit>(actor);
+			AHeroBase* unit = Cast<AHeroBase>(actor);
 			if (unit)
 			{
-				//unit->ApplyBuff(buff_data_asset_->buff_data_);
+				unit->ApplyBuff(EBuffType::Berserker, as_status_data_);
+				unit->ApplyBuff(EBuffType::Berserker, vamp_status_data_);
+				unit->AddBuffUI(buff_ui_data_);
 				ActivateParticles();
 				is_buff_applied_ = true;
 			}
@@ -77,10 +83,11 @@ void UPS_Berserker::RemoveBuff()
 		AActor* actor = hero_cache_.Get();
 		if (actor)
 		{
-			AUnit* unit = Cast<AUnit>(actor);
+			AHeroBase* unit = Cast<AHeroBase>(actor);
 			if (unit)
 			{
-				//unit->RemoveBuff(buff_data_asset_->buff_data_);
+				unit->RemoveBuff(EBuffType::Berserker);
+				unit->RemoveBuffUI(EBuffType::Berserker);
 				DeactivateParticles();
 				is_buff_applied_ = false;
 			}

@@ -32,6 +32,7 @@ protected:
 public:
 	FPassiveSkillData GetEquippedPassiveSkillData();
 	void EquipPassiveSkill(EPassiveSkillType type);
+	void InitPassiveSkill();
 	void UnEquipPassiveSkill();
 	
 private:

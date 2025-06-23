@@ -13,15 +13,13 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Abilities/PassiveSkills/PassiveSkillBase.h"
+#include "Structs/BuffUIData.h"
 #include "PS_Berserker.generated.h"
 
 class AUnit;
 class UNiagaraSystem;
 class UNiagaraComponent;
- 
-/**
- * 
- */
+
 UCLASS()
 class PROJECT_IK_API UPS_Berserker : public UPassiveSkillBase
 {
@@ -44,11 +42,17 @@ protected:
 	void ActivateParticles();
 	void DeactivateParticles();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	TObjectPtr<class UBuffDataAsset> buff_data_asset_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Passive Skills")
+	FBuffUIData buff_ui_data_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Passive Skills")
+	FBuffStatusData as_status_data_;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Passive Skills")
+	FBuffStatusData vamp_status_data_;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	float hp_ratio_threshold_ = 0.2f;
+	float hp_ratio_threshold_ = 0.8f;
 	
 	bool is_buff_applied_ = false;
 

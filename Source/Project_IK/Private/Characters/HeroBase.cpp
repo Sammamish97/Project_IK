@@ -55,14 +55,13 @@ void AHeroBase::BeginPlay()
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 2);
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 4);
-		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Berserker);
+		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
 		hero_type_ = EHeroType::Hero1;
 		break;
 	case ECharacterType::Hero2:
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
-		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Berserker);
-
+		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
 		hero_type_ = EHeroType::Hero2;
 		break;
 	case ECharacterType::Hero3:
@@ -72,7 +71,7 @@ void AHeroBase::BeginPlay()
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 3);
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 5);
-		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Berserker);
+		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
 		hero_type_ = EHeroType::Hero3;
 		break;
 	case ECharacterType::Hero4:
@@ -82,7 +81,7 @@ void AHeroBase::BeginPlay()
 		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 3);
 		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
 		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 5);
-		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Berserker);
+		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
 
 		hero_type_ = EHeroType::Hero4;
 		break;
@@ -137,6 +136,12 @@ void AHeroBase::EquipGears(FSpawnData spawn_data)
 		}
 	}
 	rune_mechanics_->ApplySetBonuses();
+}
+
+
+void AHeroBase::InitAfterHUD()
+{
+	passive_skill_mechanics_->InitPassiveSkill();
 }
 
 void AHeroBase::Die()
@@ -203,6 +208,11 @@ bool AHeroBase::HasActiveSkill() const
 void AHeroBase::AddBuffUI(FBuffUIData buff_ui_data)
 {
 	OnApplyBuff.Broadcast(buff_ui_data);
+}
+
+void AHeroBase::RemoveBuffUI(EBuffType buff_type)
+{
+	OnBuffExpired.Broadcast(buff_type);
 }
 
 UWeaponMechanics* AHeroBase::GetWeaponMechanics()

@@ -30,6 +30,7 @@ public:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
 	virtual void EquipGears(FSpawnData spawn_data);
+	virtual void InitAfterHUD();
 	virtual void Die() override;
 	
 	virtual void Attack(AActor* target) override;
@@ -40,6 +41,7 @@ public:
 	FTargetParameters GetActiveSkillTargetParameters() const;
 	
 	void AddBuffUI(FBuffUIData buff_ui_data);
+	void RemoveBuffUI(EBuffType buff_type);
 
 	bool HasActiveSkill() const;
 

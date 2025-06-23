@@ -13,11 +13,9 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Abilities/PassiveSkills/PassiveSkillBase.h"
+#include "Structs/BuffUIData.h"
 #include "PS_Agility.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API UPS_Agility : public UPassiveSkillBase
 {
@@ -29,7 +27,16 @@ public:
 protected:
 	UFUNCTION()
 	void BuffAttackSpeed();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
+	float duration_;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	TObjectPtr<class UBuffDataAsset> buff_data_asset_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
+	float as_buff_amount_;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
+	FBuffStatusData buff_status_data_;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
+	FBuffUIData buff_ui_data_;
 };

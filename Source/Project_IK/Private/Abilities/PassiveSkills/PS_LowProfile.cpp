@@ -9,7 +9,6 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-
 #include "Abilities/PassiveSkills/PS_LowProfile.h"
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
@@ -27,11 +26,13 @@ void UPS_LowProfile::InitEquipmentSkill(AActor* hero_ref)
 	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::HideOnCover, this, &UPS_LowProfile::RemoveBuff);
 	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::LeaveCover, this, &UPS_LowProfile::ApplyBuff);
 	
-	AHeroBase* hero = Cast<AHeroBase>(hero_ref);
-	if (hero)
+	if (AHeroBase* hero = Cast<AHeroBase>(hero_ref))
 	{
 		AttachParticles(hero->GetMesh());
 	}
+
+	buff_ui_data_ = FBuffUIData(FText::FromString("LowProfile"), EBuffType::LowProfile, nullptr, 0.f, true, FText::FromString("LowProfile Detail"));
+	buff_status_data_ = FBuffStatusData(ECharacterStatType::EvasionRate, 0.1f, true, true);
 
 	ApplyBuff();
 }
@@ -43,10 +44,11 @@ void UPS_LowProfile::ApplyBuff()
 		AActor* actor = hero_cache_.Get();
 		if (actor)
 		{
-			AUnit* unit = Cast<AUnit>(actor);
+			AHeroBase* unit = Cast<AHeroBase>(actor);
 			if (unit)
 			{
-				//unit->ApplyBuff(buff_data_asset_->buff_data_);
+				unit->ApplyBuff(EBuffType::LowProfile, buff_status_data_);
+				unit->AddBuffUI(buff_ui_data_);
 				ActivateParticles();
 				is_buff_applied_ = true;
 			}
@@ -61,10 +63,11 @@ void UPS_LowProfile::RemoveBuff()
 		AActor* actor = hero_cache_.Get();
 		if (actor)
 		{
-			AUnit* unit = Cast<AUnit>(actor);
+			AHeroBase* unit = Cast<AHeroBase>(actor);
 			if (unit)
 			{
-				//unit->RemoveBuff(buff_data_asset_->buff_data_);
+				unit->RemoveBuff(EBuffType::LowProfile);
+				unit->RemoveBuffUI(EBuffType::LowProfile);
 				DeactivateParticles();
 				is_buff_applied_ = false;
 			}

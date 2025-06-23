@@ -20,15 +20,21 @@ void UPS_Agility::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
 	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::OnActiveSkill, this, &UPS_Agility::BuffAttackSpeed);
+
+	duration_ = 3.f;
+	as_buff_amount_ = 2.0f;
+	buff_status_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, as_buff_amount_, true, false, duration_);
+	buff_ui_data_ = FBuffUIData(FText::FromString("Agility"), EBuffType::Agility, nullptr, duration_, false, FText::FromString("Agility Detail"));
 }
 
 void UPS_Agility::BuffAttackSpeed()
 {
 	 if (AActor* hero_actor = hero_cache_.Get())
 	 {
-	 	if(AUnit* hero = Cast<AUnit>(hero_actor))
+	 	if(AHeroBase* hero = Cast<AHeroBase>(hero_actor))
 	 	{
-	 		//hero->ApplyBuff(buff_data_asset_->buff_data_);
+	 		hero->ApplyBuff(EBuffType::Agility, buff_status_data_);
+	 		hero->AddBuffUI(buff_ui_data_);
 	 	}
 	 }
 }
