@@ -39,9 +39,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UNiagaraSystem> deploy_particle_ = nullptr;
 
-	UPROPERTY()
-	ACover* actor_ = nullptr;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float deployed_cover_hit_points_ = 300.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

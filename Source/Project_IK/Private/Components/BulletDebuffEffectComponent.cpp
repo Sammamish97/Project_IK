@@ -18,7 +18,6 @@ void UBulletDebuffEffectComponent::OnHit(AActor* target)
 	auto casted_unit = Cast<AUnit>(target);
 	if (casted_unit)
 	{
-		auto casted_unit = Cast<AUnit>(casted_target);
 		//IKTODO: 테스트 후 버프 적용
 		//casted_unit->ApplyBuff(FBuffStatusData(FName("TriangleSetBonus_Viper"), ECharacterStatType::Armor, debuff_amount_, true, debuff_duration_));
 	}

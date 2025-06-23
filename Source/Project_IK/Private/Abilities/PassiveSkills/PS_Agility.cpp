@@ -25,10 +25,10 @@ void UPS_Agility::InitEquipmentSkill(AActor* hero_ref)
 	Super::InitEquipmentSkill(hero_ref);
 	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::OnActiveSkill, this, &UPS_Agility::BuffAttackSpeed);
 
-	duration_ = 3.f;
-	as_buff_amount_ = 2.0f;
-	buff_status_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, as_buff_amount_, true, false, duration_);
-	buff_ui_data_ = FBuffUIData(FText::FromString("Agility"), EBuffType::Agility, nullptr, duration_, false, FText::FromString("Agility Detail"));
+	buff_duration_ = 3.f;
+	buff_amount_ = 2.0f;
+	buff_status_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, buff_amount_, true, false, buff_duration_);
+	buff_ui_data_ = FBuffUIData(FText::FromString("Agility"), EBuffType::Agility, nullptr, buff_duration_, false, FText::FromString("Agility Detail"));
 
 	SpawnParticles(Cast<AUnit>(hero_ref));
 }

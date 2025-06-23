@@ -27,12 +27,9 @@ public:
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 	void InitActiveSkill(AActor* skill_owner);
 	float GetCastingTime() const;
+	void ApplyDamage(FDamageData DamageData);
 
 protected:
-	// Helper function to give damage.
-	void ApplyDamage(FDamageData DamageData);
-	bool ApplyBuff(FBuffStatusData buff_data, AActor* buff_target);
-	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float casting_time_ = 0.f;
 
