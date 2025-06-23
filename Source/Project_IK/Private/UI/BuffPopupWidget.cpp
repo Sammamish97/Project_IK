@@ -29,8 +29,12 @@ void UBuffPopupWidget::ResetWidget()
 
 void UBuffPopupWidget::SetBuffDetail(FBuffUIData target_data)
 {
-	SetVisibility(ESlateVisibility::Visible);
-	thumbnail_->SetBrushFromTexture(target_data.thumbnail);
-	name_->SetText(target_data.buff_name_);
-	detail_->SetText(target_data.detail_);
+	//IKTODO: 한번씩 INVALID가 들어온다. 이유를 알아야 한다.
+	if(target_data.buff_type_!=EBuffType::INVALID)
+	{
+		SetVisibility(ESlateVisibility::Visible);
+		thumbnail_->SetBrushFromTexture(target_data.thumbnail);
+		name_->SetText(target_data.buff_name_);
+		detail_->SetText(target_data.detail_);
+	}
 }

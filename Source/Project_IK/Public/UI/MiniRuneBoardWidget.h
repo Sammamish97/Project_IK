@@ -15,17 +15,31 @@ See LICENSE file in the project root for full license information.
 #include "MiniRuneBoardWidget.generated.h"
 
 class URunePopupWidget;
+class URuneBoardEdgeWidget;
 class UMiniRuneSlotWidget;
 class UImage;
+class UOverlay;
 UCLASS(Abstract)
 class PROJECT_IK_API UMiniRuneBoardWidget : public UUserWidget
 {
 	GENERATED_BODY()
+	struct Edge
+	{
+		FVector2D mid_point;
+		float length;
+		float angle;
+	};
+	
 public:
+	virtual void NativeConstruct() override;
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	
 	void InitMiniRuneBoard(class URuneMechanics* rune_mechanics, URunePopupWidget* rune_popup_widget, EHeroType type);
+
+private:
+	TArray<FVector2D> ComputeVertices(float radius);
+	TArray<Edge> ComputeEdges(const TArray<FVector2D>& vertices);
 	
 private:
 	UPROPERTY()
@@ -35,6 +49,12 @@ private:
 	TObjectPtr<class UBorder> border_;
 
 	EHeroType hero_type_;
+	
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UOverlay> rune_overlay_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UOverlay> line_overlay_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UMiniRuneSlotWidget> rune_0_;
@@ -57,38 +77,38 @@ private:
 	//
 	
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UProgressBar> line_0_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_0_ = nullptr;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UProgressBar> line_1_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_1_ = nullptr;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UProgressBar> line_2_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_2_ = nullptr;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UProgressBar> line_3_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_3_ = nullptr;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UProgressBar> line_4_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_4_ = nullptr;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UProgressBar> line_5_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_5_ = nullptr;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UProgressBar> line_6_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_6_ = nullptr;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UProgressBar> line_7_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_7_ = nullptr;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UProgressBar> line_8_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_8_ = nullptr;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UProgressBar> line_9_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_9_ = nullptr;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UProgressBar> line_10_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_10_ = nullptr;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UProgressBar> line_11_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_11_ = nullptr;
 };
