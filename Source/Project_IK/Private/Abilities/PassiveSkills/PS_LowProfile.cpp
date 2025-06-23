@@ -32,7 +32,7 @@ void UPS_LowProfile::InitEquipmentSkill(AActor* hero_ref)
 	}
 
 	buff_ui_data_ = FBuffUIData(FText::FromString("LowProfile"), EBuffType::LowProfile, nullptr, 0.f, true, FText::FromString("LowProfile Detail"));
-	buff_status_data_ = FBuffStatusData(ECharacterStatType::EvasionRate, 0.1f, true, true);
+	buff_status_data_ = FBuffStatusData(ECharacterStatType::EvasionRate, 0.1f, false, true);
 
 	ApplyBuff();
 }

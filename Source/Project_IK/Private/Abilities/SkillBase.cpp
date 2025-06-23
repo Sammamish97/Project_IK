@@ -19,9 +19,14 @@ float USkillBase::GetCoolTime() const
 	return cool_time_;
 }
 
+void USkillBase::UpdateCoolDown(float cool_down)
+{
+	on_activate_skill_.Broadcast(cool_down);
+}
+
 bool USkillBase::ActivateSkill(const FTargetResult& TargetResult)
 {
-	on_activate_skill_.Broadcast(cool_time_);
+	UpdateCoolDown(cool_time_);
 	return true;
 }
 

@@ -13,19 +13,16 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
+#include "Structs/BuffUIData.h"
 #include "AT_DeployCover.generated.h"
 
 class ACover;
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API UAT_DeployCover : public UActiveSkillBase
 {
 	GENERATED_BODY()
 public:
-
 	UAT_DeployCover();
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
@@ -38,5 +35,12 @@ public:
 	float hit_points_scaling_factor_ = 1.f;
 
 protected:
+	UPROPERTY()
 	ACover* actor_;
+
+	UPROPERTY()
+	FBuffUIData buff_ui_data_;
+
+	UPROPERTY()
+	FBuffStatusData buff_status_data_;
 };

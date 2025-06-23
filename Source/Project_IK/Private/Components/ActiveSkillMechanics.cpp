@@ -105,18 +105,6 @@ void UActiveSkillMechanics::UnEquipActiveSkill()
 	active_skill_ = nullptr;
 }
 
-bool UActiveSkillMechanics::InvokeSkills(const FTargetResult& TargetResult)
-{
-	if (active_skill_)
-	{
-		active_skill_->ActivateSkill(TargetResult);
-		FTimerDelegate cast_finish_delegate = FTimerDelegate::CreateUObject(this, &UActiveSkillMechanics::OnCastingFinish);
-		GetWorld()->GetTimerManager().SetTimer(casting_time_handle_, cast_finish_delegate, GetCastingTime(), false);
-		return true;
-	}
-	return false;
-}
-
 void UActiveSkillMechanics::OnCastingFinish()
 {
 	FAIMessage Msg(TEXT("CastingFinished"), this, active_skill_request_id_, FAIMessage::Success);

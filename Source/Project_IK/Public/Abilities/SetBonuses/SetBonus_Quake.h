@@ -11,6 +11,8 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "SetBonusBase.h"
+#include "Structs/BuffStatusData.h"
+#include "Structs/BuffUIData.h"
 #include "Structs/DamageData.h"
 #include "SetBonus_Quake.generated.h"
 
@@ -31,6 +33,10 @@ private:
 	void HexagonSkillEcho();
 
 private:
+	FBuffStatusData edge_buff_data_;
+	FBuffStatusData triangle_buff_data_;
+	FBuffUIData triangle_buff_UI_data_;
+	
 	float triangle_buff_duration_ = 3.f;
 	float hexagon_effect_cooldown = 15.f;
 	FTimerHandle skill_echo_timer_handle_;

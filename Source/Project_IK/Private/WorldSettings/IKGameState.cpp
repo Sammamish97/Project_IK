@@ -152,18 +152,33 @@ void AIKGameState::ClearTargetingState()
 
 void AIKGameState::ReduceCoolDown(EHeroType hero_type, float amount)
 {
+	float left_cool_down = 0.0f;
 	if (active_skill_timers_.Contains(hero_type))
 	{
 		float remaining_time = GetWorld()->GetTimerManager().GetTimerRemaining(active_skill_timers_[hero_type]);
 		if (remaining_time < amount)
 		{
+			left_cool_down = 0.f;
 			GetWorld()->GetTimerManager().ClearTimer(active_skill_timers_[hero_type]);
 		}
 		else
 		{
-			GetWorld()->GetTimerManager().SetTimer(active_skill_timers_[hero_type],remaining_time - amount, false);
+			left_cool_down = remaining_time - amount;
+			GetWorld()->GetTimerManager().SetTimer(active_skill_timers_[hero_type],left_cool_down, false);
 		}
 	}
+	
+	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (auto selected_hero = game_mode_cache->GetHero(hero_type))
+	{
+		AHeroBase* casted_hero = Cast<AHeroBase>(selected_hero);
+		if (casted_hero->HasActiveSkill())
+		{
+			auto skill = casted_hero->GetActiveSkill();
+			skill->UpdateCoolDown(left_cool_down);
+		}
+	}
+	
 }
 
 void AIKGameState::ReduceCoolDownPercentage(EHeroType hero_type, float percentage)

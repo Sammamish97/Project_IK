@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 #include "Characters/EnemyBase.h"
 #include "Characters/HeroBase.h"
 #include "Components/ObjectPoolComponent.h"
-#include "DataAssets/BuffDataAsset.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Structs/BuffStatusData.h"
@@ -30,10 +29,11 @@ void USetBonus_Dagger::ActivateEdgeBonus()
 {
 	Super::ActivateEdgeBonus();
 	//IKTODO: 테스트 이후 정상화 시켜야 함.
+	edge_as_buff_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, 1.1f, true, true);
+	edge_crit_buff_data_ = FBuffStatusData(ECharacterStatType::CriticalHitRate, 0.05f, false, true);
 
-	// hero_cache_->ApplyBuff(FBuffStatusData(TEXT("Dagger_Edge"), ECharacterStatType::AttackSpeed, 10.f, true, true));
-	// hero_cache_->ApplyBuff(FBuffStatusData(TEXT("Dagger_Edge"), ECharacterStatType::CriticalHitRate, 5.f, true, true));
-	//hero_cache_->ApplyBuff(edge_buff_data_asset_->buff_data_);
+	hero_cache_->ApplyBuff(EBuffType::Dagger_Edge, edge_as_buff_data_);
+	hero_cache_->ApplyBuff(EBuffType::Dagger_Edge, edge_crit_buff_data_);
 }
 
 //3세트: 장전 시 2초간 치명타율 10% 추가.
@@ -54,7 +54,8 @@ void USetBonus_Dagger::ActivateHexagonBonus()
 
 void USetBonus_Dagger::TriangleReloadCritRateBuff()
 {
-	//hero_cache_->ApplyBuff(triangle_buff_data_asset_->buff_data_);
+	triangle_buff_data_ = FBuffStatusData(ECharacterStatType::CriticalHitRate, 0.1f, false, false, 2.f);
+	hero_cache_->ApplyBuff(EBuffType::Dagger_Triangle, triangle_buff_data_);
 }
 
 void USetBonus_Dagger::HexagonBonus()

@@ -44,6 +44,8 @@ public:
 	void RemoveBuffUI(EBuffType buff_type);
 
 	bool HasActiveSkill() const;
+	void ReduceActiveSkillCoolDown(float amount);
+	void ReduceActiveSkillCoolDownPercentage(float percentage);
 
 	void Reposition(FVector target_location);
 	void SetAttackTarget(AActor* target);

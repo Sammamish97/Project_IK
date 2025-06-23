@@ -19,8 +19,9 @@ See LICENSE file in the project root for full license information.
 
 bool UActiveSkillBase::ActivateSkill(const FTargetResult& TargetResult)
 {
+	bool result = Super::ActivateSkill(TargetResult);
 	Cast<AHeroBase>(skill_owner_)->DispatchUnitEvent(EUnitEvent::OnActiveSkill);
-	return Super::ActivateSkill(TargetResult);
+	return result;
 }
 
 void UActiveSkillBase::InitActiveSkill(AActor* skill_owner)

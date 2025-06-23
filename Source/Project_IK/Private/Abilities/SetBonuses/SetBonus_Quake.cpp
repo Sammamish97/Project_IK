@@ -18,7 +18,8 @@ See LICENSE file in the project root for full license information.
 void USetBonus_Quake::ActivateEdgeBonus()
 {
 	Super::ActivateEdgeBonus();
-	//hero_cache_->ApplyBuff(edge_buff_data_asset_->buff_data_);
+	edge_buff_data_ = FBuffStatusData(ECharacterStatType::SkillPower, 1.2f, true, true);
+	hero_cache_->ApplyBuff(EBuffType::Quake_Edge, edge_buff_data_);
 }
 
 //3세트: 액티브 스킬을 발동 시 공격속도 + 15%
@@ -37,7 +38,10 @@ void USetBonus_Quake::ActivateHexagonBonus()
 
 void USetBonus_Quake::TriangleAttackSpeedBuff()
 {
-	//hero_cache_->ApplyBuff(triangle_buff_data_asset_->buff_data_);
+	triangle_buff_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, 1.5f, true, false, 3.f);
+	triangle_buff_UI_data_ = FBuffUIData(FText::FromString("Quake::Triangle"), EBuffType::Quake_Triangle, nullptr, 3.f, false, FText::FromString("Quake::Triangle - Detail"));
+	hero_cache_->ApplyBuff(EBuffType::Quake_Triangle, triangle_buff_data_);
+	hero_cache_->AddBuffUI(triangle_buff_UI_data_);
 }
 
 void USetBonus_Quake::HexagonSkillEcho()
@@ -45,11 +49,6 @@ void USetBonus_Quake::HexagonSkillEcho()
 	if (GetWorld()->GetTimerManager().IsTimerActive(skill_echo_timer_handle_) == false)
 	{
 		GetWorld()->GetTimerManager().SetTimer(skill_echo_timer_handle_, hexagon_effect_cooldown, false);
-		//hero_cache_->ApplyBuff({"Quake_Hexagon", ECharacterStatType::SkillCoolDown,80.f, false, 1.f});
-		if (GetWorld()->GetTimerManager().IsTimerActive(skill_echo_timer_handle_) == false)
-		{
-			GetWorld()->GetTimerManager().SetTimer(skill_echo_timer_handle_, hexagon_effect_cooldown, false);
-			//hero_cache_->ApplyBuff(hexagon_buff_data_asset_->buff_data_);
-		}
+		hero_cache_->ReduceActiveSkillCoolDownPercentage(0.8);
 	}
 }

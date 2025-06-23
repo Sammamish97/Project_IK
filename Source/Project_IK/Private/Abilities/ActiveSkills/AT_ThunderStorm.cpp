@@ -27,8 +27,6 @@ UAT_ThunderStorm::UAT_ThunderStorm()
 
 bool UAT_ThunderStorm::ActivateSkill(const FTargetResult& TargetResult)
 {
-	Super::ActivateSkill(TargetResult);
-	
 	world_cache_ = skill_owner_->GetWorld();
 	FActorSpawnParameters spawn_params;
 	spawn_params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;

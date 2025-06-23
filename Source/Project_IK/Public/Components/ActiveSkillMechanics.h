@@ -35,10 +35,7 @@ public:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void InitializeComponent() override;
-
-	UFUNCTION(BlueprintCallable)
-	bool InvokeSkills(const FTargetResult& TargetResult);
-
+	
 	bool HasActiveSkill() const;
 	float GetCooltime() const;
 	float GetCastingTime() const;

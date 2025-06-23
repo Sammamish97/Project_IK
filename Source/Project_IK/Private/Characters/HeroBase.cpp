@@ -24,6 +24,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "WorldSettings/IKGameModeBase.h"
+#include "WorldSettings/IKGameState.h"
 
 AHeroBase::AHeroBase()
 {
@@ -52,35 +53,42 @@ void AHeroBase::BeginPlay()
 	switch (GetCharacterType())
 	{
 	case ECharacterType::Hero1:
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 2);
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 4);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 1);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 3);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 5);
 		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
 		hero_type_ = EHeroType::Hero1;
 		break;
 	case ECharacterType::Hero2:
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
-		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
-		hero_type_ = EHeroType::Hero2;
-		break;
-	case ECharacterType::Hero3:
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 2);
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 4);
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 3);
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 5);
-		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
+		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Berserker);
+		hero_type_ = EHeroType::Hero2;
+		break;
+	case ECharacterType::Hero3:
+		rune_mechanics_->EquipRune(ERuneSetType::Viper, 0);
+		rune_mechanics_->EquipRune(ERuneSetType::Viper, 2);
+		rune_mechanics_->EquipRune(ERuneSetType::Viper, 4);
+		rune_mechanics_->EquipRune(ERuneSetType::Viper, 1);
+		rune_mechanics_->EquipRune(ERuneSetType::Viper, 3);
+		rune_mechanics_->EquipRune(ERuneSetType::Viper, 5);
+		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Agility);
 		hero_type_ = EHeroType::Hero3;
 		break;
 	case ECharacterType::Hero4:
-		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
-		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 1);
-		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
-		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 3);
-		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
-		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 5);
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 2);
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 4);
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 3);
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 5);
 		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
 
 		hero_type_ = EHeroType::Hero4;
@@ -203,6 +211,18 @@ FTargetParameters AHeroBase::GetActiveSkillTargetParameters() const
 bool AHeroBase::HasActiveSkill() const
 {
 	return active_skill_mechanics_->HasActiveSkill();
+}
+
+void AHeroBase::ReduceActiveSkillCoolDown(float amount)
+{
+	auto game_state_cache_ = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
+	game_state_cache_->ReduceCoolDown(GetHeroType(), amount);
+}
+
+void AHeroBase::ReduceActiveSkillCoolDownPercentage(float percentage)
+{
+	auto game_state_cache_ = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
+	game_state_cache_->ReduceCoolDownPercentage(GetHeroType(), percentage);
 }
 
 void AHeroBase::AddBuffUI(FBuffUIData buff_ui_data)

@@ -21,4 +21,8 @@ public:
 	virtual void ActivateEdgeBonus() override;
 	virtual void ActivateTriangleBonus() override;
 	virtual void ActivateHexagonBonus() override;
+
+private:
+	FBuffStatusData edge_buff_data_;
+
 };

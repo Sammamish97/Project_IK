@@ -29,17 +29,14 @@ UAT_DeployCover::UAT_DeployCover()
 	cool_time_ = 10.f;
 }
 
+//IKTODO: 이후 해당 엄폐물에 엄폐 했을 시 버프 추가 로직을 추가해야 함.
 bool UAT_DeployCover::ActivateSkill(const FTargetResult& TargetResult)
 {
-	//IKTODO: 테스트 후 버프 적용
-	// FBuffStatusData attack_speed(TEXT("DeployCover"), ECharacterStatType::AttackSpeed, 1.1, true, 10.f);
-	//
-	// if (actor_class_ && skill_owner_)
-	// {
-	// 	actor_ = skill_owner_->GetWorld()->SpawnActor<ACover>(actor_class_, TargetResult.target_location_, FRotator::ZeroRotator);
-	// 	AUnit* owner_unit = Cast<AUnit>(skill_owner_);
-	// 	actor_->SetHitPoints(deployed_cover_hit_points_ + owner_unit->GetCharacterStat()->GetSkillPower() * hit_points_scaling_factor_);
-	// 	ApplyBuff(attack_speed, skill_owner_);
-	// }
+	 if (actor_class_ && skill_owner_)
+	 {
+	 	actor_ = skill_owner_->GetWorld()->SpawnActor<ACover>(actor_class_, TargetResult.target_location_, FRotator::ZeroRotator);
+	 	AUnit* owner_unit = Cast<AUnit>(skill_owner_);
+	 	actor_->SetHitPoints(deployed_cover_hit_points_ + owner_unit->GetCharacterStat()->GetSkillPower() * hit_points_scaling_factor_);
+	 }
 	return Super::ActivateSkill(TargetResult);
 }

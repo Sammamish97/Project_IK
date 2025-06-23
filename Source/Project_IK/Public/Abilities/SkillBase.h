@@ -24,6 +24,7 @@ public:
 	FTargetParameters GetTargetParameters() const;
 	float GetCoolTime() const;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult);
+	virtual void UpdateCoolDown(float cool_down);
 	virtual void ResetSkill();
 
 protected:

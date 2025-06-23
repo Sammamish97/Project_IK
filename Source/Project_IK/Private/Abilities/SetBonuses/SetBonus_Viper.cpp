@@ -13,17 +13,16 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 #include "Components/BulletDebuffEffectComponent.h"
 #include "Components/BulletViperEffectComponent.h"
-#include "Components/CharacterStatComponent.h"
 #include "Components/WeaponMechanics.h"
 #include "DataAssets/BuffDataAsset.h"
-#include "Structs/BuffStatusData.h"
 #include "Weapons/Guns/GunBase.h"
 
 //2세트: 공격 속도20%
 void USetBonus_Viper::ActivateEdgeBonus()
 {
 	Super::ActivateEdgeBonus();
-	//hero_cache_->ApplyBuff(edge_buff_data_asset_->buff_data_);
+	edge_buff_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, 1.2f, true, true);
+	hero_cache_->ApplyBuff(EBuffType::Viper_Edge, edge_buff_data_);
 }
 
 //3세트: 장전 후 초탄에 받는 피해 20%증가 디버프 추가.
