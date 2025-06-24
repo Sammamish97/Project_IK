@@ -16,6 +16,8 @@ See LICENSE file in the project root for full license information.
 #include "UI/CombatResultUI.h"
 #include "UI/EquipmentRewardWidget.h"
 
+#include "Managers/EnumCluster.h"
+
 void UCombatLevelResultManager::InitializeUI()
 {
 	UWorld* world = GetWorld();
@@ -41,12 +43,12 @@ void UCombatLevelResultManager::InitializeUI()
 	}
 }
 
-void UCombatLevelResultManager::DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map)
+void UCombatLevelResultManager::DisplayCombatResult(const TMap<EHeroType, float>& damage_map)
 {
 	if (combat_result_widget_)
 	{
 		combat_result_widget_->SetVisibility(ESlateVisibility::Visible);
-		combat_result_widget_->UpdateResults(heroes, damage_map);
+		combat_result_widget_->UpdateResults(damage_map);
 	}
 	else
 	{

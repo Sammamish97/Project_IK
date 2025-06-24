@@ -43,6 +43,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetDamageDealt(float damage);
 
+	void SetInjuredVisibility(ESlateVisibility visibility);
+	void SetInjuredOpacity(float opacity);
+
 protected:
 	virtual void NativeConstruct() override;
 
@@ -57,4 +60,7 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> deal_text_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> injured_;
 };

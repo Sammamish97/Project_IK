@@ -31,6 +31,8 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKHUD.h"
 #include "Managers/CombatLevelResultManager.h"
 
+#include "Managers/EnumCluster.h"
+
 
 bool UCombatResultUI::Initialize()
 {
@@ -69,40 +71,39 @@ void UCombatResultUI::SetHeroNumbers(int32 num)
 	}
 }
 
-void UCombatResultUI::UpdateResults(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map)
+void UCombatResultUI::UpdateResults(const TMap<EHeroType, float>& damage_map)
 {
-	const int32 hero_num = heroes.Num();
-	for (int32 i = 0; i < hero_num; ++i)
+	for (const auto& [hero_type, damage] : damage_map)
 	{
-		// Nullptr check
-		AHeroBase* hero = Cast<AHeroBase>(heroes[i]);
+		int32 hero_index = HeroTypeToInt(hero_type);
+
+		blocks_[hero_index]->SetVisibility(ESlateVisibility::Visible);
+
+		blocks_[hero_index]->SetDamageDealt(damage);
+	}
+
+
+	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
+	const TArray<AActor*> actors = game_mode->GetHeroContainer();
+	for (AActor* actor : actors)
+	{
+		AHeroBase* hero = Cast<AHeroBase>(actor);
 		if (hero)
 		{
-			blocks_[i]->SetVisibility(ESlateVisibility::Visible);
-			const UCharacterStatComponent* hero_stat = hero->GetCharacterStat();
-			hp_ratio_after_.Add(hero_stat->GetHPRatio());
-			if (damage_map.Contains(hero))
-			{
-				blocks_[i]->SetDamageDealt(damage_map[hero]);
-			}
-			else
-			{
-				blocks_[i]->SetDamageDealt(0.f);
-			}
-		}
-		else
-		{
-			// Consider the hero has dead
-			blocks_[i]->SetVisibility(ESlateVisibility::Hidden);
+			hp_ratio_after_[HeroTypeToInt(hero->GetHeroType())] = hero->GetCharacterStat()->GetHPRatio();
 		}
 	}
 
-	while (hp_ratio_after_.Num() < hp_ratio_before_.Num())
+	for (int32 i = 0; i < blocks_.Num(); i++)
 	{
-		hp_ratio_after_.Add(0.f);
+		if (hp_ratio_after_[i] <= 0.f)
+		{
+			blocks_[i]->SetInjuredVisibility(ESlateVisibility::Visible);
+		}
 	}
 
-	HP_timer_ = 0;
+	HP_timer_ = 0.f;
+	injury_timer_ = 0.f;
 }
 
 void UCombatResultUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -115,6 +116,7 @@ void UCombatResultUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	}
 
 	UpdateHPBars(InDeltaTime);
+	UpdateInjuredNotifiers(InDeltaTime);
 }
 
 void UCombatResultUI::NativeConstruct()
@@ -122,7 +124,7 @@ void UCombatResultUI::NativeConstruct()
 	Super::NativeConstruct();
 
 	InitializeChildWidgets();
-	
+
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if (game_mode)
 	{
@@ -139,7 +141,9 @@ void UCombatResultUI::NativeConstruct()
 				// It is not ratio at this point. It contains initial hit points.
 				hp_ratio_before_.Add(hero->GetCharacterStat()->GetHPRatio());
 			}
+			hp_ratio_after_.Add(0.f);
 		}
+
 
 		int32 hero_size = game_mode->GetHeroCount();
 		// @@ TODO: In this code, it is possible to have multiple blocks because of multiple NativeConstruct calls.
@@ -151,6 +155,8 @@ void UCombatResultUI::NativeConstruct()
 void UCombatResultUI::NativeDestruct()
 {
 	blocks_.Empty();
+	hp_ratio_before_.Empty();
+	hp_ratio_after_.Empty();
 }
 
 void UCombatResultUI::InitializeRootWidget()
@@ -283,4 +289,34 @@ FReply UCombatResultUI::NativeOnMouseButtonDown(const FGeometry& InGeometry, con
 	}
 
 	return Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
+}
+
+// Fade in (0s~1.5s), fade out (1.5s~3s)
+void UCombatResultUI::UpdateInjuredNotifiers(float InDeltaTime)
+{
+	injury_timer_ += InDeltaTime;
+
+	static constexpr float FADE_DURATION = 1.5f;
+
+	float alpha = 0.f;
+	if (injury_timer_ <= FADE_DURATION)
+	{	// Fade in
+		alpha = injury_timer_ / FADE_DURATION;
+	}
+	else if (injury_timer_ > FADE_DURATION * 2.f)
+	{
+		injury_timer_ = 0.f;
+	}
+	else
+	{	// Fade out
+		alpha = 1.f - ((injury_timer_ - FADE_DURATION) / FADE_DURATION);
+	}
+
+	for (int32 i = 0; i < blocks_.Num(); i++)
+	{
+		if (hp_ratio_after_[i] <= 0.f)
+		{
+			blocks_[i]->SetInjuredOpacity(alpha);
+		}
+	}
 }

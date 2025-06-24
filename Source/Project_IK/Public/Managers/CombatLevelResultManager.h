@@ -29,7 +29,7 @@ public:
 	void InitializeUI();
 
 	UFUNCTION()
-	void DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map);
+	void DisplayCombatResult(const TMap<EHeroType, float>& damage_map);
 
 	UFUNCTION()
 	void SwitchUIByState(ECombatEndState state);

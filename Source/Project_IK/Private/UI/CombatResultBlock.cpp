@@ -55,6 +55,19 @@ void UCombatResultBlock::SetDamageDealt(float damage)
 	deal_text_->SetText(FText::AsNumber(damage));
 }
 
+void UCombatResultBlock::SetInjuredVisibility(ESlateVisibility visibility)
+{
+	injured_->SetVisibility(visibility);
+}
+
+void UCombatResultBlock::SetInjuredOpacity(float opacity)
+{
+	injured_->SetOpacity(opacity);
+	FSlateFontInfo font = injured_->GetFont();
+	font.OutlineSettings.OutlineColor.A = opacity;
+	injured_->SetFont(font);
+}
+
 void UCombatResultBlock::NativeConstruct()
 {
 	Super::NativeConstruct();

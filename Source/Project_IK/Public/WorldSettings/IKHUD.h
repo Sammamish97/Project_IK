@@ -20,6 +20,7 @@ class UCombatResultUI;
 class UCombatLevelResultManager;
 
 enum class ECombatEndState : uint8;
+enum class EHeroType : uint8;
 
 UCLASS()
 class PROJECT_IK_API AIKHUD : public AHUD
@@ -28,7 +29,7 @@ class PROJECT_IK_API AIKHUD : public AHUD
 public:
 	UFUNCTION()
 	virtual void BeginPlay() override;
-	void DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map);
+	void DisplayCombatResult(const TMap<EHeroType, float>& damage_map);
 
 	UFUNCTION()
 	void SwitchUIByState(ECombatEndState state);

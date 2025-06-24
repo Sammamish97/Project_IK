@@ -21,6 +21,8 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKPlayerController.h"
 
+#include "Managers/EnumCluster.h"
+
 void AIKHUD::BeginPlay()
 {
 	Super::BeginPlay();
@@ -72,11 +74,11 @@ void AIKHUD::BeginPlay()
 	}
 }
 
-void AIKHUD::DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map)
+void AIKHUD::DisplayCombatResult(const TMap<EHeroType, float>& damage_map)
 {
 	if (combat_level_result_manager_)
 	{
-		combat_level_result_manager_->DisplayCombatResult(heroes, damage_map);
+		combat_level_result_manager_->DisplayCombatResult(damage_map);
 	}
 }
 

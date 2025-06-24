@@ -204,15 +204,18 @@ void AIKGameModeBase::CheckWinLoseCondition()
 
 void AIKGameModeBase::RecordDamage(float damage, TWeakObjectPtr<AActor> attacker)
 {
-	if (Cast<AHeroBase>(attacker))
+	AHeroBase* hero = Cast<AHeroBase>(attacker);
+	if (hero)
 	{
-		if (gunner_damage_map_.Contains(attacker))
+		EHeroType type = hero->GetHeroType();
+
+		if (gunner_damage_map_.Contains(type))
 		{
-			gunner_damage_map_[attacker] += damage;
+			gunner_damage_map_[type] += damage;
 		}
 		else
 		{
-			gunner_damage_map_.Add(attacker, damage);
+			gunner_damage_map_.Add(type, damage);
 		}
 	}
 }
@@ -259,16 +262,7 @@ void AIKGameModeBase::DisplayCombatResult()
 		AIKHUD* hud = Cast<AIKHUD>(player_controller->GetHUD());
 		if (hud)
 		{
-			TArray<AActor*> alive_heroes;
-			for (TWeakObjectPtr<AActor> actor : heroes_)
-			{
-				if (actor.IsValid())
-				{
-					alive_heroes.Add(actor.Get());
-				}
-			}
-
-			hud->DisplayCombatResult(alive_heroes, gunner_damage_map_);
+			hud->DisplayCombatResult(gunner_damage_map_);
 		}
 	}
 }

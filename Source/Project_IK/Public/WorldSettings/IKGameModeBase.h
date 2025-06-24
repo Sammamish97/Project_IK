@@ -91,7 +91,7 @@ protected:
 	TArray<TObjectPtr<AActor>> heroes_;
 
 	UPROPERTY()
-	TMap<TWeakObjectPtr<AActor>, float> gunner_damage_map_;
+	TMap<EHeroType, float> gunner_damage_map_;
 
 	UPROPERTY()
 	TObjectPtr<UTimeDilationManager> time_dilation_manager_;
