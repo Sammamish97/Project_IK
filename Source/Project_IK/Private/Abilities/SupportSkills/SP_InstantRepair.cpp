@@ -30,6 +30,7 @@ bool USP_InstantRepair::ActivateSkill(const FTargetResult& target_result)
 		{
 			target_hero->ApplyBuff(type, status_data);
 			target_hero->Heal(300.f);
+			target_hero->AcquireShield(100.f, 3.f);
 			target_hero->AddBuffUI(FBuffUIData(FText::FromString("InstantRepair"), type, nullptr, 1.f, false, FText::FromString("Test Instnatn Repair")));
 		}
 	}

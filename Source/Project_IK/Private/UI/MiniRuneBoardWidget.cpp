@@ -73,24 +73,29 @@ void UMiniRuneBoardWidget::InitMiniRuneBoard(URuneMechanics* rune_mechanics, URu
     	}
     }
 
+	for(int32 i = 0; i < 12; ++i)
+	{
+		line_array[i]->progress_bar_->SetVisibility(ESlateVisibility::Hidden);
+	}
+
     auto result = rune_mechanics->GetSetBonusData();
     for (const auto& elem : result)
     {
     	if (elem.Value.Num() == 2)
     	{
-    		line_array[elem.Value[0]]->progress_bar_->SetPercent(1.0);
+    		line_array[elem.Value[0]]->progress_bar_->SetVisibility(ESlateVisibility::Visible);
     	}
     	else if (elem.Value.Num() == 3)
     	{
-    		line_array[6 + 3 * elem.Value[0]]->progress_bar_->SetPercent(1.0);
-    		line_array[7 + 3 * elem.Value[0]]->progress_bar_->SetPercent(1.0);
-    		line_array[8 + 3 * elem.Value[0]]->progress_bar_->SetPercent(1.0);
+    		line_array[6 + 3 * elem.Value[0]]->progress_bar_->SetVisibility(ESlateVisibility::Visible);
+    		line_array[7 + 3 * elem.Value[0]]->progress_bar_->SetVisibility(ESlateVisibility::Visible);
+    		line_array[8 + 3 * elem.Value[0]]->progress_bar_->SetVisibility(ESlateVisibility::Visible);
     	}
     	else if (elem.Value.Num() == 6)
     	{
     		for (int i = 0; i < 6; ++i)
     		{
-    			line_array[i]->progress_bar_->SetPercent(1.0);
+    			line_array[i]->progress_bar_->SetVisibility(ESlateVisibility::Visible);
     		}
     	}
     }
