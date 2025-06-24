@@ -16,7 +16,7 @@ See LICENSE file in the project root for full license information.
 
 // Sets default values for this component's properties
 UEnergySystemComponent::UEnergySystemComponent()
-	: Super::UActorComponent(), energy_(10.f), regen_rate_(20.f), max_energy_(100.f)
+	: Super::UActorComponent(), energy_(0.f), regen_rate_(1.f), max_energy_(10.f)
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
