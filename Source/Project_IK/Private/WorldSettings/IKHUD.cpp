@@ -19,7 +19,6 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 
 #include "Managers/CombatLevelResultManager.h"
-#include "Managers/DataTableManager.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
 #include "Structs/ItemData.h"
@@ -46,7 +45,6 @@ void AIKHUD::BeginPlay()
 
 	UWorld* world = GetWorld();
 	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
-	UDataTableManager* data_table_cache_ = Cast<UIKGameInstance>(GetGameInstance())->GetDataTableManager();
 
 	// Create the widget and add it to the viewport
 	if (button_widget_class_)
@@ -58,7 +56,7 @@ void AIKHUD::BeginPlay()
 		//액티브 스킬 UI에 썸네일을 Bind.
 		auto game_mode =  Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		auto hero_types = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
-		TMap<EHeroType, TArray<FString>> hero_rune_bonus_detail_map;
+		TMap<EHeroType, TArray<RuneSetBonus>> hero_rune_bonus_detail_map;
 
 		for(auto cur_hero_type :hero_types)
 		{
@@ -91,21 +89,7 @@ void AIKHUD::BeginPlay()
 			
 			cur_hero->InitAfterHUD();
 
-			auto set_bonus_data = cur_hero->GetRuneMechanics()->GetSetBonusData();
-			TArray<FString> bonus_data;
-			for(const auto& elem : set_bonus_data)
-			{
-				switch (elem.Value.Num())
-				{
-				case 6:
-					bonus_data.Add(data_table_cache_->GetRuneSetBonusDetail(elem.Key, ERuneBonusType::Hexagon));
-				case 3:
-					bonus_data.Add(data_table_cache_->GetRuneSetBonusDetail(elem.Key, ERuneBonusType::Triangle));
-				case 2:
-					bonus_data.Add(data_table_cache_->GetRuneSetBonusDetail(elem.Key, ERuneBonusType::Edge));
-				}
-			}
-			hero_rune_bonus_detail_map.Add(cur_hero_type, bonus_data);
+			hero_rune_bonus_detail_map.Add(cur_hero_type, cur_hero->GetRuneMechanics()->GetSetBonusData());
 		}
 
 		TMap<int32, FItemData> support_skill_data;

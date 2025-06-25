@@ -14,33 +14,31 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "RunePopupWidget.generated.h"
 
+class URunePopupDetailWidget;
 class URuneMechanics;
 class UTextBlock;
+class UVerticalBox;
+
+typedef TPair<ERuneSetType, TArray<int32>> RuneSetBonus;
 
 UCLASS()
 class PROJECT_IK_API URunePopupWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void InitSetBonusDetails(const TMap<EHeroType, TArray<FString>> bonus_details);
+	void InitSetBonusDetails(const TMap<EHeroType, TArray<RuneSetBonus>>& bonus_details);
 	void UpdateRuneData(EHeroType type);
 	void ResetWidget();
 	
 private:
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> name_;
-
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> detail_0_;
+	TMap<EHeroType, TArray<RuneSetBonus>> bonus_details_;
 	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="RunePopupWidget", meta=(AllowPrivateAccess=true))
+	TSubclassOf<URunePopupDetailWidget> rune_popup_detail_widget_class_;
+
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> detail_1_;
+	TObjectPtr<UVerticalBox> vertical_box_;
 	
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> detail_2_;
-
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> detail_3_;
-
-	TMap<EHeroType, TArray<FString>> bonus_details_;
+	UPROPERTY()
+	TArray<TObjectPtr<URunePopupDetailWidget>> details_;
 };
