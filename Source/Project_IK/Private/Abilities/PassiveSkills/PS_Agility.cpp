@@ -13,8 +13,8 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/PassiveSkills/PS_Agility.h"
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "Structs/BuffData.h"
 #include "Characters/Unit.h"
+#include "DataAssets/BuffDataAsset.h"
 
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
@@ -23,26 +23,28 @@ See LICENSE file in the project root for full license information.
 void UPS_Agility::InitEquipmentSkill(AActor* hero_ref)
 {
 	Super::InitEquipmentSkill(hero_ref);
+	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::OnActiveSkill, this, &UPS_Agility::BuffAttackSpeed);
 
-	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnActiveSkill(this, &UPS_Agility::BuffAttackSpeed);
+	buff_duration_ = 3.f;
+	buff_amount_ = 2.0f;
+	buff_status_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, buff_amount_, true, false, buff_duration_);
+	buff_ui_data_ = FBuffUIData(FText::FromString("Agility"), EBuffType::Agility, nullptr, buff_duration_, false, FText::FromString("Agility Detail"));
+
 	SpawnParticles(Cast<AUnit>(hero_ref));
 }
 
-void UPS_Agility::BuffAttackSpeed(EHeroType hero_idx)
+void UPS_Agility::BuffAttackSpeed()
 {
-	FBuffData attack_speed(TEXT("AgilityBuff"), ECharacterStatType::AttackSpeed, buff_amount_, is_buff_percentage_, buff_duration_);
-
-	AActor* hero_actor = hero_cache_.Get();
-	if (hero_actor)
-	{
-		AHeroBase* hero = Cast<AHeroBase>(hero_actor);
-		if (hero->GetHeroType() == hero_idx)
-		{
-			hero->ApplyBuff(attack_speed);
-
+	 if (AActor* hero_actor = hero_cache_.Get())
+	 {
+	 	if(AHeroBase* hero = Cast<AHeroBase>(hero_actor))
+	 	{
+	 		hero->ApplyBuff(EBuffType::Agility, buff_status_data_);
+	 		hero->AddBuffUI(buff_ui_data_);
 			ActivateParticles();
-		}
-	}
+
+	 	}
+	 }
 }
 
 void UPS_Agility::SpawnParticles(AActor* actor)

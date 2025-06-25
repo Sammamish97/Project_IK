@@ -13,12 +13,12 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/PassiveSkills/PS_Berserker.h"
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "Structs/BuffData.h"
 #include "Characters/Unit.h"
 
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "DataAssets/BuffDataAsset.h"
 
 void UPS_Berserker::InitEquipmentSkill(AActor* hero_ref)
 {
@@ -28,9 +28,12 @@ void UPS_Berserker::InitEquipmentSkill(AActor* hero_ref)
 	if (unit)
 	{
 		hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnHPChanged(unit->GetCharacterStat(), this, &UPS_Berserker::BuffBerserker);
-
 		SpawnParticles(unit);
 	}
+
+	as_status_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, 2.f, true, true);
+	vamp_status_data_ = FBuffStatusData(ECharacterStatType::LifeSteal, 0.05f, false, true);
+	buff_ui_data_ = FBuffUIData(FText::FromString("Berserker"), EBuffType::Berserker, nullptr, 0.f, true, FText::FromString("Berserker Detail"));
 }
 
 void UPS_Berserker::BuffBerserker(float hp_ratio)
@@ -60,16 +63,13 @@ void UPS_Berserker::ApplyBuff()
 		AActor* actor = hero_cache_.Get();
 		if (actor)
 		{
-			AUnit* unit = Cast<AUnit>(actor);
+			AHeroBase* unit = Cast<AHeroBase>(actor);
 			if (unit)
 			{
-				FBuffData life_steal(TEXT("Berserker_lifesteal"), ECharacterStatType::LifeSteal, life_steal_buff_amount_, false, true);
-				FBuffData attack_speed(TEXT("Berserker_attack_speed"), ECharacterStatType::AttackSpeed, attack_speed_buff_amount_, is_attack_speed_buff_percentage_, true);
-				unit->ApplyBuff(life_steal);
-				unit->ApplyBuff(attack_speed);
-
+				unit->ApplyBuff(EBuffType::Berserker, as_status_data_);
+				unit->ApplyBuff(EBuffType::Berserker, vamp_status_data_);
+				unit->AddBuffUI(buff_ui_data_);
 				ActivateParticles();
-
 				is_buff_applied_ = true;
 			}
 		}
@@ -83,14 +83,12 @@ void UPS_Berserker::RemoveBuff()
 		AActor* actor = hero_cache_.Get();
 		if (actor)
 		{
-			AUnit* unit = Cast<AUnit>(actor);
+			AHeroBase* unit = Cast<AHeroBase>(actor);
 			if (unit)
 			{
-				unit->RemoveBuff(TEXT("Berserker_lifesteal"));
-				unit->RemoveBuff(TEXT("Berserker_attack_speed"));
-
+				unit->RemoveBuff(EBuffType::Berserker);
+				unit->RemoveBuffUI(EBuffType::Berserker);
 				DeactivateParticles();
-
 				is_buff_applied_ = false;
 			}
 		}

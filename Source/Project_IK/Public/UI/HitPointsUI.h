@@ -20,7 +20,7 @@ class UProgressBar;
 class UHorizontalBox;
 class UBuffDisplayer;
 class UDataTableManager;
-struct FBuffData;
+struct FBuffStatusData;
 
 UCLASS(Blueprintable, Abstract)
 class PROJECT_IK_API UHitPointsUI : public UUserWidget
@@ -29,7 +29,7 @@ class PROJECT_IK_API UHitPointsUI : public UUserWidget
 	
 public:
 	UFUNCTION()
-	void UpdateAppliedBuffs(TArray<FBuffData> applied_buffs);
+	void UpdateAppliedBuffs(TArray<FBuffStatusData> applied_buffs);
 
 	UFUNCTION()
 	void UpdateAppliedCCs(TArray<ECCType> applied_ccs);
@@ -84,6 +84,6 @@ private:
 
 	static constexpr int32 DISPLAYER_SIZE = 3;
 
-	TArray<FBuffData> buffs_array_;
+	TArray<FBuffStatusData> buffs_array_;
 	TArray<ECCType> ccs_array_;
 };

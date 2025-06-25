@@ -13,15 +13,16 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Weapons/Skills/SentryGun.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffStatusData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
 //2세트: 스킬 위력 + 10% + 스킬 쿨다운 + 10%
 void USetBonus_Poet::ActivateEdgeBonus()
 {
 	Super::ActivateEdgeBonus();
-	hero_cache_->ApplyBuff(FBuffData(TEXT("Poet_Edge"), ECharacterStatType::SkillPower, 10.f, true, true));
-	hero_cache_->ApplyBuff(FBuffData(TEXT("Poet_Edge"), ECharacterStatType::SkillCoolDown, 10.f, true, true));
+	//IKTODO: 테스트 이후 정상화 시켜야 함.
+	// hero_cache_->ApplyBuff(FBuffStatusData(TEXT("Poet_Edge"), ECharacterStatType::SkillPower, 10.f, true, true));
+	// hero_cache_->ApplyBuff(FBuffStatusData(TEXT("Poet_Edge"), ECharacterStatType::SkillCoolDown, 10.f, true, true));
 }
 
 //3세트: 액티브 스킬 사용 시, 25%의 확률로 미니포탑 소환.

@@ -28,9 +28,6 @@ See LICENSE file in the project root for full license information.
 #define BindOnTargetingCanceled(Object, FuncName) \
 	__Internal_BindOnTargetingCanceled(Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
-#define BindOnActiveSkill(Object, FuncName) \
-	__Internal_BindOnActiveSkill(Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
-
 #define BindOnHPChanged(Component, Object, FuncName) \
 	__Internal_BindOnHPChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
@@ -40,11 +37,11 @@ See LICENSE file in the project root for full license information.
 #define BindOnShieldChanged(Component, Object, FuncName) \
 	__Internal_BindOnShieldChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
+#define BindOnHPOrShieldChanged(Component, Object, FuncName) \
+	__Internal_BindOnHPOrShieldChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
+
 #define BindOnCrowdControlChanged(Component, Object, FuncName) \
 	__Internal_BindOnCrowdControlChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
-
-#define BindOnBuffChanged(Component, Object, FuncName) \
-	__Internal_BindOnBuffChanged(Component, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
 
 #define BindOnUnitEvent(Component, Type, Object, FuncName) \
 	__Internal_BindOnUnitEvent(Component, Type, Object, FuncName, STATIC_FUNCTION_FNAME( TEXT( #FuncName ) )  )
@@ -58,9 +55,6 @@ public:
 	bool __Internal_BindOnTargetingCanceled(T* object, FuncType callback, FName func_name);
 	
 	template<typename T, typename FuncType>
-	bool __Internal_BindOnActiveSkill(T* object, FuncType callback, FName func_name);
-	
-	template<typename T, typename FuncType>
 	bool __Internal_BindOnUnitEvent(UObject* bound_actor, EUnitEvent bound_event, T* object, FuncType callback, FName func_name);
 
 	template<typename T, typename FuncType>
@@ -71,6 +65,9 @@ public:
 
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnShieldChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
+
+	template<typename T, typename FuncType>
+	bool __Internal_BindOnHPOrShieldChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name);
 	
 	template<typename T, typename FuncType>
 	bool __Internal_BindOnCrowdControlChanged(UObject* bound_crowd_control_component, T* object, FuncType callback, FName func_name);
@@ -105,23 +102,6 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnTargetingCanceled(T* obje
 		}
 	}
 
-	return false;
-}
-
-template<typename T, typename FuncType>
-inline bool UDelegateBridgeSubsystem::__Internal_BindOnActiveSkill(T* object, FuncType callback, FName func_name)
-{
-	if (object == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("BindOnItemUsed:: Object is null"));
-		return false;
-	}
-	AIKPlayerController* pc = GetAIKPlayerController();
-	if (pc)
-	{
-		pc->on_active_skill_.__Internal_AddUniqueDynamic(object, callback, func_name);
-		return true;
-	}
 	return false;
 }
 
@@ -206,8 +186,9 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnShieldChanged(UObject* bo
 	return false;
 }
 
-template<typename T, typename FuncType>
-inline bool UDelegateBridgeSubsystem::__Internal_BindOnBuffChanged(UObject* bound_character_stat_component, T* object, FuncType callback, FName func_name)
+template <typename T, typename FuncType>
+bool UDelegateBridgeSubsystem::__Internal_BindOnHPOrShieldChanged(UObject* bound_character_stat_component, T* object,
+	FuncType callback, FName func_name)
 {
 	if (object == nullptr)
 	{
@@ -216,7 +197,7 @@ inline bool UDelegateBridgeSubsystem::__Internal_BindOnBuffChanged(UObject* boun
 	if (bound_character_stat_component != nullptr && bound_character_stat_component->IsA<UCharacterStatComponent>())
 	{
 		UCharacterStatComponent* cs = Cast<UCharacterStatComponent>(bound_character_stat_component);
-		cs->OnBuffChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
+		cs->OnHPOrShieldChanged.__Internal_AddUniqueDynamic(object, callback, func_name);
 		return true;
 	}
 	return false;

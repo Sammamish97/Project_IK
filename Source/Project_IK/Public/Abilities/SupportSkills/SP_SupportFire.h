@@ -20,7 +20,7 @@ class PROJECT_IK_API USP_SupportFire : public USupportSkillBase
 	GENERATED_BODY()
 public:
 	USP_SupportFire();
-	virtual void Decide(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 private:
 	FDamageData dmg_data_;

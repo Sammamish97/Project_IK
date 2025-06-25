@@ -11,48 +11,20 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Structs/TargetParameters.h"
-#include "Structs/TargetResult.h"
+#include "Abilities/SkillBase.h"
 #include "UObject/Object.h"
 #include "SupportSkillBase.generated.h"
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSupportSkill, float , cool_time);
 
 UCLASS(Abstract, Blueprintable)
-class PROJECT_IK_API USupportSkillBase : public UObject
+class PROJECT_IK_API USupportSkillBase : public USkillBase
 {
 	GENERATED_BODY()
 	
 public:
-	FTargetParameters GetTargetParameters() const;
-	float GetCoolTime() const;
 	float GetCost() const;
-	
-	virtual bool ActivateSkill();
-	virtual void Decide(const FTargetResult& TargetResult);
-	virtual void Reset();
-	virtual void OnDecide();
-
-private:
-	virtual void BeginCoolDown();
-	virtual void UseEnergy();
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 protected:
-	UPROPERTY()
-	TObjectPtr<class AIKPlayerController> player_controller_cache_;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	FTargetParameters target_param_{};
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	float cool_time_ = 0.f;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float cost_ = 0.f;
-
-	UPROPERTY()
-	FTimerHandle cool_down_handle_;
-
-public:
-	UPROPERTY()
-	FOnSupportSkill on_decide_;
 };

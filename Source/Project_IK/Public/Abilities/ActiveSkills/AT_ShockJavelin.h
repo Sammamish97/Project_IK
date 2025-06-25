@@ -10,17 +10,17 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Abilities/SkillBase.h"
+#include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_ShockJavelin.generated.h"
 
 UCLASS()
-class PROJECT_IK_API UAT_ShockJavelin : public USkillBase
+class PROJECT_IK_API UAT_ShockJavelin : public UActiveSkillBase
 {
 	GENERATED_BODY()
 	
 public:
 	UAT_ShockJavelin();
-	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector javelin_location_offset_ = FVector(0.f, 200.f, 200.f);

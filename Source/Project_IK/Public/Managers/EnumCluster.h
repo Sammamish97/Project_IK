@@ -231,6 +231,22 @@ enum class ECharacterStatType : uint8
 	Shield UMETA(DisplayName = "Shield"),
 };
 
+//IKTODO: 로컬라이징 할 시 여기도 영향을 받는것을 잊으면 안됨.
+inline FString ECharStatToString(ECharacterStatType stat)
+{
+	switch (stat)
+	{
+	case ECharacterStatType::AttackPower:
+		return FString("Attack Power");
+	case ECharacterStatType::AttackSpeed:
+		return FString("Attack Speed");
+	case ECharacterStatType::SkillPower:
+		return FString("SKill Power");
+	default:
+		return FString("");
+	}
+}
+
 UENUM(BlueprintType)
 enum class EWeaponType : uint8
 {
@@ -319,6 +335,16 @@ enum class ERuneSetType : uint8
 };
 
 UENUM(BlueprintType)
+enum class ERuneBonusType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Edge UMETA(DisplayName = "Edge"),
+	Triangle UMETA(DisplayName = "Triangle"),
+	Hexagon UMETA(DisplayName = "Hexagon"),
+};
+
+
+UENUM(BlueprintType)
 enum class EGlobalBuffType : uint8
 {
 	WoundingBullets UMETA(DisplayName = "WoundingBullets"),
@@ -391,4 +417,43 @@ enum class ESupportSkillType : uint8
 	Reposition UMETA(DisplayName = "Reposition"),
 	SupportFire UMETA(DisplayName = "SupportFire"),
 	InstantRepair UMETA(DisplayName = "InstantRepair"),
+};
+
+UENUM(BlueprintType)
+enum class EOutlineState : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Disable UMETA(DisplayName = "Disable"),
+	Red UMETA(DisplayName = "Red"),
+	Yellow UMETA(DisplayName = "Yellow"),
+	Green UMETA(DisplayName = "Green"),
+};
+
+UENUM(BlueprintType)
+enum class EBuffType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	InstantRepair UMETA(DisplayName = "InstantRepair"),
+	Accelerate UMETA(DisplayName = "Accelerate"),
+	Encourage UMETA(DisplayName = "Encourage"),
+	DeployCover UMETA(DisplayName = "DeployCover"),
+	Agility UMETA(DisplayName = "Agility"),
+	Berserker UMETA(DisplayName = "Berserker"),
+	LowProfile UMETA(DisplayName = "LowProfile"),
+	
+	Chariot_Edge UMETA(DisplayName = "Chariot_Edge"),
+	Chariot_Triangle UMETA(DisplayName = "Chariot_Edge"),
+	Chariot_Hexagon UMETA(DisplayName = "Chariot_Hexagon"),
+	
+	Dagger_Edge UMETA(DisplayName = "Dagger_Edge"),
+	Dagger_Triangle UMETA(DisplayName = "Dagger_Triangle"),
+	Dagger_Hexagon UMETA(DisplayName = "Dagger_Hexagon"),
+	
+	Quake_Edge UMETA(DisplayName = "Quake_Edge"),
+	Quake_Triangle UMETA(DisplayName = "Quake_Triangle"),
+	Quake_Hexagon UMETA(DisplayName = "Quake_Hexagon"),
+	
+	Viper_Edge UMETA(DisplayName = "Viper_Edge"),
+	Viper_Triangle UMETA(DisplayName = "Viper_Triangle"),
+	Viper_Hexagon UMETA(DisplayName = "Viper_Hexagon"),
 };

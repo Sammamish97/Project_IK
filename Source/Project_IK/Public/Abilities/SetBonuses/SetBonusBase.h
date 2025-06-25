@@ -10,9 +10,11 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Structs/BuffStatusData.h"
 #include "UObject/Object.h"
 #include "SetBonusBase.generated.h"
 
+class UBuffDataAsset;
 class AHeroBase;
 class UNiagaraSystem;
 

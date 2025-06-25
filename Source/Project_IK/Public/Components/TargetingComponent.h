@@ -68,10 +68,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Targeting")
 	UMaterialInterface* arc_material_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Targeting")
-	UMaterialInterface* highlight_material_;
-
+	
 private:
 	void CleanUpVisuals();
 
@@ -79,6 +76,8 @@ private:
 	UPROPERTY() 
 	AActor* targeting_visual_actor_;
 	bool is_targeting_;
+
+	UPROPERTY()
 	APlayerController* player_controller_;
 	FTargetParameters target_parameters_;
 	FTargetResult current_target_result_;
@@ -91,14 +90,12 @@ private:
 	UPROPERTY()
 	UDecalComponent* sector_decal_;
 
-	AActor* invoker_;
+	UPROPERTY()
+	TObjectPtr<AActor> invoker_;
 
 	UPROPERTY()
-	UMaterialInstanceDynamic* highlight_dynamic_material_;
-
-	TArray<UMaterialInterface*> original_materials_;
-	AActor* previously_chosen_actor_;
-
+	TObjectPtr<AActor> last_chosen_unit_;
+	
 	void HandleActorTargeting();
 	void HandleLocationTargeting();
 	void HandleDirectionTargeting();

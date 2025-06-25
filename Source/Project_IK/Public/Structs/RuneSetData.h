@@ -12,19 +12,20 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Structs/RuneData.h"
+#include "Structs/ItemData.h"
 #include "RuneSetData.generated.h"
 
 USTRUCT(BlueprintType)
 struct PROJECT_IK_API FRuneSetData
 {
 	GENERATED_BODY()
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneSet")
-	TObjectPtr<UTexture2D> thumbnail;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "RuneSet", EditFixedSize)
 	TArray<FRuneData> rune_set_data_ = { FRuneData(0), FRuneData(1), FRuneData(2), FRuneData(3), FRuneData(4), FRuneData(5) };
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RuneSet")
-	ERarity rarity_;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	FItemData item_data_;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	TMap<ERuneBonusType, FString> bonus_details_;
 };

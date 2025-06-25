@@ -1,57 +1,40 @@
 /******************************************************************************
-Copyright(C) 2024
-Author: sinil.kang(rtd99062@gmail.com)
-Creation Date : 09.21.2024
-Summary : Header file for Skill base class.
-					It will be used like a pure virtual class. A skill class will derived it.
+Copyright(C) 2025
+Author: chunmook.kim(chunmook.kim97@gmail.com)
+Creation Date : 06/14/2025
+Summary : Header file for skill base.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Structs/TargetParameters.h"
+#include "Structs/TargetResult.h"
+#include "UObject/Object.h"
 #include "SkillBase.generated.h"
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActivateSkill, float , cool_time);
 
-struct FDamageData;
-struct FBuffData;
-
-UCLASS(Blueprintable, Abstract)
+UCLASS()
 class PROJECT_IK_API USkillBase : public UObject
 {
 	GENERATED_BODY()
-	
 public:
-	void InitActiveSkill(AActor* skill_owner);
-
 	FTargetParameters GetTargetParameters() const;
 	float GetCoolTime() const;
-	float GetCastingTime() const;
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	bool ActivateSkill(const FTargetResult& TargetResult);
-
-	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) PURE_VIRTUAL(USkillBase::ActivateSkill_Implementation, return true;);
+	virtual bool ActivateSkill(const FTargetResult& TargetResult);
+	virtual void UpdateCoolDown(float cool_down);
+	virtual void ResetSkill();
 
 protected:
-	// Helper function to give damage.
-	void ApplyDamage(FDamageData DamageData);
-	bool ApplyBuff(FBuffData buff_data, AActor* buff_target);
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FTargetParameters target_param_{};
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float cool_time_ = 0.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float casting_time_ = 0.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float scaling_factor_ = 1.f;
-
+	
+public:
 	UPROPERTY()
-	TObjectPtr<AActor> skill_owner_ = nullptr;
+	FOnActivateSkill on_activate_skill_;
 };

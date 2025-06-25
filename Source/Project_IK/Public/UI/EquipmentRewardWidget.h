@@ -87,7 +87,7 @@ inline void UEquipmentRewardWidget::CreateCheckboxButton(TArray<Data> data_array
 			{
 				slot->SetPadding(FMargin(64.f, 16.f));
 			}
-			cb->SetButtonTexture(data.thumbnail);
+			cb->SetButtonTexture(data.item_data_.thumbnail);
 
 			equipment_widgets_.Add(cb);
 			column += 1;

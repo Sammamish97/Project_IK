@@ -10,7 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "AI/Task_WaitForActiveSkill.h"
 #include "AIController.h"
-#include "Abilities/SkillContainer.h"
+#include "Components/ActiveSkillMechanics.h"
 
 UTask_WaitForActiveSkill::UTask_WaitForActiveSkill()
 {
@@ -20,8 +20,8 @@ UTask_WaitForActiveSkill::UTask_WaitForActiveSkill()
 EBTNodeResult::Type UTask_WaitForActiveSkill::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	auto casted_pawn = OwnerComp.GetAIOwner()->GetPawn();
-	auto component = casted_pawn->GetComponentByClass(USkillContainer::StaticClass()); 
-	if(auto casted_component = Cast<USkillContainer>(component))
+	auto component = casted_pawn->GetComponentByClass(UActiveSkillMechanics::StaticClass()); 
+	if(auto casted_component = Cast<UActiveSkillMechanics>(component))
 	{
 		WaitForMessage(OwnerComp, TEXT("CastingFinished"), casted_component->GetCastingRequestID());
 		return EBTNodeResult::InProgress;

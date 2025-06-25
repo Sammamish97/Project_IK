@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 #include "Components/WeaponMechanics.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffStatusData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "Weapons/Guns/GunBase.h"
 
@@ -19,7 +19,8 @@ See LICENSE file in the project root for full license information.
 void USetBonus_Tempest::ActivateEdgeBonus()
 {
 	Super::ActivateEdgeBonus();
-	hero_cache_->ApplyBuff(FBuffData(TEXT("GreatBow_Edge"), ECharacterStatType::SkillCoolDown, 20.f, true, true));
+	//IKTODO: 테스트 이후 정상화 시켜야 함.
+	//hero_cache_->ApplyBuff(FBuffStatusData(TEXT("GreatBow_Edge"), ECharacterStatType::SkillCoolDown, 20.f, true, true));
 }
 
 //3세트: 액티브 스킬을 발동할 시, 자동 장전
@@ -46,7 +47,8 @@ void USetBonus_Tempest::HexagonCoolDownBuff()
 	if (cur_buff_stack < 6)
 	{
 		cur_buff_stack += 1;
-		hero_cache_->RemoveBuff(cool_down_buff_name);
-		hero_cache_->ApplyBuff(FBuffData{cool_down_buff_name, ECharacterStatType::SkillCoolDown, cur_buff_stack * 5.f, true, true});
+		//IKTODO: 테스트 이후 정상화 시켜야 함.
+		// hero_cache_->RemoveBuff(cool_down_buff_name);
+		// hero_cache_->ApplyBuff(FBuffStatusData{cool_down_buff_name, ECharacterStatType::SkillCoolDown, cur_buff_stack * 5.f, true, true});
 	}
 }

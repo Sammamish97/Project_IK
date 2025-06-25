@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Abilities/SkillBase.h"
+#include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_ThunderStorm.generated.h"
 
 class AThunderStorm;
@@ -21,12 +21,12 @@ class AThunderStorm;
  * 
  */
 UCLASS()
-class PROJECT_IK_API UAT_ThunderStorm : public USkillBase
+class PROJECT_IK_API UAT_ThunderStorm : public UActiveSkillBase
 {
 	GENERATED_BODY()
 public:
 	UAT_ThunderStorm();
-	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")

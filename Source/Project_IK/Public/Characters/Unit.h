@@ -24,8 +24,9 @@ class UCharacterStatComponent;
 class UCrowdControlComponent;
 class ADamageUI;
 class UDelegateBridgeSubsystem;
+class UOutlineComponent;
 enum class EUnitEvent : uint8;
-struct FBuffData;
+struct FBuffStatusData;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUnitEvent);
 
@@ -53,11 +54,14 @@ public:
 	void SetAttackTarget(AActor* target);
 	AActor* GetAttackTarget();
 
+	void SetOutlineState(EOutlineState state);
+
 	virtual void Attack(AActor* target) override;
 
 	UFUNCTION(BlueprintCallable)
 	ECharacterType GetCharacterType() const;
 	UCharacterStatComponent* GetCharacterStat();
+	UCrowdControlComponent* GetCCComponent();
 	EUnitBoneType GetBoneType() const;
 	bool IsHero() const;
 
@@ -67,12 +71,12 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void Heal(float heal);
+	
+	UFUNCTION(BlueprintCallable)
+	virtual void ApplyBuff(EBuffType buff_type, FBuffStatusData buff_status);
 
 	UFUNCTION(BlueprintCallable)
-	void ApplyBuff(FBuffData buff);
-
-	UFUNCTION(BlueprintCallable)
-	bool RemoveBuff(FName BuffName);
+	virtual void RemoveBuff(EBuffType buff_type);
 
 	UFUNCTION(BlueprintCallable)
 	void ApplyCrowdControl(ECCType cc_type, float duration);
@@ -99,7 +103,7 @@ public:
 	void DispatchUnitEvent(EUnitEvent type);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UHitPointsUI> hp_UI_class_;
+	TSubclassOf<class UHPUICore> hp_UI_class_;
 	
 protected:
 	void SetDamageUI(FDamageData data, bool is_evaded);
@@ -141,7 +145,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DamageUI", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UObjectPoolComponent> object_pool_component_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Unit")
+	TObjectPtr<UOutlineComponent> outline_component_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	EAIFindTargetType ai_find_target_type_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))

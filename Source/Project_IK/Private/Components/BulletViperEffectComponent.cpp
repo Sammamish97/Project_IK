@@ -10,19 +10,20 @@ See LICENSE file in the project root for full license information.
 #include "Components/BulletViperEffectComponent.h"
 
 #include "Abilities/ActiveSkills/ATC_ViperHexagonEffect.h"
+#include "Characters/Unit.h"
 
 void UBulletViperEffectComponent::OnHit(AActor* target)
 {
 	Super::OnHit(target);
-	if (target)
+	if(AUnit* casted_unit = Cast<AUnit>(target))
 	{
-		if (auto viper_effect = target->FindComponentByClass<UATC_ViperHexagonEffect>())
+		if (auto viper_effect = casted_unit->FindComponentByClass<UATC_ViperHexagonEffect>())
 		{
 			viper_effect->IncreaseStack();
 		}
 		else
 		{
-			target->AddComponentByClass(UATC_ViperHexagonEffect::StaticClass(), false, target->GetTransform(), false);
+			casted_unit->AddComponentByClass(UATC_ViperHexagonEffect::StaticClass(), false, casted_unit->GetTransform(), false);
 		}
 	}
 }

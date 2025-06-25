@@ -12,20 +12,20 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SkillBase.h"
+#include "ActiveSkills/ActiveSkillBase.h"
 
 #include "Structs/TargetResult.h"
 #include "MyTestSkill.generated.h"
 
 UCLASS()
-class PROJECT_IK_API UMyTestSkill : public USkillBase
+class PROJECT_IK_API UMyTestSkill : public UActiveSkillBase
 {
 	GENERATED_BODY()
 	
 public:
 	UMyTestSkill();
 
-	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 private:
 
