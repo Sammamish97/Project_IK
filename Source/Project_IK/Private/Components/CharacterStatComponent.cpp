@@ -269,6 +269,12 @@ void UCharacterStatComponent::SetLifeSteal(float life_steal) noexcept
 
 void UCharacterStatComponent::SetHitPoint(float hit_point) noexcept
 {
+	// Return immediately to prevent multiple Die event dispatches.
+	if (character_data_.status_data_.hit_point_ <= 0.f)
+	{
+		return;
+	}
+
 	character_data_.status_data_.hit_point_ = FMath::Min(hit_point, GetMaxHitPoint());
 	OnHPChanged.Broadcast(GetHPRatio());
 	OnHPChangedWithOwner.Broadcast(GetHPRatio(), GetOwner());

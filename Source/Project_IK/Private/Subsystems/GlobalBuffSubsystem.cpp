@@ -66,6 +66,12 @@ void UGlobalBuffSubsystem::ApplyBuff(UObject* buff_target)
 	}
 }
 
+bool UGlobalBuffSubsystem::HasBuff(EGlobalBuffType buff_type)
+{
+	int32* existing_index = buff_lookup_.Find(buff_type);
+	return existing_index != nullptr;
+}
+
 void UGlobalBuffSubsystem::UpdateBuffDurations()
 {
 	for (FGlobalBuffData& buff : buffs_)

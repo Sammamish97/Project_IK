@@ -26,6 +26,8 @@ See LICENSE file in the project root for full license information.
 #include "Structs/SpawnData.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "UI/IKMaps.h"
+#include "Subsystems/GlobalBuffSubsystem.h"
+#include "Managers/DataTableManager.h"
 
 AIKGameModeBase::AIKGameModeBase()
 	: Super::AGameModeBase()
@@ -92,17 +94,32 @@ void AIKGameModeBase::SpawnEnemies()
 void AIKGameModeBase::SaveHeroSpawnData()
 {
 	TArray<FSpawnData> spawn_data;
-	for (auto hero : heroes_)
+	for (int32 i = 0; i < heroes_.Num(); ++i)
 	{
 		FSpawnData cur_data;
-		if (hero != nullptr)
+		if (heroes_[i] != nullptr)
 		{
-			cur_data.character_data_ = Cast<AHeroBase>(hero)->GetCharacterStat()->GetCharacterData();
+			cur_data.character_data_ = Cast<AHeroBase>(heroes_[i])->GetCharacterStat()->GetCharacterData();
 			spawn_data.Add(cur_data);
 		}
 		else
 		{
-			cur_data.is_dead_ = true;
+
+			EHeroType hero_type = IntToHeroType(i);
+			UGlobalBuffSubsystem* global_buff_subsystem = GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+			if (global_buff_subsystem->HasBuff(HeroTypeToDeathbound(hero_type)))
+			{	// Consider the character is dead
+				cur_data.is_dead_ = true;
+			}
+			else
+			{	// When no debuff in the queue, apply debuff and revive it once.
+				UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+				UDataTableManager* data_table_manager = instance->GetDataTableManager();
+				
+				cur_data.character_data_ = data_table_manager->GetCharacterData(HeroTypeToCharacterType(hero_type));
+				global_buff_subsystem->AddBuff(HeroTypeToDeathbound(hero_type));
+			}
+
 			spawn_data.Add(cur_data);
 		}
 
@@ -151,13 +168,8 @@ void AIKGameModeBase::RemoveHero(EHeroType hero_type)
 	if (heroes_.IsValidIndex(target_idx))
 	{
 		heroes_[target_idx] = nullptr;
-		//3. SpawnData의 dead를 false로 update.
-		ULevelTransitionSubsystem* level_transition_cache = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
-		FSpawnData spawn_data = level_transition_cache->GetSpawnData(target_idx);
-		spawn_data.is_dead_ = true;
-		level_transition_cache->UpdateSpawnDataIdx(target_idx, spawn_data);
 
-		//4. Win-Lose Condition Check
+		//3. Win-Lose Condition Check
 		CheckWinLoseCondition();
 	}
 }

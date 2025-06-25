@@ -34,6 +34,8 @@ public:
 
 	void ApplyBuff(UObject* buff_target);
 
+	bool HasBuff(EGlobalBuffType buff_type);
+
 	void UpdateBuffDurations();
 
 protected:
