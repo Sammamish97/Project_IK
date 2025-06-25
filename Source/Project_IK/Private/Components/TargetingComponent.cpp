@@ -9,6 +9,8 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Components/TargetingComponent.h"
+
+#include "Characters/Unit.h"
 #include "Managers/EnumCluster.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -327,8 +329,6 @@ void UTargetingComponent::InitializeTargetingVisuals()
 			}
 			sector_decal_->RegisterComponent();
 		}
-
-		highlight_dynamic_material_ = UMaterialInstanceDynamic::Create(highlight_material_, this);
 	}
 }
 
@@ -509,38 +509,21 @@ AActor* UTargetingComponent::FindClosestActor(const FVector& TargetLocation)
 
 void UTargetingComponent::ApplyMaterialHighlight(AActor* target)
 {
-
-	if (previously_chosen_actor_ != target)
+	if(last_chosen_unit_ != nullptr && last_chosen_unit_ != target)
 	{
-		if (previously_chosen_actor_)
+		Cast<AUnit>(last_chosen_unit_)->SetOutlineState(EOutlineState::Disable);
+	}
+	if(AUnit* unit = Cast<AUnit>(target))
+	{
+		if(unit->IsHero())
 		{
-			USkeletalMeshComponent* previous_mesh = previously_chosen_actor_->FindComponentByClass<USkeletalMeshComponent>();
-			for (int32 i = 0; i < previous_mesh->GetNumMaterials(); i++)
-			{
-				previous_mesh->SetMaterial(i, original_materials_[i]);
-			}
+			unit->SetOutlineState(EOutlineState::Green);
 		}
-
-		previously_chosen_actor_ = target;
-
-		if (!target) return;
-
-		// Store original materials
-		USkeletalMeshComponent* MeshComponent = target->FindComponentByClass<USkeletalMeshComponent>();
-		if (MeshComponent)
+		else
 		{
-			original_materials_.Empty();
-			for (int32 i = 0; i < MeshComponent->GetNumMaterials(); i++)
-			{
-				original_materials_.Add(MeshComponent->GetMaterial(i));
-			}
-
-			// Apply highlight material to all slots
-			for (int32 i = 0; i < MeshComponent->GetNumMaterials(); i++)
-			{
-				MeshComponent->SetMaterial(i, highlight_dynamic_material_);
-			}
+			unit->SetOutlineState(EOutlineState::Red);
 		}
+		last_chosen_unit_ = unit;
 	}
 }
 

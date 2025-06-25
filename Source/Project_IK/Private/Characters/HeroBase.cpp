@@ -10,27 +10,34 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 
-#include "Abilities/SkillContainer.h"
 #include "AI/GunnerAIController.h"
 #include "AI/HeroAIController.h"
+
 #include "Components/CapsuleComponent.h"
 #include "Components/PassiveSkillMechanics.h"
 #include "Components/RuneMechanics.h"
+#include "Components/SphereComponent.h"
 #include "Components/WeaponMechanics.h"
+#include "Components/ActiveSkillMechanics.h"
+
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Subsystems/DelegateBridgeSubsystem.h"
 #include "WorldSettings/IKGameModeBase.h"
+#include "WorldSettings/IKGameState.h"
 
 AHeroBase::AHeroBase()
 {
-	skill_container_ = CreateDefaultSubobject<USkillContainer>(TEXT("SkillContainer"));
+	active_skill_mechanics_ = CreateDefaultSubobject<UActiveSkillMechanics>(TEXT("ActiveMechanics"));
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
 	passive_skill_mechanics_ = CreateDefaultSubobject<UPassiveSkillMechanics>(TEXT("PassiveMechanics"));
 	rune_mechanics_ = CreateDefaultSubobject<URuneMechanics>(TEXT("RuneMechanics"));
+	ui_position_ = CreateDefaultSubobject<USphereComponent>(TEXT("ui position"));
+	ui_position_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	
 	GetCharacterMovement()->bUseRVOAvoidance = true;
 	GetCharacterMovement()->AvoidanceConsiderationRadius = 100;
-
+	
 	GetMesh()->SetCollisionProfileName(TEXT("HeroPreset"));
 
 	forward_dir_ = { 1,0, 0 };
@@ -44,15 +51,37 @@ void AHeroBase::BeginPlay()
 	switch (GetCharacterType())
 	{
 	case ECharacterType::Hero1:
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
+		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
+		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
 		hero_type_ = EHeroType::Hero1;
 		break;
 	case ECharacterType::Hero2:
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
+		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Berserker);
 		hero_type_ = EHeroType::Hero2;
 		break;
 	case ECharacterType::Hero3:
+		rune_mechanics_->EquipRune(ERuneSetType::Viper, 0);
+		rune_mechanics_->EquipRune(ERuneSetType::Viper, 2);
+		rune_mechanics_->EquipRune(ERuneSetType::Viper, 4);
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 3);
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 5);
+		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Agility);
 		hero_type_ = EHeroType::Hero3;
 		break;
 	case ECharacterType::Hero4:
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 2);
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 4);
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 3);
+		rune_mechanics_->EquipRune(ERuneSetType::Quake, 5);
+		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
+
 		hero_type_ = EHeroType::Hero4;
 		break;
 
@@ -64,12 +93,17 @@ void AHeroBase::BeginPlay()
 	{
 		weapon_mechanics_->EquipWeapon(default_weapon_class_);
 	}
+
+	active_skill_mechanics_->EquipActiveSkill(EActiveSkillType::ThunderStorm);
 	//
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
+
+	OnApplyBuff.Clear();
+	OnBuffExpired.Clear();
 }
 
 void AHeroBase::EquipGears(FSpawnData spawn_data)
@@ -88,7 +122,7 @@ void AHeroBase::EquipGears(FSpawnData spawn_data)
 	}
 	if (spawn_data.active_skill_data_.IsSet())
 	{
-		skill_container_->EquipActiveSkill(spawn_data.active_skill_data_.GetValue().type);
+		active_skill_mechanics_->EquipActiveSkill(spawn_data.active_skill_data_.GetValue().type);
 	}
 
 	TArray rune_data_array = {spawn_data.rune_data_1, spawn_data.rune_data_2, spawn_data.rune_data_3, spawn_data.rune_data_4, spawn_data.rune_data_5, spawn_data.rune_data_6};
@@ -101,6 +135,12 @@ void AHeroBase::EquipGears(FSpawnData spawn_data)
 		}
 	}
 	rune_mechanics_->ApplySetBonuses();
+}
+
+
+void AHeroBase::InitAfterHUD()
+{
+	passive_skill_mechanics_->InitPassiveSkill();
 }
 
 void AHeroBase::Die()
@@ -133,12 +173,6 @@ EHeroType AHeroBase::GetHeroType() const
 	return hero_type_;
 }
 
-void AHeroBase::InvokeActiveSkill(FTargetResult target_result)
-{
-	DispatchUnitEvent(EUnitEvent::OnActiveSkill);
-	skill_container_->InvokeSkills(target_result);
-}
-
 void AHeroBase::Reposition(FVector target_location)
 {
 	DispatchUnitEvent(EUnitEvent::OnMove);
@@ -160,32 +194,54 @@ AActor* AHeroBase::GetAttackTarget() const
 	return Cast<AMeleeAIController>(GetController())->GetTargetActor();
 }
 
-TOptional<FTargetParameters> AHeroBase::GetActiveSkillTargetParameters() const
+FTargetParameters AHeroBase::GetActiveSkillTargetParameters() const
 {
-	return skill_container_->GetTargetParameters();
-}
-
-bool AHeroBase::IsActiveSkillOnCoolDown() const
-{
-	return skill_container_->IsOnCoolDown();
+	return active_skill_mechanics_->GetTargetParameters();
 }
 
 bool AHeroBase::HasActiveSkill() const
 {
-	return skill_container_->HasActiveSkill();
+	return active_skill_mechanics_->HasActiveSkill();
 }
 
-void AHeroBase::ReduceCooltime(float reduce_time)
+void AHeroBase::ReduceActiveSkillCoolDown(float amount)
 {
-	skill_container_->ReduceCooltime(reduce_time);
+	auto game_state_cache_ = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
+	game_state_cache_->ReduceCoolDown(GetHeroType(), amount);
 }
 
-void AHeroBase::ReduceCooltimeByPercentage(float percentage)
+void AHeroBase::ReduceActiveSkillCoolDownPercentage(float percentage)
 {
-	skill_container_->ReduceCooltimeByPercentage(percentage);
+	auto game_state_cache_ = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
+	game_state_cache_->ReduceCoolDownPercentage(GetHeroType(), percentage);
+}
+
+void AHeroBase::AddBuffUI(FBuffUIData buff_ui_data)
+{
+	OnApplyBuff.Broadcast(buff_ui_data);
+}
+
+void AHeroBase::RemoveBuffUI(EBuffType buff_type)
+{
+	OnBuffExpired.Broadcast(buff_type);
 }
 
 UWeaponMechanics* AHeroBase::GetWeaponMechanics()
 {
 	return weapon_mechanics_;
+}
+
+URuneMechanics* AHeroBase::GetRuneMechanics()
+{
+	return rune_mechanics_;
+}
+
+UActiveSkillMechanics* AHeroBase::GetActiveSkillMechanics()
+{
+	return active_skill_mechanics_;
+}
+
+USkillBase* AHeroBase::GetActiveSkill()
+{
+	return active_skill_mechanics_->GetActiveSkill();
 }

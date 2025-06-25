@@ -26,15 +26,13 @@ UAT_DeploySentryGun::UAT_DeploySentryGun()
 	cool_time_ = 15.f;
 }
 
-bool UAT_DeploySentryGun::ActivateSkill_Implementation(const FTargetResult& TargetResult)
+bool UAT_DeploySentryGun::ActivateSkill(const FTargetResult& TargetResult)
 {
 	if (actor_class_)
 	{
 		actor_ = skill_owner_->GetWorld()->SpawnActor<ACover>(actor_class_, TargetResult.target_location_, FRotator::ZeroRotator);
 		AUnit* owner_unit = Cast<AUnit>(skill_owner_);
 		actor_->SetHitPoints(deployed_sentry_hit_points_ + owner_unit->GetCharacterStat()->GetSkillPower() * hit_points_scaling_factor_);
-		return true;
 	}
-
-	return false;
+	return Super::ActivateSkill(TargetResult);
 }

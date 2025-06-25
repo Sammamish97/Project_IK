@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/HUD.h"
 #include "IKHUD.generated.h"
 
+class UDataTableManager;
 class USkillButtonWidget;
 class UButtonBarWidget;
 class UCombatResultUI;
@@ -34,16 +35,11 @@ public:
 	UFUNCTION()
 	void SwitchUIByState(ECombatEndState state);
 
-	UFUNCTION()
-	void SilenceSkill(AActor* character);
-	void UnsilenceSkill(AActor* character);
+	UButtonBarWidget* GetButtonBarWidget();
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleInventory();
 	
-	UFUNCTION(BlueprintCallable)
-	USkillButtonWidget* GetSkillButtonWidget(int32 idx);
-
 	// Reference to the Widget Blueprint class to create
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UButtonBarWidget> button_widget_class_;
@@ -52,14 +48,11 @@ public:
 	TSubclassOf<UCombatLevelResultManager> combat_level_widget_class_;
 	
 protected:
-
-	// Reference to the widget instance
 	UPROPERTY()
-	TObjectPtr<UButtonBarWidget> button_widget_;
+	TObjectPtr<UButtonBarWidget> button_bar_widget_;
 
 	UPROPERTY()
 	TObjectPtr<UCombatLevelResultManager> combat_level_result_manager_;
-
 	
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<class UInventoryWidget> inventory_widget_class_;

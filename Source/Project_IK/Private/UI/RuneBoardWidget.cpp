@@ -134,12 +134,12 @@ void URuneBoardWidget::TurnOnSetBonusEffect()
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<USetBonusManager> set_bonus_cache = ik_instance->GetSetBonusManager();
 	
-	TArray<TOptional<FRuneData>> data_array;
+	TArray<FRuneData> data_array;
 	for (int i = 0; i < 6; ++i)
 	{
 		if (slot_array_[i]->IsEmptySlot())
 		{
-			data_array.Add(NullOpt);
+			data_array.Add(FRuneData());
 		}
 		else
 		{

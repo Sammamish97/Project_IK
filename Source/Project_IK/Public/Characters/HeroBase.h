@@ -11,11 +11,14 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Characters/Unit.h"
-#include "Structs/TargetResult.h"
 #include "Structs/TargetParameters.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/BuffUIData.h"
 #include "Structs/SpawnData.h"
 #include "HeroBase.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnApplyBuffDelegate, FBuffUIData, buff_type);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffExpired, EBuffType, ui_data);
 
 UCLASS(Abstract)
 class PROJECT_IK_API AHeroBase : public AUnit
@@ -27,6 +30,7 @@ public:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
 	virtual void EquipGears(FSpawnData spawn_data);
+	virtual void InitAfterHUD();
 	virtual void Die() override;
 	
 	virtual void Attack(AActor* target) override;
@@ -34,14 +38,14 @@ public:
 	virtual void OnStunned() override;
 	
 	EHeroType GetHeroType() const;
-	TOptional<FTargetParameters> GetActiveSkillTargetParameters() const;
+	FTargetParameters GetActiveSkillTargetParameters() const;
+	
+	void AddBuffUI(FBuffUIData buff_ui_data);
+	void RemoveBuffUI(EBuffType buff_type);
 
-	void InvokeActiveSkill(FTargetResult target_result);
-	bool IsActiveSkillOnCoolDown() const;
 	bool HasActiveSkill() const;
-	void ReduceCooltime(float reduce_time);
-	// percentage range [0.f, 1.f]
-	void ReduceCooltimeByPercentage(float percentage);
+	void ReduceActiveSkillCoolDown(float amount);
+	void ReduceActiveSkillCoolDownPercentage(float percentage);
 
 	void Reposition(FVector target_location);
 	void SetAttackTarget(AActor* target);
@@ -50,13 +54,16 @@ public:
 	AActor* GetAttackTarget() const;
 	
 	class UWeaponMechanics* GetWeaponMechanics();
+	class URuneMechanics* GetRuneMechanics();
+	class UActiveSkillMechanics* GetActiveSkillMechanics();
+	class USkillBase* GetActiveSkill();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AGunBase> default_weapon_class_ = nullptr;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	class USkillContainer* skill_container_;
+	class UActiveSkillMechanics* active_skill_mechanics_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	class UWeaponMechanics* weapon_mechanics_;
@@ -66,7 +73,18 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	class URuneMechanics* rune_mechanics_;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
+	
+	TObjectPtr<class USphereComponent> ui_position_ = nullptr;
+	
+public:
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnBuffExpired OnBuffExpired;
 
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnApplyBuffDelegate OnApplyBuff;
+	
 private:
 	EHeroType hero_type_;
 	bool is_covered_ = false;

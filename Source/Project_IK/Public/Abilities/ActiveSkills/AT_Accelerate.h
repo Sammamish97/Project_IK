@@ -10,18 +10,21 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Abilities/SkillBase.h"
+#include "Abilities/ActiveSkills/ActiveSkillBase.h"
+#include "Structs/BuffUIData.h"
 #include "AT_Accelerate.generated.h"
 UCLASS()
-class PROJECT_IK_API UAT_Accelerate : public USkillBase
+class PROJECT_IK_API UAT_Accelerate : public UActiveSkillBase
 {
 	GENERATED_BODY()
 
 public:
 	UAT_Accelerate();
-	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 private:
+	FBuffUIData buff_data_;
+	
 	float shield_amount_ = 100.f;
 	float attack_speed_increase_amount_ = 50.f;
 	float buff_duration_ = 3.f;

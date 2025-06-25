@@ -12,23 +12,20 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Abilities/SkillBase.h"
+#include "Abilities/ActiveSkills/ActiveSkillBase.h"
+#include "Structs/BuffUIData.h"
 #include "AT_DeployCover.generated.h"
 
 class ACover;
 class UNiagaraSystem;
 
-/**
- * 
- */
 UCLASS()
-class PROJECT_IK_API UAT_DeployCover : public USkillBase, public FTickableGameObject
+class PROJECT_IK_API UAT_DeployCover : public UActiveSkillBase, public FTickableGameObject
 {
 	GENERATED_BODY()
 public:
-
 	UAT_DeployCover();
-	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 	virtual void Tick(float DeltaTime) override;
 	inline virtual bool IsTickable() const override { return true; }
@@ -42,9 +39,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UNiagaraSystem> deploy_particle_ = nullptr;
 
-	UPROPERTY()
-	ACover* actor_ = nullptr;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float deployed_cover_hit_points_ = 300.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -53,6 +47,16 @@ protected:
 	float deploy_height_offset_ = 2000.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float deploy_time_ = 0.5f;
+
+	protected:
+	UPROPERTY()
+	ACover* actor_;
+
+	UPROPERTY()
+	FBuffUIData buff_ui_data_;
+
+	UPROPERTY()
+	FBuffStatusData buff_status_data_;
 
 	FVector spawn_location_ = FVector::ZeroVector;
 	FVector deploy_location_ = FVector::ZeroVector;

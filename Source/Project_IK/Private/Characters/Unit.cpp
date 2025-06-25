@@ -16,16 +16,19 @@ See LICENSE file in the project root for full license information.
 #include "Components/CrowdControlComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/OutlineComponent.h"
 
 #include "UI/HitPointsUI.h"
 #include "Components/ObjectPoolComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Structs/BuffUIData.h"
 #include "UI/DamageUI.h"
 
 #include "Subsystems/GlobalBuffSubsystem.h"
-#include "Subsystems/DelegateBridgeSubsystem.h"
 
-#include "Structs/BuffData.h"
+#include "Structs/BuffStatusData.h"
+#include "Subsystems/DelegateBridgeSubsystem.h"
+#include "UI/HPUICore.h"
 
 // Sets default values
 AUnit::AUnit()
@@ -34,15 +37,10 @@ AUnit::AUnit()
 	PrimaryActorTick.bCanEverTick = true;
 	character_stat_component_ = CreateDefaultSubobject<UCharacterStatComponent>(TEXT("CharacterStatComponent"));
 	hp_UI_ = CreateDefaultSubobject<UWidgetComponent>(TEXT("HP UI"));
-
-	hp_UI_->SetWidgetSpace(EWidgetSpace::Screen);
-	hp_UI_->SetDrawSize({ 100, 50 });
-	hp_UI_->SetupAttachment(RootComponent);
 	
 	cc_component_ = CreateDefaultSubobject<UCrowdControlComponent>(TEXT("CC Component"));
 	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
-
-
+	outline_component_ = CreateDefaultSubobject<UOutlineComponent>(TEXT("OutlineComponent"));
 
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Pawn"));
 	USkeletalMeshComponent* skeletal = GetMesh();
@@ -59,6 +57,11 @@ AUnit::AUnit()
 UCharacterStatComponent* AUnit::GetCharacterStat()
 {
 	return character_stat_component_;
+}
+
+UCrowdControlComponent* AUnit::GetCCComponent()
+{
+	return cc_component_;
 }
 
 FVector AUnit::GetForwardDir() const
@@ -89,6 +92,14 @@ void AUnit::SetAttackTarget(AActor* target)
 AActor* AUnit::GetAttackTarget()
 {
 	return Cast<AMeleeAIController>(GetController())->GetTargetActor();
+}
+
+void AUnit::SetOutlineState(EOutlineState state)
+{
+	if(auto target = GetComponentByClass<UPrimitiveComponent>())
+	{
+		outline_component_->SwitchOutline(target, state);
+	}
 }
 
 void AUnit::Attack(AActor* target)
@@ -136,16 +147,17 @@ void AUnit::BeginPlay()
 	{
 		hp_UI_->SetWidgetClass(hp_UI_class_);
 		hp_UI_->InitWidget();
+		hp_UI_->SetWidgetSpace(EWidgetSpace::Screen);
 	}
 	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
-	UHitPointsUI* ui = Cast<UHitPointsUI>(hp_UI_->GetWidget());
-	if (ui)
+
+	if (UHPUICore* hp_widget = Cast<UHPUICore>(hp_UI_->GetWidget()))
 	{
-		subsystem->BindOnCrowdControlChanged(cc_component_, ui, &UHitPointsUI::UpdateAppliedCCs);
-		subsystem->BindOnHPChanged(character_stat_component_, ui, &UHitPointsUI::UpdateHPWidget);
-		subsystem->BindOnShieldChanged(character_stat_component_, ui, &UHitPointsUI::UpdateShieldWidget);
-		subsystem->BindOnBuffChanged(character_stat_component_, ui, &UHitPointsUI::UpdateAppliedBuffs);
+		hp_widget->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
+		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_widget, &UHPUICore::UpdateWidget);
 	}
+	hp_UI_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	hp_UI_->SetDrawSize({ 100, 15 });
 }
 
 void AUnit::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -229,14 +241,14 @@ void AUnit::Heal(float heal)
 	}
 }
 
-void AUnit::ApplyBuff(FBuffData buff)
+void AUnit::ApplyBuff(EBuffType buff_type, FBuffStatusData buff_status)
 {
-	character_stat_component_->ApplyBuff(buff);
+	character_stat_component_->ApplyBuff(buff_type, buff_status);
 }
 
-bool AUnit::RemoveBuff(FName BuffName)
+void AUnit::RemoveBuff(EBuffType buff_type)
 {
-	return character_stat_component_->RemoveBuff(BuffName);
+	character_stat_component_->RemoveBuff(buff_type);
 }
 
 void AUnit::ApplyCrowdControl(ECCType cc_type, float duration)

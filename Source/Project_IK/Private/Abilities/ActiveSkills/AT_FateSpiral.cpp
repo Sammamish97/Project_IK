@@ -24,7 +24,7 @@ UAT_FateSpiral::UAT_FateSpiral()
 	cool_time_ = 10;
 }
 
-bool UAT_FateSpiral::ActivateSkill_Implementation(const FTargetResult& TargetResult)
+bool UAT_FateSpiral::ActivateSkill(const FTargetResult& TargetResult)
 {
 
 	if (actor_class_)
@@ -34,5 +34,5 @@ bool UAT_FateSpiral::ActivateSkill_Implementation(const FTargetResult& TargetRes
 		actor_->SetNecessaryData(skill_owner_, skill_owner_, TargetResult.target_actors_[0], target_param_.range_);
 	}
 
-	return true;
+	return Super::ActivateSkill(TargetResult);
 }

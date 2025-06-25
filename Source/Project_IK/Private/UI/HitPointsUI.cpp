@@ -22,7 +22,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/DataTableManager.h"
 #include "Managers/EnumCluster.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffStatusData.h"
 
 void UHitPointsUI::NativeConstruct()
 {
@@ -51,7 +51,7 @@ void UHitPointsUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 }
 
-void UHitPointsUI::UpdateAppliedBuffs(TArray<FBuffData> applied_buffs)
+void UHitPointsUI::UpdateAppliedBuffs(TArray<FBuffStatusData> applied_buffs)
 {
 	buffs_array_ = applied_buffs;
 	UpdateBuffWidgets();
@@ -94,7 +94,7 @@ void UHitPointsUI::UpdateBuffWidgets()
 {	// Display buff icons, hide the rest of them.
 	TMap<ECharacterStatType, int32> buff_counts;
 	TMap<ECharacterStatType, int32> debuff_counts;
-	for (const FBuffData& buff : buffs_array_)
+	for (const FBuffStatusData& buff : buffs_array_)
 	{
 		// Buff if greater than 0 on raw data, greater than 1 on percentage data
 		TMap<ECharacterStatType, int32>& target_map = (buff.is_percentage_) ? ((buff.value_ >= 1.f) ? buff_counts : debuff_counts) : ((buff.value_ >= 0.f) ? buff_counts : debuff_counts);

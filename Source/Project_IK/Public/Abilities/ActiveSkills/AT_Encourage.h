@@ -12,20 +12,17 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Abilities/SkillBase.h"
+#include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_Encourage.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PROJECT_IK_API UAT_Encourage : public USkillBase
+class PROJECT_IK_API UAT_Encourage : public UActiveSkillBase
 {
 	GENERATED_BODY()
 public:
 	UAT_Encourage();
-	virtual bool ActivateSkill_Implementation(const FTargetResult& TargetResult) override;
-
-protected:
-
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 };

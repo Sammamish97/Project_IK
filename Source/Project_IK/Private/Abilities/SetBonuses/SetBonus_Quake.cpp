@@ -11,14 +11,15 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SetBonuses/SetBonus_Quake.h"
 
 #include "Characters/HeroBase.h"
-#include "Structs/BuffData.h"
+#include "DataAssets/BuffDataAsset.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
 //2세트: 스킬 위력 + 20%
 void USetBonus_Quake::ActivateEdgeBonus()
 {
 	Super::ActivateEdgeBonus();
-	hero_cache_->ApplyBuff(FBuffData(TEXT("Quake_Edge"), ECharacterStatType::SkillPower, 20.f, true, true));
+	edge_buff_data_ = FBuffStatusData(ECharacterStatType::SkillPower, 1.2f, true, true);
+	hero_cache_->ApplyBuff(EBuffType::Quake_Edge, edge_buff_data_);
 }
 
 //3세트: 액티브 스킬을 발동 시 공격속도 + 15%
@@ -37,7 +38,10 @@ void USetBonus_Quake::ActivateHexagonBonus()
 
 void USetBonus_Quake::TriangleAttackSpeedBuff()
 {
-	hero_cache_->ApplyBuff(FBuffData(TEXT("Quake_Triangle"), ECharacterStatType::AttackSpeed, 15.f, true, triangle_buff_duration_));
+	triangle_buff_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, 1.5f, true, false, 3.f);
+	triangle_buff_UI_data_ = FBuffUIData(FText::FromString("Quake::Triangle"), EBuffType::Quake_Triangle, nullptr, 3.f, false, FText::FromString("Quake::Triangle - Detail"));
+	hero_cache_->ApplyBuff(EBuffType::Quake_Triangle, triangle_buff_data_);
+	hero_cache_->AddBuffUI(triangle_buff_UI_data_);
 }
 
 void USetBonus_Quake::HexagonSkillEcho()
@@ -45,6 +49,6 @@ void USetBonus_Quake::HexagonSkillEcho()
 	if (GetWorld()->GetTimerManager().IsTimerActive(skill_echo_timer_handle_) == false)
 	{
 		GetWorld()->GetTimerManager().SetTimer(skill_echo_timer_handle_, hexagon_effect_cooldown, false);
-		hero_cache_->ApplyBuff({"Quake_Hexagon", ECharacterStatType::SkillCoolDown,80.f, false, 1.f});
+		hero_cache_->ReduceActiveSkillCoolDownPercentage(0.8);
 	}
 }

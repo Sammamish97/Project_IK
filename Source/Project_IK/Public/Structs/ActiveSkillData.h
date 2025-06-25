@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ItemData.h"
 #include "Managers/EnumCluster.h"
 #include "ActiveSkillData.generated.h"
 
@@ -18,19 +19,12 @@ struct PROJECT_IK_API FActiveSkillData
 {
 	GENERATED_BODY();
 
-public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	EActiveSkillType type = EActiveSkillType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	TSubclassOf<class USkillBase> active_skill_class;
+	TSubclassOf<class UActiveSkillBase> active_skill_class;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	UTexture2D* thumbnail = nullptr;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	FString flavor_text;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ActiveSkillData")
-	ERarity rarity_;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	FItemData item_data_;
 };

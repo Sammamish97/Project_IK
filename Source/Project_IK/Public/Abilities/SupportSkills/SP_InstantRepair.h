@@ -13,14 +13,18 @@ See LICENSE file in the project root for full license information.
 #include "SupportSkillBase.h"
 #include "SP_InstantRepair.generated.h"
 
+class UBuffDataAsset;
+
 UCLASS()
 class PROJECT_IK_API USP_InstantRepair : public USupportSkillBase
 {
 	GENERATED_BODY()
 public:
 	USP_InstantRepair();
-	virtual void Decide(const FTargetResult& TargetResult) override;
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 	
 private:
 	float healing_amount_ = 100.f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Skills", meta=(AllowPrivateAccess=true))
+	TObjectPtr<UBuffDataAsset> buff_data_;
 };

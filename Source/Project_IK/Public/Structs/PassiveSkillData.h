@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/ItemData.h"
 #include "PassiveSkillData.generated.h"
 
 USTRUCT(BlueprintType)
@@ -19,19 +20,12 @@ struct PROJECT_IK_API FPassiveSkillData
 {
 	GENERATED_BODY();
 
-public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
 	EPassiveSkillType type = EPassiveSkillType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
 	TSubclassOf<class UPassiveSkillBase> passive_skill_class;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
-	UTexture2D* thumbnail = nullptr;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
-	FString flavor_text;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PassiveSkillData")
-	ERarity rarity_;
+	
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	FItemData item_data_;
 };

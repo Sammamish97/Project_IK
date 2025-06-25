@@ -19,7 +19,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Structs/TargetParameters.h"
 #include "Structs/TargetResult.h"
-#include "Structs/BuffData.h"
+#include "Structs/BuffStatusData.h"
 
 #include "Components/BoxComponent.h"
 
@@ -34,10 +34,9 @@ UAT_DeployCover::UAT_DeployCover()
 	cool_time_ = 10.f;
 }
 
-bool UAT_DeployCover::ActivateSkill_Implementation(const FTargetResult& TargetResult)
+//IKTODO: 이후 해당 엄폐물에 엄폐 했을 시 버프 추가 로직을 추가해야 함.
+bool UAT_DeployCover::ActivateSkill(const FTargetResult& TargetResult)
 {
-	FBuffData attack_speed(TEXT("DeployCover"), ECharacterStatType::AttackSpeed, 1.1, true, 10.f);
-
 	deploy_location_ = TargetResult.target_location_;
 	spawn_location_ = deploy_location_ + FVector(0.f, 0.f, deploy_height_offset_);
 
@@ -49,14 +48,12 @@ bool UAT_DeployCover::ActivateSkill_Implementation(const FTargetResult& TargetRe
 			AUnit* owner_unit = Cast<AUnit>(skill_owner_);
 			actor_->SetHitPoints(deployed_cover_hit_points_ + owner_unit->GetCharacterStat()->GetSkillPower() * hit_points_scaling_factor_);
 			actor_->SetMobility(EComponentMobility::Movable);
-			ApplyBuff(attack_speed, skill_owner_);
 			is_deploying_ = true;
 			deploying_timer_ = 0.f;
 
 			return true;
 		}
 	}
-
 	return false;
 }
 

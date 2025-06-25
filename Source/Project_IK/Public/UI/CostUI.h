@@ -26,8 +26,10 @@ private:
 	TObjectPtr<class UEnergySystemComponent> energy_system_cache_;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UProgressBar> progress_bar_;
+	TObjectPtr<class UImage> image_;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<class UTextBlock> cost_text_;
+
+	int32 max_steps_ = 10;
 };

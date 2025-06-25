@@ -22,18 +22,14 @@ UAT_ShockJavelin::UAT_ShockJavelin()
 	casting_time_ = 0.5f;
 }
 
-bool UAT_ShockJavelin::ActivateSkill_Implementation(const FTargetResult& TargetResult)
+bool UAT_ShockJavelin::ActivateSkill(const FTargetResult& TargetResult)
 {
 	FVector javelin_location = skill_owner_->GetActorLocation() + javelin_location_offset_;
-	if (TargetResult.target_actors_[0] == nullptr)
-	{
-		return false;
-	}
 	FRotator rotation = UKismetMathLibrary::FindLookAtRotation(javelin_location, TargetResult.target_actors_[0]->GetActorLocation());
 	FTransform spawn_transform(rotation, javelin_location);
 	
 	AShockJavelin* spawned_javellin = GetWorld()->SpawnActor<AShockJavelin>(javelin_class_, spawn_transform);
 	spawned_javellin->SetCastingTime(casting_time_);
 	spawned_javellin->SetDamageData(FDamageData{0.f, skill_dmg_, EDamageType::Magic, skill_owner_});
-	return true;
+	return Super::ActivateSkill(TargetResult);;
 }

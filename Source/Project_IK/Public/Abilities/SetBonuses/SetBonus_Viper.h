@@ -16,7 +16,7 @@ See LICENSE file in the project root for full license information.
 class UBulletDebuffEffectComponent;
 class UBulletViperEffectComponent;
 
-UCLASS()
+UCLASS(Blueprintable)
 class PROJECT_IK_API USetBonus_Viper : public USetBonusBase
 {
 	GENERATED_BODY()
@@ -32,4 +32,8 @@ protected:
 	virtual void ActivateEdgeBonus() override;
 	virtual void ActivateTriangleBonus() override;
 	virtual void ActivateHexagonBonus() override;
+
+private:
+	FBuffStatusData edge_buff_data_;
+
 };

@@ -1,0 +1,117 @@
+/******************************************************************************
+Copyright(C) 2024
+Author: sinil.kang(rtd99062@gmail.com)
+Creation Date : 09.26.2024
+Summary : Source file for skill containers.
+					An actor component class to contain skills.
+
+Licensed under the MIT License.
+See LICENSE file in the project root for full license information.
+******************************************************************************/
+
+
+#include "Components/ActiveSkillMechanics.h"
+
+#include "Abilities/ActiveSkills/ActiveSkillBase.h"
+#include "Characters/HeroBase.h"
+#include "Kismet/GameplayStatics.h"
+#include "Managers/DataTableManager.h"
+#include "WorldSettings/IKGameInstance.h"
+#include "BrainComponent.h"
+
+#include "Components/CharacterStatComponent.h"
+
+// Sets default values for this component's properties
+UActiveSkillMechanics::UActiveSkillMechanics()
+	: Super::UActorComponent(), equipped_active_skill_data_(),data_table_cache_(nullptr), active_skill_(nullptr), hero_cache_(nullptr)
+{
+	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
+	// off to improve performance if you don't need them.
+	PrimaryComponentTick.bCanEverTick = false;
+
+	bWantsInitializeComponent = true;
+}
+
+void UActiveSkillMechanics::BeginPlay()
+{
+	Super::BeginPlay();
+	hero_cache_ = Cast<AHeroBase>(GetOwner());
+	data_table_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
+}
+
+void UActiveSkillMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	GetWorld()->GetTimerManager().ClearTimer(casting_time_handle_);
+	Super::EndPlay(EndPlayReason);
+}
+
+void UActiveSkillMechanics::InitializeComponent()
+{
+	Super::InitializeComponent();
+}
+
+FTargetParameters UActiveSkillMechanics::GetTargetParameters() const
+{
+	return active_skill_->GetTargetParameters();
+}
+
+bool UActiveSkillMechanics::HasActiveSkill() const
+{
+	return active_skill_ != nullptr;
+}
+
+float UActiveSkillMechanics::GetCooltime() const
+{
+	if (active_skill_)
+	{
+		return active_skill_->GetCoolTime() * (100 / (100 + hero_cache_->GetCharacterStat()->GetSkillCooldown()));
+	}
+	return 0.f;
+}
+
+float UActiveSkillMechanics::GetCastingTime() const
+{
+	if (active_skill_)
+	{
+		return active_skill_->GetCastingTime();
+	}
+	return 0.f;
+}
+
+FActiveSkillData UActiveSkillMechanics::GetEquippedActiveSkillData()
+{
+	return equipped_active_skill_data_;
+}
+
+USkillBase* UActiveSkillMechanics::GetActiveSkill() const
+{
+	return active_skill_;
+}
+
+void UActiveSkillMechanics::EquipActiveSkill(EActiveSkillType type)
+{
+	if (active_skill_)
+	{
+		UnEquipActiveSkill();
+	}
+	equipped_active_skill_data_ = data_table_cache_->GetActiveSkillData(type);
+	active_skill_ = NewObject<UActiveSkillBase>(this, equipped_active_skill_data_.active_skill_class);
+	active_skill_->InitActiveSkill(hero_cache_.Get());
+}
+
+void UActiveSkillMechanics::UnEquipActiveSkill()
+{
+	equipped_active_skill_data_ = FActiveSkillData();
+	active_skill_ = nullptr;
+}
+
+void UActiveSkillMechanics::OnCastingFinish()
+{
+	FAIMessage Msg(TEXT("CastingFinished"), this, active_skill_request_id_, FAIMessage::Success);
+	FAIMessage::Send(Cast<APawn>(GetOwner()), Msg);
+}
+
+FAIRequestID UActiveSkillMechanics::GetCastingRequestID() const
+{
+	return active_skill_request_id_;
+}

@@ -20,8 +20,6 @@ See LICENSE file in the project root for full license information.
 
 #include "Structs/CharacterData.h"
 #include "Structs/DamageData.h"
-
-
 // Sets default values
 UCharacterStatComponent::UCharacterStatComponent()
 	: max_hit_points_(0.f)
@@ -63,32 +61,12 @@ void UCharacterStatComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	OnHPChanged.Clear();
 	OnHPChangedWithOwner.Clear();
 	OnShieldChanged.Clear();
-	OnBuffChanged.Clear();
 }
 
 // Called every frame
 void UCharacterStatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunctionoverride)
 {
 	Super::TickComponent(DELTA, TickType, ThisTickFunctionoverride);
-
-	for (FBuffData& buff : buffs_)
-	{
-		if (buff.is_permanent_)
-		{
-			continue;
-		}
-		buff.time_remaining_ -= DeltaTime;
-	}
-
-	int32 num_removed = buffs_.RemoveAll([](const FBuffData& buff)
-		{
-			return buff.is_permanent_ == false && buff.time_remaining_ <= 0.f;
-		});
-
-	if (num_removed > 0)
-	{
-		OnBuffChanged.Broadcast(GetBuffs());
-	}
 }
 
 bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
@@ -234,7 +212,7 @@ float UCharacterStatComponent::GetSkillCooldown() const noexcept
 
 float UCharacterStatComponent::GetShield() const noexcept
 {
-	return CalculateStat(ECharacterStatType::Shield);
+	return shield_;
 }
 
 void UCharacterStatComponent::SetAttackPower(float attack_power) noexcept
@@ -277,6 +255,7 @@ void UCharacterStatComponent::SetHitPoint(float hit_point) noexcept
 
 	character_data_.status_data_.hit_point_ = FMath::Min(hit_point, GetMaxHitPoint());
 	OnHPChanged.Broadcast(GetHPRatio());
+	OnHPOrShieldChanged.Broadcast(GetHitPoint(), GetShield());
 	OnHPChangedWithOwner.Broadcast(GetHPRatio(), GetOwner());
 	if (character_data_.status_data_.hit_point_ < KINDA_SMALL_NUMBER)
 	{
@@ -291,7 +270,8 @@ void UCharacterStatComponent::SetEvasionRate(float evasion_rate) noexcept
 }
 
 void UCharacterStatComponent::SetArmor(float armor) noexcept
-{
+{	OnHPChanged.Broadcast(GetHPRatio());
+
 	character_data_.status_data_.armor_= armor;
 }
 
@@ -324,6 +304,7 @@ void UCharacterStatComponent::SetShield(float shield) noexcept
 {
 	shield_ = shield;
 	OnShieldChanged.Broadcast(GetShieldRatio());
+	OnHPOrShieldChanged.Broadcast(GetHitPoint(), GetShield());
 }
 
 void UCharacterStatComponent::RecordDamage(FDamageData& data_ref)
@@ -367,21 +348,21 @@ float UCharacterStatComponent::GetMaxHitPoint() const noexcept
 	float percentage_bonus = 0.f;
 	float value_bonus = 0.f;
 
-	for (const FBuffData& buff : buffs_)
+	for (const auto& elem : buffs_)
 	{
-		if (buff.stat_type_ == ECharacterStatType::HitPoints)
+		if (elem.Value.Contains(ECharacterStatType::Shield))
 		{
-			if (buff.is_percentage_)
+			FBuffStatusData stat_data = elem.Value[ECharacterStatType::HitPoints];
+			if (stat_data.is_percentage_)
 			{
-				percentage_bonus += buff.value_;
+				percentage_bonus += stat_data.value_;
 			}
 			else
 			{
-				value_bonus += buff.value_;
+				value_bonus += stat_data.value_;
 			}
 		}
 	}
-
 	return (stat + value_bonus) * (1.f + percentage_bonus);
 }
 
@@ -391,21 +372,21 @@ float UCharacterStatComponent::GetMaxShield() const noexcept
 	float percentage_bonus = 0.f;
 	float value_bonus = 0.f;
 
-	for (const FBuffData& buff : buffs_)
+	for (const auto& elem : buffs_)
 	{
-		if (buff.stat_type_ == ECharacterStatType::Shield)
+		if (elem.Value.Contains(ECharacterStatType::Shield))
 		{
-			if (buff.is_percentage_)
+			FBuffStatusData stat_data = elem.Value[ECharacterStatType::Shield];
+			if (stat_data.is_percentage_)
 			{
-				percentage_bonus += buff.value_;
+				percentage_bonus += stat_data.value_;
 			}
 			else
 			{
-				value_bonus += buff.value_;
+				value_bonus += stat_data.value_;
 			}
 		}
 	}
-
 	return (stat + value_bonus) * (1.f + percentage_bonus);
 }
 
@@ -418,27 +399,28 @@ void UCharacterStatComponent::SetCharacterData(const FCharacterData& character_d
 {
 	character_data_ = character_data;
 	OnHPChanged.Broadcast(GetHPRatio());
+	OnHPOrShieldChanged.Broadcast(GetHitPoint(), GetShield());
 	OnHPChangedWithOwner.Broadcast(GetHPRatio(), GetOwner());
 }
 
 float UCharacterStatComponent::CalculateStat(ECharacterStatType StatType) const
 {
 	float stat = GetBaseStat(StatType);
-
 	float percentage_bonus = 1.f;
 	float value_bonus = 0.f;
 
-	for (const FBuffData& buff : buffs_)
+	for (const auto& elem : buffs_)
 	{
-		if (buff.stat_type_ == StatType)
+		if (elem.Value.Contains(StatType))
 		{
-			if (buff.is_percentage_)
+			FBuffStatusData stat_data = elem.Value[StatType];
+			if (stat_data.is_percentage_)
 			{
-				percentage_bonus *= buff.value_;
+				percentage_bonus += stat_data.value_;
 			}
 			else
 			{
-				value_bonus += buff.value_;
+				value_bonus += stat_data.value_;
 			}
 		}
 	}
@@ -460,29 +442,36 @@ float UCharacterStatComponent::GetBaseStat(ECharacterStatType StatType) const
 	return character_data_.status_data_[StatType];
 }
 
-void UCharacterStatComponent::ApplyBuff(FBuffData buff)
+void UCharacterStatComponent::ApplyBuff(EBuffType buff_type, FBuffStatusData status_data)
 {
-	buffs_.Add(buff);
-	OnBuffChanged.Broadcast(GetBuffs());
-}
-
-bool UCharacterStatComponent::RemoveBuff(FName BuffName)
-{
-	int32 found_index = buffs_.IndexOfByPredicate([BuffName](const FBuffData& buff) {
-		return buff.buff_name_ == BuffName;
-		});
-
-	if (found_index != INDEX_NONE)
+	RemoveBuff(buff_type);
+	if (status_data.is_permanent_ == false)
 	{
-		buffs_.RemoveAt(found_index);
-		OnBuffChanged.Broadcast(GetBuffs());
-		return true;
+		auto& type_timer_map = buff_timers_.FindOrAdd(buff_type);
+		auto& timer_handle = type_timer_map.FindOrAdd(status_data.stat_type_);
+	
+		FTimerDelegate expired_delegate = FTimerDelegate::CreateUObject(this, &UCharacterStatComponent::RemoveBuff, buff_type, status_data.stat_type_);
+		GetWorld()->GetTimerManager().SetTimer(timer_handle, expired_delegate, status_data.duration_, false);
 	}
-
-	return false;
+	buffs_.FindOrAdd(buff_type).FindOrAdd(status_data.stat_type_, status_data);
 }
 
-TArray<FBuffData> UCharacterStatComponent::GetBuffs() const
+void UCharacterStatComponent::RemoveBuff(EBuffType buff_type)
 {
-	return buffs_;
+	buffs_.Remove(buff_type);
+	if (buff_timers_.Contains(buff_type))
+	{
+		for (auto& buff_pair : buff_timers_[buff_type])
+		{
+			GetWorld()->GetTimerManager().ClearTimer(buff_pair.Value);
+		}
+	}
+	buff_timers_.Remove(buff_type);
+}
+
+void UCharacterStatComponent::RemoveBuff(EBuffType buff_type, ECharacterStatType stat_type)
+{
+	buffs_[buff_type].Remove(stat_type);
+	GetWorld()->GetTimerManager().ClearTimer(buff_timers_[buff_type][stat_type]);
+	buff_timers_[buff_type].Remove(stat_type);
 }
