@@ -68,7 +68,7 @@ void AIKGameModeBase::SpawnHeroes()
 			continue;
 		}
 		AHeroBase* hero = GetWorld()->SpawnActor<AHeroBase>(hero_bp_class_[i], hero_spawn_position_ + FVector(0, (300.f * (save_data_array.Num() - 1) / -2.f) + (i * 300), 90), spawn_rotation);
-		hero->EquipGears(save_data_array[i]);
+		hero->SyncWithSpawnData(save_data_array[i]);
 		heroes_.Add(hero);
 	}
 }

@@ -96,6 +96,8 @@ void AHeroBase::BeginPlay()
 
 	active_skill_mechanics_->EquipActiveSkill(EActiveSkillType::ThunderStorm);
 	//
+
+	passive_skill_mechanics_->InitPassiveSkill();
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -106,8 +108,10 @@ void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	OnBuffExpired.Clear();
 }
 
-void AHeroBase::EquipGears(FSpawnData spawn_data)
+void AHeroBase::SyncWithSpawnData(const FSpawnData& spawn_data)
 {
+	character_stat_component_->SetCharacterData(spawn_data.character_data_);
+
 	if (spawn_data.weapon_data_.IsSet())
 	{
 		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue().weapon_class_);
@@ -135,12 +139,6 @@ void AHeroBase::EquipGears(FSpawnData spawn_data)
 		}
 	}
 	rune_mechanics_->ApplySetBonuses();
-}
-
-
-void AHeroBase::InitAfterHUD()
-{
-	passive_skill_mechanics_->InitPassiveSkill();
 }
 
 void AHeroBase::Die()

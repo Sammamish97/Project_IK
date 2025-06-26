@@ -63,6 +63,11 @@ void AIKHUD::BeginPlay()
 		for(auto cur_hero_type :hero_types)
 		{
 			auto cur_hero = Cast<AHeroBase>(game_mode->GetHero(cur_hero_type));
+			if (cur_hero == nullptr)
+			{
+				continue;
+			}
+
 			if(cur_hero->HasActiveSkill())
 			{
 				auto cur_skill_button_widget = button_bar_widget_->GetActiveSkillButtonWidget(cur_hero_type);
@@ -88,8 +93,6 @@ void AIKHUD::BeginPlay()
 			}
 			cur_hero->OnApplyBuff.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::EnqueueBuff);
 			cur_hero->OnBuffExpired.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::UpdateQueue);
-			
-			cur_hero->InitAfterHUD();
 
 			hero_rune_bonus_detail_map.Add(cur_hero_type, cur_hero->GetRuneMechanics()->GetSetBonusData());
 		}

@@ -29,8 +29,7 @@ public:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
-	virtual void EquipGears(FSpawnData spawn_data);
-	virtual void InitAfterHUD();
+	virtual void SyncWithSpawnData(const FSpawnData& spawn_data);
 	virtual void Die() override;
 	
 	virtual void Attack(AActor* target) override;
