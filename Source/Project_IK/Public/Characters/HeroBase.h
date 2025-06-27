@@ -52,6 +52,9 @@ public:
 	void SetIsCovered(bool is_covered);
 
 	AActor* GetAttackTarget() const;
+
+	FColor GetHeroBaseColor_1() const;
+	FColor GetHeroBaseColor_2() const;
 	
 	class UWeaponMechanics* GetWeaponMechanics();
 	class URuneMechanics* GetRuneMechanics();
@@ -84,6 +87,12 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnApplyBuffDelegate OnApplyBuff;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero")
+	FColor hero_base_color_1_;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero")
+	FColor hero_base_color_2_;
 	
 private:
 	EHeroType hero_type_;
