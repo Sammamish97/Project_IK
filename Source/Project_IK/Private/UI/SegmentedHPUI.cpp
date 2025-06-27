@@ -10,7 +10,6 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/SegmentedHPUI.h"
 #include "Components/Image.h"
-#include "Components/ProgressBar.h"
 
 void USegmentedHPUI::UpdateWidget(float cur_hp, float cur_shield)
 {

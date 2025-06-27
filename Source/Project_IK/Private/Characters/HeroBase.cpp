@@ -19,10 +19,12 @@ See LICENSE file in the project root for full license information.
 #include "Components/SphereComponent.h"
 #include "Components/WeaponMechanics.h"
 #include "Components/ActiveSkillMechanics.h"
+#include "Components/WidgetComponent.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
+#include "UI/HPUICore.h"
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKGameState.h"
 
@@ -48,6 +50,7 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
+	UHPUICore* widget = Cast<UHPUICore>(hp_UI_->GetWidget());
 	switch (GetCharacterType())
 	{
 	case ECharacterType::Hero1:
@@ -81,13 +84,14 @@ void AHeroBase::BeginPlay()
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 3);
 		rune_mechanics_->EquipRune(ERuneSetType::Quake, 5);
 		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
-
 		hero_type_ = EHeroType::Hero4;
 		break;
 
 	default:
 		checkNoEntry();
 	}
+	widget->SetHPBarColor(hero_base_color_2_);
+
 	//TEST PURPOSE
 	if (weapon_mechanics_->GetWeaponActor() == nullptr)
 	{
@@ -192,6 +196,16 @@ void AHeroBase::SetIsCovered(bool is_covered)
 AActor* AHeroBase::GetAttackTarget() const
 {
 	return Cast<AMeleeAIController>(GetController())->GetTargetActor();
+}
+
+FColor AHeroBase::GetHeroBaseColor_1() const
+{
+	return hero_base_color_1_;
+}
+
+FColor AHeroBase::GetHeroBaseColor_2() const
+{
+	return hero_base_color_2_;
 }
 
 FTargetParameters AHeroBase::GetActiveSkillTargetParameters() const

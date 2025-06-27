@@ -14,16 +14,21 @@ See LICENSE file in the project root for full license information.
 #include "HPUICore.generated.h"
 
 class UProgressBar;
+enum class EHeroType : uint8;
 
 UCLASS(Abstract, Blueprintable)
 class PROJECT_IK_API UHPUICore : public UUserWidget
 {
 	GENERATED_BODY()
 public:
+	UFUNCTION()
 	virtual void InitHPWidget(float max_hp, float cur_hp);
-
+	
 	UFUNCTION()
 	virtual void UpdateWidget(float cur_hp, float cur_shield);
+
+	UFUNCTION()
+	virtual void SetHPBarColor(FLinearColor color);
 	
 protected:
 	UPROPERTY(meta = (BindWidget))

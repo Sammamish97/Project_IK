@@ -33,7 +33,7 @@ void UPS_Berserker::InitEquipmentSkill(AActor* hero_ref)
 
 	as_status_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, 2.f, true, true);
 	vamp_status_data_ = FBuffStatusData(ECharacterStatType::LifeSteal, 0.05f, false, true);
-	buff_ui_data_ = FBuffUIData(FText::FromString("Berserker"), EBuffType::Berserker, nullptr, 0.f, true, FText::FromString("Berserker Detail"));
+	buff_ui_data_ = FBuffUIData(name_, EBuffType::Berserker, thumbnail_, 0.f, true, detail_);
 }
 
 void UPS_Berserker::BuffBerserker(float hp_ratio)

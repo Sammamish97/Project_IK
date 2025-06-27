@@ -72,9 +72,10 @@ void AIKHUD::BeginPlay()
 				cur_skill->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 				
 				subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero_type)->GetHPWidget(), &USegmentedHPUI::UpdateWidget);
-				button_bar_widget_->GetHeroWidget(cur_hero_type)->InitHeroWidget(button_bar_widget_->GetBuffPopupWidget(), cur_hero->GetRuneMechanics(),
-					button_bar_widget_->GetRunePopupWidget(), cur_hero_type, cur_hero->GetCharacterStat()->GetMaxHitPoint(),
-					cur_hero->GetCharacterStat()->GetHitPoint());
+				button_bar_widget_->GetHeroWidget(cur_hero_type)->InitHeroWidget(button_bar_widget_->GetBuffPopupWidget(),
+					cur_hero->GetRuneMechanics(), button_bar_widget_->GetRunePopupWidget(),
+					cur_hero_type, cur_hero->GetHeroBaseColor_1(), cur_hero->GetHeroBaseColor_2(),
+					cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
 
 				hero_skill_data.Add(cur_hero_type, FItemData({cur_skill_data.item_data_.thumbnail, cur_skill_data.item_data_.name_, cur_skill_data.item_data_.detail_}));
 			}
@@ -88,7 +89,7 @@ void AIKHUD::BeginPlay()
 			cur_hero->OnBuffExpired.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::UpdateQueue);
 			
 			cur_hero->InitAfterHUD();
-
+			
 			hero_rune_bonus_detail_map.Add(cur_hero_type, cur_hero->GetRuneMechanics()->GetSetBonusData());
 		}
 

@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "HPUICore.h"
 #include "SegmentedHPUI.generated.h"
-
 class UProgressBar;
 UCLASS(Abstract, Blueprintable)
 class PROJECT_IK_API USegmentedHPUI : public UHPUICore

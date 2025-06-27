@@ -9,7 +9,6 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "UI/HPUICore.h"
-
 #include "Components/ProgressBar.h"
 
 void UHPUICore::InitHPWidget(float max_hp, float cur_hp)
@@ -27,4 +26,12 @@ void UHPUICore::UpdateWidget(float cur_hp, float cur_shield)
 
 	hp_bar_->SetPercent(hp_ratio);
 	shield_bar_->SetPercent(shield_ratio);
+}
+
+void UHPUICore::SetHPBarColor(FLinearColor color)
+{
+	FProgressBarStyle style;
+	style.FillImage.TintColor = color;
+	style.BackgroundImage.TintColor = FLinearColor::Transparent;
+	hp_bar_->SetWidgetStyle(style);
 }
