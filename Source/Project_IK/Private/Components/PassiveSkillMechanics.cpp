@@ -46,9 +46,6 @@ void UPassiveSkillMechanics::EquipPassiveSkill(EPassiveSkillType type)
 	passive_skill_cache_ = NewObject<UPassiveSkillBase>(this, equipped_passive_skill_data_.passive_skill_class);
 }
 
-//Equip의 생성 시점과 Init시점을 분리 시킨 이유는, Init시점에서 바로 발동이 되는 패시브 스킬(ex: LowProfile)은 HUD가 생성되기 전에 AddBuff가 적용되어
-//HUD에 UI가 정상적으로 추가되지 않는다.
-//해당 이슈를 해결하기 위해 Passive Skill의 Init은 따로 분리하여, HUD의 초기화 이후에 별도로 불러준다.
 void UPassiveSkillMechanics::InitPassiveSkill()
 {
 	passive_skill_cache_->InitEquipmentSkill(hero_cache_);

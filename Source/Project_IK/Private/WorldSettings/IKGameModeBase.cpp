@@ -93,56 +93,40 @@ void AIKGameModeBase::SpawnEnemies()
 
 void AIKGameModeBase::SaveHeroSpawnData()
 {
-	TArray<FSpawnData> spawn_data;
+	ULevelTransitionSubsystem* level_transition_subsystem = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
+	TArray<FSpawnData> spawn_data = level_transition_subsystem->GetSpawnData();
 	for (int32 i = 0; i < heroes_.Num(); ++i)
 	{
-		FSpawnData cur_data;
 		if (heroes_[i] != nullptr)
 		{
-			cur_data.character_data_ = Cast<AHeroBase>(heroes_[i])->GetCharacterStat()->GetCharacterData();
-			spawn_data.Add(cur_data);
+			spawn_data[i].character_data_ = Cast<AHeroBase>(heroes_[i])->GetCharacterStat()->GetCharacterData();
 		}
-		else
+		else if(spawn_data[i].is_dead_ == false)
 		{
 
 			EHeroType hero_type = IntToHeroType(i);
 			UGlobalBuffSubsystem* global_buff_subsystem = GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
 			if (global_buff_subsystem->HasBuff(HeroTypeToDeathbound(hero_type)))
 			{	// Consider the character is dead
-				cur_data.is_dead_ = true;
+				spawn_data[i].is_dead_ = true;
 			}
 			else
 			{	// When no debuff in the queue, apply debuff and revive it once.
 				UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
 				UDataTableManager* data_table_manager = instance->GetDataTableManager();
 				
-				cur_data.character_data_ = data_table_manager->GetCharacterData(HeroTypeToCharacterType(hero_type));
+				spawn_data[i].character_data_ = data_table_manager->GetCharacterData(HeroTypeToCharacterType(hero_type));
 				global_buff_subsystem->AddBuff(HeroTypeToDeathbound(hero_type));
 			}
-
-			spawn_data.Add(cur_data);
 		}
 
 	}
-	GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->UpdateSpawnData(spawn_data);
+	level_transition_subsystem->UpdateSpawnData(spawn_data);
 }
 
 TArray<AActor*> AIKGameModeBase::GetHeroContainer() const noexcept
 {
 	return heroes_;
-}
-
-int32 AIKGameModeBase::GetHeroCount() const noexcept
-{
-	int32 count = 0;
-	for (TWeakObjectPtr<AActor> hero : heroes_)
-	{
-		if (hero.IsValid())
-		{
-			++count;
-		}
-	}
-	return count;
 }
 
 AActor* AIKGameModeBase::GetHero(EHeroType type) const noexcept

@@ -47,42 +47,66 @@ bool UCombatResultUI::Initialize()
 	return true;
 }
 
-void UCombatResultUI::SetHeroNumbers(int32 num)
-{
-	UCanvasPanelSlot* UI_background_slot = Cast<UCanvasPanelSlot>(UI_background_->Slot);
-	if (UI_background_slot)
+void UCombatResultUI::PopulateWidgets(const TArray<AActor*>& hero_containers)
+{	// Synchronize blocks num to be HeroType now.
+
+	for (int32 i = 0; i < hero_containers.Num(); i++)
 	{
-		UI_background_slot->SetPosition(FVector2D(num * -200.0, -400.0));
-		UI_background_slot->SetSize(FVector2D(num * 400.0, 800.0));
+		hp_ratio_after_.Add(0.f);
+
+		if (hero_containers[i] == nullptr)
+		{
+			hp_ratio_before_.Add(0.f);
+			continue;
+		}
+
+		if (AHeroBase* hero = Cast<AHeroBase>(hero_containers[i]))
+		{
+			// It contains initial hit points ratio.
+			hp_ratio_before_.Add(hero->GetCharacterStat()->GetHPRatio());
+		}
 	}
 
 	if (combat_result_block_widget_class_)
 	{
-		for (int32 i = 0; i < num; i++)
+		for (int32 i = 0; i < hero_containers.Num(); i++)
 		{
-			UCombatResultBlock* block = CreateWidget<UCombatResultBlock>(this, combat_result_block_widget_class_);
-			FString block_unique_name = MakeUniqueObjectName(GetOuter(), block->GetClass(), TEXT("Block")).ToString();
-			block->Rename(*block_unique_name);
-			UHorizontalBoxSlot* block_slot = blocks_holder_->AddChildToHorizontalBox(block);
-			block_slot->SetPadding(FMargin(32.f));
+			if (hero_containers[i] == nullptr)
+			{
+				blocks_.Add(nullptr);
+			}
+			else
+			{
+				UCombatResultBlock* block = CreateWidget<UCombatResultBlock>(this, combat_result_block_widget_class_);
+				FString block_unique_name = MakeUniqueObjectName(GetOuter(), block->GetClass(), TEXT("Block")).ToString();
+				block->Rename(*block_unique_name);
+				UHorizontalBoxSlot* block_slot = blocks_holder_->AddChildToHorizontalBox(block);
+				block_slot->SetPadding(FMargin(32.f));
 
-			blocks_.Add(block);
+				blocks_.Add(block);
+			}
 		}
+	}
+
+	UCanvasPanelSlot* UI_background_slot = Cast<UCanvasPanelSlot>(UI_background_->Slot);
+	if (UI_background_slot)
+	{
+		UI_background_slot->SetPosition(FVector2D(blocks_holder_->GetChildrenCount() * -200.0, -400.0));
+		UI_background_slot->SetSize(FVector2D(blocks_holder_->GetChildrenCount() * 400.0, 800.0));
 	}
 }
 
 void UCombatResultUI::UpdateResults(const TMap<EHeroType, float>& damage_map)
 {
+	// Update damage records.
 	for (const auto& [hero_type, damage] : damage_map)
 	{
 		int32 hero_index = HeroTypeToInt(hero_type);
 
-		blocks_[hero_index]->SetVisibility(ESlateVisibility::Visible);
-
 		blocks_[hero_index]->SetDamageDealt(damage);
 	}
 
-
+	// Update HP after battles
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	const TArray<AActor*> actors = game_mode->GetHeroContainer();
 	for (AActor* actor : actors)
@@ -94,9 +118,10 @@ void UCombatResultUI::UpdateResults(const TMap<EHeroType, float>& damage_map)
 		}
 	}
 
+	// Update injur
 	for (int32 i = 0; i < blocks_.Num(); i++)
 	{
-		if (hp_ratio_after_[i] <= 0.f)
+		if (blocks_[i] && hp_ratio_after_[i] <= 0.f)
 		{
 			blocks_[i]->SetInjuredVisibility(ESlateVisibility::Visible);
 		}
@@ -129,26 +154,8 @@ void UCombatResultUI::NativeConstruct()
 	if (game_mode)
 	{
 		TArray<AActor*> hero_containers = game_mode->GetHeroContainer();
-		for (int32 i = 0; i < hero_containers.Num(); i++)
-		{
-			if (hero_containers[i] == nullptr)
-			{
-				continue;
-			}
 
-			if (AHeroBase* hero = Cast<AHeroBase>(hero_containers[i]))
-			{
-				// It is not ratio at this point. It contains initial hit points.
-				hp_ratio_before_.Add(hero->GetCharacterStat()->GetHPRatio());
-			}
-			hp_ratio_after_.Add(0.f);
-		}
-
-
-		int32 hero_size = game_mode->GetHeroCount();
-		// @@ TODO: In this code, it is possible to have multiple blocks because of multiple NativeConstruct calls.
-							// Need to delete data in NativeDestruct.
-		SetHeroNumbers(hero_size);
+		PopulateWidgets(hero_containers);
 	}
 }
 
@@ -314,7 +321,7 @@ void UCombatResultUI::UpdateInjuredNotifiers(float InDeltaTime)
 
 	for (int32 i = 0; i < blocks_.Num(); i++)
 	{
-		if (hp_ratio_after_[i] <= 0.f)
+		if (blocks_[i] && hp_ratio_after_[i] <= 0.f)
 		{
 			blocks_[i]->SetInjuredOpacity(alpha);
 		}

@@ -45,7 +45,7 @@ protected:
 	void InitializeRootWidget();
 	void InitializeChildWidgets();
 
-	void SetHeroNumbers(int32 num);
+	void PopulateWidgets(const TArray<AActor*>& hero_containers);
 
 	void UpdateHPBars(float InDeltaTime);
 

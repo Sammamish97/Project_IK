@@ -40,8 +40,6 @@ public:
 	UFUNCTION(BlueprintPure)
 	TArray<AActor*> GetHeroContainer() const noexcept;
 
-	int32 GetHeroCount() const noexcept;
-
 	UFUNCTION(BlueprintPure)
 	AActor* GetHero(EHeroType type) const noexcept;
 

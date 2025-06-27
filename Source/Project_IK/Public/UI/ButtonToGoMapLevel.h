@@ -2,7 +2,7 @@
 Copyright(C) 2024
 Author: sinil.kang(rtd99062@gmail.com)
 Creation Date : 03.03.2025
-Summary : Header file of UI that contains a button to open a widget.
+Summary : Header file of UI that contains a button to open a map level.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -12,33 +12,26 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "WidgetOpenerUI.generated.h"
+#include "ButtonToGoMapLevel.generated.h"
+
+/**
+ * 
+ */
 
 class UButton;
 
-/**
- *
- */
-UCLASS()
-class PROJECT_IK_API UWidgetOpenerUI : public UUserWidget
+UCLASS(Blueprintable)
+class PROJECT_IK_API UButtonToGoMapLevel : public UUserWidget
 {
 	GENERATED_BODY()
-
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UUserWidget> widget_class_;
-
 protected:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 
 	UFUNCTION()
-	void OnWidgetOpenButtonClicked();
+	void OnMapOpenerButtonClicked();
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> widget_opener_button_;
-
-	UPROPERTY()
-	TObjectPtr<UUserWidget> widget_;
-
+	TObjectPtr<UButton> map_opener_button_;
 };
