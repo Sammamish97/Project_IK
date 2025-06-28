@@ -33,6 +33,8 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/EnumCluster.h"
 
+#include "Subsystems/GlobalBuffSubsystem.h"
+
 
 bool UCombatResultUI::Initialize()
 {
@@ -118,12 +120,23 @@ void UCombatResultUI::UpdateResults(const TMap<EHeroType, float>& damage_map)
 		}
 	}
 
-	// Update injur
+	UGlobalBuffSubsystem* global_buff_subsystem = GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+	// Update injury status
 	for (int32 i = 0; i < blocks_.Num(); i++)
 	{
 		if (blocks_[i] && hp_ratio_after_[i] <= 0.f)
 		{
-			blocks_[i]->SetInjuredVisibility(ESlateVisibility::Visible);
+			blocks_[i]->SetHoveredTextVisibility(ESlateVisibility::Visible);
+
+			// Need to check through GlobalBuff instead of SpawnData because of function call sequence
+			if (global_buff_subsystem->HasBuff(HeroTypeToDeathbound(IntToHeroType(i))))
+			{
+				blocks_[i]->SetHoveredText("Dead");
+			}
+			else
+			{
+				blocks_[i]->SetHoveredText("Injured");
+			}
 		}
 	}
 
@@ -323,7 +336,7 @@ void UCombatResultUI::UpdateInjuredNotifiers(float InDeltaTime)
 	{
 		if (blocks_[i] && hp_ratio_after_[i] <= 0.f)
 		{
-			blocks_[i]->SetInjuredOpacity(alpha);
+			blocks_[i]->SetHoveredTextOpacity(alpha);
 		}
 	}
 }

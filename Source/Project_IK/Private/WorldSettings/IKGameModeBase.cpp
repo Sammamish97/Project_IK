@@ -106,9 +106,11 @@ void AIKGameModeBase::SaveHeroSpawnData()
 
 			EHeroType hero_type = IntToHeroType(i);
 			UGlobalBuffSubsystem* global_buff_subsystem = GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
-			if (global_buff_subsystem->HasBuff(HeroTypeToDeathbound(hero_type)))
+			const EGlobalBuffType deathbound_type = HeroTypeToDeathbound(hero_type);
+			if (global_buff_subsystem->HasBuff(deathbound_type))
 			{	// Consider the character is dead
 				spawn_data[i].is_dead_ = true;
+				global_buff_subsystem->RemoveBuff(deathbound_type);
 			}
 			else
 			{	// When no debuff in the queue, apply debuff and revive it once.
@@ -116,7 +118,7 @@ void AIKGameModeBase::SaveHeroSpawnData()
 				UDataTableManager* data_table_manager = instance->GetDataTableManager();
 				
 				spawn_data[i].character_data_ = data_table_manager->GetCharacterData(HeroTypeToCharacterType(hero_type));
-				global_buff_subsystem->AddBuff(HeroTypeToDeathbound(hero_type));
+				global_buff_subsystem->AddBuff(deathbound_type);
 			}
 		}
 
@@ -181,6 +183,8 @@ void AIKGameModeBase::CheckWinLoseCondition()
 		return;
 	}
 
+	// Function call matters. 
+	// Need changes in CombatResultUI if the below line called after SaveHeroSpawnData.
 	DisplayCombatResult();
 	if (AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
 	{
@@ -190,6 +194,9 @@ void AIKGameModeBase::CheckWinLoseCondition()
 	if (enemy_spawner_manager_->IsEnemyAllDefeated())
 	{
 		OnGameWin();
+
+		// Function call matters. 
+		// Need changes in CombatResultUI if the below line called before DisplayCombatResult.
 		SaveHeroSpawnData();
 	}
 	else

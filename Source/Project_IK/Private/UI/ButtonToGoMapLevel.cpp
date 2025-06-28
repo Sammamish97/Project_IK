@@ -1,8 +1,8 @@
 /******************************************************************************
 Copyright(C) 2024
 Author: sinil.kang(rtd99062@gmail.com)
-Creation Date : 03.03.2025
-Summary : Header file of UI that contains a button to open a map level.
+Creation Date : 06.26.2025
+Summary : Source file of UI that contains a button to open a map level.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.

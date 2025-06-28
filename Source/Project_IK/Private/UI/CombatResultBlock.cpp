@@ -55,17 +55,22 @@ void UCombatResultBlock::SetDamageDealt(float damage)
 	deal_text_->SetText(FText::AsNumber(damage));
 }
 
-void UCombatResultBlock::SetInjuredVisibility(ESlateVisibility visibility)
+void UCombatResultBlock::SetHoveredTextVisibility(ESlateVisibility visibility)
 {
-	injured_->SetVisibility(visibility);
+	hovered_text_->SetVisibility(visibility);
 }
 
-void UCombatResultBlock::SetInjuredOpacity(float opacity)
+void UCombatResultBlock::SetHoveredTextOpacity(float opacity)
 {
-	injured_->SetOpacity(opacity);
-	FSlateFontInfo font = injured_->GetFont();
+	hovered_text_->SetOpacity(opacity);
+	FSlateFontInfo font = hovered_text_->GetFont();
 	font.OutlineSettings.OutlineColor.A = opacity;
-	injured_->SetFont(font);
+	hovered_text_->SetFont(font);
+}
+
+void UCombatResultBlock::SetHoveredText(FString string)
+{
+	hovered_text_->SetText(FText::FromString(string));
 }
 
 void UCombatResultBlock::NativeConstruct()
