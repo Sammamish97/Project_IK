@@ -523,6 +523,7 @@ enum class EBuffType : uint8
 	Agility UMETA(DisplayName = "Agility"),
 	Berserker UMETA(DisplayName = "Berserker"),
 	LowProfile UMETA(DisplayName = "LowProfile"),
+	Deathbound UMETA(DisplayName = "Deathbound"),
 	
 	Chariot_Edge UMETA(DisplayName = "Chariot_Edge"),
 	Chariot_Triangle UMETA(DisplayName = "Chariot_Edge"),

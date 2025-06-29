@@ -29,6 +29,7 @@ public:
 	void ApplyBuff(UObject* buff_target) override;
 
 protected:
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EHeroType target_hero_type_;
 };

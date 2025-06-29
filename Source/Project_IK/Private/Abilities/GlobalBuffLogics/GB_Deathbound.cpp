@@ -26,4 +26,12 @@ bool UGB_Deathbound::IsBuffValidOnTarget(UObject* buff_target)
 
 void UGB_Deathbound::ApplyBuff(UObject* buff_target)
 {
+	if (AHeroBase* hero = Cast<AHeroBase>(buff_target))
+	{
+		hero->ApplyBuff(EBuffType::Deathbound, FBuffStatusData(ECharacterStatType::HitPoints, 0.5f, true, true));
+		hero->ApplyBuff(EBuffType::Deathbound, FBuffStatusData(ECharacterStatType::AttackPower, 0.5f, true, true));
+		hero->ApplyBuff(EBuffType::Deathbound, FBuffStatusData(ECharacterStatType::AttackSpeed, 0.5f, true, true));
+
+		hero->AddBuffUI(FBuffUIData(FText::FromString("Deathbound"), EBuffType::Deathbound, nullptr, 0.f, true, FText::FromString("x0.5 HP, AttackPower, AttackSpeed")));
+	}
 }

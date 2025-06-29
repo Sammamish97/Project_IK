@@ -84,7 +84,8 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnApplyBuffDelegate OnApplyBuff;
 	
-private:
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EHeroType hero_type_;
 	bool is_covered_ = false;
 };
