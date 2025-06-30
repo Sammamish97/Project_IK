@@ -132,6 +132,7 @@ void AUnit::BeginPlay()
 	Super::BeginPlay();
 	SpawnDefaultController();
 	GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->ApplyBuff(this);
+
 	UCapsuleComponent* capsule_comp = FindComponentByClass<UCapsuleComponent>();
 	if (capsule_comp)
 	{

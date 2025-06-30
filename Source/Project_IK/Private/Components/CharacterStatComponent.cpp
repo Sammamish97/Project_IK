@@ -36,7 +36,7 @@ void UCharacterStatComponent::InitializeComponent()
 	{
 		if (UDataTableManager* data_table_manager = ik_game_instance->GetDataTableManager())
 		{
-			character_data_ = data_table_manager->GetCharacterData(Cast<AUnit>(GetOwner())->GetCharacterType());
+			SetCharacterData(data_table_manager->GetCharacterData(Cast<AUnit>(GetOwner())->GetCharacterType()));
 		}
 		// They are initial data of each attributes. Theoretical limitation will be implemented later
 		max_hit_points_ = character_data_.status_data_.hit_point_;

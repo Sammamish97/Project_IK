@@ -17,8 +17,10 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKPlayerController.h"
 #include "Managers/DataTableManager.h"
 
+#include "DataAssets/EnemySpawnDataAsset.h"
+
 UEnemySpawnerManager::UEnemySpawnerManager()
-	:spawn_distance_(), enemy_waves_(0), spawn_position_(), enemy_spacing_(300), enemy_num_(1)
+	:spawn_distance_(), enemy_waves_(0), spawn_position_(), enemy_spacing_(300)
 {
 }
 
@@ -41,16 +43,12 @@ void UEnemySpawnerManager::SpawnEnemies()
 	// Spawn enemies in a distance from the point.
 	spawn_position_ += spawn_distance_;
 
-	for (int32 i = 0; i < enemy_num_; i++)
+	FEnemySpawnData enemy_spawn_data = enemy_spawn_data_asset_->GetRandomEnemySpawnData();
+	for (const FEnemySpawnUnit& unit : enemy_spawn_data.enemy_spawn_unit_array_->spawn_units_)
 	{
-		FVector spawn_offset = FVector(0.f, (enemy_spacing_ * (enemy_num_ - 1) / -2.f) + (i * enemy_spacing_), 0.f);
-		// It may return nullptr if enemy_spacing_ is too narrow.
-		AEnemyBase* enemy = GetWorld()->SpawnActor<AEnemyBase>(enemy_class_, spawn_position_ + spawn_offset, FRotator::ZeroRotator);
-		
+		AEnemyBase* enemy = GetWorld()->SpawnActor<AEnemyBase>(unit.enemy_class_, spawn_position_ + unit.spawn_offset_, FRotator::ZeroRotator);
 		if (enemy)
 		{
-			UDataTableManager* data_table =  Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
-			enemy->GetComponentByClass<UCharacterStatComponent>()->SetCharacterData(data_table->GetCharacterData(ECharacterType::EnemySoldier));
 			enemies_.Add(enemy);
 		}
 	}
@@ -58,12 +56,7 @@ void UEnemySpawnerManager::SpawnEnemies()
 	AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if (pc)
 	{
-		TArray<TWeakObjectPtr<AActor>> enemy_arr;
-		for (AActor* enemy : enemies_)
-		{
-			enemy_arr.Add(enemy);
-		}
-		pc->UpdateEnemies(enemy_arr);
+		pc->UpdateEnemies(enemies_);
 	}
 }
 
