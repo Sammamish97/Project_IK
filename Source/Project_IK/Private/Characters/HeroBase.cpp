@@ -13,7 +13,6 @@ See LICENSE file in the project root for full license information.
 #include "AI/GunnerAIController.h"
 #include "AI/HeroAIController.h"
 
-#include "Components/CapsuleComponent.h"
 #include "Components/PassiveSkillMechanics.h"
 #include "Components/RuneMechanics.h"
 #include "Components/SphereComponent.h"
@@ -141,12 +140,6 @@ void AHeroBase::EquipGears(FSpawnData spawn_data)
 	rune_mechanics_->ApplySetBonuses();
 }
 
-
-void AHeroBase::InitAfterHUD()
-{
-	passive_skill_mechanics_->InitPassiveSkill();
-}
-
 void AHeroBase::Die()
 {
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
@@ -258,4 +251,9 @@ UActiveSkillMechanics* AHeroBase::GetActiveSkillMechanics()
 USkillBase* AHeroBase::GetActiveSkill()
 {
 	return active_skill_mechanics_->GetActiveSkill();
+}
+
+UPassiveSkillMechanics* AHeroBase::GetPassiveSkillMechanics()
+{
+	return passive_skill_mechanics_;
 }

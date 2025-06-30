@@ -27,6 +27,7 @@ class PROJECT_IK_API AIKGameModeBase : public AGameModeBase
 public:
 	AIKGameModeBase();
 
+	virtual void StartPlay() override;
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)

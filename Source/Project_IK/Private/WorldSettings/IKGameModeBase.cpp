@@ -21,15 +21,27 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 #include "Components/CharacterStatComponent.h"
+#include "Components/PassiveSkillMechanics.h"
 #include "Components/TargetingComponent.h"
 #include "Environments/SpawnMarker.h"
 #include "Structs/SpawnData.h"
+#include "Subsystems/GlobalBuffSubsystem.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "UI/IKMaps.h"
 
 AIKGameModeBase::AIKGameModeBase()
 	: Super::AGameModeBase()
 {
+}
+
+void AIKGameModeBase::StartPlay()
+{
+	Super::StartPlay();
+	for (auto& elem : heroes_)
+	{
+		Cast<AHeroBase>(elem)->GetPassiveSkillMechanics()->InitPassiveSkill();
+		GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->ApplyBuff(elem);
+	}
 }
 
 void AIKGameModeBase::BeginPlay()

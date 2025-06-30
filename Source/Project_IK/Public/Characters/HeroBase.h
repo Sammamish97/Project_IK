@@ -30,7 +30,6 @@ public:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
 	virtual void EquipGears(FSpawnData spawn_data);
-	virtual void InitAfterHUD();
 	virtual void Die() override;
 	
 	virtual void Attack(AActor* target) override;
@@ -60,6 +59,7 @@ public:
 	class URuneMechanics* GetRuneMechanics();
 	class UActiveSkillMechanics* GetActiveSkillMechanics();
 	class USkillBase* GetActiveSkill();
+	class UPassiveSkillMechanics* GetPassiveSkillMechanics();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
