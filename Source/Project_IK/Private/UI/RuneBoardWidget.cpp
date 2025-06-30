@@ -10,54 +10,105 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/RuneBoardWidget.h"
 
+#include "Components/Overlay.h"
+#include "Components/OverlaySlot.h"
 #include "Kismet/GameplayStatics.h"
 #include "Structs/SpawnData.h"
 #include "UI/RuneSlotWidget.h"
 #include "UI/RuneStorageWidget.h"
 #include "Components/ProgressBar.h"
+#include "Components/SizeBox.h"
 #include "WorldSettings/IKGameInstance.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "Managers/SetBonusManager.h"
+#include "UI/RuneBoardEdgeWidget.h"
 
-void URuneBoardWidget::NativePreConstruct()
+void URuneBoardWidget::NativeConstruct()
 {
-	Super::NativePreConstruct();
-	slot_array_.Empty();
-	
-	slot_array_.Add(slot_0_);
-	slot_array_.Add(slot_1_);
-	slot_array_.Add(slot_2_);
-	slot_array_.Add(slot_3_);
-	slot_array_.Add(slot_4_);
-	slot_array_.Add(slot_5_);
-
+	Super::NativeConstruct();
+	TArray rune_slots = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
 	for (int i = 0; i < 6; ++i)
 	{
-		slot_array_[i]->SetIsBoardSlot(true);
-		slot_array_[i]->SetRuneSlotIndex(i);
+		rune_slots[i]->SetIsBoardSlot(true);
+		rune_slots[i]->SetRuneSlotIndex(i);
 	}
-	slot_array_[0]->SetSelectedImageVisibility(true);
+	float r = 300;
+
+	auto vertices = ComputeVertices(r);
+	auto edges = ComputeEdges(vertices);
+
+	for(int32 i = 0; i < 6; ++i)
+	{
+		//Left -> Top -> Right -> Bottom
+		FMargin margin = {vertices[i].X, 0, 0,  vertices[i].Y};
+		UOverlaySlot* rune_slot = CastChecked<UOverlaySlot>(rune_overlay_->GetSlots()[i]);
+		rune_slot->SetPadding(margin);
+	}
 	
-	line_array_.Add(line_0_);
-	line_array_.Add(line_1_);
-	line_array_.Add(line_2_);
-	line_array_.Add(line_3_);
-	line_array_.Add(line_4_);
-	line_array_.Add(line_5_);
-	line_array_.Add(line_6_);
-	line_array_.Add(line_7_);
-	line_array_.Add(line_8_);
-	line_array_.Add(line_9_);
-	line_array_.Add(line_10_);
-	line_array_.Add(line_11_);
+	TArray line_array = {line_0_, line_1_, line_2_, line_3_, line_4_, line_5_, line_6_, line_7_, line_8_, line_9_, line_10_, line_11_};
+	TArray<UOverlaySlot*> line_slots;
+	for(int32 i = 0; i < 12; ++i)
+	{
+		line_slots.Push(CastChecked<UOverlaySlot>(line_overlay_->GetSlots()[i]));
+	}
+	float temp_height = 2.f;
+
+	TArray idx_map = {0, 4, 7, 9, 11, 3, 1, 8, 2, 5, 10, 6};
+	for(int32 i = 0; i < 12; ++i)
+	{
+		line_slots[i]->SetPadding({edges[idx_map[i]].mid_point.X, 0, 0, edges[idx_map[i]].mid_point.Y});
+		line_array[i]->size_box_->SetRenderTransformAngle(FMath::RadiansToDegrees(edges[idx_map[i]].angle));
+		line_array[i]->size_box_->SetWidthOverride(edges[idx_map[i]].length);
+		line_array[i]->size_box_->SetHeightOverride(temp_height);
+	}
+}
+
+TArray<FVector2D> URuneBoardWidget::ComputeVertices(float radius)
+{
+	TArray<FVector2D> result;
+	for (int32 i = 0; i < 6; ++i) {
+		float angle = 2 * PI * i / 6;
+		result.Push({radius * FMath::Sin(angle), radius * FMath::Cos(angle)});
+	}
+	return result;
+}
+
+TArray<URuneBoardWidget::Edge> URuneBoardWidget::ComputeEdges(const TArray<FVector2D>& vertices)
+{
+	TArray<Edge> result;
+	for (int32 i = 0; i < 6; ++i) {
+		for (int32 j = i + 1; j < 6; ++j) {
+			// Skip same vertex and opposite vertex
+			if (j == (i + 3) % 6) continue;
+
+			FVector2D p1 = vertices[i];
+			FVector2D p2 = vertices[j];
+
+			// Midpoint
+			FVector2D mid = { (p1.X + p2.X) / 2.0f, (p1.Y + p2.Y) / 2.0f };
+
+			// Length
+			float dx = p2.X - p1.X;
+			float dy = p2.Y - p1.Y;
+			float len = FMath::Sqrt(dx * dx + dy * dy);
+
+			// Angle (radians)
+			float angle = FMath::Atan2(dy, dx);
+			angle *= -1;
+
+			result.Push({ mid, len, angle });
+		}
+	}
+	return result;
 }
 
 void URuneBoardWidget::InitBoardData(TObjectPtr<URuneStorageWidget> storage_ptr)
 {
+	TArray rune_slots = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
 	for (int i = 0; i < 6; ++i)
 	{
-		slot_array_[i]->InitRuneStorageData(storage_ptr);
-		slot_array_[i]->InitRuneBoardData(this);
+		rune_slots[i]->InitRuneStorageData(storage_ptr);
+		rune_slots[i]->InitRuneBoardData(this);
 	}
 }
 
@@ -65,10 +116,10 @@ void URuneBoardWidget::LoadRuneBoardWidget()
 {
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
-	TArray slot_array = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
-	for (int32 i = 0; i < slot_array_.Num(); ++i)
+	TArray rune_slots = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
+	for (int32 i = 0; i < 6; ++i)
 	{
-		slot_array[i]->ClearData();
+		rune_slots[i]->ClearData();
 	}
 	
 	if(transition_system->GetSpawnData().IsEmpty() == false)
@@ -80,9 +131,9 @@ void URuneBoardWidget::LoadRuneBoardWidget()
 		{
 			if (rune_data_array[i].IsSet())
 			{
-				slot_array[i]->SetRuneData(rune_data_array[i].GetValue());
+				rune_slots[i]->SetRuneData(rune_data_array[i].GetValue());
 			}
-			slot_array[i]->SetImageTexture();
+			rune_slots[i]->SetImageTexture();
 		}
 	}
 }
@@ -91,7 +142,8 @@ void URuneBoardWidget::UpdateRuneBoard()
 {
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
-	
+	TArray rune_slots = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
+
 	if(transition_system->GetSpawnData().IsEmpty() == false)
 	{
 		FSpawnData data_cache = transition_system->GetSpawnData(hero_idx_cache_);
@@ -99,13 +151,13 @@ void URuneBoardWidget::UpdateRuneBoard()
 
 		for (int32 i = 0; i < rune_data_array.Num(); i++)
 		{
-			if (slot_array_[i]->IsEmptySlot())
+			if (rune_slots[i]->IsEmptySlot())
 			{
 				rune_data_array[i].Reset();
 			}
 			else
 			{
-				rune_data_array[i] = slot_array_[i]->GetRuneData();
+				rune_data_array[i] = rune_slots[i]->GetRuneData();
 			}
 		}
 		
@@ -122,14 +174,18 @@ void URuneBoardWidget::UpdateRuneBoard()
 
 void URuneBoardWidget::ClearSetBonusEffect()
 {
-	for (auto& elem : line_array_)
+	TArray lines = {line_0_, line_1_, line_2_, line_3_, line_4_, line_5_, line_6_, line_7_, line_8_, line_9_, line_10_, line_11_};
+	for (auto& elem : lines)
 	{
-		elem->SetPercent(0);
+		elem->SetVisibility(ESlateVisibility::Hidden);
 	}
 }
 
 void URuneBoardWidget::TurnOnSetBonusEffect()
 {
+	TArray rune_slots = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
+	TArray lines = {line_0_, line_1_, line_2_, line_3_, line_4_, line_5_, line_6_, line_7_, line_8_, line_9_, line_10_, line_11_};
+
 	ClearSetBonusEffect();
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<USetBonusManager> set_bonus_cache = ik_instance->GetSetBonusManager();
@@ -137,13 +193,13 @@ void URuneBoardWidget::TurnOnSetBonusEffect()
 	TArray<FRuneData> data_array;
 	for (int i = 0; i < 6; ++i)
 	{
-		if (slot_array_[i]->IsEmptySlot())
+		if (rune_slots[i]->IsEmptySlot())
 		{
 			data_array.Add(FRuneData());
 		}
 		else
 		{
-			data_array.Add(slot_array_[i]->GetRuneData());
+			data_array.Add(rune_slots[i]->GetRuneData());
 		}
 	}
 	auto result = set_bonus_cache->FigureOutRuneSet(data_array);
@@ -151,19 +207,19 @@ void URuneBoardWidget::TurnOnSetBonusEffect()
 	{
 		if (elem.Value.Num() == 2)
 		{
-			line_array_[elem.Value[0]]->SetPercent(1.0);
+			lines[elem.Value[0]]->SetVisibility(ESlateVisibility::Visible);
 		}
 		else if (elem.Value.Num() == 3)
 		{
-				line_array_[6 + 3 * elem.Value[0]]->SetPercent(1.0);
-				line_array_[7 + 3 * elem.Value[0]]->SetPercent(1.0);
-				line_array_[8 + 3 * elem.Value[0]]->SetPercent(1.0);
+				lines[6 + 3 * elem.Value[0]]->SetVisibility(ESlateVisibility::Visible);
+				lines[7 + 3 * elem.Value[0]]->SetVisibility(ESlateVisibility::Visible);
+				lines[8 + 3 * elem.Value[0]]->SetVisibility(ESlateVisibility::Visible);
 		}
 		else if (elem.Value.Num() == 6)
 		{
 			for (int i = 0; i < 6; ++i)
 			{
-				line_array_[i]->SetPercent(1.0);
+				lines[i]->SetVisibility(ESlateVisibility::Visible);
 			}
 		}
 	}
@@ -171,11 +227,12 @@ void URuneBoardWidget::TurnOnSetBonusEffect()
 
 void URuneBoardWidget::SetSelectedBorder(int32 rune_idx)
 {
-	for (auto& elem:slot_array_)
+	TArray rune_slots = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
+	for (auto& elem: rune_slots)
 	{
 		elem->SetSelectedImageVisibility(false);
 	}
-	slot_array_[rune_idx]->SetSelectedImageVisibility(true);
+	rune_slots[rune_idx]->SetSelectedImageVisibility(true);
 }
 
 void URuneBoardWidget::SetCurHeroIdx(int32 hero_idx)
