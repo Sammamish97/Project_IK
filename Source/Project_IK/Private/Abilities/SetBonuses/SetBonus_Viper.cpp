@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/BulletDebuffEffectComponent.h"
 #include "Components/BulletViperEffectComponent.h"
 #include "Components/WeaponMechanics.h"
-#include "DataAssets/BuffDataAsset.h"
+#include "DataAssets/BuffUIDataAsset.h"
 #include "Weapons/Guns/GunBase.h"
 
 //2세트: 공격 속도20%

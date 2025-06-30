@@ -12,13 +12,16 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Structs/BuffUIData.h"
-#include "BuffDataAsset.generated.h"
+#include "BuffUIDataAsset.generated.h"
 
 UCLASS()
-class PROJECT_IK_API UBuffDataAsset : public UPrimaryDataAsset
+class PROJECT_IK_API UBuffUIDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Buff Data")
-	FBuffUIData buff_data_;
+	FBuffUIData GetBuffUIData(EBuffType type);
+	
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Buff Data", meta = (AllowPrivateAccess = "true"))
+	TMap<EBuffType, FBuffUIData> buff_UI_data_;
 };

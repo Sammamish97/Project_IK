@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/BuffUIData.h"
 
 #include "DataTableManager.generated.h"
 
@@ -84,6 +85,8 @@ public:
 
 	TSubclassOf<class AUnit> GetUnitType(ECharacterType type);
 	FSupportSkillData GetSupportSkillType(ESupportSkillType type);
+
+	FBuffUIData GetBuffUIData(EBuffType type);
 	
 
 private:
@@ -119,4 +122,7 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class USupportSkillDataAsset> support_skill_type_asset_;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UBuffUIDataAsset> buff_ui_data_asset_;
 };
