@@ -28,7 +28,6 @@ See LICENSE file in the project root for full license information.
 #include "Components/CharacterStatComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameModeBase.h"
-#include "WorldSettings/IKHUD.h"
 #include "Managers/CombatLevelResultManager.h"
 
 #include "Managers/EnumCluster.h"
@@ -298,12 +297,10 @@ FReply UCombatResultUI::NativeOnMouseButtonDown(const FGeometry& InGeometry, con
 {
 	if (InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
 	{
-		AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
-		if (hud)
+		AIKGameModeBase* gamemode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
+		if (gamemode)
 		{
-			hud->SwitchUIByState(ECombatEndState::ShowingEquipmentRewardUI);
-
-			return FReply::Handled();
+			gamemode->ProceedGameFlowAfterUI();
 		}
 
 	}

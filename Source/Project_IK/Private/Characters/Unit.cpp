@@ -195,7 +195,10 @@ void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 		if (data.skill_power_base_dmg_ > 0.f)
 		{
 			ADamageUI* skill_ui = SpawnDamageUI();
-			skill_ui->SetDamageAmount(data.skill_power_base_dmg_, FLinearColor::Blue);
+			if (skill_ui)
+			{
+				skill_ui->SetDamageAmount(data.skill_power_base_dmg_, FLinearColor::Blue);
+			}
 		}
 		else if (data.skill_power_base_dmg_ < 0.f)
 		{

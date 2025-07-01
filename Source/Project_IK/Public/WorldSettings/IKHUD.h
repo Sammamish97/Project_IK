@@ -19,6 +19,7 @@ class USkillButtonWidget;
 class UButtonBarWidget;
 class UCombatResultUI;
 class UCombatLevelResultManager;
+class UInventoryWidget;
 
 enum class ECombatEndState : uint8;
 enum class EHeroType : uint8;
@@ -55,7 +56,7 @@ protected:
 	TObjectPtr<UCombatLevelResultManager> combat_level_result_manager_;
 	
 	UPROPERTY(EditAnywhere, Category = "UI")
-	TSubclassOf<class UInventoryWidget> inventory_widget_class_;
+	TSubclassOf<UInventoryWidget> inventory_widget_class_;
 	
 	UPROPERTY()
 	TObjectPtr<UInventoryWidget> inventory_widget_;

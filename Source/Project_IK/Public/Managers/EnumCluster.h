@@ -46,6 +46,7 @@ enum class ECombatEndState : uint8
 	ShowingCombatResultUI UMETA(DisplayName = "ShowingCombatResultUI"),
 	ShowingEquipmentRewardUI UMETA(DisplayName = "ShowingEquipmentRewardUI"),
 	ShowingMapUI UMETA(DisplayName = "ShowingMapUI"),
+	ShowingToMainmenu UMETA(DisplayName = "ShowingToMainmenu"),
 };
 
 UENUM(BlueprintType)

@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 enum class ECombatEndState : uint8;
 class UCombatResultUI;
 class UEquipmentRewardWidget;
+class UToMainMenuWidget;
 /**
  * 
  */
@@ -42,6 +43,9 @@ public:
 
 
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UToMainMenuWidget> main_menu_ui_class_ = nullptr;
+
 protected:
 
 	UPROPERTY()
@@ -49,4 +53,7 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UEquipmentRewardWidget> equipment_reward_widget_;
+
+	UPROPERTY()
+	TObjectPtr<UToMainMenuWidget> main_menu_ui_ = nullptr;
 };

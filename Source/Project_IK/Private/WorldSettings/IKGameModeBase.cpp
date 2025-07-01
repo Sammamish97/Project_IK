@@ -91,6 +91,22 @@ void AIKGameModeBase::SpawnEnemies()
 	enemy_spawner_manager_->SpawnEnemies();
 }
 
+void AIKGameModeBase::ProceedGameFlowAfterUI()
+{
+	AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+	if (hud)
+	{
+		if (has_game_won_)
+		{
+			hud->SwitchUIByState(ECombatEndState::ShowingEquipmentRewardUI);
+		}
+		else
+		{
+			hud->SwitchUIByState(ECombatEndState::ShowingToMainmenu);
+		}
+	}
+}
+
 void AIKGameModeBase::SaveHeroSpawnData()
 {
 	ULevelTransitionSubsystem* level_transition_subsystem = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
@@ -183,9 +199,6 @@ void AIKGameModeBase::CheckWinLoseCondition()
 		return;
 	}
 
-	// Function call matters. 
-	// Need changes in CombatResultUI if the below line called after SaveHeroSpawnData.
-	DisplayCombatResult();
 	if (AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
 	{
 		pc->GetTargetingComponent()->StopTargeting();
@@ -194,15 +207,31 @@ void AIKGameModeBase::CheckWinLoseCondition()
 	if (enemy_spawner_manager_->IsEnemyAllDefeated())
 	{
 		OnGameWin();
-
-		// Function call matters. 
-		// Need changes in CombatResultUI if the below line called before DisplayCombatResult.
-		SaveHeroSpawnData();
 	}
 	else
 	{
 		OnGameLose();
 	}
+}
+
+void AIKGameModeBase::OnGameWin()
+{
+	has_game_won_ = true;
+
+	// Function call matters. 
+	// Need changes in CombatResultUI if the below line called after SaveHeroSpawnData.
+	DisplayCombatResult();
+
+	// Function call matters. 
+	// Need changes in CombatResultUI if the below line called before DisplayCombatResult.
+	SaveHeroSpawnData();
+}
+
+void AIKGameModeBase::OnGameLose()
+{
+	has_game_won_ = false;
+
+	DisplayCombatResult();
 }
 
 void AIKGameModeBase::RecordDamage(float damage, TWeakObjectPtr<AActor> attacker)
