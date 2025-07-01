@@ -80,20 +80,21 @@ void UEquipmentRewardWidget::OnConfirmButtonClicked()
 
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	UInventoryManager* inventory_manager = game_instance->GetInventoryManager();
-	AddToInventory(equipments_.active_skills_, index, inventory_manager);
-	AddToInventory(equipments_.passive_skills_, index, inventory_manager);
-	AddToInventory(equipments_.weapons_, index, inventory_manager);
-
-	for (const auto& data : equipments_.runes_)
-	{
-		if (equipment_widgets_[index]->IsChecked())
-		{
-			// Add it to inventory
-			inventory_manager->AddRune(data);
-		}
-
-		index += 1;
-	}
+	//IKTODO: 인벤토리 리펙토링에 의한 관련 기능 주석철.
+	// AddToInventory(equipments_.active_skills_, index, inventory_manager);
+	// AddToInventory(equipments_.passive_skills_, index, inventory_manager);
+	// AddToInventory(equipments_.weapons_, index, inventory_manager);
+	//
+	// for (const auto& data : equipments_.runes_)
+	// {
+	// 	if (equipment_widgets_[index]->IsChecked())
+	// 	{
+	// 		// Add it to inventory
+	// 		inventory_manager->AddRune(data);
+	// 	}
+	//
+	// 	index += 1;
+	// }
 
 	// Update HUD status
 	AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());

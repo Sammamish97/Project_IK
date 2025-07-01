@@ -10,40 +10,22 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Structs/InventorySlotData.h"
-#include "Structs/RuneSlotData.h"
 #include "UObject/Object.h"
 #include "InventoryManager.generated.h"
 
+class UDataTableManager;
 UCLASS()
 class PROJECT_IK_API UInventoryManager : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	void InitInventoryManager();
-	bool AddEquipment(EWeaponType weapon_type);
-	bool AddEquipment(EPassiveSkillType passive_skill_type);
-	bool AddEquipment(EActiveSkillType active_skill_type);
-
-	bool AddRune(FRuneData rune_data);
-	bool AddRune(ERuneSetType set_type, int32 slot_idx);
-	
-	void RemoveEquipItem(int index);
-	void RemoveRuneItem(int index);
-	
-	TArray<FInventorySlotData>& GetEquipStorageData();
-	TArray<FRuneSlotData>& GetRuneStorageData();
-	
-	int32 GetMaxInventorySize();
-
 	UFUNCTION(BlueprintCallable)
 	void SetCredits(int32 currency);
 	UFUNCTION(BlueprintPure)
 	int32 GetCredits() const;
 	UFUNCTION(BlueprintCallable)
 	void AddCredits(int32 currency);
-	
 
 	UFUNCTION(BlueprintCallable)
 	void SetPerkPoints(int32 points);
@@ -56,24 +38,8 @@ public:
 	int32 GetTickets() const;
 
 private:
-	int32 GetEquipmentEmptyIndex() const;
-	int32 GetRuneEmptyIndex() const;
-
-	void InitEquipInventory();
-	void InitRuneInventory();
-	
-private:
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
-	TObjectPtr<class UDataTableManager> data_table_manager_cache_;
-	
-	UPROPERTY(VisibleAnywhere, Category = "Inventory")
-	TArray<FInventorySlotData> equipment_storage_;
-
-	UPROPERTY(VisibleAnywhere, Category = "Inventory")
-	TArray<FRuneSlotData> rune_storage_;
-
-	UPROPERTY(VisibleAnywhere, Category = "Inventory")
-	int32 max_inventory_size_;
+	TObjectPtr<UDataTableManager> data_table_manager_cache_;
 
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	int32 credits_;

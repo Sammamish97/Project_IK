@@ -25,6 +25,9 @@ struct PROJECT_IK_API FRuneSetData
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	FItemData item_data_;
+	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
+	ERuneSetType set_type = ERuneSetType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	TMap<ERuneBonusType, FString> bonus_details_;

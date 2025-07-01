@@ -205,10 +205,17 @@ UENUM(BlueprintType)
 enum class EInventorySlotType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
-	WeaponBoardSlot UMETA(DisplayName = "WeaponBoardSlot"),
-	ActiveSkillBoardSlot UMETA(DisplayName = "ActiveSkillBoardSlot"),
-	PassiveSkillBoardSlot UMETA(DisplayName = "PassiveSkillBoardSlot"),
-	InventorySlot UMETA(DisplayName = "InventorySlot"),
+	Empty UMETA(DisplayName = "Empty"),
+	Weapon UMETA(DisplayName = "WeaponBoardSlot"),
+	ActiveSkill UMETA(DisplayName = "ActiveSkillBoardSlot"),
+	PassiveSkill UMETA(DisplayName = "PassiveSkillBoardSlot"),
+	SupportSkill UMETA(DisplayName = "SupportSkillBoardSlot"),
+	Rune_0 UMETA(DisplayName = "Rune_0"),
+	Rune_1 UMETA(DisplayName = "Rune_0"),
+	Rune_2 UMETA(DisplayName = "Rune_0"),
+	Rune_3 UMETA(DisplayName = "Rune_0"),
+	Rune_4 UMETA(DisplayName = "Rune_0"),
+	Rune_5 UMETA(DisplayName = "Rune_0"),
 };
 
 UENUM(BlueprintType)

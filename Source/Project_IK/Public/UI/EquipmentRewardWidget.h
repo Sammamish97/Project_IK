@@ -54,8 +54,6 @@ protected:
 
 	template<typename Data>
 	void CreateCheckboxButton(TArray<Data> data, int32& row, int32& column);
-	template<typename Data>
-	void AddToInventory(TArray<Data> data_array, int32& index, UInventoryManager* inventory_manager);
 
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
 	TObjectPtr<UTextBlock> text_max_selectables_;
@@ -94,19 +92,4 @@ inline void UEquipmentRewardWidget::CreateCheckboxButton(TArray<Data> data_array
 		}
 	}
 
-}
-
-template<typename Data>
-inline void UEquipmentRewardWidget::AddToInventory(TArray<Data> data_array, int32& index, UInventoryManager* inventory_manager)
-{
-	for (const auto& data : data_array)
-	{
-		if (equipment_widgets_[index]->IsChecked())
-		{
-			// Add it to inventory
-			inventory_manager->AddEquipment(data.type);
-		}
-
-		index += 1;
-	}
 }

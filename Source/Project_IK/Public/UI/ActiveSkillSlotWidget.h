@@ -1,31 +1,28 @@
 /******************************************************************************
 Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 3.10.2025
-Summary : Header file for Rune Slot widget.
+Creation Date : 7.1.2025
+Summary : Header file for Active skill slot Widget.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "InventorySlot.h"
-#include "Blueprint/UserWidget.h"
-#include "Structs/RuneData.h"
-#include "RuneSlotWidget.generated.h"
-class URuneBoardWidget;
-class UImage;
+#include "Structs/ActiveSkillData.h"
+#include "ActiveSkillSlotWidget.generated.h"
+
 UCLASS()
-class PROJECT_IK_API URuneSlotWidget : public UInventorySlot
+class PROJECT_IK_API UActiveSkillSlotWidget : public UInventorySlot
 {
 	GENERATED_BODY()
 public:
+	void SetActiveSkillSlotData(FActiveSkillData active_skill_data);
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-	void SetRuneSlotData(FRuneData rune_data);
-	FRuneData GetStoredRuneData();
-
+	FActiveSkillData GetStoredActiveSkillData();
+	
 private:
-	FRuneData rune_data_cache_;
+	FActiveSkillData active_skill_data_cache_;
 };

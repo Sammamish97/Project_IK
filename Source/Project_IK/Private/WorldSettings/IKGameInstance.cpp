@@ -132,7 +132,6 @@ void UIKGameInstance::InitInventoryManager()
 {
 	//DataTableManager가 먼저 초기화 되어야 한다.
 	inventory_manager_ = NewObject<UInventoryManager>(this);
-	inventory_manager_->InitInventoryManager();
 }
 
 void UIKGameInstance::InitDataTableManager()

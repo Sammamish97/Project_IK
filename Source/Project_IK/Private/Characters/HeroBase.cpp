@@ -49,56 +49,78 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
-	UHPUICore* widget = Cast<UHPUICore>(hp_UI_->GetWidget());
+	//TEST PURPOSE
+	// switch (GetCharacterType())
+	// {
+	// case ECharacterType::Hero1:
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
+	// 	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
+	// 	hero_type_ = EHeroType::Hero1;
+	// 	break;
+	// case ECharacterType::Hero2:
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
+	// 	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Berserker);
+	// 	hero_type_ = EHeroType::Hero2;
+	// 	break;
+	// case ECharacterType::Hero3:
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Viper, 0);
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Viper, 2);
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Viper, 4);
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 3);
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 5);
+	// 	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Agility);
+	// 	hero_type_ = EHeroType::Hero3;
+	// 	break;
+	// case ECharacterType::Hero4:
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 2);
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 4);
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 3);
+	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 5);
+	// 	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
+	// 	hero_type_ = EHeroType::Hero4;
+	// 	break;
+	//
+	// default:
+	// 	checkNoEntry();
+	// }
+	// if (weapon_mechanics_->GetWeaponActor() == nullptr)
+	// {
+	// 	weapon_mechanics_->EquipWeapon(default_weapon_class_);
+	// }
+	//
+	// if (weapon_mechanics_->GetWeaponActor() == nullptr)
+	// {
+	// 	weapon_mechanics_->EquipWeapon(default_weapon_class_);
+	// }
+	// active_skill_mechanics_->EquipActiveSkill(EActiveSkillType::ThunderStorm);
+	//
+	
 	switch (GetCharacterType())
 	{
 	case ECharacterType::Hero1:
-		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
-		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
-		rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
-		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
 		hero_type_ = EHeroType::Hero1;
 		break;
 	case ECharacterType::Hero2:
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
-		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Berserker);
 		hero_type_ = EHeroType::Hero2;
 		break;
 	case ECharacterType::Hero3:
-		rune_mechanics_->EquipRune(ERuneSetType::Viper, 0);
-		rune_mechanics_->EquipRune(ERuneSetType::Viper, 2);
-		rune_mechanics_->EquipRune(ERuneSetType::Viper, 4);
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 3);
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 5);
-		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Agility);
 		hero_type_ = EHeroType::Hero3;
 		break;
 	case ECharacterType::Hero4:
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 2);
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 4);
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 3);
-		rune_mechanics_->EquipRune(ERuneSetType::Quake, 5);
-		passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
 		hero_type_ = EHeroType::Hero4;
 		break;
 
 	default:
 		checkNoEntry();
 	}
+	UHPUICore* widget = Cast<UHPUICore>(hp_UI_->GetWidget());
 	widget->SetHPBarColor(hero_base_color_2_);
-
-	//TEST PURPOSE
-	if (weapon_mechanics_->GetWeaponActor() == nullptr)
-	{
-		weapon_mechanics_->EquipWeapon(default_weapon_class_);
-	}
-
-	active_skill_mechanics_->EquipActiveSkill(EActiveSkillType::ThunderStorm);
-	//
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -119,13 +141,14 @@ void AHeroBase::EquipGears(FSpawnData spawn_data)
 	{
 		weapon_mechanics_->EquipWeapon(default_weapon_class_);
 	}
-	if (spawn_data.passive_skill_data_.IsSet())
+	if (spawn_data.passive_skill_data_1_.IsSet())
 	{
-		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_.GetValue().type);
+		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_1_.GetValue().type_);
 	}
+	//IKTODO: 추후 Passive Skill 2, 3에 대한 처리도 추가해야 함.
 	if (spawn_data.active_skill_data_.IsSet())
 	{
-		active_skill_mechanics_->EquipActiveSkill(spawn_data.active_skill_data_.GetValue().type);
+		active_skill_mechanics_->EquipActiveSkill(spawn_data.active_skill_data_.GetValue().type_);
 	}
 
 	TArray rune_data_array = {spawn_data.rune_data_1, spawn_data.rune_data_2, spawn_data.rune_data_3, spawn_data.rune_data_4, spawn_data.rune_data_5, spawn_data.rune_data_6};

@@ -23,7 +23,7 @@ struct PROJECT_IK_API FWeaponData
 	TSubclassOf<class AGunBase> weapon_class_ = nullptr;
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
-	EWeaponType type = EWeaponType::INVALID;
+	EWeaponType type_ = EWeaponType::INVALID;
 	
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	FItemData item_data_;

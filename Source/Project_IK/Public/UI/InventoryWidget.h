@@ -14,8 +14,12 @@ See LICENSE file in the project root for full license information.
 #include "InventoryWidget.generated.h"
 
 class UButton;
-class UInventorySlot;
+class UEquipSlot;
 class UInventoryManager;
+class UHeroEquipBoardWidget;
+class URuneBoardWidget;
+class UWidgetSwitcher;
+
 UCLASS(Blueprintable)
 class PROJECT_IK_API UInventoryWidget : public UUserWidget
 {
@@ -28,65 +32,43 @@ public:
 	void InitInventoryWidget(UInventoryManager* inventory_manager);
 
 	UFUNCTION(BlueprintCallable)
-	void UpdateInventoryData();
+	void UpdateInventoryData(int32 hero_idx);
 
 	UFUNCTION(BlueprintCallable)
-	void LoadInventoryData();
-	
-	UFUNCTION()
-	void SwitchToLeftHero();
-	UFUNCTION()
-	void SwitchToRightHero();
-	
-	UFUNCTION()
-	void ToggleBoard();
-	
+	void LoadInventoryData(int32 hero_idx);
+
 private:
+
+	int32 hero_idx_cache_ = 0.f;
 	UPROPERTY(Transient)
 	TObjectPtr<UInventoryManager> inventory_manager_cache_;
 	
 	UPROPERTY(Transient)
 	TObjectPtr<class UDataTableManager> data_table_cache_;
+
+	//
 	
-	UPROPERTY(Transient)
-	int cur_hero_idx_;
-
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UCanvasPanel> canvas_panel_;
-
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UEquipBoardWidget> equip_board_;
-
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UEquipStorageWidget> equip_storage_;
-
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class URuneBoardWidget> rune_board_;
-
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class URuneStorageWidget> rune_storage_;
-
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-    TObjectPtr<class UWidgetSwitcher> board_switcher_;
-
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UWidgetSwitcher> storage_switcher_;
+	// UPROPERTY(meta = (BindWidget))
+	// TObjectPtr<UEquipSlot> support_skill_0_;
+	//
+	// UPROPERTY(meta = (BindWidget))
+	// TObjectPtr<UEquipSlot> support_skill_1_;
+	//
+	// UPROPERTY(meta = (BindWidget))
+	// TObjectPtr<UEquipSlot> support_skill_2_;
 	
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UTextBlock> hero_name_text_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UHeroEquipBoardWidget> hero_board_0_;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	FName cur_hero_name_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UHeroEquipBoardWidget> hero_board_1_;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<UButton> board_switch_button_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UHeroEquipBoardWidget> hero_board_2_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UHeroEquipBoardWidget> hero_board_3_;
 	
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<UButton> switch_hero_left_button_;
-
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<UButton> switch_hero_right_button_;
-
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TSubclassOf<UInventorySlot> slot_BP_class_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<URuneBoardWidget> rune_board_;
 };
