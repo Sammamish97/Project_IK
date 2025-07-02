@@ -97,11 +97,11 @@ void AIKGameModeBase::ProceedGameFlowAfterUI()
 	if (hud)
 	{
 		if (has_game_won_)
-		{
+		{	// Has game won
 			hud->SwitchUIByState(ECombatEndState::ShowingEquipmentRewardUI);
 		}
 		else
-		{
+		{	// game defeated.
 			hud->SwitchUIByState(ECombatEndState::ShowingToMainmenu);
 		}
 	}
@@ -204,6 +204,16 @@ void AIKGameModeBase::CheckWinLoseCondition()
 		pc->GetTargetingComponent()->StopTargeting();
 	}
 
+
+	// Function call matters. 
+	// Need changes in CombatResultUI if the below line called after SaveHeroSpawnData.
+	DisplayCombatResult();
+
+	// Function call matters. 
+	// Need changes in CombatResultUI if the below line called before DisplayCombatResult.
+	SaveHeroSpawnData();
+
+
 	if (enemy_spawner_manager_->IsEnemyAllDefeated())
 	{
 		OnGameWin();
@@ -217,19 +227,14 @@ void AIKGameModeBase::CheckWinLoseCondition()
 void AIKGameModeBase::OnGameWin()
 {
 	has_game_won_ = true;
-
-	// Function call matters. 
-	// Need changes in CombatResultUI if the below line called after SaveHeroSpawnData.
-	DisplayCombatResult();
-
-	// Function call matters. 
-	// Need changes in CombatResultUI if the below line called before DisplayCombatResult.
-	SaveHeroSpawnData();
 }
 
 void AIKGameModeBase::OnGameLose()
 {
-	has_game_won_ = false;
+	if (IsAllHeroesPermanentlyDead())
+	{
+		has_game_won_ = false;
+	}
 
 	DisplayCombatResult();
 }
@@ -301,13 +306,29 @@ void AIKGameModeBase::DisplayCombatResult()
 
 bool AIKGameModeBase::IsDefeated() const
 {
-	for (TWeakObjectPtr<AActor> hero : heroes_)
+	for (AActor* hero : heroes_)
 	{
 		// hero become null explicitly if it died
-		if (!hero.IsExplicitlyNull())
+		if (hero)
 		{
 			return false;
 		}
 	}
+	return true;
+}
+
+bool AIKGameModeBase::IsAllHeroesPermanentlyDead() const
+{
+	ULevelTransitionSubsystem* level_transition_subsystem = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
+	TArray<FSpawnData> spawn_data = level_transition_subsystem->GetSpawnData();
+
+	for (int32 i = 0; i < heroes_.Num(); ++i)
+	{
+		if (spawn_data[i].is_dead_ != true)
+		{
+			return false;
+		}
+	}
+
 	return true;
 }

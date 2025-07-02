@@ -78,6 +78,7 @@ protected:
 
 	void DisplayCombatResult();
 	bool IsDefeated() const;
+	bool IsAllHeroesPermanentlyDead() const;
 
 	FVector hero_spawn_position_;
 
@@ -93,5 +94,5 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UEnemySpawnerManager> enemy_spawner_manager_;
 
-	bool has_game_won_ = false;
+	bool has_game_won_ = true;
 };

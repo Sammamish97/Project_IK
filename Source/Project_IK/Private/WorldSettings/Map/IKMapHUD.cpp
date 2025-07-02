@@ -87,12 +87,12 @@ void AIKMapHUD::ToggleMap()
 
 	if (map_widget_->GetVisibility() == ESlateVisibility::Hidden)
 	{
-		map_widget_->SetVisibility(ESlateVisibility::Visible);
 		global_buff_displayer_->SetVisibility(ESlateVisibility::Visible);
+		map_widget_->SetVisibility(ESlateVisibility::Visible);
 	}
 	else
 	{
-		map_widget_->SetVisibility(ESlateVisibility::Hidden);
 		global_buff_displayer_->SetVisibility(ESlateVisibility::Hidden);
+		map_widget_->SetVisibility(ESlateVisibility::Hidden);
 	}
 }

@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "Project_IK/Public/Components/CharacterStatComponent.h"
 
 #include "Characters/Unit.h"
+#include "Characters/EnemyBase.h"
 #include "Managers/DataTableManager.h"
 #include "Math/UnrealMathUtility.h"
 
@@ -86,20 +87,24 @@ bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 	float remaining_atk_damage = data_ref.atk_base_dmg_;
 	float remaining_skill_damage = data_ref.skill_power_base_dmg_;
 
-	if (shield_ > 0.f)
+	float shield = GetShield();
+	if (shield > 0.f)
 	{
-		float atk_damage_to_shield = FMath::Min(remaining_atk_damage, shield_);
-		SetShield(shield_ - atk_damage_to_shield);
-		remaining_atk_damage -= atk_damage_to_shield;
-
-		float skill_damage_to_shield = FMath::Min(remaining_skill_damage, shield_);
-		SetShield(shield_ - skill_damage_to_shield);
+		float skill_damage_to_shield = FMath::Min(remaining_skill_damage, shield);
+		shield -= skill_damage_to_shield;
 		remaining_skill_damage -= skill_damage_to_shield;
 
-		if (shield_ <= 0.f)
+		float atk_damage_to_shield = FMath::Min(remaining_atk_damage, shield);
+		shield -= atk_damage_to_shield;
+		remaining_atk_damage -= atk_damage_to_shield;
+
+		if (shield <= 0.f)
 		{
 			DestroyShield();
-			GetWorld()->GetTimerManager().ClearTimer(shield_timer_);
+		}
+		else
+		{
+			SetShield(shield);
 		}
 	}
 
@@ -138,6 +143,7 @@ void UCharacterStatComponent::AcquireShield(float ShieldAmount, float Duration)
 void UCharacterStatComponent::DestroyShield()
 {
 	SetShield(0.f);
+	GetWorld()->GetTimerManager().ClearTimer(shield_timer_);
 }
 
 float UCharacterStatComponent::GetAttackPower() const noexcept
@@ -212,7 +218,7 @@ float UCharacterStatComponent::GetSkillCooldown() const noexcept
 
 float UCharacterStatComponent::GetShield() const noexcept
 {
-	return shield_;
+	return CalculateStat(ECharacterStatType::Shield);
 }
 
 void UCharacterStatComponent::SetAttackPower(float attack_power) noexcept
@@ -252,8 +258,9 @@ void UCharacterStatComponent::SetHitPoint(float hit_point) noexcept
 	{
 		return;
 	}
-
-	character_data_.status_data_.hit_point_ = FMath::Min(hit_point, GetMaxHitPoint());
+	// Calculations became complex because of buffs.
+	const float hp_ratio = FMath::Min(hit_point / GetMaxHitPoint(), 1.f);
+	character_data_.status_data_.hit_point_ = max_hit_points_ * hp_ratio;
 	OnHPChanged.Broadcast(GetHPRatio());
 	OnHPOrShieldChanged.Broadcast(GetHitPoint(), GetShield());
 	OnHPChangedWithOwner.Broadcast(GetHPRatio(), GetOwner());
@@ -302,16 +309,21 @@ void UCharacterStatComponent::SetSkillCooldown(float skill_cooldown) noexcept
 
 void UCharacterStatComponent::SetShield(float shield) noexcept
 {
-	shield_ = shield;
+	// Calculations became complex because of buffs.
+	const float shield_ratio = FMath::Min(shield / GetMaxShield(), 1.f);
+	shield_ = max_shield_ * shield_ratio;
 	OnShieldChanged.Broadcast(GetShieldRatio());
 	OnHPOrShieldChanged.Broadcast(GetHitPoint(), GetShield());
 }
 
 void UCharacterStatComponent::RecordDamage(FDamageData& data_ref)
 {
-	if (data_ref.attacker_.IsValid())
+	AActor* attack_target = data_ref.attack_target_.Get();
+	// Record damage if and only if the attack target is enemy.
+	if (data_ref.attacker_.IsValid() && attack_target && attack_target->IsA<AEnemyBase>())
 	{
 		AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
 		// @@ TODO: Record atk&skill dmg differently.
 		game_mode->RecordDamage(data_ref.atk_base_dmg_, data_ref.attacker_);
 		game_mode->RecordDamage(data_ref.skill_power_base_dmg_, data_ref.attacker_);
@@ -345,12 +357,12 @@ float UCharacterStatComponent::GetShieldRatio() const noexcept
 float UCharacterStatComponent::GetMaxHitPoint() const noexcept
 {
 	float stat = max_hit_points_;
-	float percentage_bonus = 0.f;
+	float percentage_bonus = 1.f;
 	float value_bonus = 0.f;
 
 	for (const auto& elem : buffs_)
 	{
-		if (elem.Value.Contains(ECharacterStatType::Shield))
+		if (elem.Value.Contains(ECharacterStatType::HitPoints))
 		{
 			FBuffStatusData stat_data = elem.Value[ECharacterStatType::HitPoints];
 			if (stat_data.is_percentage_)
@@ -363,13 +375,13 @@ float UCharacterStatComponent::GetMaxHitPoint() const noexcept
 			}
 		}
 	}
-	return (stat + value_bonus) * (1.f + percentage_bonus);
+	return (stat + value_bonus) * (percentage_bonus);	
 }
 
 float UCharacterStatComponent::GetMaxShield() const noexcept
 {
 	float stat = max_shield_;
-	float percentage_bonus = 0.f;
+	float percentage_bonus = 1.f;
 	float value_bonus = 0.f;
 
 	for (const auto& elem : buffs_)
@@ -387,7 +399,7 @@ float UCharacterStatComponent::GetMaxShield() const noexcept
 			}
 		}
 	}
-	return (stat + value_bonus) * (1.f + percentage_bonus);
+	return (stat + value_bonus) * (percentage_bonus);
 }
 
 FCharacterData UCharacterStatComponent::GetCharacterData() const noexcept
