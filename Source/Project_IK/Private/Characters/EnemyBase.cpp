@@ -11,7 +11,9 @@ See LICENSE file in the project root for full license information.
 #include "Characters/EnemyBase.h"
 
 #include "Components/CapsuleComponent.h"
+#include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "UI/HPUICore.h"
 #include "WorldSettings/IKGameModeBase.h"
 
 AEnemyBase::AEnemyBase()
@@ -24,6 +26,8 @@ AEnemyBase::AEnemyBase()
 void AEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
+	UHPUICore* widget = Cast<UHPUICore>(hp_UI_->GetWidget());
+	widget->SetHPBarColor(FColor::Red);
 }
 
 void AEnemyBase::Die()

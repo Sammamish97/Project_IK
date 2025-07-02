@@ -31,7 +31,7 @@ void UPS_LowProfile::InitEquipmentSkill(AActor* hero_ref)
 		AttachParticles(hero->GetMesh());
 	}
 
-	buff_ui_data_ = FBuffUIData(FText::FromString("LowProfile"), EBuffType::LowProfile, nullptr, 0.f, true, FText::FromString("LowProfile Detail"));
+	buff_ui_data_ = FBuffUIData(name_, EBuffType::LowProfile, thumbnail_, 0.f, true, detail_);
 	buff_status_data_ = FBuffStatusData(ECharacterStatType::EvasionRate, 0.1f, false, true);
 
 	ApplyBuff();

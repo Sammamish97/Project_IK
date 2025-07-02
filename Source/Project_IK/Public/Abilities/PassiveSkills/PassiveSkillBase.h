@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Interfaces/PassiveSkillInterface.h"
 #include "PassiveSkillBase.generated.h"
 
+class UTextBlock;
+
 UCLASS(Blueprintable, Abstract)
 class PROJECT_IK_API UPassiveSkillBase : public UObject, public IPassiveSkillInterface
 {
@@ -25,5 +27,15 @@ public:
 	virtual void InitEquipmentSkill(AActor* hero_ref) override;
 
 protected:
+	UPROPERTY(Transient)
 	TWeakObjectPtr<AActor> hero_cache_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Skills")
+	FText name_;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Skills")
+	FText detail_;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Skills")
+	TObjectPtr<UTexture2D> thumbnail_;
 };
