@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/DataTableManager.h"
 #include "UI/ActiveSkillSlotWidget.h"
 #include "UI/PassiveSkillSlotWidget.h"
+#include "UI/RuneSlotWidget.h"
 #include "UI/WeaponSlotWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 
@@ -28,11 +29,22 @@ void URewardContainerWidget::NativeConstruct()
 	Super::NativeConstruct();
 	//TEST perpose
 	auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm));
+	//
+	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
+	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
+	
+	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 0));
+	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 1));
+	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 2));
+	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 3));
+	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 4));
+	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 5));
 
-	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
-	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
+	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 0));
+	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 2));
+	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 4));
 	//
 	
 	for (auto weapon_data : reward_cache_.weapons_)
@@ -55,6 +67,13 @@ void URewardContainerWidget::NativeConstruct()
 		created_widget->SetPassiveSkillSlotData(passive_skill_data);
 		reward_slots_.Push(created_widget);
 	}
+	
+	for (auto rune_data : reward_cache_.runes_)
+    {
+    	auto created_widget = CreateWidget<URuneSlotWidget>(this, rune_slot_widget_class_);
+    	created_widget->SetRuneSetSlotData(rune_data);
+    	reward_slots_.Push(created_widget);
+    }
 
 	for (auto elem : reward_slots_)
 	{

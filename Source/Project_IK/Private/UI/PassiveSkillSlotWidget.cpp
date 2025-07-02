@@ -31,6 +31,7 @@ bool UPassiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FD
 		//IKTODO: Hero가 동일한 Passive Skill를 이미 장착하고 있는지 확인.
 		auto casted_slot = Cast<UPassiveSkillSlotWidget>(InOperation->Payload);
 		Swap(casted_slot->passive_skill_data_cache_, passive_skill_data_cache_);
+		Swap(casted_slot->is_empty_, is_empty_);
 		SetImageTexture();
 		casted_slot->SetImageTexture();
 		return true;

@@ -31,6 +31,7 @@ bool UActiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDr
 		auto casted_slot = Cast<UActiveSkillSlotWidget>(InOperation->Payload);
 		//IKTODO: 다른 Hero들 중 현재 장착하려는 Active Skill를 이미 장착하려는 Hero가 없어야 함.
 		Swap(casted_slot->active_skill_data_cache_, active_skill_data_cache_);
+		Swap(casted_slot->is_empty_, is_empty_);
 		SetImageTexture();
 		casted_slot->SetImageTexture();
 		return true;

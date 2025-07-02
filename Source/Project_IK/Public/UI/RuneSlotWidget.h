@@ -23,10 +23,11 @@ class PROJECT_IK_API URuneSlotWidget : public UInventorySlot
 	GENERATED_BODY()
 public:
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-	void SetRuneSetSlotData(FRuneSetData rune_data, EInventorySlotType slot_type);
-	FRuneSetData GetStoredRuneSetData();
+	void SetRuneSetSlotData(const FRuneData& rune_data);
+	void SetRuneSetSlotData(EInventorySlotType slot_type);
+	const FRuneData& GetStoredRuneData();
 	virtual void SetImageTexture() override;
 
 private:
-	FRuneSetData rune_set_data_cache_;
+	FRuneData rune_data_cache_;
 };

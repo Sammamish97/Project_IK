@@ -13,6 +13,8 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/HUD.h"
 #include "IKMapHUD.generated.h"
 
+class UInventoryWidget;
+
 UCLASS()
 class PROJECT_IK_API AIKMapHUD : public AHUD
 {
@@ -32,6 +34,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleMap();
+
+	UInventoryWidget* GetInventoryWidget();
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")

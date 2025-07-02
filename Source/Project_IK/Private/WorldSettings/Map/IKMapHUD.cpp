@@ -79,3 +79,8 @@ void AIKMapHUD::ToggleMap()
 		map_widget_->SetVisibility(ESlateVisibility::Hidden);
 	}
 }
+
+UInventoryWidget* AIKMapHUD::GetInventoryWidget()
+{
+	return inventory_widget_;
+}

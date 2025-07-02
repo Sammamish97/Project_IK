@@ -21,7 +21,7 @@ See LICENSE file in the project root for full license information.
 URuneMechanics::URuneMechanics()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-	equipped_runes_.Init(FRuneSetData(), 6);
+	equipped_runes_.Init(FRuneData(), 6);
 }
 
 // Called when the game starts
@@ -35,7 +35,7 @@ void URuneMechanics::BeginPlay()
 
 void URuneMechanics::EquipRune(ERuneSetType set_type, int32 idx)
 {
-	equipped_runes_[idx] = data_table_cache_->GetRuneSetData(set_type);
+	equipped_runes_[idx] = data_table_cache_->GetRuneData(set_type, idx);
 }
 
 FStatusData URuneMechanics::GetTotalStatus()
@@ -45,7 +45,7 @@ FStatusData URuneMechanics::GetTotalStatus()
 	{
 		if (equipped_runes_[i].set_type != ERuneSetType::INVALID)
 		{
-			for(const auto& stat : equipped_runes_[i].rune_set_data_[i].status_map)
+			for(const auto& stat : equipped_runes_[i].status_map)
 			{
 				total_status[stat.Key] += stat.Value;
 			}
@@ -73,7 +73,7 @@ TArray<RuneSetBonus> URuneMechanics::GetSetBonusData()
 	return bonus_manager_cache_->FigureOutRuneSet(equipped_runes_);
 }
 
-const TArray<FRuneSetData>& URuneMechanics::GetEquippedRunes()
+const TArray<FRuneData>& URuneMechanics::GetEquippedRunes()
 {
 	return equipped_runes_;
 }

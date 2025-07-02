@@ -36,11 +36,11 @@ public:
 	FStatusData GetTotalStatus();
 	void ApplySetBonuses();
 	TArray<RuneSetBonus> GetSetBonusData();
-	const TArray<FRuneSetData>& GetEquippedRunes();
+	const TArray<FRuneData>& GetEquippedRunes();
 	
 private:
 	UPROPERTY(Transient)
-	TArray<FRuneSetData> equipped_runes_;
+	TArray<FRuneData> equipped_runes_;
 	
 	UPROPERTY(Transient)
 	TObjectPtr<class USetBonusManager> bonus_manager_cache_;

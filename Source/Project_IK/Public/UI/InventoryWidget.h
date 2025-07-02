@@ -37,6 +37,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void LoadInventoryData(int32 hero_idx);
 
+	UFUNCTION()
+	void UpdateSetBonusEffect();
+
 private:
 
 	int32 hero_idx_cache_ = 0.f;

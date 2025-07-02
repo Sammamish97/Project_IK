@@ -205,7 +205,6 @@ UENUM(BlueprintType)
 enum class EInventorySlotType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
-	Empty UMETA(DisplayName = "Empty"),
 	Weapon UMETA(DisplayName = "WeaponBoardSlot"),
 	ActiveSkill UMETA(DisplayName = "ActiveSkillBoardSlot"),
 	PassiveSkill UMETA(DisplayName = "PassiveSkillBoardSlot"),

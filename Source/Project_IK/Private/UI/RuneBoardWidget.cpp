@@ -54,6 +54,7 @@ void URuneBoardWidget::NativeConstruct()
 		line_array[i]->size_box_->SetRenderTransformAngle(FMath::RadiansToDegrees(edges[idx_map[i]].angle));
 		line_array[i]->size_box_->SetWidthOverride(edges[idx_map[i]].length);
 		line_array[i]->size_box_->SetHeightOverride(temp_height);
+		line_array[i]->SetVisibility(ESlateVisibility::Hidden);
 	}
 }
 
@@ -96,15 +97,6 @@ TArray<URuneBoardWidget::Edge> URuneBoardWidget::ComputeEdges(const TArray<FVect
 	return result;
 }
 
-void URuneBoardWidget::InitBoardData(TObjectPtr<URuneStorageWidget> storage_ptr)
-{
-	TArray rune_slots = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
-	// for (int i = 0; i < 6; ++i)
-	// {
-	// 	rune_slots[i]->InitRuneBoardData(this);
-	// }
-}
-
 void URuneBoardWidget::LoadRuneBoardWidget(int32 hero_idx)
 {
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
@@ -118,15 +110,19 @@ void URuneBoardWidget::LoadRuneBoardWidget(int32 hero_idx)
 	if(transition_system->GetSpawnData().IsEmpty() == false)
 	{
 		FSpawnData data_cache = transition_system->GetSpawnData(hero_idx);
+		
 		TArray rune_data_array = {data_cache.rune_data_1, data_cache.rune_data_2, data_cache.rune_data_3, data_cache.rune_data_4, data_cache.rune_data_5, data_cache.rune_data_6};
-
+		TArray rune_slot_type_array = {EInventorySlotType::Rune_0, EInventorySlotType::Rune_1, EInventorySlotType::Rune_2, EInventorySlotType::Rune_3, EInventorySlotType::Rune_4, EInventorySlotType::Rune_5};
 		for (int32 i = 0; i < rune_data_array.Num(); i++)
 		{
-			// if (rune_data_array[i].IsSet())
-			// {
-			// 	rune_slots[i]->SetRuneData(rune_data_array[i].GetValue());
-			// }
-			rune_slots[i]->SetImageTexture();
+			if (rune_data_array[i].IsSet())
+			{
+				rune_slots[i]->SetRuneSetSlotData(rune_data_array[i].GetValue());
+			}
+			else
+			{
+				rune_slots[i]->SetRuneSetSlotData(rune_slot_type_array[i]);
+			}
 		}
 	}
 }
@@ -142,17 +138,17 @@ void URuneBoardWidget::UpdateRuneBoard(int32 hero_idx)
 		FSpawnData data_cache = transition_system->GetSpawnData(hero_idx);
 		TArray rune_data_array = {data_cache.rune_data_1, data_cache.rune_data_2, data_cache.rune_data_3, data_cache.rune_data_4, data_cache.rune_data_5, data_cache.rune_data_6};
 
-		// for (int32 i = 0; i < rune_data_array.Num(); i++)
-		// {
-		// 	if (rune_slots[i]->IsEmptySlot())
-		// 	{
-		// 		rune_data_array[i].Reset();
-		// 	}
-		// 	else
-		// 	{
-		// 		rune_data_array[i] = rune_slots[i]->GetRuneData();
-		// 	}
-		// }
+		for (int32 i = 0; i < rune_data_array.Num(); i++)
+		{
+			if (rune_slots[i]->IsEmpty())
+			{
+				rune_data_array[i].Reset();
+			}
+			else
+			{
+				rune_data_array[i] = rune_slots[i]->GetStoredRuneData();
+			}
+		}
 		
 		data_cache.rune_data_1 = rune_data_array[0];
 		data_cache.rune_data_2 = rune_data_array[1];
@@ -174,25 +170,26 @@ void URuneBoardWidget::ClearSetBonusEffect()
 	}
 }
 
-void URuneBoardWidget::TurnOnSetBonusEffect()
+void URuneBoardWidget::UpdateSetBonusEffect()
 {
+	ClearSetBonusEffect();
+	
 	TArray rune_slots = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
 	TArray lines = {line_0_, line_1_, line_2_, line_3_, line_4_, line_5_, line_6_, line_7_, line_8_, line_9_, line_10_, line_11_};
 
-	ClearSetBonusEffect();
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<USetBonusManager> set_bonus_cache = ik_instance->GetSetBonusManager();
 	
-	TArray<FRuneSetData> data_array;
+	TArray<FRuneData> data_array;
 	for (int i = 0; i < 6; ++i)
 	{
 		if (rune_slots[i]->IsEmpty())
 		{
-			data_array.Add(FRuneSetData());
+			data_array.Add(FRuneData());
 		}
 		else
 		{
-			data_array.Add(rune_slots[i]->GetStoredRuneSetData());
+			data_array.Add(rune_slots[i]->GetStoredRuneData());
 		}
 	}
 	auto result = set_bonus_cache->FigureOutRuneSet(data_array);

@@ -15,12 +15,12 @@ class PROJECT_IK_API UInventorySlot : public UUserWidget
 {
 	GENERATED_BODY()
 public:
+	virtual void NativeConstruct() override;
 	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	virtual void SetImageTexture();
 
-	void SetInventoryWidgetCache(UInventoryWidget* inventory_widget_cache);
 	void ClearData();
 	bool IsEmpty() const;
 	
@@ -36,4 +36,6 @@ protected:
 	
 	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<class UImage> image_;
+
+	bool is_empty_ = true;
 };

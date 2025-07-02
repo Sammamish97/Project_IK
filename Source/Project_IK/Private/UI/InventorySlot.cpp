@@ -3,11 +3,14 @@
 
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
+#include "Kismet/GameplayStatics.h"
 #include "UI/SlotDragDropImage.h"
-void UInventorySlot::SetInventoryWidgetCache(UInventoryWidget* inventory_widget_cache)
+#include "WorldSettings/Map/IKMapHUD.h"
+
+void UInventorySlot::NativeConstruct()
 {
-	inventory_widget_cache_ = inventory_widget_cache;
-	slot_type_ = EInventorySlotType::Empty;
+	Super::NativeConstruct();
+	inventory_widget_cache_ = Cast<AIKMapHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->GetInventoryWidget();
 }
 
 FReply UInventorySlot::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -25,7 +28,7 @@ void UInventorySlot::NativeOnDragDetected(const FGeometry& InGeometry, const FPo
 	UDragDropOperation*& OutOperation)
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
-	if (slot_type_ == EInventorySlotType::Empty) return;
+	if (is_empty_) return;
 
 	UDragDropOperation* dragdrop_operation = UWidgetBlueprintLibrary::CreateDragDropOperation(UDragDropOperation::StaticClass());
 	dragdrop_operation->Payload = this;
@@ -63,7 +66,7 @@ void UInventorySlot::ClearData()
 
 void UInventorySlot::SetImageTexture()
 {
-	if (slot_type_ == EInventorySlotType::Empty)
+	if (is_empty_)
 	{
 		image_->SetBrushFromTexture(nullptr);
 	}
@@ -71,5 +74,5 @@ void UInventorySlot::SetImageTexture()
 
 bool UInventorySlot::IsEmpty() const
 {
-	return slot_type_ == EInventorySlotType::Empty;
+	return is_empty_;
 }

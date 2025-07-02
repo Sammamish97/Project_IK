@@ -33,6 +33,11 @@ void UInventoryWidget::LoadInventoryData(int32 hero_idx)
 	//TArray support_skills = {support_skill_0_, support_skill_1_, support_skill_2_};
 }
 
+void UInventoryWidget::UpdateSetBonusEffect()
+{
+	rune_board_->UpdateSetBonusEffect();
+}
+
 void UInventoryWidget::NativeConstruct()
 {
 	Super::NativeConstruct();

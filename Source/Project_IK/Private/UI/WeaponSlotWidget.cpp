@@ -30,6 +30,8 @@ bool UWeaponSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDro
 	{
 		auto casted_slot_widget = Cast<UWeaponSlotWidget>(InOperation->Payload);
 		Swap(casted_slot_widget->weapon_data_cache_, weapon_data_cache_);
+		Swap(casted_slot_widget->is_empty_, is_empty_);
+
 		SetImageTexture();
 		casted_slot_widget->SetImageTexture();
 		return true;
