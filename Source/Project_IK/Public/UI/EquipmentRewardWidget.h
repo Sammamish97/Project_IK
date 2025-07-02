@@ -91,5 +91,4 @@ inline void UEquipmentRewardWidget::CreateCheckboxButton(TArray<Data> data_array
 			column += 1;
 		}
 	}
-
 }

@@ -48,7 +48,7 @@ bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 	if (auto casted_inventory_slot = Cast<UInventorySlot>(InOperation->Payload))
 	{
 		//Drop하는 Widget이 자기자신이 아니고 Type이 같으면 Swap이 가능하다.
-		if (casted_inventory_slot->slot_type_ == slot_type_ && InOperation->Payload == this)
+		if (casted_inventory_slot->slot_type_ == slot_type_ && InOperation->Payload != this)
 		{
 			return true;
 		}

@@ -11,10 +11,16 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
 
+void UPassiveSkillSlotWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+	slot_type_ = EInventorySlotType::PassiveSkill;
+}
+
 void UPassiveSkillSlotWidget::SetPassiveSkillSlotData(FPassiveSkillData passive_skill_data)
 {
 	passive_skill_data_cache_ = passive_skill_data;
-	slot_type_ = EInventorySlotType::PassiveSkill;
+	SetImageTexture();
 }
 
 bool UPassiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,

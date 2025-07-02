@@ -11,10 +11,16 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
 
+void UActiveSkillSlotWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+	slot_type_ = EInventorySlotType::ActiveSkill;
+}
+
 void UActiveSkillSlotWidget::SetActiveSkillSlotData(FActiveSkillData active_skill_data)
 {
 	active_skill_data_cache_ = active_skill_data;
-	slot_type_ = EInventorySlotType::ActiveSkill;
+	SetImageTexture();
 }
 
 bool UActiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,

@@ -11,10 +11,15 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
 
+void UWeaponSlotWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+	slot_type_ = EInventorySlotType::Weapon;
+}
+
 void UWeaponSlotWidget::SetWeaponSlotData(FWeaponData weapon_data)
 {
 	weapon_data_cache_ = weapon_data;
-	slot_type_ = EInventorySlotType::Weapon;
 	SetImageTexture();
 }
 

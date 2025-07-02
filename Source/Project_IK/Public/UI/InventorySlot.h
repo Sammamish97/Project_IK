@@ -7,6 +7,7 @@
 #include "Structs/ItemData.h"
 #include "InventorySlot.generated.h"
 
+class USlotDragDropImage;
 class UInventoryWidget;
 
 UCLASS()
@@ -28,7 +29,7 @@ protected:
 	EInventorySlotType slot_type_ = EInventorySlotType::INVALID;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TSubclassOf<UUserWidget> dragdrop_image_class_;
+	TSubclassOf<USlotDragDropImage> dragdrop_image_class_;
 
 	UPROPERTY(Transient)
 	TObjectPtr<UInventoryWidget> inventory_widget_cache_;

@@ -46,6 +46,8 @@ public:
 	// Reference to the Widget Blueprint class to create
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UCombatLevelResultManager> combat_level_widget_class_;
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<class UInventoryWidget> inventory_widget_class_;
 	
 protected:
 	UPROPERTY()
@@ -53,9 +55,6 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UCombatLevelResultManager> combat_level_result_manager_;
-	
-	UPROPERTY(EditAnywhere, Category = "UI")
-	TSubclassOf<class UInventoryWidget> inventory_widget_class_;
 	
 	UPROPERTY()
 	TObjectPtr<UInventoryWidget> inventory_widget_;

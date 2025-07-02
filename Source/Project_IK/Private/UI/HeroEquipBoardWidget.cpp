@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 #include "UI/HeroEquipBoardWidget.h"
 
 #include "Kismet/GameplayStatics.h"
-#include "Managers/DataTableManager.h"
 #include "Structs/SpawnData.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "WorldSettings/IKGameInstance.h"
@@ -47,10 +46,6 @@ void UHeroEquipBoardWidget::LoadHeroData(int32 hero_idx)
 		if (data_cache.passive_skill_data_1_.IsSet())
 		{
 			passive_skill_1_slot_->SetPassiveSkillSlotData(data_cache.passive_skill_data_1_.GetValue());
-		}
-		for (auto& elem : slot_array_)
-		{
-			elem->SetImageTexture();
 		}
 	}
 }

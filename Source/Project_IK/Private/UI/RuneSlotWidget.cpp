@@ -15,6 +15,7 @@ void URuneSlotWidget::SetRuneSetSlotData(FRuneSetData rune_data, EInventorySlotT
 {
 	rune_set_data_cache_ = rune_data;
 	slot_type_ = slot_type;
+	SetImageTexture();
 }
 
 FRuneSetData URuneSlotWidget::GetStoredRuneSetData()

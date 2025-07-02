@@ -19,6 +19,7 @@ class PROJECT_IK_API UActiveSkillSlotWidget : public UInventorySlot
 {
 	GENERATED_BODY()
 public:
+	virtual void NativeConstruct() override;
 	void SetActiveSkillSlotData(FActiveSkillData active_skill_data);
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	FActiveSkillData GetStoredActiveSkillData();
