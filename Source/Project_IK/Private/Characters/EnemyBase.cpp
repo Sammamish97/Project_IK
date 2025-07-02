@@ -27,7 +27,10 @@ void AEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
 	UHPUICore* widget = Cast<UHPUICore>(hp_UI_->GetWidget());
-	widget->SetHPBarColor(FColor::Red);
+	if (widget)
+	{
+		widget->SetHPBarColor(FColor::Red);
+	}
 }
 
 void AEnemyBase::Die()

@@ -39,6 +39,8 @@ See LICENSE file in the project root for full license information.
 
 typedef TPair<ERuneSetType, TArray<int32>> RuneSetBonus;
 
+#include "Managers/EnumCluster.h"
+
 void AIKHUD::BeginPlay()
 {
 	Super::BeginPlay();
@@ -61,6 +63,11 @@ void AIKHUD::BeginPlay()
 		for(auto cur_hero_type :hero_types)
 		{
 			auto cur_hero = Cast<AHeroBase>(game_mode->GetHero(cur_hero_type));
+			if (cur_hero == nullptr)
+			{
+				continue;
+			}
+
 			if(cur_hero->HasActiveSkill())
 			{
 				auto cur_skill_button_widget = button_bar_widget_->GetActiveSkillButtonWidget(cur_hero_type);
@@ -87,9 +94,7 @@ void AIKHUD::BeginPlay()
 			}
 			cur_hero->OnApplyBuff.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::EnqueueBuff);
 			cur_hero->OnBuffExpired.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::UpdateQueue);
-			
-			cur_hero->InitAfterHUD();
-			
+
 			hero_rune_bonus_detail_map.Add(cur_hero_type, cur_hero->GetRuneMechanics()->GetSetBonusData());
 		}
 
@@ -146,11 +151,11 @@ void AIKHUD::BeginPlay()
 	}
 }
 
-void AIKHUD::DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map)
+void AIKHUD::DisplayCombatResult(const TMap<EHeroType, float>& damage_map)
 {
 	if (combat_level_result_manager_)
 	{
-		combat_level_result_manager_->DisplayCombatResult(heroes, damage_map);
+		combat_level_result_manager_->DisplayCombatResult(damage_map);
 	}
 }
 

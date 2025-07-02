@@ -77,7 +77,7 @@ UTargetingComponent* AIKPlayerController::GetTargetingComponent()
 	return targeting_component_;
 }
 
-void AIKPlayerController::UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies)
+void AIKPlayerController::UpdateEnemies(TArray<AActor*> tracked_enemies)
 {
 	AIKPlayerCameraManager * camera_manger = Cast<AIKPlayerCameraManager>(PlayerCameraManager);
 

@@ -40,15 +40,15 @@ public:
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI images")
-	UTexture2D* enemy_icon_texture_;
+	TObjectPtr<UTexture2D> enemy_icon_texture_;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI images")
-	UTexture2D* boss_icon_texture_;
+	TObjectPtr<UTexture2D> boss_icon_texture_;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI images")
-	UTexture2D* store_icon_texture_;
+	TObjectPtr<UTexture2D> store_icon_texture_;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI images")
-	UTexture2D* event_icon_texture_;
+	TObjectPtr<UTexture2D> event_icon_texture_;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UI images")
-	UTexture2D* check_texture_;
+	TObjectPtr<UTexture2D> check_texture_;
 
 protected:
 	virtual void NativeConstruct() override;

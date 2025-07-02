@@ -1,8 +1,8 @@
 /******************************************************************************
 Copyright(C) 2024
 Author: sinil.kang(rtd99062@gmail.com)
-Creation Date : 03.03.2025
-Summary : Header file of UI that contains a button to open a widget.
+Creation Date : 06.27.2024
+Summary : Header file for UI that displays global buffs.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -12,33 +12,23 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "WidgetOpenerUI.generated.h"
+#include "GlobalBuffDisplayer.generated.h"
 
-class UButton;
+class UHorizontalBox;
 
 /**
- *
+ * 
  */
 UCLASS()
-class PROJECT_IK_API UWidgetOpenerUI : public UUserWidget
+class PROJECT_IK_API UGlobalBuffDisplayer : public UUserWidget
 {
 	GENERATED_BODY()
 
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UUserWidget> widget_class_;
 
 protected:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 
-	UFUNCTION()
-	void OnWidgetOpenButtonClicked();
-
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> widget_opener_button_;
-
-	UPROPERTY()
-	TObjectPtr<UUserWidget> widget_;
-
+	TObjectPtr<UHorizontalBox> buff_image_holder_;
 };

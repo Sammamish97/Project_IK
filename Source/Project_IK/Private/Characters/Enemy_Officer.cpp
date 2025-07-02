@@ -30,7 +30,10 @@ void AEnemy_Officer::BeginPlay()
 	auto heros = game_mode->GetHeroContainer();
 	for(auto& hero : heros)
 	{
-		delegate_bridge->BindOnHPChangedWithOwner(Cast<AUnit>(hero)->GetCharacterStat(), this, &AEnemy_Officer::PointTarget);
+		if (hero)
+		{
+			delegate_bridge->BindOnHPChangedWithOwner(Cast<AUnit>(hero)->GetCharacterStat(), this, &AEnemy_Officer::PointTarget);
+		}
 	}
 }
 

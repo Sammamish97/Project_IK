@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/HUD.h"
 #include "IKMainMenuHUD.generated.h"
 
-class UWidgetOpenerUI;
+class UButtonToGoMapLevel;
 
 /**
  * 
@@ -27,11 +27,11 @@ class PROJECT_IK_API AIKMainMenuHUD : public AHUD
 public:
 	// Need to add TSubclassOf and ptr of MapWidget
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UWidgetOpenerUI> map_widget_opener_class_;
+	TSubclassOf<UButtonToGoMapLevel> map_level_opener_class_;
 protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY()
-	TObjectPtr<UWidgetOpenerUI> map_widget_opener_;
+	TObjectPtr<UButtonToGoMapLevel> map_level_opener_;
 
 };

@@ -13,6 +13,8 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/HUD.h"
 #include "IKMapHUD.generated.h"
 
+class UGlobalBuffDisplayer;
+
 /**
  * 
  */
@@ -39,13 +41,19 @@ public:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<class UUserWidget> map_widget_class_;
-	
+
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<class UInventoryWidget> inventory_widget_class_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UGlobalBuffDisplayer> global_buff_displayer_class_;
 
 	UPROPERTY()
 	TObjectPtr<UUserWidget> map_widget_;
 	
 	UPROPERTY()
 	TObjectPtr<UInventoryWidget> inventory_widget_;
+
+	UPROPERTY()
+	TObjectPtr<UGlobalBuffDisplayer> global_buff_displayer_;
 };

@@ -20,6 +20,7 @@ class UVerticalBox;
 class UTextBlock;
 class UHorizontalBox;
 class UCombatResultBlock;
+enum class EHeroType : uint8;
 
 /**
  * 
@@ -31,7 +32,7 @@ class PROJECT_IK_API UCombatResultUI : public UUserWidget
 public:
 	virtual bool Initialize() override;
 
-	void UpdateResults(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map);
+	void UpdateResults(const TMap<EHeroType, float>& damage_map);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UCombatResultBlock> combat_result_block_widget_class_;
@@ -44,12 +45,15 @@ protected:
 	void InitializeRootWidget();
 	void InitializeChildWidgets();
 
-	void SetHeroNumbers(int32 num);
+	void PopulateWidgets(const TArray<AActor*>& hero_containers);
 
 	void UpdateHPBars(float InDeltaTime);
 
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 
+	void UpdateInjuredNotifiers(float InDeltaTime);
+
+protected:
 	// Widget pointers
 	UPROPERTY()
 	TObjectPtr<UCanvasPanel> root_canvas_panel_;
@@ -78,4 +82,6 @@ protected:
 	TArray<float> hp_ratio_after_;
 
 	float HP_timer_;
+
+	float injury_timer_;
 };

@@ -43,6 +43,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetDamageDealt(float damage);
 
+	void SetHoveredTextVisibility(ESlateVisibility visibility);
+	void SetHoveredTextOpacity(float opacity);
+	void SetHoveredText(FString string);
+
 protected:
 	virtual void NativeConstruct() override;
 
@@ -57,4 +61,7 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> deal_text_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> hovered_text_;
 };

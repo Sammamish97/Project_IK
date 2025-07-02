@@ -31,10 +31,15 @@ public:
 	virtual void Deinitialize() override;
 
 	void AddBuff(EGlobalBuffType buff_type);
+	bool RemoveBuff(EGlobalBuffType buff_type);
 
 	void ApplyBuff(UObject* buff_target);
 
+	bool HasBuff(EGlobalBuffType buff_type);
+
 	void UpdateBuffDurations();
+
+	const TArray<FGlobalBuffData>& GetBuffs();
 
 protected:
 	TMap<EGlobalBuffType, int32> buff_lookup_;

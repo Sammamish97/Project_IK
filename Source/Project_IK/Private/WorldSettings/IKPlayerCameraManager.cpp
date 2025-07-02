@@ -53,9 +53,13 @@ void AIKPlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTi
 	OutVT.POV.Rotation = FMath::RInterpTo(GetCameraRotation(), camera_view_rotator, DeltaTime, 2.f);
 }
 
-void AIKPlayerCameraManager::UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies)
+void AIKPlayerCameraManager::UpdateEnemies(TArray<AActor*> tracked_enemies)
 {
-	tracked_enemies_ = tracked_enemies;
+	tracked_enemies_.Empty();
+	for (AActor* actor : tracked_enemies)
+	{
+		tracked_enemies_.Add(actor);
+	}
 }
 
 void AIKPlayerCameraManager::RotateCameraLeft()
