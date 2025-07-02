@@ -7,8 +7,6 @@ Summary : Source file for Passive Skill Mechanics.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
-
 #include "Components/PassiveSkillMechanics.h"
 
 #include "Abilities/PassiveSkills/PassiveSkillBase.h"
@@ -16,17 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
 #include "WorldSettings/IKGameInstance.h"
-
-
-// Sets default values for this component's properties
-UPassiveSkillMechanics::UPassiveSkillMechanics()
-{
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
-
-	// ...
-}
 
 void UPassiveSkillMechanics::BeginPlay()
 {
@@ -48,10 +35,13 @@ void UPassiveSkillMechanics::EquipPassiveSkill(EPassiveSkillType type)
 
 //Equip의 생성 시점과 Init시점을 분리 시킨 이유는, Init시점에서 바로 발동이 되는 패시브 스킬(ex: LowProfile)은 HUD가 생성되기 전에 AddBuff가 적용되어
 //HUD에 UI가 정상적으로 추가되지 않는다.
-//해당 이슈를 해결하기 위해 Passive Skill의 Init은 따로 분리하여, HUD의 초기화 이후에 별도로 불러준다.
+//해당 이슈를 해결하기 위해 Passive Skill의 Init은 따로 분리하여, GameMode의 StartPlay에서 호출해준다.
 void UPassiveSkillMechanics::InitPassiveSkill()
 {
-	passive_skill_cache_->InitEquipmentSkill(hero_cache_);
+	if (passive_skill_cache_)
+	{
+		passive_skill_cache_->InitEquipmentSkill(hero_cache_);
+	}
 }
 
 void UPassiveSkillMechanics::UnEquipPassiveSkill()

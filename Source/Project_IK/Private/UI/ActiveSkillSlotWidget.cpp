@@ -9,6 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "UI/ActiveSkillSlotWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Components/Image.h"
 
 void UActiveSkillSlotWidget::SetActiveSkillSlotData(FActiveSkillData active_skill_data)
 {
@@ -34,4 +35,10 @@ bool UActiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDr
 FActiveSkillData UActiveSkillSlotWidget::GetStoredActiveSkillData()
 {
 	return active_skill_data_cache_;
+}
+
+void UActiveSkillSlotWidget::SetImageTexture()
+{
+	Super::SetImageTexture();
+	image_->SetBrushFromTexture(active_skill_data_cache_.item_data_.thumbnail);
 }

@@ -22,6 +22,7 @@ public:
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	void SetWeaponSlotData(FWeaponData weapon_data);
 	FWeaponData GetStoredWeaponData();
+	virtual void SetImageTexture() override;
 	
 private:
 	FWeaponData weapon_data_cache_;

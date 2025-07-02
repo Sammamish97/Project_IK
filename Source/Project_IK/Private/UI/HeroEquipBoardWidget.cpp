@@ -60,7 +60,6 @@ void UHeroEquipBoardWidget::UpdateHeroData(int32 hero_idx)
 {
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
-	TObjectPtr<UDataTableManager> data_table_manager = ik_instance->GetDataTableManager();
 	
 	if(transition_system->GetSpawnData().IsEmpty() == false)
 	{

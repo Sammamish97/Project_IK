@@ -21,10 +21,6 @@ class PROJECT_IK_API UPassiveSkillMechanics : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:
-	// Sets default values for this component's properties
-	UPassiveSkillMechanics();
-
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

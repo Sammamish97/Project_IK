@@ -9,11 +9,13 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "UI/WeaponSlotWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Components/Image.h"
 
 void UWeaponSlotWidget::SetWeaponSlotData(FWeaponData weapon_data)
 {
 	weapon_data_cache_ = weapon_data;
 	slot_type_ = EInventorySlotType::Weapon;
+	SetImageTexture();
 }
 
 bool UWeaponSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
@@ -33,4 +35,11 @@ bool UWeaponSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDro
 FWeaponData UWeaponSlotWidget::GetStoredWeaponData()
 {
 	return weapon_data_cache_;
+}
+
+
+void UWeaponSlotWidget::SetImageTexture()
+{
+	Super::SetImageTexture();
+	image_->SetBrushFromTexture(weapon_data_cache_.item_data_.thumbnail);
 }

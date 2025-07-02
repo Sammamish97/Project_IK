@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "UObject/Object.h"
 #include "EnumCluster.h"
 #include "Structs/RuneData.h"
+#include "Structs/RuneSetData.h"
 
 #include "SetBonusManager.generated.h"
 
@@ -25,11 +26,11 @@ class PROJECT_IK_API USetBonusManager : public UObject
 	GENERATED_BODY()
 public:
 	TObjectPtr<USetBonusBase> GetSetBonus(AActor* hero_ptr, ERuneSetType type);
-	TArray<RuneSetBonus> FigureOutRuneSet(const TArray<FRuneData>& rune_slots);
+	TArray<RuneSetBonus> FigureOutRuneSet(const TArray<FRuneSetData>& rune_slots);
 private:
-	TOptional<RuneSetBonus> FigureOutHexagonSet(const TArray<FRuneData>& rune_slot);
-	TOptional<RuneSetBonus> FigureOutTriangleSet(const TArray<FRuneData>& rune_slots, TArray<int32>& indices, TArray<int32>& inv_indices);
-	TArray<RuneSetBonus> FigureOutEdgeSet(const TArray<FRuneData>& rune_slot);
+	TOptional<RuneSetBonus> FigureOutHexagonSet(const TArray<FRuneSetData>& rune_slot);
+	TOptional<RuneSetBonus> FigureOutTriangleSet(const TArray<FRuneSetData>& rune_slots, TArray<int32>& indices, TArray<int32>& inv_indices);
+	TArray<RuneSetBonus> FigureOutEdgeSet(const TArray<FRuneSetData>& rune_slot);
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bonus", meta = (AllowPrivateAccess = "true"))

@@ -25,12 +25,12 @@ void UInventoryWidget::LoadInventoryData(int32 hero_idx)
 {
 	hero_idx_cache_ = hero_idx;
 	TArray hero_boards = {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_};
-	//TArray support_skills = {support_skill_0_, support_skill_1_, support_skill_2_};
 	rune_board_->LoadRuneBoardWidget(hero_idx);
 	for (int i = 0; i < hero_boards.Num(); i++)
 	{
 		hero_boards[i]->LoadHeroData(i);
 	}
+	//TArray support_skills = {support_skill_0_, support_skill_1_, support_skill_2_};
 }
 
 void UInventoryWidget::NativeConstruct()

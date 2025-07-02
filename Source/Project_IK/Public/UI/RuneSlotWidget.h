@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "InventorySlot.h"
 #include "Blueprint/UserWidget.h"
-#include "Structs/RuneData.h"
+#include "Structs/RuneSetData.h"
 #include "RuneSlotWidget.generated.h"
 class URuneBoardWidget;
 class UImage;
@@ -23,9 +23,10 @@ class PROJECT_IK_API URuneSlotWidget : public UInventorySlot
 	GENERATED_BODY()
 public:
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-	void SetRuneSlotData(FRuneData rune_data);
-	FRuneData GetStoredRuneData();
+	void SetRuneSetSlotData(FRuneSetData rune_data, EInventorySlotType slot_type);
+	FRuneSetData GetStoredRuneSetData();
+	virtual void SetImageTexture() override;
 
 private:
-	FRuneData rune_data_cache_;
+	FRuneSetData rune_set_data_cache_;
 };

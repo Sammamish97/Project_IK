@@ -22,6 +22,7 @@ public:
 	void SetActiveSkillSlotData(FActiveSkillData active_skill_data);
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	FActiveSkillData GetStoredActiveSkillData();
+	virtual void SetImageTexture() override;
 	
 private:
 	FActiveSkillData active_skill_data_cache_;

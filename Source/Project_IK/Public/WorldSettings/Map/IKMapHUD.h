@@ -13,9 +13,6 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/HUD.h"
 #include "IKMapHUD.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API AIKMapHUD : public AHUD
 {

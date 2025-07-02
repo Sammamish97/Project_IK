@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Managers/EnumCluster.h"
-#include "Structs/ItemData.h"
 #include "RuneData.generated.h"
 
 USTRUCT(BlueprintType)

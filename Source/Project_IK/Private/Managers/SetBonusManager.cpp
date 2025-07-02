@@ -47,7 +47,7 @@ TObjectPtr<USetBonusBase> USetBonusManager::GetSetBonus(AActor* hero_ptr, ERuneS
 }
 
 TOptional<RuneSetBonus> USetBonusManager::FigureOutHexagonSet(
-	const TArray<FRuneData>& rune_slots)
+	const TArray<FRuneSetData>& rune_slots)
 {
 	bool is_all_equipped = true;
 	for (int32 i = 0; i < rune_slots.Num(); i++)
@@ -78,7 +78,7 @@ TOptional<RuneSetBonus> USetBonusManager::FigureOutHexagonSet(
 }
 
 TOptional<RuneSetBonus> USetBonusManager::FigureOutTriangleSet(
-	const TArray<FRuneData>& rune_slots, TArray<int32>& indices, TArray<int32>& inv_indices)
+	const TArray<FRuneSetData>& rune_slots, TArray<int32>& indices, TArray<int32>& inv_indices)
 {
 	float is_all_equipped = true;
 	for (int32 i :  indices)
@@ -118,7 +118,7 @@ TOptional<RuneSetBonus> USetBonusManager::FigureOutTriangleSet(
 }
 
 TArray<RuneSetBonus> USetBonusManager::FigureOutEdgeSet(
-	const TArray<FRuneData>& rune_slots)
+	const TArray<FRuneSetData>& rune_slots)
 {
 	TArray<RuneSetBonus> result;
 	
@@ -153,7 +153,7 @@ TArray<RuneSetBonus> USetBonusManager::FigureOutEdgeSet(
 	return result;
 }
 
-TArray<RuneSetBonus> USetBonusManager::FigureOutRuneSet(const TArray<FRuneData>& rune_slots)
+TArray<RuneSetBonus> USetBonusManager::FigureOutRuneSet(const TArray<FRuneSetData>& rune_slots)
 {
 	TArray<RuneSetBonus> bonus_result;
 	auto hex_result = FigureOutHexagonSet(rune_slots);

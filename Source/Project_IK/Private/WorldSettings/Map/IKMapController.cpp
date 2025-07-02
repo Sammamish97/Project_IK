@@ -15,8 +15,6 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/Map/IKMapHUD.h"
 
-class UEnhancedInputLocalPlayerSubsystem;
-
 void AIKMapController::BeginPlay()
 {
 	Super::BeginPlay();

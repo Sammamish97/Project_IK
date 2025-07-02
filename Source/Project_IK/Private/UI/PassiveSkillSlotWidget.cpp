@@ -9,6 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "UI/PassiveSkillSlotWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Components/Image.h"
 
 void UPassiveSkillSlotWidget::SetPassiveSkillSlotData(FPassiveSkillData passive_skill_data)
 {
@@ -34,4 +35,10 @@ bool UPassiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FD
 FPassiveSkillData UPassiveSkillSlotWidget::GetStoredPassiveSkillData()
 {
 	return passive_skill_data_cache_;
+}
+
+void UPassiveSkillSlotWidget::SetImageTexture()
+{
+	Super::SetImageTexture();
+	image_->SetBrushFromTexture(passive_skill_data_cache_.item_data_.thumbnail);
 }

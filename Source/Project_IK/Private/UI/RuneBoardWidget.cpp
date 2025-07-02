@@ -183,16 +183,16 @@ void URuneBoardWidget::TurnOnSetBonusEffect()
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<USetBonusManager> set_bonus_cache = ik_instance->GetSetBonusManager();
 	
-	TArray<FRuneData> data_array;
+	TArray<FRuneSetData> data_array;
 	for (int i = 0; i < 6; ++i)
 	{
 		if (rune_slots[i]->IsEmpty())
 		{
-			data_array.Add(FRuneData());
+			data_array.Add(FRuneSetData());
 		}
 		else
 		{
-			data_array.Add(rune_slots[i]->GetStoredRuneData());
+			data_array.Add(rune_slots[i]->GetStoredRuneSetData());
 		}
 	}
 	auto result = set_bonus_cache->FigureOutRuneSet(data_array);

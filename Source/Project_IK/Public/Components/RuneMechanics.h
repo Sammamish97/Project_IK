@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/ActorComponent.h"
 #include "Managers/EnumCluster.h"
 #include "Structs/RuneData.h"
+#include "Structs/RuneSetData.h"
 #include "RuneMechanics.generated.h"
 typedef TPair<ERuneSetType, TArray<int32>> RuneSetBonus;
 
@@ -35,11 +36,11 @@ public:
 	FStatusData GetTotalStatus();
 	void ApplySetBonuses();
 	TArray<RuneSetBonus> GetSetBonusData();
-	const TArray<FRuneData>& GetEquippedRunes();
+	const TArray<FRuneSetData>& GetEquippedRunes();
 	
 private:
 	UPROPERTY(Transient)
-	TArray<FRuneData> equipped_runes_;
+	TArray<FRuneSetData> equipped_runes_;
 	
 	UPROPERTY(Transient)
 	TObjectPtr<class USetBonusManager> bonus_manager_cache_;
