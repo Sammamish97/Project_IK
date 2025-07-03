@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/UserWidget.h"
 #include "InventoryWidget.generated.h"
 
+class URewardContainerWidget;
 class UButton;
 class UEquipSlot;
 class UInventoryManager;
@@ -36,6 +37,12 @@ public:
 
 	UFUNCTION()
 	void UpdateSetBonusEffect();
+
+	UFUNCTION()
+	void AddToRewardContainer(class UInventorySlot* slot_ptr);
+	
+	UFUNCTION()
+	void RemoveFromRewardContainer(class UInventorySlot* slot_ptr);
 
 private:
 	UFUNCTION()
@@ -82,4 +89,7 @@ private:
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<URuneBoardWidget> rune_board_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<URewardContainerWidget> reward_container_;
 };

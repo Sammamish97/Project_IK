@@ -23,15 +23,17 @@ class PROJECT_IK_API UInventorySlot : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void SetInventoryWidgetCache(UInventoryWidget* widget_ptr);
+	void InitInventorySlot(UInventoryWidget* widget_ptr, bool is_board_slot = true);
 	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	virtual void SetImageTexture();
 
-	void ClearData();
+	EInventorySlotType GetSlotType() const;
+	virtual void ClearData();
 	bool IsEmpty() const;
-	
+	bool IsBoardSlot() const;
+
 protected:
 	UPROPERTY()
 	EInventorySlotType slot_type_ = EInventorySlotType::INVALID;
@@ -46,4 +48,5 @@ protected:
 	TObjectPtr<class UImage> image_;
 
 	bool is_empty_ = true;
+	bool is_board_slot_ = true;
 };

@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
 #include "UI/HeroEquipBoardWidget.h"
+#include "UI/RewardContainerWidget.h"
 #include "UI/RuneBoardWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 
@@ -22,7 +23,8 @@ void UInventoryWidget::InitInventoryWidget(UInventoryManager* inventory_manager)
 	
 	//IKTODO: Data table이 필요없다면 삭제.
 	data_table_cache_ = Cast<UIKGameInstance>(GetGameInstance())->GetDataTableManager();
-	
+
+	reward_container_->SetInventoryWidgetCache(this);
 	rune_board_->SetInventoryWidget(this);
 	rune_board_->LoadRuneBoardWidget(0);
 	
@@ -32,6 +34,7 @@ void UInventoryWidget::InitInventoryWidget(UInventoryManager* inventory_manager)
 		hero_boards[i]->LoadHeroData(i);
 		hero_boards[i]->SetInventoryWidgetCache(this);
 	}
+
 
 	hero_board_0_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_0_Board_Clicked);
 	hero_board_1_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_1_Board_Clicked);
@@ -43,6 +46,16 @@ void UInventoryWidget::InitInventoryWidget(UInventoryManager* inventory_manager)
 void UInventoryWidget::UpdateSetBonusEffect()
 {
 	rune_board_->UpdateSetBonusEffect();
+}
+
+void UInventoryWidget::AddToRewardContainer(UInventorySlot* slot_ptr)
+{
+	reward_container_->AddToRewardContainer(slot_ptr);
+}
+
+void UInventoryWidget::RemoveFromRewardContainer(UInventorySlot* slot_ptr)
+{
+	reward_container_->RemoveWidgetFromRewardContainer(slot_ptr);
 }
 
 void UInventoryWidget::NativeConstruct()

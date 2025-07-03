@@ -7,9 +7,10 @@ Summary : Source file for Active skill slot Widget.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-#include "UI/ActiveSkillSlotWidget.h"
+#include "UI/InventorySlots/ActiveSkillSlotWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
+#include "UI/InventoryWidget.h"
 
 void UActiveSkillSlotWidget::NativeConstruct()
 {
@@ -19,6 +20,7 @@ void UActiveSkillSlotWidget::NativeConstruct()
 
 void UActiveSkillSlotWidget::SetActiveSkillSlotData(FActiveSkillData active_skill_data)
 {
+	is_empty_ = false;
 	active_skill_data_cache_ = active_skill_data;
 	SetImageTexture();
 }
@@ -26,14 +28,27 @@ void UActiveSkillSlotWidget::SetActiveSkillSlotData(FActiveSkillData active_skil
 bool UActiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
                                           UDragDropOperation* InOperation)
 {
+	//IKTODO: 다른 Hero들 중 현재 장착하려는 Active Skill를 이미 장착하려는 Hero가 없어야 함.
 	if (Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation))
 	{
 		auto casted_slot = Cast<UActiveSkillSlotWidget>(InOperation->Payload);
-		//IKTODO: 다른 Hero들 중 현재 장착하려는 Active Skill를 이미 장착하려는 Hero가 없어야 함.
-		Swap(casted_slot->active_skill_data_cache_, active_skill_data_cache_);
-		Swap(casted_slot->is_empty_, is_empty_);
-		SetImageTexture();
-		casted_slot->SetImageTexture();
+
+		if (casted_slot->is_board_slot_)
+		{
+			Swap(casted_slot->active_skill_data_cache_, active_skill_data_cache_);
+			Swap(casted_slot->is_empty_, is_empty_);
+			SetImageTexture();
+			casted_slot->SetImageTexture();
+		}
+		else
+		{
+			if (is_empty_ == false)
+			{
+				inventory_widget_cache_->AddToRewardContainer(this);
+			}
+			SetActiveSkillSlotData(casted_slot->active_skill_data_cache_);
+			inventory_widget_cache_->RemoveFromRewardContainer(casted_slot);
+		}
 		return true;
 	}
 	return false;

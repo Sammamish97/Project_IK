@@ -7,9 +7,10 @@ Summary : Source file for Weapon Slot Widget.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-#include "UI/WeaponSlotWidget.h"
+#include "UI/InventorySlots/WeaponSlotWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
+#include "UI/InventoryWidget.h"
 
 void UWeaponSlotWidget::NativeConstruct()
 {
@@ -28,12 +29,23 @@ bool UWeaponSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDro
 {
 	if (Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation))
 	{
-		auto casted_slot_widget = Cast<UWeaponSlotWidget>(InOperation->Payload);
-		Swap(casted_slot_widget->weapon_data_cache_, weapon_data_cache_);
-		Swap(casted_slot_widget->is_empty_, is_empty_);
-
-		SetImageTexture();
-		casted_slot_widget->SetImageTexture();
+		auto casted_slot = Cast<UWeaponSlotWidget>(InOperation->Payload);
+		if (casted_slot->is_board_slot_)
+		{
+			Swap(casted_slot->weapon_data_cache_, weapon_data_cache_);
+			Swap(casted_slot->is_empty_, is_empty_);
+			SetImageTexture();
+			casted_slot->SetImageTexture();
+		}
+		else
+		{
+			if (is_empty_ == false)
+			{
+				inventory_widget_cache_->AddToRewardContainer(this);
+			}
+			SetWeaponSlotData(casted_slot->weapon_data_cache_);
+			inventory_widget_cache_->RemoveFromRewardContainer(casted_slot);
+		}
 		return true;
 	}
 	return false;

@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/WrapperEquipmentData.h"
 #include "RewardContainerWidget.generated.h"
 
+class UInventoryWidget;
 class UInventorySlot;
 class UHorizontalBox;
 
@@ -22,8 +23,12 @@ class PROJECT_IK_API URewardContainerWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void LoadSelectedRewards(const FWrapperEquipmentData& rewards );
+	void SetInventoryWidgetCache(UInventoryWidget* widget_cache);
+	void LoadSelectedRewards(const FWrapperEquipmentData& rewards);
+	void AddToRewardContainer(UInventorySlot* add_target);
+	void RemoveWidgetFromRewardContainer(UInventorySlot* remove_target);
 	virtual void NativeConstruct() override;
+	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	
 private:
 	UPROPERTY(meta = (BindWidget))
@@ -46,6 +51,10 @@ private:
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = true))
 	TSubclassOf<class URuneSlotWidget> rune_slot_widget_class_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UInventoryWidget> inventory_widget_cache_;
+
 	
 	// UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = true))
 	// TSubclassOf<class URuneSlotWidget> support_skill_slot_widget_class_;

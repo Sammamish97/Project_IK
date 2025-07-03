@@ -7,7 +7,7 @@ Summary : Source file for Rune Slot widget.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-#include "UI/RuneSlotWidget.h"
+#include "UI/InventorySlots/RuneSlotWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
 #include "UI/InventoryWidget.h"
@@ -59,12 +59,16 @@ bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 	if (Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation))
 	{
 		auto casted_rune_slot_widget = Cast<URuneSlotWidget>(InOperation->Payload);
-		Swap(casted_rune_slot_widget->rune_data_cache_, rune_data_cache_);
-		Swap(casted_rune_slot_widget->is_empty_, is_empty_);
-		SetImageTexture();
-		casted_rune_slot_widget->SetImageTexture();
-
-		//장착 성공 시 세트효과 업데이트.
+		
+		if (casted_rune_slot_widget->is_board_slot_ == false)
+		{
+			if (is_empty_ == false)
+			{
+				inventory_widget_cache_->AddToRewardContainer(this);
+			}
+			SetRuneSetSlotData(casted_rune_slot_widget->GetStoredRuneData());
+			inventory_widget_cache_->RemoveFromRewardContainer(casted_rune_slot_widget);
+		}
 		inventory_widget_cache_->UpdateSetBonusEffect();
 		return true;
 	}

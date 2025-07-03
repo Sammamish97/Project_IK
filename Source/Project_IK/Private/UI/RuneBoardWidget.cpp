@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/OverlaySlot.h"
 #include "Kismet/GameplayStatics.h"
 #include "Structs/SpawnData.h"
-#include "UI/RuneSlotWidget.h"
+#include "UI/InventorySlots/RuneSlotWidget.h"
 #include "Components/ProgressBar.h"
 #include "Components/SizeBox.h"
 #include "WorldSettings/IKGameInstance.h"
@@ -63,7 +63,7 @@ void URuneBoardWidget::SetInventoryWidget(UInventoryWidget* widget_ptr)
 	TArray rune_slots = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
 	for (auto elem : rune_slots)
 	{
-		elem->SetInventoryWidgetCache(widget_ptr);
+		elem->InitInventorySlot(widget_ptr);
 	}
 }
 

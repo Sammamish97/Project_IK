@@ -15,9 +15,9 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "WorldSettings/IKGameInstance.h"
 
-#include "UI/WeaponSlotWidget.h"
-#include "UI/ActiveSkillSlotWidget.h"
-#include "UI/PassiveSkillSlotWidget.h"
+#include "UI/InventorySlots/WeaponSlotWidget.h"
+#include "UI/InventorySlots/ActiveSkillSlotWidget.h"
+#include "UI/InventorySlots/PassiveSkillSlotWidget.h"
 
 void UHeroEquipBoardWidget::SetInventoryWidgetCache(UInventoryWidget* widget_ptr)
 {
@@ -25,7 +25,7 @@ void UHeroEquipBoardWidget::SetInventoryWidgetCache(UInventoryWidget* widget_ptr
 	TArray<UInventorySlot*> slot_array_ = {weapon_slot_, active_skill_slot_, passive_skill_1_slot_};
 	for (auto elem : slot_array_)
 	{
-		elem->SetInventoryWidgetCache(inventory_widget_cache_);
+		elem->InitInventorySlot(inventory_widget_cache_);
 	}
 }
 

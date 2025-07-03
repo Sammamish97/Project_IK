@@ -6,14 +6,16 @@ Summary : Source file for Inventory Slot Widget.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
-******************************************************************************/#include "UI/InventorySlot.h"
+******************************************************************************/
+#include "UI/InventorySlots/InventorySlot.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
 #include "UI/SlotDragDropImage.h"
 
-void UInventorySlot::SetInventoryWidgetCache(UInventoryWidget* widget_ptr)
+void UInventorySlot::InitInventorySlot(UInventoryWidget* widget_ptr, bool is_board_slot)
 {
 	inventory_widget_cache_ = widget_ptr;
+	is_board_slot_ = is_board_slot;
 }
 
 FReply UInventorySlot::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -53,8 +55,11 @@ bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
 	if (auto casted_inventory_slot = Cast<UInventorySlot>(InOperation->Payload))
 	{
-		//Drop하는 Widget이 자기자신이 아니고 Type이 같으면 Swap이 가능하다.
-		if (casted_inventory_slot->slot_type_ == slot_type_ && InOperation->Payload != this)
+		//Drop을 할 수 있는 조건은 다음과 같다.
+		//1. Board가 아닌 slot에는 drop할 수 없다.
+		//2. Drag하는 slot과 drop하는 slot이 동일해야 한다.
+		//3. 자기자신을 drop할 수 없다.
+		if (is_board_slot_ && casted_inventory_slot->slot_type_ == slot_type_ && InOperation->Payload != this)
 		{
 			return true;
 		}
@@ -64,6 +69,8 @@ bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 
 void UInventorySlot::ClearData()
 {
+	is_empty_ = true;
+	//IKTODO: 이후 비워두는 것이 아닌, 빈칸 텍스쳐를 띄워야 함.
 	image_->SetBrushFromTexture(nullptr);
 }
 
@@ -75,7 +82,17 @@ void UInventorySlot::SetImageTexture()
 	}
 }
 
+EInventorySlotType UInventorySlot::GetSlotType() const
+{
+	return slot_type_;
+}
+
 bool UInventorySlot::IsEmpty() const
 {
 	return is_empty_;
+}
+
+bool UInventorySlot::IsBoardSlot() const
+{
+	return is_board_slot_;
 }
