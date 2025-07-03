@@ -32,17 +32,25 @@ public:
 	void InitInventoryWidget(UInventoryManager* inventory_manager);
 
 	UFUNCTION(BlueprintCallable)
-	void UpdateInventoryData(int32 hero_idx);
-
-	UFUNCTION(BlueprintCallable)
-	void LoadInventoryData(int32 hero_idx);
+	void UpdateInventoryData();
 
 	UFUNCTION()
 	void UpdateSetBonusEffect();
 
 private:
+	UFUNCTION()
+	void OnHero_0_Board_Clicked();
+	
+	UFUNCTION()
+	void OnHero_1_Board_Clicked();
+	
+	UFUNCTION()
+	void OnHero_2_Board_Clicked();
+	
+	UFUNCTION()
+	void OnHero_3_Board_Clicked();
 
-	int32 hero_idx_cache_ = 0.f;
+private:
 	UPROPERTY(Transient)
 	TObjectPtr<UInventoryManager> inventory_manager_cache_;
 	

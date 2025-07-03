@@ -9,6 +9,8 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "UI/InventoryWidget.h"
+
+#include "Components/Button.h"
 #include "Components/TextBlock.h"
 #include "UI/HeroEquipBoardWidget.h"
 #include "UI/RuneBoardWidget.h"
@@ -17,19 +19,24 @@ See LICENSE file in the project root for full license information.
 void UInventoryWidget::InitInventoryWidget(UInventoryManager* inventory_manager)
 {
 	inventory_manager_cache_ = inventory_manager;
+	
+	//IKTODO: Data table이 필요없다면 삭제.
 	data_table_cache_ = Cast<UIKGameInstance>(GetGameInstance())->GetDataTableManager();
-	LoadInventoryData(0);
-}
-
-void UInventoryWidget::LoadInventoryData(int32 hero_idx)
-{
-	hero_idx_cache_ = hero_idx;
+	
+	rune_board_->SetInventoryWidget(this);
+	rune_board_->LoadRuneBoardWidget(0);
+	
 	TArray hero_boards = {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_};
-	rune_board_->LoadRuneBoardWidget(hero_idx);
 	for (int i = 0; i < hero_boards.Num(); i++)
 	{
 		hero_boards[i]->LoadHeroData(i);
+		hero_boards[i]->SetInventoryWidgetCache(this);
 	}
+
+	hero_board_0_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_0_Board_Clicked);
+	hero_board_1_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_1_Board_Clicked);
+	hero_board_2_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_2_Board_Clicked);
+	hero_board_3_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_3_Board_Clicked);
 	//TArray support_skills = {support_skill_0_, support_skill_1_, support_skill_2_};
 }
 
@@ -45,14 +52,41 @@ void UInventoryWidget::NativeConstruct()
 
 void UInventoryWidget::NativeDestruct()
 {
-	UpdateInventoryData(hero_idx_cache_);
-
+	UpdateInventoryData();
 	Super::NativeDestruct();
 }
 
 
-void UInventoryWidget::UpdateInventoryData(int32 hero_idx)
+void UInventoryWidget::UpdateInventoryData()
 {
-	rune_board_->UpdateRuneBoard(hero_idx);
+	rune_board_->UpdateRuneBoard();
 	
+}
+
+void UInventoryWidget::OnHero_0_Board_Clicked()
+{
+	rune_board_->UpdateRuneBoard();
+	rune_board_->LoadRuneBoardWidget(0);
+	rune_board_->UpdateSetBonusEffect();
+}
+
+void UInventoryWidget::OnHero_1_Board_Clicked()
+{
+	rune_board_->UpdateRuneBoard();
+	rune_board_->LoadRuneBoardWidget(1);
+	rune_board_->UpdateSetBonusEffect();
+}
+
+void UInventoryWidget::OnHero_2_Board_Clicked()
+{
+	rune_board_->UpdateRuneBoard();
+	rune_board_->LoadRuneBoardWidget(2);
+	rune_board_->UpdateSetBonusEffect();
+}
+
+void UInventoryWidget::OnHero_3_Board_Clicked()
+{
+	rune_board_->UpdateRuneBoard();
+	rune_board_->LoadRuneBoardWidget(3);
+	rune_board_->UpdateSetBonusEffect();
 }

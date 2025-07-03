@@ -58,6 +58,15 @@ void URuneBoardWidget::NativeConstruct()
 	}
 }
 
+void URuneBoardWidget::SetInventoryWidget(UInventoryWidget* widget_ptr)
+{
+	TArray rune_slots = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
+	for (auto elem : rune_slots)
+	{
+		elem->SetInventoryWidgetCache(widget_ptr);
+	}
+}
+
 TArray<FVector2D> URuneBoardWidget::ComputeVertices(float radius)
 {
 	TArray<FVector2D> result;
@@ -99,6 +108,8 @@ TArray<URuneBoardWidget::Edge> URuneBoardWidget::ComputeEdges(const TArray<FVect
 
 void URuneBoardWidget::LoadRuneBoardWidget(int32 hero_idx)
 {
+	cur_hero_idx_ = hero_idx;
+	
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
 	TArray rune_slots = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
@@ -127,37 +138,40 @@ void URuneBoardWidget::LoadRuneBoardWidget(int32 hero_idx)
 	}
 }
 
-void URuneBoardWidget::UpdateRuneBoard(int32 hero_idx)
+void URuneBoardWidget::UpdateRuneBoard()
 {
-	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
-	TArray rune_slots = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
-
-	if(transition_system->GetSpawnData().IsEmpty() == false)
+	if (cur_hero_idx_ != -1)
 	{
-		FSpawnData data_cache = transition_system->GetSpawnData(hero_idx);
-		TArray rune_data_array = {data_cache.rune_data_1, data_cache.rune_data_2, data_cache.rune_data_3, data_cache.rune_data_4, data_cache.rune_data_5, data_cache.rune_data_6};
+		TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
+		TArray rune_slots = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
 
-		for (int32 i = 0; i < rune_data_array.Num(); i++)
+		if(transition_system->GetSpawnData().IsEmpty() == false)
 		{
-			if (rune_slots[i]->IsEmpty())
+			FSpawnData data_cache = transition_system->GetSpawnData(cur_hero_idx_);
+			TArray rune_data_array = {data_cache.rune_data_1, data_cache.rune_data_2, data_cache.rune_data_3, data_cache.rune_data_4, data_cache.rune_data_5, data_cache.rune_data_6};
+
+			for (int32 i = 0; i < rune_data_array.Num(); i++)
 			{
-				rune_data_array[i].Reset();
+				if (rune_slots[i]->IsEmpty())
+				{
+					rune_data_array[i].Reset();
+				}
+				else
+				{
+					rune_data_array[i] = rune_slots[i]->GetStoredRuneData();
+				}
 			}
-			else
-			{
-				rune_data_array[i] = rune_slots[i]->GetStoredRuneData();
-			}
-		}
 		
-		data_cache.rune_data_1 = rune_data_array[0];
-		data_cache.rune_data_2 = rune_data_array[1];
-		data_cache.rune_data_3 = rune_data_array[2];
-		data_cache.rune_data_4 = rune_data_array[3];
-		data_cache.rune_data_5 = rune_data_array[4];
-		data_cache.rune_data_6 = rune_data_array[5];
+			data_cache.rune_data_1 = rune_data_array[0];
+			data_cache.rune_data_2 = rune_data_array[1];
+			data_cache.rune_data_3 = rune_data_array[2];
+			data_cache.rune_data_4 = rune_data_array[3];
+			data_cache.rune_data_5 = rune_data_array[4];
+			data_cache.rune_data_6 = rune_data_array[5];
 		
-		transition_system->UpdateSpawnDataIdx(hero_idx, data_cache);
+			transition_system->UpdateSpawnDataIdx(cur_hero_idx_, data_cache);
+		}	
 	}
 }
 

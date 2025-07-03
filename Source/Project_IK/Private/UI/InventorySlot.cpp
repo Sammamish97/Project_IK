@@ -1,16 +1,19 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-#include "UI/InventorySlot.h"
+/******************************************************************************
+Copyright(C) 2025
+Author: chunmook.kim(chunmook.kim97@gmail.com)
+Creation Date : 7.3.2025
+Summary : Source file for Inventory Slot Widget.
 
+Licensed under the MIT License.
+See LICENSE file in the project root for full license information.
+******************************************************************************/#include "UI/InventorySlot.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
-#include "Kismet/GameplayStatics.h"
 #include "UI/SlotDragDropImage.h"
-#include "WorldSettings/Map/IKMapHUD.h"
 
-void UInventorySlot::NativeConstruct()
+void UInventorySlot::SetInventoryWidgetCache(UInventoryWidget* widget_ptr)
 {
-	Super::NativeConstruct();
-	inventory_widget_cache_ = Cast<AIKMapHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->GetInventoryWidget();
+	inventory_widget_cache_ = widget_ptr;
 }
 
 FReply UInventorySlot::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)

@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "HeroEquipBoardWidget.generated.h"
 
+class UInventoryWidget;
 class UPassiveSkillSlotWidget;
 class UActiveSkillSlotWidget;
 class UWeaponSlotWidget;
@@ -25,8 +26,11 @@ UCLASS()
 class PROJECT_IK_API UHeroEquipBoardWidget : public UUserWidget
 {
 	GENERATED_BODY()
+	friend UInventoryWidget;
+	
 public:
 	virtual void NativeConstruct() override;
+	void SetInventoryWidgetCache(UInventoryWidget* widget_ptr);
 	void LoadHeroData(int32 hero_idx);
 	void UpdateHeroData(int32 hero_idx);
 	
@@ -48,4 +52,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UButton> button_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UInventoryWidget> inventory_widget_cache_;
 };

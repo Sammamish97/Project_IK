@@ -19,6 +19,16 @@ See LICENSE file in the project root for full license information.
 #include "UI/ActiveSkillSlotWidget.h"
 #include "UI/PassiveSkillSlotWidget.h"
 
+void UHeroEquipBoardWidget::SetInventoryWidgetCache(UInventoryWidget* widget_ptr)
+{
+	inventory_widget_cache_ = widget_ptr;
+	TArray<UInventorySlot*> slot_array_ = {weapon_slot_, active_skill_slot_, passive_skill_1_slot_};
+	for (auto elem : slot_array_)
+	{
+		elem->SetInventoryWidgetCache(inventory_widget_cache_);
+	}
+}
+
 void UHeroEquipBoardWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
