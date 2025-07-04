@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/UserWidget.h"
 #include "InventoryWidget.generated.h"
 
+class USupportSkillSlotWidget;
 class URewardContainerWidget;
 class UButton;
 class UEquipSlot;
@@ -63,17 +64,15 @@ private:
 	
 	UPROPERTY(Transient)
 	TObjectPtr<class UDataTableManager> data_table_cache_;
-
-	//
 	
-	// UPROPERTY(meta = (BindWidget))
-	// TObjectPtr<UEquipSlot> support_skill_0_;
-	//
-	// UPROPERTY(meta = (BindWidget))
-	// TObjectPtr<UEquipSlot> support_skill_1_;
-	//
-	// UPROPERTY(meta = (BindWidget))
-	// TObjectPtr<UEquipSlot> support_skill_2_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<USupportSkillSlotWidget> support_skill_0_;
+	
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<USupportSkillSlotWidget> support_skill_1_;
+	
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<USupportSkillSlotWidget> support_skill_2_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHeroEquipBoardWidget> hero_board_0_;

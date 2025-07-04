@@ -48,6 +48,9 @@ private:
 	
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = true))
 	TSubclassOf<class UPassiveSkillSlotWidget> passive_skill_slot_widget_class_;
+	
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = true))
+	TSubclassOf<class USupportSkillSlotWidget> support_skill_slot_widget_class_;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = true))
 	TSubclassOf<class URuneSlotWidget> rune_slot_widget_class_;

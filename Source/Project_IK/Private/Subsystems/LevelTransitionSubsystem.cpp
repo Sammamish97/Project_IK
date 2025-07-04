@@ -46,6 +46,24 @@ void ULevelTransitionSubsystem::UpdateSpawnDataIdx(int32 idx, FSpawnData data)
 	spawn_data_[idx] = data;
 }
 
+void ULevelTransitionSubsystem::UpdateSupportSkillData(int32 idx, FSupportSkillData data)
+{
+	if (support_skill_data_.Num() < idx)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Support Skill Data is out of range"));
+	}
+	support_skill_data_[idx] = data;
+}
+
+void ULevelTransitionSubsystem::UpdateSupportSkillDataIdx(const TArray<FSupportSkillData>& data)
+{
+	support_skill_data_.Empty();
+	for(auto elem : data)
+	{
+		support_skill_data_.Add(elem);
+	}
+}
+
 void ULevelTransitionSubsystem::OpenMapLevel(UWorld* world)
 {
 	UGameplayStatics::OpenLevel(world, FName("MapInventoryLevel"));

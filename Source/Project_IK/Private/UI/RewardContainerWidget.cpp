@@ -18,6 +18,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/InventorySlots/ActiveSkillSlotWidget.h"
 #include "UI/InventorySlots/PassiveSkillSlotWidget.h"
 #include "UI/InventorySlots/RuneSlotWidget.h"
+#include "UI/InventorySlots/SupportSkillSlotWidget.h"
 #include "UI/InventorySlots/WeaponSlotWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 
@@ -32,7 +33,7 @@ void URewardContainerWidget::LoadSelectedRewards(const FWrapperEquipmentData& re
 }
 
 //이 함수의 목표는 add target을 그대로 reward slot에 추가하는것이 아니다.
-//add_target의 type만을 사용하여 새로운 widget을 생성 후, reward slot에 추가한다.
+//add_target의 type과 data만을 사용하여 새로운 widget을 생성 후, reward slot에 추가한다.
 void URewardContainerWidget::AddToRewardContainer(UInventorySlot* add_target)
 {
 	switch (add_target->GetSlotType())
@@ -76,6 +77,19 @@ void URewardContainerWidget::AddToRewardContainer(UInventorySlot* add_target)
 			}
 			break;
 
+	case EInventorySlotType::SupportSkill:
+		{
+			if (auto casted_from_support_skill = Cast<USupportSkillSlotWidget>(add_target))
+			{
+				auto created_widget = CreateWidget<USupportSkillSlotWidget>(this, support_skill_slot_widget_class_);
+				created_widget->InitInventorySlot(inventory_widget_cache_, false);
+				created_widget->SetSupportSkillSlotData(casted_from_support_skill->GetStoredSupportSkillData());
+				reward_slots_.Push(created_widget);
+				container_->AddChildToHorizontalBox(created_widget);
+			}
+		}
+		break;
+
 		case EInventorySlotType::Rune_0:
 		case EInventorySlotType::Rune_1:
 		case EInventorySlotType::Rune_2:
@@ -95,14 +109,11 @@ void URewardContainerWidget::AddToRewardContainer(UInventorySlot* add_target)
 				}
 			}
 			break;
-			//IKTOOD:서포트 스킬 추가.
-
 		default:
 			break;
 			
 	}
 }
-
 
 void URewardContainerWidget::RemoveWidgetFromRewardContainer(UInventorySlot* remove_target)
 {
@@ -134,6 +145,9 @@ void URewardContainerWidget::NativeConstruct()
 	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::LowProfile));
 	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Agility));
 
+	reward_cache_.support_skills_.Push(data_table_manager_->GetSupportSkillData(ESupportSkillType::InstantRepair));
+	reward_cache_.support_skills_.Push(data_table_manager_->GetSupportSkillData(ESupportSkillType::SupportFire));
+	reward_cache_.support_skills_.Push(data_table_manager_->GetSupportSkillData(ESupportSkillType::Reposition));
 
 	
 	//
@@ -156,6 +170,13 @@ void URewardContainerWidget::NativeConstruct()
 	{
 		auto created_widget = CreateWidget<UPassiveSkillSlotWidget>(this, passive_skill_slot_widget_class_);
 		created_widget->SetPassiveSkillSlotData(passive_skill_data);
+		reward_slots_.Push(created_widget);
+	}
+
+	for (auto support_skill_data : reward_cache_.support_skills_)
+	{
+		auto created_widget = CreateWidget<USupportSkillSlotWidget>(this, support_skill_slot_widget_class_);
+		created_widget->SetSupportSkillSlotData(support_skill_data);
 		reward_slots_.Push(created_widget);
 	}
 	

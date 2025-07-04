@@ -11,7 +11,9 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
+#include "Structs/SupportSkillData.h"
 #include "LevelTransitionSubsystem.generated.h"
+
 UCLASS()
 class PROJECT_IK_API ULevelTransitionSubsystem : public UGameInstanceSubsystem
 {
@@ -22,9 +24,13 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void UpdateSpawnData(const TArray<FSpawnData>& data);
-
 	UFUNCTION(BlueprintCallable)
 	void UpdateSpawnDataIdx(int32 idx, FSpawnData data);
+
+	UFUNCTION(BlueprintCallable)
+	void UpdateSupportSkillData(int32 idx, FSupportSkillData data);
+	UFUNCTION(BlueprintCallable)
+	void UpdateSupportSkillDataIdx(const TArray<FSupportSkillData>& data);
 	
 	UFUNCTION(BlueprintCallable)
 	void OpenMapLevel(UWorld* world);
@@ -40,4 +46,7 @@ public:
 protected:
 	UPROPERTY()
 	TArray<FSpawnData> spawn_data_;
+	
+	UPROPERTY()
+	TArray<FSupportSkillData> support_skill_data_;
 };

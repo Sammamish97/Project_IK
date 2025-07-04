@@ -21,8 +21,10 @@ class PROJECT_IK_API USupportSkillDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 public:
-	FSupportSkillData GetSupportSkillClass(ESupportSkillType type);
-
+	FSupportSkillData GetSupportSkillData(ESupportSkillType type);
+	FSupportSkillData GetSupportSkillDataRandomly(ERarity weight_rarity = ERarity::Common);
+	TArray<FSupportSkillData> GetUniqueSupportSkillDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
+	
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Active Skill Data", meta = (AllowPrivateAccess = "true"))
 	TMap<ESupportSkillType, FSupportSkillData> support_skill_data_map_;

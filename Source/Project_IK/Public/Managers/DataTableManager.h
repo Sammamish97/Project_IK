@@ -66,6 +66,11 @@ public:
 	FActiveSkillData GetActiveSkillDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	TArray<FActiveSkillData> GetUniqueActiveSkillDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
+	FSupportSkillData GetSupportSkillData(ESupportSkillType type) const;
+	FString SupportSkillEnumToString(ESupportSkillType weapon_type) const;
+	FSupportSkillData GetSupportSkillDataRandomly(ERarity weight_rarity = ERarity::Common) const;
+	TArray<FSupportSkillData> GetUniqueSupportSkillDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
+
 	const FCharacterData& GetCharacterData(ECharacterType char_type) const;
 	FString HeroEnumToString(ECharacterType char_type) const;
 
@@ -98,6 +103,9 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UActiveSkillDataAsset> active_skill_data_asset_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class USupportSkillDataAsset> support_skill_data_asset_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UCharacterStatDataAsset> character_stat_data_asset_;

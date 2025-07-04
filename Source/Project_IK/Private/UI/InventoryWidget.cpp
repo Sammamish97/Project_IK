@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/HeroEquipBoardWidget.h"
 #include "UI/RewardContainerWidget.h"
 #include "UI/RuneBoardWidget.h"
+#include "UI/InventorySlots/SupportSkillSlotWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 
 void UInventoryWidget::InitInventoryWidget(UInventoryManager* inventory_manager)
@@ -29,18 +30,21 @@ void UInventoryWidget::InitInventoryWidget(UInventoryManager* inventory_manager)
 	rune_board_->LoadRuneBoardWidget(0);
 	
 	TArray hero_boards = {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_};
-	for (int i = 0; i < hero_boards.Num(); i++)
+	for (int32 i = 0; i < hero_boards.Num(); i++)
 	{
 		hero_boards[i]->LoadHeroData(i);
 		hero_boards[i]->SetInventoryWidgetCache(this);
 	}
-
-
+	
 	hero_board_0_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_0_Board_Clicked);
 	hero_board_1_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_1_Board_Clicked);
 	hero_board_2_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_2_Board_Clicked);
 	hero_board_3_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_3_Board_Clicked);
-	//TArray support_skills = {support_skill_0_, support_skill_1_, support_skill_2_};
+
+	for (const auto& elem : {support_skill_0_, support_skill_1_, support_skill_2_})
+	{
+		elem->InitInventorySlot(this, true);
+	}
 }
 
 void UInventoryWidget::UpdateSetBonusEffect()
