@@ -80,3 +80,9 @@ void URuneSlotWidget::SetImageTexture()
 	Super::SetImageTexture();
 	image_->SetBrushFromTexture(rune_data_cache_.item_data_.thumbnail);
 }
+
+void URuneSlotWidget::ClearData()
+{
+	Super::ClearData();
+	rune_data_cache_ = FRuneData();
+}

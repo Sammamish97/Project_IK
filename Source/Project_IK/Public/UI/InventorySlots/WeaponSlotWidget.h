@@ -24,6 +24,7 @@ public:
 	void SetWeaponSlotData(FWeaponData weapon_data);
 	FWeaponData GetStoredWeaponData();
 	virtual void SetImageTexture() override;
+	virtual void ClearData() override;
 	
 private:
 	FWeaponData weapon_data_cache_;

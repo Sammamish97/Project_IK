@@ -43,13 +43,7 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UPassiveSkillSlotWidget> passive_skill_1_slot_;
-	//
-	// UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
-	// TObjectPtr<UEquipSlot> passive_skill_2_slot_;
-	//
-	// UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
-	// TObjectPtr<UEquipSlot> passive_skill_3_slot_;
-
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UButton> button_;
 

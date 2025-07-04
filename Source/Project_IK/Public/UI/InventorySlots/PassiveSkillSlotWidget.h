@@ -24,6 +24,7 @@ public:
 	void SetPassiveSkillSlotData(FPassiveSkillData passive_skill_data);
 	FPassiveSkillData GetStoredPassiveSkillData();
 	virtual void SetImageTexture() override;
+	virtual void ClearData() override;
 
 private:
 	FPassiveSkillData passive_skill_data_cache_;

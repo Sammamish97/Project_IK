@@ -27,6 +27,7 @@ public:
 	void SetRuneSetSlotData(EInventorySlotType slot_type);
 	const FRuneData& GetStoredRuneData();
 	virtual void SetImageTexture() override;
+	virtual void ClearData() override;
 
 private:
 	FRuneData rune_data_cache_;

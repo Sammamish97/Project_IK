@@ -22,6 +22,7 @@ public:
 	void SetSupportSkillSlotData(FSupportSkillData passive_skill_data);
 	FSupportSkillData GetStoredSupportSkillData();
 	virtual void SetImageTexture() override;
+	virtual void ClearData() override;
 
 private:
 	FSupportSkillData support_skill_data_cache_;

@@ -62,3 +62,9 @@ void UWeaponSlotWidget::SetImageTexture()
 	Super::SetImageTexture();
 	image_->SetBrushFromTexture(weapon_data_cache_.item_data_.thumbnail);
 }
+
+void UWeaponSlotWidget::ClearData()
+{
+	Super::ClearData();
+	weapon_data_cache_ = FWeaponData();
+}

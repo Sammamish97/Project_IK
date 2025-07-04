@@ -63,3 +63,9 @@ void UPassiveSkillSlotWidget::SetImageTexture()
 	Super::SetImageTexture();
 	image_->SetBrushFromTexture(passive_skill_data_cache_.item_data_.thumbnail);
 }
+
+void UPassiveSkillSlotWidget::ClearData()
+{
+	Super::ClearData();
+	passive_skill_data_cache_ = FPassiveSkillData();
+}

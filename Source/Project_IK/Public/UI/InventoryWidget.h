@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Managers/EnumCluster.h"
 #include "InventoryWidget.generated.h"
 
 class USupportSkillSlotWidget;
@@ -44,6 +45,12 @@ public:
 	
 	UFUNCTION()
 	void RemoveFromRewardContainer(class UInventorySlot* slot_ptr);
+
+	UFUNCTION()
+	bool CheckDuplicatedActiveSkill(EActiveSkillType type);
+
+	UFUNCTION()
+	bool CheckDuplicatedSupportSkill(ESupportSkillType type);
 
 private:
 	UFUNCTION()

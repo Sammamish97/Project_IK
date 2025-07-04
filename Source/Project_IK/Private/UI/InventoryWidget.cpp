@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/HeroEquipBoardWidget.h"
 #include "UI/RewardContainerWidget.h"
 #include "UI/RuneBoardWidget.h"
+#include "UI/InventorySlots/ActiveSkillSlotWidget.h"
 #include "UI/InventorySlots/SupportSkillSlotWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 
@@ -60,6 +61,30 @@ void UInventoryWidget::AddToRewardContainer(UInventorySlot* slot_ptr)
 void UInventoryWidget::RemoveFromRewardContainer(UInventorySlot* slot_ptr)
 {
 	reward_container_->RemoveWidgetFromRewardContainer(slot_ptr);
+}
+
+bool UInventoryWidget::CheckDuplicatedActiveSkill(EActiveSkillType type)
+{
+	for (const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
+	{
+		if (elem->active_skill_slot_->GetStoredActiveSkillData().type_ == type)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool UInventoryWidget::CheckDuplicatedSupportSkill(ESupportSkillType type)
+{
+	for (const auto& elem : {support_skill_0_, support_skill_1_, support_skill_2_})
+	{
+		if (elem->GetStoredSupportSkillData().type_ == type)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 void UInventoryWidget::NativeConstruct()

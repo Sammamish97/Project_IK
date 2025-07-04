@@ -28,28 +28,30 @@ void UActiveSkillSlotWidget::SetActiveSkillSlotData(FActiveSkillData active_skil
 bool UActiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
                                           UDragDropOperation* InOperation)
 {
-	//IKTODO: 다른 Hero들 중 현재 장착하려는 Active Skill를 이미 장착하려는 Hero가 없어야 함.
 	if (Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation))
 	{
 		auto casted_slot = Cast<UActiveSkillSlotWidget>(InOperation->Payload);
-
-		if (casted_slot->is_board_slot_)
-		{
-			Swap(casted_slot->active_skill_data_cache_, active_skill_data_cache_);
-			Swap(casted_slot->is_empty_, is_empty_);
-			SetImageTexture();
-			casted_slot->SetImageTexture();
-		}
-		else
-		{
-			if (is_empty_ == false)
+		
+			if (casted_slot->is_board_slot_)
 			{
-				inventory_widget_cache_->AddToRewardContainer(this);
+				Swap(casted_slot->active_skill_data_cache_, active_skill_data_cache_);
+				Swap(casted_slot->is_empty_, is_empty_);
+				SetImageTexture();
+				casted_slot->SetImageTexture();
 			}
-			SetActiveSkillSlotData(casted_slot->active_skill_data_cache_);
-			inventory_widget_cache_->RemoveFromRewardContainer(casted_slot);
-		}
-		return true;
+			else
+			{
+				if (inventory_widget_cache_->CheckDuplicatedActiveSkill(casted_slot->GetStoredActiveSkillData().type_) == false)
+				{
+					if (is_empty_ == false)
+					{
+						inventory_widget_cache_->AddToRewardContainer(this);
+					}
+					SetActiveSkillSlotData(casted_slot->active_skill_data_cache_);
+					inventory_widget_cache_->RemoveFromRewardContainer(casted_slot);
+				}
+			}
+			return true;
 	}
 	return false;
 }
@@ -63,4 +65,10 @@ void UActiveSkillSlotWidget::SetImageTexture()
 {
 	Super::SetImageTexture();
 	image_->SetBrushFromTexture(active_skill_data_cache_.item_data_.thumbnail);
+}
+
+void UActiveSkillSlotWidget::ClearData()
+{
+	Super::ClearData();
+	active_skill_data_cache_ = FActiveSkillData();
 }

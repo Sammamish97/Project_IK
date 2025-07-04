@@ -26,23 +26,27 @@ bool USupportSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FD
 	if (Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation))
 	{
 		auto casted_slot = Cast<USupportSkillSlotWidget>(InOperation->Payload);
-		if (casted_slot->is_board_slot_)
-		{
-			Swap(casted_slot->support_skill_data_cache_, support_skill_data_cache_);
-			Swap(casted_slot->is_empty_, is_empty_);
-			SetImageTexture();
-			casted_slot->SetImageTexture();
-		}
-		else
-		{
-			if (is_empty_ == false)
+		
+			if (casted_slot->is_board_slot_)
 			{
-				inventory_widget_cache_->AddToRewardContainer(this);
+				Swap(casted_slot->support_skill_data_cache_, support_skill_data_cache_);
+				Swap(casted_slot->is_empty_, is_empty_);
+				SetImageTexture();
+				casted_slot->SetImageTexture();
 			}
-			SetSupportSkillSlotData(casted_slot->support_skill_data_cache_);
-			inventory_widget_cache_->RemoveFromRewardContainer(casted_slot);
-		}
-		return true;
+			else
+			{
+				if (inventory_widget_cache_->CheckDuplicatedSupportSkill(casted_slot->GetStoredSupportSkillData().type_) == false)
+				{
+					if (is_empty_ == false)
+					{
+						inventory_widget_cache_->AddToRewardContainer(this);
+					}
+					SetSupportSkillSlotData(casted_slot->support_skill_data_cache_);
+					inventory_widget_cache_->RemoveFromRewardContainer(casted_slot);
+				}
+			}
+			return true;
 	}
 	return false;
 }
@@ -63,4 +67,10 @@ void USupportSkillSlotWidget::SetImageTexture()
 {
 	Super::SetImageTexture();
 	image_->SetBrushFromTexture(support_skill_data_cache_.item_data_.thumbnail);
+}
+
+void USupportSkillSlotWidget::ClearData()
+{
+	Super::ClearData();
+	support_skill_data_cache_ = FSupportSkillData();
 }
