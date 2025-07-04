@@ -28,9 +28,9 @@ public:
 	void UpdateSpawnDataIdx(int32 idx, FSpawnData data);
 
 	UFUNCTION(BlueprintCallable)
-	void UpdateSupportSkillData(int32 idx, FSupportSkillData data);
+	void UpdateSupportSkillDataIdx(int32 idx, FSupportSkillData data);
 	UFUNCTION(BlueprintCallable)
-	void UpdateSupportSkillDataIdx(const TArray<FSupportSkillData>& data);
+	void UpdateSupportSkillData(const TArray<FSupportSkillData>& data);
 	
 	UFUNCTION(BlueprintCallable)
 	void OpenMapLevel(UWorld* world);

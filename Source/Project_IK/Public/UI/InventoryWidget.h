@@ -22,6 +22,7 @@ class UInventoryManager;
 class UHeroEquipBoardWidget;
 class URuneBoardWidget;
 class UWidgetSwitcher;
+class UInventorySlot;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UInventoryWidget : public UUserWidget
@@ -32,7 +33,7 @@ public:
 	virtual void NativeDestruct() override;
 	
 	UFUNCTION(BlueprintCallable)
-	void InitInventoryWidget(UInventoryManager* inventory_manager);
+	void InitInventoryWidget();
 
 	UFUNCTION(BlueprintCallable)
 	void UpdateInventoryData();
@@ -41,16 +42,18 @@ public:
 	void UpdateSetBonusEffect();
 
 	UFUNCTION()
-	void AddToRewardContainer(class UInventorySlot* slot_ptr);
+	void AddToRewardContainer(UInventorySlot* slot_ptr);
 	
 	UFUNCTION()
-	void RemoveFromRewardContainer(class UInventorySlot* slot_ptr);
+	void RemoveFromRewardContainer(UInventorySlot* slot_ptr);
 
 	UFUNCTION()
 	bool CheckDuplicatedActiveSkill(EActiveSkillType type);
 
 	UFUNCTION()
 	bool CheckDuplicatedSupportSkill(ESupportSkillType type);
+
+	void LoadSelectedRewards(const FWrapperEquipmentData& rewards);
 
 private:
 	UFUNCTION()
@@ -65,13 +68,10 @@ private:
 	UFUNCTION()
 	void OnHero_3_Board_Clicked();
 
+	UFUNCTION()
+	void OnConfirm();
+
 private:
-	UPROPERTY(Transient)
-	TObjectPtr<UInventoryManager> inventory_manager_cache_;
-	
-	UPROPERTY(Transient)
-	TObjectPtr<class UDataTableManager> data_table_cache_;
-	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<USupportSkillSlotWidget> support_skill_0_;
 	
@@ -98,4 +98,7 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<URewardContainerWidget> reward_container_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> confirm_button_;
 };

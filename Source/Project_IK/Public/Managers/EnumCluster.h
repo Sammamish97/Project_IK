@@ -45,6 +45,7 @@ enum class ECombatEndState : uint8
 {
 	ShowingCombatResultUI UMETA(DisplayName = "ShowingCombatResultUI"),
 	ShowingEquipmentRewardUI UMETA(DisplayName = "ShowingEquipmentRewardUI"),
+	ShowingInventoryUI UMETA(DisplayName = "ShowingInventoryUI"),
 	ShowingMapUI UMETA(DisplayName = "ShowingMapUI"),
 };
 

@@ -46,7 +46,7 @@ void ULevelTransitionSubsystem::UpdateSpawnDataIdx(int32 idx, FSpawnData data)
 	spawn_data_[idx] = data;
 }
 
-void ULevelTransitionSubsystem::UpdateSupportSkillData(int32 idx, FSupportSkillData data)
+void ULevelTransitionSubsystem::UpdateSupportSkillDataIdx(int32 idx, FSupportSkillData data)
 {
 	if (support_skill_data_.Num() < idx)
 	{
@@ -55,7 +55,7 @@ void ULevelTransitionSubsystem::UpdateSupportSkillData(int32 idx, FSupportSkillD
 	support_skill_data_[idx] = data;
 }
 
-void ULevelTransitionSubsystem::UpdateSupportSkillDataIdx(const TArray<FSupportSkillData>& data)
+void ULevelTransitionSubsystem::UpdateSupportSkillData(const TArray<FSupportSkillData>& data)
 {
 	support_skill_data_.Empty();
 	for(auto elem : data)

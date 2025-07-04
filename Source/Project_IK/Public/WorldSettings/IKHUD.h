@@ -39,6 +39,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleInventory();
+
+	void LoadSelectedRewards(const FWrapperEquipmentData& rewards);
 	
 	// Reference to the Widget Blueprint class to create
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")

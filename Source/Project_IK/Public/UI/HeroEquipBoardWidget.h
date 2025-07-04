@@ -29,10 +29,9 @@ class PROJECT_IK_API UHeroEquipBoardWidget : public UUserWidget
 	friend UInventoryWidget;
 	
 public:
-	virtual void NativeConstruct() override;
-	void SetInventoryWidgetCache(UInventoryWidget* widget_ptr);
-	void LoadHeroData(int32 hero_idx);
-	void UpdateHeroData(int32 hero_idx);
+	void InitHeroEquipBoard(UInventoryWidget* widget_ptr, int32 hero_idx);
+	void LoadHeroData();
+	void UpdateHeroData();
 	
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
@@ -49,4 +48,6 @@ private:
 
 	UPROPERTY(Transient)
 	TObjectPtr<UInventoryWidget> inventory_widget_cache_;
+
+	int32 hero_idx_ = -1;
 };

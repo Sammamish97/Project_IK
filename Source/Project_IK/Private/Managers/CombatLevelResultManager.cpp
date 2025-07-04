@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/CombatResultUI.h"
 #include "UI/EquipmentRewardWidget.h"
+#include "UI/InventoryWidget.h"
 
 void UCombatLevelResultManager::InitializeUI()
 {
@@ -37,6 +38,17 @@ void UCombatLevelResultManager::InitializeUI()
 		{
 			equipment_reward_widget_->AddToViewport();
 			equipment_reward_widget_->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
+
+	if (inventory_widget_class_)
+	{
+		inventory_widget_ = CreateWidget<UInventoryWidget>(world, inventory_widget_class_);
+		if (inventory_widget_)
+		{
+			inventory_widget_->AddToViewport();
+			inventory_widget_->SetVisibility(ESlateVisibility::Hidden);
+			inventory_widget_->InitInventoryWidget();
 		}
 	}
 }
@@ -72,6 +84,12 @@ void UCombatLevelResultManager::SwitchUIByState(ECombatEndState state)
 		combat_result_widget_->SetVisibility(ESlateVisibility::Hidden);
 		equipment_reward_widget_->SetVisibility(ESlateVisibility::Visible);
 			break;
+	case ECombatEndState::ShowingInventoryUI:
+		equipment_reward_widget_->SetVisibility(ESlateVisibility::Hidden);
+		inventory_widget_->SetVisibility(ESlateVisibility::Visible);
+		break;
+
+	//IKTODO: 좀더 전투 UI와 Map Level UI를 분리해야 한다.
 	case ECombatEndState::ShowingMapUI:
 		UGameplayStatics::GetGameInstance(GetWorld())->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
 		break;

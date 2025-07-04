@@ -22,14 +22,9 @@ void AIKMapHUD::BeginPlay()
 		inventory_widget_ = CreateWidget<UInventoryWidget>(GetWorld(), inventory_widget_class_);
 		if(inventory_widget_)
 		{
-			auto instance = UGameplayStatics::GetGameInstance(GetWorld());
-			auto ik_instance = Cast<UIKGameInstance>(instance);
-			if(ik_instance)
-			{
-				inventory_widget_->InitInventoryWidget(ik_instance->GetInventoryManager());
-				inventory_widget_->AddToViewport();
-				inventory_widget_->SetVisibility(ESlateVisibility::Hidden);
-			}
+			inventory_widget_->InitInventoryWidget();
+			inventory_widget_->AddToViewport();
+			inventory_widget_->SetVisibility(ESlateVisibility::Hidden);
 		}
 	}
 

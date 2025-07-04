@@ -57,14 +57,18 @@ void UEquipmentRewardWidget::PopulateCheckboxButtons()
 
 void UEquipmentRewardWidget::OnConfirmButtonClicked()
 {
-	//IKTODO: Confirm Button이 눌리면 인벤토리로 이동해 선택한 장비를 장착할 수 있게 해야 한다.
-	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	
 	// Update HUD status
 	AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 	if (hud)
 	{
-		hud->SwitchUIByState(ECombatEndState::ShowingMapUI);
+		for (const auto& elem : equipment_widgets_)
+		{
+			if (elem->IsChecked())
+			{
+			}
+		}
+		hud->LoadSelectedRewards(equipments_);
+		hud->SwitchUIByState(ECombatEndState::ShowingInventoryUI);
 	}
 }
 
