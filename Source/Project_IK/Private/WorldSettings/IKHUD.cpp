@@ -54,7 +54,6 @@ void AIKHUD::BeginPlay()
 		button_bar_widget_ = CreateWidget<UButtonBarWidget>(world, button_widget_class_);
 		
 		TMap<EHeroType, FItemData> hero_skill_data;
-		TMap<EHeroType, FString> hero_rune_set_bonus_details;
 		//액티브 스킬 UI에 썸네일을 Bind.
 		auto game_mode =  Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		auto hero_types = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};

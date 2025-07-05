@@ -130,11 +130,11 @@ void UCombatResultUI::UpdateResults(const TMap<EHeroType, float>& damage_map)
 			// Need to check through GlobalBuff instead of SpawnData because of function call sequence
 			if (global_buff_subsystem->HasBuff(HeroTypeToDeathbound(IntToHeroType(i))))
 			{
-				blocks_[i]->SetHoveredText("Dead");
+				blocks_[i]->SetHoveredText(NSLOCTEXT("UI", "CombatResultUIDead", "Dead"));
 			}
 			else
 			{
-				blocks_[i]->SetHoveredText("Injured");
+				blocks_[i]->SetHoveredText(NSLOCTEXT("UI", "CombatResultUIInjured", "Injured"));
 			}
 		}
 	}
@@ -220,7 +220,7 @@ void UCombatResultUI::InitializeChildWidgets()
 	}
 
 	title_ = NewObject<UTextBlock>();
-	title_->SetText(FText::FromString("Combat Result"));
+	title_->SetText(NSLOCTEXT("UI", "CombatResultTitle", "Combat Result"));
 	UBorderSlot* title_slot = Cast<UBorderSlot>(title_holder_->AddChild(title_.Get()));
 	if (title_slot)
 	{

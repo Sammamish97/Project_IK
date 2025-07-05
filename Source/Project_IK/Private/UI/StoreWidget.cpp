@@ -89,19 +89,19 @@ void UStoreWidget::OnPayButtonClicked()
 
 	if (total_cost_ <= 0)
 	{
-		confirmation_widget_->SetText(FText::FromString("Are you sure you want to leave? This action cannot be undone."));
+		confirmation_widget_->SetText(NSLOCTEXT("UI", "StoreLeave", "Are you sure you want to leave? This action cannot be undone."));
 		confirmation_widget_->AddToViewport();
 	}
 	else if (total_cost_ <= credits_)
 	{
 		// Are you sure you want to purchase this item? This action cannot be undone.
-		FText confirm_text = FText::Format(NSLOCTEXT("NameSpace", "StoreConfirmationMessage", "Do you want to complete your purchase of items for {0}?"), FText::AsNumber(total_cost_));
+		FText confirm_text = FText::Format(NSLOCTEXT("UI", "StorePurchase", "Do you want to complete your purchase of items for {0}?"), FText::AsNumber(total_cost_));
 		confirmation_widget_->SetText(confirm_text);
 		confirmation_widget_->AddToViewport();
 	}
 	else
 	{
-		casher_text_->SetText(FText::FromString("Not enough money, huh? Try picking something that actually fits your purse."));
+		casher_text_->SetText(NSLOCTEXT("UI", "StoreNeedMoney", "Not enough money, huh? Try picking something that actually fits your purse."));
 	}
 }
 
@@ -113,7 +113,7 @@ void UStoreWidget::OnStoreSlotClicked()
 		// Mark an item that user mouse is hovering
 	}
 
-	total_cost_text_->SetText(FText::FromString(FString::FromInt(total_cost_)));
+	total_cost_text_->SetText(FText::AsNumber(total_cost_));
 
 	// Update button style
 	if (total_cost_ <= 0)

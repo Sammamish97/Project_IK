@@ -266,19 +266,18 @@ enum class ECharacterStatType : uint8
 	Shield UMETA(DisplayName = "Shield"),
 };
 
-//IKTODO: 로컬라이징 할 시 여기도 영향을 받는것을 잊으면 안됨.
-inline FString ECharStatToString(ECharacterStatType stat)
+inline FText ECharStatToString(ECharacterStatType stat)
 {
 	switch (stat)
 	{
 	case ECharacterStatType::AttackPower:
-		return FString("Attack Power");
+		return NSLOCTEXT("Stat", "StatTypeAttackPower", "Attack Power");
 	case ECharacterStatType::AttackSpeed:
-		return FString("Attack Speed");
+		return NSLOCTEXT("Stat", "StatTypeAttackSpeed", "Attack Speed");
 	case ECharacterStatType::SkillPower:
-		return FString("SKill Power");
+		return NSLOCTEXT("Stat", "StatTypeSkillPower", "SKill Power");
 	default:
-		return FString("");
+		return NSLOCTEXT("Stat", "Default", "DEFAULT");
 	}
 }
 

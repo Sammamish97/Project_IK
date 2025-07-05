@@ -39,17 +39,17 @@ void URunePopupWidget::UpdateRuneData(EHeroType type)
 		{
 		case 2:
 			bonus_type_ = ERuneBonusType::Edge;
-			bonus_type_text = FText::FromString("Edge: ");
+			bonus_type_text = NSLOCTEXT("UI", "RunePopupBonusTypeEdge", "Edge: ");
 			break;
 			
 		case 3:
 			bonus_type_ = ERuneBonusType::Triangle;
-			bonus_type_text = FText::FromString("Triangle: ");
+			bonus_type_text = NSLOCTEXT("UI", "RunePopupBonusTypeTriangle", "Triangle: ");
 			break;
 			
 		case 6:
 			bonus_type_ = ERuneBonusType::Hexagon;
-			bonus_type_text = FText::FromString("Hexagon: ");
+			bonus_type_text = NSLOCTEXT("UI", "RunePopupBonusTypeHexagon", "Hexagon: ");
 			break;
 		}
 
@@ -59,7 +59,7 @@ void URunePopupWidget::UpdateRuneData(EHeroType type)
 		auto new_widget = CreateWidget<URunePopupDetailWidget>(this, rune_popup_detail_widget_class_);
 		new_widget->thumbnail_->SetBrushFromTexture(cur_set_data.item_data_.thumbnail);
 		new_widget->set_bonus_type_->SetText(bonus_type_text);
-		new_widget->set_bonus_detail_->SetText(FText::FromString(cur_set_data.bonus_details_[bonus_type_]));
+		new_widget->set_bonus_detail_->SetText(cur_set_data.bonus_details_[bonus_type_]);
 		new_widget->AddToViewport();
 		vertical_box_->AddChildToVerticalBox(new_widget);
 		details_.Push(new_widget);

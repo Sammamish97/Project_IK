@@ -33,7 +33,7 @@ TArray<FRuneSetData> URuneDataAsset::GetUniqueRuneSetDataRandomly(int32 n, ERari
 	return URandomDataAssetsManager::GetUniqueDataAssetsRandomly(n, weight_rarity, rune_data_map_);
 }
 
-FString URuneDataAsset::GetRuneSetBonusDetail(ERuneSetType set_type, ERuneBonusType bonus_type)
+FText URuneDataAsset::GetRuneSetBonusDetail(ERuneSetType set_type, ERuneBonusType bonus_type)
 {
 	return rune_data_map_[set_type].bonus_details_[bonus_type];
 }

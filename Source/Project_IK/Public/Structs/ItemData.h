@@ -30,7 +30,7 @@ struct PROJECT_IK_API FItemData
 	FText detail_;
 	
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "SupportSkillData")
-    FString flavor_text;
+    FText flavor_text;
     
     UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "SupportSkillData")
     ERarity rarity_;

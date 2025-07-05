@@ -52,9 +52,9 @@ void UPerkUnlockWidget::NativeConstruct()
 
 	UpdateHeroData();
 
-	perk_points_text_->SetText(FText::FromString(FString::FromInt(
+	perk_points_text_->SetText(FText::AsNumber(
 		Cast<UIKGameInstance>(GetGameInstance())->GetInventoryManager()->GetPerkPoints()
-	)));
+	));
 
 
 	if (confirmation_widget_class_)
@@ -301,9 +301,9 @@ void UPerkUnlockWidget::OnConfirmed()
 		}
 		game_instance->GetInventoryManager()->SetPerkPoints(perk_points - clicked_perk_points);
 
-		perk_points_text_->SetText(FText::FromString(FString::FromInt(
+		perk_points_text_->SetText(FText::AsNumber(
 			perk_points - clicked_perk_points
-		)));
+		));
 
 
 		UpdateCosts(GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>()->GetProgress(current_hero_type_));
@@ -429,7 +429,6 @@ void UPerkUnlockWidget::UpdateHeroData()
 		return;
 	}
 
-	FString text_name;
 	switch (current_hero_type_)
 	{
 	case ECharacterType::Hero1:
@@ -609,7 +608,7 @@ bool UPerkUnlockWidget::OnButtonClickedDFS(const TArray<FPerkNode>& tree, int32 
 		if (confirmation_widget_)
 		{
 			const int32 clicked_perk_points = GetAccumulatedPerkCost(current_node_index);
-			FText confirm_text = FText::Format(FText::FromString("Are you sure you want to unlock the perk? It costs {0}"), FText::AsNumber(clicked_perk_points));
+			FText confirm_text = FText::Format(NSLOCTEXT("UI", "PerkUnlockCost", "Are you sure you want to unlock the perk? It costs {0}"), FText::AsNumber(clicked_perk_points));
 			confirmation_widget_->SetText(confirm_text);
 			confirmation_widget_->AddToViewport();
 		}
