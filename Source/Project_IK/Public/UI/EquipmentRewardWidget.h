@@ -20,75 +20,47 @@ See LICENSE file in the project root for full license information.
 #include "UI/CheckboxButtonWidget.h"
 #include "EquipmentRewardWidget.generated.h"
 
+class UHorizontalBox;
+class URewardSelectWidget;
 class UTextBlock;
 class UGridPanel;
 class UCheckboxButtonWidget;
 class UButton;
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API UEquipmentRewardWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	static constexpr int32 NUM_CANDIDATES = 6;
-	static constexpr int32 MAX_CHOICE = 3;
-
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UCheckboxButtonWidget> check_box_button_class_;
-protected:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 
-	void PopulateCheckboxButtons();
-
+	void IncreaseSelectedCounter();
+	void DecreaseSelectedCounter();
+	bool AbleToSelectMoreReward();
+	
 	UFUNCTION()
 	void OnConfirmButtonClicked();
-	UFUNCTION()
-	void OnCheckboxButtonClicked();
 
-	bool ToggleCheckboxButton(UCheckboxButtonWidget* widget);
-
-	template<typename Data>
-	void CreateCheckboxButton(TArray<Data> data, int32& row, int32& column);
-
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
+private:
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> text_max_selectables_;
 
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TObjectPtr<UGridPanel> equipment_container_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UHorizontalBox> reward_container_;
 
 	UPROPERTY()
-	TArray<TObjectPtr<UCheckboxButtonWidget>> equipment_widgets_;
+	TArray<TObjectPtr<URewardSelectWidget>> reward_widgets_;
 
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> confirm_button_;
 
-	FWrapperEquipmentData equipments_;
+public:
+	static constexpr int32 NUM_CANDIDATES = 6;
+	static constexpr int32 MAX_CHOICE = 3;
 
-	int32 checked_equipment_num_;
+	int32 selected_amount = 0;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<URewardSelectWidget> reward_widget_class_;
 };
-
-template<typename Data>
-inline void UEquipmentRewardWidget::CreateCheckboxButton(TArray<Data> data_array, int32& row, int32& column)
-{
-	for (const Data& data : data_array)
-	{
-		UCheckboxButtonWidget* cb = WidgetTree->ConstructWidget<UCheckboxButtonWidget>(check_box_button_class_);
-		if (cb)
-		{
-			UGridSlot* slot = equipment_container_->AddChildToGrid(cb, row, column);
-			if (slot)
-			{
-				slot->SetPadding(FMargin(64.f, 16.f));
-			}
-			cb->SetButtonTexture(data.item_data_.thumbnail);
-
-			equipment_widgets_.Add(cb);
-			column += 1;
-		}
-	}
-}

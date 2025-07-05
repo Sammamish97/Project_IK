@@ -161,18 +161,6 @@ UButtonBarWidget* AIKHUD::GetButtonBarWidget()
 	return button_bar_widget_;
 }
 
-void AIKHUD::ToggleInventory()
-{
-	if (inventory_widget_->GetVisibility() == ESlateVisibility::Hidden)
-	{
-		inventory_widget_->SetVisibility(ESlateVisibility::Visible);
-	}
-	else
-	{
-		inventory_widget_->SetVisibility(ESlateVisibility::Hidden);
-	}
-}
-
 void AIKHUD::LoadSelectedRewards(const FWrapperEquipmentData& rewards)
 {
 	inventory_widget_->LoadSelectedRewards(rewards);

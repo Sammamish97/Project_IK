@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Structs/WrapperEquipmentData.h"
 #include "GameFramework/HUD.h"
 #include "IKHUD.generated.h"
 
@@ -36,9 +37,6 @@ public:
 	void SwitchUIByState(ECombatEndState state);
 
 	UButtonBarWidget* GetButtonBarWidget();
-
-	UFUNCTION(BlueprintCallable)
-	void ToggleInventory();
 
 	void LoadSelectedRewards(const FWrapperEquipmentData& rewards);
 	

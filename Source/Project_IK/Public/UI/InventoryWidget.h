@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/WrapperEquipmentData.h"
 #include "InventoryWidget.generated.h"
 
 class USupportSkillSlotWidget;

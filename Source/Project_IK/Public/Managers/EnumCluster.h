@@ -200,6 +200,8 @@ enum class EGearType : uint8
 	Weapon UMETA(DisplayName = "Weapon"),
 	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
 	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
+	SupportSkill UMETA(DisplayName = "SupportSkill"),
+	Rune UMETA(DisplayName = "Rune"),
 };
 
 UENUM(BlueprintType)

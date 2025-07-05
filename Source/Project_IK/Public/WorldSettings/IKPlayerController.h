@@ -78,9 +78,6 @@ private:
 	UFUNCTION()
 	void RotateCameraRight();
 
-	UFUNCTION()
-	void OnToggleInventory();
-	
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Targeting")
 	TObjectPtr<UTargetingComponent> targeting_component_;
