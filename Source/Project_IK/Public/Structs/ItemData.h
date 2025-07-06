@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/FormattedText.h"
 #include "ItemData.generated.h"
 
 USTRUCT(BlueprintType)
@@ -27,7 +28,7 @@ struct PROJECT_IK_API FItemData
 	FText name_;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	FText detail_;
+	FFormattedText detail_;
 	
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "SupportSkillData")
     FText flavor_text;

@@ -40,7 +40,6 @@ class PROJECT_IK_API UDataTableManager : public UObject
 
 public:
 	FWeaponData GetWeaponStatusData(EWeaponType type) const;
-	FString WeaponEnumToString(EWeaponType weapon_type) const;
 	FWeaponData GetWeaponDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	TArray<FWeaponData> GetUniqueWeaponDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
@@ -53,20 +52,17 @@ public:
 	TArray<FRuneData> GetRuneDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 	TArray<FRuneData> GetUniqueRuneDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 	UTexture2D* GetRuneSetThumbnail(ERuneSetType type) const;
-	FString GetRuneSetBonusDetail(ERuneSetType set_type, ERuneBonusType bonus_type) const;
+	FText GetRuneSetBonusDetail(ERuneSetType set_type, ERuneBonusType bonus_type) const;
 
 	FPassiveSkillData GetPassiveSkillData(EPassiveSkillType type) const;
-	FString PassiveSkillEnumToString(EPassiveSkillType weapon_type) const;
 	FPassiveSkillData GetPassiveSkillDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	TArray<FPassiveSkillData> GetUniquePassiveSkillDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
 	FActiveSkillData GetActiveSkillData(EActiveSkillType type) const;
-	FString ActiveSkillEnumToString(EActiveSkillType weapon_type) const;
 	FActiveSkillData GetActiveSkillDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	TArray<FActiveSkillData> GetUniqueActiveSkillDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
 	const FCharacterData& GetCharacterData(ECharacterType char_type) const;
-	FString HeroEnumToString(ECharacterType char_type) const;
 
 	void EnhanceCharacterData(ECharacterType char_type, ECharacterStatType stat_type, float increase_amount);
 	void DiminishCharacterData(ECharacterType char_type, ECharacterStatType stat_type, float decrease_amount);

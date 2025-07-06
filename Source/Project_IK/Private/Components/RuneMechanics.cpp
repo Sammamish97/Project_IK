@@ -77,35 +77,3 @@ const TArray<FRuneData>& URuneMechanics::GetEquippedRunes()
 {
 	return equipped_runes_;
 }
-
-FString URuneMechanics::RuneEnumToString(ERuneSetType set_type)
-{
-	FString output;
-	switch (set_type)
-	{
-	case ERuneSetType::Chariot:
-		output = "Chariot";
-		break;
-
-	case ERuneSetType::GreatBow:
-		output = "GreatBow";
-		break;
-
-	case ERuneSetType::Viper:
-		output = "Viper";
-		break;
-
-	case ERuneSetType::Dagger:
-		output = "Dagger";
-		break;
-		
-	case ERuneSetType::Poet:
-		output = "Poet";
-		break;
-
-	case ERuneSetType::Tempest:
-		output = "Tempest";
-		break;
-	}
-	return output;
-}
