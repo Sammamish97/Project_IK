@@ -30,9 +30,7 @@ public:
 	virtual void StartPlay() override;
 	virtual void BeginPlay() override;
 
-	UFUNCTION(BlueprintCallable)
 	void SpawnHeroes();
-	UFUNCTION()
 	void SpawnEnemies();
 
 	UFUNCTION(BlueprintCallable)
@@ -40,10 +38,11 @@ public:
 
 	TMap<EHeroType, TObjectPtr<AActor>> GetHeroContainer() const noexcept;
 
-	int32 GetHeroCount() const noexcept;
 
 	UFUNCTION(BlueprintPure)
 	AActor* GetHero(EHeroType type) const noexcept;
+
+	void ProceedGameFlowAfterUI();
 
 	UFUNCTION(BlueprintPure)
 	const TArray<AActor*>& GetEnemyContainers() const noexcept;
@@ -53,15 +52,6 @@ public:
 	void RemoveEnemy(AEnemyBase* enemy);
 	UFUNCTION(BlueprintCallable)
 	void RemoveAllEnemy();
-
-	UFUNCTION(BlueprintCallable)
-	void CheckWinLoseCondition();
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void OnGameWin();
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void OnGameLose();
 
 	UFUNCTION()
 	void RecordDamage(float damage, TWeakObjectPtr<AActor> attacker);
@@ -82,8 +72,17 @@ public:
 	TMap<EHeroType, TSubclassOf<class AHeroBase>> hero_bp_class_;
 	
 protected:
+
+	void SaveHeroSpawnData();
+	void CheckWinLoseCondition();
+
+	void OnGameWin();
+
+	void OnGameLose();
+
 	void DisplayCombatResult();
 	bool IsDefeated() const;
+	bool IsAllHeroesPermanentlyDead() const;
 
 	FVector hero_spawn_position_;
 
@@ -91,11 +90,13 @@ protected:
 	TMap<EHeroType, TObjectPtr<AActor>> heroes_;
 
 	UPROPERTY()
-	TMap<TWeakObjectPtr<AActor>, float> gunner_damage_map_;
+	TMap<EHeroType, float> gunner_damage_map_;
 
 	UPROPERTY()
 	TObjectPtr<UTimeDilationManager> time_dilation_manager_;
 
 	UPROPERTY()
 	TObjectPtr<UEnemySpawnerManager> enemy_spawner_manager_;
+
+	bool has_game_won_ = true;
 };

@@ -41,6 +41,8 @@ See LICENSE file in the project root for full license information.
 
 typedef TPair<ERuneSetType, TArray<int32>> RuneSetBonus;
 
+#include "Managers/EnumCluster.h"
+
 void AIKHUD::BeginPlay()
 {
 	Super::BeginPlay();
@@ -62,7 +64,7 @@ void AIKHUD::BeginPlay()
 
 		TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 		TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
-
+		
 		for(auto cur_hero_type : hero_types)
 		{
 			auto cur_spawn_data = transition_system->GetSpawnData(cur_hero_type);
@@ -142,11 +144,11 @@ void AIKHUD::BeginPlay()
 	}
 }
 
-void AIKHUD::DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map)
+void AIKHUD::DisplayCombatResult(const TMap<EHeroType, float>& damage_map)
 {
 	if (combat_level_result_manager_)
 	{
-		combat_level_result_manager_->DisplayCombatResult(heroes, damage_map);
+		combat_level_result_manager_->DisplayCombatResult(damage_map);
 	}
 }
 

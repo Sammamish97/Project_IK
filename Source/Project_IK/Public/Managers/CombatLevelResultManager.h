@@ -18,6 +18,7 @@ class UInventoryWidget;
 enum class ECombatEndState : uint8;
 class UCombatResultUI;
 class UEquipmentRewardWidget;
+class UToMainMenuWidget;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UCombatLevelResultManager : public UObject
@@ -28,7 +29,7 @@ public:
 	void InitializeUI();
 
 	UFUNCTION()
-	void DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map);
+	void DisplayCombatResult(const TMap<EHeroType, float>& damage_map);
 
 	UFUNCTION()
 	void SwitchUIByState(ECombatEndState state);
@@ -39,10 +40,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UEquipmentRewardWidget> equipment_reward_widget_class_;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UToMainMenuWidget> main_menu_ui_class_ = nullptr;
+
 protected:
 	UPROPERTY()
 	TObjectPtr<UCombatResultUI> combat_result_widget_;
 
 	UPROPERTY()
 	TObjectPtr<UEquipmentRewardWidget> equipment_reward_widget_;
+
+	UPROPERTY()
+	TObjectPtr<UToMainMenuWidget> main_menu_ui_ = nullptr;
 };

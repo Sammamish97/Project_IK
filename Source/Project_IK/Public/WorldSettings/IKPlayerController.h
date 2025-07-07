@@ -42,7 +42,7 @@ public:
 	UFUNCTION()
 	void FinishTargeting();
 	
-	void UpdateEnemies(TArray<TWeakObjectPtr<AActor>> tracked_enemies);
+	void UpdateEnemies(TArray<AActor*> tracked_enemies);
 
 private:
 	UFUNCTION()

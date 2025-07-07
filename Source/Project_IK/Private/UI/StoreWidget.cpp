@@ -28,6 +28,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/TextBlock.h"
 #include "Managers/DataTableManager.h"
 
+#include "Subsystems/LevelTransitionSubsystem.h"
+
 bool UStoreWidget::Initialize()
 {
 	Super::Initialize();
@@ -108,7 +110,7 @@ void UStoreWidget::OnStoreSlotClicked()
 	total_cost_ = 0;
 	for (int32 i = 0; i < STOCK; i++)
 	{
-		// Fill here to list items
+		// Mark an item that user mouse is hovering
 	}
 
 	total_cost_text_->SetText(FText::FromString(FString::FromInt(total_cost_)));
@@ -153,8 +155,8 @@ void UStoreWidget::GoToNextLevel()
 
 	for (int32 i = 0; i < STOCK; i++)
 	{
-		// Fill here to list items
+		// Add purchased items to inventory
 	}
 
-	// Pop up map widget to go to next levels.
+	game_instance->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
 }

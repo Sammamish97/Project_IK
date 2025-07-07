@@ -29,7 +29,7 @@ public:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
-	virtual void EquipGears(FSpawnData spawn_data);
+	virtual void SyncWithSpawnData(const FSpawnData& spawn_data);
 	virtual void Die() override;
 	
 	virtual void Attack(AActor* target) override;
@@ -94,7 +94,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero")
 	FColor hero_base_color_2_;
 	
-private:
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EHeroType hero_type_;
 	bool is_covered_ = false;
 };

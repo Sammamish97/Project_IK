@@ -47,6 +47,7 @@ enum class ECombatEndState : uint8
 	ShowingEquipmentRewardUI UMETA(DisplayName = "ShowingEquipmentRewardUI"),
 	ShowingInventoryUI UMETA(DisplayName = "ShowingInventoryUI"),
 	ShowingMapUI UMETA(DisplayName = "ShowingMapUI"),
+	ShowingToMainmenu UMETA(DisplayName = "ShowingToMainmenu"),
 };
 
 UENUM(BlueprintType)
@@ -135,17 +136,51 @@ inline int32 HeroTypeToInt(EHeroType hero_type)
 {
 	switch (hero_type)
 	{
-		case EHeroType::Hero1:
-			return 0;
-		case EHeroType::Hero2:
-			return 1;
-		case EHeroType::Hero3:
-			return 2;
-		case EHeroType::Hero4:
-			return 3;
-		case EHeroType::INVALID:
-		default:
-			return -1;
+	case EHeroType::Hero1:
+		return 0;
+	case EHeroType::Hero2:
+		return 1;
+	case EHeroType::Hero3:
+		return 2;
+	case EHeroType::Hero4:
+		return 3;
+	case EHeroType::INVALID:
+	default:
+		return -1;
+	}
+}
+
+inline ECharacterType HeroTypeToCharacterType(EHeroType hero_type)
+{
+	switch (hero_type)
+	{
+	case EHeroType::Hero1:
+		return ECharacterType::Hero1;
+	case EHeroType::Hero2:
+		return ECharacterType::Hero2;
+	case EHeroType::Hero3:
+		return ECharacterType::Hero3;
+	case EHeroType::Hero4:
+		return ECharacterType::Hero4;
+	default:
+		return ECharacterType::INVALID;
+	}
+}
+
+inline EHeroType CharacterTypeToHeroType(ECharacterType character_type)
+{
+	switch (character_type)
+	{
+	case ECharacterType::Hero1:
+		return EHeroType::Hero1;
+	case ECharacterType::Hero2:
+		return EHeroType::Hero2;
+	case ECharacterType::Hero3:
+		return EHeroType::Hero3;
+	case ECharacterType::Hero4:
+		return EHeroType::Hero4;
+	default:
+		return EHeroType::INVALID;
 	}
 }
 
@@ -357,8 +392,57 @@ UENUM(BlueprintType)
 enum class EGlobalBuffType : uint8
 {
 	WoundingBullets UMETA(DisplayName = "WoundingBullets"),
+	Deathbound_Hero1 UMETA(DisplayName = "Deathbound Hero1"),
+	Deathbound_Hero2 UMETA(DisplayName = "Deathbound Hero2"),
+	Deathbound_Hero3 UMETA(DisplayName = "Deathbound Hero3"),
+	Deathbound_Hero4 UMETA(DisplayName = "Deathbound Hero4"),
 	None UMETA(DisplayName = "None"),
 };
+
+inline EGlobalBuffType HeroTypeToDeathbound(EHeroType hero_type)
+{
+	switch (hero_type)
+	{
+	case EHeroType::Hero1:
+		return EGlobalBuffType::Deathbound_Hero1;
+		break;
+	case EHeroType::Hero2:
+		return EGlobalBuffType::Deathbound_Hero2;
+		break;
+	case EHeroType::Hero3:
+		return EGlobalBuffType::Deathbound_Hero3;
+		break;
+	case EHeroType::Hero4:
+		return EGlobalBuffType::Deathbound_Hero4;
+		break;
+	default:
+		return EGlobalBuffType::None;
+		break;
+	}
+}
+
+inline EHeroType DeathboundToHeroType(EGlobalBuffType buff_type)
+{
+	switch (buff_type)
+	{
+	case EGlobalBuffType::Deathbound_Hero1:
+		return EHeroType::Hero1;
+		break;
+	case EGlobalBuffType::Deathbound_Hero2:
+		return EHeroType::Hero2;
+		break;
+	case EGlobalBuffType::Deathbound_Hero3:
+		return EHeroType::Hero3;
+		break;
+	case EGlobalBuffType::Deathbound_Hero4:
+		return EHeroType::Hero4;
+		break;
+	default:
+		return EHeroType::INVALID;
+		break;
+	}
+}
+
 
 UENUM(BlueprintType)
 enum class ETargetingState : uint8
@@ -449,6 +533,7 @@ enum class EBuffType : uint8
 	Agility UMETA(DisplayName = "Agility"),
 	Berserker UMETA(DisplayName = "Berserker"),
 	LowProfile UMETA(DisplayName = "LowProfile"),
+	Deathbound UMETA(DisplayName = "Deathbound"),
 	
 	Chariot_Edge UMETA(DisplayName = "Chariot_Edge"),
 	Chariot_Triangle UMETA(DisplayName = "Chariot_Edge"),

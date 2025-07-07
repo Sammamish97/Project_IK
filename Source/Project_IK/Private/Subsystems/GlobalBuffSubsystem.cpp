@@ -54,6 +54,30 @@ void UGlobalBuffSubsystem::AddBuff(EGlobalBuffType buff_type)
 	}
 }
 
+bool UGlobalBuffSubsystem::RemoveBuff(EGlobalBuffType buff_type)
+{
+	int32* existing_index = buff_lookup_.Find(buff_type);
+	if (existing_index)
+	{
+		int32 index_to_remove = *existing_index;
+		buff_logic_containers_.Remove(buffs_[index_to_remove].buff_logic_class_);
+		buffs_.RemoveAt(index_to_remove);
+		buff_lookup_.Remove(buff_type);
+		
+		// Manually shrink them because they are custom indices.
+		for (auto& pair : buff_lookup_)
+		{
+			if (pair.Value > index_to_remove)
+			{
+				pair.Value -= 1;
+			}
+		}
+		return true;
+	}
+
+	return false;
+}
+
 void UGlobalBuffSubsystem::ApplyBuff(UObject* buff_target)
 {
 	for (const FGlobalBuffData& buff : buffs_)
@@ -64,6 +88,12 @@ void UGlobalBuffSubsystem::ApplyBuff(UObject* buff_target)
 			buff_logic->ApplyBuff(buff_target);
 		}
 	}
+}
+
+bool UGlobalBuffSubsystem::HasBuff(EGlobalBuffType buff_type)
+{
+	int32* existing_index = buff_lookup_.Find(buff_type);
+	return existing_index != nullptr;
 }
 
 void UGlobalBuffSubsystem::UpdateBuffDurations()
@@ -90,4 +120,9 @@ void UGlobalBuffSubsystem::UpdateBuffDurations()
 			}
 		}
 	}
+}
+
+const TArray<FGlobalBuffData>& UGlobalBuffSubsystem::GetBuffs()
+{
+	return buffs_;
 }

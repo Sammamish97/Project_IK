@@ -28,6 +28,8 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/GlobalBuffSubsystem.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "UI/IKMaps.h"
+#include "Subsystems/GlobalBuffSubsystem.h"
+#include "Managers/DataTableManager.h"
 
 AIKGameModeBase::AIKGameModeBase()
 	: Super::AGameModeBase()
@@ -77,7 +79,7 @@ void AIKGameModeBase::SpawnHeroes()
 		if (save_data_array[hero_type].is_dead_ == false)
 		{
 			AHeroBase* hero = GetWorld()->SpawnActor<AHeroBase>(hero_bp_class_[hero_type], hero_spawn_position_ + FVector(0, (300.f * (save_data_array.Num() - 1) / -2.f) + (counter * 300), 90), spawn_rotation);
-			hero->EquipGears(save_data_array[hero_type]);
+			hero->SyncWithSpawnData(save_data_array[hero_type]);
 			heroes_.Add({hero_type, hero});
 			counter += 1;
 		}
@@ -102,22 +104,54 @@ void AIKGameModeBase::SpawnEnemies()
 	enemy_spawner_manager_->SpawnEnemies();
 }
 
-void AIKGameModeBase::SaveHeroSpawnData()
+void AIKGameModeBase::ProceedGameFlowAfterUI()
 {
-	TMap<EHeroType, FSpawnData> spawn_map = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->GetSpawnData();
-	TArray hero_type_array = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
-	for (auto hero_type : hero_type_array)
+	AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+	if (hud)
 	{
-		if(heroes_.Contains(hero_type))
-		{
-			spawn_map[hero_type].character_data_ = Cast<AHeroBase>(heroes_[hero_type])->GetCharacterStat()->GetCharacterData();
+		if (has_game_won_)
+		{	// Has game won
+			hud->SwitchUIByState(ECombatEndState::ShowingEquipmentRewardUI);
 		}
 		else
-		{
-			spawn_map[hero_type].is_dead_ = true;
+		{	// game defeated.
+			hud->SwitchUIByState(ECombatEndState::ShowingToMainmenu);
 		}
 	}
-	GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->UpdateSpawnData(spawn_map);
+}
+
+void AIKGameModeBase::SaveHeroSpawnData()
+{
+	ULevelTransitionSubsystem* level_transition_subsystem = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
+	TArray<FSpawnData> spawn_data = level_transition_subsystem->GetSpawnData();
+	for (int32 i = 0; i < heroes_.Num(); ++i)
+	{
+		if (heroes_[i] != nullptr)
+		{
+			spawn_map[hero_type].is_dead_ = true;
+			spawn_data[i].character_data_ = Cast<AHeroBase>(heroes_[i])->GetCharacterStat()->GetCharacterData();
+		}
+		else if(spawn_data[i].is_dead_ == false)
+		{
+			EHeroType hero_type = IntToHeroType(i);
+			UGlobalBuffSubsystem* global_buff_subsystem = GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+			const EGlobalBuffType deathbound_type = HeroTypeToDeathbound(hero_type);
+			if (global_buff_subsystem->HasBuff(deathbound_type))
+			{	// Consider the character is dead
+				spawn_data[i].is_dead_ = true;
+				global_buff_subsystem->RemoveBuff(deathbound_type);
+			}
+			else
+			{	// When no debuff in the queue, apply debuff and revive it once.
+				UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+				UDataTableManager* data_table_manager = instance->GetDataTableManager();
+				
+				spawn_data[i].character_data_ = data_table_manager->GetCharacterData(HeroTypeToCharacterType(hero_type));
+				global_buff_subsystem->AddBuff(deathbound_type);
+			}
+		}
+	}
+	level_transition_subsystem->UpdateSpawnData(spawn_data);
 }
 
 TMap<EHeroType, TObjectPtr<AActor>> AIKGameModeBase::GetHeroContainer() const noexcept
@@ -157,9 +191,10 @@ void AIKGameModeBase::RemoveHero(EHeroType hero_type)
 {
 	//1. 사망 작업 진행 ex)모션/사운드/사망 모션 진행 중 적이 공격하지 못하게 하기.
 	//TODO
-	//2. 사망 진행 작업이 끝나면 해당 index의 hero를 제거 후 null로 변경.
 
+	//2. 사망 진행 작업이 끝나면 해당 index의 hero를 제거 후 null로 변경.
 	heroes_.Remove(hero_type);
+
 	//3. SpawnData의 dead를 false로 update.
 	ULevelTransitionSubsystem* level_transition_cache = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
 	FSpawnData spawn_data = level_transition_cache->GetSpawnData(hero_type);
@@ -168,7 +203,6 @@ void AIKGameModeBase::RemoveHero(EHeroType hero_type)
 
 	//4. Win-Lose Condition Check
 	CheckWinLoseCondition();
-	
 }
 
 void AIKGameModeBase::RemoveEnemy(AEnemyBase* enemy)
@@ -194,16 +228,24 @@ void AIKGameModeBase::CheckWinLoseCondition()
 		return;
 	}
 
-	DisplayCombatResult();
 	if (AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
 	{
 		pc->GetTargetingComponent()->StopTargeting();
 	}
 
+
+	// Function call matters. 
+	// Need changes in CombatResultUI if the below line called after SaveHeroSpawnData.
+	DisplayCombatResult();
+
+	// Function call matters. 
+	// Need changes in CombatResultUI if the below line called before DisplayCombatResult.
+	SaveHeroSpawnData();
+
+
 	if (enemy_spawner_manager_->IsEnemyAllDefeated())
 	{
 		OnGameWin();
-		SaveHeroSpawnData();
 	}
 	else
 	{
@@ -211,17 +253,35 @@ void AIKGameModeBase::CheckWinLoseCondition()
 	}
 }
 
+void AIKGameModeBase::OnGameWin()
+{
+	has_game_won_ = true;
+}
+
+void AIKGameModeBase::OnGameLose()
+{
+	if (IsAllHeroesPermanentlyDead())
+	{
+		has_game_won_ = false;
+	}
+
+	DisplayCombatResult();
+}
+
 void AIKGameModeBase::RecordDamage(float damage, TWeakObjectPtr<AActor> attacker)
 {
-	if (Cast<AHeroBase>(attacker))
+	AHeroBase* hero = Cast<AHeroBase>(attacker);
+	if (hero)
 	{
-		if (gunner_damage_map_.Contains(attacker))
+		EHeroType type = hero->GetHeroType();
+
+		if (gunner_damage_map_.Contains(type))
 		{
-			gunner_damage_map_[attacker] += damage;
+			gunner_damage_map_[type] += damage;
 		}
 		else
 		{
-			gunner_damage_map_.Add(attacker, damage);
+			gunner_damage_map_.Add(type, damage);
 		}
 	}
 }
@@ -265,20 +325,9 @@ void AIKGameModeBase::DisplayCombatResult()
 
 	if (player_controller)
 	{
-		AIKHUD* hud = Cast<AIKHUD>(player_controller->GetHUD());
-		if (hud)
+		if (AIKHUD* hud = Cast<AIKHUD>(player_controller->GetHUD());)
 		{
-			TArray<AActor*> alive_heroes;
-			for (const auto& elem : heroes_)
-			{
-				TWeakObjectPtr<AActor> actor = elem.Value;
-				if (actor.IsValid())
-				{
-					alive_heroes.Add(actor.Get());
-				}
-			}
-
-			hud->DisplayCombatResult(alive_heroes, gunner_damage_map_);
+			hud->DisplayCombatResult(gunner_damage_map_);
 		}
 	}
 }
@@ -290,6 +339,21 @@ bool AIKGameModeBase::IsDefeated() const
 		TWeakObjectPtr<AActor> actor = elem.Value;
 		// hero become null explicitly if it died
 		if (!actor.IsExplicitlyNull())
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+bool AIKGameModeBase::IsAllHeroesPermanentlyDead() const
+{
+	ULevelTransitionSubsystem* level_transition_subsystem = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
+	TArray<FSpawnData> spawn_data = level_transition_subsystem->GetSpawnData();
+
+	for (int32 i = 0; i < heroes_.Num(); ++i)
+	{
+		if (spawn_data[i].is_dead_ != true)
 		{
 			return false;
 		}

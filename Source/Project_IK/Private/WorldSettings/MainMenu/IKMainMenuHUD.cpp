@@ -13,16 +13,16 @@ See LICENSE file in the project root for full license information.
 
 // Need to call CreateWidget function
 #include "Blueprint/UserWidget.h"
-#include "UI/WidgetOpenerUI.h"
+#include "UI/ButtonToGoMapLevel.h"
 
 void AIKMainMenuHUD::BeginPlay()
 {
-	if (map_widget_opener_class_)
+	if (map_level_opener_class_)
 	{
-		map_widget_opener_ = CreateWidget<UWidgetOpenerUI>(GetOwningPlayerController(), map_widget_opener_class_);
-		if (map_widget_opener_)
+		map_level_opener_ = CreateWidget<UButtonToGoMapLevel>(GetOwningPlayerController(), map_level_opener_class_);
+		if (map_level_opener_)
 		{
-			map_widget_opener_->AddToViewport();
+			map_level_opener_->AddToViewport();
 		}
 	}
 }

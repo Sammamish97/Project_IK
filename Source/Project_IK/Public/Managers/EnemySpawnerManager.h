@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 
 class UWorld;
 class AEnemyBase;
+class UEnemySpawnDataAsset;
 
 /**
  * 
@@ -38,8 +39,6 @@ public:
 
 	bool IsEnemyAllDefeated();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnemySpawner")
-	TSubclassOf<AEnemyBase> enemy_class_;
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnemySpawner")
 	FVector spawn_distance_;
@@ -50,13 +49,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnemySpawner")
 	int32 enemy_spacing_;
-
-	// @@ TODO: Implement Deck system to determine the numbers and kinds of enemies.
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnemySpawner")
-	int32 enemy_num_;
 	
 	// How strong enemies spawned?
 	UPROPERTY(BlueprintReadWrite)
 	TArray<TObjectPtr<AActor>> enemies_;
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UEnemySpawnDataAsset> enemy_spawn_data_asset_;
 };

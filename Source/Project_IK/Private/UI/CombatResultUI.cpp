@@ -28,8 +28,11 @@ See LICENSE file in the project root for full license information.
 #include "Components/CharacterStatComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameModeBase.h"
-#include "WorldSettings/IKHUD.h"
 #include "Managers/CombatLevelResultManager.h"
+
+#include "Managers/EnumCluster.h"
+
+#include "Subsystems/GlobalBuffSubsystem.h"
 
 
 bool UCombatResultUI::Initialize()
@@ -45,64 +48,99 @@ bool UCombatResultUI::Initialize()
 	return true;
 }
 
-void UCombatResultUI::SetHeroNumbers(int32 num)
-{
-	UCanvasPanelSlot* UI_background_slot = Cast<UCanvasPanelSlot>(UI_background_->Slot);
-	if (UI_background_slot)
+void UCombatResultUI::PopulateWidgets(const TArray<AActor*>& hero_containers)
+{	// Synchronize blocks num to be HeroType now.
+
+	for (int32 i = 0; i < hero_containers.Num(); i++)
 	{
-		UI_background_slot->SetPosition(FVector2D(num * -200.0, -400.0));
-		UI_background_slot->SetSize(FVector2D(num * 400.0, 800.0));
+		hp_ratio_after_.Add(0.f);
+
+		if (hero_containers[i] == nullptr)
+		{
+			hp_ratio_before_.Add(0.f);
+			continue;
+		}
+
+		if (AHeroBase* hero = Cast<AHeroBase>(hero_containers[i]))
+		{
+			// It contains initial hit points ratio.
+			hp_ratio_before_.Add(hero->GetCharacterStat()->GetHPRatio());
+		}
 	}
 
 	if (combat_result_block_widget_class_)
 	{
-		for (int32 i = 0; i < num; i++)
+		for (int32 i = 0; i < hero_containers.Num(); i++)
 		{
-			UCombatResultBlock* block = CreateWidget<UCombatResultBlock>(this, combat_result_block_widget_class_);
-			FString block_unique_name = MakeUniqueObjectName(GetOuter(), block->GetClass(), TEXT("Block")).ToString();
-			block->Rename(*block_unique_name);
-			UHorizontalBoxSlot* block_slot = blocks_holder_->AddChildToHorizontalBox(block);
-			block_slot->SetPadding(FMargin(32.f));
-
-			blocks_.Add(block);
-		}
-	}
-}
-
-void UCombatResultUI::UpdateResults(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map)
-{
-	const int32 hero_num = heroes.Num();
-	for (int32 i = 0; i < hero_num; ++i)
-	{
-		// Nullptr check
-		AHeroBase* hero = Cast<AHeroBase>(heroes[i]);
-		if (hero)
-		{
-			blocks_[i]->SetVisibility(ESlateVisibility::Visible);
-			const UCharacterStatComponent* hero_stat = hero->GetCharacterStat();
-			hp_ratio_after_.Add(hero_stat->GetHPRatio());
-			if (damage_map.Contains(hero))
+			if (hero_containers[i] == nullptr)
 			{
-				blocks_[i]->SetDamageDealt(damage_map[hero]);
+				blocks_.Add(nullptr);
 			}
 			else
 			{
-				blocks_[i]->SetDamageDealt(0.f);
+				UCombatResultBlock* block = CreateWidget<UCombatResultBlock>(this, combat_result_block_widget_class_);
+				FString block_unique_name = MakeUniqueObjectName(GetOuter(), block->GetClass(), TEXT("Block")).ToString();
+				block->Rename(*block_unique_name);
+				UHorizontalBoxSlot* block_slot = blocks_holder_->AddChildToHorizontalBox(block);
+				block_slot->SetPadding(FMargin(32.f));
+
+				blocks_.Add(block);
 			}
 		}
-		else
+	}
+
+	UCanvasPanelSlot* UI_background_slot = Cast<UCanvasPanelSlot>(UI_background_->Slot);
+	if (UI_background_slot)
+	{
+		UI_background_slot->SetPosition(FVector2D(blocks_holder_->GetChildrenCount() * -200.0, -400.0));
+		UI_background_slot->SetSize(FVector2D(blocks_holder_->GetChildrenCount() * 400.0, 800.0));
+	}
+}
+
+void UCombatResultUI::UpdateResults(const TMap<EHeroType, float>& damage_map)
+{
+	// Update damage records.
+	for (const auto& [hero_type, damage] : damage_map)
+	{
+		int32 hero_index = HeroTypeToInt(hero_type);
+
+		blocks_[hero_index]->SetDamageDealt(damage);
+	}
+
+	// Update HP after battles
+	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
+	const TArray<AActor*> actors = game_mode->GetHeroContainer();
+	for (AActor* actor : actors)
+	{
+		AHeroBase* hero = Cast<AHeroBase>(actor);
+		if (hero)
 		{
-			// Consider the hero has dead
-			blocks_[i]->SetVisibility(ESlateVisibility::Hidden);
+			hp_ratio_after_[HeroTypeToInt(hero->GetHeroType())] = hero->GetCharacterStat()->GetHPRatio();
 		}
 	}
 
-	while (hp_ratio_after_.Num() < hp_ratio_before_.Num())
+	UGlobalBuffSubsystem* global_buff_subsystem = GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+	// Update injury status
+	for (int32 i = 0; i < blocks_.Num(); i++)
 	{
-		hp_ratio_after_.Add(0.f);
+		if (blocks_[i] && hp_ratio_after_[i] <= 0.f)
+		{
+			blocks_[i]->SetHoveredTextVisibility(ESlateVisibility::Visible);
+
+			// Need to check through GlobalBuff instead of SpawnData because of function call sequence
+			if (global_buff_subsystem->HasBuff(HeroTypeToDeathbound(IntToHeroType(i))))
+			{
+				blocks_[i]->SetHoveredText("Dead");
+			}
+			else
+			{
+				blocks_[i]->SetHoveredText("Injured");
+			}
+		}
 	}
 
-	HP_timer_ = 0;
+	HP_timer_ = 0.f;
+	injury_timer_ = 0.f;
 }
 
 void UCombatResultUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -115,6 +153,7 @@ void UCombatResultUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	}
 
 	UpdateHPBars(InDeltaTime);
+	UpdateInjuredNotifiers(InDeltaTime);
 }
 
 void UCombatResultUI::NativeConstruct()
@@ -122,36 +161,20 @@ void UCombatResultUI::NativeConstruct()
 	Super::NativeConstruct();
 
 	InitializeChildWidgets();
-	
+
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if (game_mode)
 	{
-		auto hero_container = game_mode->GetHeroContainer();
-		for(const auto& elem : hero_container)
-		{
-			auto hero_ptr = elem.Value;
-			if (hero_ptr == nullptr)
-			{
-				continue;
-			}
-
-			if (AHeroBase* hero = Cast<AHeroBase>(hero_ptr))
-			{
-				// It is not ratio at this point. It contains initial hit points.
-				hp_ratio_before_.Add(hero->GetCharacterStat()->GetHPRatio());
-			}
-		}
-
-		int32 hero_size = game_mode->GetHeroCount();
-		// @@ TODO: In this code, it is possible to have multiple blocks because of multiple NativeConstruct calls.
-							// Need to delete data in NativeDestruct.
-		SetHeroNumbers(hero_size);
+		TArray<AActor*> hero_containers = game_mode->GetHeroContainer();
+		PopulateWidgets(hero_containers);
 	}
 }
 
 void UCombatResultUI::NativeDestruct()
 {
 	blocks_.Empty();
+	hp_ratio_before_.Empty();
+	hp_ratio_after_.Empty();
 }
 
 void UCombatResultUI::InitializeRootWidget()
@@ -273,15 +296,43 @@ FReply UCombatResultUI::NativeOnMouseButtonDown(const FGeometry& InGeometry, con
 {
 	if (InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
 	{
-		AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
-		if (hud)
+		AIKGameModeBase* gamemode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
+		if (gamemode)
 		{
-			hud->SwitchUIByState(ECombatEndState::ShowingEquipmentRewardUI);
-
-			return FReply::Handled();
+			gamemode->ProceedGameFlowAfterUI();
 		}
 
 	}
 
 	return Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
+}
+
+// Fade in (0s~1.5s), fade out (1.5s~3s)
+void UCombatResultUI::UpdateInjuredNotifiers(float InDeltaTime)
+{
+	injury_timer_ += InDeltaTime;
+
+	static constexpr float FADE_DURATION = 1.5f;
+
+	float alpha = 0.f;
+	if (injury_timer_ <= FADE_DURATION)
+	{	// Fade in
+		alpha = injury_timer_ / FADE_DURATION;
+	}
+	else if (injury_timer_ > FADE_DURATION * 2.f)
+	{
+		injury_timer_ = 0.f;
+	}
+	else
+	{	// Fade out
+		alpha = 1.f - ((injury_timer_ - FADE_DURATION) / FADE_DURATION);
+	}
+
+	for (int32 i = 0; i < blocks_.Num(); i++)
+	{
+		if (blocks_[i] && hp_ratio_after_[i] <= 0.f)
+		{
+			blocks_[i]->SetHoveredTextOpacity(alpha);
+		}
+	}
 }
