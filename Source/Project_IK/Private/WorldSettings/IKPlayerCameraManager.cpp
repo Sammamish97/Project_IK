@@ -77,10 +77,12 @@ void AIKPlayerCameraManager::BeginPlay()
 	Super::BeginPlay();
 	UWorld* world = GetWorld();
 	AIKGameModeBase* gamemode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(world));
-	auto heroes = gamemode->GetHeroContainer();
-	for (const auto& elem : heroes)
+	for (const auto& elem : gamemode->GetHeroContainer())
 	{
-		tracked_heroes_.Add(elem.Value);
+		if(elem != nullptr)
+		{
+			tracked_heroes_.Add(elem);
+		}
 	}
 }
 

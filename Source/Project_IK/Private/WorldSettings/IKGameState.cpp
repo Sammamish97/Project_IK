@@ -45,8 +45,7 @@ void AIKGameState::BeginPlay()
 	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	for (const auto& elem : game_mode_cache->GetHeroContainer())
 	{
-		auto cur_hero_ptr = elem.Value;
-		if (cur_hero_ptr != nullptr)
+		if (auto cur_hero_ptr = elem)
 		{
 			active_skill_timers_.Add(Cast<AHeroBase>(cur_hero_ptr)->GetHeroType(), FTimerHandle{});
 		}

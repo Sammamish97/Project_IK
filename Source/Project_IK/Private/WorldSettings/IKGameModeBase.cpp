@@ -41,9 +41,11 @@ void AIKGameModeBase::StartPlay()
 	Super::StartPlay();
 	for (auto& elem : heroes_)
 	{
-		auto hero_ptr = elem.Value;
-		Cast<AHeroBase>(hero_ptr)->GetPassiveSkillMechanics()->InitPassiveSkill();
-		GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->ApplyBuff(hero_ptr);
+		if(AHeroBase* hero = Cast<AHeroBase>(elem))
+		{
+			hero->GetPassiveSkillMechanics()->InitPassiveSkill();
+			GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->ApplyBuff(hero);
+		}
 	}
 }
 
@@ -80,8 +82,12 @@ void AIKGameModeBase::SpawnHeroes()
 		{
 			AHeroBase* hero = GetWorld()->SpawnActor<AHeroBase>(hero_bp_class_[hero_type], hero_spawn_position_ + FVector(0, (300.f * (save_data_array.Num() - 1) / -2.f) + (counter * 300), 90), spawn_rotation);
 			hero->SyncWithSpawnData(save_data_array[hero_type]);
-			heroes_.Add({hero_type, hero});
+			heroes_.Add(hero);
 			counter += 1;
+		}
+		else
+		{
+			heroes_.Add(nullptr);
 		}
 	}
 }
@@ -126,9 +132,10 @@ void AIKGameModeBase::SaveHeroSpawnData()
 	TMap<EHeroType, FSpawnData> spawn_map = level_transition_subsystem->GetSpawnData();
 	for(EHeroType type : {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4})
 	{
-		if (heroes_.Contains(type))
+		int32 cur_idx = HeroTypeToInt(type);
+		if (heroes_[cur_idx])
 		{
-			spawn_map[type].character_data_ = Cast<AHeroBase>(heroes_[type])->GetCharacterStat()->GetCharacterData();
+			spawn_map[type].character_data_ = Cast<AHeroBase>(heroes_[cur_idx])->GetCharacterStat()->GetCharacterData();
 		}
 		else
 		{
@@ -153,7 +160,7 @@ void AIKGameModeBase::SaveHeroSpawnData()
 	level_transition_subsystem->UpdateSpawnData(spawn_map);
 }
 
-TMap<EHeroType, TObjectPtr<AActor>> AIKGameModeBase::GetHeroContainer() const noexcept
+const TArray<TObjectPtr<AActor>>& AIKGameModeBase::GetHeroContainer() const noexcept
 {
 	return heroes_;
 }
@@ -163,7 +170,7 @@ int32 AIKGameModeBase::GetHeroCount() const noexcept
 	int32 count = 0;
 	for (const auto& elem : heroes_)
 	{
-		TWeakObjectPtr<AActor> hero_ptr = elem.Value;
+		TWeakObjectPtr<AActor> hero_ptr = elem;
 		if (hero_ptr.IsValid())
 		{
 			++count;
@@ -174,11 +181,7 @@ int32 AIKGameModeBase::GetHeroCount() const noexcept
 
 AActor* AIKGameModeBase::GetHero(EHeroType type) const noexcept
 {
-	if(heroes_.Contains(type))
-	{
-		return heroes_[type];
-	}
-	return nullptr;
+	return heroes_[HeroTypeToInt(type)];
 }
 
 const TArray<AActor*>& AIKGameModeBase::GetEnemyContainers() const noexcept
@@ -192,7 +195,7 @@ void AIKGameModeBase::RemoveHero(EHeroType hero_type)
 	//TODO
 
 	//2. 사망 진행 작업이 끝나면 해당 index의 hero를 제거 후 null로 변경.
-	heroes_.Remove(hero_type);
+	heroes_[HeroTypeToInt(hero_type)] = nullptr;
 
 	//3. SpawnData의 dead를 false로 update.
 	ULevelTransitionSubsystem* level_transition_cache = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
@@ -335,7 +338,7 @@ bool AIKGameModeBase::IsDefeated() const
 {
 	for (const auto& elem : heroes_)
 	{
-		TWeakObjectPtr<AActor> actor = elem.Value;
+		TWeakObjectPtr<AActor> actor = elem;
 		// hero become null explicitly if it died
 		if (!actor.IsExplicitlyNull())
 		{

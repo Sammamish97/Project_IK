@@ -48,20 +48,19 @@ bool UCombatResultUI::Initialize()
 	return true;
 }
 
-void UCombatResultUI::PopulateWidgets(const TMap<EHeroType, TObjectPtr<AActor>>& hero_containers)
+void UCombatResultUI::PopulateWidgets(const TArray<TObjectPtr<AActor>>& hero_containers)
 {	// Synchronize blocks num to be HeroType now.
-	TArray type_array = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
-	for(EHeroType type : type_array)
+	for(int32 i = 0; i < 4; ++i)
 	{
 		hp_ratio_after_.Add(0.f);
 
-		if (hero_containers.Contains(type) == false)
+		if (hero_containers[i] == nullptr)
 		{
 			hp_ratio_before_.Add(0.f);
 			continue;
 		}
 
-		if (AHeroBase* hero = Cast<AHeroBase>(hero_containers[type]))
+		if (AHeroBase* hero = Cast<AHeroBase>(hero_containers[i]))
 		{
 			// It contains initial hit points ratio.
 			hp_ratio_before_.Add(hero->GetCharacterStat()->GetHPRatio());
@@ -70,9 +69,9 @@ void UCombatResultUI::PopulateWidgets(const TMap<EHeroType, TObjectPtr<AActor>>&
 
 	if (combat_result_block_widget_class_)
 	{
-		for(EHeroType type : type_array)
+		for(int32 i = 0; i < 4; ++i)
 		{
-			if (hero_containers.Contains(type) == false)
+			if (hero_containers[i] == nullptr)
 			{
 				blocks_.Add(nullptr);
 			}
@@ -112,7 +111,7 @@ void UCombatResultUI::UpdateResults(const TMap<EHeroType, float>& damage_map)
 	const auto& hero_container = game_mode->GetHeroContainer();
 	for (const auto& hero_map_elem : hero_container)
 	{
-		if(	AHeroBase* hero = Cast<AHeroBase>(hero_map_elem.Value))
+		if(AHeroBase* hero = Cast<AHeroBase>(hero_map_elem))
 		{
 			if (hero)
 			{

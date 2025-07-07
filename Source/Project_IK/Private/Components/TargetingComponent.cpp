@@ -199,7 +199,7 @@ void UTargetingComponent::HandleLocationTargeting()
 
 			for (const auto& elem  : heroes)
 			{
-				if (AActor* cur_actor = elem.Value)
+				if (AActor* cur_actor = elem)
 				{
 					//IKTODO: 여기서 actor가 null이 나와 crash가 되는 경우가 있음.
 					FVector to_actor = cur_actor->GetActorLocation() - current_target_result_.target_location_;
@@ -256,7 +256,7 @@ void UTargetingComponent::HandleDirectionTargeting()
 
 			for (const auto& elem  : heroes)
 			{
-				if (AActor* cur_actor = elem.Value)
+				if (AActor* cur_actor = elem)
 				{
 					if (IsWithinSector(origin, direction, target_parameters_.range_, target_parameters_.radius_, cur_actor->GetActorLocation()))
 					{
@@ -471,7 +471,7 @@ AActor* UTargetingComponent::FindClosestActor(const FVector& TargetLocation)
 		auto characters = game_mode->GetHeroContainer();
 		for (const auto& elem  : characters)
 		{
-			if (AActor* cur_actor = elem.Value)
+			if (AActor* cur_actor = elem)
 			{
 				if (IsActorInRange(cur_actor, squared_range))
 				{

@@ -36,8 +36,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SaveHeroSpawnData();
 
-	TMap<EHeroType, TObjectPtr<AActor>> GetHeroContainer() const noexcept;
-
+	const TArray<TObjectPtr<AActor>>& GetHeroContainer() const noexcept;
 
 	UFUNCTION(BlueprintPure)
 	AActor* GetHero(EHeroType type) const noexcept;
@@ -77,7 +76,6 @@ protected:
 	void CheckWinLoseCondition();
 
 	void OnGameWin();
-
 	void OnGameLose();
 
 	void DisplayCombatResult();
@@ -87,7 +85,7 @@ protected:
 	FVector hero_spawn_position_;
 
 	UPROPERTY(BlueprintReadWrite)
-	TMap<EHeroType, TObjectPtr<AActor>> heroes_;
+	TArray<TObjectPtr<AActor>> heroes_;
 
 	UPROPERTY()
 	TMap<EHeroType, float> gunner_damage_map_;

@@ -45,7 +45,7 @@ protected:
 	void InitializeRootWidget();
 	void InitializeChildWidgets();
 
-	void PopulateWidgets(const TMap<EHeroType, TObjectPtr<AActor>>& hero_containers);
+	void PopulateWidgets(const TArray<TObjectPtr<AActor>>& hero_containers);
 
 	void UpdateHPBars(float InDeltaTime);
 
