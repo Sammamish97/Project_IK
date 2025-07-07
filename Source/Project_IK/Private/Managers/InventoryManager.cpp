@@ -9,11 +9,28 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Managers/InventoryManager.h"
+#include "Structs/WrapperEquipmentData.h"
+#include "UI/InventoryWidget.h"
 
-#include "Kismet/GameplayStatics.h"
-#include "Structs/RuneData.h"
-#include "WorldSettings/IKGameInstance.h"
-#include "Managers/DataTableManager.h"
+void UInventoryManager::OpenInventoryWidgetReward(const FWrapperEquipmentData& rewards)
+{
+	if(inventory_widget_class_)
+	{
+		inventory_widget_ = CreateWidget<UInventoryWidget>(GetWorld(), inventory_widget_class_);
+		if(inventory_widget_)
+		{
+			inventory_widget_->LoadSelectedRewards(rewards);
+			inventory_widget_->InitInventoryWidget();
+			inventory_widget_->AddToViewport();
+			inventory_widget_->SetVisibility(ESlateVisibility::Visible);
+		}
+	}
+}
+
+void UInventoryManager::OpenReadOnlyInventory()
+{
+	
+}
 
 void UInventoryManager::SetTickets(int32 tickets)
 {

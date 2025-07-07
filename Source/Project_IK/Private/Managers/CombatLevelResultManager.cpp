@@ -40,17 +40,6 @@ void UCombatLevelResultManager::InitializeUI()
 			equipment_reward_widget_->SetVisibility(ESlateVisibility::Hidden);
 		}
 	}
-
-	if (inventory_widget_class_)
-	{
-		inventory_widget_ = CreateWidget<UInventoryWidget>(world, inventory_widget_class_);
-		if (inventory_widget_)
-		{
-			inventory_widget_->AddToViewport();
-			inventory_widget_->SetVisibility(ESlateVisibility::Hidden);
-			inventory_widget_->InitInventoryWidget();
-		}
-	}
 }
 
 void UCombatLevelResultManager::DisplayCombatResult(const TArray<AActor*>& heroes, const TMap<TWeakObjectPtr<AActor>, float>& damage_map)
@@ -86,7 +75,6 @@ void UCombatLevelResultManager::SwitchUIByState(ECombatEndState state)
 			break;
 	case ECombatEndState::ShowingInventoryUI:
 		equipment_reward_widget_->SetVisibility(ESlateVisibility::Hidden);
-		inventory_widget_->SetVisibility(ESlateVisibility::Visible);
 		break;
 
 	//IKTODO: 좀더 전투 UI와 Map Level UI를 분리해야 한다.

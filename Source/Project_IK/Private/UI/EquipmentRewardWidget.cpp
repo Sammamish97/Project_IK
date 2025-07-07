@@ -62,6 +62,8 @@ void UEquipmentRewardWidget::NativeConstruct()
 		elem->SetEquipmentWidgetCache(this);
 		reward_container_->AddChildToHorizontalBox(elem);
 	}
+
+	confirm_button_->OnClicked.AddDynamic(this, &UEquipmentRewardWidget::OnConfirmButtonClicked);
 }
 
 void UEquipmentRewardWidget::NativeDestruct()
@@ -137,7 +139,10 @@ void UEquipmentRewardWidget::OnConfirmButtonClicked()
 				}
 			}
 		}
-		hud->LoadSelectedRewards(selected_reward_data);
+
+		UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		auto inventory_manager = game_instance->GetInventoryManager();
+		inventory_manager->OpenInventoryWidgetReward(selected_reward_data);
 		hud->SwitchUIByState(ECombatEndState::ShowingInventoryUI);
 	}
 }

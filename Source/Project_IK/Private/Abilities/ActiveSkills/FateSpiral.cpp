@@ -136,7 +136,10 @@ AActor* AFateSpiral::FindNextTarget()
 		TArray<AActor*> actor_containers = game_mode->GetEnemyContainers();
 		if (arrival_->IsA<AEnemyBase>())
 		{
-			actor_containers = game_mode->GetHeroContainer();
+			for(const auto& elem : game_mode->GetHeroContainer())
+			{
+				actor_containers.Push(elem.Value);
+			}
 		}
 		for (AActor* actor : actor_containers)
 		{

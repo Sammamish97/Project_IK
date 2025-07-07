@@ -106,9 +106,24 @@ TArray<URuneBoardWidget::Edge> URuneBoardWidget::ComputeEdges(const TArray<FVect
 	return result;
 }
 
-void URuneBoardWidget::LoadRuneBoardWidget(int32 hero_idx)
+void URuneBoardWidget::LoadRuneBoardWidget()
 {
-	cur_hero_idx_ = hero_idx;
+	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
+	const auto& spawn_map = transition_system->GetSpawnData();
+	for(const auto& elem : spawn_map)
+	{
+		if(elem.Value.is_dead_ == false)
+		{
+			LoadRuneBoardWidget(elem.Key);
+			break;
+		}
+	}
+}
+
+void URuneBoardWidget::LoadRuneBoardWidget(EHeroType hero_type)
+{
+	cur_hero_type_ = hero_type;
 	
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
@@ -120,7 +135,7 @@ void URuneBoardWidget::LoadRuneBoardWidget(int32 hero_idx)
 	
 	if(transition_system->GetSpawnData().IsEmpty() == false)
 	{
-		FSpawnData data_cache = transition_system->GetSpawnData(hero_idx);
+		FSpawnData data_cache = transition_system->GetSpawnData(cur_hero_type_);
 		
 		TArray rune_data_array = {data_cache.rune_data_1, data_cache.rune_data_2, data_cache.rune_data_3, data_cache.rune_data_4, data_cache.rune_data_5, data_cache.rune_data_6};
 		TArray rune_slot_type_array = {EInventorySlotType::Rune_0, EInventorySlotType::Rune_1, EInventorySlotType::Rune_2, EInventorySlotType::Rune_3, EInventorySlotType::Rune_4, EInventorySlotType::Rune_5};
@@ -140,7 +155,7 @@ void URuneBoardWidget::LoadRuneBoardWidget(int32 hero_idx)
 
 void URuneBoardWidget::UpdateRuneBoard()
 {
-	if (cur_hero_idx_ != -1)
+	if (cur_hero_type_ != EHeroType::INVALID)
 	{
 		TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 		TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
@@ -148,7 +163,7 @@ void URuneBoardWidget::UpdateRuneBoard()
 
 		if(transition_system->GetSpawnData().IsEmpty() == false)
 		{
-			FSpawnData data_cache = transition_system->GetSpawnData(cur_hero_idx_);
+			FSpawnData data_cache = transition_system->GetSpawnData(cur_hero_type_);
 			TArray rune_data_array = {data_cache.rune_data_1, data_cache.rune_data_2, data_cache.rune_data_3, data_cache.rune_data_4, data_cache.rune_data_5, data_cache.rune_data_6};
 
 			for (int32 i = 0; i < rune_data_array.Num(); i++)
@@ -170,7 +185,7 @@ void URuneBoardWidget::UpdateRuneBoard()
 			data_cache.rune_data_5 = rune_data_array[4];
 			data_cache.rune_data_6 = rune_data_array[5];
 		
-			transition_system->UpdateSpawnDataIdx(cur_hero_idx_, data_cache);
+			transition_system->UpdateSpawnDataIdx(cur_hero_type_, data_cache);
 		}	
 	}
 }

@@ -38,8 +38,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SaveHeroSpawnData();
 
-	UFUNCTION(BlueprintPure)
-	TArray<AActor*> GetHeroContainer() const noexcept;
+	TMap<EHeroType, TObjectPtr<AActor>> GetHeroContainer() const noexcept;
 
 	int32 GetHeroCount() const noexcept;
 
@@ -80,7 +79,7 @@ public:
 	TSubclassOf<UEnemySpawnerManager> enemy_spawner_manager_class_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Spawn")
-	TArray<TSubclassOf<class AHeroBase>> hero_bp_class_;
+	TMap<EHeroType, TSubclassOf<class AHeroBase>> hero_bp_class_;
 	
 protected:
 	void DisplayCombatResult();
@@ -89,7 +88,7 @@ protected:
 	FVector hero_spawn_position_;
 
 	UPROPERTY(BlueprintReadWrite)
-	TArray<TObjectPtr<AActor>> heroes_;
+	TMap<EHeroType, TObjectPtr<AActor>> heroes_;
 
 	UPROPERTY()
 	TMap<TWeakObjectPtr<AActor>, float> gunner_damage_map_;

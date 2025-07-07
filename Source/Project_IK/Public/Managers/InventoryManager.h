@@ -14,12 +14,16 @@ See LICENSE file in the project root for full license information.
 #include "InventoryManager.generated.h"
 
 class UDataTableManager;
-UCLASS()
+struct FWrapperEquipmentData;
+UCLASS(Blueprintable, Abstract)
 class PROJECT_IK_API UInventoryManager : public UObject
 {
 	GENERATED_BODY()
 
 public:
+	void OpenInventoryWidgetReward(const FWrapperEquipmentData& rewards);
+	void OpenReadOnlyInventory();
+	
 	UFUNCTION(BlueprintCallable)
 	void SetCredits(int32 currency);
 	UFUNCTION(BlueprintPure)
@@ -38,7 +42,13 @@ public:
 	int32 GetTickets() const;
 
 private:
-	UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class UInventoryWidget> inventory_widget_class_;
+	
+	UPROPERTY()
+	TObjectPtr<UInventoryWidget> inventory_widget_;
+	
+	UPROPERTY()
 	TObjectPtr<UDataTableManager> data_table_manager_cache_;
 
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")

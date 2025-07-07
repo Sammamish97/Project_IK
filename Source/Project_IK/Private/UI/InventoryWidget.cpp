@@ -25,13 +25,15 @@ void UInventoryWidget::InitInventoryWidget()
 {
 	reward_container_->SetInventoryWidgetCache(this);
 	rune_board_->SetInventoryWidget(this);
-	rune_board_->LoadRuneBoardWidget(0);
+	rune_board_->LoadRuneBoardWidget();
+
+	TArray hero_type_array = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
+	TArray hero_board_array =  {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_}; 
 	
-	TArray hero_boards = {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_};
-	for (int32 i = 0; i < hero_boards.Num(); i++)
+	for(int32 i = 0; i < 4; i++)
 	{
-		hero_boards[i]->InitHeroEquipBoard(this, i);
-		hero_boards[i]->LoadHeroData();
+		hero_board_array[i]->InitHeroEquipBoard(this, hero_type_array[i]);
+		hero_board_array[i]->LoadHeroData();
 	}
 
 	for (const auto& elem : {support_skill_0_, support_skill_1_, support_skill_2_})
@@ -111,28 +113,28 @@ void UInventoryWidget::UpdateInventoryData()
 void UInventoryWidget::OnHero_0_Board_Clicked()
 {
 	rune_board_->UpdateRuneBoard();
-	rune_board_->LoadRuneBoardWidget(0);
+	rune_board_->LoadRuneBoardWidget(EHeroType::Hero1);
 	rune_board_->UpdateSetBonusEffect();
 }
 
 void UInventoryWidget::OnHero_1_Board_Clicked()
 {
 	rune_board_->UpdateRuneBoard();
-	rune_board_->LoadRuneBoardWidget(1);
+	rune_board_->LoadRuneBoardWidget(EHeroType::Hero2);
 	rune_board_->UpdateSetBonusEffect();
 }
 
 void UInventoryWidget::OnHero_2_Board_Clicked()
 {
 	rune_board_->UpdateRuneBoard();
-	rune_board_->LoadRuneBoardWidget(2);
+	rune_board_->LoadRuneBoardWidget(EHeroType::Hero3);
 	rune_board_->UpdateSetBonusEffect();
 }
 
 void UInventoryWidget::OnHero_3_Board_Clicked()
 {
 	rune_board_->UpdateRuneBoard();
-	rune_board_->LoadRuneBoardWidget(3);
+	rune_board_->LoadRuneBoardWidget(EHeroType::Hero4);
 	rune_board_->UpdateSetBonusEffect();
 }
 

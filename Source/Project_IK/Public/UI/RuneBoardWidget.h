@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Managers/EnumCluster.h"
 #include "RuneBoardWidget.generated.h"
 class UInventoryWidget;
 class URuneSlotWidget;
@@ -29,7 +30,10 @@ class PROJECT_IK_API URuneBoardWidget : public UUserWidget
 public:
 	void SetInventoryWidget(UInventoryWidget* widget_ptr);
 	virtual void NativeConstruct() override;
-	void LoadRuneBoardWidget(int32 hero_idx);
+	//Spawn data를 탐색하며 살아있는 최초의 영웅의 rune board를 load.
+	void LoadRuneBoardWidget();
+	//선택된 하나의 rune board를 load.
+	void LoadRuneBoardWidget(EHeroType hero_type);
 	void UpdateRuneBoard();
 	void ClearSetBonusEffect();
 	void UpdateSetBonusEffect();
@@ -39,7 +43,7 @@ private:
 	TArray<Edge> ComputeEdges(const TArray<FVector2D>& vertices);
 	
 private:
-	int32 cur_hero_idx_ = -1;
+	EHeroType cur_hero_type_ = EHeroType::INVALID;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<UOverlay> rune_overlay_ = nullptr;

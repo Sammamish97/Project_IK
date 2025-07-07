@@ -126,15 +126,16 @@ void UCombatResultUI::NativeConstruct()
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if (game_mode)
 	{
-		TArray<AActor*> hero_containers = game_mode->GetHeroContainer();
-		for (int32 i = 0; i < hero_containers.Num(); i++)
+		auto hero_container = game_mode->GetHeroContainer();
+		for(const auto& elem : hero_container)
 		{
-			if (hero_containers[i] == nullptr)
+			auto hero_ptr = elem.Value;
+			if (hero_ptr == nullptr)
 			{
 				continue;
 			}
 
-			if (AHeroBase* hero = Cast<AHeroBase>(hero_containers[i]))
+			if (AHeroBase* hero = Cast<AHeroBase>(hero_ptr))
 			{
 				// It is not ratio at this point. It contains initial hit points.
 				hp_ratio_before_.Add(hero->GetCharacterStat()->GetHPRatio());

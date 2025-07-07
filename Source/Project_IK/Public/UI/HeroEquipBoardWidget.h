@@ -29,7 +29,7 @@ class PROJECT_IK_API UHeroEquipBoardWidget : public UUserWidget
 	friend UInventoryWidget;
 	
 public:
-	void InitHeroEquipBoard(UInventoryWidget* widget_ptr, int32 hero_idx);
+	void InitHeroEquipBoard(UInventoryWidget* widget_ptr, EHeroType hero_type);
 	void LoadHeroData();
 	void UpdateHeroData();
 	
@@ -49,5 +49,5 @@ private:
 	UPROPERTY(Transient)
 	TObjectPtr<UInventoryWidget> inventory_widget_cache_;
 
-	int32 hero_idx_ = -1;
+	EHeroType hero_type_ = EHeroType::INVALID;
 };

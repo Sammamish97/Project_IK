@@ -39,16 +39,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UEquipmentRewardWidget> equipment_reward_widget_class_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UInventoryWidget> inventory_widget_class_;
-
 protected:
 	UPROPERTY()
 	TObjectPtr<UCombatResultUI> combat_result_widget_;
 
 	UPROPERTY()
 	TObjectPtr<UEquipmentRewardWidget> equipment_reward_widget_;
-
-	UPROPERTY()
-	TObjectPtr<UInventoryWidget> inventory_widget_;
 };

@@ -28,22 +28,15 @@ void ULevelTransitionSubsystem::Deinitialize()
 	Super::Deinitialize();
 }
 
-void ULevelTransitionSubsystem::UpdateSpawnData(const TArray<FSpawnData>& data)
+void ULevelTransitionSubsystem::UpdateSpawnData(const TMap<EHeroType, FSpawnData>& data)
 {
 	spawn_data_.Empty();
-	for(auto elem : data)
-	{
-		spawn_data_.Add(elem);
-	}
+	spawn_data_ = data;
 }
 
-void ULevelTransitionSubsystem::UpdateSpawnDataIdx(int32 idx, FSpawnData data)
+void ULevelTransitionSubsystem::UpdateSpawnDataIdx(EHeroType type, FSpawnData data)
 {
-	if (spawn_data_.Num() < idx)
-	{
-		UE_LOG(LogTemp, Error, TEXT("SpawnData is out of range"));
-	}
-	spawn_data_[idx] = data;
+	spawn_data_[type] = data;
 }
 
 void ULevelTransitionSubsystem::UpdateSupportSkillDataIdx(int32 idx, FSupportSkillData data)
@@ -97,12 +90,12 @@ void ULevelTransitionSubsystem::OpenLevel(UWorld* world, FIntPoint map_position)
 	}
 }
 
-const TArray<FSpawnData>& ULevelTransitionSubsystem::GetSpawnData() const
+const TMap<EHeroType, FSpawnData>& ULevelTransitionSubsystem::GetSpawnData() const
 {
 	return spawn_data_;
 }
 
-FSpawnData ULevelTransitionSubsystem::GetSpawnData(int32 idx) const
+FSpawnData ULevelTransitionSubsystem::GetSpawnData(EHeroType type) const
 {
-	return spawn_data_[idx];
+	return spawn_data_[type];
 }
