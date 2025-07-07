@@ -21,6 +21,14 @@ class UIKGameInstance;
 void ULevelTransitionSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
+	support_skill_data_.Add(0, FSupportSkillData());
+	support_skill_data_.Add(1, FSupportSkillData());
+	support_skill_data_.Add(2, FSupportSkillData());
+
+	spawn_data_.Add(EHeroType::Hero1, FSpawnData());
+	spawn_data_.Add(EHeroType::Hero1, FSpawnData());
+	spawn_data_.Add(EHeroType::Hero1, FSpawnData());
+	spawn_data_.Add(EHeroType::Hero1, FSpawnData());
 }
 
 void ULevelTransitionSubsystem::Deinitialize()
@@ -41,20 +49,17 @@ void ULevelTransitionSubsystem::UpdateSpawnDataIdx(EHeroType type, FSpawnData da
 
 void ULevelTransitionSubsystem::UpdateSupportSkillDataIdx(int32 idx, FSupportSkillData data)
 {
-	if (support_skill_data_.Num() < idx)
+	if(support_skill_data_.Contains(idx))
 	{
-		UE_LOG(LogTemp, Error, TEXT("Support Skill Data is out of range"));
+		support_skill_data_.Remove(idx);
 	}
 	support_skill_data_[idx] = data;
 }
 
-void ULevelTransitionSubsystem::UpdateSupportSkillData(const TArray<FSupportSkillData>& data)
+void ULevelTransitionSubsystem::UpdateSupportSkillData(const TMap<int32, FSupportSkillData>& data)
 {
 	support_skill_data_.Empty();
-	for(auto elem : data)
-	{
-		support_skill_data_.Add(elem);
-	}
+	support_skill_data_ = data;
 }
 
 void ULevelTransitionSubsystem::OpenMapLevel(UWorld* world)
@@ -98,4 +103,9 @@ const TMap<EHeroType, FSpawnData>& ULevelTransitionSubsystem::GetSpawnData() con
 FSpawnData ULevelTransitionSubsystem::GetSpawnData(EHeroType type) const
 {
 	return spawn_data_[type];
+}
+
+const TMap<int32, FSupportSkillData>& ULevelTransitionSubsystem::GetSupportSkillData() const
+{
+	return support_skill_data_;
 }

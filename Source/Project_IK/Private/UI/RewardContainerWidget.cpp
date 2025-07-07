@@ -129,34 +129,30 @@ void URewardContainerWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	//TEST perpose
-	auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
-	
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm));
-	
-	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
-	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::LowProfile));
-	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Agility));
-
-	reward_cache_.support_skills_.Push(data_table_manager_->GetSupportSkillData(ESupportSkillType::InstantRepair));
-	reward_cache_.support_skills_.Push(data_table_manager_->GetSupportSkillData(ESupportSkillType::InstantRepair));
-
-	reward_cache_.support_skills_.Push(data_table_manager_->GetSupportSkillData(ESupportSkillType::SupportFire));
-	reward_cache_.support_skills_.Push(data_table_manager_->GetSupportSkillData(ESupportSkillType::SupportFire));
-
-	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 0));
-	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 1));
-	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 2));
-	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 3));
-	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 4));
-	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 5));
-
-	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 0));
-	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 2));
-	reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 4));
-
-
-	
+	// auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm));
+	//
+	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
+	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::LowProfile));
+	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Agility));
+	//
+	// reward_cache_.support_skills_.Push(data_table_manager_->GetSupportSkillData(ESupportSkillType::InstantRepair));
+	// reward_cache_.support_skills_.Push(data_table_manager_->GetSupportSkillData(ESupportSkillType::InstantRepair));
+	//
+	// reward_cache_.support_skills_.Push(data_table_manager_->GetSupportSkillData(ESupportSkillType::SupportFire));
+	// reward_cache_.support_skills_.Push(data_table_manager_->GetSupportSkillData(ESupportSkillType::SupportFire));
+	//
+	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 0));
+	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 1));
+	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 2));
+	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 3));
+	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 4));
+	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 5));
+	//
+	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 0));
+	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 2));
+	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 4));
 	//
 	
 	for (auto weapon_data : reward_cache_.weapons_)

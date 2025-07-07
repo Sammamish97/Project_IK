@@ -36,9 +36,14 @@ void UInventoryWidget::InitInventoryWidget()
 		hero_board_array[i]->LoadHeroData();
 	}
 
-	for (const auto& elem : {support_skill_0_, support_skill_1_, support_skill_2_})
+	ULevelTransitionSubsystem* subsystem = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
+
+	auto saved_support_skill_data = subsystem->GetSupportSkillData();
+	TArray support_skill_widget_array =  {support_skill_0_, support_skill_1_, support_skill_2_};
+	for(int32 i = 0; i < 3; ++i)
 	{
-		elem->InitInventorySlot(this, true);
+		support_skill_widget_array[i]->InitInventorySlot(this, true);
+		support_skill_widget_array[i]->SetSupportSkillSlotData(saved_support_skill_data[i]);
 	}
 	
 	hero_board_0_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_0_Board_Clicked);
@@ -152,9 +157,11 @@ void UInventoryWidget::OnConfirm()
 	//현재 장착된 서포트 스킬 정보 저장.
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
-	transition_system->UpdateSupportSkillData({support_skill_0_->GetStoredSupportSkillData(),
-		support_skill_1_->GetStoredSupportSkillData(),
-		support_skill_2_->GetStoredSupportSkillData()});
+	TMap<int32, FSupportSkillData> support_skill_map;
+	support_skill_map.Add(0, support_skill_0_->GetStoredSupportSkillData());
+	support_skill_map.Add(1, support_skill_1_->GetStoredSupportSkillData());
+	support_skill_map.Add(2, support_skill_2_->GetStoredSupportSkillData());
+	transition_system->UpdateSupportSkillData(support_skill_map);
 
 	//지도 UI 팝업
 	AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());

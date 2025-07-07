@@ -107,8 +107,8 @@ void AIKHUD::BeginPlay()
 		TMap<int32, FItemData> support_skill_data;
 		//서포트 스킬 UI에 썸네일과 Cost를 Bind.
 		auto game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
-		auto equipped_support_data = game_state->GetSupportSkillData();
 		auto equipped_support_skills = game_state->GetSupportSkillPtr();
+		auto equipped_support_data = transition_system->GetSupportSkillData();
 		for (int32 i = 0; i < 3; i++)
 		{
 			if (equipped_support_skills[i] != nullptr)

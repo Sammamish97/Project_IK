@@ -31,7 +31,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UpdateSupportSkillDataIdx(int32 idx, FSupportSkillData data);
 	UFUNCTION(BlueprintCallable)
-	void UpdateSupportSkillData(const TArray<FSupportSkillData>& data);
+	void UpdateSupportSkillData(const TMap<int32, FSupportSkillData>& data);
 	
 	UFUNCTION(BlueprintCallable)
 	void OpenMapLevel(UWorld* world);
@@ -44,10 +44,13 @@ public:
 
 	FSpawnData GetSpawnData(EHeroType type) const;
 
+	UFUNCTION(BlueprintCallable)
+	const TMap<int32, FSupportSkillData>& GetSupportSkillData() const;
+
 protected:
 	UPROPERTY()
 	TMap<EHeroType, FSpawnData> spawn_data_;
 	
 	UPROPERTY()
-	TArray<FSupportSkillData> support_skill_data_;
+	TMap<int32, FSupportSkillData> support_skill_data_;
 };

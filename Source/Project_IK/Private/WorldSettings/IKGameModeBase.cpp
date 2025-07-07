@@ -104,20 +104,18 @@ void AIKGameModeBase::SpawnEnemies()
 
 void AIKGameModeBase::SaveHeroSpawnData()
 {
-	TMap<EHeroType, FSpawnData> spawn_map;
+	TMap<EHeroType, FSpawnData> spawn_map = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->GetSpawnData();
 	TArray hero_type_array = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
 	for (auto hero_type : hero_type_array)
 	{
-		FSpawnData cur_data;
 		if(heroes_.Contains(hero_type))
 		{
-			cur_data.character_data_ = Cast<AHeroBase>(heroes_[hero_type])->GetCharacterStat()->GetCharacterData();
+			spawn_map[hero_type].character_data_ = Cast<AHeroBase>(heroes_[hero_type])->GetCharacterStat()->GetCharacterData();
 		}
 		else
 		{
-			cur_data.is_dead_ = true;
+			spawn_map[hero_type].is_dead_ = true;
 		}
-		spawn_map.Add({hero_type, cur_data});
 	}
 	GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->UpdateSpawnData(spawn_map);
 }
