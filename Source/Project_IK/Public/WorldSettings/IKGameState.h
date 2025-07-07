@@ -7,7 +7,6 @@ Summary : Header file for GameState.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -31,7 +30,7 @@ public:
 	
 	UFUNCTION()
 	bool UseEnergy(float amount);
-	const TArray<TObjectPtr<USupportSkillBase>>& GetSupportSkillPtr() const;
+	const TMap<int32, TObjectPtr<USupportSkillBase>>& GetSupportSkillPtr() const;
 	UFUNCTION(BlueprintPure)
 	class UEnergySystemComponent* GetEnergySystemComponent();
 	UFUNCTION()
@@ -55,7 +54,7 @@ private:
 	TObjectPtr<AIKPlayerController> player_controller_cache_;
 	
 	UPROPERTY()
-	TArray<TObjectPtr<USupportSkillBase>> equipped_support_skills_;
+	TMap<int32, TObjectPtr<USupportSkillBase>> equipped_support_skill_map_;
 
 	UPROPERTY()
 	TMap<EHeroType, FTimerHandle> active_skill_timers_;

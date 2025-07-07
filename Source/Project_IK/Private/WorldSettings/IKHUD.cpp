@@ -113,7 +113,7 @@ void AIKHUD::BeginPlay()
 		auto equipped_support_data = transition_system->GetSupportSkillData();
 		for (int32 i = 0; i < 3; i++)
 		{
-			if (equipped_support_skills[i] != nullptr)
+			if (equipped_support_skills.Contains(i))
 			{
 				auto cur_skill_button_widget = button_bar_widget_->GetSupportSkillButtonWidget(i);
 				cur_skill_button_widget->SetThumbnailTexture(equipped_support_data[i].item_data_.thumbnail);

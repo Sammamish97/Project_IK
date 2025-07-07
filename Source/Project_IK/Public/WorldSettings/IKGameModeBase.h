@@ -42,6 +42,8 @@ public:
 	UFUNCTION(BlueprintPure)
 	AActor* GetHero(EHeroType type) const noexcept;
 
+	int32 GetHeroCount() const noexcept;
+
 	void ProceedGameFlowAfterUI();
 
 	UFUNCTION(BlueprintPure)
@@ -72,8 +74,6 @@ public:
 	TMap<EHeroType, TSubclassOf<class AHeroBase>> hero_bp_class_;
 	
 protected:
-
-	void SaveHeroSpawnData();
 	void CheckWinLoseCondition();
 
 	void OnGameWin();

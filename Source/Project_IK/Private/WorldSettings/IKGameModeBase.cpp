@@ -123,22 +123,20 @@ void AIKGameModeBase::ProceedGameFlowAfterUI()
 void AIKGameModeBase::SaveHeroSpawnData()
 {
 	ULevelTransitionSubsystem* level_transition_subsystem = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
-	TArray<FSpawnData> spawn_data = level_transition_subsystem->GetSpawnData();
-	for (int32 i = 0; i < heroes_.Num(); ++i)
+	TMap<EHeroType, FSpawnData> spawn_map = level_transition_subsystem->GetSpawnData();
+	for(EHeroType type : {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4})
 	{
-		if (heroes_[i] != nullptr)
+		if (heroes_.Contains(type))
 		{
-			spawn_map[hero_type].is_dead_ = true;
-			spawn_data[i].character_data_ = Cast<AHeroBase>(heroes_[i])->GetCharacterStat()->GetCharacterData();
+			spawn_map[type].character_data_ = Cast<AHeroBase>(heroes_[type])->GetCharacterStat()->GetCharacterData();
 		}
-		else if(spawn_data[i].is_dead_ == false)
+		else
 		{
-			EHeroType hero_type = IntToHeroType(i);
 			UGlobalBuffSubsystem* global_buff_subsystem = GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
-			const EGlobalBuffType deathbound_type = HeroTypeToDeathbound(hero_type);
+			const EGlobalBuffType deathbound_type = HeroTypeToDeathbound(type);
 			if (global_buff_subsystem->HasBuff(deathbound_type))
 			{	// Consider the character is dead
-				spawn_data[i].is_dead_ = true;
+				spawn_map[type].is_dead_ = true;
 				global_buff_subsystem->RemoveBuff(deathbound_type);
 			}
 			else
@@ -146,12 +144,13 @@ void AIKGameModeBase::SaveHeroSpawnData()
 				UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
 				UDataTableManager* data_table_manager = instance->GetDataTableManager();
 				
-				spawn_data[i].character_data_ = data_table_manager->GetCharacterData(HeroTypeToCharacterType(hero_type));
+				spawn_map[type].character_data_ = data_table_manager->GetCharacterData(HeroTypeToCharacterType(type));
 				global_buff_subsystem->AddBuff(deathbound_type);
 			}
 		}
 	}
-	level_transition_subsystem->UpdateSpawnData(spawn_data);
+	
+	level_transition_subsystem->UpdateSpawnData(spawn_map);
 }
 
 TMap<EHeroType, TObjectPtr<AActor>> AIKGameModeBase::GetHeroContainer() const noexcept
@@ -325,7 +324,7 @@ void AIKGameModeBase::DisplayCombatResult()
 
 	if (player_controller)
 	{
-		if (AIKHUD* hud = Cast<AIKHUD>(player_controller->GetHUD());)
+		if (AIKHUD* hud = Cast<AIKHUD>(player_controller->GetHUD()))
 		{
 			hud->DisplayCombatResult(gunner_damage_map_);
 		}
@@ -349,11 +348,10 @@ bool AIKGameModeBase::IsDefeated() const
 bool AIKGameModeBase::IsAllHeroesPermanentlyDead() const
 {
 	ULevelTransitionSubsystem* level_transition_subsystem = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
-	TArray<FSpawnData> spawn_data = level_transition_subsystem->GetSpawnData();
-
-	for (int32 i = 0; i < heroes_.Num(); ++i)
+	const auto& spawn_map = level_transition_subsystem->GetSpawnData();
+	for(EHeroType type : {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4})
 	{
-		if (spawn_data[i].is_dead_ != true)
+		if (spawn_map[type].is_dead_ != true)
 		{
 			return false;
 		}
