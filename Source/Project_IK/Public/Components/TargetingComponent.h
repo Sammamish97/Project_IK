@@ -97,6 +97,8 @@ private:
 	
 	void HandleActorTargeting(FTargetResult& result);
 	void HandleLocationTargeting(FTargetResult& result);
+
+	// It returns normalized direction that has Z field 0.
 	FVector HandleDirectionTargeting(FTargetResult& result);
 	
 	void InitializeTargetingVisuals();
@@ -112,7 +114,7 @@ private:
 	AActor* FindClosestActor(const FVector& TargetLocation);
 	void ApplyMaterialHighlight(TArray<AActor*> targets);
 
-	bool IsWithinSector(const FVector& origin, const FVector& direction, float range, float angle, const FVector& actor_location);
+	bool IsWithinSector(const FVector& origin, const FVector& normalized_direction, float range, float angle, const FVector& actor_location);
 	bool IsActorInRange(AActor* actor, float squared_range);
 
 	void StartFocus();

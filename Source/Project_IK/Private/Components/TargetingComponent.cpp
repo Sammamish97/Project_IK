@@ -235,7 +235,9 @@ FVector UTargetingComponent::HandleDirectionTargeting(FTargetResult& result)
 
 	FVector target_location = GetGroundLocation();
 	FVector origin = invoker_->GetActorLocation();
-	FVector direction = target_location - origin;
+	FVector normalized_direction = (target_location - origin);
+	normalized_direction.Z = 0.f;
+	normalized_direction = normalized_direction.GetSafeNormal();
 	result.target_location_ = target_location;
 
 
@@ -251,7 +253,7 @@ FVector UTargetingComponent::HandleDirectionTargeting(FTargetResult& result)
 			{
 				if (actor)
 				{
-					if (IsWithinSector(origin, direction, target_parameters_.range_, target_parameters_.radius_, actor->GetActorLocation()))
+					if (IsWithinSector(origin, normalized_direction, target_parameters_.range_, target_parameters_.radius_, actor->GetActorLocation()))
 					{
 						result.target_actors_.Add(actor);
 					}
@@ -266,7 +268,7 @@ FVector UTargetingComponent::HandleDirectionTargeting(FTargetResult& result)
 			{
 				if (actor)
 				{
-					if (IsWithinSector(origin, direction, target_parameters_.range_, target_parameters_.radius_, actor->GetActorLocation()))
+					if (IsWithinSector(origin, normalized_direction, target_parameters_.range_, target_parameters_.radius_, actor->GetActorLocation()))
 					{
 						result.target_actors_.Add(actor);
 					}
@@ -275,7 +277,7 @@ FVector UTargetingComponent::HandleDirectionTargeting(FTargetResult& result)
 		}
 	}
 
-	return direction;
+	return normalized_direction;
 }
 
 void UTargetingComponent::InitializeTargetingVisuals()
@@ -358,9 +360,7 @@ void UTargetingComponent::UpdateTargetingVisuals()
 		break;
 	case ETargetingMode::Direction:
 		sector_decal_->SetWorldLocation(invoker_location);
-		sector_decal_->SetRelativeRotation(FRotator(90.0, 0.0, 0.0));
-		sector_decal_->AddRelativeRotation(UKismetMathLibrary::MakeRotFromZ(HandleDirectionTargeting(result)));
-
+		sector_decal_->SetWorldRotation(UKismetMathLibrary::MakeRotFromZ(HandleDirectionTargeting(result)).Quaternion() * FRotator(0.0f, 90.0f, 0.0f).Quaternion());
 		range_decal_->SetWorldLocation(invoker_location);
 		break;
 	default:
@@ -530,7 +530,7 @@ void UTargetingComponent::ApplyMaterialHighlight(TArray<AActor*> targets)
 	previously_chosen_units_ = new_targets;
 }
 
-bool UTargetingComponent::IsWithinSector(const FVector& origin, const FVector& direction, float range, float angle, const FVector& actor_location)
+bool UTargetingComponent::IsWithinSector(const FVector& origin, const FVector& normalized_direction, float range, float angle, const FVector& actor_location)
 {
 	FVector to_actor = actor_location - origin;
 
@@ -542,7 +542,6 @@ bool UTargetingComponent::IsWithinSector(const FVector& origin, const FVector& d
 	}
 
 	FVector normalized_actor = to_actor.GetSafeNormal();
-	FVector normalized_direction = direction.GetSafeNormal();
 
 	float half_radian = FMath::DegreesToRadians(angle / 2.0);
 	float cos_half_radian = FMath::Cos(half_radian);
