@@ -75,17 +75,23 @@ void UInventorySlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPoin
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
 	if (is_empty_ == false)
 	{
-		inventory_widget_cache_->RevealPopupWidget(item_data_cache_);
-		float pos_x, pos_y;
-		UWidgetLayoutLibrary::GetMousePositionScaledByDPI(inventory_widget_cache_->GetOwningPlayer(), pos_x, pos_y);
-		inventory_widget_cache_->SetPopupWidgetPos({pos_x, pos_y});
+		inventory_widget_cache_->CreatePopupWidget(item_data_cache_);
 	}
+}
+
+FReply UInventorySlot::NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseMove(InGeometry, InMouseEvent);
+	float pos_x, pos_y;
+	UWidgetLayoutLibrary::GetMousePositionScaledByDPI(inventory_widget_cache_->GetOwningPlayer(), pos_x, pos_y);
+	inventory_widget_cache_->SetPopupWidgetPos({pos_x, pos_y});
+	return FReply::Unhandled();
 }
 
 void UInventorySlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseLeave(InMouseEvent);
-	inventory_widget_cache_->HidePopupWidget();
+	inventory_widget_cache_->RemovePopupWidget();
 }
 
 void UInventorySlot::ClearData()

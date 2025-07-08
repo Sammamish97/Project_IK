@@ -56,9 +56,9 @@ public:
 
 	void LoadSelectedRewards(const FWrapperEquipmentData& rewards);
 
-	void RevealPopupWidget(const FItemData&  item_data);
+	void CreatePopupWidget(const FItemData&  item_data);
 	void SetPopupWidgetPos(FVector2D pos);
-	void HidePopupWidget();
+	void RemovePopupWidget();
 
 private:
 	UFUNCTION()
@@ -106,6 +106,9 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> confirm_button_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
+	TSubclassOf<USkillPopupWidget> equip_popup_class_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<USkillPopupWidget> equip_popup_;

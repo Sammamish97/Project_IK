@@ -53,7 +53,6 @@ void UInventoryWidget::InitInventoryWidget()
 	hero_board_3_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_3_Board_Clicked);
 
 	confirm_button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnConfirm);
-	equip_popup_->AddToViewport();
 }
 
 void UInventoryWidget::UpdateSetBonusEffect()
@@ -107,20 +106,33 @@ void UInventoryWidget::NativeDestruct()
 	Super::NativeDestruct();
 }
 
-void UInventoryWidget::RevealPopupWidget(const FItemData& item_data)
+void UInventoryWidget::CreatePopupWidget(const FItemData& item_data)
 {
-	equip_popup_->UpdatePopupData(item_data);
-	equip_popup_->SetVisibility(ESlateVisibility::Visible);
+	if(equip_popup_class_ && equip_popup_ == nullptr)
+	{
+		equip_popup_ = CreateWidget<USkillPopupWidget>(this, equip_popup_class_);
+		equip_popup_->UpdatePopupData(item_data);
+		equip_popup_->AddToViewport();
+		equip_popup_->SetVisibility(ESlateVisibility::HitTestInvisible);
+	}
 }
 
 void UInventoryWidget::SetPopupWidgetPos(FVector2D pos)
 {
-	equip_popup_->SetPositionInViewport(pos);
+	if(equip_popup_)
+	{
+		equip_popup_->SetPositionInViewport(pos);
+	}
 }
 
-void UInventoryWidget::HidePopupWidget()
+void UInventoryWidget::RemovePopupWidget()
 {
-	equip_popup_->SetVisibility(ESlateVisibility::Hidden);
+	if(equip_popup_)
+	{
+		equip_popup_->Destruct();
+		equip_popup_->SetVisibility(ESlateVisibility::Hidden);
+		equip_popup_ = nullptr;
+	}
 }
 
 void UInventoryWidget::UpdateInventoryData()

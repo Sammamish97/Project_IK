@@ -20,7 +20,6 @@ void USkillPopupWidget::NativeConstruct()
 
 void USkillPopupWidget::UpdatePopupData(const FItemData& item_data)
 {
-	SetVisibility(ESlateVisibility::Visible);
 	thumbnail_->SetBrushFromTexture(item_data.thumbnail);
 	skill_name_->SetText(item_data.name_);
 	skill_detail_->SetText(item_data.detail_);
