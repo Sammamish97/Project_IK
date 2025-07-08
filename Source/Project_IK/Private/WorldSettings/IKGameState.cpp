@@ -37,9 +37,13 @@ void AIKGameState::BeginPlay()
 	{
 		if (support_skill_data_[i].type_ != ESupportSkillType::INVALID)
 		{
-			equipped_support_skill_map_.Add({i, NewObject<USupportSkillBase>(this, support_skill_data_[i].support_skill_class_)});
-			support_skill_timers_.Add(i, FTimerHandle{});
+			equipped_support_skills_.Push(NewObject<USupportSkillBase>(this, support_skill_data_[i].support_skill_class_));
 		}
+		else
+		{
+			equipped_support_skills_.Push(nullptr);
+		}
+		support_skill_timers_.Push(FTimerHandle());
 	}
 
 	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
@@ -55,7 +59,7 @@ void AIKGameState::BeginPlay()
 void AIKGameState::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-	equipped_support_skill_map_.Empty();
+	equipped_support_skills_.Empty();
 	support_skill_timers_.Empty();
 	active_skill_timers_.Empty();
 }
@@ -65,9 +69,9 @@ bool AIKGameState::UseEnergy(float amount)
 	return energy_system_component_->UseEnergy(amount);
 }
 
-const TMap<int32, TObjectPtr<USupportSkillBase>>& AIKGameState::GetSupportSkillPtr() const
+const TArray<TObjectPtr<USupportSkillBase>>& AIKGameState::GetSupportSkillPtr() const
 {
-	return equipped_support_skill_map_;
+	return equipped_support_skills_;
 }
 
 UEnergySystemComponent* AIKGameState::GetEnergySystemComponent()
@@ -96,15 +100,15 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 
 void AIKGameState::ActivateSupportSkill(int32 support_num)
 {
-	if (equipped_support_skill_map_.Contains(support_num))
+	if (equipped_support_skills_[support_num] != nullptr)
 	{
 		//IKTODO: 장착 유무를 여기서 확인해야 함.
-		if (energy_system_component_->GetEnergy() > equipped_support_skill_map_[support_num]->GetCost())
+		if (energy_system_component_->GetEnergy() > equipped_support_skills_[support_num]->GetCost())
 		{
 			if (GetWorld()->GetTimerManager().IsTimerActive(support_skill_timers_[support_num]) == false)
 			{
-				player_controller_cache_->StartTargeting(equipped_support_skill_map_[support_num]->GetTargetParameters());
-				selected_skill_ = equipped_support_skill_map_[support_num];
+				player_controller_cache_->StartTargeting(equipped_support_skills_[support_num]->GetTargetParameters());
+				selected_skill_ = equipped_support_skills_[support_num];
 				selected_support_num_ = support_num;
 				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdateSkillPopupData(selected_support_num_);
 			}
