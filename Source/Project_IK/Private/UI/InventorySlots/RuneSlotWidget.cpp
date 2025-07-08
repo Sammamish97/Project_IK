@@ -9,13 +9,16 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "UI/InventorySlots/RuneSlotWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Components/Border.h"
 #include "Components/Image.h"
+#include "Components/TextBlock.h"
 #include "UI/InventoryWidget.h"
 
 void URuneSlotWidget::SetRuneSetSlotData(const FRuneData& rune_data)
 {
 	rune_data_cache_ = rune_data;
 	item_data_cache_ = rune_data_cache_.item_data_;
+	rune_idx_text_->SetText(FText::AsNumber(rune_data.slot_number));
 	switch (rune_data.slot_number)
 	{ 
 		case 0:
@@ -40,6 +43,7 @@ void URuneSlotWidget::SetRuneSetSlotData(const FRuneData& rune_data)
 			slot_type_ = EInventorySlotType::INVALID;
 	}
 	SetImageTexture();
+	SetRuneRelatedWidgetsVisibility(ESlateVisibility::HitTestInvisible);
 	is_empty_ = false;
 }
 
@@ -48,6 +52,14 @@ void URuneSlotWidget::SetRuneSetSlotData(EInventorySlotType slot_type)
 	rune_data_cache_ = FRuneData();
 	slot_type_ = slot_type;
 	item_data_cache_ = FItemData();
+	SetRuneRelatedWidgetsVisibility(ESlateVisibility::Hidden);
+}
+
+void URuneSlotWidget::SetRuneRelatedWidgetsVisibility(ESlateVisibility visibility)
+{
+	rune_idx_text_->SetVisibility(visibility);
+	//rune_idx_background_->SetVisibility(visibility);
+	rune_idx_border_->SetVisibility(visibility);
 }
 
 const FRuneData& URuneSlotWidget::GetStoredRuneData()
