@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 void URuneSlotWidget::SetRuneSetSlotData(const FRuneData& rune_data)
 {
 	rune_data_cache_ = rune_data;
+	item_data_cache_ = rune_data_cache_.item_data_;
 	switch (rune_data.slot_number)
 	{ 
 		case 0:
@@ -46,6 +47,7 @@ void URuneSlotWidget::SetRuneSetSlotData(EInventorySlotType slot_type)
 {
 	rune_data_cache_ = FRuneData();
 	slot_type_ = slot_type;
+	item_data_cache_ = FItemData();
 }
 
 const FRuneData& URuneSlotWidget::GetStoredRuneData()

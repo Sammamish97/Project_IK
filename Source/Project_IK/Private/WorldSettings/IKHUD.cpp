@@ -54,9 +54,6 @@ void AIKHUD::BeginPlay()
 	if (button_widget_class_)
 	{
 		button_bar_widget_ = CreateWidget<UButtonBarWidget>(world, button_widget_class_);
-		
-		TMap<EHeroType, FItemData> hero_skill_data;
-		TMap<EHeroType, FString> hero_rune_set_bonus_details;
 		//액티브 스킬 UI에 썸네일을 Bind.
 		auto game_mode =  Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		auto hero_types = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
@@ -86,8 +83,6 @@ void AIKHUD::BeginPlay()
 						cur_hero->GetRuneMechanics(), button_bar_widget_->GetRunePopupWidget(),
 						cur_hero_type, cur_hero->GetHeroBaseColor_1(), cur_hero->GetHeroBaseColor_2(),
 						cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
-
-					hero_skill_data.Add(cur_hero_type, FItemData({cur_skill_data.item_data_.thumbnail, cur_skill_data.item_data_.name_, cur_skill_data.item_data_.detail_}));
 				}
 				else
 				{
@@ -106,7 +101,6 @@ void AIKHUD::BeginPlay()
 			}
 		}
 
-		TMap<int32, FItemData> support_skill_data;
 		//서포트 스킬 UI에 썸네일과 Cost를 Bind.
 		auto game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
 		auto equipped_support_skills = game_state->GetSupportSkillPtr();
@@ -119,15 +113,9 @@ void AIKHUD::BeginPlay()
 				cur_skill_button_widget->SetThumbnailTexture(equipped_support_data[i].item_data_.thumbnail);
 				cur_skill_button_widget->SetSupportSkillCost(equipped_support_skills[i]->GetCost());
 				equipped_support_skills[i]->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
-
-				support_skill_data.Add(i, FItemData({equipped_support_data[i].item_data_.thumbnail, equipped_support_data[i].item_data_.name_, equipped_support_data[i].item_data_.detail_}));
 			}
 		}
 		
-		auto skill_pop_up_widget = button_bar_widget_->GetSkillPopupWidget();
-		skill_pop_up_widget->InitSupportSkillData(support_skill_data);
-		skill_pop_up_widget->InitHeroSkillData(hero_skill_data);
-
 		auto rune_pop_up_widget = button_bar_widget_->GetRunePopupWidget();
 		rune_pop_up_widget->InitSetBonusDetails(hero_rune_bonus_detail_map);
 		

@@ -10,7 +10,10 @@ See LICENSE file in the project root for full license information.
 #include "UI/InventorySlots/InventorySlot.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
+#include "UI/InventoryWidget.h"
 #include "UI/SlotDragDropImage.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
+
 
 void UInventorySlot::InitInventorySlot(UInventoryWidget* widget_ptr, bool is_board_slot)
 {
@@ -67,9 +70,28 @@ bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 	return false;
 }
 
+void UInventorySlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
+	if (is_empty_ == false)
+	{
+		inventory_widget_cache_->RevealPopupWidget(item_data_cache_);
+		float pos_x, pos_y;
+		UWidgetLayoutLibrary::GetMousePositionScaledByDPI(inventory_widget_cache_->GetOwningPlayer(), pos_x, pos_y);
+		inventory_widget_cache_->SetPopupWidgetPos({pos_x, pos_y});
+	}
+}
+
+void UInventorySlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseLeave(InMouseEvent);
+	inventory_widget_cache_->HidePopupWidget();
+}
+
 void UInventorySlot::ClearData()
 {
 	is_empty_ = true;
+	item_data_cache_ = FItemData();
 	//IKTODO: 이후 비워두는 것이 아닌, 빈칸 텍스쳐를 띄워야 함.
 	image_->SetBrushFromTexture(nullptr);
 }

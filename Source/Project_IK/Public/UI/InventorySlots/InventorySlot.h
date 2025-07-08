@@ -27,6 +27,10 @@ public:
 	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+	
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
+	
 	virtual void SetImageTexture();
 
 	EInventorySlotType GetSlotType() const;
@@ -46,6 +50,8 @@ protected:
 	
 	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<class UImage> image_;
+	
+	FItemData item_data_cache_;
 
 	bool is_empty_ = true;
 	bool is_board_slot_ = true;

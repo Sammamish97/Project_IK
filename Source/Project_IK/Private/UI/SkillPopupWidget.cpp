@@ -10,31 +10,18 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/SkillPopupWidget.h"
 #include "Components/Image.h"
-#include "Managers/EnumCluster.h"
 #include "Structs/ItemData.h"
 
-void USkillPopupWidget::InitHeroSkillData(const TMap<EHeroType, FItemData>& input_data)
+void USkillPopupWidget::NativeConstruct()
 {
-	hero_skill_data_ = input_data;
+	Super::NativeConstruct();
+	SetVisibility(ESlateVisibility::Hidden);
 }
 
-void USkillPopupWidget::InitSupportSkillData(const TMap<int32, FItemData>& input_data)
-{
-	support_skill_data_ = input_data;
-}
-
-void USkillPopupWidget::UpdateSkillPopupData(EHeroType type)
+void USkillPopupWidget::UpdatePopupData(const FItemData& item_data)
 {
 	SetVisibility(ESlateVisibility::Visible);
-	thumbnail_->SetBrushFromTexture(hero_skill_data_[type].thumbnail);
-	skill_name_->SetText(hero_skill_data_[type].name_);
-	skill_detail_->SetText(hero_skill_data_[type].detail_);
-}
-
-void USkillPopupWidget::UpdateSkillPopupData(int32 support_skill_idx)
-{
-	SetVisibility(ESlateVisibility::Visible);
-	thumbnail_->SetBrushFromTexture(support_skill_data_[support_skill_idx].thumbnail);
-	skill_name_->SetText(support_skill_data_[support_skill_idx].name_);
-	skill_detail_->SetText(support_skill_data_[support_skill_idx].detail_);
+	thumbnail_->SetBrushFromTexture(item_data.thumbnail);
+	skill_name_->SetText(item_data.name_);
+	skill_detail_->SetText(item_data.detail_);
 }

@@ -22,6 +22,7 @@ void UActiveSkillSlotWidget::SetActiveSkillSlotData(FActiveSkillData active_skil
 {
 	is_empty_ = false;
 	active_skill_data_cache_ = active_skill_data;
+	item_data_cache_ = active_skill_data_cache_.item_data_;
 	SetImageTexture();
 }
 

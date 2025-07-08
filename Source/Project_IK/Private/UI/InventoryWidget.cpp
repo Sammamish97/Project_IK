@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/HeroEquipBoardWidget.h"
 #include "UI/RewardContainerWidget.h"
 #include "UI/RuneBoardWidget.h"
+#include "UI/SkillPopupWidget.h"
 #include "UI/InventorySlots/ActiveSkillSlotWidget.h"
 #include "UI/InventorySlots/SupportSkillSlotWidget.h"
 #include "WorldSettings/IKGameInstance.h"
@@ -52,6 +53,7 @@ void UInventoryWidget::InitInventoryWidget()
 	hero_board_3_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_3_Board_Clicked);
 
 	confirm_button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnConfirm);
+	equip_popup_->AddToViewport();
 }
 
 void UInventoryWidget::UpdateSetBonusEffect()
@@ -98,10 +100,6 @@ void UInventoryWidget::LoadSelectedRewards(const FWrapperEquipmentData& rewards)
 	reward_container_->LoadSelectedRewards(rewards);
 }
 
-void UInventoryWidget::NativeConstruct()
-{
-	Super::NativeConstruct();
-}
 
 void UInventoryWidget::NativeDestruct()
 {
@@ -109,6 +107,21 @@ void UInventoryWidget::NativeDestruct()
 	Super::NativeDestruct();
 }
 
+void UInventoryWidget::RevealPopupWidget(const FItemData& item_data)
+{
+	equip_popup_->UpdatePopupData(item_data);
+	equip_popup_->SetVisibility(ESlateVisibility::Visible);
+}
+
+void UInventoryWidget::SetPopupWidgetPos(FVector2D pos)
+{
+	equip_popup_->SetPositionInViewport(pos);
+}
+
+void UInventoryWidget::HidePopupWidget()
+{
+	equip_popup_->SetVisibility(ESlateVisibility::Hidden);
+}
 
 void UInventoryWidget::UpdateInventoryData()
 {

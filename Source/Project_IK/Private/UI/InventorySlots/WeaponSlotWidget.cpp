@@ -21,6 +21,7 @@ void UWeaponSlotWidget::NativeConstruct()
 void UWeaponSlotWidget::SetWeaponSlotData(FWeaponData weapon_data)
 {
 	weapon_data_cache_ = weapon_data;
+	item_data_cache_ = weapon_data_cache_.item_data_;
 	SetImageTexture();
 }
 

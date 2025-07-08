@@ -55,6 +55,7 @@ void USupportSkillSlotWidget::SetSupportSkillSlotData(FSupportSkillData support_
 {
 	is_empty_ = false;
 	support_skill_data_cache_ = support_skill_data;
+	item_data_cache_ = support_skill_data_cache_.item_data_;
 	SetImageTexture();
 }
 

@@ -45,64 +45,64 @@ private:
 private:
 	EHeroType cur_hero_type_ = EHeroType::INVALID;
 	
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<UOverlay> rune_overlay_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<UOverlay> line_overlay_ = nullptr;
 	
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneSlotWidget> slot_0_ = nullptr;
 	
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneSlotWidget> slot_1_ = nullptr;
 	
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneSlotWidget> slot_2_ = nullptr;
 	
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneSlotWidget> slot_3_ = nullptr;
 	
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneSlotWidget> slot_4_ = nullptr;
 	
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneSlotWidget> slot_5_ = nullptr;
 
 	//
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneBoardEdgeWidget> line_0_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneBoardEdgeWidget> line_1_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneBoardEdgeWidget> line_2_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneBoardEdgeWidget> line_3_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneBoardEdgeWidget> line_4_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneBoardEdgeWidget> line_5_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneBoardEdgeWidget> line_6_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneBoardEdgeWidget> line_7_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneBoardEdgeWidget> line_8_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneBoardEdgeWidget> line_9_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneBoardEdgeWidget> line_10_ = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<URuneBoardEdgeWidget> line_11_ = nullptr;
 };

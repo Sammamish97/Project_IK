@@ -41,7 +41,7 @@ public:
 	float GetCastingTime() const;
 	
 	FTargetParameters GetTargetParameters() const;
-	FActiveSkillData GetEquippedActiveSkillData();
+	const FActiveSkillData& GetEquippedActiveSkillData();
 	class USkillBase* GetActiveSkill() const;
 	void EquipActiveSkill(EActiveSkillType type);
 	void UnEquipActiveSkill();

@@ -38,6 +38,7 @@ void AIKGameState::BeginPlay()
 		if (support_skill_data_[i].type_ != ESupportSkillType::INVALID)
 		{
 			equipped_support_skill_map_.Add({i, NewObject<USupportSkillBase>(this, support_skill_data_[i].support_skill_class_)});
+			equipped_support_skill_item_data_map_.Add({i, support_skill_data_[i].item_data_});
 			support_skill_timers_.Add(i, FTimerHandle{});
 		}
 	}
@@ -88,7 +89,7 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 				player_controller_cache_->StartTargeting(casted_hero->GetActiveSkillTargetParameters());
 				selected_skill_ = casted_hero->GetActiveSkill();
 				selected_hero_type_ = hero_type;
-				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdateSkillPopupData(selected_hero_type_);
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(casted_hero->GetActiveSkillItemData());
 			}
 		}
 	}
@@ -98,7 +99,6 @@ void AIKGameState::ActivateSupportSkill(int32 support_num)
 {
 	if (equipped_support_skill_map_.Contains(support_num))
 	{
-		//IKTODO: 장착 유무를 여기서 확인해야 함.
 		if (energy_system_component_->GetEnergy() > equipped_support_skill_map_[support_num]->GetCost())
 		{
 			if (GetWorld()->GetTimerManager().IsTimerActive(support_skill_timers_[support_num]) == false)
@@ -106,7 +106,7 @@ void AIKGameState::ActivateSupportSkill(int32 support_num)
 				player_controller_cache_->StartTargeting(equipped_support_skill_map_[support_num]->GetTargetParameters());
 				selected_skill_ = equipped_support_skill_map_[support_num];
 				selected_support_num_ = support_num;
-				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdateSkillPopupData(selected_support_num_);
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(equipped_support_skill_item_data_map_[support_num]);
 			}
 		}
 	}

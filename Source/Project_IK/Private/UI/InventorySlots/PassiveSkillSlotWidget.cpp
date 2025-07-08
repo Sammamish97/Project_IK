@@ -22,6 +22,7 @@ void UPassiveSkillSlotWidget::SetPassiveSkillSlotData(FPassiveSkillData passive_
 {
 	is_empty_ = false;
 	passive_skill_data_cache_ = passive_skill_data;
+	item_data_cache_ = passive_skill_data_cache_.item_data_;
 	SetImageTexture();
 }
 

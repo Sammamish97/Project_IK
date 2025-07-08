@@ -43,6 +43,7 @@ public:
 	void RemoveBuffUI(EBuffType buff_type);
 
 	bool HasActiveSkill() const;
+	const FItemData& GetActiveSkillItemData() const;
 	void ReduceActiveSkillCoolDown(float amount);
 	void ReduceActiveSkillCoolDownPercentage(float percentage);
 
