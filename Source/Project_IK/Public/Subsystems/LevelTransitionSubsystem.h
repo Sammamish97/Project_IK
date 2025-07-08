@@ -11,7 +11,10 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
+#include "Structs/SupportSkillData.h"
+#include "Structs/SpawnData.h"
 #include "LevelTransitionSubsystem.generated.h"
+
 UCLASS()
 class PROJECT_IK_API ULevelTransitionSubsystem : public UGameInstanceSubsystem
 {
@@ -21,10 +24,14 @@ public:
 	virtual void Deinitialize() override;
 	
 	UFUNCTION(BlueprintCallable)
-	void UpdateSpawnData(const TArray<FSpawnData>& data);
+	void UpdateSpawnData(const TMap<EHeroType, FSpawnData>& data);
+	UFUNCTION(BlueprintCallable)
+	void UpdateSpawnDataIdx(EHeroType type, FSpawnData data);
 
 	UFUNCTION(BlueprintCallable)
-	void UpdateSpawnDataIdx(int32 idx, FSpawnData data);
+	void UpdateSupportSkillDataIdx(int32 idx, FSupportSkillData data);
+	UFUNCTION(BlueprintCallable)
+	void UpdateSupportSkillData(const TMap<int32, FSupportSkillData>& data);
 	
 	UFUNCTION(BlueprintCallable)
 	void OpenMapLevel(UWorld* world);
@@ -33,11 +40,17 @@ public:
 	void OpenLevel(UWorld* world, FIntPoint map_position);
 	
 	UFUNCTION(BlueprintCallable)
-	const TArray<FSpawnData>& GetSpawnData() const;
+	const TMap<EHeroType, FSpawnData>& GetSpawnData() const;
 
-	FSpawnData GetSpawnData(int32 idx) const;
+	FSpawnData GetSpawnData(EHeroType type) const;
+
+	UFUNCTION(BlueprintCallable)
+	const TMap<int32, FSupportSkillData>& GetSupportSkillData() const;
 
 protected:
 	UPROPERTY()
-	TArray<FSpawnData> spawn_data_;
+	TMap<EHeroType, FSpawnData> spawn_data_;
+	
+	UPROPERTY()
+	TMap<int32, FSupportSkillData> support_skill_data_;
 };

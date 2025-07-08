@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/EnergySystemComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Structs/SupportSkillData.h"
+#include "Subsystems/LevelTransitionSubsystem.h"
 #include "UI/ButtonBarWidget.h"
 #include "UI/SkillPopupWidget.h"
 #include "WorldSettings/IKGameModeBase.h"
@@ -24,30 +25,33 @@ AIKGameState::AIKGameState()
 	:Super::AGameStateBase()
 {
 	energy_system_component_ = CreateDefaultSubobject<UEnergySystemComponent>(TEXT("Energy System Component"));
-	support_skill_data_.Init(FSupportSkillData(), 3);
-	equipped_support_skills_.Init(TObjectPtr<USupportSkillBase>(), 3);
 }
 
 void AIKGameState::BeginPlay()
 {
 	Super::BeginPlay();
 	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	
+	auto level_transition_manager = UGameplayStatics::GetGameInstance(GetWorld())->GetSubsystem<ULevelTransitionSubsystem>();
+	auto support_skill_data_ = level_transition_manager->GetSupportSkillData();
 	for (int32 i = 0; i < 3; i++)
 	{
 		if (support_skill_data_[i].type_ != ESupportSkillType::INVALID)
 		{
-			equipped_support_skills_[i] = NewObject<USupportSkillBase>(this, support_skill_data_[i].support_skill_class_);
-			support_skill_timers_.Add(i, FTimerHandle{});
+			equipped_support_skills_.Push(NewObject<USupportSkillBase>(this, support_skill_data_[i].support_skill_class_));
 		}
+		else
+		{
+			equipped_support_skills_.Push(nullptr);
+		}
+		support_skill_timers_.Push(FTimerHandle());
 	}
 
 	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	for (const auto& elem : game_mode_cache->GetHeroContainer())
 	{
-		if (elem != nullptr)
+		if (auto cur_hero_ptr = elem)
 		{
-			active_skill_timers_.Add(Cast<AHeroBase>(elem)->GetHeroType(), FTimerHandle{});
+			active_skill_timers_.Add(Cast<AHeroBase>(cur_hero_ptr)->GetHeroType(), FTimerHandle{});
 		}
 	}
 }
@@ -63,11 +67,6 @@ void AIKGameState::EndPlay(const EEndPlayReason::Type EndPlayReason)
 bool AIKGameState::UseEnergy(float amount)
 {
 	return energy_system_component_->UseEnergy(amount);
-}
-
-const TArray<FSupportSkillData>& AIKGameState::GetSupportSkillData() const
-{
-	return support_skill_data_;
 }
 
 const TArray<TObjectPtr<USupportSkillBase>>& AIKGameState::GetSupportSkillPtr() const
@@ -101,8 +100,9 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 
 void AIKGameState::ActivateSupportSkill(int32 support_num)
 {
-	if (equipped_support_skills_.IsValidIndex(support_num))
+	if (equipped_support_skills_[support_num] != nullptr)
 	{
+		//IKTODO: 장착 유무를 여기서 확인해야 함.
 		if (energy_system_component_->GetEnergy() > equipped_support_skills_[support_num]->GetCost())
 		{
 			if (GetWorld()->GetTimerManager().IsTimerActive(support_skill_timers_[support_num]) == false)

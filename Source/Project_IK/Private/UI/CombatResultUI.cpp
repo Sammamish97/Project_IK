@@ -48,10 +48,9 @@ bool UCombatResultUI::Initialize()
 	return true;
 }
 
-void UCombatResultUI::PopulateWidgets(const TArray<AActor*>& hero_containers)
+void UCombatResultUI::PopulateWidgets(const TArray<TObjectPtr<AActor>>& hero_containers)
 {	// Synchronize blocks num to be HeroType now.
-
-	for (int32 i = 0; i < hero_containers.Num(); i++)
+	for(int32 i = 0; i < 4; ++i)
 	{
 		hp_ratio_after_.Add(0.f);
 
@@ -70,7 +69,7 @@ void UCombatResultUI::PopulateWidgets(const TArray<AActor*>& hero_containers)
 
 	if (combat_result_block_widget_class_)
 	{
-		for (int32 i = 0; i < hero_containers.Num(); i++)
+		for(int32 i = 0; i < 4; ++i)
 		{
 			if (hero_containers[i] == nullptr)
 			{
@@ -109,13 +108,15 @@ void UCombatResultUI::UpdateResults(const TMap<EHeroType, float>& damage_map)
 
 	// Update HP after battles
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
-	const TArray<AActor*> actors = game_mode->GetHeroContainer();
-	for (AActor* actor : actors)
+	const auto& hero_container = game_mode->GetHeroContainer();
+	for (const auto& hero_map_elem : hero_container)
 	{
-		AHeroBase* hero = Cast<AHeroBase>(actor);
-		if (hero)
+		if(AHeroBase* hero = Cast<AHeroBase>(hero_map_elem))
 		{
-			hp_ratio_after_[HeroTypeToInt(hero->GetHeroType())] = hero->GetCharacterStat()->GetHPRatio();
+			if (hero)
+			{
+				hp_ratio_after_[HeroTypeToInt(hero->GetHeroType())] = hero->GetCharacterStat()->GetHPRatio();
+			}
 		}
 	}
 
@@ -165,9 +166,7 @@ void UCombatResultUI::NativeConstruct()
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if (game_mode)
 	{
-		TArray<AActor*> hero_containers = game_mode->GetHeroContainer();
-
-		PopulateWidgets(hero_containers);
+		PopulateWidgets(game_mode->GetHeroContainer());
 	}
 }
 

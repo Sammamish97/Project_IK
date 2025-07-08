@@ -17,7 +17,10 @@ See LICENSE file in the project root for full license information.
 #include "NiagaraComponent.h"
 
 #include "Characters/HeroBase.h"
-#include "DataAssets/BuffDataAsset.h"
+#include "DataAssets/BuffUIDataAsset.h"
+#include "Kismet/GameplayStatics.h"
+#include "Managers/DataTableManager.h"
+#include "WorldSettings/IKGameInstance.h"
 
 void UPS_LowProfile::InitEquipmentSkill(AActor* hero_ref)
 {
@@ -30,9 +33,9 @@ void UPS_LowProfile::InitEquipmentSkill(AActor* hero_ref)
 	{
 		AttachParticles(hero->GetMesh());
 	}
-
-	buff_ui_data_ = FBuffUIData(name_, EBuffType::LowProfile, thumbnail_, 0.f, true, detail_);
 	buff_status_data_ = FBuffStatusData(ECharacterStatType::EvasionRate, 0.1f, false, true);
+	auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
+	buff_ui_data_ = data_table_manager_->GetBuffUIData(EBuffType::LowProfile);
 
 	ApplyBuff();
 }

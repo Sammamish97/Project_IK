@@ -41,11 +41,11 @@ void URuneMechanics::EquipRune(ERuneSetType set_type, int32 idx)
 FStatusData URuneMechanics::GetTotalStatus()
 {
 	FStatusData total_status;
-	for (const auto& elem : equipped_runes_)
+	for (int32 i = 0; i < 6; ++i)
 	{
-		if (elem.set_type != ERuneSetType::INVALID)
+		if (equipped_runes_[i].set_type != ERuneSetType::INVALID)
 		{
-			for(const auto& stat : elem.status_map)
+			for(const auto& stat : equipped_runes_[i].status_map)
 			{
 				total_status[stat.Key] += stat.Value;
 			}

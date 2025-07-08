@@ -77,10 +77,12 @@ void AIKPlayerCameraManager::BeginPlay()
 	Super::BeginPlay();
 	UWorld* world = GetWorld();
 	AIKGameModeBase* gamemode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(world));
-	TArray<AActor*> heroes = gamemode->GetHeroContainer();
-	for (TWeakObjectPtr<AActor> hero : heroes)
+	for (const auto& elem : gamemode->GetHeroContainer())
 	{
-		tracked_heroes_.Add(hero);
+		if(elem != nullptr)
+		{
+			tracked_heroes_.Add(elem);
+		}
 	}
 }
 

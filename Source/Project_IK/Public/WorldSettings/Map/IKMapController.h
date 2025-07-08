@@ -18,15 +18,9 @@ class PROJECT_IK_API AIKMapController : public APlayerController
 	GENERATED_BODY()
 
 	virtual void BeginPlay() override;
-	virtual void SetupInputComponent() override;
 
 	void ChangeLevel(FKey key);
-
-	void OnToggleInventory();
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<class UInputMappingContext> player_input_mapping_context;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<class UInputAction> inventory_toggle_action_;
+	TObjectPtr<class UInputMappingContext> player_input_mapping_context;
 };

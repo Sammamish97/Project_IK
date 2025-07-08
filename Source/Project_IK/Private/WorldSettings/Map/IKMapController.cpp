@@ -15,8 +15,6 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/Map/IKMapHUD.h"
 
-class UEnhancedInputLocalPlayerSubsystem;
-
 void AIKMapController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -28,23 +26,8 @@ void AIKMapController::BeginPlay()
 	}
 }
 
-void AIKMapController::SetupInputComponent()
-{
-	Super::SetupInputComponent();
-	if (UEnhancedInputComponent* enhanced_input_component = Cast<UEnhancedInputComponent>(InputComponent))
-	{
-		enhanced_input_component->BindAction(inventory_toggle_action_, ETriggerEvent::Triggered, this, &AIKMapController::OnToggleInventory);
-	}
-}
-
 void AIKMapController::ChangeLevel(FKey key)
 {
 	UE_LOG(LogTemp, Display, TEXT("Change Level"));
 	UGameplayStatics::OpenLevel(GetWorld(), "DummyLevel");
-}
-
-void AIKMapController::OnToggleInventory()
-{
-	Cast<AIKMapHUD>(GetHUD())->ToggleInventory();
-	Cast<AIKMapHUD>(GetHUD())->ToggleMap();
 }

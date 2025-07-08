@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Structs/WrapperEquipmentData.h"
 #include "GameFramework/HUD.h"
 #include "IKHUD.generated.h"
 
@@ -38,8 +39,7 @@ public:
 
 	UButtonBarWidget* GetButtonBarWidget();
 
-	UFUNCTION(BlueprintCallable)
-	void ToggleInventory();
+	void LoadSelectedRewards(const FWrapperEquipmentData& rewards);
 	
 	// Reference to the Widget Blueprint class to create
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
@@ -54,10 +54,4 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UCombatLevelResultManager> combat_level_result_manager_;
-	
-	UPROPERTY(EditAnywhere, Category = "UI")
-	TSubclassOf<UInventoryWidget> inventory_widget_class_;
-	
-	UPROPERTY()
-	TObjectPtr<UInventoryWidget> inventory_widget_;
 };

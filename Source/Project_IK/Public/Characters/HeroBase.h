@@ -59,6 +59,7 @@ public:
 	class URuneMechanics* GetRuneMechanics();
 	class UActiveSkillMechanics* GetActiveSkillMechanics();
 	class USkillBase* GetActiveSkill();
+	class UPassiveSkillMechanics* GetPassiveSkillMechanics();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))

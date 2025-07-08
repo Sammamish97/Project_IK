@@ -9,63 +9,27 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Managers/InventoryManager.h"
+#include "Structs/WrapperEquipmentData.h"
+#include "UI/InventoryWidget.h"
 
-#include "Kismet/GameplayStatics.h"
-#include "Structs/RuneData.h"
-#include "WorldSettings/IKGameInstance.h"
-#include "Managers/DataTableManager.h"
-
-void UInventoryManager::InitEquipInventory()
+void UInventoryManager::OpenInventoryWidgetReward(const FWrapperEquipmentData& rewards)
 {
-	equipment_storage_.Init(FInventorySlotData(), max_inventory_size_);
-	AddEquipment(EWeaponType::AssaultRifle_A);
-	AddEquipment(EWeaponType::AssaultRifle_A);
-	AddEquipment(EWeaponType::AssaultRifle_A);
-	AddEquipment(EWeaponType::AssaultRifle_A);
-
-
-	AddEquipment(EActiveSkillType::Accelerate);
-	AddEquipment(EActiveSkillType::Accelerate);
-
-	AddEquipment(EActiveSkillType::FateSpiral);
-	AddEquipment(EActiveSkillType::DeployCover);
-	AddEquipment(EActiveSkillType::Encourage);
-	AddEquipment(EActiveSkillType::MagnetizedBullet);
-	AddEquipment(EPassiveSkillType::LowProfile);
-	AddEquipment(EPassiveSkillType::Berserker);
-	AddEquipment(EPassiveSkillType::Agility);
-	AddEquipment(EActiveSkillType::ChargeShot);
-	AddEquipment(EActiveSkillType::ShockJavelin);
+	if(inventory_widget_class_)
+	{
+		inventory_widget_ = CreateWidget<UInventoryWidget>(GetWorld(), inventory_widget_class_);
+		if(inventory_widget_)
+		{
+			inventory_widget_->LoadSelectedRewards(rewards);
+			inventory_widget_->InitInventoryWidget();
+			inventory_widget_->AddToViewport();
+			inventory_widget_->SetVisibility(ESlateVisibility::Visible);
+		}
+	}
 }
 
-void UInventoryManager::InitRuneInventory()
+void UInventoryManager::OpenReadOnlyInventory()
 {
-	rune_storage_.Init(FRuneSlotData(), max_inventory_size_);
-
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Viper, 0));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Viper, 1));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Viper, 2));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Viper, 3));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Viper, 4));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Viper, 5));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Dagger, 0));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Dagger, 1));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Dagger, 2));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Dagger, 3));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Dagger, 4));
-	AddRune(data_table_manager_cache_->GetRuneData(ERuneSetType::Dagger, 5));
-}
-
-void UInventoryManager::InitInventoryManager()
-{
-	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	data_table_manager_cache_ = ik_instance->GetDataTableManager();
-	max_inventory_size_ = 18;
-	credits_ = 200;
-	perk_points_ = 12;
-	tickets_ = 99;
-	InitEquipInventory();
-	InitRuneInventory();
+	
 }
 
 void UInventoryManager::SetTickets(int32 tickets)
@@ -76,124 +40,6 @@ void UInventoryManager::SetTickets(int32 tickets)
 int32 UInventoryManager::GetTickets() const
 {
 	return tickets_;
-}
-
-int32 UInventoryManager::GetEquipmentEmptyIndex() const
-{
-	for (int32 i = 0; i < max_inventory_size_; ++i)
-	{
-		if (equipment_storage_[i].is_empty == true)
-		{
-			return i;
-		}
-	}
-	return -1;
-}
-
-int32 UInventoryManager::GetRuneEmptyIndex() const
-{
-	for (int32 i = 0; i < max_inventory_size_; ++i)
-	{
-		if (rune_storage_[i].is_empty == true)
-		{
-			return i;
-		}
-	}
-	return -1;
-}
-
-bool UInventoryManager::AddEquipment(EWeaponType weapon_type)
-{
-	int32 index = GetEquipmentEmptyIndex();
-	if (index != -1)
-	{
-		FInventorySlotData data;
-		data.weapon_type = weapon_type;
-		data.gear_type = EGearType::Weapon;
-		data.is_empty = false;
-		equipment_storage_[index] = data;
-		return true;
-	}
-	return false;
-}
-
-bool UInventoryManager::AddEquipment(EPassiveSkillType passive_skill_type)
-{
-	int32 index = GetEquipmentEmptyIndex();
-	if (index != -1)
-	{
-		FInventorySlotData data;
-		data.passive_skill_type = passive_skill_type;
-		data.gear_type = EGearType::PassiveSkill;
-		data.is_empty = false;
-		equipment_storage_[index] = data;
-		return true;
-	}
-	return false;
-}
-
-bool UInventoryManager::AddEquipment(EActiveSkillType active_skill_type)
-{
-	int32 index = GetEquipmentEmptyIndex();
-	if (index != -1)
-	{
-		FInventorySlotData data;
-		data.active_skill_type = active_skill_type;
-		data.gear_type = EGearType::ActiveSkill;
-		data.is_empty = false;
-		equipment_storage_[index] = data;
-		return true;
-	}
-	return false;
-}
-
-bool UInventoryManager::AddRune(FRuneData rune_data)
-{
-	int32 index = GetRuneEmptyIndex();
-	if (index != -1)
-	{
-		rune_storage_[index].rune_data = rune_data;
-		rune_storage_[index].is_empty = false;
-		return true;
-	}
-	return false;
-}
-
-bool UInventoryManager::AddRune(ERuneSetType set_type, int32 slot_idx)
-{
-	int32 index = GetRuneEmptyIndex();
-	if (index!= -1)
-	{
-		rune_storage_[index].rune_data = data_table_manager_cache_->GetRuneData(set_type, slot_idx);
-		rune_storage_[index].is_empty = false;
-		return true;
-	}
-	return false;
-}
-
-void UInventoryManager::RemoveEquipItem(int index)
-{
-	equipment_storage_[index] = FInventorySlotData();
-}
-
-void UInventoryManager::RemoveRuneItem(int index)
-{
-	equipment_storage_[index] = FInventorySlotData();
-}
-
-TArray<FInventorySlotData>& UInventoryManager::GetEquipStorageData()
-{
-	return equipment_storage_;
-}
-
-TArray<FRuneSlotData>& UInventoryManager::GetRuneStorageData()
-{
-	return rune_storage_;
-}
-
-int32 UInventoryManager::GetMaxInventorySize()
-{
-	return max_inventory_size_;
 }
 
 void UInventoryManager::SetCredits(int32 credits)

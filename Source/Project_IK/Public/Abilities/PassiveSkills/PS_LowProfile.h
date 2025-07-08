@@ -14,7 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Abilities/PassiveSkills/PassiveSkillBase.h"
 #include "Structs/BuffStatusData.h"
-#include "Structs/BuffUIData.h"
 #include "PS_LowProfile.generated.h"
 
 class UNiagaraSystem;
@@ -41,16 +40,13 @@ protected:
 	void DeactivateParticles();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	TObjectPtr<class UBuffDataAsset> buff_data_asset_;
+	TObjectPtr<class UBuffUIDataAsset> buff_data_asset_;
 	
 	bool is_buff_applied_ = false;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Passive Skills")
 	FBuffStatusData buff_status_data_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Passive Skills")
-	FBuffUIData buff_ui_data_;
-
 	UPROPERTY()
 	TObjectPtr<UNiagaraComponent> left_elbow_particle_;
 

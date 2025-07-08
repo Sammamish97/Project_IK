@@ -197,15 +197,18 @@ void UTargetingComponent::HandleLocationTargeting()
 		{
 			auto heroes = game_mode_cache->GetHeroContainer();
 
-			for (AActor* actor : heroes)
+			for (const auto& elem  : heroes)
 			{
-				//IKTODO: 여기서 actor가 null이 나와 crase가 되는 경우가 있음.
-				FVector to_actor = actor->GetActorLocation() - current_target_result_.target_location_;
-
-				float squared_distance_to_actor = to_actor.SizeSquared();
-				if (squared_distance_to_actor <= squared_radius)
+				if (AActor* cur_actor = elem)
 				{
-					current_target_result_.target_actors_.Add(actor);
+					//IKTODO: 여기서 actor가 null이 나와 crash가 되는 경우가 있음.
+					FVector to_actor = cur_actor->GetActorLocation() - current_target_result_.target_location_;
+
+					float squared_distance_to_actor = to_actor.SizeSquared();
+					if (squared_distance_to_actor <= squared_radius)
+					{
+						current_target_result_.target_actors_.Add(cur_actor);
+					}
 				}
 			}
 		}
@@ -251,13 +254,13 @@ void UTargetingComponent::HandleDirectionTargeting()
 		{
 			auto heroes = game_mode->GetHeroContainer();
 
-			for (AActor* actor : heroes)
+			for (const auto& elem  : heroes)
 			{
-				if (actor)
+				if (AActor* cur_actor = elem)
 				{
-					if (IsWithinSector(origin, direction, target_parameters_.range_, target_parameters_.radius_, actor->GetActorLocation()))
+					if (IsWithinSector(origin, direction, target_parameters_.range_, target_parameters_.radius_, cur_actor->GetActorLocation()))
 					{
-						current_target_result_.target_actors_.Add(actor);
+						current_target_result_.target_actors_.Add(cur_actor);
 					}
 				}
 			}
@@ -466,17 +469,17 @@ AActor* UTargetingComponent::FindClosestActor(const FVector& TargetLocation)
 	if (target_parameters_.target_type_ == ETargetType::All || target_parameters_.target_type_ == ETargetType::Allies)
 	{
 		auto characters = game_mode->GetHeroContainer();
-		for (AActor* actor : characters)
+		for (const auto& elem  : characters)
 		{
-			if (actor)
+			if (AActor* cur_actor = elem)
 			{
-				if (IsActorInRange(actor, squared_range))
+				if (IsActorInRange(cur_actor, squared_range))
 				{
-					float distance_sq = FVector::DistSquared(TargetLocation, actor->GetActorLocation());
+					float distance_sq = FVector::DistSquared(TargetLocation, cur_actor->GetActorLocation());
 					if (distance_sq < closest_distance_sq)
 					{
 						closest_distance_sq = distance_sq;
-						closest_actor = actor;
+						closest_actor = cur_actor;
 					}
 				}
 			}

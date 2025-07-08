@@ -1,24 +1,22 @@
 /******************************************************************************
 Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 2.06.2025
-Summary : Source file for inventory slot widget.
+Creation Date : 7.3.2025
+Summary : Source file for Inventory Slot Widget.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
-#include "UI/InventorySlot.h"
-
+#include "UI/InventorySlots/InventorySlot.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
-#include "Kismet/GameplayStatics.h"
-#include "Managers/DataTableManager.h"
-#include "Structs/ActiveSkillData.h"
-#include "Structs/PassiveSkillData.h"
-#include "Structs/WeaponData.h"
 #include "UI/SlotDragDropImage.h"
-#include "WorldSettings/IKGameInstance.h"
+
+void UInventorySlot::InitInventorySlot(UInventoryWidget* widget_ptr, bool is_board_slot)
+{
+	inventory_widget_cache_ = widget_ptr;
+	is_board_slot_ = is_board_slot;
+}
 
 FReply UInventorySlot::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
@@ -35,7 +33,7 @@ void UInventorySlot::NativeOnDragDetected(const FGeometry& InGeometry, const FPo
 	UDragDropOperation*& OutOperation)
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
-	if (slot_data_.is_empty == true) return;
+	if (is_empty_) return;
 
 	UDragDropOperation* dragdrop_operation = UWidgetBlueprintLibrary::CreateDragDropOperation(UDragDropOperation::StaticClass());
 	dragdrop_operation->Payload = this;
@@ -50,68 +48,51 @@ void UInventorySlot::NativeOnDragDetected(const FGeometry& InGeometry, const FPo
 	OutOperation = dragdrop_operation;
 }
 
+//이 함수는 기본적인 swap가능 여부를 확인한다. 실제 Drop이 일어나는 상황은 이 함수를 상속한 자식 함수에서 구현되어야 한다.
 bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
 	UDragDropOperation* InOperation)
 {
 	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
-	if (InOperation->Payload == this) return false;
-
-	UInventorySlot* slot_from = Cast<UInventorySlot>(InOperation->Payload);
-	if (slot_type_ == EInventorySlotType::WeaponBoardSlot)
+	if (auto casted_inventory_slot = Cast<UInventorySlot>(InOperation->Payload))
 	{
-		if (slot_from->slot_data_.gear_type != EGearType::Weapon)
+		//Drop을 할 수 있는 조건은 다음과 같다.
+		//1. Board가 아닌 slot에는 drop할 수 없다.
+		//2. Drag하는 slot과 drop하는 slot이 동일해야 한다.
+		//3. 자기자신을 drop할 수 없다.
+		if (is_board_slot_ && casted_inventory_slot->slot_type_ == slot_type_ && InOperation->Payload != this)
 		{
-			return false;
+			return true;
 		}
 	}
-	if (slot_type_ == EInventorySlotType::PassiveSkillBoardSlot)
-	{
-		if (slot_from->slot_data_.gear_type != EGearType::PassiveSkill)
-		{
-			return false;
-		}
-	}
-	if (slot_type_ == EInventorySlotType::ActiveSkillBoardSlot)
-	{
-		if (slot_from->slot_data_.gear_type != EGearType::ActiveSkill)
-		{
-			return false;
-		}
-	}
-	Swap(slot_data_, slot_from->slot_data_);
-	SetImageTexture();
-	slot_from->SetImageTexture();
-	return true;
+	return false;
 }
 
 void UInventorySlot::ClearData()
 {
-	slot_data_ = FInventorySlotData();
+	is_empty_ = true;
+	//IKTODO: 이후 비워두는 것이 아닌, 빈칸 텍스쳐를 띄워야 함.
 	image_->SetBrushFromTexture(nullptr);
 }
 
 void UInventorySlot::SetImageTexture()
 {
-	if (slot_data_.is_empty == true)
+	if (is_empty_)
 	{
 		image_->SetBrushFromTexture(nullptr);
-		return;
 	}
-	//IKTODO: 마음에 안드는 부분이다. 더 좋은 방법이 있을것이다.
-	UIKGameInstance* instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	UDataTableManager* data_table_manager = instance->GetDataTableManager();
-	UTexture2D* new_texture = nullptr;
-	if (slot_data_.gear_type == EGearType::Weapon)
-	{
-		new_texture = data_table_manager->GetWeaponStatusData(slot_data_.weapon_type).item_data_.thumbnail;
-	}
-	else if (slot_data_.gear_type == EGearType::PassiveSkill)
-	{
-		new_texture = data_table_manager->GetPassiveSkillData(slot_data_.passive_skill_type).item_data_.thumbnail;
-	}
-	else if (slot_data_.gear_type == EGearType::ActiveSkill)
-	{
-		new_texture = data_table_manager->GetActiveSkillData(slot_data_.active_skill_type).item_data_.thumbnail;
-	}
-	image_->SetBrushFromTexture(new_texture);
+}
+
+EInventorySlotType UInventorySlot::GetSlotType() const
+{
+	return slot_type_;
+}
+
+bool UInventorySlot::IsEmpty() const
+{
+	return is_empty_;
+}
+
+bool UInventorySlot::IsBoardSlot() const
+{
+	return is_board_slot_;
 }

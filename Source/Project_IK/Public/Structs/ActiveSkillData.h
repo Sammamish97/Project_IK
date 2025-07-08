@@ -20,7 +20,7 @@ struct PROJECT_IK_API FActiveSkillData
 	GENERATED_BODY();
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	EActiveSkillType type = EActiveSkillType::INVALID;
+	EActiveSkillType type_ = EActiveSkillType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	TSubclassOf<class UActiveSkillBase> active_skill_class;

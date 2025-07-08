@@ -38,9 +38,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
 	FBuffStatusData buff_status_data_;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
-	FBuffUIData buff_ui_data_;
 
 	void SpawnParticles(AActor* actor);
 	void ActivateParticles();

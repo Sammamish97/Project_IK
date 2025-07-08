@@ -8,6 +8,7 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Managers/CombatLevelResultManager.h"
+#include "Managers/EnumCluster.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "Managers/EnumCluster.h"
@@ -17,7 +18,6 @@ See LICENSE file in the project root for full license information.
 #include "UI/EquipmentRewardWidget.h"
 #include "UI/ToMainMenuWidget.h"
 
-#include "Managers/EnumCluster.h"
 
 void UCombatLevelResultManager::InitializeUI()
 {
@@ -89,6 +89,11 @@ void UCombatLevelResultManager::SwitchUIByState(ECombatEndState state)
 		equipment_reward_widget_->SetVisibility(ESlateVisibility::Visible);
 		main_menu_ui_->SetVisibility(ESlateVisibility::Hidden);
 			break;
+	case ECombatEndState::ShowingInventoryUI:
+		equipment_reward_widget_->SetVisibility(ESlateVisibility::Hidden);
+		break;
+
+	//IKTODO: 좀더 전투 UI와 Map Level UI를 분리해야 한다.
 	case ECombatEndState::ShowingMapUI:
 		UGameplayStatics::GetGameInstance(GetWorld())->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
 		break;

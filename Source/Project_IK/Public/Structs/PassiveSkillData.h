@@ -14,17 +14,17 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "Structs/ItemData.h"
 #include "PassiveSkillData.generated.h"
-
+class UPassiveSkillBase;
 USTRUCT(BlueprintType)
 struct PROJECT_IK_API FPassiveSkillData
 {
 	GENERATED_BODY();
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
-	EPassiveSkillType type = EPassiveSkillType::INVALID;
+	EPassiveSkillType type_ = EPassiveSkillType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PassiveSkillData")
-	TSubclassOf<class UPassiveSkillBase> passive_skill_class;
+	TSubclassOf<UPassiveSkillBase> passive_skill_class;
 	
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	FItemData item_data_;

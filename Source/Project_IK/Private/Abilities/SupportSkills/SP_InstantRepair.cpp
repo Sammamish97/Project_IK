@@ -11,6 +11,9 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 #include "Components/CharacterStatComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Managers/DataTableManager.h"
+#include "WorldSettings/IKGameInstance.h"
 
 USP_InstantRepair::USP_InstantRepair()
 {
@@ -24,6 +27,7 @@ bool USP_InstantRepair::ActivateSkill(const FTargetResult& target_result)
 	EBuffType type = EBuffType::InstantRepair;
 	FBuffStatusData status_data = FBuffStatusData(ECharacterStatType::AttackSpeed, 2.0f, true, false, 3.f);
 	
+	auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 	if(target_result.target_actors_[0])
 	{
 		if (AHeroBase* target_hero = Cast<AHeroBase>(target_result.target_actors_[0]))
@@ -31,7 +35,7 @@ bool USP_InstantRepair::ActivateSkill(const FTargetResult& target_result)
 			target_hero->ApplyBuff(type, status_data);
 			target_hero->Heal(300.f);
 			target_hero->AcquireShield(100.f, 3.f);
-			target_hero->AddBuffUI(FBuffUIData(FText::FromString("InstantRepair"), type, nullptr, 1.f, false, FText::FromString("Test Instnatn Repair")));
+			target_hero->AddBuffUI(data_table_manager_->GetBuffUIData(EBuffType::InstantRepair));
 		}
 	}
 	return Super::ActivateSkill(target_result);

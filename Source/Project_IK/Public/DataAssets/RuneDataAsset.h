@@ -20,6 +20,7 @@ class PROJECT_IK_API URuneDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 public:
+	virtual void PostLoad() override;
 	FRuneSetData GetRuneSetData(ERuneSetType type);
 	FRuneSetData GetRuneSetDataRandomly(ERarity weight_rarity = ERarity::Common);
 	TArray<FRuneSetData> GetRuneSetDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);

@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 #include "UObject/Object.h"
 #include "EnumCluster.h"
 #include "Structs/RuneData.h"
-
 #include "SetBonusManager.generated.h"
 
 typedef TPair<ERuneSetType, TArray<int32>> RuneSetBonus;

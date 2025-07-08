@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SetBonuses/SetBonus_Quake.h"
 
 #include "Characters/HeroBase.h"
-#include "DataAssets/BuffDataAsset.h"
+#include "DataAssets/BuffUIDataAsset.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
 //2세트: 스킬 위력 + 20%
