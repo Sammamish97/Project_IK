@@ -41,8 +41,6 @@ public:
 	UFUNCTION(BlueprintPure)
 	AActor* GetHero(EHeroType type) const noexcept;
 
-	int32 GetHeroCount() const noexcept;
-
 	void ProceedGameFlowAfterUI();
 
 	UFUNCTION(BlueprintPure)
