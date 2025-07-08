@@ -25,6 +25,11 @@ void UWeaponSlotWidget::SetWeaponSlotData(FWeaponData weapon_data)
 	SetImageTexture();
 }
 
+FReply UWeaponSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	inventory_widget_cache_->SetHighlightVisibility(EGearType::Weapon, ESlateVisibility::Visible);
+	return Super::NativeOnPreviewMouseButtonDown(InGeometry, InMouseEvent);}
+
 bool UWeaponSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
                                      UDragDropOperation* InOperation)
 {

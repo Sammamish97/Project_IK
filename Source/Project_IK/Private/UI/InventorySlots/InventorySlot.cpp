@@ -21,6 +21,12 @@ void UInventorySlot::InitInventorySlot(UInventoryWidget* widget_ptr, bool is_boa
 	is_board_slot_ = is_board_slot;
 }
 
+void UInventorySlot::NativeConstruct()
+{
+	Super::NativeConstruct();
+	highlight_image_->SetVisibility(ESlateVisibility::Hidden);
+}
+
 FReply UInventorySlot::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnPreviewMouseButtonDown(InGeometry, InMouseEvent);
@@ -55,6 +61,7 @@ void UInventorySlot::NativeOnDragDetected(const FGeometry& InGeometry, const FPo
 bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
 	UDragDropOperation* InOperation)
 {
+	inventory_widget_cache_->RemoveHighlight();
 	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
 	if (auto casted_inventory_slot = Cast<UInventorySlot>(InOperation->Payload))
 	{
@@ -68,6 +75,12 @@ bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 		}
 	}
 	return false;
+}
+
+void UInventorySlot::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
+{
+	inventory_widget_cache_->RemoveHighlight();
+	Super::NativeOnDragCancelled(InDragDropEvent, InOperation);
 }
 
 void UInventorySlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -108,6 +121,11 @@ void UInventorySlot::SetImageTexture()
 	{
 		image_->SetBrushFromTexture(nullptr);
 	}
+}
+
+void UInventorySlot::SetHighlightImageVisibility(ESlateVisibility visibility)
+{
+	highlight_image_->SetVisibility(visibility);
 }
 
 EInventorySlotType UInventorySlot::GetSlotType() const

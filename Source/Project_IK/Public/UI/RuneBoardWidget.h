@@ -37,6 +37,7 @@ public:
 	void UpdateRuneBoard();
 	void ClearSetBonusEffect();
 	void UpdateSetBonusEffect();
+	TObjectPtr<URuneSlotWidget> GetRuneSlotWidget(int32 idx);
 
 private:
 	TArray<FVector2D> ComputeVertices(float radius);

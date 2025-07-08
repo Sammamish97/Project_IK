@@ -20,8 +20,14 @@ void USupportSkillSlotWidget::NativeConstruct()
 	slot_type_ = EInventorySlotType::SupportSkill;
 }
 
+FReply USupportSkillSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry,
+	const FPointerEvent& InMouseEvent)
+{
+	inventory_widget_cache_->SetHighlightVisibility(EGearType::SupportSkill, ESlateVisibility::Visible);
+	return Super::NativeOnPreviewMouseButtonDown(InGeometry, InMouseEvent);}
+
 bool USupportSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
-	UDragDropOperation* InOperation)
+                                           UDragDropOperation* InOperation)
 {
 	if (Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation))
 	{

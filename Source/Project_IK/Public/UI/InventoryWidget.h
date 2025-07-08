@@ -60,6 +60,10 @@ public:
 	void SetPopupWidgetPos(FVector2D pos);
 	void RemovePopupWidget();
 
+	void SetHighlightVisibility(EGearType type, ESlateVisibility visibility);
+	void SetHighlightVisibility(int32 rune_idx, ESlateVisibility visibility);
+	void RemoveHighlight();
+
 private:
 	UFUNCTION()
 	void OnHero_0_Board_Clicked();
@@ -112,4 +116,6 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<USkillPopupWidget> equip_popup_;
+
+	EGearType last_highlighted_gear_type = EGearType::INVALID;
 };

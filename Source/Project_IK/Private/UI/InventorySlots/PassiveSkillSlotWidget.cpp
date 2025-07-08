@@ -26,6 +26,13 @@ void UPassiveSkillSlotWidget::SetPassiveSkillSlotData(FPassiveSkillData passive_
 	SetImageTexture();
 }
 
+FReply UPassiveSkillSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry,
+	const FPointerEvent& InMouseEvent)
+{
+	inventory_widget_cache_->SetHighlightVisibility(EGearType::PassiveSkill, ESlateVisibility::Visible);
+	return Super::NativeOnPreviewMouseButtonDown(InGeometry, InMouseEvent);
+}
+
 bool UPassiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
                                            UDragDropOperation* InOperation)
 {
