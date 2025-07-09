@@ -14,11 +14,14 @@ See LICENSE file in the project root for full license information.
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "Characters/Unit.h"
-#include "DataAssets/BuffDataAsset.h"
+#include "DataAssets/BuffUIDataAsset.h"
 
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Managers/DataTableManager.h"
+#include "WorldSettings/IKGameInstance.h"
 
 void UPS_Agility::InitEquipmentSkill(AActor* hero_ref)
 {
@@ -28,7 +31,8 @@ void UPS_Agility::InitEquipmentSkill(AActor* hero_ref)
 	buff_duration_ = 3.f;
 	buff_amount_ = 2.0f;
 	buff_status_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, buff_amount_, true, false, buff_duration_);
-	buff_ui_data_ = FBuffUIData(name_, EBuffType::Agility, thumbnail_, 0.f, true, detail_);
+	auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
+	buff_ui_data_ = data_table_manager_->GetBuffUIData(EBuffType::Agility);
 
 	SpawnParticles(Cast<AUnit>(hero_ref));
 }

@@ -33,7 +33,13 @@ struct PROJECT_IK_API FSpawnData
 	TOptional<FWeaponData> weapon_data_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	TOptional<FPassiveSkillData> passive_skill_data_;
+	TOptional<FPassiveSkillData> passive_skill_data_1_;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
+	TOptional<FPassiveSkillData> passive_skill_data_2_;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
+	TOptional<FPassiveSkillData> passive_skill_data_3_;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
 	TOptional<FActiveSkillData> active_skill_data_;

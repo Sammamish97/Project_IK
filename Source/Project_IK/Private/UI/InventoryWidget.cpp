@@ -9,126 +9,164 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "UI/InventoryWidget.h"
+
 #include "Components/Button.h"
-#include "Components/TextBlock.h"
-#include "Components/WidgetSwitcher.h"
-#include "Managers/DataTableManager.h"
-#include "Managers/EnumCluster.h"
-#include "Structs/CharacterData.h"
-#include "UI/EquipBoardWidget.h"
-#include "UI/EquipStorageWidget.h"
+#include "Kismet/GameplayStatics.h"
+#include "Subsystems/LevelTransitionSubsystem.h"
+#include "UI/HeroEquipBoardWidget.h"
+#include "UI/RewardContainerWidget.h"
 #include "UI/RuneBoardWidget.h"
-#include "UI/RuneStorageWidget.h"
+#include "UI/InventorySlots/ActiveSkillSlotWidget.h"
+#include "UI/InventorySlots/SupportSkillSlotWidget.h"
 #include "WorldSettings/IKGameInstance.h"
+#include "WorldSettings/IKHUD.h"
+
+void UInventoryWidget::InitInventoryWidget()
+{
+	reward_container_->SetInventoryWidgetCache(this);
+	rune_board_->SetInventoryWidget(this);
+	rune_board_->LoadRuneBoardWidget();
+
+	TArray hero_type_array = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
+	TArray hero_board_array =  {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_}; 
+	
+	for(int32 i = 0; i < 4; i++)
+	{
+		hero_board_array[i]->InitHeroEquipBoard(this, hero_type_array[i]);
+		hero_board_array[i]->LoadHeroData();
+	}
+
+	ULevelTransitionSubsystem* subsystem = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
+
+	auto saved_support_skill_data = subsystem->GetSupportSkillData();
+	TArray support_skill_widget_array =  {support_skill_0_, support_skill_1_, support_skill_2_};
+	for(int32 i = 0; i < 3; ++i)
+	{
+		support_skill_widget_array[i]->InitInventorySlot(this, true);
+		support_skill_widget_array[i]->SetSupportSkillSlotData(saved_support_skill_data[i]);
+	}
+	
+	hero_board_0_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_0_Board_Clicked);
+	hero_board_1_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_1_Board_Clicked);
+	hero_board_2_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_2_Board_Clicked);
+	hero_board_3_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_3_Board_Clicked);
+
+	confirm_button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnConfirm);
+}
+
+void UInventoryWidget::UpdateSetBonusEffect()
+{
+	rune_board_->UpdateSetBonusEffect();
+}
+
+void UInventoryWidget::AddToRewardContainer(UInventorySlot* slot_ptr)
+{
+	reward_container_->AddToRewardContainer(slot_ptr);
+}
+
+void UInventoryWidget::RemoveFromRewardContainer(UInventorySlot* slot_ptr)
+{
+	reward_container_->RemoveWidgetFromRewardContainer(slot_ptr);
+}
+
+bool UInventoryWidget::CheckDuplicatedActiveSkill(EActiveSkillType type)
+{
+	for (const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
+	{
+		if (elem->active_skill_slot_->GetStoredActiveSkillData().type_ == type)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool UInventoryWidget::CheckDuplicatedSupportSkill(ESupportSkillType type)
+{
+	for (const auto& elem : {support_skill_0_, support_skill_1_, support_skill_2_})
+	{
+		if (elem->GetStoredSupportSkillData().type_ == type)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void UInventoryWidget::LoadSelectedRewards(const FWrapperEquipmentData& rewards)
+{
+	reward_container_->LoadSelectedRewards(rewards);
+}
 
 void UInventoryWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	switch_hero_left_button_->OnClicked.AddDynamic(this, &UInventoryWidget::SwitchToLeftHero);
-	switch_hero_right_button_->OnClicked.AddDynamic(this, &UInventoryWidget::SwitchToRightHero);
-	board_switch_button_->OnClicked.AddDynamic(this, &UInventoryWidget::ToggleBoard);
-
-	cur_hero_idx_ = 0;
-	//hero_name_text_->SetText(FText::FromName(data_table_cache_->GetCharacterData(IntToHeroType(cur_hero_idx_)).character_name_));
-
-	equip_board_->LoadEquipBoard();
-	equip_storage_->LoadEquipStorage();
-
-	board_switcher_->SetActiveWidget(equip_board_);
-	storage_switcher_->SetActiveWidget(equip_storage_);
-
-	rune_board_->InitBoardData(rune_storage_);
-	rune_storage_->InitStorageData(rune_board_);
 }
 
 void UInventoryWidget::NativeDestruct()
 {
 	UpdateInventoryData();
-	
-	switch_hero_left_button_->OnClicked.RemoveAll(this);
-	switch_hero_right_button_->OnClicked.RemoveAll(this);
-	board_switch_button_->OnClicked.RemoveAll(this);
-
 	Super::NativeDestruct();
 }
 
-void UInventoryWidget::InitInventoryWidget(UInventoryManager* inventory_manager)
-{
-	inventory_manager_cache_ = inventory_manager;
-	data_table_cache_ = Cast<UIKGameInstance>(GetGameInstance())->GetDataTableManager();
-	LoadInventoryData();
-}
-
-void UInventoryWidget::ToggleBoard()
-{
-	if (board_switcher_->GetActiveWidgetIndex() == 0)
-	{
-		rune_storage_->UpdateRuneStorage();
-		rune_board_->UpdateRuneBoard();
-
-		rune_storage_->LoadRuneStorage(0);
-		rune_board_->LoadRuneBoardWidget();
-        rune_board_->TurnOnSetBonusEffect();
-		
-		storage_switcher_->SetActiveWidget(rune_storage_);
-		board_switcher_->SetActiveWidget(rune_board_);
-	}
-	else
-	{
-		equip_board_->UpdateEquipBoard();
-		
-		equip_storage_->LoadEquipStorage();
-		equip_board_->LoadEquipBoard();
-		
-		board_switcher_->SetActiveWidget(equip_board_);
-		storage_switcher_->SetActiveWidget(equip_storage_);
-	}
-}
 
 void UInventoryWidget::UpdateInventoryData()
 {
 	rune_board_->UpdateRuneBoard();
-	rune_storage_->UpdateRuneStorage();
-	
-	equip_board_->UpdateEquipBoard();
-	equip_storage_->UpdateEquipStorage();
 }
 
-void UInventoryWidget::LoadInventoryData()
+void UInventoryWidget::OnHero_0_Board_Clicked()
 {
-	rune_board_->LoadRuneBoardWidget();
-	rune_storage_->LoadRuneStorage(0);
-	
-	equip_storage_->LoadEquipStorage();
-	equip_board_->LoadEquipBoard();
+	rune_board_->UpdateRuneBoard();
+	rune_board_->LoadRuneBoardWidget(EHeroType::Hero1);
+	rune_board_->UpdateSetBonusEffect();
 }
 
-void UInventoryWidget::SwitchToLeftHero()
+void UInventoryWidget::OnHero_1_Board_Clicked()
 {
-	UpdateInventoryData();
-	
-	cur_hero_idx_ = FMath::Max(0, cur_hero_idx_ - 1);
-	//hero_name_text_->SetText(FText::FromName(data_table_cache_->GetCharacterData(IntToHeroType(cur_hero_idx_)).character_name_));
-
-	rune_board_->SetCurHeroIdx(cur_hero_idx_);
-	equip_board_->SetCurHeroIdx(cur_hero_idx_);
-	
-	rune_board_->LoadRuneBoardWidget();
-    rune_board_->TurnOnSetBonusEffect();
-	equip_board_->LoadEquipBoard();
+	rune_board_->UpdateRuneBoard();
+	rune_board_->LoadRuneBoardWidget(EHeroType::Hero2);
+	rune_board_->UpdateSetBonusEffect();
 }
 
-void UInventoryWidget::SwitchToRightHero()
+void UInventoryWidget::OnHero_2_Board_Clicked()
 {
-	UpdateInventoryData();
-	
-	cur_hero_idx_ = FMath::Min(cur_hero_idx_ + 1, 3);
-	//hero_name_text_->SetText(FText::FromName(data_table_cache_->GetCharacterData(IntToHeroType(cur_hero_idx_)).character_name_));
+	rune_board_->UpdateRuneBoard();
+	rune_board_->LoadRuneBoardWidget(EHeroType::Hero3);
+	rune_board_->UpdateSetBonusEffect();
+}
 
-	rune_board_->SetCurHeroIdx(cur_hero_idx_);
-	equip_board_->SetCurHeroIdx(cur_hero_idx_);
-	
-	rune_board_->LoadRuneBoardWidget();
-	rune_board_->TurnOnSetBonusEffect();
-	equip_board_->LoadEquipBoard();
+void UInventoryWidget::OnHero_3_Board_Clicked()
+{
+	rune_board_->UpdateRuneBoard();
+	rune_board_->LoadRuneBoardWidget(EHeroType::Hero4);
+	rune_board_->UpdateSetBonusEffect();
+}
+
+void UInventoryWidget::OnConfirm()
+{
+	//현재 룬 보드 정보 저장
+	rune_board_->UpdateRuneBoard();
+
+	//현재 장착된 영웅 장비 정보 저장
+	for (const auto& elem :  {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
+	{
+		elem->UpdateHeroData();
+	}
+
+	//현재 장착된 서포트 스킬 정보 저장.
+	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
+	TMap<int32, FSupportSkillData> support_skill_map;
+	support_skill_map.Add(0, support_skill_0_->GetStoredSupportSkillData());
+	support_skill_map.Add(1, support_skill_1_->GetStoredSupportSkillData());
+	support_skill_map.Add(2, support_skill_2_->GetStoredSupportSkillData());
+	transition_system->UpdateSupportSkillData(support_skill_map);
+
+	//지도 UI 팝업
+	AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+	if (hud)
+	{
+		hud->SwitchUIByState(ECombatEndState::ShowingMapUI);
+	}
 }

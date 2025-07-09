@@ -7,8 +7,6 @@ Summary : Header file for equipment reward widget.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
-
 #include "UI/EquipmentRewardWidget.h"
 
 #include "Kismet/GameplayStatics.h"
@@ -16,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Managers/DataTableManager.h"
 #include "Components/Button.h"
 #include "WorldSettings/IKHUD.h"
+#include "UI/RewardSelectWidget.h"
+#include "Components/HorizontalBox.h"
 
 void UEquipmentRewardWidget::NativeConstruct()
 {
@@ -23,120 +23,126 @@ void UEquipmentRewardWidget::NativeConstruct()
 
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-	// @@ TODO: number of requested data count may differ by acts.
-	equipments_ = game_instance->GetDataTableManager()->GetUniqueEquipmentDataRandomly(NUM_CANDIDATES);
-
-	PopulateCheckboxButtons();
-
-	confirm_button_->OnClicked.AddDynamic(this, &UEquipmentRewardWidget::OnConfirmButtonClicked);
-	for (UCheckboxButtonWidget* widget : equipment_widgets_)
+	// IKTODO: number of requested data count may differ by acts.
+	const auto& equipments_ = game_instance->GetDataTableManager()->GetUniqueEquipmentDataRandomly(NUM_CANDIDATES);
+	
+	for (const auto& elem : equipments_.active_skills_)
 	{
-		widget->OnCheckboxButtonClickedDelegate.AddDynamic(this, &UEquipmentRewardWidget::OnCheckboxButtonClicked);
+		auto new_widget = CreateWidget<URewardSelectWidget>(this, reward_widget_class_);
+		new_widget->SetRewardData(elem);
+		reward_widgets_.Push(new_widget);
+	}
+	for (const auto& elem : equipments_.passive_skills_)
+	{
+		auto new_widget = CreateWidget<URewardSelectWidget>(this, reward_widget_class_);
+		new_widget->SetRewardData(elem);
+		reward_widgets_.Push(new_widget);
+	}
+	for (const auto& elem : equipments_.weapons_)
+	{
+		auto new_widget = CreateWidget<URewardSelectWidget>(this, reward_widget_class_);
+		new_widget->SetRewardData(elem);
+		reward_widgets_.Push(new_widget);
+	}
+	for (const auto& elem : equipments_.runes_)
+	{
+		auto new_widget = CreateWidget<URewardSelectWidget>(this, reward_widget_class_);
+		new_widget->SetRewardData(elem);
+		reward_widgets_.Push(new_widget);
+	}
+	for (const auto& elem : equipments_.support_skills_)
+	{
+		auto new_widget = CreateWidget<URewardSelectWidget>(this, reward_widget_class_);
+		new_widget->SetRewardData(elem);
+		reward_widgets_.Push(new_widget);
 	}
 
-	checked_equipment_num_ = 0;
+	for (const auto& elem : reward_widgets_)
+	{
+		elem->SetEquipmentWidgetCache(this);
+		reward_container_->AddChildToHorizontalBox(elem);
+	}
+
+	confirm_button_->OnClicked.AddDynamic(this, &UEquipmentRewardWidget::OnConfirmButtonClicked);
 }
 
 void UEquipmentRewardWidget::NativeDestruct()
 {
 	Super::NativeDestruct();
 
-	equipment_widgets_.Empty();
+	reward_widgets_.Empty();
 	confirm_button_->OnClicked.Clear();
 }
 
-void UEquipmentRewardWidget::PopulateCheckboxButtons()
+void UEquipmentRewardWidget::IncreaseSelectedCounter()
 {
-	int32 row = 0, column = 0;
-
-	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	// @@ TODO: number of requested data count may differ by acts.
-	UDataTableManager* data_table_manager = game_instance->GetDataTableManager();
-	CreateCheckboxButton(equipments_.active_skills_, row, column);
-	CreateCheckboxButton(equipments_.passive_skills_, row, column);
-	for (const FRuneData& data : equipments_.runes_)
+	selected_amount = FMath::Min(selected_amount + 1, MAX_CHOICE);
+	//만약 선택 한계에 도달했다면, 선택되지 못한 widget들을 disable 시킨다.
+	if (selected_amount >= MAX_CHOICE)
 	{
-		UCheckboxButtonWidget* cb = WidgetTree->ConstructWidget<UCheckboxButtonWidget>(check_box_button_class_);
-		if (cb)
+		for (auto& elem : reward_widgets_)
 		{
-			UGridSlot* slot = equipment_container_->AddChildToGrid(cb, row, column);
-			if (slot)
+			if (elem->GetIsChecked() == false)
 			{
-				slot->SetPadding(FMargin(64.f, 16.f));
+				elem->SetIsEnabled(false);
 			}
-
-			//cb->SetButtonTexture(data_table_manager->GetRuneSetThumbnail(data.set_type));
-
-			equipment_widgets_.Add(cb);
-			column += 1;
 		}
 	}
-	CreateCheckboxButton(equipments_.weapons_, row, column);
+}
+
+void UEquipmentRewardWidget::DecreaseSelectedCounter()
+{
+	selected_amount = FMath::Max(selected_amount - 1, 0);
+	//모든 widget을 enable 시킨다.
+	for (auto& elem : reward_widgets_)
+	{
+		elem->SetIsEnabled(true);
+	}	
+}
+
+bool UEquipmentRewardWidget::AbleToSelectMoreReward()
+{
+	return selected_amount < MAX_CHOICE;
 }
 
 void UEquipmentRewardWidget::OnConfirmButtonClicked()
 {
-	int32 index = 0;
-
-	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	UInventoryManager* inventory_manager = game_instance->GetInventoryManager();
-	AddToInventory(equipments_.active_skills_, index, inventory_manager);
-	AddToInventory(equipments_.passive_skills_, index, inventory_manager);
-	AddToInventory(equipments_.weapons_, index, inventory_manager);
-
-	for (const auto& data : equipments_.runes_)
-	{
-		if (equipment_widgets_[index]->IsChecked())
-		{
-			// Add it to inventory
-			inventory_manager->AddRune(data);
-		}
-
-		index += 1;
-	}
-
-	// Update HUD status
+	FWrapperEquipmentData selected_reward_data;
 	AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 	if (hud)
 	{
-		hud->SwitchUIByState(ECombatEndState::ShowingMapUI);
-	}
-}
-
-void UEquipmentRewardWidget::OnCheckboxButtonClicked()
-{
-	for (UCheckboxButtonWidget* widget : equipment_widgets_)
-	{
-		// Finish callbackfunction if toggled.
-		if (ToggleCheckboxButton(widget))
+		for (const auto& elem : reward_widgets_)
 		{
-			return;
-		}
-	}
-}
-
-bool UEquipmentRewardWidget::ToggleCheckboxButton(UCheckboxButtonWidget* widget)
-{
-	if (widget->IsHovered())
-	{
-		if (widget->IsChecked())
-		{
-			if (checked_equipment_num_ < MAX_CHOICE)
+			if (elem->GetIsChecked())
 			{
-				++checked_equipment_num_;
-			}
-			else
-			{
-				// When user tries selecting items more than inventory capacity,
-				// Toggle again to make it not pressed. 
-				widget->ToggleChecked();
+				const auto& reward_data = elem->GetRewardData();
+				switch (reward_data.gear_type_)
+				{
+				case EGearType::Weapon:
+					selected_reward_data.weapons_.Push(reward_data.weapon_data_);
+					break;
+				case EGearType::ActiveSkill:
+					selected_reward_data.active_skills_.Push(reward_data.active_skill_data_);
+					break;
+				case EGearType::PassiveSkill:
+					selected_reward_data.passive_skills_.Push(reward_data.passive_skill_data_);
+					break;
+				case EGearType::Rune:
+					selected_reward_data.runes_.Push(reward_data.rune_data_);
+					break;
+				case EGearType::SupportSkill:
+					selected_reward_data.support_skills_.Push(reward_data.support_skill_data_);
+					break;
+				default:
+					break;
+					//IKTODO: 예외처리
+				}
 			}
 		}
-		else
-		{
-			--checked_equipment_num_;
-		}
-		return true;
+
+		UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		auto inventory_manager = game_instance->GetInventoryManager();
+		inventory_manager->OpenInventoryWidgetReward(selected_reward_data);
+		hud->SwitchUIByState(ECombatEndState::ShowingInventoryUI);
 	}
-	return false;
 }

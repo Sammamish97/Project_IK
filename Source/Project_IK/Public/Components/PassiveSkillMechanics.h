@@ -15,15 +15,11 @@ See LICENSE file in the project root for full license information.
 #include "Structs/PassiveSkillData.h"
 #include "PassiveSkillMechanics.generated.h"
 
-
+class UPassiveSkillBase;
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class PROJECT_IK_API UPassiveSkillMechanics : public UActorComponent
 {
 	GENERATED_BODY()
-
-public:
-	// Sets default values for this component's properties
-	UPassiveSkillMechanics();
 
 protected:
 	// Called when the game starts
@@ -37,7 +33,13 @@ public:
 	
 private:
 	FPassiveSkillData equipped_passive_skill_data_;
-	UPassiveSkillBase* passive_skill_cache_;
+	
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UPassiveSkillBase> passive_skill_cache_;
+
+	UPROPERTY()
 	class UDataTableManager* data_table_cache_;
+
+	UPROPERTY()
 	class AHeroBase* hero_cache_;
 };

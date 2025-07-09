@@ -15,9 +15,6 @@ See LICENSE file in the project root for full license information.
 
 class UGlobalBuffDisplayer;
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API AIKMapHUD : public AHUD
 {
@@ -25,15 +22,6 @@ class PROJECT_IK_API AIKMapHUD : public AHUD
 
 public:
 	virtual void BeginPlay() override;
-	
-	UFUNCTION(BlueprintCallable)
-	void PopUpInventory();
-	
-	UFUNCTION(BlueprintCallable)
-	void RemoveInventory();
-	
-	UFUNCTION(BlueprintCallable)
-	void ToggleInventory();
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleMap();
@@ -42,17 +30,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<class UUserWidget> map_widget_class_;
 
-	UPROPERTY(EditAnywhere, Category = "UI")
-	TSubclassOf<class UInventoryWidget> inventory_widget_class_;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UGlobalBuffDisplayer> global_buff_displayer_class_;
 
 	UPROPERTY()
 	TObjectPtr<UUserWidget> map_widget_;
-	
-	UPROPERTY()
-	TObjectPtr<UInventoryWidget> inventory_widget_;
 
 	UPROPERTY()
 	TObjectPtr<UGlobalBuffDisplayer> global_buff_displayer_;

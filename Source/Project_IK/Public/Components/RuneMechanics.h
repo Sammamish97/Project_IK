@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/ActorComponent.h"
 #include "Managers/EnumCluster.h"
 #include "Structs/RuneData.h"
+#include "Structs/RuneSetData.h"
 #include "RuneMechanics.generated.h"
 typedef TPair<ERuneSetType, TArray<int32>> RuneSetBonus;
 

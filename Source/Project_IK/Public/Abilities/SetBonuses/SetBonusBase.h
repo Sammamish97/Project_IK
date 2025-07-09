@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "UObject/Object.h"
 #include "SetBonusBase.generated.h"
 
-class UBuffDataAsset;
+class UBuffUIDataAsset;
 class AHeroBase;
 class UNiagaraSystem;
 

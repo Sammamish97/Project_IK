@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 class USetBonusManager;
 class UIKMaps;
 class UCharacterDataManager;
+class UInventoryManager;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UIKGameInstance : public UGameInstance
@@ -61,9 +62,6 @@ private:
 	class UIKMaps* maps_;
 
 	UPROPERTY()
-	TObjectPtr<UInventoryManager> inventory_manager_;
-
-	UPROPERTY()
 	TObjectPtr<UDataTableManager> data_table_manager_;
 	
 	UPROPERTY()
@@ -71,6 +69,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UEventManager> event_manager_;
+	
+	UPROPERTY()
+	TObjectPtr<UInventoryManager> inventory_manager_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UDataTableManager> data_table_class_;
@@ -80,4 +81,7 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UEventManager> event_manager_class_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UInventoryManager> inventory_manager_class_;
 };

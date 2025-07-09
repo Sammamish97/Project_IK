@@ -43,9 +43,6 @@ protected:
 	void DeactivateParticles();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Passive Skills")
-	FBuffUIData buff_ui_data_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Passive Skills")
 	FBuffStatusData as_status_data_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Passive Skills")

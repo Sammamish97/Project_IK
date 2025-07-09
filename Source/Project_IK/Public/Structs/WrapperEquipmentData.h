@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SupportSkillData.h"
 #include "Structs/ActiveSKillData.h"
 #include "Structs/PassiveSkillData.h"
 #include "Structs/RuneData.h"
@@ -22,9 +23,9 @@ struct FWrapperEquipmentData
 {
 	GENERATED_BODY()
 
-public:
+	TArray<FWeaponData> weapons_;
 	TArray<FActiveSkillData> active_skills_;
 	TArray<FPassiveSkillData> passive_skills_;
+	TArray<FSupportSkillData> support_skills_;
 	TArray<FRuneData> runes_;
-	TArray<FWeaponData> weapons_;
 };

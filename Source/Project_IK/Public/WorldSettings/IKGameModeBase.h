@@ -27,13 +27,16 @@ class PROJECT_IK_API AIKGameModeBase : public AGameModeBase
 public:
 	AIKGameModeBase();
 
+	virtual void StartPlay() override;
 	virtual void BeginPlay() override;
 
 	void SpawnHeroes();
 	void SpawnEnemies();
 
-	UFUNCTION(BlueprintPure)
-	TArray<AActor*> GetHeroContainer() const noexcept;
+	UFUNCTION(BlueprintCallable)
+	void SaveHeroSpawnData();
+
+	const TArray<TObjectPtr<AActor>>& GetHeroContainer() const noexcept;
 
 	UFUNCTION(BlueprintPure)
 	AActor* GetHero(EHeroType type) const noexcept;
@@ -65,15 +68,12 @@ public:
 	TSubclassOf<UEnemySpawnerManager> enemy_spawner_manager_class_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Spawn")
-	TArray<TSubclassOf<class AHeroBase>> hero_bp_class_;
+	TMap<EHeroType, TSubclassOf<class AHeroBase>> hero_bp_class_;
 	
 protected:
-
-	void SaveHeroSpawnData();
 	void CheckWinLoseCondition();
 
 	void OnGameWin();
-
 	void OnGameLose();
 
 	void DisplayCombatResult();

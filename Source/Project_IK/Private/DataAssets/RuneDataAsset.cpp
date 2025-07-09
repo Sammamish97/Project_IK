@@ -12,6 +12,15 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/RandomDataAssetsManager.h"
 
+void URuneDataAsset::PostLoad()
+{
+	Super::PostLoad();
+	for (auto& elem : rune_data_map_)
+	{
+		elem.Value.Init();
+	}
+}
+
 FRuneSetData URuneDataAsset::GetRuneSetData(ERuneSetType type)
 {
 	checkf(rune_data_map_.Find(type), TEXT("Can't find Rune Set Type in the Rune data map!"));

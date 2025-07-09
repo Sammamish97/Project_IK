@@ -14,13 +14,12 @@ See LICENSE file in the project root for full license information.
 #include "UObject/NoExportTypes.h"
 #include "CombatLevelResultManager.generated.h"
 
+class UInventoryWidget;
 enum class ECombatEndState : uint8;
 class UCombatResultUI;
 class UEquipmentRewardWidget;
 class UToMainMenuWidget;
-/**
- * 
- */
+
 UCLASS(Blueprintable)
 class PROJECT_IK_API UCombatLevelResultManager : public UObject
 {
@@ -41,13 +40,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UEquipmentRewardWidget> equipment_reward_widget_class_;
 
-
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
 	TSubclassOf<UToMainMenuWidget> main_menu_ui_class_ = nullptr;
 
 protected:
-
 	UPROPERTY()
 	TObjectPtr<UCombatResultUI> combat_result_widget_;
 

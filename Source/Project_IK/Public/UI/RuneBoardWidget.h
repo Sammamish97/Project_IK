@@ -11,28 +11,45 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Managers/EnumCluster.h"
 #include "RuneBoardWidget.generated.h"
-
+class UInventoryWidget;
 class URuneSlotWidget;
-
+class URuneBoardEdgeWidget;
+class UOverlay;
 UCLASS()
 class PROJECT_IK_API URuneBoardWidget : public UUserWidget
 {
 	GENERATED_BODY()
-
+	struct Edge
+	{
+		FVector2D mid_point;
+		float length;
+		float angle;
+	};
 public:
-	virtual void NativePreConstruct() override;
-	void InitBoardData(TObjectPtr<class URuneStorageWidget> storage_ptr);
+	void SetInventoryWidget(UInventoryWidget* widget_ptr);
+	virtual void NativeConstruct() override;
+	//Spawn data를 탐색하며 살아있는 최초의 영웅의 rune board를 load.
 	void LoadRuneBoardWidget();
+	//선택된 하나의 rune board를 load.
+	void LoadRuneBoardWidget(EHeroType hero_type);
 	void UpdateRuneBoard();
 	void ClearSetBonusEffect();
-	void TurnOnSetBonusEffect();
-	void SetSelectedBorder(int32 rune_idx);
-	void SetCurHeroIdx(int32 hero_idx);
+	void UpdateSetBonusEffect();
+
+private:
+	TArray<FVector2D> ComputeVertices(float radius);
+	TArray<Edge> ComputeEdges(const TArray<FVector2D>& vertices);
 	
 private:
-	UPROPERTY(Transient)
-	int32 hero_idx_cache_ = 0;
+	EHeroType cur_hero_type_ = EHeroType::INVALID;
+	
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<UOverlay> rune_overlay_ = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	TObjectPtr<UOverlay> line_overlay_ = nullptr;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<URuneSlotWidget> slot_0_ = nullptr;
@@ -54,45 +71,38 @@ private:
 
 	//
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UProgressBar> line_0_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_0_ = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UProgressBar> line_1_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_1_ = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UProgressBar> line_2_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_2_ = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UProgressBar> line_3_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_3_ = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UProgressBar> line_4_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_4_ = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UProgressBar> line_5_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_5_ = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UProgressBar> line_6_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_6_ = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UProgressBar> line_7_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_7_ = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UProgressBar> line_8_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_8_ = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UProgressBar> line_9_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_9_ = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UProgressBar> line_10_ = nullptr;
+	TObjectPtr<URuneBoardEdgeWidget> line_10_ = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UProgressBar> line_11_ = nullptr;
-
-	//
-	UPROPERTY(Transient)
-	TArray<TObjectPtr<URuneSlotWidget>> slot_array_;
-
-	UPROPERTY(Transient)
-	TArray<TObjectPtr<UProgressBar>> line_array_;
+	TObjectPtr<URuneBoardEdgeWidget> line_11_ = nullptr;
 };

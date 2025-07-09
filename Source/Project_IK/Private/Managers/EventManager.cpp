@@ -102,33 +102,33 @@ void UEventManager::Event_1_ThirdOptionResult()
 //Event 2: 장비
 void UEventManager::Event_2_FirstOptionResult()
 {
-	inventory_manager_->AddEquipment(EWeaponType::AssaultRifle_B);
+	//inventory_manager_->AddEquipment(EWeaponType::AssaultRifle_B);
 }
 
 void UEventManager::Event_2_SecondOptionResult()
 {
-	inventory_manager_->AddEquipment(EActiveSkillType::Thunder);
+	//inventory_manager_->AddEquipment(EActiveSkillType::Thunder);
 }
 
 void UEventManager::Event_2_ThirdOptionResult()
 {
-	inventory_manager_->AddEquipment(EActiveSkillType::Thunder);
+	//inventory_manager_->AddEquipment(EActiveSkillType::Thunder);
 }
 
 //Event 3: 룬
 void UEventManager::Event_3_FirstOptionResult()
 {
-	inventory_manager_->AddRune(ERuneSetType::Chariot, 0);
+	//inventory_manager_->AddRune(ERuneSetType::Chariot, 0);
 }
 
 void UEventManager::Event_3_SecondOptionResult()
 {
-	inventory_manager_->AddRune(ERuneSetType::Chariot, 1);
+	//inventory_manager_->AddRune(ERuneSetType::Chariot, 1);
 }
 
 void UEventManager::Event_3_ThirdOptionResult()
 {
-	inventory_manager_->AddRune(ERuneSetType::Chariot, 2);
+	//inventory_manager_->AddRune(ERuneSetType::Chariot, 2);
 }
 
 //Event 4: 글로벌 버프

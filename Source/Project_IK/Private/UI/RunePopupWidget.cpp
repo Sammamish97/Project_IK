@@ -54,7 +54,6 @@ void URunePopupWidget::UpdateRuneData(EHeroType type)
 		}
 
 		auto cur_set_data = data_table_cache_->GetRuneSetData(elem.Key);
-
 		
 		auto new_widget = CreateWidget<URunePopupDetailWidget>(this, rune_popup_detail_widget_class_);
 		new_widget->thumbnail_->SetBrushFromTexture(cur_set_data.item_data_.thumbnail);

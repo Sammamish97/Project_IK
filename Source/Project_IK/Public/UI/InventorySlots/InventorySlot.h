@@ -1,47 +1,52 @@
 /******************************************************************************
 Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 2.06.2025
-Summary : Header file for inventory slot widget.
+Creation Date : 7.3.2025
+Summary : Header file for Inventory Slot Widget.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
+
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Managers/EnumCluster.h"
-#include "Structs/InventorySlotData.h"
+#include "Structs/ItemData.h"
 #include "InventorySlot.generated.h"
 
+class USlotDragDropImage;
+class UInventoryWidget;
 
 UCLASS()
 class PROJECT_IK_API UInventorySlot : public UUserWidget
 {
 	GENERATED_BODY()
-private:
+public:
+	void InitInventorySlot(UInventoryWidget* widget_ptr, bool is_board_slot = true);
 	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-	
-public:
-	void ClearData();
-	void SetImageTexture();
-	
-private:
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UButton> button_;
-	
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
-	TObjectPtr<class UImage> image_;
-	
+	virtual void SetImageTexture();
+
+	EInventorySlotType GetSlotType() const;
+	virtual void ClearData();
+	bool IsEmpty() const;
+	bool IsBoardSlot() const;
+
+protected:
+	UPROPERTY()
+	EInventorySlotType slot_type_ = EInventorySlotType::INVALID;
+
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TSubclassOf<UUserWidget> dragdrop_image_class_;
+	TSubclassOf<USlotDragDropImage> dragdrop_image_class_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UInventoryWidget> inventory_widget_cache_;
 	
-public:
-	//SlotType은 현재 slot이 어떤 장비를 위한 slot인지 판별하기 위한 Enum이다.
-	EInventorySlotType slot_type_= EInventorySlotType::INVALID;
-	FInventorySlotData slot_data_;
-	int grid_idx_;
+	UPROPERTY(meta=(BindWidget))
+	TObjectPtr<class UImage> image_;
+
+	bool is_empty_ = true;
+	bool is_board_slot_ = true;
 };

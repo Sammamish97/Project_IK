@@ -45,6 +45,7 @@ enum class ECombatEndState : uint8
 {
 	ShowingCombatResultUI UMETA(DisplayName = "ShowingCombatResultUI"),
 	ShowingEquipmentRewardUI UMETA(DisplayName = "ShowingEquipmentRewardUI"),
+	ShowingInventoryUI UMETA(DisplayName = "ShowingInventoryUI"),
 	ShowingMapUI UMETA(DisplayName = "ShowingMapUI"),
 	ShowingToMainmenu UMETA(DisplayName = "ShowingToMainmenu"),
 };
@@ -234,16 +235,24 @@ enum class EGearType : uint8
 	Weapon UMETA(DisplayName = "Weapon"),
 	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
 	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
+	SupportSkill UMETA(DisplayName = "SupportSkill"),
+	Rune UMETA(DisplayName = "Rune"),
 };
 
 UENUM(BlueprintType)
 enum class EInventorySlotType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
-	WeaponBoardSlot UMETA(DisplayName = "WeaponBoardSlot"),
-	ActiveSkillBoardSlot UMETA(DisplayName = "ActiveSkillBoardSlot"),
-	PassiveSkillBoardSlot UMETA(DisplayName = "PassiveSkillBoardSlot"),
-	InventorySlot UMETA(DisplayName = "InventorySlot"),
+	Weapon UMETA(DisplayName = "WeaponBoardSlot"),
+	ActiveSkill UMETA(DisplayName = "ActiveSkillBoardSlot"),
+	PassiveSkill UMETA(DisplayName = "PassiveSkillBoardSlot"),
+	SupportSkill UMETA(DisplayName = "SupportSkillBoardSlot"),
+	Rune_0 UMETA(DisplayName = "Rune_0"),
+	Rune_1 UMETA(DisplayName = "Rune_0"),
+	Rune_2 UMETA(DisplayName = "Rune_0"),
+	Rune_3 UMETA(DisplayName = "Rune_0"),
+	Rune_4 UMETA(DisplayName = "Rune_0"),
+	Rune_5 UMETA(DisplayName = "Rune_0"),
 };
 
 UENUM(BlueprintType)

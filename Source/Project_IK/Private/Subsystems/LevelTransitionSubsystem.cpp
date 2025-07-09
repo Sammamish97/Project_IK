@@ -21,6 +21,14 @@ class UIKGameInstance;
 void ULevelTransitionSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
+	support_skill_data_.Add(0, FSupportSkillData());
+	support_skill_data_.Add(1, FSupportSkillData());
+	support_skill_data_.Add(2, FSupportSkillData());
+
+	spawn_data_.Add(EHeroType::Hero1, FSpawnData());
+	spawn_data_.Add(EHeroType::Hero1, FSpawnData());
+	spawn_data_.Add(EHeroType::Hero1, FSpawnData());
+	spawn_data_.Add(EHeroType::Hero1, FSpawnData());
 }
 
 void ULevelTransitionSubsystem::Deinitialize()
@@ -28,22 +36,30 @@ void ULevelTransitionSubsystem::Deinitialize()
 	Super::Deinitialize();
 }
 
-void ULevelTransitionSubsystem::UpdateSpawnData(const TArray<FSpawnData>& data)
+void ULevelTransitionSubsystem::UpdateSpawnData(const TMap<EHeroType, FSpawnData>& data)
 {
 	spawn_data_.Empty();
-	for(auto elem : data)
-	{
-		spawn_data_.Add(elem);
-	}
+	spawn_data_ = data;
 }
 
-void ULevelTransitionSubsystem::UpdateSpawnDataIdx(int32 idx, FSpawnData data)
+void ULevelTransitionSubsystem::UpdateSpawnDataIdx(EHeroType type, FSpawnData data)
 {
-	if (spawn_data_.Num() < idx)
+	spawn_data_[type] = data;
+}
+
+void ULevelTransitionSubsystem::UpdateSupportSkillDataIdx(int32 idx, FSupportSkillData data)
+{
+	if(support_skill_data_.Contains(idx))
 	{
-		UE_LOG(LogTemp, Error, TEXT("SpawnData is out of range"));
+		support_skill_data_.Remove(idx);
 	}
-	spawn_data_[idx] = data;
+	support_skill_data_[idx] = data;
+}
+
+void ULevelTransitionSubsystem::UpdateSupportSkillData(const TMap<int32, FSupportSkillData>& data)
+{
+	support_skill_data_.Empty();
+	support_skill_data_ = data;
 }
 
 void ULevelTransitionSubsystem::OpenMapLevel(UWorld* world)
@@ -79,12 +95,17 @@ void ULevelTransitionSubsystem::OpenLevel(UWorld* world, FIntPoint map_position)
 	}
 }
 
-const TArray<FSpawnData>& ULevelTransitionSubsystem::GetSpawnData() const
+const TMap<EHeroType, FSpawnData>& ULevelTransitionSubsystem::GetSpawnData() const
 {
 	return spawn_data_;
 }
 
-FSpawnData ULevelTransitionSubsystem::GetSpawnData(int32 idx) const
+FSpawnData ULevelTransitionSubsystem::GetSpawnData(EHeroType type) const
 {
-	return spawn_data_[idx];
+	return spawn_data_[type];
+}
+
+const TMap<int32, FSupportSkillData>& ULevelTransitionSubsystem::GetSupportSkillData() const
+{
+	return support_skill_data_;
 }

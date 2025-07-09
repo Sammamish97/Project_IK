@@ -18,22 +18,6 @@ See LICENSE file in the project root for full license information.
 void AIKMapHUD::BeginPlay()
 {
 	Super::BeginPlay();
-	if(inventory_widget_class_)
-	{
-		inventory_widget_ = CreateWidget<UInventoryWidget>(GetWorld(), inventory_widget_class_);
-		if(inventory_widget_)
-		{
-			auto instance = UGameplayStatics::GetGameInstance(GetWorld());
-			auto ik_instance = Cast<UIKGameInstance>(instance);
-			if(ik_instance)
-			{
-				inventory_widget_->InitInventoryWidget(ik_instance->GetInventoryManager());
-				inventory_widget_->AddToViewport();
-				inventory_widget_->SetVisibility(ESlateVisibility::Hidden);
-			}
-		}
-	}
-
 	if (map_widget_class_)
 	{
 		map_widget_ = CreateWidget<UUserWidget>(GetWorld(), map_widget_class_);
@@ -50,31 +34,6 @@ void AIKMapHUD::BeginPlay()
 		{
 			global_buff_displayer_->AddToViewport();
 		}
-	}
-}
-
-void AIKMapHUD::PopUpInventory()
-{
-	inventory_widget_->AddToViewport();
-	auto controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	controller->bShowMouseCursor = true;
-}
-
-void AIKMapHUD::RemoveInventory()
-{
-	inventory_widget_->RemoveFromParent();
-	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;
-}
-
-void AIKMapHUD::ToggleInventory()
-{
-	if (inventory_widget_->GetVisibility() == ESlateVisibility::Hidden)
-	{
-		inventory_widget_->SetVisibility(ESlateVisibility::Visible);
-	}
-	else
-	{
-		inventory_widget_->SetVisibility(ESlateVisibility::Hidden);
 	}
 }
 

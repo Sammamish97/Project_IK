@@ -27,12 +27,11 @@ void AEnemy_Officer::BeginPlay()
 	Super::BeginPlay();
 	auto game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	auto delegate_bridge = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
-	auto heros = game_mode->GetHeroContainer();
-	for(auto& hero : heros)
+	for(auto& hero_elem : game_mode->GetHeroContainer())
 	{
-		if (hero)
+		if(hero_elem)
 		{
-			delegate_bridge->BindOnHPChangedWithOwner(Cast<AUnit>(hero)->GetCharacterStat(), this, &AEnemy_Officer::PointTarget);
+			delegate_bridge->BindOnHPChangedWithOwner(Cast<AUnit>(hero_elem)->GetCharacterStat(), this, &AEnemy_Officer::PointTarget);
 		}
 	}
 }

@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/RuneSetData.h"
 
 #include "DataAssets/ActiveSkillDataAsset.h"
+#include "DataAssets/BuffUIDataAsset.h"
 #include "DataAssets/RuneDataAsset.h"
 #include "DataAssets/WeaponDataAsset.h"
 #include "DataAssets/GlobalBuffDataAsset.h"
@@ -173,6 +174,42 @@ TArray<FActiveSkillData> UDataTableManager::GetUniqueActiveSkillDataRandomly(int
 	return active_skill_data_asset_->GetUniqueActiveSkillDataRandomly(n, weight_rarity);
 }
 
+FSupportSkillData UDataTableManager::GetSupportSkillData(ESupportSkillType type) const
+{
+	return support_skill_data_asset_->GetSupportSkillData(type);
+}
+
+FString UDataTableManager::SupportSkillEnumToString(ESupportSkillType support_skill_type) const
+{
+	FString string;
+	switch (support_skill_type)
+	{
+	case ESupportSkillType::Reposition:
+		string = TEXT("Reposition");
+		break;
+	case ESupportSkillType::InstantRepair:
+		string = TEXT("InstantRepair");
+		break;
+	case ESupportSkillType::SupportFire:
+		string = TEXT("SupportFire");
+		break;
+	default:
+		string = TEXT("Empty");
+		break;
+	}
+	return string;
+}
+
+FSupportSkillData UDataTableManager::GetSupportSkillDataRandomly(ERarity weight_rarity) const
+{
+	return support_skill_data_asset_->GetSupportSkillDataRandomly(weight_rarity);
+}
+
+TArray<FSupportSkillData> UDataTableManager::GetUniqueSupportSkillDataRandomly(int32 n, ERarity weight_rarity) const
+{
+	return support_skill_data_asset_->GetUniqueSupportSkillDataRandomly(n, weight_rarity);
+}
+
 const FCharacterData& UDataTableManager::GetCharacterData(ECharacterType char_type) const
 {
 	return character_stat_data_asset_->GetCharacterData(char_type);
@@ -277,5 +314,10 @@ TSubclassOf<AUnit> UDataTableManager::GetUnitType(ECharacterType type)
 
 FSupportSkillData UDataTableManager::GetSupportSkillType(ESupportSkillType type)
 {
-	return support_skill_type_asset_->GetSupportSkillClass(type);
+	return support_skill_type_asset_->GetSupportSkillData(type);
+}
+
+FBuffUIData UDataTableManager::GetBuffUIData(EBuffType type)
+{
+	return buff_ui_data_asset_->GetBuffUIData(type);
 }
