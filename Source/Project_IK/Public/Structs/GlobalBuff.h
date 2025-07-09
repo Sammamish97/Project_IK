@@ -24,10 +24,10 @@ struct FGlobalBuffData
     UTexture2D* buff_texture_ = nullptr;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString buff_name_ = "";
+    FText buff_name_;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString buff_description = "";
+    FText buff_description;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TSubclassOf<UGlobalBuffLogicBase> buff_logic_class_ = nullptr;

@@ -89,7 +89,7 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 		{
 			if (GetWorld()->GetTimerManager().IsTimerActive(active_skill_timers_[casted_hero->GetHeroType()]) == false)
 			{
-				player_controller_cache_->StartTargeting(casted_hero->GetActiveSkillTargetParameters());
+				player_controller_cache_->StartTargeting(casted_hero->GetActiveSkillTargetParameters(), casted_hero);
 				selected_skill_ = casted_hero->GetActiveSkill();
 				selected_hero_type_ = hero_type;
 				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdateSkillPopupData(selected_hero_type_);

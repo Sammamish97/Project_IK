@@ -39,5 +39,5 @@ struct PROJECT_IK_API FRuneSetData
 	ERuneSetType set_type = ERuneSetType::INVALID;
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-	TMap<ERuneBonusType, FString> bonus_details_;
+	TMap<ERuneBonusType, FText> bonus_details_;
 };

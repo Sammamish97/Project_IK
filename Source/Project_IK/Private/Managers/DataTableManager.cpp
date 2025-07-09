@@ -32,46 +32,6 @@ FWeaponData UDataTableManager::GetWeaponStatusData(EWeaponType type) const
 	return weapon_data_asset_->GetWeaponData(type);
 }
 
-FString UDataTableManager::WeaponEnumToString(EWeaponType weapon_type) const
-{
-	FString string;
-	switch (weapon_type)
-	{
-	case EWeaponType::DefaultPistol:
-		string = TEXT("DefaultPistol");
-		break;
-	case EWeaponType::Pistol_B:
-		string = TEXT("Pistol_B");
-		break;
-	case EWeaponType::AssaultRifle_B:
-		string = TEXT("AssaultRifle_B");
-		break;
-	case EWeaponType::ShotGun_B:
-		string = TEXT("ShotGun_B");
-		break;
-	case EWeaponType::SniperRifle_B:
-		string = TEXT("SniperRifle_B");
-		break;
-
-	case EWeaponType::Pistol_A:
-		string = TEXT("Pistol_A");
-		break;
-	case EWeaponType::AssaultRifle_A:
-		string = TEXT("AssaultRifle_A");
-		break;
-	case EWeaponType::ShotGun_A:
-		string = TEXT("ShotGun_A");
-		break;
-	case EWeaponType::SniperRifle_A:
-		string = TEXT("SniperRifle_A");
-		break;
-	default:
-		string = TEXT("Empty");
-		break;
-	}
-	return string;
-}
-
 FWeaponData UDataTableManager::GetWeaponDataRandomly(ERarity weight_rarity) const
 {
 	return weapon_data_asset_->GetWeaponDataRandomly(weight_rarity);
@@ -179,7 +139,7 @@ UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type) const
 	return GetRuneSetData(type).item_data_.thumbnail;
 }
 
-FString UDataTableManager::GetRuneSetBonusDetail(ERuneSetType set_type, ERuneBonusType bonus_type) const
+FText UDataTableManager::GetRuneSetBonusDetail(ERuneSetType set_type, ERuneBonusType bonus_type) const
 {
 	return GetRuneSetData(set_type).bonus_details_[bonus_type];
 }
@@ -187,24 +147,6 @@ FString UDataTableManager::GetRuneSetBonusDetail(ERuneSetType set_type, ERuneBon
 FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type) const
 {
 	return passive_skill_data_asset_->GetPassiveSkillData(type);
-}
-
-FString UDataTableManager::PassiveSkillEnumToString(EPassiveSkillType type) const
-{
-	FString string;
-	switch (type)
-	{
-	case EPassiveSkillType::FixedDmgReduce:
-		string = TEXT("FixedDmgReduce");
-		break;
-	case EPassiveSkillType::RandDmgIncrease:
-		string = TEXT("RandDmgIncrease");
-		break;
-	default:
-		string = TEXT("Empty");
-		break;
-	}
-	return string;
 }
 
 FPassiveSkillData UDataTableManager::GetPassiveSkillDataRandomly(ERarity weight_rarity) const
@@ -220,24 +162,6 @@ TArray<FPassiveSkillData> UDataTableManager::GetUniquePassiveSkillDataRandomly(i
 FActiveSkillData UDataTableManager::GetActiveSkillData(EActiveSkillType type) const
 {
 	return active_skill_data_asset_->GetActiveSkillData(type);
-}
-
-FString UDataTableManager::ActiveSkillEnumToString(EActiveSkillType active_skill_type) const
-{
-	FString string;
-	switch (active_skill_type)
-	{
-	case EActiveSkillType::Thunder:
-		string = TEXT("Thunder");
-		break;
-	case EActiveSkillType::RapidFire:
-		string = TEXT("RapidFire");
-		break;
-	default:
-		string = TEXT("Empty");
-		break;
-	}
-	return string;
 }
 
 FActiveSkillData UDataTableManager::GetActiveSkillDataRandomly(ERarity weight_rarity) const
@@ -289,30 +213,6 @@ TArray<FSupportSkillData> UDataTableManager::GetUniqueSupportSkillDataRandomly(i
 const FCharacterData& UDataTableManager::GetCharacterData(ECharacterType char_type) const
 {
 	return character_stat_data_asset_->GetCharacterData(char_type);
-}
-
-FString UDataTableManager::HeroEnumToString(ECharacterType char_type) const
-{
-	FString char_string;
-	switch (char_type)
-	{
-	case ECharacterType::Hero1:
-		char_string = TEXT("1");
-		break;
-	case ECharacterType::Hero2:
-		char_string = TEXT("2");
-		break;
-	case ECharacterType::Hero3:
-		char_string = TEXT("3");
-		break;
-	case ECharacterType::Hero4:
-		char_string = TEXT("4");
-		break;
-	default:
-		char_string = TEXT("1");
-		break;
-	}
-	return char_string;
 }
 
 void UDataTableManager::EnhanceCharacterData(ECharacterType char_type, ECharacterStatType stat_type, float increase_amount)

@@ -32,7 +32,7 @@ struct PROJECT_IK_API FTargetParameters
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Targeting")
 	float range_;
 
-	// A radius of selected area, an arc width for direction mode
+	// A radius of selected area, an arc width in 360degree for direction mode 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Targeting")
 	float radius_;
 

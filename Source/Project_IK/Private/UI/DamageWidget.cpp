@@ -15,13 +15,17 @@ See LICENSE file in the project root for full license information.
 
 void UDamageWidget::SetDamageAmount(float DamageAmount)
 {
-	damage_text_->SetText(FText::FromString(FString::Printf(TEXT("%.1f"), DamageAmount)));
+	FNumberFormattingOptions format_options;
+	format_options.MinimumIntegralDigits = 1;
+	format_options.MinimumFractionalDigits = 1;
+	format_options.MaximumFractionalDigits = 1;
+	damage_text_->SetText(FText::AsNumber(DamageAmount, &format_options));
 	opacity_ = 1.f;
 }
 
 void UDamageWidget::SetMissed()
 {
-	damage_text_->SetText(FText::FromString("Missed"));
+	damage_text_->SetText(NSLOCTEXT("UI", "DamageUIMissed", "Missed"));
 	opacity_ = 1.f;
 }
 

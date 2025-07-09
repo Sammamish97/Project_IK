@@ -68,9 +68,9 @@ void UCombatResultBlock::SetHoveredTextOpacity(float opacity)
 	hovered_text_->SetFont(font);
 }
 
-void UCombatResultBlock::SetHoveredText(FString string)
+void UCombatResultBlock::SetHoveredText(FText text)
 {
-	hovered_text_->SetText(FText::FromString(string));
+	hovered_text_->SetText(text);
 }
 
 void UCombatResultBlock::NativeConstruct()
