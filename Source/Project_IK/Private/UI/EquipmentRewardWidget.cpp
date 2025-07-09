@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/Button.h"
 #include "WorldSettings/IKHUD.h"
 #include "UI/RewardSelectWidget.h"
-#include "Components/HorizontalBox.h"
+#include "Components/UniformGridPanel.h"
 
 void UEquipmentRewardWidget::NativeConstruct()
 {
@@ -57,10 +57,13 @@ void UEquipmentRewardWidget::NativeConstruct()
 		reward_widgets_.Push(new_widget);
 	}
 
+	const int32 width_size = 4;
+	int32 counter = 0;
 	for (const auto& elem : reward_widgets_)
 	{
 		elem->SetEquipmentWidgetCache(this);
-		reward_container_->AddChildToHorizontalBox(elem);
+		reward_container_->AddChildToUniformGrid(elem, counter / width_size, counter % width_size);
+		counter += 1;
 	}
 
 	confirm_button_->OnClicked.AddDynamic(this, &UEquipmentRewardWidget::OnConfirmButtonClicked);

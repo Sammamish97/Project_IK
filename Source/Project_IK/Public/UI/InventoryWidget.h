@@ -114,8 +114,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
 	TSubclassOf<USkillPopupWidget> equip_popup_class_;
 
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<USkillPopupWidget> equip_popup_;
+	UPROPERTY()
+	TObjectPtr<USkillPopupWidget> equip_popup_ptr_;
 
 	EGearType last_highlighted_gear_type = EGearType::INVALID;
 };

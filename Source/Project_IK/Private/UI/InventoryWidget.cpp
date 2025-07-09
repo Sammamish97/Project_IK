@@ -112,30 +112,30 @@ void UInventoryWidget::NativeDestruct()
 
 void UInventoryWidget::CreatePopupWidget(const FItemData& item_data)
 {
-	if(equip_popup_class_ && equip_popup_ == nullptr)
+	if(equip_popup_class_ && equip_popup_ptr_ == nullptr)
 	{
-		equip_popup_ = CreateWidget<USkillPopupWidget>(this, equip_popup_class_);
-		equip_popup_->UpdatePopupData(item_data);
-		equip_popup_->AddToViewport();
-		equip_popup_->SetVisibility(ESlateVisibility::HitTestInvisible);
+		equip_popup_ptr_ = CreateWidget<USkillPopupWidget>(this, equip_popup_class_);
+		equip_popup_ptr_->UpdatePopupData(item_data);
+		equip_popup_ptr_->AddToViewport();
+		equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
 	}
 }
 
 void UInventoryWidget::SetPopupWidgetPos(FVector2D pos)
 {
-	if(equip_popup_)
+	if(equip_popup_ptr_)
 	{
-		equip_popup_->SetPositionInViewport(pos);
+		equip_popup_ptr_->SetPositionInViewport(pos);
 	}
 }
 
 void UInventoryWidget::RemovePopupWidget()
 {
-	if(equip_popup_)
+	if(equip_popup_ptr_)
 	{
-		equip_popup_->Destruct();
-		equip_popup_->SetVisibility(ESlateVisibility::Hidden);
-		equip_popup_ = nullptr;
+		equip_popup_ptr_->Destruct();
+		equip_popup_ptr_->SetVisibility(ESlateVisibility::Hidden);
+		equip_popup_ptr_ = nullptr;
 	}
 }
 
