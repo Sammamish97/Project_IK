@@ -53,11 +53,13 @@ public:
 	{
 		return GetWidth() * GetHeight();
 	}
+	// Col
 	UFUNCTION(BlueprintCallable, Category = "Map")
 	inline int32 GetWidth() const
 	{
 		return map[0].Num();
 	}
+	// Row
 	UFUNCTION(BlueprintCallable, Category = "Map")
 	inline int32 GetHeight() const
 	{

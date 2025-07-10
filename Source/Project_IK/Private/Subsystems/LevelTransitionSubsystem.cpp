@@ -21,14 +21,8 @@ class UIKGameInstance;
 void ULevelTransitionSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
-	support_skill_data_.Add(0, FSupportSkillData());
-	support_skill_data_.Add(1, FSupportSkillData());
-	support_skill_data_.Add(2, FSupportSkillData());
 
-	spawn_data_.Add(EHeroType::Hero1, FSpawnData());
-	spawn_data_.Add(EHeroType::Hero1, FSpawnData());
-	spawn_data_.Add(EHeroType::Hero1, FSpawnData());
-	spawn_data_.Add(EHeroType::Hero1, FSpawnData());
+	ClearSpawnData();
 }
 
 void ULevelTransitionSubsystem::Deinitialize()
@@ -108,4 +102,18 @@ FSpawnData ULevelTransitionSubsystem::GetSpawnData(EHeroType type) const
 const TMap<int32, FSupportSkillData>& ULevelTransitionSubsystem::GetSupportSkillData() const
 {
 	return support_skill_data_;
+}
+
+void ULevelTransitionSubsystem::ClearSpawnData()
+{
+	support_skill_data_.Empty();
+	support_skill_data_.Add(0, FSupportSkillData());
+	support_skill_data_.Add(1, FSupportSkillData());
+	support_skill_data_.Add(2, FSupportSkillData());
+
+	spawn_data_.Empty();
+	spawn_data_.Add(EHeroType::Hero1, FSpawnData());
+	spawn_data_.Add(EHeroType::Hero2, FSpawnData());
+	spawn_data_.Add(EHeroType::Hero3, FSpawnData());
+	spawn_data_.Add(EHeroType::Hero4, FSpawnData());
 }

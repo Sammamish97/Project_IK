@@ -245,6 +245,12 @@ void AIKGameModeBase::OnGameLose()
 	if (IsAllHeroesPermanentlyDead())
 	{
 		has_game_won_ = false;
+
+		UIKGameInstance* ik_instance = Cast<UIKGameInstance>(GetGameInstance());
+		if (ik_instance)
+		{
+			ik_instance->ClearRunData();
+		}
 	}
 }
 

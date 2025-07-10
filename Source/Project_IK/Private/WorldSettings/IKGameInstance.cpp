@@ -20,6 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "Subsystems/PerkTreeSubsystem.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
+#include "Subsystems/GlobalBuffSubsystem.h"
 
 UIKGameInstance::UIKGameInstance()
 	:Super::UGameInstance()
@@ -58,16 +59,30 @@ void UIKGameInstance::Shutdown()
 	Super::Shutdown();
 }
 
+void UIKGameInstance::ClearRunData()
+{
+
+	UGlobalBuffSubsystem* global_buff_subsystem = GetSubsystem<UGlobalBuffSubsystem>();
+	global_buff_subsystem->ClearBuffs();
+
+	int32 height = maps_->GetHeight();
+	int32 width = maps_->GetWidth();
+	maps_->GenerateMaps(height, width);
+
+	ULevelTransitionSubsystem* level_transition_subsystem = GetSubsystem<ULevelTransitionSubsystem>();
+	level_transition_subsystem->ClearSpawnData();
+}
+
 void UIKGameInstance::InitSpawnData()
 {
 	TMap<EHeroType, FSpawnData> spawn_data_map;
 	TArray char_type_array = { ECharacterType::Hero1, ECharacterType::Hero2, ECharacterType::Hero3, ECharacterType::Hero4 };
-	TArray hero_type_array = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
-	for(int32 i = 0; i < 4; ++i)
+	TArray hero_type_array = { EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4 };
+	for (int32 i = 0; i < 4; ++i)
 	{
 		FSpawnData spawn_data;
 		spawn_data.character_data_ = data_table_manager_->GetCharacterData(char_type_array[i]);
-		spawn_data_map.Add({hero_type_array[i], spawn_data});
+		spawn_data_map.Add({ hero_type_array[i], spawn_data });
 	}
 	GetSubsystem<ULevelTransitionSubsystem>()->UpdateSpawnData(spawn_data_map);
 }

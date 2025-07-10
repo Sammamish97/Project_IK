@@ -37,6 +37,8 @@ public:
 
 	bool HasBuff(EGlobalBuffType buff_type);
 
+	void ClearBuffs();
+
 	void UpdateBuffDurations();
 
 	const TArray<FGlobalBuffData>& GetBuffs();

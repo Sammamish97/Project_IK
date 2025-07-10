@@ -30,6 +30,8 @@ public:
 	virtual void Init() override;
 	virtual void Shutdown() override;
 
+	void ClearRunData();
+
 	UFUNCTION(BlueprintPure)
 	class UIKMaps* GetMapPtr() const noexcept;
 	UFUNCTION(BlueprintPure)
@@ -59,7 +61,7 @@ private:
 	void InitEventManager();
 
 	UPROPERTY()
-	class UIKMaps* maps_;
+	TObjectPtr<UIKMaps> maps_;
 
 	UPROPERTY()
 	TObjectPtr<UDataTableManager> data_table_manager_;

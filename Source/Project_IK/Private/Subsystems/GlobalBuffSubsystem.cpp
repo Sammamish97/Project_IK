@@ -96,6 +96,13 @@ bool UGlobalBuffSubsystem::HasBuff(EGlobalBuffType buff_type)
 	return existing_index != nullptr;
 }
 
+void UGlobalBuffSubsystem::ClearBuffs()
+{
+	buff_lookup_.Empty();
+	buffs_.Empty();
+	buff_logic_containers_.Empty();
+}
+
 void UGlobalBuffSubsystem::UpdateBuffDurations()
 {
 	for (FGlobalBuffData& buff : buffs_)
