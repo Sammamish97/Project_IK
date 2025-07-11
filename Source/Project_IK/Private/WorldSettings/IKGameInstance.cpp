@@ -69,8 +69,7 @@ void UIKGameInstance::ClearRunData()
 	int32 width = maps_->GetWidth();
 	maps_->GenerateMaps(height, width);
 
-	ULevelTransitionSubsystem* level_transition_subsystem = GetSubsystem<ULevelTransitionSubsystem>();
-	level_transition_subsystem->ClearSpawnData();
+	InitSpawnData();
 }
 
 void UIKGameInstance::InitSpawnData()

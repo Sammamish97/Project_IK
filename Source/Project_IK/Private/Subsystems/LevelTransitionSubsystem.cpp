@@ -58,13 +58,13 @@ void ULevelTransitionSubsystem::UpdateSupportSkillData(const TMap<int32, FSuppor
 
 void ULevelTransitionSubsystem::OpenMapLevel(UWorld* world)
 {
+	GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->UpdateBuffDurations();
 	UGameplayStatics::OpenLevel(world, FName("MapInventoryLevel"));
 }
 
 void ULevelTransitionSubsystem::OpenLevel(UWorld* world, FIntPoint map_position)
 {
 	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
-	instance->GetSubsystem<UGlobalBuffSubsystem>()->UpdateBuffDurations();
 	FMapNode node = instance->GetMapPtr()->GetNode(map_position.X, map_position.Y);
 	instance->GetMapPtr()->SetPlayerGridPosition(map_position);
 	switch (node.type)
@@ -112,8 +112,4 @@ void ULevelTransitionSubsystem::ClearSpawnData()
 	support_skill_data_.Add(2, FSupportSkillData());
 
 	spawn_data_.Empty();
-	spawn_data_.Add(EHeroType::Hero1, FSpawnData());
-	spawn_data_.Add(EHeroType::Hero2, FSpawnData());
-	spawn_data_.Add(EHeroType::Hero3, FSpawnData());
-	spawn_data_.Add(EHeroType::Hero4, FSpawnData());
 }
