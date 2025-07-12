@@ -110,7 +110,7 @@ void UGotchaWidget::SetTickets(int32 tickets)
 
 void UGotchaWidget::UpdateGotchaTicketCount()
 {
-	tickets_count_text_->SetText(FText::FromString(FString::Printf(TEXT("%d"), tickets_)));
+	tickets_count_text_->SetText(FText::AsNumber(tickets_));
 }
 
 void UGotchaWidget::Gotcha(int32 pulls)

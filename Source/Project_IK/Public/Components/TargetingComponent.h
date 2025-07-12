@@ -80,7 +80,6 @@ private:
 	UPROPERTY()
 	APlayerController* player_controller_;
 	FTargetParameters target_parameters_;
-	FTargetResult current_target_result_;
 
 	// Components for visual feedback
 	UPROPERTY()
@@ -94,11 +93,13 @@ private:
 	TObjectPtr<AActor> invoker_;
 
 	UPROPERTY()
-	TObjectPtr<AActor> last_chosen_unit_;
+	TSet<AActor*> previously_chosen_units_;
 	
-	void HandleActorTargeting();
-	void HandleLocationTargeting();
-	void HandleDirectionTargeting();
+	void HandleActorTargeting(FTargetResult& result);
+	void HandleLocationTargeting(FTargetResult& result);
+
+	// It returns normalized direction that has Z field 0.
+	FVector HandleDirectionTargeting(FTargetResult& result);
 	
 	void InitializeTargetingVisuals();
 	void UpdateTargetingVisuals();
@@ -111,9 +112,9 @@ private:
 	
 	// The function is for Actor targeting mode.
 	AActor* FindClosestActor(const FVector& TargetLocation);
-	void ApplyMaterialHighlight(AActor* target);
+	void ApplyMaterialHighlight(TArray<AActor*> targets);
 
-	bool IsWithinSector(const FVector& origin, const FVector& direction, float range, float angle, const FVector& actor_location);
+	bool IsWithinSector(const FVector& origin, const FVector& normalized_direction, float range, float angle, const FVector& actor_location);
 	bool IsActorInRange(AActor* actor, float squared_range);
 
 	void StartFocus();

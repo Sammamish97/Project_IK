@@ -23,10 +23,4 @@ struct PROJECT_IK_API FTargetResult
 
 	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
 	FVector target_location_ = FVector::ZeroVector;
-
-	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
-	FRotator target_rotation_ = FRotator::ZeroRotator;
-
-	UPROPERTY(BlueprintReadWrite, Category = "Targeting")
-	FTargetParameters target_parameters_;
 };

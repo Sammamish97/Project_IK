@@ -54,6 +54,7 @@ void AIKHUD::BeginPlay()
 	if (button_widget_class_)
 	{
 		button_bar_widget_ = CreateWidget<UButtonBarWidget>(world, button_widget_class_);
+		
 		//액티브 스킬 UI에 썸네일을 Bind.
 		auto game_mode =  Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		auto hero_types = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
@@ -107,7 +108,7 @@ void AIKHUD::BeginPlay()
 		auto equipped_support_data = transition_system->GetSupportSkillData();
 		for (int32 i = 0; i < 3; i++)
 		{
-			if (equipped_support_skills.Contains(i))
+			if (equipped_support_skills[i] != nullptr)
 			{
 				auto cur_skill_button_widget = button_bar_widget_->GetSupportSkillButtonWidget(i);
 				cur_skill_button_widget->SetThumbnailTexture(equipped_support_data[i].item_data_.thumbnail);

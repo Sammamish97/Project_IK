@@ -165,20 +165,6 @@ const TArray<TObjectPtr<AActor>>& AIKGameModeBase::GetHeroContainer() const noex
 	return heroes_;
 }
 
-int32 AIKGameModeBase::GetHeroCount() const noexcept
-{
-	int32 count = 0;
-	for (const auto& elem : heroes_)
-	{
-		TWeakObjectPtr<AActor> hero_ptr = elem;
-		if (hero_ptr.IsValid())
-		{
-			++count;
-		}
-	}
-	return count;
-}
-
 AActor* AIKGameModeBase::GetHero(EHeroType type) const noexcept
 {
 	return heroes_[HeroTypeToInt(type)];
@@ -197,13 +183,7 @@ void AIKGameModeBase::RemoveHero(EHeroType hero_type)
 	//2. 사망 진행 작업이 끝나면 해당 index의 hero를 제거 후 null로 변경.
 	heroes_[HeroTypeToInt(hero_type)] = nullptr;
 
-	//3. SpawnData의 dead를 false로 update.
-	ULevelTransitionSubsystem* level_transition_cache = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
-	FSpawnData spawn_data = level_transition_cache->GetSpawnData(hero_type);
-	spawn_data.is_dead_ = true;
-	level_transition_cache->UpdateSpawnDataIdx(hero_type, spawn_data);
-
-	//4. Win-Lose Condition Check
+	//3. Win-Lose Condition Check
 	CheckWinLoseCondition();
 }
 
@@ -266,8 +246,6 @@ void AIKGameModeBase::OnGameLose()
 	{
 		has_game_won_ = false;
 	}
-
-	DisplayCombatResult();
 }
 
 void AIKGameModeBase::RecordDamage(float damage, TWeakObjectPtr<AActor> attacker)
@@ -336,11 +314,10 @@ void AIKGameModeBase::DisplayCombatResult()
 
 bool AIKGameModeBase::IsDefeated() const
 {
-	for (const auto& elem : heroes_)
+	for (AActor* elem : heroes_)
 	{
-		TWeakObjectPtr<AActor> actor = elem;
 		// hero become null explicitly if it died
-		if (!actor.IsExplicitlyNull())
+		if (elem)
 		{
 			return false;
 		}

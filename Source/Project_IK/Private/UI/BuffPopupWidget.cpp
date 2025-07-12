@@ -23,8 +23,8 @@ void UBuffPopupWidget::ResetWidget()
 {
 	SetVisibility(ESlateVisibility::Hidden);
 	thumbnail_->SetBrushFromTexture(nullptr);
-	name_->SetText(FText::FromString(""));
-	detail_->SetText(FText::FromString(""));
+	name_->SetText(NSLOCTEXT("UI", "BuffPopupName", "name"));
+	detail_->SetText(NSLOCTEXT("UI", "BuffPopupDetail", "detail"));
 }
 
 void UBuffPopupWidget::SetBuffDetail(FBuffUIData target_data)

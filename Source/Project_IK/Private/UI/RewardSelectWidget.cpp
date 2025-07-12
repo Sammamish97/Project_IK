@@ -28,7 +28,7 @@ void URewardSelectWidget::SetRewardData(const FActiveSkillData& data)
 	
 	thumbnail_->SetBrushFromTexture(reward_data_.active_skill_data_.item_data_.thumbnail);
 	name_->SetText(reward_data_.active_skill_data_.item_data_.name_);
-	detail_->SetText(reward_data_.active_skill_data_.item_data_.detail_);
+	detail_->SetText(reward_data_.active_skill_data_.item_data_.detail_.Evaluate({}));
 }
 
 void URewardSelectWidget::SetRewardData(const FPassiveSkillData& data)
@@ -38,7 +38,7 @@ void URewardSelectWidget::SetRewardData(const FPassiveSkillData& data)
 
 	thumbnail_->SetBrushFromTexture(reward_data_.passive_skill_data_.item_data_.thumbnail);
 	name_->SetText(reward_data_.passive_skill_data_.item_data_.name_);
-	detail_->SetText(reward_data_.passive_skill_data_.item_data_.detail_);
+	detail_->SetText(reward_data_.passive_skill_data_.item_data_.detail_.Evaluate({}));
 }
 
 void URewardSelectWidget::SetRewardData(const FRuneData& data)
@@ -48,7 +48,7 @@ void URewardSelectWidget::SetRewardData(const FRuneData& data)
 
 	thumbnail_->SetBrushFromTexture(reward_data_.rune_data_.item_data_.thumbnail);
 	name_->SetText(reward_data_.rune_data_.item_data_.name_);
-	detail_->SetText(reward_data_.rune_data_.item_data_.detail_);
+	detail_->SetText(reward_data_.rune_data_.item_data_.detail_.Evaluate({}));
 }
 
 void URewardSelectWidget::SetRewardData(const FWeaponData& data)
@@ -58,7 +58,7 @@ void URewardSelectWidget::SetRewardData(const FWeaponData& data)
 
 	thumbnail_->SetBrushFromTexture(reward_data_.weapon_data_.item_data_.thumbnail);
 	name_->SetText(reward_data_.weapon_data_.item_data_.name_);
-	detail_->SetText(reward_data_.weapon_data_.item_data_.detail_);
+	detail_->SetText(reward_data_.weapon_data_.item_data_.detail_.Evaluate({}));
 }
 
 void URewardSelectWidget::SetRewardData(const FSupportSkillData& data)
@@ -68,7 +68,7 @@ void URewardSelectWidget::SetRewardData(const FSupportSkillData& data)
 
 	thumbnail_->SetBrushFromTexture(reward_data_.support_skill_data_.item_data_.thumbnail);
 	name_->SetText(reward_data_.support_skill_data_.item_data_.name_);
-	detail_->SetText(reward_data_.support_skill_data_.item_data_.detail_);
+	detail_->SetText(reward_data_.support_skill_data_.item_data_.detail_.Evaluate({}));
 }
 
 void URewardSelectWidget::SetEquipmentWidgetCache(UEquipmentRewardWidget* equipment_widget_ptr)

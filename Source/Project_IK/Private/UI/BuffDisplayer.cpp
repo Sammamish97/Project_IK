@@ -52,8 +52,8 @@ void UBuffDisplayer::SetDuplicatedText(int32 Duplicated)
 	{
 		duplicated_text_->SetVisibility(ESlateVisibility::Visible);
 	}
-	FString tmp = FString::Printf(TEXT("x%d"), Duplicated);
-	duplicated_text_->SetText(FText::FromString(tmp));
+
+	duplicated_text_->SetText(FText::Format(NSLOCTEXT("UI", "BuffDisplayerDuplicated", "x{0}"), Duplicated));
 }
 
 void UBuffDisplayer::HideText() const

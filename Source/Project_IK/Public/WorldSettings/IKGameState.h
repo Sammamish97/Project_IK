@@ -30,7 +30,7 @@ public:
 	
 	UFUNCTION()
 	bool UseEnergy(float amount);
-	const TMap<int32, TObjectPtr<USupportSkillBase>>& GetSupportSkillPtr() const;
+	const TArray<TObjectPtr<USupportSkillBase>>& GetSupportSkillPtr() const;
 	UFUNCTION(BlueprintPure)
 	class UEnergySystemComponent* GetEnergySystemComponent();
 	UFUNCTION()
@@ -52,15 +52,15 @@ private:
 	
 	UPROPERTY()
 	TObjectPtr<AIKPlayerController> player_controller_cache_;
-	
-	UPROPERTY()
-	TMap<int32, TObjectPtr<USupportSkillBase>> equipped_support_skill_map_;
 
 	UPROPERTY()
 	TMap<EHeroType, FTimerHandle> active_skill_timers_;
-
+	
 	UPROPERTY()
-	TMap<int32, FTimerHandle> support_skill_timers_;
+	TArray<TObjectPtr<USupportSkillBase>> equipped_support_skills_;
+	
+	UPROPERTY()
+	TArray<FTimerHandle> support_skill_timers_;
 
 	UPROPERTY()
 	TObjectPtr<USkillBase> selected_skill_;
