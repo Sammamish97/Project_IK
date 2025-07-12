@@ -153,7 +153,15 @@ void URewardContainerWidget::NativeConstruct()
 	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 0));
 	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 2));
 	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 4));
-	//
+
+	auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
+
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Ricochet_B));
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Ricochet_A));
+
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::MagnetizedBullet_B));
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::MagnetizedBullet_A));
+
 	
 	for (auto weapon_data : reward_cache_.weapons_)
 	{

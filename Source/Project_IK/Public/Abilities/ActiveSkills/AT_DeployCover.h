@@ -19,7 +19,7 @@ See LICENSE file in the project root for full license information.
 class ACover;
 class UNiagaraSystem;
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UAT_DeployCover : public UActiveSkillBase, public FTickableGameObject
 {
 	GENERATED_BODY()

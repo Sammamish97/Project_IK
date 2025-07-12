@@ -9,7 +9,6 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Components/BulletChainEffectComponent.h"
 
-#include "Abilities/ActiveSkills/ATC_MagnetizedEffect.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Characters/Unit.h"
 
@@ -62,16 +61,9 @@ void UBulletChainEffectComponent::OnHit(AActor* target)
 	{
 		if (AUnit* cur_unit = Cast<AUnit>(visited[i]))
 		{
+			//도탄 데미지 전달.
 			FDamageData dmg_data = {77.f, 0, EDamageType::Projectile, shooter_,cur_unit};
 			cur_unit->GetDamage(dmg_data);
-			if (auto magnetized_effect = cur_unit->FindComponentByClass<UATC_MagnetizedEffect>())
-			{
-				magnetized_effect->IncreaseStack();
-			}
-			else
-			{
-				cur_unit->AddComponentByClass(UATC_MagnetizedEffect::StaticClass(), false, cur_unit->GetTransform(), false);
-			}
 		}
 	}
 }

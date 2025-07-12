@@ -541,15 +541,18 @@ UENUM(BlueprintType)
 enum class EBuffType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
+	//Active
+	MagnetizedBullet_A UMETA(DisplayName = "MagnetizedBullet_A"),
+
+	//Passive
 	InstantRepair UMETA(DisplayName = "InstantRepair"),
-	Accelerate UMETA(DisplayName = "Accelerate"),
 	Encourage UMETA(DisplayName = "Encourage"),
 	DeployCover UMETA(DisplayName = "DeployCover"),
 	Agility UMETA(DisplayName = "Agility"),
 	Berserker UMETA(DisplayName = "Berserker"),
 	LowProfile UMETA(DisplayName = "LowProfile"),
-	Deathbound UMETA(DisplayName = "Deathbound"),
-	
+
+	//Rune
 	Chariot_Edge UMETA(DisplayName = "Chariot_Edge"),
 	Chariot_Triangle UMETA(DisplayName = "Chariot_Edge"),
 	Chariot_Hexagon UMETA(DisplayName = "Chariot_Hexagon"),
@@ -565,4 +568,8 @@ enum class EBuffType : uint8
 	Viper_Edge UMETA(DisplayName = "Viper_Edge"),
 	Viper_Triangle UMETA(DisplayName = "Viper_Triangle"),
 	Viper_Hexagon UMETA(DisplayName = "Viper_Hexagon"),
+
+	//Global
+	Deathbound UMETA(DisplayName = "Deathbound"),
+
 };

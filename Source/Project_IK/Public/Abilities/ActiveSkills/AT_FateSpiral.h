@@ -18,10 +18,7 @@ See LICENSE file in the project root for full license information.
 
 class AFateSpiral;
 
-/**
- * 
- */
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UAT_FateSpiral : public UActiveSkillBase
 {
 	GENERATED_BODY()

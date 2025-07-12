@@ -18,10 +18,7 @@ See LICENSE file in the project root for full license information.
 // It will be replaced to ASentryGun or something.
 class ACover;
 
-/**
- * 
- */
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UAT_DeploySentryGun : public UActiveSkillBase
 {
 	GENERATED_BODY()

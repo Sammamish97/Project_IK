@@ -17,10 +17,7 @@ See LICENSE file in the project root for full license information.
 
 class AThunderStorm;
 
-/**
- * 
- */
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UAT_ThunderStorm : public UActiveSkillBase
 {
 	GENERATED_BODY()

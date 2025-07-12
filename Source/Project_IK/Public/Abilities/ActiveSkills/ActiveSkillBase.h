@@ -30,12 +30,15 @@ public:
 	void ApplyDamage(FDamageData DamageData);
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float casting_time_ = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float scaling_factor_ = 1.f;
 
 	UPROPERTY()
 	TObjectPtr<AActor> skill_owner_ = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	bool is_upgraded_ = false;
 };

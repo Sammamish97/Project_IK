@@ -11,36 +11,11 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/Unit.h"
 
-// Sets default values for this component's properties
-UATC_MagnetizedEffect::UATC_MagnetizedEffect()
-{
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
-}
-
-// Called when the game starts
-void UATC_MagnetizedEffect::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-	
-}
 
 void UATC_MagnetizedEffect::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	GetWorld()->GetTimerManager().ClearTimer(duration_timer_handle_);
 	Super::EndPlay(EndPlayReason);
-}
-
-// Called every frame
-void UATC_MagnetizedEffect::TickComponent(float DeltaTime, ELevelTick TickType,
-                                          FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
 void UATC_MagnetizedEffect::IncreaseStack()
