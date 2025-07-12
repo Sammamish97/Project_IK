@@ -22,5 +22,6 @@ void USkillPopupWidget::UpdatePopupData(const FItemData& item_data)
 {
 	thumbnail_->SetBrushFromTexture(item_data.thumbnail);
 	skill_name_->SetText(item_data.name_);
-	skill_detail_->SetText(item_data.detail_);
+	//IKTODO: 이후 적절한 값을 Evaluate에 넣어야 한다.
+	//skill_detail_->SetText(item_data.detail_.Evaluate());
 }
