@@ -510,7 +510,10 @@ void UTargetingComponent::ApplyMaterialHighlight(TArray<AActor*> targets)
 	previously_chosen_units_ = previously_chosen_units_.Difference(new_targets);
 	for (AActor* actor : previously_chosen_units_)
 	{
-		Cast<AUnit>(actor)->SetOutlineState(EOutlineState::Disable);
+		if (AUnit* unit = Cast<AUnit>(actor))
+		{
+			unit->SetOutlineState(EOutlineState::Disable);
+		}
 	}
 	for (AActor* actor : new_targets)
 	{

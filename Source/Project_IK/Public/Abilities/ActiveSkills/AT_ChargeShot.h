@@ -13,6 +13,8 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_ChargeShot.generated.h"
 
+class AShockJavelin;
+
 UCLASS()
 class PROJECT_IK_API UAT_ChargeShot : public UActiveSkillBase
 {
@@ -21,10 +23,22 @@ class PROJECT_IK_API UAT_ChargeShot : public UActiveSkillBase
 public:
 	UAT_ChargeShot();
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
-	void OnChargeShot(AActor* target, class UWeaponMechanics* OtherTarget, FDamageData dmg_data);
 
-private:
+protected:
+	UFUNCTION()
+	void FireChargeShot();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<AShockJavelin> charge_shot_class_;
+
+	FTimerHandle handler_;
+
+	TWeakObjectPtr<AActor> attack_target_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float charge_time_ = 1.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float dmg_scale_ = 1.5f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float recoil_time_ = 1.0f;
 };

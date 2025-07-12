@@ -184,19 +184,24 @@ bool AGunBase::IsMagazineEmpty() const
 	return cur_magazine_ <= 0;
 }
 
-FWeaponStatusData AGunBase::GetWeaponStatusData()
+FWeaponStatusData AGunBase::GetWeaponStatusData() const
 {
 	return weapon_status_data_;
 }
 
-TObjectPtr<USkeletalMeshComponent> AGunBase::GetWeaponSkeletalMesh()
+TObjectPtr<USkeletalMeshComponent> AGunBase::GetWeaponSkeletalMesh() const
 {
 	return weapon_skeletal_mesh_;
 }
 
-FName AGunBase::GetGrabSocketName()
+FName AGunBase::GetGrabSocketName() const
 {
 	return grab_socket_name_;
+}
+
+FName AGunBase::GetMuzzleSocketName() const
+{
+	return muzzle_socket_name_;
 }
 
 //이 함수에서 치명타 확률 계산이 이루어지기에, 총알이 발사될 때 마다 이 함수가 호출되어야 한다.

@@ -137,7 +137,7 @@ void AIKGameModeBase::SaveHeroSpawnData()
 		{
 			spawn_map[type].character_data_ = Cast<AHeroBase>(heroes_[cur_idx])->GetCharacterStat()->GetCharacterData();
 		}
-		else
+		else if(spawn_map[type].is_dead_ == false)
 		{
 			UGlobalBuffSubsystem* global_buff_subsystem = GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
 			const EGlobalBuffType deathbound_type = HeroTypeToDeathbound(type);
