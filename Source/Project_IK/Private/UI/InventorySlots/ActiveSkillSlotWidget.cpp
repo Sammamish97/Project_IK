@@ -31,27 +31,26 @@ bool UActiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDr
 	if (Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation))
 	{
 		auto casted_slot = Cast<UActiveSkillSlotWidget>(InOperation->Payload);
-		
-			if (casted_slot->is_board_slot_)
+		if (casted_slot->is_board_slot_)
+		{
+			Swap(casted_slot->active_skill_data_cache_, active_skill_data_cache_);
+			Swap(casted_slot->is_empty_, is_empty_);
+			SetImageTexture();
+			casted_slot->SetImageTexture();
+		}
+		else
+		{
+			if (inventory_widget_cache_->CheckDuplicatedActiveSkill(casted_slot->GetStoredActiveSkillData()) == false)
 			{
-				Swap(casted_slot->active_skill_data_cache_, active_skill_data_cache_);
-				Swap(casted_slot->is_empty_, is_empty_);
-				SetImageTexture();
-				casted_slot->SetImageTexture();
-			}
-			else
-			{
-				if (inventory_widget_cache_->CheckDuplicatedActiveSkill(casted_slot->GetStoredActiveSkillData().type_) == false)
+				if (is_empty_ == false)
 				{
-					if (is_empty_ == false)
-					{
-						inventory_widget_cache_->AddToRewardContainer(this);
-					}
-					SetActiveSkillSlotData(casted_slot->active_skill_data_cache_);
-					inventory_widget_cache_->RemoveFromRewardContainer(casted_slot);
+					inventory_widget_cache_->AddToRewardContainer(this);
 				}
+				SetActiveSkillSlotData(casted_slot->active_skill_data_cache_);
+				inventory_widget_cache_->RemoveFromRewardContainer(casted_slot);
 			}
-			return true;
+		}
+		return true;
 	}
 	return false;
 }
