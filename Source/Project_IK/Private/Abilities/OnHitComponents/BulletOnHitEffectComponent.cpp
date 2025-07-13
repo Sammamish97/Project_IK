@@ -8,7 +8,7 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "Components/BulletOnHitEffectComponent.h"
+#include "Abilities/OnHitComponents/BulletOnHitEffectComponent.h"
 #include "Characters/EnemyBase.h"
 #include "Characters/HeroBase.h"
 

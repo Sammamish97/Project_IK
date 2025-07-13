@@ -11,8 +11,8 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SetBonuses/SetBonus_Viper.h"
 
 #include "Characters/HeroBase.h"
-#include "Components/BulletDebuffEffectComponent.h"
-#include "Components/BulletViperEffectComponent.h"
+#include "Abilities/OnHitComponents/BulletDebuffEffectComponent.h"
+#include "Abilities/OnHitComponents/BulletViperEffectComponent.h"
 #include "Components/WeaponMechanics.h"
 #include "Weapons/Guns/GunBase.h"
 

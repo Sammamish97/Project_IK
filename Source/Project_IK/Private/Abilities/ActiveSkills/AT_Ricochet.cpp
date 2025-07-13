@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/AT_Ricochet.h"
 
 #include "Characters/HeroBase.h"
-#include "Components/BulletChainEffectComponent.h"
+#include "Abilities/OnHitComponents/BulletChainEffectComponent.h"
 #include "Components/WeaponMechanics.h"
 #include "Weapons/Guns/GunBase.h"
 
@@ -32,6 +32,7 @@ bool UAT_Ricochet::ActivateSkill(const FTargetResult& TargetResult)
 		{
 			weapon_actor->AddOnHitComponent(chain_on_hit_class_);
 		}
+		hero->AddBuffUI({skill_data_.item_data_, EBuffType::Ricochet, duration_, false});
 
 		FTimerDelegate timer_delegate = FTimerDelegate::CreateUObject(this, &UAT_Ricochet::OnFinishSkill);
 		GetWorld()->GetTimerManager().SetTimer(duration_timer_handle_, timer_delegate, duration_, false);

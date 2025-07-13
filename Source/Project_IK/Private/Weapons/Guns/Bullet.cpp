@@ -9,7 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Weapons/Guns/Bullet.h"
 
-#include "Components/BulletOnHitEffectComponent.h"
+#include "Abilities/OnHitComponents/BulletOnHitEffectComponent.h"
 #include "Interfaces/Damageable.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"

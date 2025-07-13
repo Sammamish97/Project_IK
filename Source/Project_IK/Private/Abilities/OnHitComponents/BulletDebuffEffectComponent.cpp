@@ -7,7 +7,7 @@ Summary : Source file for the Debuff Bullet On Hit effect component.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-#include "Components/BulletDebuffEffectComponent.h"
+#include "Abilities/OnHitComponents/BulletDebuffEffectComponent.h"
 
 #include "Characters/Unit.h"
 #include "Structs/BuffStatusData.h"

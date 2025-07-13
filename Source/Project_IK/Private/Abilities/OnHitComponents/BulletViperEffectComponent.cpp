@@ -7,7 +7,7 @@ Summary : Source file for the Viper Bullet On Hit effect component.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-#include "Components/BulletViperEffectComponent.h"
+#include "Abilities/OnHitComponents/BulletViperEffectComponent.h"
 
 #include "Abilities/ActiveSkills/ATC_ViperHexagonEffect.h"
 #include "Characters/Unit.h"

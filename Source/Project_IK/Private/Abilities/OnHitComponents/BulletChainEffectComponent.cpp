@@ -7,7 +7,7 @@ Summary : Source file for Bullet Chain Effect Component.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-#include "Components/BulletChainEffectComponent.h"
+#include "Abilities/OnHitComponents/BulletChainEffectComponent.h"
 
 #include "Kismet/KismetSystemLibrary.h"
 #include "Characters/Unit.h"

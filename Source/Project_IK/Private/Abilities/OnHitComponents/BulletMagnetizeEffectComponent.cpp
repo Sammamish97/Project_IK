@@ -8,7 +8,7 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "Components/BulletMagnetizeEffectComponent.h"
+#include "Abilities/OnHitComponents/BulletMagnetizeEffectComponent.h"
 
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"

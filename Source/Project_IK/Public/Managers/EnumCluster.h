@@ -543,6 +543,7 @@ enum class EBuffType : uint8
 	INVALID UMETA(DisplayName = "INVALID"),
 	//Active
 	MagnetizedBullet_A UMETA(DisplayName = "MagnetizedBullet_A"),
+	Ricochet UMETA(DisplayName = "Ricochet"),
 
 	//Passive
 	InstantRepair UMETA(DisplayName = "InstantRepair"),

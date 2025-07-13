@@ -7,7 +7,7 @@ Summary : Source file for the Death Blow Bullet On Hit effect component.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-#include "Components/BulletDeathBlowEffectComponent.h"
+#include "Abilities/OnHitComponents/BulletDeathBlowEffectComponent.h"
 
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"

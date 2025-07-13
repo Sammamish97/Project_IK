@@ -10,7 +10,7 @@ See LICENSE file in the project root for full license information.
 #include "Weapons/Guns/GunBase.h"
 #include "Characters/Unit.h"
 #include "Components/ObjectPoolComponent.h"
-#include "Components/BulletOnHitEffectComponent.h"
+#include "Abilities/OnHitComponents/BulletOnHitEffectComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Structs/DamageData.h"
 #include "Weapons/Guns/Bullet.h"
