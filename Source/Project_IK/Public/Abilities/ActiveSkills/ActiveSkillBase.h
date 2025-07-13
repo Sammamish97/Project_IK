@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Abilities/SkillBase.h"
+#include "Structs/ActiveSKillData.h"
 #include "ActiveSkillBase.generated.h"
 
 struct FDamageData;
@@ -25,7 +26,7 @@ class PROJECT_IK_API UActiveSkillBase : public USkillBase
 	
 public:
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
-	void InitActiveSkill(AActor* skill_owner);
+	void InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data);
 	float GetCastingTime() const;
 	void ApplyDamage(FDamageData DamageData);
 
@@ -39,6 +40,6 @@ protected:
 	UPROPERTY()
 	TObjectPtr<AActor> skill_owner_ = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	bool is_upgraded_ = false;
+	UPROPERTY()
+	FActiveSkillData skill_data_ = FActiveSkillData();
 };

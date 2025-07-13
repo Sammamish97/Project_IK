@@ -11,27 +11,22 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-#include "Interfaces/PassiveSkillInterface.h"
-#include "Structs/BuffUIData.h"
+#include "Structs/PassiveSkillData.h"
 #include "PassiveSkillBase.generated.h"
 
 class UTextBlock;
 
 UCLASS(Blueprintable, Abstract)
-class PROJECT_IK_API UPassiveSkillBase : public UObject, public IPassiveSkillInterface
+class PROJECT_IK_API UPassiveSkillBase : public UObject
 {
 	GENERATED_BODY()
 public:
-	UPassiveSkillBase() = default;
-
-public:
-	virtual void InitEquipmentSkill(AActor* hero_ref) override;
+	virtual void InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data);
 
 protected:
 	UPROPERTY(Transient)
 	TWeakObjectPtr<AActor> hero_cache_;
 
-	//기본적으로 패시브 스킬은 하나이상의 버프를 가지고 있다고 가정한다.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "PassivSkillBase")
-	FBuffUIData buff_ui_data_;
+	UPROPERTY(Transient)
+	FPassiveSkillData skill_data_;
 };

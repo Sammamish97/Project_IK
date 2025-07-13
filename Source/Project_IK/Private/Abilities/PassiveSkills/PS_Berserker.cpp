@@ -18,15 +18,12 @@ See LICENSE file in the project root for full license information.
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "DataAssets/BuffUIDataAsset.h"
-#include "Kismet/GameplayStatics.h"
+
 #include "Managers/DataTableManager.h"
-#include "WorldSettings/IKGameInstance.h"
 
-void UPS_Berserker::InitEquipmentSkill(AActor* hero_ref)
+void UPS_Berserker::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data)
 {
-	Super::InitEquipmentSkill(hero_ref);
-
+	Super::InitPassiveSkill(hero_ref, skill_data);
 	AUnit* unit = Cast<AUnit>(hero_ref);
 	if (unit)
 	{
@@ -36,8 +33,6 @@ void UPS_Berserker::InitEquipmentSkill(AActor* hero_ref)
 
 	as_status_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, 2.f, true, true);
 	vamp_status_data_ = FBuffStatusData(ECharacterStatType::LifeSteal, 0.05f, false, true);
-	auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
-	buff_ui_data_ = data_table_manager_->GetBuffUIData(EBuffType::Berserker);
 }
 
 void UPS_Berserker::BuffBerserker(float hp_ratio)
@@ -72,7 +67,7 @@ void UPS_Berserker::ApplyBuff()
 			{
 				unit->ApplyBuff(EBuffType::Berserker, as_status_data_);
 				unit->ApplyBuff(EBuffType::Berserker, vamp_status_data_);
-				unit->AddBuffUI(buff_ui_data_);
+				unit->AddBuffUI(FBuffUIData(skill_data_.item_data_, EBuffType::Berserker, as_status_data_.duration_, true));
 				ActivateParticles();
 				is_buff_applied_ = true;
 			}

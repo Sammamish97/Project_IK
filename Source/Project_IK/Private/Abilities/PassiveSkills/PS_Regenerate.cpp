@@ -9,15 +9,13 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-
 #include "Abilities/PassiveSkills/PS_Regenerate.h"
 
 #include "Characters/Unit.h"
 
-void UPS_Regenerate::InitEquipmentSkill(AActor* hero_ref)
+void UPS_Regenerate::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data)
 {
-	Super::InitEquipmentSkill(hero_ref);
-
+	Super::InitPassiveSkill(hero_ref, skill_data);
 	hero_ref->GetWorld()->GetTimerManager().SetTimer(regenerate_timer_handler_, this, &UPS_Regenerate::Regenerate, regenerate_intervals_, true);
 }
 

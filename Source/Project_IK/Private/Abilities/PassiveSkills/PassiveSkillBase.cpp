@@ -11,7 +11,8 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/PassiveSkills/PassiveSkillBase.h"
 #include "Characters/HeroBase.h"
 
-void UPassiveSkillBase::InitEquipmentSkill(AActor* hero_ref)
+void UPassiveSkillBase::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data)
 {
 	hero_cache_ = hero_ref;
+	skill_data_ = skill_data;
 }

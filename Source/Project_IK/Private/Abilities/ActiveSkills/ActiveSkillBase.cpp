@@ -24,9 +24,10 @@ bool UActiveSkillBase::ActivateSkill(const FTargetResult& TargetResult)
 	return result;
 }
 
-void UActiveSkillBase::InitActiveSkill(AActor* skill_owner)
+void UActiveSkillBase::InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data)
 {
 	skill_owner_ = skill_owner;
+	skill_data_ = skill_data;
 }
 
 float UActiveSkillBase::GetCastingTime() const
@@ -45,7 +46,6 @@ void UActiveSkillBase::ApplyDamage(FDamageData DamageData)
 			AUnit* attacker = Cast<AUnit>(DamageData.attacker_);
 			DamageData.skill_power_base_dmg_ = DamageData.skill_power_base_dmg_ + (attacker->GetCharacterStat()->GetSkillPower() * scaling_factor_);
 		}
-
 		attack_target->GetDamage(DamageData);
 	}
 }

@@ -88,15 +88,18 @@ USkillBase* UActiveSkillMechanics::GetActiveSkill() const
 	return active_skill_;
 }
 
-void UActiveSkillMechanics::EquipActiveSkill(EActiveSkillType type)
+void UActiveSkillMechanics::EquipActiveSkill(const FActiveSkillData& data)
 {
-	if (active_skill_)
+	if (data.type_ != EActiveSkillType::INVALID)
 	{
-		UnEquipActiveSkill();
+		if (active_skill_)
+		{
+			UnEquipActiveSkill();
+		}
+		equipped_active_skill_data_ = data;
+		active_skill_ = NewObject<UActiveSkillBase>(this, equipped_active_skill_data_.active_skill_class);
+		active_skill_->InitActiveSkill(hero_cache_.Get(), equipped_active_skill_data_);
 	}
-	equipped_active_skill_data_ = data_table_cache_->GetActiveSkillData(type);
-	active_skill_ = NewObject<UActiveSkillBase>(this, equipped_active_skill_data_.active_skill_class);
-	active_skill_->InitActiveSkill(hero_cache_.Get());
 }
 
 void UActiveSkillMechanics::UnEquipActiveSkill()

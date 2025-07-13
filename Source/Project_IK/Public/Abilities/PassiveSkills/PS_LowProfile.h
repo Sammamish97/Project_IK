@@ -24,8 +24,7 @@ class PROJECT_IK_API UPS_LowProfile : public UPassiveSkillBase
 {
 	GENERATED_BODY()
 public:
-
-	virtual void InitEquipmentSkill(AActor* hero_ref) override;
+	virtual void InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data) override;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UNiagaraSystem> skill_particle_system_;
 
@@ -38,9 +37,6 @@ protected:
 	void AttachParticles(USceneComponent* attached_component);
 	void ActivateParticles();
 	void DeactivateParticles();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	TObjectPtr<class UBuffUIDataAsset> buff_data_asset_;
 	
 	bool is_buff_applied_ = false;
 

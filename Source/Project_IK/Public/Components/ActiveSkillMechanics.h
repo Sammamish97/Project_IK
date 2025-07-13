@@ -43,7 +43,7 @@ public:
 	FTargetParameters GetTargetParameters() const;
 	FActiveSkillData GetEquippedActiveSkillData();
 	class USkillBase* GetActiveSkill() const;
-	void EquipActiveSkill(EActiveSkillType type);
+	void EquipActiveSkill(const FActiveSkillData& data);
 	void UnEquipActiveSkill();
 
 	void OnCastingFinish();

@@ -27,7 +27,7 @@ protected:
 
 public:
 	FPassiveSkillData GetEquippedPassiveSkillData();
-	void EquipPassiveSkill(EPassiveSkillType type);
+	void EquipPassiveSkill(const FPassiveSkillData& skill_data);
 	void InitPassiveSkill();
 	void UnEquipPassiveSkill();
 	

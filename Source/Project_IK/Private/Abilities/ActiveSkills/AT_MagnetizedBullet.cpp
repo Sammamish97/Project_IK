@@ -28,7 +28,7 @@ bool UAT_MagnetizedBullet::ActivateSkill(const FTargetResult& TargetResult)
 		{
 			weapon_actor->AddOnHitComponent(magnetized_on_hit_class_);
 		}
-		if (is_upgraded_)
+		if (skill_data_.IsUpgraded())
 		{
 			FBuffStatusData status_data = {ECharacterStatType::AttackSpeed, 2.0, true, false, duration_};
 			hero->ApplyBuff(EBuffType::MagnetizedBullet_A, status_data);
