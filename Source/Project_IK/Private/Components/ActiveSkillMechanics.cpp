@@ -78,7 +78,7 @@ float UActiveSkillMechanics::GetCastingTime() const
 	return 0.f;
 }
 
-FActiveSkillData UActiveSkillMechanics::GetEquippedActiveSkillData()
+const FActiveSkillData& UActiveSkillMechanics::GetEquippedActiveSkillData()
 {
 	return equipped_active_skill_data_;
 }

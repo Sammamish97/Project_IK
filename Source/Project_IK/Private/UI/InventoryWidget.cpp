@@ -16,8 +16,12 @@ See LICENSE file in the project root for full license information.
 #include "UI/HeroEquipBoardWidget.h"
 #include "UI/RewardContainerWidget.h"
 #include "UI/RuneBoardWidget.h"
+#include "UI/SkillPopupWidget.h"
 #include "UI/InventorySlots/ActiveSkillSlotWidget.h"
+#include "UI/InventorySlots/PassiveSkillSlotWidget.h"
+#include "UI/InventorySlots/RuneSlotWidget.h"
 #include "UI/InventorySlots/SupportSkillSlotWidget.h"
+#include "UI/InventorySlots/WeaponSlotWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKHUD.h"
 
@@ -73,7 +77,8 @@ bool UInventoryWidget::CheckDuplicatedActiveSkill(EActiveSkillType type)
 {
 	for (const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
 	{
-		if (elem->active_skill_slot_->GetStoredActiveSkillData().type_ == type)
+		if(auto active_skill_slot = Cast<UActiveSkillSlotWidget>(elem->active_skill_slot_))
+		if (active_skill_slot->GetStoredActiveSkillData().type_ == type)
 		{
 			return true;
 		}
@@ -98,10 +103,6 @@ void UInventoryWidget::LoadSelectedRewards(const FWrapperEquipmentData& rewards)
 	reward_container_->LoadSelectedRewards(rewards);
 }
 
-void UInventoryWidget::NativeConstruct()
-{
-	Super::NativeConstruct();
-}
 
 void UInventoryWidget::NativeDestruct()
 {
@@ -109,6 +110,97 @@ void UInventoryWidget::NativeDestruct()
 	Super::NativeDestruct();
 }
 
+void UInventoryWidget::CreatePopupWidget(const FItemData& item_data)
+{
+	if(equip_popup_class_ && equip_popup_ptr_ == nullptr)
+	{
+		equip_popup_ptr_ = CreateWidget<USkillPopupWidget>(this, equip_popup_class_);
+		equip_popup_ptr_->UpdatePopupData(item_data);
+		equip_popup_ptr_->AddToViewport();
+		equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
+	}
+}
+
+void UInventoryWidget::SetPopupWidgetPos(FVector2D pos)
+{
+	if(equip_popup_ptr_)
+	{
+		equip_popup_ptr_->SetPositionInViewport(pos);
+	}
+}
+
+void UInventoryWidget::RemovePopupWidget()
+{
+	if(equip_popup_ptr_)
+	{
+		equip_popup_ptr_->Destruct();
+		equip_popup_ptr_->SetVisibility(ESlateVisibility::Hidden);
+		equip_popup_ptr_ = nullptr;
+	}
+}
+
+void UInventoryWidget::SetHighlightVisibility(EGearType type, ESlateVisibility visibility)
+{
+	last_highlighted_gear_type = type;
+	switch (type)
+	{
+	case EGearType::Weapon:
+		{
+			for(const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
+			{
+				elem->weapon_slot_->SetHighlightImageVisibility(visibility);
+			}
+		}
+		break;
+
+	case EGearType::ActiveSkill:
+		for(const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
+		{
+			elem->active_skill_slot_->SetHighlightImageVisibility(visibility);
+		}
+		break;
+
+	case EGearType::PassiveSkill:
+		for(const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
+		{
+			elem->passive_skill_1_slot_->SetHighlightImageVisibility(visibility);
+		}
+		break;
+
+	case EGearType::SupportSkill:
+		for(const auto& elem : {support_skill_0_, support_skill_1_, support_skill_2_})
+		{
+			elem->SetHighlightImageVisibility(visibility);
+		}
+		break;
+		
+	default:
+		last_highlighted_gear_type = EGearType::INVALID;
+		//IKTODO: 이 함수를 통해 Rune을 Highlight하려 하면 안된다
+		//Rune은 int32로 override된 버전을 사용해야 한다. 
+	}
+}
+
+void UInventoryWidget::SetHighlightVisibility(int32 rune_idx, ESlateVisibility visibility)
+{
+	last_highlighted_gear_type = EGearType::Rune;
+	rune_board_->GetRuneSlotWidget(rune_idx)->SetHighlightImageVisibility(visibility);
+}
+
+void UInventoryWidget::RemoveHighlight()
+{
+	if(last_highlighted_gear_type == EGearType::Rune)
+	{
+		for(int32 i = 0; i < 6; ++i)
+		{
+			SetHighlightVisibility(i, ESlateVisibility::Hidden);
+		}
+	}
+	else
+	{
+		SetHighlightVisibility(last_highlighted_gear_type, ESlateVisibility::Hidden);
+	}
+}
 
 void UInventoryWidget::UpdateInventoryData()
 {

@@ -20,6 +20,7 @@ class PROJECT_IK_API UPassiveSkillSlotWidget : public UInventorySlot
 	GENERATED_BODY()
 public:
 	virtual void NativeConstruct() override;
+	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	void SetPassiveSkillSlotData(FPassiveSkillData passive_skill_data);
 	FPassiveSkillData GetStoredPassiveSkillData();
