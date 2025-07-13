@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "EnemyBase.generated.h"
 
-UCLASS(Abstract)
+UCLASS()
 class PROJECT_IK_API AEnemyBase : public AUnit
 {
 	GENERATED_BODY()

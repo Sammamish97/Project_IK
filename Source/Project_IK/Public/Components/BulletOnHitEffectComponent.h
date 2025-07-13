@@ -22,23 +22,16 @@ class PROJECT_IK_API UBulletOnHitEffectComponent : public UActorComponent, publi
 {
 	GENERATED_BODY()
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
 public:
 	virtual void OnHit(AActor* target) ;
 	virtual void ApplyEffect(ABullet* bullet_actor) const;
+	
 protected:
-	UPROPERTY()
-	TSubclassOf<AActor> target_class_;
-
-	UPROPERTY()
+	UPROPERTY(Transient)
 	TObjectPtr<AActor> shooter_ = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UMaterialInstance> on_hit_material_;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UNiagaraSystem> on_hit_effect_;
-
 };

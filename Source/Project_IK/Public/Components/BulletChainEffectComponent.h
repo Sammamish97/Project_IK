@@ -23,7 +23,12 @@ public:
 	virtual void ApplyEffect(ABullet* bullet) const override;
 
 protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ChainEffect")
+	TSubclassOf<class AUnit> target_class_;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ChainEffect")
 	int32 chain_amount_ = 3;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ChainEffect")
 	float chain_radius_ = 1000.f;
 };
