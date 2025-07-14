@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "UObject/Object.h"
 #include "Managers/EnumCluster.h"
 #include "Structs/BuffUIData.h"
-
+#include "Structs/PerkNode.h"
 #include "DataTableManager.generated.h"
 
 class UGlobalBuffDataAsset;
@@ -22,6 +22,7 @@ class UStatInfoDataAsset;
 class UCrowdControlInfoDataAsset;
 class UTexture2D;
 class UCharacterStatDataAsset;
+class UPerkTreeDataAsset;
 
 struct FGlobalBuffData;
 struct FRuneSetData;
@@ -33,6 +34,7 @@ struct FRuneData;
 struct FActiveSkillData;
 struct FGlobalBuffData;
 struct FSupportSkillData;
+struct FPerkNode;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UDataTableManager : public UObject
@@ -70,8 +72,8 @@ public:
 
 	const FCharacterData& GetCharacterData(ECharacterType char_type) const;
 
-	void EnhanceCharacterData(ECharacterType char_type, ECharacterStatType stat_type, float increase_amount);
-	void DiminishCharacterData(ECharacterType char_type, ECharacterStatType stat_type, float decrease_amount);
+	void EnhanceHeroesStatData(ECharacterStatType stat_type, float increase_amount);
+	void DiminishHeroesStatData(ECharacterStatType stat_type, float decrease_amount);
 
 	FGlobalBuffData GetGlobalBuffData(EGlobalBuffType buff_type) const;
 
@@ -89,44 +91,48 @@ public:
 
 	FBuffUIData GetBuffUIData(EBuffType type);
 	
+	const TArray<FPerkNode>& GetTree() const;
 
-private:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table")
 	TObjectPtr<class UWeaponDataAsset> weapon_data_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table")
 	TObjectPtr<class UPassiveSkillDataAsset> passive_skill_data_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table")
 	TObjectPtr<class UActiveSkillDataAsset> active_skill_data_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table")
 	TObjectPtr<class USupportSkillDataAsset> support_skill_data_asset_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table")
 	TObjectPtr<class UCharacterStatDataAsset> character_stat_data_asset_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table")
 	TObjectPtr<class URuneDataAsset> rune_data_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GlobalBuffs", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GlobalBuffs")
 	TObjectPtr<UGlobalBuffDataAsset> global_buff_data_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info")
 	TObjectPtr<UStatInfoDataAsset> stat_info_data_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info")
 	TObjectPtr<UCrowdControlInfoDataAsset> cc_info_data_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info")
 	TObjectPtr<class UWeaponAnimDataAsset> unit_weapon_anim_asset_;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info")
 	TObjectPtr<class UUnitTypeDataAsset> unit_type_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info")
 	TObjectPtr<class USupportSkillDataAsset> support_skill_type_asset_;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info")
 	TObjectPtr<class UBuffUIDataAsset> buff_ui_data_asset_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PerkTree")
+	TObjectPtr<UPerkTreeDataAsset> perk_tree_data_asset_;
 };

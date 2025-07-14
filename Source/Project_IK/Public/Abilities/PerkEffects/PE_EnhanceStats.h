@@ -1,8 +1,8 @@
 /******************************************************************************
-Copyright(C) 2024
+Copyright(C) 2025
 Author: sinil.kang(rtd99062@gmail.com)
-Creation Date : 2.3.2025
-Summary : Header file for Perk nodes.
+Creation Date : 7.13.2025
+Summary : Header file for perk effects that enhance hero stat data.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -12,24 +12,25 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Managers/EnumCluster.h"
-#include "PerkNode.generated.h"
+#include "Abilities/PerkEffects/PerkEffectBase.h"
+#include "PE_EnhanceStats.generated.h"
 
-
-class UPerkEffectBase;
-
-enum class ECharacterStatType : uint8;
-
-USTRUCT(BlueprintType)
-struct FPerkNode
+/**
+ * 
+ */
+UCLASS()
+class PROJECT_IK_API UPE_EnhanceStats : public UPerkEffectBase
 {
 	GENERATED_BODY()
 public:
+	virtual void ApplyEffect() override;
+	virtual void RemoveEffect() override;
+
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PerkData")
-	TSubclassOf<UPerkEffectBase> effect_class_;
+	ECharacterStatType stat_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PerkData")
-	int32 cost_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PerkData")
-	TArray<int32> next_;
+	float modifier_;
+	
 };

@@ -18,6 +18,8 @@ class USetBonusManager;
 class UIKMaps;
 class UCharacterDataManager;
 class UInventoryManager;
+struct FPerkNode;
+enum class ECharacterStatType : uint8;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UIKGameInstance : public UGameInstance
@@ -40,6 +42,12 @@ public:
 	class ULevelTransitionSubsystem* GetLevelTransitionSubsystem() const noexcept;
 	UFUNCTION(BlueprintPure)
 	UDataTableManager* GetDataTableManager() const noexcept;
+
+	void EnhanceHeroesStatData(ECharacterStatType stat_type, float increase_amount);
+	void DiminishHeroesStatData(ECharacterStatType stat_type, float decrease_amount);
+
+	const TArray<FPerkNode>& GetTree() const;
+	
 	UFUNCTION(BlueprintPure)
 	USetBonusManager* GetSetBonusManager() const noexcept;
 	UFUNCTION(BlueprintPure)
@@ -52,7 +60,7 @@ public:
 	TSubclassOf<AActor> enemy_blueprint_;
 
 private:
-	void InitializeCharacterDataManager();
+	void InitializePerkEffectsAlreadyUnlocked();
 	void InitializeMaps();
 	void InitInventoryManager();
 	void InitDataTableManager();

@@ -23,6 +23,7 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/SupportSkillDataAsset.h"
 #include "DataAssets/UnitTypeDataAsset.h"
 #include "DataAssets/WeaponAnimDataAsset.h"
+#include "DataAssets/PerkTreeDataAsset.h"
 #include "Structs/SupportSkillData.h"
 #include "Structs/WrapperEquipmentData.h"
 
@@ -215,14 +216,20 @@ const FCharacterData& UDataTableManager::GetCharacterData(ECharacterType char_ty
 	return character_stat_data_asset_->GetCharacterData(char_type);
 }
 
-void UDataTableManager::EnhanceCharacterData(ECharacterType char_type, ECharacterStatType stat_type, float increase_amount)
+void UDataTableManager::EnhanceHeroesStatData(ECharacterStatType stat_type, float increase_amount)
 {
-	character_stat_data_asset_->EnhanceCharacterData(char_type, stat_type, increase_amount);
+	character_stat_data_asset_->EnhanceCharacterData(ECharacterType::Hero1, stat_type, increase_amount);
+	character_stat_data_asset_->EnhanceCharacterData(ECharacterType::Hero2, stat_type, increase_amount);
+	character_stat_data_asset_->EnhanceCharacterData(ECharacterType::Hero3, stat_type, increase_amount);
+	character_stat_data_asset_->EnhanceCharacterData(ECharacterType::Hero4, stat_type, increase_amount);
 }
 
-void UDataTableManager::DiminishCharacterData(ECharacterType char_type, ECharacterStatType stat_type, float decrease_amount)
+void UDataTableManager::DiminishHeroesStatData(ECharacterStatType stat_type, float decrease_amount)
 {
-	character_stat_data_asset_->DiminishCharacterData(char_type, stat_type, decrease_amount);
+	character_stat_data_asset_->DiminishCharacterData(ECharacterType::Hero1, stat_type, decrease_amount);
+	character_stat_data_asset_->DiminishCharacterData(ECharacterType::Hero2, stat_type, decrease_amount);
+	character_stat_data_asset_->DiminishCharacterData(ECharacterType::Hero3, stat_type, decrease_amount);
+	character_stat_data_asset_->DiminishCharacterData(ECharacterType::Hero4, stat_type, decrease_amount);
 }
 
 FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type) const
@@ -320,4 +327,9 @@ FSupportSkillData UDataTableManager::GetSupportSkillType(ESupportSkillType type)
 FBuffUIData UDataTableManager::GetBuffUIData(EBuffType type)
 {
 	return buff_ui_data_asset_->GetBuffUIData(type);
+}
+
+const TArray<FPerkNode>& UDataTableManager::GetTree() const
+{
+	return perk_tree_data_asset_->GetTree();
 }
