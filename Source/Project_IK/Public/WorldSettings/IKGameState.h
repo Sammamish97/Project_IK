@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/TargetResult.h"
 #include "IKGameState.generated.h"
 
+class UActiveSkillMechanics;
 class USkillBase;
 class UButtonBarWidget;
 class AIKPlayerController;
@@ -23,6 +24,14 @@ UCLASS()
 class PROJECT_IK_API AIKGameState : public AGameStateBase
 {
 	GENERATED_BODY()
+
+	enum class ESelectedSkill : uint8
+	{
+		INVALID,
+		ActiveSkill,
+		SupportSKill
+	};
+	
 public:
 	AIKGameState();
 	virtual void BeginPlay() override;
@@ -63,8 +72,12 @@ private:
 	TArray<FTimerHandle> support_skill_timers_;
 
 	UPROPERTY()
-	TObjectPtr<USkillBase> selected_skill_;
+	TObjectPtr<UActiveSkillMechanics> selected_active_skill_mechanics_;
+
+	UPROPERTY()
+	TObjectPtr<USupportSkillBase> selected_support_skill_;
 	
+	ESelectedSkill selected_skill_type_;
 	EHeroType selected_hero_type_;
 	int32 selected_support_num_;
 };

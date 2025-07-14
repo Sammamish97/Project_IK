@@ -45,6 +45,7 @@ EBTNodeResult::Type UTask_BeginFire::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 
 EBTNodeResult::Type UTask_BeginFire::AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
+	Super::AbortTask(OwnerComp, NodeMemory);
 	if (auto casted_pawn = OwnerComp.GetAIOwner()->GetPawn())
 	{
 		auto component = casted_pawn->GetComponentByClass(UWeaponMechanics::StaticClass()); 

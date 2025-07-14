@@ -54,6 +54,9 @@ public:
 	void SetAttackTarget(AActor* target);
 	AActor* GetAttackTarget();
 
+	void EnterBTSkillMotionState();
+	void ResetUnitState();
+
 	void SetOutlineState(EOutlineState state);
 
 	virtual void Attack(AActor* target) override;

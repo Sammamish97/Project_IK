@@ -28,18 +28,28 @@ public:
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 	void InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data);
 	float GetCastingTime() const;
+	float GetAIHoldTime() const;
+	bool HasMotion() const;
 	void ApplyDamage(FDamageData DamageData);
 
+	virtual void OnEnterCasting();
+	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	float casting_time_ = 0.f;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float scaling_factor_ = 1.f;
-
+	
 	UPROPERTY()
 	TObjectPtr<AActor> skill_owner_ = nullptr;
 
 	UPROPERTY()
 	FActiveSkillData skill_data_ = FActiveSkillData();
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	bool has_casting_motion_ = false;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	float casting_time_ = 0.f;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	float ai_holding_time_ = 0.f;
 };

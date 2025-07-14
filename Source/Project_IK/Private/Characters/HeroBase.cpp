@@ -98,9 +98,8 @@ void AHeroBase::BeginPlay()
 	// {
 	// 	weapon_mechanics_->EquipWeapon(default_weapon_class_);
 	// }
-	// active_skill_mechanics_->EquipActiveSkill(EActiveSkillType::ThunderStorm);
 	//
-	
+
 	switch (GetCharacterType())
 	{
 	case ECharacterType::Hero1:

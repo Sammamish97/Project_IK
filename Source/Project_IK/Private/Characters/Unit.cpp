@@ -290,6 +290,16 @@ void AUnit::FinishStun()
 	FAIMessage::Send(this, Msg);
 }
 
+void AUnit::EnterBTSkillMotionState()
+{
+	Cast<AMeleeAIController>(GetController())->SetUnitState(EUnitState::OnActiveSkill);
+}
+
+void AUnit::ResetUnitState()
+{
+	Cast<AMeleeAIController>(GetController())->ResetUnitState();
+}
+
 void AUnit::OnEnterBattleOnce()
 {
 	DispatchUnitEvent(EUnitEvent::OnEnterBattle);

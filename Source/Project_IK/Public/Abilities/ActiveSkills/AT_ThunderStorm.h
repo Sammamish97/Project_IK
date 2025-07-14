@@ -24,21 +24,21 @@ class PROJECT_IK_API UAT_ThunderStorm : public UActiveSkillBase
 public:
 	UAT_ThunderStorm();
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
-
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
-	TSubclassOf<AThunderStorm> visual_actor_class_;
+	virtual void OnEnterCasting() override;
 
 protected:
 	UFUNCTION()
 	void DamageEnemies();
-
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float damage_ = 0.f;
-
-	UWorld* world_cache_ = nullptr;
-
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AThunderStorm> visual_actor_class_;
+	
 	UPROPERTY()
 	TObjectPtr<AThunderStorm> visual_actor_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ThunderStorm", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UAnimMontage> casting_anim_montage_;
 };
