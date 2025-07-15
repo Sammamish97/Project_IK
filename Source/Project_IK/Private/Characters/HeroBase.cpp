@@ -177,6 +177,38 @@ void AHeroBase::Attack(AActor* target)
 	weapon_mechanics_->BeginFire(target);
 }
 
+void AHeroBase::InterruptUnitBehavior(EUnitState type)
+{
+	Cast<AMeleeAIController>(GetController())->SetUnitState(type);
+	switch (type)
+	{
+	case EUnitState::OnStunned:
+		Cast<AHeroAIController>(GetController())->StopMovement();
+		
+	case EUnitState::OnRepositioning:
+		active_skill_mechanics_->StopActiveSkill();
+		
+	case EUnitState::OnActiveSkill:
+		weapon_mechanics_->StopReload();
+		
+	case EUnitState::OnReloading:
+	{
+		weapon_mechanics_->FinishFire();
+		weapon_mechanics_->SetHoldAction(true);
+	}
+	
+	default:
+		break;
+		//IKTODO: 예외처리
+	}
+}
+
+void AHeroBase::ResetUnitState()
+{
+	Super::ResetUnitState();
+	weapon_mechanics_->SetHoldAction(false);
+}
+
 void AHeroBase::GetStunned(float stun_duration)
 {
 	Super::GetStunned(stun_duration);
@@ -186,7 +218,6 @@ void AHeroBase::OnStunned()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hero Stunned"));
 	Super::OnStunned();
-	//weapon_mechanics_->OnStunned();
 }
 
 EHeroType AHeroBase::GetHeroType() const

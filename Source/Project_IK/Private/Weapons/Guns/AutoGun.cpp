@@ -17,6 +17,10 @@ See LICENSE file in the project root for full license information.
 
 void AAutoGun::BeginFire(AActor* target)
 {
+	if (hold_action_)
+	{
+		return;
+	}
 	Super::BeginFire(target);
 	TWeakObjectPtr<AActor> weak_target_ptr = target;
 	if (AActor* target_ptr = weak_target_ptr.Get())

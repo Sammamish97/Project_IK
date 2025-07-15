@@ -67,6 +67,12 @@ void UIKGameInstance::InitSpawnData()
 	{
 		FSpawnData spawn_data;
 		spawn_data.character_data_ = data_table_manager_->GetCharacterData(char_type_array[i]);
+		//IKTODO: Only For Test
+		if (i != 0)
+		{
+			spawn_data.is_dead_ = true;
+		}
+		//
 		spawn_data_map.Add({hero_type_array[i], spawn_data});
 	}
 	GetSubsystem<ULevelTransitionSubsystem>()->UpdateSpawnData(spawn_data_map);

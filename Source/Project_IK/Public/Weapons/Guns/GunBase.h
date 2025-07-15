@@ -34,8 +34,9 @@ public:
 
 	virtual void Reload();
 	virtual void OnReload();
-	virtual void BeginFire(AActor* target);
+	virtual void StopReload();
 	
+	virtual void BeginFire(AActor* target);
 	virtual void FinishFire();
 	
 	bool IsMagazineEmpty() const;
@@ -45,9 +46,11 @@ public:
 
 	FDamageData GetWeaponFireDamageData();
 
+	void SetHoldAction(bool hold_action);
+
 	UFUNCTION()
 	void SetGunOwner(TWeakObjectPtr<AUnit> gun_owner, bool is_hero);
-
+	
 	UFUNCTION()
 	void AddOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
 	void RemoveOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
@@ -121,9 +124,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics" )
 	FName owned_cover_key_name_;
 	
-	FAIRequestID reload_request_id_ = 0;
+	FAIRequestID reload_request_id_ = 3;
 
 	bool is_first_bullet_on_magazine_ = true;
+
+	bool hold_action_ = false;
 
 protected:
 	UPROPERTY(Transient)

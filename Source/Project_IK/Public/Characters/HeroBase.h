@@ -31,6 +31,9 @@ public:
 	
 	virtual void SyncWithSpawnData(const FSpawnData& spawn_data);
 	virtual void Die() override;
+
+	virtual void InterruptUnitBehavior(EUnitState type) override;
+	virtual void ResetUnitState() override;
 	
 	virtual void Attack(AActor* target) override;
 	virtual void GetStunned(float stun_duration) override;

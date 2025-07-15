@@ -54,8 +54,8 @@ public:
 	void SetAttackTarget(AActor* target);
 	AActor* GetAttackTarget();
 
-	void EnterBTSkillMotionState();
-	void ResetUnitState();
+	virtual void InterruptUnitBehavior(EUnitState type);
+	virtual void ResetUnitState();
 
 	void SetOutlineState(EOutlineState state);
 
@@ -101,7 +101,7 @@ public:
 	float GetPitchDiffBetweenTarget();
 
 	float GetStunRequestID() const;
-
+	
 	UFUNCTION()
 	void DispatchUnitEvent(EUnitEvent type);
 
