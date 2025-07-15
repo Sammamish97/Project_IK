@@ -16,6 +16,12 @@ See LICENSE file in the project root for full license information.
 void UPerkProgressSubsystem::Initialize(FSubsystemCollectionBase& collection)
 {
 	Super::Initialize(collection);
+
+	AddProgress(0);
+	AddProgress(1);
+	AddProgress(2);
+	AddProgress(3);
+	AddProgress(4);
 }
 
 void UPerkProgressSubsystem::Deinitialize()

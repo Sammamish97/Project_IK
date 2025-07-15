@@ -53,12 +53,6 @@ public:
 	UFUNCTION(BlueprintPure)
 	class UEventManager* GetEventManager() const noexcept;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelTransition")
-	TSubclassOf<AActor> hero_blueprint_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelTransition")
-	TSubclassOf<AActor> enemy_blueprint_;
-
 private:
 	void InitializePerkEffectsAlreadyUnlocked();
 	void InitializeMaps();

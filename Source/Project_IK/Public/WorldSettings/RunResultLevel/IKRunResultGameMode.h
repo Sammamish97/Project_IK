@@ -21,5 +21,6 @@ UCLASS()
 class PROJECT_IK_API AIKRunResultGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+protected:
+	virtual void BeginPlay() override;
 };

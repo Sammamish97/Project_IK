@@ -30,14 +30,14 @@ UIKGameInstance::UIKGameInstance()
 void UIKGameInstance::Init()
 {
 	Super::Init();
-
-	InitializePerkEffectsAlreadyUnlocked();
 	InitializeMaps();
 	InitDataTableManager();
 	InitInventoryManager();
 	InitSpawnData();
 	InitSetBonusManager();
 	InitEventManager();
+
+	InitializePerkEffectsAlreadyUnlocked();
 }
 
 void UIKGameInstance::Shutdown()
@@ -163,6 +163,10 @@ void UIKGameInstance::InitializeMaps()
 void UIKGameInstance::InitInventoryManager()
 {
 	inventory_manager_ = NewObject<UInventoryManager>(this, inventory_manager_class_);
+
+	// DEBUG PURPOSE.
+	inventory_manager_->SetPerkPoints(999);
+	inventory_manager_->SetCredits(999);
 }
 
 void UIKGameInstance::InitDataTableManager()
