@@ -130,7 +130,7 @@ void UActiveSkillMechanics::OnFinishAIHolding()
 	FAIMessage::Send(Cast<APawn>(GetOwner()), Msg);
 }
 
-FActiveSkillData UActiveSkillMechanics::GetEquippedActiveSkillData()
+const FActiveSkillData& UActiveSkillMechanics::GetEquippedActiveSkillData()
 {
 	return equipped_active_skill_data_;
 }

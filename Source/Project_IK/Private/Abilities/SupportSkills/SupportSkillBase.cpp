@@ -20,6 +20,11 @@ float USupportSkillBase::GetCost() const
 	return cost_;
 }
 
+const FSupportSkillData& USupportSkillBase::GetSupportSkillData() const
+{
+	return skill_data_;
+}
+
 bool USupportSkillBase::ActivateSkill(const FTargetResult& TargetResult)
 {
 	return Super::ActivateSkill(TargetResult);

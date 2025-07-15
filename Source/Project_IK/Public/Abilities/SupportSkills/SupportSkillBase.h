@@ -24,6 +24,7 @@ class PROJECT_IK_API USupportSkillBase : public USkillBase
 public:
 	void InitSupportSkill(const FSupportSkillData& skill_data);
 	float GetCost() const;
+	const FSupportSkillData& GetSupportSkillData() const;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 protected:
