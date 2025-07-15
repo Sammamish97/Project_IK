@@ -49,7 +49,7 @@ public:
 	void RemoveFromRewardContainer(UInventorySlot* slot_ptr);
 
 	UFUNCTION()
-	bool CheckDuplicatedActiveSkill(const FActiveSkillData& skill_type);
+	bool CheckDuplicatedActiveSkill(const FActiveSkillData& skill_data);
 
 	UFUNCTION()
 	bool CheckDuplicatedSupportSkill(ESupportSkillType type);

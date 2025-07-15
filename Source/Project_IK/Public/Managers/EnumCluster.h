@@ -370,6 +370,110 @@ enum class EActiveSkillType : uint8
 	Ricochet_A UMETA(DisplayName = "Ricochet_A"),
 };
 
+inline EActiveSkillType GetOppositeActiveSkillType(EActiveSkillType type)
+{
+	switch (type)
+	{
+	case EActiveSkillType::Thunder_B:
+		return EActiveSkillType::Thunder_A;
+		
+	case EActiveSkillType::ThunderStorm_B:
+		return EActiveSkillType::ThunderStorm_A;
+		
+	case EActiveSkillType::FateSpiral_B:
+		return EActiveSkillType::FateSpiral_A;
+		
+	case EActiveSkillType::Encourage_B:
+		return EActiveSkillType::Encourage_A;
+		
+	case EActiveSkillType::DeployCover_B:
+		return EActiveSkillType::DeployCover_A;
+		
+	case EActiveSkillType::DeploySentryGun_B:
+		return EActiveSkillType::DeploySentryGun_A;
+		
+	case EActiveSkillType::TripleFire_B:
+		return EActiveSkillType::TripleFire_A;
+		
+	case EActiveSkillType::ChargeShot_B:
+		return EActiveSkillType::ChargeShot_A;
+		
+	case EActiveSkillType::MagnetizedBullet_B:
+		return EActiveSkillType::MagnetizedBullet_A;
+		
+	case EActiveSkillType::Ricochet_B:
+		return EActiveSkillType::Ricochet_A;
+
+	//
+		
+	case EActiveSkillType::Thunder_A:
+		return EActiveSkillType::Thunder_B;
+		
+	case EActiveSkillType::ThunderStorm_A:
+		return EActiveSkillType::ThunderStorm_B;
+		
+	case EActiveSkillType::FateSpiral_A:
+		return EActiveSkillType::FateSpiral_B;
+		
+	case EActiveSkillType::Encourage_A:
+		return EActiveSkillType::Encourage_B;
+		
+	case EActiveSkillType::DeployCover_A:
+		return EActiveSkillType::DeployCover_B;
+		
+	case EActiveSkillType::DeploySentryGun_A:
+		return EActiveSkillType::DeploySentryGun_B;
+		
+	case EActiveSkillType::TripleFire_A:
+		return EActiveSkillType::TripleFire_B;
+		
+	case EActiveSkillType::ChargeShot_A:
+		return EActiveSkillType::ChargeShot_B;
+		
+	case EActiveSkillType::MagnetizedBullet_A:
+		return EActiveSkillType::MagnetizedBullet_B;
+		
+	case EActiveSkillType::Ricochet_A:
+		return EActiveSkillType::Ricochet_B;
+
+	default:
+		return EActiveSkillType::INVALID;
+	}
+}
+
+inline bool IsUpgradedActiveSkill(EActiveSkillType type)
+{
+	switch (type)
+	{
+		case EActiveSkillType::Thunder_B:
+		case EActiveSkillType::ThunderStorm_B:
+		case EActiveSkillType::FateSpiral_B:
+		case EActiveSkillType::Encourage_B:
+		case EActiveSkillType::DeployCover_B:
+		case EActiveSkillType::DeploySentryGun_B:
+		case EActiveSkillType::TripleFire_B:
+		case EActiveSkillType::ChargeShot_B:
+		case EActiveSkillType::MagnetizedBullet_B:
+		case EActiveSkillType::Ricochet_B:
+		return false;
+		
+		case EActiveSkillType::Thunder_A:
+		case EActiveSkillType::ThunderStorm_A:
+		case EActiveSkillType::FateSpiral_A:
+		case EActiveSkillType::Encourage_A:
+		case EActiveSkillType::DeployCover_A:
+		case EActiveSkillType::DeploySentryGun_A:
+		case EActiveSkillType::TripleFire_A:
+		case EActiveSkillType::ChargeShot_A:
+		case EActiveSkillType::MagnetizedBullet_A:
+		case EActiveSkillType::Ricochet_A:
+		return true;
+
+		default:
+			return false;
+	}
+}
+
 UENUM(BlueprintType)
 enum class EFireType : uint8
 {

@@ -69,39 +69,25 @@ void UInventoryWidget::RemoveFromRewardContainer(UInventorySlot* slot_ptr)
 	reward_container_->RemoveWidgetFromRewardContainer(slot_ptr);
 }
 
-bool UInventoryWidget::CheckDuplicatedActiveSkill(const FActiveSkillData& skill_type)
+bool UInventoryWidget::CheckDuplicatedActiveSkill(const FActiveSkillData& skill_data)
 {
 	//1. 동일한 타입이 있는지 검사한다.
 	for (const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
 	{
-		if (elem->active_skill_slot_->GetStoredActiveSkillData().type_ == skill_type.type_)
+		if (elem->active_skill_slot_->GetStoredActiveSkillData().type_ == skill_data.type_)
 		{
 			return true;
 		}
 	}
+	
+	//2. 자신과 type은 동일하지만 등급이 다른 스킬이 있는지 검사한다.
 
-	//2. 자신이 A급이라면, 동일한 스킬의 B급이 있는지 검사한다.
-	if (skill_type.IsUpgraded())
+	EActiveSkillType opposite_type = GetOppositeActiveSkillType(skill_data.type_);
+	for (const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
 	{
-		EActiveSkillType target_type = skill_type.downgraded_type_;
-		for (const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
+		if (elem->active_skill_slot_->GetStoredActiveSkillData().type_ == opposite_type)
 		{
-			if (elem->active_skill_slot_->GetStoredActiveSkillData().type_ == target_type)
-			{
-				return true;
-			}
-		}
-	}
-	//3. 자신이 B급이라면, 동일한 스킬의 A급이 있는지 검사한다.
-	else
-	{
-		EActiveSkillType target_type = skill_type.upgraded_type_;
-		for (const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
-		{
-			if (elem->active_skill_slot_->GetStoredActiveSkillData().type_ == target_type)
-			{
-				return true;
-			}
+			return true;
 		}
 	}
 	return false;

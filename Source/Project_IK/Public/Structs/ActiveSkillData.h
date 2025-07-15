@@ -17,22 +17,9 @@ USTRUCT(BlueprintType)
 struct PROJECT_IK_API FActiveSkillData
 {
 	GENERATED_BODY();
-	bool IsUpgraded() const
-	{
-		return upgraded_type_ == EActiveSkillType::INVALID;
-	}
-
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	EActiveSkillType type_ = EActiveSkillType::INVALID;
-
-	//만약 A급 스킬이라면 상위 스킬이 없으므로 INVALID여야 한다.
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	EActiveSkillType upgraded_type_ = EActiveSkillType::INVALID;
-
-	//만약 B급 스킬이라면 하위 스킬이 없으므로 INVALID여야 한다.
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	EActiveSkillType downgraded_type_ = EActiveSkillType::INVALID;
-
+	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	TSubclassOf<class UActiveSkillBase> active_skill_class;
 
