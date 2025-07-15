@@ -20,6 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/CheckboxButtonWidget.h"
 #include "EquipmentRewardWidget.generated.h"
 
+class UUniformGridPanel;
 class UHorizontalBox;
 class URewardSelectWidget;
 class UTextBlock;
@@ -47,7 +48,7 @@ private:
 	TObjectPtr<UTextBlock> text_max_selectables_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UHorizontalBox> reward_container_;
+	TObjectPtr<UUniformGridPanel> reward_container_;
 
 	UPROPERTY()
 	TArray<TObjectPtr<URewardSelectWidget>> reward_widgets_;

@@ -22,7 +22,15 @@ void UActiveSkillSlotWidget::SetActiveSkillSlotData(FActiveSkillData active_skil
 {
 	is_empty_ = false;
 	active_skill_data_cache_ = active_skill_data;
+	item_data_cache_ = active_skill_data_cache_.item_data_;
 	SetImageTexture();
+}
+
+FReply UActiveSkillSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry,
+	const FPointerEvent& InMouseEvent)
+{
+	inventory_widget_cache_->SetHighlightVisibility(EGearType::ActiveSkill, ESlateVisibility::Visible);
+	return Super::NativeOnPreviewMouseButtonDown(InGeometry, InMouseEvent);
 }
 
 bool UActiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,

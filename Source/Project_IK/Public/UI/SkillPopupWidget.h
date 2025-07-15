@@ -24,19 +24,10 @@ class PROJECT_IK_API USkillPopupWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void InitHeroSkillData(const TMap<EHeroType, FItemData>& input_data);
-	void InitSupportSkillData(const TMap<int32, FItemData>& input_data);
-
-	void UpdateSkillPopupData(EHeroType type);
-	void UpdateSkillPopupData(int32 support_skill_idx);
+	void NativeConstruct() override;
+	void UpdatePopupData(const FItemData& item_data);
 	
 private:
-	UPROPERTY()
-	TMap<EHeroType, FItemData> hero_skill_data_;
-
-	UPROPERTY()
-	TMap<int32, FItemData> support_skill_data_;
-	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UImage> thumbnail_;
 	

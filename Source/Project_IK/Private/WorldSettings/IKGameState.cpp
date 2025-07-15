@@ -93,8 +93,7 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 				player_controller_cache_->StartTargeting(casted_hero->GetActiveSkillTargetParameters(), casted_hero);
 				selected_active_skill_mechanics_ = casted_hero->GetActiveSkillMechanics();
 				selected_hero_type_ = hero_type;
-				selected_skill_type_ = ESelectedSkill::ActiveSkill;
-				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdateSkillPopupData(selected_hero_type_);
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(casted_hero->GetActiveSkillItemData());
 			}
 		}
 	}
@@ -113,7 +112,7 @@ void AIKGameState::ActivateSupportSkill(int32 support_num)
 				selected_support_skill_ = equipped_support_skills_[support_num];;
 				selected_support_num_ = support_num;
 				selected_skill_type_ = ESelectedSkill::SupportSKill;
-				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdateSkillPopupData(selected_support_num_);
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(equipped_support_skill_item_data_map_[support_num]);
 			}
 		}
 	}

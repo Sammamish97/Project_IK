@@ -76,6 +76,7 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<USupportSkillBase> selected_support_skill_;
+
 	
 	ESelectedSkill selected_skill_type_;
 	EHeroType selected_hero_type_;

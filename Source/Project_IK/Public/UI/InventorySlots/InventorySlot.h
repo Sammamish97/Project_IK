@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 
 class USlotDragDropImage;
 class UInventoryWidget;
+class UImage;
 
 UCLASS()
 class PROJECT_IK_API UInventorySlot : public UUserWidget
@@ -24,10 +25,19 @@ class PROJECT_IK_API UInventorySlot : public UUserWidget
 	GENERATED_BODY()
 public:
 	void InitInventorySlot(UInventoryWidget* widget_ptr, bool is_board_slot = true);
+
+	virtual void NativeConstruct() override;
 	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+	virtual void NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
+	virtual FReply NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	
 	virtual void SetImageTexture();
+	void SetHighlightImageVisibility(ESlateVisibility visibility);
 
 	EInventorySlotType GetSlotType() const;
 	virtual void ClearData();
@@ -45,7 +55,12 @@ protected:
 	TObjectPtr<UInventoryWidget> inventory_widget_cache_;
 	
 	UPROPERTY(meta=(BindWidget))
-	TObjectPtr<class UImage> image_;
+	TObjectPtr<UImage> image_;
+
+	UPROPERTY(meta=(BindWidget))
+	TObjectPtr<UImage> highlight_image_;
+	
+	FItemData item_data_cache_;
 
 	bool is_empty_ = true;
 	bool is_board_slot_ = true;

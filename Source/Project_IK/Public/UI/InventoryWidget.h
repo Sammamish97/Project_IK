@@ -24,13 +24,13 @@ class UHeroEquipBoardWidget;
 class URuneBoardWidget;
 class UWidgetSwitcher;
 class UInventorySlot;
+class USkillPopupWidget;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UInventoryWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 	
 	UFUNCTION(BlueprintCallable)
@@ -55,6 +55,14 @@ public:
 	bool CheckDuplicatedSupportSkill(ESupportSkillType type);
 
 	void LoadSelectedRewards(const FWrapperEquipmentData& rewards);
+
+	void CreatePopupWidget(const FItemData&  item_data);
+	void SetPopupWidgetPos(FVector2D pos);
+	void RemovePopupWidget();
+
+	void SetHighlightVisibility(EGearType type, ESlateVisibility visibility);
+	void SetHighlightVisibility(int32 rune_idx, ESlateVisibility visibility);
+	void RemoveHighlight();
 
 private:
 	UFUNCTION()
@@ -102,4 +110,12 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> confirm_button_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
+	TSubclassOf<USkillPopupWidget> equip_popup_class_;
+
+	UPROPERTY()
+	TObjectPtr<USkillPopupWidget> equip_popup_ptr_;
+
+	EGearType last_highlighted_gear_type = EGearType::INVALID;
 };

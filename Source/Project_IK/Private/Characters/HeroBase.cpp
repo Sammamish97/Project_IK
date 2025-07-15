@@ -266,6 +266,11 @@ bool AHeroBase::HasActiveSkill() const
 	return active_skill_mechanics_->HasActiveSkill();
 }
 
+const FItemData& AHeroBase::GetActiveSkillItemData() const
+{
+	return active_skill_mechanics_->GetEquippedActiveSkillData().item_data_;
+}
+
 void AHeroBase::ReduceActiveSkillCoolDown(float amount)
 {
 	auto game_state_cache_ = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));

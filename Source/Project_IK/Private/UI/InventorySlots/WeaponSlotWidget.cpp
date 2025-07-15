@@ -21,8 +21,14 @@ void UWeaponSlotWidget::NativeConstruct()
 void UWeaponSlotWidget::SetWeaponSlotData(FWeaponData weapon_data)
 {
 	weapon_data_cache_ = weapon_data;
+	item_data_cache_ = weapon_data_cache_.item_data_;
 	SetImageTexture();
 }
+
+FReply UWeaponSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	inventory_widget_cache_->SetHighlightVisibility(EGearType::Weapon, ESlateVisibility::Visible);
+	return Super::NativeOnPreviewMouseButtonDown(InGeometry, InMouseEvent);}
 
 bool UWeaponSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
                                      UDragDropOperation* InOperation)
