@@ -13,16 +13,24 @@ See LICENSE file in the project root for full license information.
 
 // Need to call CreateWidget function
 #include "Blueprint/UserWidget.h"
-#include "UI/ButtonToGoMapLevel.h"
+#include "UI/ButtonToGoLevel.h"
+
+#include "Subsystems/GotchaSubsystem.h"
 
 void AIKMainMenuHUD::BeginPlay()
 {
 	if (map_level_opener_class_)
 	{
-		map_level_opener_ = CreateWidget<UButtonToGoMapLevel>(GetOwningPlayerController(), map_level_opener_class_);
+		map_level_opener_ = CreateWidget<UButtonToGoLevel>(GetOwningPlayerController(), map_level_opener_class_);
 		if (map_level_opener_)
 		{
 			map_level_opener_->AddToViewport();
+
+			int32 num_max_pull = GetGameInstance()->GetSubsystem<UGotchaSubsystem>()->GetNumMaxPull();
+			if (num_max_pull > 0)
+			{
+				map_level_opener_->SetTargetLevelName(FName("GotchaLevel"));
+			}
 		}
 	}
 }

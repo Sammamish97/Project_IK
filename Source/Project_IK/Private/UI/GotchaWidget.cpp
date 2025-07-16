@@ -16,6 +16,8 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/DataTableManager.h"
 #include "Managers/InventoryManager.h"
+#include "Subsystems/GotchaSubsystem.h"
+#include "Subsystems/LevelTransitionSubsystem.h"
 
 #include "Blueprint/WidgetTree.h"
 #include "Components/Button.h"
@@ -26,9 +28,9 @@ void UGotchaWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (back_space_)
+	if (end_gotcha_button_)
 	{
-		back_space_->OnClicked.AddDynamic(this, &UGotchaWidget::BackSpace);
+		end_gotcha_button_->OnClicked.AddDynamic(this, &UGotchaWidget::EndGotchaButtonPressed);
 	}
 	if (pull_one_button_)
 	{
@@ -45,8 +47,7 @@ void UGotchaWidget::NativeConstruct()
 		result_widget_->OnResultFinished.AddDynamic(this, &UGotchaWidget::StorePulledData);
 	}
 
-	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	tickets_ = game_instance->GetInventoryManager()->GetTickets();
+	num_max_pull_ = GetGameInstance()->GetSubsystem<UGotchaSubsystem>()->GetNumMaxPull();
 
 	UpdateGotchaTicketCount();
 
@@ -55,9 +56,9 @@ void UGotchaWidget::NativeConstruct()
 
 void UGotchaWidget::NativeDestruct()
 {
-	if (back_space_)
+	if (end_gotcha_button_)
 	{
-		back_space_->OnClicked.Clear();
+		end_gotcha_button_->OnClicked.Clear();
 	}
 	if (pull_one_button_)
 	{
@@ -67,50 +68,43 @@ void UGotchaWidget::NativeDestruct()
 	{
 		pull_ten_button_->OnClicked.Clear();
 	}
-
-	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	if (game_instance)
-	{
-		game_instance->GetInventoryManager()->SetTickets(tickets_);
-	}
 }
 
-void UGotchaWidget::BackSpace()
+void UGotchaWidget::EndGotchaButtonPressed()
 {
-	// @@ TODO: Go to proper level
-	// UGameplayStatics::OpenLevel(GetWorld(), FName("CombatLevel"));
+	GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
 }
 
 void UGotchaWidget::PullOne()
 {
-	if (tickets_ < 1)
+	if (num_max_pull_ < 1)
 	{
 		return;
 	}
 
-	SetTickets(tickets_ - 1);
+	SetTickets(num_max_pull_ - 1);
 	Gotcha(1);
 }
 
 void UGotchaWidget::PullTen()
 {
-	if (tickets_ < 10)
+	if (num_max_pull_ < 10)
 	{
 		return;
 	}
-	SetTickets(tickets_ - 10);
+	SetTickets(num_max_pull_ - 10);
 	Gotcha(10);
 }
 
 void UGotchaWidget::SetTickets(int32 tickets)
 {
-	tickets_ = tickets;
+	num_max_pull_ = tickets;
 	UpdateGotchaTicketCount();
 }
 
 void UGotchaWidget::UpdateGotchaTicketCount()
 {
-	tickets_count_text_->SetText(FText::AsNumber(tickets_));
+	tickets_count_text_->SetText(FText::AsNumber(num_max_pull_));
 }
 
 void UGotchaWidget::Gotcha(int32 pulls)

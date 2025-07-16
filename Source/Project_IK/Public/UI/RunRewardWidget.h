@@ -35,10 +35,7 @@ protected:
 	virtual void NativeDestruct() override;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> ticket_text_;
-	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> perk_points_text_;
 	
-	int32 tickets_reward_ = 5;
 	int32 perk_points_reward_ = 10;
 };

@@ -37,7 +37,7 @@ protected:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 	UFUNCTION()
-	void BackSpace();
+	void EndGotchaButtonPressed();
 	UFUNCTION()
 	void PullOne();
 	UFUNCTION()
@@ -55,7 +55,7 @@ protected:
 	void StorePulledData();
 
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TObjectPtr<UButton> back_space_;
+	TObjectPtr<UButton> end_gotcha_button_;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
 	TObjectPtr<UButton> pull_one_button_;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
@@ -67,5 +67,5 @@ protected:
 
 	int32 pulled_credits_;
 
-	int32 tickets_;
+	int32 num_max_pull_;
 };

@@ -36,11 +36,6 @@ public:
 	UFUNCTION(BlueprintPure)
 	int32 GetPerkPoints() const;
 
-	UFUNCTION(BlueprintCallable)
-	void SetTickets(int32 tickets);
-	UFUNCTION(BlueprintPure)
-	int32 GetTickets() const;
-
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<class UInventoryWidget> inventory_widget_class_;
@@ -56,7 +51,4 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	int32 perk_points_;
-
-	UPROPERTY(VisibleAnywhere, Category = "Inventory")
-	int32 tickets_;
 };
