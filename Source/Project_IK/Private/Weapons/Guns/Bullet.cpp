@@ -174,3 +174,8 @@ void ABullet::SetDamageData(FDamageData data)
 {
 	dmg_data_ = data;
 }
+
+const FDamageData& ABullet::GetDamageData() const
+{
+	return dmg_data_;
+}

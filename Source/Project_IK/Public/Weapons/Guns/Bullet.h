@@ -37,6 +37,8 @@ public:
 	void SetDamageData(FDamageData data);
 	void SetCollisionPreset(bool is_hero);
 
+	const FDamageData& GetDamageData() const;
+
 	UFUNCTION()
 	void AddOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
 	void RemoveOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
