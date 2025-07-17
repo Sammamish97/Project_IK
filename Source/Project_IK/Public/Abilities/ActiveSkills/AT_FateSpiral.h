@@ -25,11 +25,16 @@ class PROJECT_IK_API UAT_FateSpiral : public UActiveSkillBase
 public:
 
 	UAT_FateSpiral();
+	virtual void OnEnterCasting() override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<AFateSpiral> actor_class_;
 
 protected:
+	UPROPERTY()
 	AFateSpiral* actor_ = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SkillData", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UAnimMontage> casting_anim_montage_;
 };

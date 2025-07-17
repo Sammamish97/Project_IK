@@ -95,6 +95,7 @@ enum class ECharacterType  : uint8
 	Hero2 UMETA(DisplayName = "Hero2"),
 	Hero3 UMETA(DisplayName = "Hero3"),
 	Hero4 UMETA(DisplayName = "Hero4"),
+	
 	EnemySoldier UMETA(DisplayName = "EnemySoldier"),
 	EnemySniper UMETA(DisplayName = "EnemySniper"),
 	EnemyKnight UMETA(DisplayName = "EnemyKnight"),
@@ -103,6 +104,8 @@ enum class ECharacterType  : uint8
 	EnemyHeavyGunner UMETA(DisplayName = "EnemyHeavyGunner"),
 	EnemyOfficer UMETA(DisplayName = "EnemyOfficer"),
 	EnemyAssassin UMETA(DisplayName = "EnemyAssassin"),
+
+	SentryGun UMETA(DisplayName = "SentryGun"),
 };
 
 UENUM(BlueprintType)
@@ -677,5 +680,4 @@ enum class EBuffType : uint8
 
 	//Global
 	Deathbound UMETA(DisplayName = "Deathbound"),
-
 };

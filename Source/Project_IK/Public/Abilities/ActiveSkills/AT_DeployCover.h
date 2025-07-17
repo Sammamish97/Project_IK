@@ -26,6 +26,7 @@ class PROJECT_IK_API UAT_DeployCover : public UActiveSkillBase, public FTickable
 public:
 	UAT_DeployCover();
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual void OnEnterCasting() override;
 
 	virtual void Tick(float DeltaTime) override;
 	inline virtual bool IsTickable() const override { return true; }
@@ -48,6 +49,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float deploy_time_ = 0.5f;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ThunderStorm", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UAnimMontage> casting_anim_montage_;
 	protected:
 	UPROPERTY()
 	ACover* actor_;

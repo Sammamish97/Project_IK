@@ -15,8 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_DeploySentryGun.generated.h"
 
-// It will be replaced to ASentryGun or something.
-class ACover;
+class ASentryGun;
 
 UCLASS(Abstract)
 class PROJECT_IK_API UAT_DeploySentryGun : public UActiveSkillBase
@@ -26,15 +25,15 @@ public:
 
 	UAT_DeploySentryGun();
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<ACover> actor_class_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float deployed_sentry_hit_points_ = 200.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float hit_points_scaling_factor_ = 0.8f;
+	virtual void OnEnterCasting() override;
 
 protected:
-	ACover* actor_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SkillData", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<ASentryGun> sentry_gun_class_;
+	
+	UPROPERTY()
+	TObjectPtr<ASentryGun> sentry_gun_actor_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SkillData", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UAnimMontage> casting_anim_montage_;
 };

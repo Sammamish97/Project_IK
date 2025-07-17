@@ -179,3 +179,8 @@ const FDamageData& ABullet::GetDamageData() const
 {
 	return dmg_data_;
 }
+
+AActor* ABullet::GetShooter() const
+{
+	return shooter_.Get();
+}

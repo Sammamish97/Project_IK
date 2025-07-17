@@ -38,6 +38,7 @@ public:
 	void SetCollisionPreset(bool is_hero);
 
 	const FDamageData& GetDamageData() const;
+	AActor* GetShooter() const;
 
 	UFUNCTION()
 	void AddOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);

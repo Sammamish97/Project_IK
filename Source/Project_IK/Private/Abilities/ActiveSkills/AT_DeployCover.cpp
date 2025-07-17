@@ -34,6 +34,12 @@ UAT_DeployCover::UAT_DeployCover()
 	cool_time_ = 10.f;
 }
 
+void UAT_DeployCover::OnEnterCasting()
+{
+	Super::OnEnterCasting();
+	Cast<AUnit>(skill_owner_)->PlayAnimMontage(casting_anim_montage_);
+}
+
 //IKTODO: 이후 해당 엄폐물에 엄폐 했을 시 버프 추가 로직을 추가해야 함.
 bool UAT_DeployCover::ActivateSkill(const FTargetResult& TargetResult)
 {

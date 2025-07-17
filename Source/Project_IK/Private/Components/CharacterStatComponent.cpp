@@ -64,6 +64,13 @@ void UCharacterStatComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	OnShieldChanged.Clear();
 }
 
+//만약 유닛 생성 시, 데이터 에셋에 있는 character stat에 상황에 따라 추가적인 값을 더하고 싶다면 유닛을 생성후 이 함수를 통해 조정한다.
+void UCharacterStatComponent::InitWithExtraValue(float extra_hp, float extra_skill_power)
+{
+	max_hit_points_ = GetHitPoint() + extra_hp;
+	SetSkillPower(GetSkillPower() + extra_skill_power);
+}
+
 // Called every frame
 void UCharacterStatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunctionoverride)
 {

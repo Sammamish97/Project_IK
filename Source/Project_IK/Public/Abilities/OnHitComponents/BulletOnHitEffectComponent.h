@@ -27,9 +27,6 @@ public:
 	virtual void ApplyEffect(ABullet* bullet_actor) const;
 	
 protected:
-	UPROPERTY(Transient)
-	TObjectPtr<AActor> shooter_ = nullptr;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UMaterialInstance> on_hit_material_;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

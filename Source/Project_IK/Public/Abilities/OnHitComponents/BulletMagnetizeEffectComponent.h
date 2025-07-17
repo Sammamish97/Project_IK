@@ -21,4 +21,8 @@ class PROJECT_IK_API UBulletMagnetizeEffectComponent : public UBulletOnHitEffect
 public:
 	virtual void OnHit(AActor* target) override;
 	virtual void ApplyEffect(ABullet* bullet_actor) const override;
+
+private:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="SkillData", meta=(AllowPrivateAccess=true))
+	float skill_power_scale_ = 0.8f;
 };

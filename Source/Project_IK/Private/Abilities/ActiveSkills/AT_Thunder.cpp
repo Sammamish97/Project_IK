@@ -21,6 +21,12 @@ UAT_Thunder::UAT_Thunder()
 	damage_ = 100.f;
 }
 
+void UAT_Thunder::OnEnterCasting()
+{
+	Super::OnEnterCasting();
+	Cast<AUnit>(skill_owner_)->PlayAnimMontage(casting_anim_montage_);
+}
+
 void UAT_Thunder::InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data)
 {
 	Super::InitActiveSkill(skill_owner, skill_data);

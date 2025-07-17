@@ -13,7 +13,9 @@ See LICENSE file in the project root for full license information.
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Abilities/ActiveSkills/ATC_MagnetizedEffect.h"
+#include "Characters/HeroBase.h"
 #include "Characters/Unit.h"
+#include "Components/CharacterStatComponent.h"
 #include "Weapons/Guns/Bullet.h"
 
 class UNiagaraComponent;
@@ -23,17 +25,20 @@ void UBulletMagnetizeEffectComponent::OnHit(AActor* target)
 	Super::OnHit(target);
 	if (AUnit* target_unit = Cast<AUnit>(target))
 	{
-		//Magnetized bullet은 추가 마법 데미지를 가진다.
-		//IKTODO: 스킬 위력 계수를 가지는 추가 마법 데미지 추가.
-		FDamageData dmg_data = {0.f, 50.f, EDamageType::Projectile, shooter_,target_unit};
-		target_unit->GetDamage(dmg_data);
-		if (auto magnetized_effect = target_unit->FindComponentByClass<UATC_MagnetizedEffect>())
+		auto shooter = GetOwner<ABullet>()->GetShooter();
+		if (auto hero = Cast<AHeroBase>(shooter))
 		{
-			magnetized_effect->IncreaseStack();
-		}
-		else
-		{
-			target_unit->AddComponentByClass(UATC_MagnetizedEffect::StaticClass(), false, target_unit->GetTransform(), false);
+			FDamageData dmg_data = {0.f, 50.f, EDamageType::Projectile, hero,target_unit};
+			dmg_data.skill_power_base_dmg_ = 50.f + hero->GetCharacterStat()->GetSkillPower() * skill_power_scale_;
+			target_unit->GetDamage(dmg_data);
+			if (auto magnetized_effect = target_unit->FindComponentByClass<UATC_MagnetizedEffect>())
+			{
+				magnetized_effect->IncreaseStack();
+			}
+			else
+			{
+				target_unit->AddComponentByClass(UATC_MagnetizedEffect::StaticClass(), false, target_unit->GetTransform(), false);
+			}
 		}
 	}
 }

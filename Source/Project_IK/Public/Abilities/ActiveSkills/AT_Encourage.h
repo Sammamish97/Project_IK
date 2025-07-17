@@ -21,6 +21,7 @@ class PROJECT_IK_API UAT_Encourage : public UActiveSkillBase
 	GENERATED_BODY()
 public:
 	UAT_Encourage();
+	virtual void OnEnterCasting() override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 private:
@@ -35,4 +36,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
 	float skill_power_buff_amount_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SkillData", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UAnimMontage> casting_anim_montage_;
 };

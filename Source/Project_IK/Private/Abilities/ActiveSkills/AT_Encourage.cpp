@@ -30,6 +30,12 @@ UAT_Encourage::UAT_Encourage()
 	shield_amount_ = 500.f;
 }
 
+void UAT_Encourage::OnEnterCasting()
+{
+	Super::OnEnterCasting();
+	Cast<AUnit>(skill_owner_)->PlayAnimMontage(casting_anim_montage_);
+}
+
 bool UAT_Encourage::ActivateSkill(const FTargetResult& TargetResult)
 {
 	//실드 + 공격력 + 스킬 위력
