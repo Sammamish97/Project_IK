@@ -248,25 +248,25 @@ FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type) 
 
 FWrapperEquipmentData UDataTableManager::GetEquipmentDataRandomly(ERarity weight_rarity) const
 {
-	int32 data_type = FMath::RandRange(0, 3);
+	int32 data_type = FMath::RandRange(0, 99);
 
 	FWrapperEquipmentData result;
-	switch (data_type)
+
+	if (data_type <= 12)
 	{
-	case 0:
-		result.active_skills_.Add(GetActiveSkillDataRandomly(weight_rarity));
-		break;
-	case 1:
-		result.passive_skills_.Add(GetPassiveSkillDataRandomly(weight_rarity));
-		break;
-	case 2:
-		result.runes_.Add(GetRuneDataRandomly(weight_rarity));
-		break;
-	case 3:
 		result.weapons_.Add(GetWeaponDataRandomly(weight_rarity));
-		break;
-	default:
-		break;
+	}
+	else if(data_type <= 24)
+	{
+		result.active_skills_.Add(GetActiveSkillDataRandomly(weight_rarity));
+	}
+	else if(data_type <= 46)
+	{
+		result.passive_skills_.Add(GetPassiveSkillDataRandomly(weight_rarity));
+	}
+	else
+	{
+		result.runes_.Add(GetRuneDataRandomly(weight_rarity));
 	}
 
 	return result;
@@ -274,21 +274,39 @@ FWrapperEquipmentData UDataTableManager::GetEquipmentDataRandomly(ERarity weight
 
 FWrapperEquipmentData UDataTableManager::GetUniqueEquipmentDataRandomly(int32 n, ERarity weight_rarity) const
 {
-	TArray<int32> data_counts({ 0, 0, 0, 0, 0 });
+	TArray<int32> data_counts({ 0, 0, 0, 0 });
 
 	for (int32 i = 0; i < n; i++)
 	{
-		int32 index = FMath::RandRange(0, 4);
+		int32 index = 0;
+		int32 probability = FMath::RandRange(0, 99);
+
+		if (probability <= 12)
+		{
+			index = 0;
+		}
+		else if (probability <= 24)
+		{
+			index = 1;
+		}
+		else if (probability <= 46)
+		{
+			index = 2;
+		}
+		else
+		{
+			index = 3;
+		}
 
 		// Increase count by randomly chosen data index
 		data_counts[index] += 1;
 	}
 
 	FWrapperEquipmentData result;
-	result.active_skills_ = GetUniqueActiveSkillDataRandomly(data_counts[0], weight_rarity);
+	result.weapons_ = GetUniqueWeaponDataRandomly(data_counts[0], weight_rarity);
+	result.active_skills_ = GetUniqueActiveSkillDataRandomly(data_counts[1], weight_rarity);
 	result.passive_skills_ = GetUniquePassiveSkillDataRandomly(data_counts[2], weight_rarity);
 	result.runes_ = GetUniqueRuneDataRandomly(data_counts[3], weight_rarity);
-	result.weapons_ = GetUniqueWeaponDataRandomly(data_counts[4], weight_rarity);
 
 	return result;
 }

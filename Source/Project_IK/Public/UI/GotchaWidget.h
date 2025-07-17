@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Structs/WrapperEquipmentData.h"
 #include "GotchaWidget.generated.h"
 
 class UButton;
@@ -66,6 +67,7 @@ protected:
 	TObjectPtr<UGotchaResultWidget> result_widget_;
 
 	int32 pulled_credits_;
+	FWrapperEquipmentData pulled_equipments_;
 
 	int32 num_max_pull_;
 };

@@ -34,6 +34,6 @@ public:
 	ERarity GetSeedWeightRarity() const;
 
 protected:
-	int32 num_max_pull_ = 10;
+	int32 num_max_pull_ = 0;
 	ERarity seed_weight_rarity_ = ERarity::Common;
 };

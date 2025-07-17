@@ -88,12 +88,13 @@ void UGotchaWidget::PullOne()
 
 void UGotchaWidget::PullTen()
 {
-	if (num_max_pull_ < 10)
+	if (num_max_pull_ <= 0)
 	{
 		return;
 	}
-	SetTickets(num_max_pull_ - 10);
-	Gotcha(10);
+	int32 pull_num = num_max_pull_ % 10;
+	SetTickets(num_max_pull_ - pull_num);
+	Gotcha(pull_num);
 }
 
 void UGotchaWidget::SetTickets(int32 tickets)
@@ -115,21 +116,35 @@ void UGotchaWidget::Gotcha(int32 pulls)
 	const UDataTableManager* data_table_manager = game_instance->GetDataTableManager();
 
 	TArray<UTexture2D*> textures;
-	// @@ TODO: Expand it from only item to item, DP, manuals, money
 	for (int32 i = 0; i < pulls; i++)
 	{
-		//int32 tmp = FMath::RandRange(0, 2);
-		//switch (tmp)
-		//{
-		//default:
-		//	textures.Add(credits_texture_);
-		//	pulled_credits_ += 20;
-		//	break;
-		//}
-
-		// Rewarded credits only.
-		textures.Add(credits_texture_);
-		pulled_credits_ += 20;
+		int32 probability = FMath::RandRange(0, 99);
+		if (probability <= 19)
+		{
+			textures.Add(credits_texture_);
+			pulled_credits_ += 20;
+		}
+		else
+		{	// Add equipment texture
+			FWrapperEquipmentData pulled_data = data_table_manager->GetEquipmentDataRandomly();
+			if (!pulled_data.weapons_.IsEmpty())
+			{
+				textures.Add(pulled_data.weapons_[0].item_data_.thumbnail);
+			}
+			else if (!pulled_data.active_skills_.IsEmpty())
+			{
+				textures.Add(pulled_data.active_skills_[0].item_data_.thumbnail);
+			}
+			else if (!pulled_data.passive_skills_.IsEmpty())
+			{
+				textures.Add(pulled_data.passive_skills_[0].item_data_.thumbnail);
+			}
+			else
+			{
+				textures.Add(pulled_data.runes_[0].item_data_.thumbnail);
+			}
+			pulled_equipments_ += pulled_data;
+		}
 	}
 	if (pulls <= 1)
 	{
@@ -144,6 +159,7 @@ void UGotchaWidget::Gotcha(int32 pulls)
 void UGotchaWidget::ClearContainers()
 {
 	pulled_credits_ = 0;
+	pulled_equipments_ = FWrapperEquipmentData();
 }
 
 void UGotchaWidget::StorePulledData()
