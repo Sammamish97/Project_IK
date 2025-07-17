@@ -24,8 +24,9 @@ UAT_Encourage::UAT_Encourage()
 	cool_time_ = 10.f;
 	scaling_factor_ = 0.02f;
 
-	attack_power_buff_amount_ = 1.2;
-	skill_power_buff_amount_ = 1.2;
+	buff_duration_ = 4.f;
+	attack_power_buff_amount_ = 2.f;
+	skill_power_buff_amount_ = 2.f;
 	shield_amount_ = 500.f;
 }
 

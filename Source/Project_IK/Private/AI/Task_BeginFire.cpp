@@ -34,10 +34,6 @@ EBTNodeResult::Type UTask_BeginFire::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 			TWeakObjectPtr target_ptr = blackboard->GetValueAsObject(attack_target_key_.SelectedKeyName);
 			if(UObject* casted_target = target_ptr.Get())
 			{
-				if (casted_pawn->IsA(AHeroBase::StaticClass()))
-				{
-					UE_LOG(LogTemp, Warning, TEXT("Start Fire!"));
-				}
 				casted_attackable_unit->Attack(Cast<AActor>(casted_target));
 				return EBTNodeResult::Succeeded;
 			}

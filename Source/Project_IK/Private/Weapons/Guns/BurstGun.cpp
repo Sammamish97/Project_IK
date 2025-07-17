@@ -32,7 +32,6 @@ void ABurstGun::BeginFire(AActor* target)
 			{
 				if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target_ptr)
 				{
-					OnFireWeapon.Broadcast();
 					FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &ABurstGun::OnFire, target_ptr, GetWeaponFireDamageData(), weapon_attack_speed);
 					GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, weapon_attack_speed); 
 				}
@@ -48,6 +47,10 @@ void ABurstGun::OnFire(AActor* target, FDamageData dmg_data, float attack_speed)
 	{
 		if(AUnit* gun_owner = weak_gun_owner_.Get())
 		{
+			if (burst_count_ == 0)
+			{
+				OnFireWeapon.Broadcast();
+			}
 			burst_count_ += 1;
 			gun_owner->PlayAnimMontage(fire_montage_, fire_montage_->GetPlayLength() / attack_speed);
 			FVector rand_vec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, HARD_CODED_ACCURACY);

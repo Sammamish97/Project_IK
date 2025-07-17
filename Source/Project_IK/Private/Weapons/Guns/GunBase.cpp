@@ -61,14 +61,6 @@ void AGunBase::Reload()
 {
 	if (GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false && hold_action_ == false)
 	{
-		//IKTODO: 이 구문은 테스트용이다. 이후 지워야 한다!
-		if (AUnit* gun_owner = weak_gun_owner_.Get())
-		{
-			if (gun_owner->IsA(AHeroBase::StaticClass()))
-			{
-				UE_LOG(LogTemp, Warning, TEXT("Hero start reloading!"));
-			}
-		}
 		if (AUnit* gun_owner = weak_gun_owner_.Get())
 		{
 			gun_owner->DispatchUnitEvent(EUnitEvent::OnReload);

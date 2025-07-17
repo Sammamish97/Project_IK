@@ -24,8 +24,15 @@ public:
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 private:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
 	float buff_duration_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
 	float shield_amount_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
 	float attack_power_buff_amount_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
 	float skill_power_buff_amount_;
 };

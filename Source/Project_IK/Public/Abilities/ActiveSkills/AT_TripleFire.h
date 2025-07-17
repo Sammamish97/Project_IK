@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
+#include "Structs/BuffStatusData.h"
 #include "AT_TripleFire.generated.h"
 
 UCLASS(Abstract)
@@ -27,8 +28,12 @@ private:
 	virtual void OnTripleFire();
 
 private:
-	float attack_speed_buff_amount_ = 2.5f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="TripleFire", meta=(AllowPrivateAccess=true))
+	float attack_speed_buff_amount_ = 5.5f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="TripleFire", meta=(AllowPrivateAccess=true))
 	float upgraded_buff_amount_ = 3.5f;
+	
+	FBuffStatusData buff_status_data_;
 	bool on_triple_fire_ = false;
 	int32 fire_counter_ = 0.f;
 };

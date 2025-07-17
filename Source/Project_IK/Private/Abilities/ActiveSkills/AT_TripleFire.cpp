@@ -11,9 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 #include "Components/CharacterStatComponent.h"
-#include "Components/WeaponMechanics.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "Weapons/Guns/GunBase.h"
 
 UAT_TripleFire::UAT_TripleFire()
 {
@@ -31,6 +29,14 @@ void UAT_TripleFire::InitActiveSkill(AActor* skill_owner, const FActiveSkillData
 		UE_LOG(LogTemp, Warning, TEXT("BindOnFireWeapon has failed in UAT_TripleFire::OnTripleFire."));
 		check(TEXT("BindOnFireWeapon has failed in UAT_TripleFire::OnTripleFire."));
 	}
+	buff_status_data_.stat_type_ = ECharacterStatType::AttackSpeed;
+	buff_status_data_.value_ = attack_speed_buff_amount_;
+	buff_status_data_.is_percentage_ = false;
+	buff_status_data_.is_permanent_ = true;
+	if (IsUpgradedActiveSkill(skill_data_.type_))
+	{
+		buff_status_data_.value_ = upgraded_buff_amount_;
+	}
 }
 
 bool UAT_TripleFire::ActivateSkill(const FTargetResult& TargetResult)
@@ -43,12 +49,7 @@ bool UAT_TripleFire::ActivateSkill(const FTargetResult& TargetResult)
 		{
 			on_triple_fire_ = true;
 			hero->SetAttackTarget(target);
-			FBuffStatusData attack_speed_data = {ECharacterStatType::AttackSpeed, attack_speed_buff_amount_, false, true};
-			if (IsUpgradedActiveSkill(skill_data_.type_))
-			{
-				attack_speed_data = {ECharacterStatType::AttackSpeed, upgraded_buff_amount_, false, true};
-			}
-			hero->ApplyBuff(EBuffType::TripleFire, attack_speed_data);
+			hero->ApplyBuff(EBuffType::TripleFire, buff_status_data_);
 			hero->AddBuffUI({skill_data_.item_data_, EBuffType::TripleFire, 0.f, true  });
 		}
 	}
