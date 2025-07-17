@@ -21,6 +21,15 @@ UAT_Thunder::UAT_Thunder()
 	damage_ = 100.f;
 }
 
+void UAT_Thunder::InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data)
+{
+	Super::InitActiveSkill(skill_owner, skill_data);
+	if (IsUpgradedActiveSkill(skill_data_.type_))
+	{
+		cool_time_ -= 2;
+	}
+}
+
 bool UAT_Thunder::ActivateSkill(const FTargetResult& target_result)
 {
 	if(target_result.target_actors_[0])

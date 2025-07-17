@@ -15,6 +15,9 @@ See LICENSE file in the project root for full license information.
 #include "Weapons/Guns/Bullet.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
+#include "Components/CharacterStatComponent.h"
+#include "Components/WeaponMechanics.h"
+#include "Structs/WeaponStatusData.h"
 
 void UBulletChainEffectComponent::OnHit(AActor* target)
 {
@@ -23,7 +26,6 @@ void UBulletChainEffectComponent::OnHit(AActor* target)
 	//1. 총알의 전도는 일단 유닛 하나가 총알에 맞고 시작한다. 해당 유닛은 대상에서 제외해야 한다.
 	TArray<AActor*> visited;
 	visited.Add(target);
-	
 
 	for (int32 i = 1; i < chain_amount_; ++i)
 	{
@@ -57,12 +59,29 @@ void UBulletChainEffectComponent::OnHit(AActor* target)
 	}
 	
 	//2. Visited array에 도탄될 대상이 전부 정해졌으면 도탄 효과를 발동한다.
+	AUnit* casted_owner_unit = Cast<AUnit>(shooter_);
+	float cur_attack_power =casted_owner_unit->GetCharacterStat()->GetAttackPower();
+	FWeaponStatusData cur_weapon_status = shooter_->GetComponentByClass<UWeaponMechanics>()->GetWeaponData();
+
+	float init_damage = cur_weapon_status.basic_dmg_ + cur_weapon_status.attack_scale * cur_attack_power;
+	float total_crit_hit_rate = casted_owner_unit->GetCharacterStat()->GetCriticalHitRate() + cur_weapon_status.critical_hit_rate_;
+	
+	FDamageData dmg_data;
+	dmg_data.attacker_ = shooter_;
+	dmg_data.skill_power_base_dmg_ = 0;
+	dmg_data.damage_type_ = EDamageType::Projectile;
+	dmg_data.atk_base_dmg_ = init_damage;
+	if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
+	{
+		dmg_data.is_critical_shot_ = true;
+		dmg_data.atk_base_dmg_ *= 2;
+	}
 	for (int32 i = 0; i < visited.Num(); ++i)
 	{
 		if (AUnit* cur_unit = Cast<AUnit>(visited[i]))
 		{
-			//도탄 데미지 전달.
-			FDamageData dmg_data = {77.f, 0, EDamageType::Projectile, shooter_,cur_unit};
+			//도탄 데미지 감쇄 & 전달.
+			dmg_data.atk_base_dmg_ = dmg_data.atk_base_dmg_ * (1 - bounce_dmg_diminish_amount * (i + 1));
 			cur_unit->GetDamage(dmg_data);
 		}
 	}

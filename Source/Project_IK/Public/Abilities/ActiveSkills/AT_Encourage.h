@@ -22,4 +22,10 @@ class PROJECT_IK_API UAT_Encourage : public UActiveSkillBase
 public:
 	UAT_Encourage();
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
+
+private:
+	float buff_duration_;
+	float shield_amount_;
+	float attack_power_buff_amount_;
+	float skill_power_buff_amount_;
 };

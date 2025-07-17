@@ -26,7 +26,7 @@ class PROJECT_IK_API UActiveSkillBase : public USkillBase
 	
 public:
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
-	void InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data);
+	virtual void InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data);
 	float GetCastingTime() const;
 	float GetAIHoldTime() const;
 	bool HasMotion() const;

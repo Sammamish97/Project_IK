@@ -30,5 +30,8 @@ protected:
 	int32 chain_amount_ = 3;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ChainEffect")
+	float bounce_dmg_diminish_amount = 0.3f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ChainEffect")
 	float chain_radius_ = 1000.f;
 };

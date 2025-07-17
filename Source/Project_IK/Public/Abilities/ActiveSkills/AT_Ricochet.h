@@ -26,8 +26,11 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UBulletChainEffectComponent> chain_on_hit_class_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UBulletChainEffectComponent> upgraded_chain_on_hit_class_;
 	
 protected:
-	float duration_ = 0.f;
+	float duration_;
 	FTimerHandle duration_timer_handle_;
 };

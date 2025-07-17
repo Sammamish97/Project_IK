@@ -78,6 +78,9 @@ public:
 	template<typename T, typename FuncType>
 	bool BindOnCriticalRateCalculation(UObject* bound_hero, T* object, FuncType callback);
 
+	template<typename T, typename FuncType>
+	bool BindOnFireWeapon(UObject* bound_hero, T* object, FuncType callback);
+
 protected:
 	AIKPlayerController* GetAIKPlayerController() const;
 };
@@ -215,6 +218,23 @@ inline bool UDelegateBridgeSubsystem::BindOnCriticalRateCalculation(UObject* bou
 	if (hero)
 	{
 		hero->GetWeaponMechanics()->GetWeaponActor()->OnCriticalRateCalculation.AddUObject(object, callback);
+		return true;
+	}
+	return false;
+}
+
+template <typename T, typename FuncType>
+bool UDelegateBridgeSubsystem::BindOnFireWeapon(UObject* bound_hero, T* object, FuncType callback)
+{
+	if (object == nullptr)
+	{
+		return false;
+	}
+
+	AHeroBase* hero = Cast<AHeroBase>(bound_hero);
+	if (hero)
+	{
+		hero->GetWeaponMechanics()->GetWeaponActor()->OnFireWeapon.AddUObject(object, callback);
 		return true;
 	}
 	return false;

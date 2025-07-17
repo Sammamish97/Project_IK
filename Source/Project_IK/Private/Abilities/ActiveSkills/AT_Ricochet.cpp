@@ -20,8 +20,8 @@ class AHeroBase;
 UAT_Ricochet::UAT_Ricochet()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Allies, 0.f, 0.f, true);
-	cool_time_ = 5.f;
-	duration_ = 3.f;
+	cool_time_ = 8.f;
+	duration_ = 5.f;
 }
 
 bool UAT_Ricochet::ActivateSkill(const FTargetResult& TargetResult)
@@ -30,7 +30,14 @@ bool UAT_Ricochet::ActivateSkill(const FTargetResult& TargetResult)
 	{
 		if (auto weapon_actor = hero->GetWeaponMechanics()->GetWeaponActor())
 		{
-			weapon_actor->AddOnHitComponent(chain_on_hit_class_);
+			if (IsUpgradedActiveSkill(skill_data_.type_))
+			{
+				weapon_actor->AddOnHitComponent(upgraded_chain_on_hit_class_);
+			}
+			else
+			{
+				weapon_actor->AddOnHitComponent(chain_on_hit_class_);
+			}
 		}
 		hero->AddBuffUI({skill_data_.item_data_, EBuffType::Ricochet, duration_, false});
 

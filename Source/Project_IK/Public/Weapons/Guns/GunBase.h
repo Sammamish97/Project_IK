@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 #include "GunBase.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnCriticalRateCalculationDelegate, float&);
+DECLARE_MULTICAST_DELEGATE(FOnFireWeapon);
 
 class UNiagaraComponent;
 
@@ -68,7 +69,6 @@ protected:
 	void PlayFireParticle() const;
 
 public:
-	
 	FORCEINLINE FAIRequestID GetReloadRequestId() const { return reload_request_id_; }
 
 protected:
@@ -96,6 +96,7 @@ protected:
 	FTimerHandle reload_timer_handle_;
 
 	FOnCriticalRateCalculationDelegate OnCriticalRateCalculation;
+	FOnFireWeapon OnFireWeapon;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon" )
 	TObjectPtr<class UObjectPoolComponent> object_pool_component_;

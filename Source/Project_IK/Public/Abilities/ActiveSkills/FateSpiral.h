@@ -25,7 +25,7 @@ public:
 	// Sets default values for this actor's properties
 	AFateSpiral();
 
-	void SetNecessaryData(AActor* skill_owner, AActor* departure, AActor* arrival, float radius);
+	void SetNecessaryData(AActor* skill_owner, AActor* departure, AActor* arrival, float radius, bool upgraded);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UNiagaraSystem> skill_particle_system_;
@@ -56,9 +56,12 @@ public:
 	float damage_scaling_factor_ = 0.6f;
 
 protected:
+	UPROPERTY()
 	AActor* departure_ = nullptr;
-	AActor* arrival_ = nullptr;
 
+	UPROPERTY()
+	AActor* arrival_ = nullptr;
+	
 	int32 jump_count_ = 0;
 
 	FTimerHandle fate_sprial_handler_;
@@ -68,7 +71,10 @@ protected:
 
 	float range_squared_ = FLT_MAX;
 
+	UPROPERTY()
 	TSet<AActor*> traversed_actors_;
+
+	bool is_upgraded_ = false;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Transient)
 	float traverse_interval_ = 0.5f;

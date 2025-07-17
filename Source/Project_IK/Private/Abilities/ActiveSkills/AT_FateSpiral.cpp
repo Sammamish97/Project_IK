@@ -24,14 +24,15 @@ UAT_FateSpiral::UAT_FateSpiral()
 	cool_time_ = 10;
 }
 
+
+
 bool UAT_FateSpiral::ActivateSkill(const FTargetResult& TargetResult)
 {
-
 	if (actor_class_)
 	{
 		actor_ = skill_owner_->GetWorld()->SpawnActor<AFateSpiral>(actor_class_);
 
-		actor_->SetNecessaryData(skill_owner_, skill_owner_, TargetResult.target_actors_[0], target_param_.range_);
+		actor_->SetNecessaryData(skill_owner_, skill_owner_, TargetResult.target_actors_[0], target_param_.range_, IsUpgradedActiveSkill(skill_data_.type_));
 	}
 
 	return Super::ActivateSkill(TargetResult);

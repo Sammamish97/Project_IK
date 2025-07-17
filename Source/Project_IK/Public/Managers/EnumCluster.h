@@ -648,6 +648,7 @@ enum class EBuffType : uint8
 	//Active
 	MagnetizedBullet_A UMETA(DisplayName = "MagnetizedBullet_A"),
 	Ricochet UMETA(DisplayName = "Ricochet"),
+	TripleFire UMETA(DisplayName = "TripleFire"),
 
 	//Passive
 	InstantRepair UMETA(DisplayName = "InstantRepair"),

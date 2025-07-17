@@ -31,6 +31,7 @@ void AAutoGun::BeginFire(AActor* target)
 			float weapon_attack_speed = 1.f / total_fire_per_sec;
 			if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target_ptr)
 			{
+				OnFireWeapon.Broadcast();
 				FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &AAutoGun::OnFire, target_ptr, weapon_attack_speed);
 				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, weapon_attack_speed); 
 			}

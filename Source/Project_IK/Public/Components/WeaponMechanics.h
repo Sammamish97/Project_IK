@@ -44,7 +44,7 @@ public:
 	AGunBase* GetWeaponActor();
 
 	FAIRequestID GetReloadRequestId() const;
-	
+
 private:
 	UPROPERTY(Transient)
 	TObjectPtr<AGunBase> weapon_actor_ = nullptr;

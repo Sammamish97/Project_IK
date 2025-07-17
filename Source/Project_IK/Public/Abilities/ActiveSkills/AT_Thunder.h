@@ -19,7 +19,9 @@ UCLASS(Abstract)
 class PROJECT_IK_API UAT_Thunder : public UActiveSkillBase
 {
 	GENERATED_BODY()
+public:
 	UAT_Thunder();
+	virtual void InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data) override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 protected:
