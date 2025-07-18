@@ -14,12 +14,12 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "HeroEquipBoardWidget.generated.h"
 
-class UInventoryWidget;
 class UPassiveSkillSlotWidget;
-class UActiveSkillSlotWidget;
 class UWeaponSlotWidget;
+class UActiveSkillSlotWidget;
+class UInventorySlot;
+class UInventoryWidget;
 class UButton;
-class UEquipSlot;
 class UImage;
 
 UCLASS()

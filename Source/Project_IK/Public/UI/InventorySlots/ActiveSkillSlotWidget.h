@@ -21,6 +21,7 @@ class PROJECT_IK_API UActiveSkillSlotWidget : public UInventorySlot
 public:
 	virtual void NativeConstruct() override;
 	void SetActiveSkillSlotData(FActiveSkillData active_skill_data);
+	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	FActiveSkillData GetStoredActiveSkillData();
 	virtual void SetImageTexture() override;

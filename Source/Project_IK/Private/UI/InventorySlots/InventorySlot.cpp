@@ -10,12 +10,21 @@ See LICENSE file in the project root for full license information.
 #include "UI/InventorySlots/InventorySlot.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
+#include "UI/InventoryWidget.h"
 #include "UI/SlotDragDropImage.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
+
 
 void UInventorySlot::InitInventorySlot(UInventoryWidget* widget_ptr, bool is_board_slot)
 {
 	inventory_widget_cache_ = widget_ptr;
 	is_board_slot_ = is_board_slot;
+}
+
+void UInventorySlot::NativeConstruct()
+{
+	Super::NativeConstruct();
+	highlight_image_->SetVisibility(ESlateVisibility::Hidden);
 }
 
 FReply UInventorySlot::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -52,6 +61,7 @@ void UInventorySlot::NativeOnDragDetected(const FGeometry& InGeometry, const FPo
 bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
 	UDragDropOperation* InOperation)
 {
+	inventory_widget_cache_->RemoveHighlight();
 	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
 	if (auto casted_inventory_slot = Cast<UInventorySlot>(InOperation->Payload))
 	{
@@ -67,9 +77,40 @@ bool UInventorySlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 	return false;
 }
 
+void UInventorySlot::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
+{
+	inventory_widget_cache_->RemoveHighlight();
+	Super::NativeOnDragCancelled(InDragDropEvent, InOperation);
+}
+
+void UInventorySlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
+	if (is_empty_ == false)
+	{
+		inventory_widget_cache_->CreatePopupWidget(item_data_cache_);
+	}
+}
+
+FReply UInventorySlot::NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseMove(InGeometry, InMouseEvent);
+	float pos_x, pos_y;
+	UWidgetLayoutLibrary::GetMousePositionScaledByDPI(inventory_widget_cache_->GetOwningPlayer(), pos_x, pos_y);
+	inventory_widget_cache_->SetPopupWidgetPos({pos_x, pos_y});
+	return FReply::Unhandled();
+}
+
+void UInventorySlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseLeave(InMouseEvent);
+	inventory_widget_cache_->RemovePopupWidget();
+}
+
 void UInventorySlot::ClearData()
 {
 	is_empty_ = true;
+	item_data_cache_ = FItemData();
 	//IKTODO: 이후 비워두는 것이 아닌, 빈칸 텍스쳐를 띄워야 함.
 	image_->SetBrushFromTexture(nullptr);
 }
@@ -80,6 +121,11 @@ void UInventorySlot::SetImageTexture()
 	{
 		image_->SetBrushFromTexture(nullptr);
 	}
+}
+
+void UInventorySlot::SetHighlightImageVisibility(ESlateVisibility visibility)
+{
+	highlight_image_->SetVisibility(visibility);
 }
 
 EInventorySlotType UInventorySlot::GetSlotType() const

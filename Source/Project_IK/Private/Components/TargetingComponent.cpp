@@ -112,8 +112,6 @@ void UTargetingComponent::StartTargeting(FTargetParameters target_params, AActor
 	is_targeting_ = true;
 	invoker_ = invoker;
 	target_parameters_ = target_params;
-	current_target_result_.target_actors_.Empty();
-	current_target_result_.target_parameters_ = target_parameters_;
 	range_decal_->DecalSize = FVector(target_parameters_.range_);
 
 	CleanUpVisuals();
@@ -121,24 +119,24 @@ void UTargetingComponent::StartTargeting(FTargetParameters target_params, AActor
 
 FTargetResult UTargetingComponent::DecideTargetings()
 {
+	FTargetResult result;
 	switch (target_parameters_.current_mode_)
 	{
-	case ETargetingMode::None:
-		StopTargeting();
-		break;
 	case ETargetingMode::Actor:
-		HandleActorTargeting();
+		HandleActorTargeting(result);
 		break;
 	case ETargetingMode::Location:
-		HandleLocationTargeting();
+		HandleLocationTargeting(result);
 		break;
 	case ETargetingMode::Direction:
-		HandleDirectionTargeting();
+		HandleDirectionTargeting(result);
 		break;
 	default:
 		break;
 	}
-	return current_target_result_;
+
+	StopTargeting();
+	return result;
 }
 
 void UTargetingComponent::StopTargeting()
@@ -172,23 +170,21 @@ void UTargetingComponent::StopItemTargeting()
 	}
 }
 
-void UTargetingComponent::HandleActorTargeting()
+void UTargetingComponent::HandleActorTargeting(FTargetResult& result)
 {
 	FVector target_location = GetGroundLocation();
 	AActor* closest_actor = FindClosestActor(target_location);
 
-	current_target_result_.target_location_ = target_location;
-	current_target_result_.target_actors_.Add(closest_actor);
-
-	StopTargeting();
+	result.target_location_ = target_location;
+	result.target_actors_.Add(closest_actor);
 }
 
-void UTargetingComponent::HandleLocationTargeting()
+void UTargetingComponent::HandleLocationTargeting(FTargetResult& result)
 {
 	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
 	FVector target_location = GetGroundLocation();
-	current_target_result_.target_location_ = ClampingOntoInvoker(target_location);
+	result.target_location_ = ClampingOntoInvoker(target_location);
 
 	if (game_mode_cache)
 	{
@@ -197,17 +193,16 @@ void UTargetingComponent::HandleLocationTargeting()
 		{
 			auto heroes = game_mode_cache->GetHeroContainer();
 
-			for (const auto& elem  : heroes)
+			for (AActor* actor : heroes)
 			{
-				if (AActor* cur_actor = elem)
+				if (actor)
 				{
-					//IKTODO: 여기서 actor가 null이 나와 crash가 되는 경우가 있음.
-					FVector to_actor = cur_actor->GetActorLocation() - current_target_result_.target_location_;
+					FVector to_actor = actor->GetActorLocation() - result.target_location_;
 
 					float squared_distance_to_actor = to_actor.SizeSquared();
 					if (squared_distance_to_actor <= squared_radius)
 					{
-						current_target_result_.target_actors_.Add(cur_actor);
+						result.target_actors_.Add(actor);
 					}
 				}
 			}
@@ -218,32 +213,32 @@ void UTargetingComponent::HandleLocationTargeting()
 
 			for (AActor* actor : enemies)
 			{
-				FVector to_actor = actor->GetActorLocation() - current_target_result_.target_location_;
+				FVector to_actor = actor->GetActorLocation() - result.target_location_;
 
 				float squared_distance_to_actor = to_actor.SizeSquared();
 				if (squared_distance_to_actor <= squared_radius)
 				{
-					current_target_result_.target_actors_.Add(actor);
+					result.target_actors_.Add(actor);
 				}
 			}
 		}
 	}
-
-	StopTargeting();
 }
 
-void UTargetingComponent::HandleDirectionTargeting()
+FVector UTargetingComponent::HandleDirectionTargeting(FTargetResult& result)
 {
 	if (!invoker_)
 	{
 		StopTargeting();
-		return;
+		return FVector();
 	}
 
 	FVector target_location = GetGroundLocation();
 	FVector origin = invoker_->GetActorLocation();
-	FVector direction = target_location - origin;
-	current_target_result_.target_location_ = target_location;
+	FVector normalized_direction = (target_location - origin);
+	normalized_direction.Z = 0.f;
+	normalized_direction = normalized_direction.GetSafeNormal();
+	result.target_location_ = target_location;
 
 
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
@@ -254,13 +249,13 @@ void UTargetingComponent::HandleDirectionTargeting()
 		{
 			auto heroes = game_mode->GetHeroContainer();
 
-			for (const auto& elem  : heroes)
+			for (AActor* actor  : heroes)
 			{
-				if (AActor* cur_actor = elem)
+				if (actor)
 				{
-					if (IsWithinSector(origin, direction, target_parameters_.range_, target_parameters_.radius_, cur_actor->GetActorLocation()))
+					if (IsWithinSector(origin, normalized_direction, target_parameters_.range_, target_parameters_.radius_, actor->GetActorLocation()))
 					{
-						current_target_result_.target_actors_.Add(cur_actor);
+						result.target_actors_.Add(actor);
 					}
 				}
 			}
@@ -273,15 +268,16 @@ void UTargetingComponent::HandleDirectionTargeting()
 			{
 				if (actor)
 				{
-					if (IsWithinSector(origin, direction, target_parameters_.range_, target_parameters_.radius_, actor->GetActorLocation()))
+					if (IsWithinSector(origin, normalized_direction, target_parameters_.range_, target_parameters_.radius_, actor->GetActorLocation()))
 					{
-						current_target_result_.target_actors_.Add(actor);
+						result.target_actors_.Add(actor);
 					}
 				}
 			}
 		}
 	}
-	StopTargeting();
+
+	return normalized_direction;
 }
 
 void UTargetingComponent::InitializeTargetingVisuals()
@@ -337,8 +333,7 @@ void UTargetingComponent::InitializeTargetingVisuals()
 
 void UTargetingComponent::UpdateTargetingVisuals()
 {
-	FVector target_location = GetGroundLocation();
-	FVector clamped_target_location = ClampingOntoInvoker(target_location);
+	TRACE_CPUPROFILER_EVENT_SCOPE(UTargetingComponent::UpdateTargetingVisuals);
 
 	FVector invoker_location;
 	if (invoker_)
@@ -350,35 +345,33 @@ void UTargetingComponent::UpdateTargetingVisuals()
 		// set its location to be logically invalid
 		invoker_location = FVector(10000, 10000, 10000);
 	}
+	FTargetResult result;
 
-	if (target_parameters_.current_mode_ == ETargetingMode::Actor)
+	switch (target_parameters_.current_mode_)
 	{
+	case ETargetingMode::Actor:
 		range_decal_->SetWorldLocation(invoker_location);
-
-		ApplyMaterialHighlight(FindClosestActor(target_location));
-	}
-	if (target_parameters_.current_mode_ == ETargetingMode::Location)
-	{
-
-		radius_decal_->SetWorldLocation(clamped_target_location);
+		HandleActorTargeting(result);
+		break;
+	case ETargetingMode::Location:
+		HandleLocationTargeting(result);
+		radius_decal_->SetWorldLocation(result.target_location_);
 		range_decal_->SetWorldLocation(invoker_location);
-	}
-	if (target_parameters_.current_mode_ == ETargetingMode::Direction)
-	{
+		break;
+	case ETargetingMode::Direction:
 		sector_decal_->SetWorldLocation(invoker_location);
-
-		FVector direction = clamped_target_location - invoker_location;
-		FRotator target_rotation = UKismetMathLibrary::MakeRotFromZ(direction);
-		sector_decal_->SetRelativeRotation(FRotator(90.0, 0.0, 0.0));
-		sector_decal_->AddRelativeRotation(target_rotation);
-
+		sector_decal_->SetWorldRotation(UKismetMathLibrary::MakeRotFromZ(HandleDirectionTargeting(result)).Quaternion() * FRotator(0.0f, 90.0f, 0.0f).Quaternion());
 		range_decal_->SetWorldLocation(invoker_location);
+		break;
+	default:
+		break;
 	}
+	ApplyMaterialHighlight(result.target_actors_);
 }
 
 void UTargetingComponent::CleanupTargetingVisuals()
 {
-	ApplyMaterialHighlight(nullptr);
+	ApplyMaterialHighlight({});
 
 	if (range_decal_)
 	{
@@ -510,27 +503,34 @@ AActor* UTargetingComponent::FindClosestActor(const FVector& TargetLocation)
 	return closest_actor;
 }
 
-void UTargetingComponent::ApplyMaterialHighlight(AActor* target)
+void UTargetingComponent::ApplyMaterialHighlight(TArray<AActor*> targets)
 {
-	if(last_chosen_unit_ != nullptr && last_chosen_unit_ != target)
+	TSet<AActor*> new_targets(targets);
+
+	previously_chosen_units_ = previously_chosen_units_.Difference(new_targets);
+	for (AActor* actor : previously_chosen_units_)
 	{
-		Cast<AUnit>(last_chosen_unit_)->SetOutlineState(EOutlineState::Disable);
+		Cast<AUnit>(actor)->SetOutlineState(EOutlineState::Disable);
 	}
-	if(AUnit* unit = Cast<AUnit>(target))
+	for (AActor* actor : new_targets)
 	{
-		if(unit->IsHero())
+		if (AUnit* unit = Cast<AUnit>(actor))
 		{
-			unit->SetOutlineState(EOutlineState::Green);
+			if (unit->IsHero())
+			{
+				unit->SetOutlineState(EOutlineState::Green);
+			}
+			else
+			{
+				unit->SetOutlineState(EOutlineState::Red);
+			}
 		}
-		else
-		{
-			unit->SetOutlineState(EOutlineState::Red);
-		}
-		last_chosen_unit_ = unit;
 	}
+
+	previously_chosen_units_ = new_targets;
 }
 
-bool UTargetingComponent::IsWithinSector(const FVector& origin, const FVector& direction, float range, float angle, const FVector& actor_location)
+bool UTargetingComponent::IsWithinSector(const FVector& origin, const FVector& normalized_direction, float range, float angle, const FVector& actor_location)
 {
 	FVector to_actor = actor_location - origin;
 
@@ -542,7 +542,6 @@ bool UTargetingComponent::IsWithinSector(const FVector& origin, const FVector& d
 	}
 
 	FVector normalized_actor = to_actor.GetSafeNormal();
-	FVector normalized_direction = direction.GetSafeNormal();
 
 	float half_radian = FMath::DegreesToRadians(angle / 2.0);
 	float cos_half_radian = FMath::Cos(half_radian);

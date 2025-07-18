@@ -45,7 +45,7 @@ public:
 
 	void SetHoveredTextVisibility(ESlateVisibility visibility);
 	void SetHoveredTextOpacity(float opacity);
-	void SetHoveredText(FString string);
+	void SetHoveredText(FText string);
 
 protected:
 	virtual void NativeConstruct() override;

@@ -22,7 +22,7 @@ void UStoreSlot::SetTexture(UTexture2D* texture)
 void UStoreSlot::SetPrice(int32 price)
 {
 	price_ = price;
-	price_text_->SetText(FText::FromString(FString::FromInt(price)));
+	price_text_->SetText(FText::AsNumber(price));
 }
 
 int32 UStoreSlot::GetPrice() const

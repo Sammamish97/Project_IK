@@ -21,7 +21,7 @@ void UCreditWidget::UpdateCreditText()
 	if (inventory_manager_.IsValid())
 	{
 		const int32 credits = inventory_manager_->GetCredits();
-		credit_text_->SetText(FText::FromString(FString::FromInt(credits)));
+		credit_text_->SetText(FText::AsNumber(credits));
 	}
 }
 

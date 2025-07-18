@@ -89,10 +89,10 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 		{
 			if (GetWorld()->GetTimerManager().IsTimerActive(active_skill_timers_[casted_hero->GetHeroType()]) == false)
 			{
-				player_controller_cache_->StartTargeting(casted_hero->GetActiveSkillTargetParameters());
+				player_controller_cache_->StartTargeting(casted_hero->GetActiveSkillTargetParameters(), casted_hero);
 				selected_skill_ = casted_hero->GetActiveSkill();
 				selected_hero_type_ = hero_type;
-				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdateSkillPopupData(selected_hero_type_);
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(casted_hero->GetActiveSkillItemData());
 			}
 		}
 	}
@@ -110,7 +110,7 @@ void AIKGameState::ActivateSupportSkill(int32 support_num)
 				player_controller_cache_->StartTargeting(equipped_support_skills_[support_num]->GetTargetParameters());
 				selected_skill_ = equipped_support_skills_[support_num];
 				selected_support_num_ = support_num;
-				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdateSkillPopupData(selected_support_num_);
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(equipped_support_skill_item_data_map_[support_num]);
 			}
 		}
 	}

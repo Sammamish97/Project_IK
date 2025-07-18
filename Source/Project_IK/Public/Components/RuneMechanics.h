@@ -31,7 +31,6 @@ protected:
 	virtual void BeginPlay() override;
 	
 public:
-	FString RuneEnumToString(ERuneSetType set_type);
 	void EquipRune(ERuneSetType set_type, int32 idx);
 	FStatusData GetTotalStatus();
 	void ApplySetBonuses();

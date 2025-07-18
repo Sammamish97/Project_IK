@@ -15,8 +15,12 @@ See LICENSE file in the project root for full license information.
 #include "UI/HeroEquipBoardWidget.h"
 #include "UI/RewardContainerWidget.h"
 #include "UI/RuneBoardWidget.h"
+#include "UI/SkillPopupWidget.h"
 #include "UI/InventorySlots/ActiveSkillSlotWidget.h"
+#include "UI/InventorySlots/PassiveSkillSlotWidget.h"
+#include "UI/InventorySlots/RuneSlotWidget.h"
 #include "UI/InventorySlots/SupportSkillSlotWidget.h"
+#include "UI/InventorySlots/WeaponSlotWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKHUD.h"
 
@@ -83,7 +87,8 @@ bool UInventoryWidget::CheckDuplicatedActiveSkill(EActiveSkillType type)
 {
 	for (const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
 	{
-		if (elem->active_skill_slot_->GetStoredActiveSkillData().type_ == type)
+		if(auto active_skill_slot = Cast<UActiveSkillSlotWidget>(elem->active_skill_slot_))
+		if (active_skill_slot->GetStoredActiveSkillData().type_ == type)
 		{
 			return true;
 		}
@@ -108,10 +113,6 @@ void UInventoryWidget::LoadSelectedRewards(const FWrapperEquipmentData& rewards)
 	reward_container_->LoadSelectedRewards(rewards);
 }
 
-void UInventoryWidget::NativeConstruct()
-{
-	Super::NativeConstruct();
-}
 
 void UInventoryWidget::NativeDestruct()
 {

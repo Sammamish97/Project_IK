@@ -64,6 +64,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<USkillBase> selected_skill_;
+
+	UPROPERTY()
+	TMap<int32, FItemData> equipped_support_skill_item_data_map_;
 	
 	EHeroType selected_hero_type_;
 	int32 selected_support_num_;
