@@ -652,15 +652,17 @@ enum class EBuffType : uint8
 	MagnetizedBullet_A UMETA(DisplayName = "MagnetizedBullet_A"),
 	Ricochet UMETA(DisplayName = "Ricochet"),
 	TripleFire UMETA(DisplayName = "TripleFire"),
+	DeployCover UMETA(DisplayName = "DeployCover"),
+	Encourage UMETA(DisplayName = "Encourage"),
 
 	//Passive
-	InstantRepair UMETA(DisplayName = "InstantRepair"),
-	Encourage UMETA(DisplayName = "Encourage"),
-	DeployCover UMETA(DisplayName = "DeployCover"),
 	Agility UMETA(DisplayName = "Agility"),
 	Berserker UMETA(DisplayName = "Berserker"),
 	LowProfile UMETA(DisplayName = "LowProfile"),
 
+	//Support
+	InstantRepair UMETA(DisplayName = "InstantRepair"),
+	
 	//Rune
 	Chariot_Edge UMETA(DisplayName = "Chariot_Edge"),
 	Chariot_Triangle UMETA(DisplayName = "Chariot_Edge"),

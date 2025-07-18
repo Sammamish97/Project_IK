@@ -25,6 +25,7 @@ See LICENSE file in the project root for full license information.
 
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
+#include "Environments/BuffContainingCover.h"
 
 UAT_DeployCover::UAT_DeployCover()
 {
@@ -40,26 +41,48 @@ void UAT_DeployCover::OnEnterCasting()
 	Cast<AUnit>(skill_owner_)->PlayAnimMontage(casting_anim_montage_);
 }
 
-//IKTODO: 이후 해당 엄폐물에 엄폐 했을 시 버프 추가 로직을 추가해야 함.
+//IKTODO: 이후 해당 엄폐물에 엄폐 했을 시 버프 추가 로직을 추가해야 함. 버프 로직은 UAT_DeployCover가 아닌, 별개의 Cover Actor에 적용 되어야 한다.
 bool UAT_DeployCover::ActivateSkill(const FTargetResult& TargetResult)
 {
 	deploy_location_ = TargetResult.target_location_;
 	spawn_location_ = deploy_location_ + FVector(0.f, 0.f, deploy_height_offset_);
 
-	if (actor_class_ && skill_owner_)
+	if (IsUpgradedActiveSkill(skill_data_.type_))
 	{
-		actor_ = skill_owner_->GetWorld()->SpawnActor<ACover>(actor_class_, spawn_location_, FRotator::ZeroRotator);
-		if (actor_)
+		if (cover_a_class_ && skill_owner_)
 		{
-			AUnit* owner_unit = Cast<AUnit>(skill_owner_);
-			actor_->SetHitPoints(deployed_cover_hit_points_ + owner_unit->GetCharacterStat()->GetSkillPower() * hit_points_scaling_factor_);
-			actor_->SetMobility(EComponentMobility::Movable);
-			is_deploying_ = true;
-			deploying_timer_ = 0.f;
-
-			return true;
+			actor_ = skill_owner_->GetWorld()->SpawnActor<ACover>(cover_a_class_, spawn_location_, FRotator::ZeroRotator);
+			
+			if (auto casted_a_cover = Cast<ABuffContainingCover>(actor_))
+			{
+				AUnit* owner_unit = Cast<AUnit>(skill_owner_);
+				
+				casted_a_cover->InitBuffData(skill_data_.item_data_);
+				actor_->SetHitPoints(deployed_cover_hit_points_ + owner_unit->GetCharacterStat()->GetSkillPower() * hit_points_scaling_factor_);
+				actor_->SetMobility(EComponentMobility::Movable);
+				is_deploying_ = true;
+				deploying_timer_ = 0.f;
+				return true;
+			}
 		}
 	}
+	else
+	{
+		if (cover_b_class_ && skill_owner_)
+		{
+			actor_ = skill_owner_->GetWorld()->SpawnActor<ACover>(cover_b_class_, spawn_location_, FRotator::ZeroRotator);
+			if (actor_)
+			{
+				AUnit* owner_unit = Cast<AUnit>(skill_owner_);
+				actor_->SetHitPoints(deployed_cover_hit_points_ + owner_unit->GetCharacterStat()->GetSkillPower() * hit_points_scaling_factor_);
+				actor_->SetMobility(EComponentMobility::Movable);
+				is_deploying_ = true;
+				deploying_timer_ = 0.f;
+				return true;
+			}
+		}
+	}
+	
 	return false;
 }
 

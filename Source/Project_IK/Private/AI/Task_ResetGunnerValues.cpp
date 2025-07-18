@@ -28,7 +28,7 @@ EBTNodeResult::Type UTask_ResetGunnerValues::ExecuteTask(UBehaviorTreeComponent&
 		blackboard->SetValueAsBool(is_arrived_cover_key_.SelectedKeyName, false);
 
 		ACover* casted_cover = Cast<ACover>(owned_cover);
-		casted_cover->SetCoveringOwner(nullptr);
+		casted_cover->OnLeave();
 		AUnit* casted_unit = Cast<AUnit>(OwnerComp.GetAIOwner()->GetPawn());
 		casted_unit->DispatchUnitEvent(EUnitEvent::LeaveCover);
 		casted_unit->SetCurHidingCover(nullptr);

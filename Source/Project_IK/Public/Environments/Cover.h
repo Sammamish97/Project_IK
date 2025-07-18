@@ -26,15 +26,13 @@ class PROJECT_IK_API ACover : public AActor, public IDamageable
 public:
 	// Sets default values for this actor's properties
 	ACover();
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
+	
 	bool HasCoveringOwner() const;
-	void SetCoveringOwner(AActor* hidden_unit);
+	
+	virtual void OnSettleDown(AActor* hidden_unit);
+	virtual void OnLeave();
+	
 	AActor* GetCoveringOwner(void);
-
 	
 	bool IsBroken() const;
 	void SetIsBroken(bool bIs_Broken);

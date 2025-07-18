@@ -59,7 +59,7 @@ void UService_FindBestCover::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 			{
 				if(ACover* best_cover = CommonFunctions::FindBestCover(out_actors, attack_target_pos, weapon_mechanics->GetWeaponData().fire_range))
 				{
-					best_cover->SetCoveringOwner(casted_gunner);
+					best_cover->OnSettleDown(casted_gunner);
 					blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, best_cover);
 				}
 			}

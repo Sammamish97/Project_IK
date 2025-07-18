@@ -39,7 +39,7 @@ void UBuffContainer::NativeConstruct()
 	}
 }
 
-void UBuffContainer::EnqueueBuff(FBuffUIData buff_data)
+void UBuffContainer::EnqueueBuff(const FBuffUIData& buff_data)
 {
 	TArray widget_array = {buff_widget_0_, buff_widget_1_, buff_widget_2_, buff_widget_3_, buff_widget_4_};
 	//겹치는 버프 제거.

@@ -28,7 +28,7 @@ public:
 	void NativeConstruct() override;
 
 	UFUNCTION()
-	void EnqueueBuff(FBuffUIData buff_data);
+	void EnqueueBuff(const FBuffUIData& buff_data);
 	UFUNCTION()
 	void UpdateQueue(EBuffType buff_type);
 	void ClearBuffQueue();

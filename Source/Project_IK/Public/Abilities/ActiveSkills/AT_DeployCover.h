@@ -33,7 +33,10 @@ public:
 	inline virtual TStatId GetStatId() const override { RETURN_QUICK_DECLARE_CYCLE_STAT(UAT_DeployCover, STATGROUP_Tickables); }
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<ACover> actor_class_;
+	TSubclassOf<ACover> cover_b_class_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<ACover> cover_a_class_;
 
 protected:
 
@@ -51,6 +54,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ThunderStorm", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> casting_anim_montage_;
+	
 	protected:
 	UPROPERTY()
 	ACover* actor_;

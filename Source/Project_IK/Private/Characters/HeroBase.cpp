@@ -283,7 +283,7 @@ void AHeroBase::ReduceActiveSkillCoolDownPercentage(float percentage)
 	game_state_cache_->ReduceCoolDownPercentage(GetHeroType(), percentage);
 }
 
-void AHeroBase::AddBuffUI(FBuffUIData buff_ui_data)
+void AHeroBase::AddBuffUI(const FBuffUIData& buff_ui_data)
 {
 	OnApplyBuff.Broadcast(buff_ui_data);
 }
