@@ -48,7 +48,7 @@ bool UActiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDr
 		}
 		else
 		{
-			if (inventory_widget_cache_->CheckDuplicatedActiveSkill(casted_slot->GetStoredActiveSkillData()) == false)
+			if (inventory_widget_cache_->CheckDuplicatedActiveSkill(casted_slot->GetStoredActiveSkillData().type_) == false)
 			{
 				if (is_empty_ == false)
 				{

@@ -49,10 +49,13 @@ public:
 	void RemoveFromRewardContainer(UInventorySlot* slot_ptr);
 
 	UFUNCTION()
-	bool CheckDuplicatedActiveSkill(const FActiveSkillData& skill_data);
+	bool CheckDuplicatedActiveSkill(EActiveSkillType type);
 
 	UFUNCTION()
 	bool CheckDuplicatedSupportSkill(ESupportSkillType type);
+
+	UFUNCTION()
+	bool CheckDuplicatedPassiveSkill(EHeroType hero_type, EPassiveSkillType type);
 
 	void LoadSelectedRewards(const FWrapperEquipmentData& rewards);
 

@@ -51,6 +51,7 @@ void UHeroEquipBoardWidget::LoadHeroData()
 		if (data_cache.passive_skill_data_1_.IsSet())
 		{
 			passive_skill_1_slot_->SetPassiveSkillSlotData(data_cache.passive_skill_data_1_.GetValue());
+			passive_skill_1_slot_->SetHeroType(hero_type_);
 		}
 	}
 }
@@ -92,4 +93,19 @@ void UHeroEquipBoardWidget::UpdateHeroData()
 		
 		transition_system->UpdateSpawnDataIdx(hero_type_, data_cache);
 	}
+}
+
+bool UHeroEquipBoardWidget::CheckDuplicatedPassiveSkill(EPassiveSkillType type)
+{
+	for (const auto& elem : {passive_skill_1_slot_, passive_skill_2_slot_, passive_skill_3_slot_})
+	{
+		if (elem->GetIsEnabled())
+		{
+			if (elem->GetStoredPassiveSkillData().type_ == type)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
 }

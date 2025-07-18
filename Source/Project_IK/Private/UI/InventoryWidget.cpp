@@ -73,19 +73,19 @@ void UInventoryWidget::RemoveFromRewardContainer(UInventorySlot* slot_ptr)
 	reward_container_->RemoveWidgetFromRewardContainer(slot_ptr);
 }
 
-bool UInventoryWidget::CheckDuplicatedActiveSkill(const FActiveSkillData& skill_data)
+bool UInventoryWidget::CheckDuplicatedActiveSkill(EActiveSkillType type)
 {
 	//1. 동일한 타입이 있는지 검사한다.
 	for (const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
 	{
-		if (elem->active_skill_slot_->GetStoredActiveSkillData().type_ == skill_data.type_)
+		if (elem->active_skill_slot_->GetStoredActiveSkillData().type_ == type)
 		{
 			return true;
 		}
 	}
 	
 	//2. 자신과 type은 동일하지만 등급이 다른 스킬이 있는지 검사한다.
-	EActiveSkillType opposite_type = GetOppositeActiveSkillType(skill_data.type_);
+	EActiveSkillType opposite_type = GetOppositeActiveSkillType(type);
 	for (const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
 	{
 		if (elem->active_skill_slot_->GetStoredActiveSkillData().type_ == opposite_type)
@@ -109,11 +109,31 @@ bool UInventoryWidget::CheckDuplicatedSupportSkill(ESupportSkillType type)
 	return false;
 }
 
+bool UInventoryWidget::CheckDuplicatedPassiveSkill(EHeroType hero_type, EPassiveSkillType type)
+{
+	TObjectPtr<UHeroEquipBoardWidget> target_widget = nullptr;
+	switch (hero_type)
+	{
+		case EHeroType::Hero1:
+			target_widget = hero_board_0_;
+			break;
+		case EHeroType::Hero2:
+			target_widget = hero_board_1_;
+			break;
+		case EHeroType::Hero3:
+			target_widget = hero_board_2_;
+			break;
+		case EHeroType::Hero4:
+			target_widget = hero_board_3_;
+			break;
+	}
+	return target_widget->CheckDuplicatedPassiveSkill(type);
+}
+
 void UInventoryWidget::LoadSelectedRewards(const FWrapperEquipmentData& rewards)
 {
 	reward_container_->LoadSelectedRewards(rewards);
 }
-
 
 void UInventoryWidget::NativeDestruct()
 {
@@ -150,6 +170,8 @@ void UInventoryWidget::RemovePopupWidget()
 	}
 }
 
+//IKNOTICE: 이 함수를 통해 Rune을 Highlight하려 하면 안된다
+//Rune은 int32로 override된 버전을 사용해야 한다. 
 void UInventoryWidget::SetHighlightVisibility(EGearType type, ESlateVisibility visibility)
 {
 	last_highlighted_gear_type = type;
@@ -187,8 +209,6 @@ void UInventoryWidget::SetHighlightVisibility(EGearType type, ESlateVisibility v
 		
 	default:
 		last_highlighted_gear_type = EGearType::INVALID;
-		//IKTODO: 이 함수를 통해 Rune을 Highlight하려 하면 안된다
-		//Rune은 int32로 override된 버전을 사용해야 한다. 
 	}
 }
 

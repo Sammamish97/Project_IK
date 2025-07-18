@@ -22,7 +22,7 @@ struct PROJECT_IK_API FRuneData
 	FRuneData(int32 init_slot = 0, ERuneSetType init_set_type = ERuneSetType::INVALID)
 	: set_type(init_set_type), slot_number(init_slot){};
 
-	//IKTODO: set_type과 Item Type은 Data Asset에서 손으로 설정하는 것이 아닌, 코드를 통해 RuneSetData를 통해 자동으로 초기화 되어야 한다.
+	//IKNOTICE: set_type과 Item Type은 Data Asset에서 손으로 설정하는 것이 아닌, 코드를 통해 RuneSetData를 통해 자동으로 초기화 되어야 한다.
 	UPROPERTY()
 	ERuneSetType set_type = ERuneSetType::INVALID;
 	

@@ -104,7 +104,6 @@ void AIKGameState::ActivateSupportSkill(int32 support_num)
 {
 	if (equipped_support_skills_[support_num] != nullptr)
 	{
-		//IKTODO: 장착 유무를 여기서 확인해야 함.
 		if (energy_system_component_->GetEnergy() > equipped_support_skills_[support_num]->GetCost())
 		{
 			if (GetWorld()->GetTimerManager().IsTimerActive(support_skill_timers_[support_num]) == false)

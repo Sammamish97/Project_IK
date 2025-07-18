@@ -123,7 +123,7 @@ private:
 	TObjectPtr<UInputAction> rotate_camera_right_action_;
 	//
 	
-	//IKTODO: 전투 레벨에서는 인벤토리를 열 수 없어야 한다! 그래서 이 IA는 Debug전용이다.
+	//IKNOTICE: 전투 레벨에서는 인벤토리를 열 수 없어야 한다! 그래서 이 IA는 Debug전용이다.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UInputAction> inventory_toggle_action_;
 	//
