@@ -23,7 +23,7 @@ void UHeroEquipBoardWidget::InitHeroEquipBoard(UInventoryWidget* widget_ptr, EHe
 {
 	hero_type_ = hero_type;
 	inventory_widget_cache_ = widget_ptr;
-	TArray<UInventorySlot*> slot_array_ = {weapon_slot_, active_skill_slot_, passive_skill_1_slot_};
+	TArray<UInventorySlot*> slot_array_ = {weapon_slot_, active_skill_slot_, passive_skill_1_slot_, passive_skill_2_slot_, passive_skill_3_slot_};
 	for (auto elem : slot_array_)
 	{
 		elem->InitInventorySlot(inventory_widget_cache_);
@@ -34,7 +34,6 @@ void UHeroEquipBoardWidget::LoadHeroData()
 {
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
-	TArray<UInventorySlot*> slot_array_ = {weapon_slot_, active_skill_slot_, passive_skill_1_slot_};
 
 	if(transition_system->GetSpawnData().IsEmpty() == false)
 	{
@@ -52,6 +51,14 @@ void UHeroEquipBoardWidget::LoadHeroData()
 		{
 			passive_skill_1_slot_->SetPassiveSkillSlotData(data_cache.passive_skill_data_1_.GetValue());
 			passive_skill_1_slot_->SetHeroType(hero_type_);
+		}
+		if (data_cache.passive_skill_data_2_.IsSet())
+		{
+			passive_skill_2_slot_->SetPassiveSkillSlotData(data_cache.passive_skill_data_2_.GetValue());
+		}
+		if (data_cache.passive_skill_data_3_.IsSet())
+		{
+			passive_skill_3_slot_->SetPassiveSkillSlotData(data_cache.passive_skill_data_3_.GetValue());
 		}
 	}
 }
@@ -90,6 +97,24 @@ void UHeroEquipBoardWidget::UpdateHeroData()
 		{
 			data_cache.passive_skill_data_1_.Reset();
 		}
+
+		if (passive_skill_2_slot_->IsEmpty() == false)
+		{
+			data_cache.passive_skill_data_2_ = passive_skill_2_slot_->GetStoredPassiveSkillData();
+		}
+		else
+		{
+			data_cache.passive_skill_data_2_.Reset();
+		}
+
+		if (passive_skill_3_slot_->IsEmpty() == false)
+		{
+			data_cache.passive_skill_data_3_ = passive_skill_3_slot_->GetStoredPassiveSkillData();
+		}
+		else
+		{
+			data_cache.passive_skill_data_3_.Reset();
+		}
 		
 		transition_system->UpdateSpawnDataIdx(hero_type_, data_cache);
 	}
@@ -108,4 +133,13 @@ bool UHeroEquipBoardWidget::CheckDuplicatedPassiveSkill(EPassiveSkillType type)
 		}
 	}
 	return false;
+}
+
+void UHeroEquipBoardWidget::SetAvailablePassiveSkillAmount(int32 amount)
+{
+	TArray passive_skill_slot_array = {passive_skill_1_slot_, passive_skill_2_slot_, passive_skill_3_slot_};
+	for (int32 i = amount; i < 3; ++i)
+	{
+		passive_skill_slot_array[i]->SetIsEnabled(false);
+	}
 }

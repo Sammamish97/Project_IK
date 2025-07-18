@@ -9,7 +9,6 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "UI/InventoryWidget.h"
-
 #include "Components/Button.h"
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
@@ -25,14 +24,26 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKHUD.h"
 
-void UInventoryWidget::InitInventoryWidget()
+
+void UInventoryWidget::InitInventoryWidget(int32 available_support_skill_amount, int32 available_passive_skill_amount)
 {
 	reward_container_->SetInventoryWidgetCache(this);
 	rune_board_->SetInventoryWidget(this);
 	rune_board_->LoadRuneBoardWidget();
-
+	
+	TArray support_skill_widget_array =  {support_skill_0_, support_skill_1_, support_skill_2_};
 	TArray hero_type_array = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
-	TArray hero_board_array =  {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_}; 
+	TArray hero_board_array =  {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_};
+
+	for (const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
+	{
+		elem->SetAvailablePassiveSkillAmount(available_passive_skill_amount);
+	}
+
+	for (int32 i = available_support_skill_amount; i < 3; ++i)
+	{
+		support_skill_widget_array[i]->SetIsEnabled(false);
+	}
 	
 	for(int32 i = 0; i < 4; i++)
 	{
@@ -43,7 +54,6 @@ void UInventoryWidget::InitInventoryWidget()
 	ULevelTransitionSubsystem* subsystem = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
 
 	auto saved_support_skill_data = subsystem->GetSupportSkillData();
-	TArray support_skill_widget_array =  {support_skill_0_, support_skill_1_, support_skill_2_};
 	for(int32 i = 0; i < 3; ++i)
 	{
 		support_skill_widget_array[i]->InitInventorySlot(this, true);
@@ -196,14 +206,23 @@ void UInventoryWidget::SetHighlightVisibility(EGearType type, ESlateVisibility v
 	case EGearType::PassiveSkill:
 		for(const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
 		{
-			elem->passive_skill_1_slot_->SetHighlightImageVisibility(visibility);
+			for (const auto& passive_skill_widget : {elem->passive_skill_1_slot_, elem->passive_skill_2_slot_, elem->passive_skill_3_slot_})
+			{
+				if (passive_skill_widget->GetIsEnabled())
+				{
+					passive_skill_widget->SetHighlightImageVisibility(visibility);
+				}
+			}
 		}
 		break;
 
 	case EGearType::SupportSkill:
 		for(const auto& elem : {support_skill_0_, support_skill_1_, support_skill_2_})
 		{
-			elem->SetHighlightImageVisibility(visibility);
+			if (elem->GetIsEnabled())
+			{
+				elem->SetHighlightImageVisibility(visibility);
+			}
 		}
 		break;
 		

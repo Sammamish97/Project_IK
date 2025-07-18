@@ -33,6 +33,7 @@ public:
 	void InitHeroEquipBoard(UInventoryWidget* widget_ptr, EHeroType hero_type);
 	void LoadHeroData();
 	void UpdateHeroData();
+	void SetAvailablePassiveSkillAmount(int32 amount);
 	
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
