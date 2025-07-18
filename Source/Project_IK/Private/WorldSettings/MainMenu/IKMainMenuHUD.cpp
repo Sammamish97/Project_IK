@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/UserWidget.h"
 #include "UI/ButtonToGoLevel.h"
 
-#include "Subsystems/GotchaSubsystem.h"
+#include "Subsystems/PerkModifierSubsystem.h"
 
 void AIKMainMenuHUD::BeginPlay()
 {
@@ -26,7 +26,7 @@ void AIKMainMenuHUD::BeginPlay()
 		{
 			map_level_opener_->AddToViewport();
 
-			int32 num_max_pull = GetGameInstance()->GetSubsystem<UGotchaSubsystem>()->GetNumMaxPull();
+			int32 num_max_pull = GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>()->GetNumMaxPull();
 			if (num_max_pull > 0)
 			{
 				map_level_opener_->SetTargetLevelName(FName("GotchaLevel"));

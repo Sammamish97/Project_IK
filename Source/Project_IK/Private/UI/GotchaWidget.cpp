@@ -16,7 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/DataTableManager.h"
 #include "Managers/InventoryManager.h"
-#include "Subsystems/GotchaSubsystem.h"
+#include "Subsystems/PerkModifierSubsystem.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 
 #include "Blueprint/WidgetTree.h"
@@ -47,7 +47,7 @@ void UGotchaWidget::NativeConstruct()
 		result_widget_->OnResultFinished.AddDynamic(this, &UGotchaWidget::StorePulledData);
 	}
 
-	num_max_pull_ = GetGameInstance()->GetSubsystem<UGotchaSubsystem>()->GetNumMaxPull();
+	num_max_pull_ = GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>()->GetNumMaxPull();
 
 	UpdateGotchaTicketCount();
 

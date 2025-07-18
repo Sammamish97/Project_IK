@@ -11,14 +11,14 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/PerkEffects/PE_ModifyGotchaNumMaxPull.h"
 
-#include "Subsystems/GotchaSubsystem.h"
+#include "Subsystems/PerkModifierSubsystem.h"
 
 void UPE_ModifyGotchaNumMaxPull::ApplyEffect()
 {
 	UWorld* world = GetWorld();
 	if (world)
 	{
-		world->GetGameInstance()->GetSubsystem<UGotchaSubsystem>()->SetNumMaxPull(new_num_max_pull_);
+		world->GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>()->SetNumMaxPull(new_num_max_pull_);
 	}
 }
 
