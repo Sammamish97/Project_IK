@@ -55,11 +55,7 @@ void AAutoGun::OnFire(AActor* target, float attack_speed)
 			{
 				FireBuckShot(target_ptr->GetActorLocation() + rand_vec, GetWeaponFireDamageData());
 			}
-			
 		}
 	}
-	if(IsMagazineEmpty())
-	{
-		FinishFire();
-	}
+	FinishFire();
 }

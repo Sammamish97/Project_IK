@@ -29,9 +29,9 @@ private:
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="TripleFire", meta=(AllowPrivateAccess=true))
-	float attack_speed_buff_amount_ = 5.5f;
+	float attack_speed_buff_amount_ = 150.f;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="TripleFire", meta=(AllowPrivateAccess=true))
-	float upgraded_buff_amount_ = 3.5f;
+	float upgraded_buff_amount_ = 200.f;
 	
 	FBuffStatusData buff_status_data_;
 	bool on_triple_fire_ = false;
