@@ -34,7 +34,7 @@ public:
 	virtual void NativeDestruct() override;
 	
 	UFUNCTION(BlueprintCallable)
-	void InitInventoryWidget();
+	void InitInventoryWidget(int32 available_support_skill_amount, int32 available_passive_skill_amount);
 
 	UFUNCTION(BlueprintCallable)
 	void UpdateInventoryData();

@@ -15,7 +15,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/Button.h"
 #include "WorldSettings/IKHUD.h"
 #include "UI/RewardSelectWidget.h"
-#include "Components/HorizontalBox.h"
+#include "Components/UniformGridPanel.h"
+#include "Managers/InventoryManager.h"
 
 void UEquipmentRewardWidget::NativeConstruct()
 {
@@ -141,8 +142,7 @@ void UEquipmentRewardWidget::OnConfirmButtonClicked()
 		}
 
 		UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-		auto inventory_manager = game_instance->GetInventoryManager();
-		inventory_manager->OpenInventoryWidgetReward(selected_reward_data);
+		game_instance->GetInventoryManager()->OpenInventoryWidgetReward(selected_reward_data);
 		hud->SwitchUIByState(ECombatEndState::ShowingInventoryUI);
 	}
 }
