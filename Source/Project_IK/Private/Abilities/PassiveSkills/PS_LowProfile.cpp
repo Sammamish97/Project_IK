@@ -17,14 +17,12 @@ See LICENSE file in the project root for full license information.
 #include "NiagaraComponent.h"
 
 #include "Characters/HeroBase.h"
-#include "DataAssets/BuffUIDataAsset.h"
-#include "Kismet/GameplayStatics.h"
-#include "Managers/DataTableManager.h"
-#include "WorldSettings/IKGameInstance.h"
 
-void UPS_LowProfile::InitEquipmentSkill(AActor* hero_ref)
+#include "Managers/DataTableManager.h"
+
+void UPS_LowProfile::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data)
 {
-	Super::InitEquipmentSkill(hero_ref);
+	Super::InitPassiveSkill(hero_ref, skill_data);
 
 	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::HideOnCover, this, &UPS_LowProfile::RemoveBuff);
 	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::LeaveCover, this, &UPS_LowProfile::ApplyBuff);
@@ -34,9 +32,6 @@ void UPS_LowProfile::InitEquipmentSkill(AActor* hero_ref)
 		AttachParticles(hero->GetMesh());
 	}
 	buff_status_data_ = FBuffStatusData(ECharacterStatType::EvasionRate, 0.1f, false, true);
-	auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
-	buff_ui_data_ = data_table_manager_->GetBuffUIData(EBuffType::LowProfile);
-
 	ApplyBuff();
 }
 
@@ -47,11 +42,12 @@ void UPS_LowProfile::ApplyBuff()
 		AActor* actor = hero_cache_.Get();
 		if (actor)
 		{
-			AHeroBase* unit = Cast<AHeroBase>(actor);
-			if (unit)
+			AHeroBase* hero = Cast<AHeroBase>(actor);
+			if (hero)
 			{
-				unit->ApplyBuff(EBuffType::LowProfile, buff_status_data_);
-				unit->AddBuffUI(buff_ui_data_);
+				hero->ApplyBuff(EBuffType::LowProfile, buff_status_data_);
+				hero->AddBuffUI(FBuffUIData(skill_data_.item_data_, EBuffType::LowProfile, buff_status_data_.duration_, true));
+
 				ActivateParticles();
 				is_buff_applied_ = true;
 			}

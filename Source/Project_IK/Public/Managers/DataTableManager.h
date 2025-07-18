@@ -87,9 +87,6 @@ public:
 	TSubclassOf<class AUnit> GetUnitType(ECharacterType type);
 	FSupportSkillData GetSupportSkillType(ESupportSkillType type);
 
-	FBuffUIData GetBuffUIData(EBuffType type);
-	
-
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UWeaponDataAsset> weapon_data_asset_;
@@ -126,7 +123,4 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class USupportSkillDataAsset> support_skill_type_asset_;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<class UBuffUIDataAsset> buff_ui_data_asset_;
 };

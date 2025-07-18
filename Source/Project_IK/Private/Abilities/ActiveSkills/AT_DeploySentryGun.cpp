@@ -12,12 +12,12 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/ActiveSkills/AT_DeploySentryGun.h"
 
-#include "Environments/Cover.h"
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"
 
 #include "Structs/TargetParameters.h"
 #include "Structs/TargetResult.h"
+#include "Weapons/Skills/SentryGun.h"
 
 UAT_DeploySentryGun::UAT_DeploySentryGun()
 {
@@ -26,13 +26,20 @@ UAT_DeploySentryGun::UAT_DeploySentryGun()
 	cool_time_ = 15.f;
 }
 
+void UAT_DeploySentryGun::OnEnterCasting()
+{
+	Super::OnEnterCasting();
+	Cast<AUnit>(skill_owner_)->PlayAnimMontage(casting_anim_montage_);
+}
+
 bool UAT_DeploySentryGun::ActivateSkill(const FTargetResult& TargetResult)
 {
-	if (actor_class_)
+	if (sentry_gun_class_)
 	{
-		actor_ = skill_owner_->GetWorld()->SpawnActor<ACover>(actor_class_, TargetResult.target_location_, FRotator::ZeroRotator);
 		AUnit* owner_unit = Cast<AUnit>(skill_owner_);
-		actor_->SetHitPoints(deployed_sentry_hit_points_ + owner_unit->GetCharacterStat()->GetSkillPower() * hit_points_scaling_factor_);
+		UCharacterStatComponent* stat_component_cache = owner_unit->GetCharacterStat();
+		sentry_gun_actor_ = skill_owner_->GetWorld()->SpawnActor<ASentryGun>(sentry_gun_class_, TargetResult.target_location_, FRotator::ZeroRotator);
+		sentry_gun_actor_->InitSentryGun(IsUpgradedActiveSkill(skill_data_.type_),stat_component_cache->GetSkillPower());
 	}
 	return Super::ActivateSkill(TargetResult);
 }

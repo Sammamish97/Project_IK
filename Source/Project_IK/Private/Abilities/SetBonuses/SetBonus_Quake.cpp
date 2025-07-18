@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SetBonuses/SetBonus_Quake.h"
 
 #include "Characters/HeroBase.h"
-#include "DataAssets/BuffUIDataAsset.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
 //2세트: 스킬 위력 + 20%
@@ -39,7 +38,9 @@ void USetBonus_Quake::ActivateHexagonBonus()
 void USetBonus_Quake::TriangleAttackSpeedBuff()
 {
 	triangle_buff_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, 1.5f, true, false, 3.f);
-	triangle_buff_UI_data_ = FBuffUIData(FText::FromString("Quake::Triangle"), EBuffType::Quake_Triangle, nullptr, 3.f, false, FText::FromString("Quake::Triangle - Detail"));
+
+	//IKTODO: Quake를 위한 BuffData를 만들어야 함.
+	//triangle_buff_UI_data_ = FBuffUIData(FText::FromString("Quake::Triangle"), EBuffType::Quake_Triangle, nullptr, 3.f, false, FText::FromString("Quake::Triangle - Detail"));
 	hero_cache_->ApplyBuff(EBuffType::Quake_Triangle, triangle_buff_data_);
 	hero_cache_->AddBuffUI(triangle_buff_UI_data_);
 }

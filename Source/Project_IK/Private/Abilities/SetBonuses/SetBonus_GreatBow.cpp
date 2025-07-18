@@ -10,7 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/SetBonuses/SetBonus_GreatBow.h"
 #include "Characters/HeroBase.h"
-#include "Components/BulletDeathBlowEffectComponent.h"
+#include "Abilities/OnHitComponents/BulletDeathBlowEffectComponent.h"
 #include "Components/WeaponMechanics.h"
 #include "Structs/BuffStatusData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"

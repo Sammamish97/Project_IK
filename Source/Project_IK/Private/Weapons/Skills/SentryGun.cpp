@@ -30,6 +30,18 @@ ASentryGun::ASentryGun()
 	muzzle_->SetupAttachment(RootComponent);
 }
 
+void ASentryGun::InitSentryGun(bool is_upgraded, float skill_power)
+{
+	float extra_hp = skill_power * hit_points_scaling_factor_;
+	float extra_skill_power = skill_power;
+	if (is_upgraded)
+	{
+		extra_hp *= 1.2;
+		extra_skill_power *= 1.2;
+	}
+	GetCharacterStat()->InitWithExtraValue(extra_hp, extra_skill_power);
+}
+
 void ASentryGun::BeginFire(AActor* target)
 {
 	float total_fire_per_sec = (1 + character_stat_component_->GetAttackSpeed() / 100.f);
@@ -88,7 +100,7 @@ void ASentryGun::OnFire(AActor* nearest_actor)
 		if (bullet)
 		{
 			bullet->SetShooter(this);
-			FDamageData dmg_data = {20.f, 0, EDamageType::Projectile, this, nullptr};
+			FDamageData dmg_data = {0.f, GetCharacterStat()->GetSkillPower() * dmg_scaling_factor_, EDamageType::Projectile, this, nullptr};
 			bullet->SetDamageData(dmg_data);
 		}
 		else

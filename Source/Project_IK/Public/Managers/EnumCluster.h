@@ -95,6 +95,7 @@ enum class ECharacterType  : uint8
 	Hero2 UMETA(DisplayName = "Hero2"),
 	Hero3 UMETA(DisplayName = "Hero3"),
 	Hero4 UMETA(DisplayName = "Hero4"),
+	
 	EnemySoldier UMETA(DisplayName = "EnemySoldier"),
 	EnemySniper UMETA(DisplayName = "EnemySniper"),
 	EnemyKnight UMETA(DisplayName = "EnemyKnight"),
@@ -103,6 +104,8 @@ enum class ECharacterType  : uint8
 	EnemyHeavyGunner UMETA(DisplayName = "EnemyHeavyGunner"),
 	EnemyOfficer UMETA(DisplayName = "EnemyOfficer"),
 	EnemyAssassin UMETA(DisplayName = "EnemyAssassin"),
+
+	SentryGun UMETA(DisplayName = "SentryGun"),
 };
 
 UENUM(BlueprintType)
@@ -339,20 +342,140 @@ enum class EActiveSkillType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
 	
-	Thunder UMETA(DisplayName = "Thunder"),
-	ThunderStorm UMETA(DisplayName = "ThunderStorm"),
-	FateSpiral UMETA(DisplayName = "FateSpiral"),
-	Encourage UMETA(DisplayName = "Encourage"),
-	DeploySentryGun UMETA(DisplayName = "DeploySentryGun"),
-	DeployCover UMETA(DisplayName = "DeployCover"),
+	Thunder_B UMETA(DisplayName = "Thunder_B"),
+	Thunder_A UMETA(DisplayName = "Thunder_A"),
 	
-	TripleFire UMETA(DisplayName = "TripleFire"),
-	RapidFire UMETA(DisplayName = "RapidFire"),
-	ChargeShot UMETA(DisplayName = "ChargeShot"),
-	MagnetizedBullet UMETA(DisplayName = "MagnetizedBullet"),
-	ShockJavelin UMETA(DisplayName = "ShockJaveline"),
-	Accelerate UMETA(DisplayName = "Accelerate"),
+	ThunderStorm_B UMETA(DisplayName = "ThunderStorm_B"),
+	ThunderStorm_A UMETA(DisplayName = "ThunderStorm_A"),
+	
+	FateSpiral_B UMETA(DisplayName = "FateSpiral_B"),
+	FateSpiral_A UMETA(DisplayName = "FateSpiral_A"),
+	
+	Encourage_B UMETA(DisplayName = "Encourage_B"),
+	Encourage_A UMETA(DisplayName = "Encourage_A"),
+
+	DeploySentryGun_B UMETA(DisplayName = "DeploySentryGun_B"),
+	DeploySentryGun_A UMETA(DisplayName = "DeploySentryGun_A"),
+	
+	DeployCover_B UMETA(DisplayName = "DeployCover_B"),
+	DeployCover_A UMETA(DisplayName = "DeployCover_A"),
+	
+	TripleFire_B UMETA(DisplayName = "TripleFire_B"),
+	TripleFire_A UMETA(DisplayName = "TripleFire_A"),
+	
+	ChargeShot_B UMETA(DisplayName = "ChargeShot_B"),
+	ChargeShot_A UMETA(DisplayName = "ChargeShot_A"),
+	
+	MagnetizedBullet_B UMETA(DisplayName = "MagnetizedBullet_B"),
+	MagnetizedBullet_A UMETA(DisplayName = "MagnetizedBullet_A"),
+
+	Ricochet_B UMETA(DisplayName = "Ricochet_B"),
+	Ricochet_A UMETA(DisplayName = "Ricochet_A"),
 };
+
+inline EActiveSkillType GetOppositeActiveSkillType(EActiveSkillType type)
+{
+	switch (type)
+	{
+	case EActiveSkillType::Thunder_B:
+		return EActiveSkillType::Thunder_A;
+		
+	case EActiveSkillType::ThunderStorm_B:
+		return EActiveSkillType::ThunderStorm_A;
+		
+	case EActiveSkillType::FateSpiral_B:
+		return EActiveSkillType::FateSpiral_A;
+		
+	case EActiveSkillType::Encourage_B:
+		return EActiveSkillType::Encourage_A;
+		
+	case EActiveSkillType::DeployCover_B:
+		return EActiveSkillType::DeployCover_A;
+		
+	case EActiveSkillType::DeploySentryGun_B:
+		return EActiveSkillType::DeploySentryGun_A;
+		
+	case EActiveSkillType::TripleFire_B:
+		return EActiveSkillType::TripleFire_A;
+		
+	case EActiveSkillType::ChargeShot_B:
+		return EActiveSkillType::ChargeShot_A;
+		
+	case EActiveSkillType::MagnetizedBullet_B:
+		return EActiveSkillType::MagnetizedBullet_A;
+		
+	case EActiveSkillType::Ricochet_B:
+		return EActiveSkillType::Ricochet_A;
+
+	//
+		
+	case EActiveSkillType::Thunder_A:
+		return EActiveSkillType::Thunder_B;
+		
+	case EActiveSkillType::ThunderStorm_A:
+		return EActiveSkillType::ThunderStorm_B;
+		
+	case EActiveSkillType::FateSpiral_A:
+		return EActiveSkillType::FateSpiral_B;
+		
+	case EActiveSkillType::Encourage_A:
+		return EActiveSkillType::Encourage_B;
+		
+	case EActiveSkillType::DeployCover_A:
+		return EActiveSkillType::DeployCover_B;
+		
+	case EActiveSkillType::DeploySentryGun_A:
+		return EActiveSkillType::DeploySentryGun_B;
+		
+	case EActiveSkillType::TripleFire_A:
+		return EActiveSkillType::TripleFire_B;
+		
+	case EActiveSkillType::ChargeShot_A:
+		return EActiveSkillType::ChargeShot_B;
+		
+	case EActiveSkillType::MagnetizedBullet_A:
+		return EActiveSkillType::MagnetizedBullet_B;
+		
+	case EActiveSkillType::Ricochet_A:
+		return EActiveSkillType::Ricochet_B;
+
+	default:
+		return EActiveSkillType::INVALID;
+	}
+}
+
+inline bool IsUpgradedActiveSkill(EActiveSkillType type)
+{
+	switch (type)
+	{
+		case EActiveSkillType::Thunder_B:
+		case EActiveSkillType::ThunderStorm_B:
+		case EActiveSkillType::FateSpiral_B:
+		case EActiveSkillType::Encourage_B:
+		case EActiveSkillType::DeployCover_B:
+		case EActiveSkillType::DeploySentryGun_B:
+		case EActiveSkillType::TripleFire_B:
+		case EActiveSkillType::ChargeShot_B:
+		case EActiveSkillType::MagnetizedBullet_B:
+		case EActiveSkillType::Ricochet_B:
+		return false;
+		
+		case EActiveSkillType::Thunder_A:
+		case EActiveSkillType::ThunderStorm_A:
+		case EActiveSkillType::FateSpiral_A:
+		case EActiveSkillType::Encourage_A:
+		case EActiveSkillType::DeployCover_A:
+		case EActiveSkillType::DeploySentryGun_A:
+		case EActiveSkillType::TripleFire_A:
+		case EActiveSkillType::ChargeShot_A:
+		case EActiveSkillType::MagnetizedBullet_A:
+		case EActiveSkillType::Ricochet_A:
+		return true;
+
+		default:
+			return false;
+	}
+}
 
 UENUM(BlueprintType)
 enum class EFireType : uint8
@@ -525,15 +648,22 @@ UENUM(BlueprintType)
 enum class EBuffType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
-	InstantRepair UMETA(DisplayName = "InstantRepair"),
-	Accelerate UMETA(DisplayName = "Accelerate"),
-	Encourage UMETA(DisplayName = "Encourage"),
+	//Active
+	MagnetizedBullet_A UMETA(DisplayName = "MagnetizedBullet_A"),
+	Ricochet UMETA(DisplayName = "Ricochet"),
+	TripleFire UMETA(DisplayName = "TripleFire"),
 	DeployCover UMETA(DisplayName = "DeployCover"),
+	Encourage UMETA(DisplayName = "Encourage"),
+
+	//Passive
 	Agility UMETA(DisplayName = "Agility"),
 	Berserker UMETA(DisplayName = "Berserker"),
 	LowProfile UMETA(DisplayName = "LowProfile"),
-	Deathbound UMETA(DisplayName = "Deathbound"),
+
+	//Support
+	InstantRepair UMETA(DisplayName = "InstantRepair"),
 	
+	//Rune
 	Chariot_Edge UMETA(DisplayName = "Chariot_Edge"),
 	Chariot_Triangle UMETA(DisplayName = "Chariot_Edge"),
 	Chariot_Hexagon UMETA(DisplayName = "Chariot_Hexagon"),
@@ -549,4 +679,7 @@ enum class EBuffType : uint8
 	Viper_Edge UMETA(DisplayName = "Viper_Edge"),
 	Viper_Triangle UMETA(DisplayName = "Viper_Triangle"),
 	Viper_Hexagon UMETA(DisplayName = "Viper_Hexagon"),
+
+	//Global
+	Deathbound UMETA(DisplayName = "Deathbound"),
 };

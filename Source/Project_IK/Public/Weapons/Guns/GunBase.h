@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 #include "GunBase.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnCriticalRateCalculationDelegate, float&);
+DECLARE_MULTICAST_DELEGATE(FOnFireWeapon);
 
 class UNiagaraComponent;
 
@@ -34,8 +35,9 @@ public:
 
 	virtual void Reload();
 	virtual void OnReload();
-	virtual void BeginFire(AActor* target);
+	virtual void StopReload();
 	
+	virtual void BeginFire(AActor* target);
 	virtual void FinishFire();
 	
 	bool IsMagazineEmpty() const;
@@ -45,9 +47,11 @@ public:
 
 	FDamageData GetWeaponFireDamageData();
 
+	void SetHoldAction(bool hold_action);
+
 	UFUNCTION()
 	void SetGunOwner(TWeakObjectPtr<AUnit> gun_owner, bool is_hero);
-
+	
 	UFUNCTION()
 	void AddOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
 	void RemoveOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
@@ -65,7 +69,6 @@ protected:
 	void PlayFireParticle() const;
 
 public:
-	
 	FORCEINLINE FAIRequestID GetReloadRequestId() const { return reload_request_id_; }
 
 protected:
@@ -93,6 +96,7 @@ protected:
 	FTimerHandle reload_timer_handle_;
 
 	FOnCriticalRateCalculationDelegate OnCriticalRateCalculation;
+	FOnFireWeapon OnFireWeapon;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon" )
 	TObjectPtr<class UObjectPoolComponent> object_pool_component_;
@@ -121,9 +125,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics" )
 	FName owned_cover_key_name_;
 	
-	FAIRequestID reload_request_id_ = 0;
+	FAIRequestID reload_request_id_ = 3;
 
 	bool is_first_bullet_on_magazine_ = true;
+
+	bool hold_action_ = false;
 
 protected:
 	UPROPERTY(Transient)

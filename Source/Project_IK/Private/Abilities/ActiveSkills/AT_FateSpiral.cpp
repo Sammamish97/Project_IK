@@ -14,25 +14,29 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/AT_FateSpiral.h"
 
 #include "Abilities/ActiveSkills/FateSpiral.h"
+#include "Characters/Unit.h"
 #include "Structs/TargetParameters.h"
 #include "Structs/TargetResult.h"
 
 UAT_FateSpiral::UAT_FateSpiral()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::All, 1000.f);
-
 	cool_time_ = 10;
+}
+
+void UAT_FateSpiral::OnEnterCasting()
+{
+	Super::OnEnterCasting();
+	Cast<AUnit>(skill_owner_)->PlayAnimMontage(casting_anim_montage_);
 }
 
 bool UAT_FateSpiral::ActivateSkill(const FTargetResult& TargetResult)
 {
-
 	if (actor_class_)
 	{
 		actor_ = skill_owner_->GetWorld()->SpawnActor<AFateSpiral>(actor_class_);
 
-		actor_->SetNecessaryData(skill_owner_, skill_owner_, TargetResult.target_actors_[0], target_param_.range_);
+		actor_->SetNecessaryData(skill_owner_, skill_owner_, TargetResult.target_actors_[0], target_param_.range_, IsUpgradedActiveSkill(skill_data_.type_));
 	}
-
 	return Super::ActivateSkill(TargetResult);
 }

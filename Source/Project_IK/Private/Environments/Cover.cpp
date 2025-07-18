@@ -33,12 +33,6 @@ ACover::ACover()
 	SetRootComponent(cover_position_);
 }
 
-// Called when the game starts or when spawned
-void ACover::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 void ACover::GetDamage(FDamageData data)
 {
 	hit_points_ -= data.atk_base_dmg_;
@@ -85,9 +79,14 @@ bool ACover::HasCoveringOwner() const
 	return hidden_unit_.IsValid();
 }
 
-void ACover::SetCoveringOwner(AActor* hided_actor)
+void ACover::OnSettleDown(AActor* hided_actor)
 {
 	hidden_unit_ = hided_actor;
+}
+
+void ACover::OnLeave()
+{
+	hidden_unit_ = nullptr;
 }
 
 AActor* ACover::GetCoveringOwner()

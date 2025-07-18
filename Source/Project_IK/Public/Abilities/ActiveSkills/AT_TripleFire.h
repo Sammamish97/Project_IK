@@ -11,20 +11,29 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
+#include "Structs/BuffStatusData.h"
 #include "AT_TripleFire.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UAT_TripleFire : public UActiveSkillBase
 {
 	GENERATED_BODY()
 
 public:
 	UAT_TripleFire();
+	virtual void InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data) override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 private:
-	virtual void OnTripleFire(AActor* target, class UWeaponMechanics* weapon_mechanics_cache, FDamageData dmg_data, float attack_speed);
+	virtual void OnTripleFire();
 
 private:
-	float attack_speed_increase_amount_ = 2.f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="TripleFire", meta=(AllowPrivateAccess=true))
+	float attack_speed_buff_amount_ = 150.f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="TripleFire", meta=(AllowPrivateAccess=true))
+	float upgraded_buff_amount_ = 200.f;
+	
+	FBuffStatusData buff_status_data_;
+	bool on_triple_fire_ = false;
+	int32 fire_counter_ = 0.f;
 };

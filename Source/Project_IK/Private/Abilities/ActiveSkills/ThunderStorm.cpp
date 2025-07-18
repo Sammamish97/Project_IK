@@ -54,22 +54,22 @@ void AThunderStorm::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FindPostProcessVolume();
-	BeginThunderStormPostProcess();
+	//FindPostProcessVolume();
+	//BeginThunderStormPostProcess();
 
 	if (visual_material_)
 	{
 		decal_->SetDecalMaterial(visual_material_);
 	}
 
-	GetWorld()->GetTimerManager().SetTimer(
-		damage_handler_,
-		this,
-		&AThunderStorm::DamageEnemies,
-		0.5f,
-		true,
-		1.f
-	);
+	// GetWorld()->GetTimerManager().SetTimer(
+	// 	damage_handler_,
+	// 	this,
+	// 	&AThunderStorm::DamageEnemies,
+	// 	0.5f,
+	// 	true,
+	// 	1.f
+	// );
 }
 
 void AThunderStorm::EndPlay(const EEndPlayReason::Type EndPlayReason)

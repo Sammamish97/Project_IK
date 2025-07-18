@@ -93,7 +93,6 @@ void UCombatLevelResultManager::SwitchUIByState(ECombatEndState state)
 		equipment_reward_widget_->SetVisibility(ESlateVisibility::Hidden);
 		break;
 
-	//IKTODO: 좀더 전투 UI와 Map Level UI를 분리해야 한다.
 	case ECombatEndState::ShowingMapUI:
 		UGameplayStatics::GetGameInstance(GetWorld())->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
 		break;

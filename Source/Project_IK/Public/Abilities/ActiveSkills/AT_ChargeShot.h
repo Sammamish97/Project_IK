@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_ChargeShot.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UAT_ChargeShot : public UActiveSkillBase
 {
 	GENERATED_BODY()

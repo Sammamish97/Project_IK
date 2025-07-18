@@ -10,12 +10,11 @@ See LICENSE file in the project root for full license information.
 #include "Weapons/Guns/GunBase.h"
 #include "Characters/Unit.h"
 #include "Components/ObjectPoolComponent.h"
-#include "Components/BulletOnHitEffectComponent.h"
+#include "Abilities/OnHitComponents/BulletOnHitEffectComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Structs/DamageData.h"
 #include "Weapons/Guns/Bullet.h"
 #include "BrainComponent.h"
-#include "MovieSceneTracksComponentTypes.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/CharacterStatComponent.h"
 #include "Components/SphereComponent.h"
@@ -60,7 +59,7 @@ void AGunBase::BeginPlay()
 
 void AGunBase::Reload()
 {
-	if (GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false)
+	if (GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_) == false && hold_action_ == false)
 	{
 		if (AUnit* gun_owner = weak_gun_owner_.Get())
 		{
@@ -72,11 +71,39 @@ void AGunBase::Reload()
 	}
 }
 
+void AGunBase::StopReload()
+{
+	if (GetWorld()->GetTimerManager().IsTimerActive(reload_timer_handle_))
+	{
+		if (AUnit* gun_owner = weak_gun_owner_.Get())
+		{
+			gun_owner->StopAnimMontage();
+			GetWorld()->GetTimerManager().ClearTimer(reload_timer_handle_);
+			FAIMessage Msg(TEXT("ReloadFinished"), this, reload_request_id_, FAIMessage::Failure);
+			FAIMessage::Send(gun_owner, Msg);
+		}
+	}
+}
+
+
+void AGunBase::OnReload()
+{
+	if (AUnit* gun_owner = weak_gun_owner_.Get())
+	{
+		if (gun_owner->IsA(AHeroBase::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Hero ReloadFinished"));
+		}
+		is_first_bullet_on_magazine_ = true;
+		cur_magazine_ = weapon_status_data_.max_magazine;
+		FAIMessage Msg(TEXT("ReloadFinished"), this, reload_request_id_, FAIMessage::Success);
+		FAIMessage::Send(gun_owner, Msg);
+	}
+}
+
 void AGunBase::SpawnBullet(const FRotator& rotation, const FVector& translation, const FDamageData& dmg_data)
 {
 	ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(rotation, translation));
-
-
 	if (bullet)
 	{
 		if (is_first_bullet_on_magazine_)
@@ -163,17 +190,6 @@ void AGunBase::BeginFire(AActor* target)
 {
 }
 
-void AGunBase::OnReload()
-{
-	if (AUnit* gun_owner = weak_gun_owner_.Get())
-	{
-		is_first_bullet_on_magazine_ = true;
-		cur_magazine_ = weapon_status_data_.max_magazine;
-		FAIMessage Msg(TEXT("ReloadFinished"), this, reload_request_id_, FAIMessage::Success);
-		FAIMessage::Send(gun_owner, Msg);
-	}
-}
-
 void AGunBase::FinishFire()
 {
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
@@ -224,6 +240,11 @@ FDamageData AGunBase::GetWeaponFireDamageData()
 		return dmg_data;
 	}
 	return FDamageData();
+}
+
+void AGunBase::SetHoldAction(bool hold_action)
+{
+	hold_action_ = hold_action;
 }
 
 void AGunBase::SetGunOwner(TWeakObjectPtr<AUnit> gun_owner, bool is_hero)

@@ -13,10 +13,10 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_MagnetizedBullet.generated.h"
 
+class UBulletMagnetizeEffectComponent;
 class UNiagaraSystem;
-class UBulletChainEffectComponent;
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UAT_MagnetizedBullet : public UActiveSkillBase
 {
 	GENERATED_BODY()
@@ -27,7 +27,7 @@ public:
 	void OnFinishSkill();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<UBulletChainEffectComponent> on_hit_class_;
+	TSubclassOf<UBulletMagnetizeEffectComponent> magnetized_on_hit_class_;
 
 protected:
 	float duration_ = 0.f;

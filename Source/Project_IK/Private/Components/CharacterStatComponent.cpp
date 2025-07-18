@@ -64,6 +64,13 @@ void UCharacterStatComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	OnShieldChanged.Clear();
 }
 
+//만약 유닛 생성 시, 데이터 에셋에 있는 character stat에 상황에 따라 추가적인 값을 더하고 싶다면 유닛을 생성후 이 함수를 통해 조정한다.
+void UCharacterStatComponent::InitWithExtraValue(float extra_hp, float extra_skill_power)
+{
+	max_hit_points_ = GetHitPoint() + extra_hp;
+	SetSkillPower(GetSkillPower() + extra_skill_power);
+}
+
 // Called every frame
 void UCharacterStatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunctionoverride)
 {
@@ -277,8 +284,8 @@ void UCharacterStatComponent::SetEvasionRate(float evasion_rate) noexcept
 }
 
 void UCharacterStatComponent::SetArmor(float armor) noexcept
-{	OnHPChanged.Broadcast(GetHPRatio());
-
+{
+	OnHPChanged.Broadcast(GetHPRatio());
 	character_data_.status_data_.armor_= armor;
 }
 
@@ -456,7 +463,7 @@ float UCharacterStatComponent::GetBaseStat(ECharacterStatType StatType) const
 
 void UCharacterStatComponent::ApplyBuff(EBuffType buff_type, FBuffStatusData status_data)
 {
-	RemoveBuff(buff_type);
+	RemoveBuff(buff_type, status_data.stat_type_);
 	if (status_data.is_permanent_ == false)
 	{
 		auto& type_timer_map = buff_timers_.FindOrAdd(buff_type);
@@ -483,7 +490,13 @@ void UCharacterStatComponent::RemoveBuff(EBuffType buff_type)
 
 void UCharacterStatComponent::RemoveBuff(EBuffType buff_type, ECharacterStatType stat_type)
 {
-	buffs_[buff_type].Remove(stat_type);
-	GetWorld()->GetTimerManager().ClearTimer(buff_timers_[buff_type][stat_type]);
-	buff_timers_[buff_type].Remove(stat_type);
+	if (buffs_.Contains(buff_type) && buff_timers_.Contains(buff_type))
+	{
+		if (buffs_[buff_type].Contains(stat_type) && buff_timers_[buff_type].Contains(stat_type))
+		{
+			buffs_[buff_type].Remove(stat_type);
+			GetWorld()->GetTimerManager().ClearTimer(buff_timers_[buff_type][stat_type]);
+			buff_timers_[buff_type].Remove(stat_type);
+		}
+	}
 }

@@ -33,6 +33,7 @@ public:
 	
 	UFUNCTION(Blueprintable)
 	void SetUnitState(EUnitState new_state);
+	virtual void ResetUnitState();
 
 	virtual void SetAIFindTargetType(EAIFindTargetType type);
 	

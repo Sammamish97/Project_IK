@@ -9,7 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Weapons/Guns/Bullet.h"
 
-#include "Components/BulletOnHitEffectComponent.h"
+#include "Abilities/OnHitComponents/BulletOnHitEffectComponent.h"
 #include "Interfaces/Damageable.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
@@ -173,4 +173,14 @@ void ABullet::SetShooter(TWeakObjectPtr<AActor> shooter)
 void ABullet::SetDamageData(FDamageData data)
 {
 	dmg_data_ = data;
+}
+
+const FDamageData& ABullet::GetDamageData() const
+{
+	return dmg_data_;
+}
+
+AActor* ABullet::GetShooter() const
+{
+	return shooter_.Get();
 }

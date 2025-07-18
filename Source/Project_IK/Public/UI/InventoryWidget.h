@@ -34,7 +34,7 @@ public:
 	virtual void NativeDestruct() override;
 	
 	UFUNCTION(BlueprintCallable)
-	void InitInventoryWidget();
+	void InitInventoryWidget(int32 available_support_skill_amount, int32 available_passive_skill_amount);
 
 	UFUNCTION(BlueprintCallable)
 	void UpdateInventoryData();
@@ -53,6 +53,9 @@ public:
 
 	UFUNCTION()
 	bool CheckDuplicatedSupportSkill(ESupportSkillType type);
+
+	UFUNCTION()
+	bool CheckDuplicatedPassiveSkill(EHeroType hero_type, EPassiveSkillType type);
 
 	void LoadSelectedRewards(const FWrapperEquipmentData& rewards);
 

@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/TargetResult.h"
 #include "Structs/BuffStatusData.h"
 
-#include "Characters/Unit.h"
+#include "Characters/HeroBase.h"
 
 UAT_Encourage::UAT_Encourage()
 {
@@ -23,19 +23,39 @@ UAT_Encourage::UAT_Encourage()
 
 	cool_time_ = 10.f;
 	scaling_factor_ = 0.02f;
+
+	buff_duration_ = 4.f;
+	attack_power_buff_amount_ = 2.f;
+	skill_power_buff_amount_ = 2.f;
+	shield_amount_ = 500.f;
+}
+
+void UAT_Encourage::OnEnterCasting()
+{
+	Super::OnEnterCasting();
+	Cast<AUnit>(skill_owner_)->PlayAnimMontage(casting_anim_montage_);
 }
 
 bool UAT_Encourage::ActivateSkill(const FTargetResult& TargetResult)
 {
-	//IKTODO: 테스트 후 버프 적용
-	// FBuffStatusData attack_speed(TEXT("Encourage_AttackSpeed"), ECharacterStatType::AttackSpeed, 1.15f, true, 8.f);
-	// FBuffStatusData cooldown(TEXT("Encourage_Cooldown"), ECharacterStatType::SkillCoolDown, 10.f, false, 8.f);
-	//
-	// for (AActor* ally : TargetResult.target_actors_)
-	// {
-	// 	ApplyBuff(attack_speed, ally);
-	// 	ApplyBuff(cooldown, ally);
-	// }
+	//실드 + 공격력 + 스킬 위력
+	FBuffStatusData attack_power_buff_data = {ECharacterStatType::AttackPower, attack_power_buff_amount_, true, false ,buff_duration_};
+	FBuffStatusData skill_power_buff_data = {ECharacterStatType::SkillPower, skill_power_buff_amount_, true, false ,buff_duration_};
+	
+	for (AActor* ally : TargetResult.target_actors_)
+	{
+		if (AHeroBase* casted_hero = Cast<AHeroBase>(ally))
+		{
+			casted_hero->ApplyBuff(EBuffType::Encourage, attack_power_buff_data);
+			casted_hero->ApplyBuff(EBuffType::Encourage, skill_power_buff_data);
+			casted_hero->AcquireShield(shield_amount_, buff_duration_);
+			casted_hero->AddBuffUI({skill_data_.item_data_, EBuffType::Encourage, buff_duration_});
+			if (IsUpgradedActiveSkill(skill_data_.type_))
+			{
+				casted_hero->ReduceActiveSkillCoolDown(1.f);
+			}
+		}
+	}
 
 	return Super::ActivateSkill(TargetResult);
 }

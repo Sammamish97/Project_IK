@@ -8,12 +8,9 @@ Summary : Source file for Skill base class.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
-
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
 
 #include "Structs/DamageData.h"
-#include "Structs/BuffStatusData.h"
 #include "Characters/HeroBase.h"
 #include "Components/CharacterStatComponent.h"
 
@@ -24,14 +21,30 @@ bool UActiveSkillBase::ActivateSkill(const FTargetResult& TargetResult)
 	return result;
 }
 
-void UActiveSkillBase::InitActiveSkill(AActor* skill_owner)
+void UActiveSkillBase::InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data)
 {
 	skill_owner_ = skill_owner;
+	skill_data_ = skill_data;
 }
 
 float UActiveSkillBase::GetCastingTime() const
 {
 	return casting_time_;
+}
+
+float UActiveSkillBase::GetAIHoldTime() const
+{
+	return ai_holding_time_;
+}
+
+bool UActiveSkillBase::HasMotion() const
+{
+	return has_casting_motion_;
+}
+
+void UActiveSkillBase::OnEnterCasting()
+{
+	//이 함수를 상속하여 애니메이션 재생을 행해야 한다.
 }
 
 void UActiveSkillBase::ApplyDamage(FDamageData DamageData)
@@ -45,7 +58,6 @@ void UActiveSkillBase::ApplyDamage(FDamageData DamageData)
 			AUnit* attacker = Cast<AUnit>(DamageData.attacker_);
 			DamageData.skill_power_base_dmg_ = DamageData.skill_power_base_dmg_ + (attacker->GetCharacterStat()->GetSkillPower() * scaling_factor_);
 		}
-
 		attack_target->GetDamage(DamageData);
 	}
 }

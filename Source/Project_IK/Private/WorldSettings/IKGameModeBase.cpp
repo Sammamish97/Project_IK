@@ -58,6 +58,11 @@ void AIKGameModeBase::BeginPlay()
 
 	// SpawnEnemies function should be called after SpawnHeroes has been called.
 	SpawnEnemies();
+
+	if (UGameplayStatics::GetActorOfClass(GetWorld(), outliner_world_class_) == nullptr)
+	{
+		GetWorld()->SpawnActor<AActor>(outliner_world_class_);
+	}
 }
 
 

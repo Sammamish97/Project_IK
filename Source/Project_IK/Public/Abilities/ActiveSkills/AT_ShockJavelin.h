@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_ShockJavelin.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UAT_ShockJavelin : public UActiveSkillBase
 {
 	GENERATED_BODY()

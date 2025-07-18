@@ -38,10 +38,10 @@ void UBuffWidget::BeginBuffUI(FBuffUIData buff_data)
 	left_time_ = buff_data.duration_;
 	is_available_ = false;
 
-	if(buff_data.thumbnail != nullptr)
+	if(buff_data.item_data_.thumbnail != nullptr)
 	{
 		FSlateBrush brush;
-		brush.SetResourceObject(buff_data.thumbnail);
+		brush.SetResourceObject(buff_data.item_data_.thumbnail);
 
 		FProgressBarStyle style;
 		style.BackgroundImage = brush;

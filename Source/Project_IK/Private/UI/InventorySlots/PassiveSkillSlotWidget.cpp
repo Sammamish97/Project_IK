@@ -18,7 +18,12 @@ void UPassiveSkillSlotWidget::NativeConstruct()
 	slot_type_ = EInventorySlotType::PassiveSkill;
 }
 
-void UPassiveSkillSlotWidget::SetPassiveSkillSlotData(FPassiveSkillData passive_skill_data)
+void UPassiveSkillSlotWidget::SetHeroType(EHeroType hero_type)
+{
+	hero_type_ = hero_type;
+}
+
+void UPassiveSkillSlotWidget::SetPassiveSkillSlotData(const FPassiveSkillData& passive_skill_data)
 {
 	is_empty_ = false;
 	passive_skill_data_cache_ = passive_skill_data;
@@ -49,19 +54,22 @@ bool UPassiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FD
 		}
 		else
 		{
-			if (is_empty_ == false)
+			if (inventory_widget_cache_->CheckDuplicatedPassiveSkill(hero_type_, passive_skill_data_cache_.type_) == false)
 			{
-				inventory_widget_cache_->AddToRewardContainer(this);
+				if (is_empty_ == false)
+				{
+					inventory_widget_cache_->AddToRewardContainer(this);
+				}
+				SetPassiveSkillSlotData(casted_slot->passive_skill_data_cache_);
+				inventory_widget_cache_->RemoveFromRewardContainer(casted_slot);
 			}
-			SetPassiveSkillSlotData(casted_slot->passive_skill_data_cache_);
-			inventory_widget_cache_->RemoveFromRewardContainer(casted_slot);
 		}
 		return true;
 	}
 	return false;
 }
 
-FPassiveSkillData UPassiveSkillSlotWidget::GetStoredPassiveSkillData()
+const FPassiveSkillData& UPassiveSkillSlotWidget::GetStoredPassiveSkillData()
 {
 	return passive_skill_data_cache_;
 }

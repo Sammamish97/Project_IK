@@ -28,7 +28,7 @@ AFateSpiral::AFateSpiral()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
-void AFateSpiral::SetNecessaryData(AActor* skill_owner, AActor* departure, AActor* arrival, float range)
+void AFateSpiral::SetNecessaryData(AActor* skill_owner, AActor* departure, AActor* arrival, float range, bool upgraded)
 {
 	skill_owner_cache_ = skill_owner;
 
@@ -44,7 +44,7 @@ void AFateSpiral::SetNecessaryData(AActor* skill_owner, AActor* departure, AActo
 
 	// Use squared range to prevent using Sqrt operation.
 	range_squared_ = range * range;
-
+	is_upgraded_ = upgraded;
 
 	SpawnVisualFX();
 }
@@ -112,9 +112,13 @@ void AFateSpiral::ConductLogic()
 void AFateSpiral::HealAlly()
 {
 	AUnit* unit = Cast<AUnit>(arrival_);
-
 	float skill_power = GetOwnerSkillPower();
-	unit->Heal(heal_amount_ + skill_power * heal_scaling_factor_);
+	float heal_amount = heal_amount_ + skill_power * heal_scaling_factor_;
+	if (is_upgraded_)
+	{
+		heal_amount = heal_amount * (1 + jump_count_ * 0.15);
+	}
+	unit->Heal(heal_amount);
 }
 
 void AFateSpiral::DamageEnemy()
@@ -122,7 +126,12 @@ void AFateSpiral::DamageEnemy()
 	IDamageable* damageable = Cast<IDamageable>(arrival_);
 
 	float skill_power = GetOwnerSkillPower();
-	damageable->GetDamage(FDamageData(0.f, damage_amount_ + skill_power * damage_scaling_factor_, EDamageType::Magic, skill_owner_cache_, arrival_));
+	float deal_amount = damage_amount_ + skill_power * damage_scaling_factor_;
+	if (is_upgraded_)
+	{
+		deal_amount = deal_amount * (1 + jump_count_ * 0.15);
+	}
+	damageable->GetDamage(FDamageData(0.f, deal_amount, EDamageType::Magic, skill_owner_cache_, arrival_));
 }
 
 AActor* AFateSpiral::FindNextTarget()
@@ -189,7 +198,6 @@ void AFateSpiral::SpawnVisualFX()
 {
 	if (skill_particle_system_ && arrival_)
 	{
-
 		UNiagaraComponent* component = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, skill_particle_system_, departure_->GetActorLocation());
 
 		FColor color = FColor::Black;

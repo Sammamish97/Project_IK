@@ -12,11 +12,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Structs/WrapperEquipmentData.h"
-#include "Managers/InventoryManager.h"
-#include "Blueprint/WidgetTree.h"
-#include "Components/GridPanel.h"
-#include "Components/GridSlot.h"
 #include "UI/CheckboxButtonWidget.h"
 #include "EquipmentRewardWidget.generated.h"
 

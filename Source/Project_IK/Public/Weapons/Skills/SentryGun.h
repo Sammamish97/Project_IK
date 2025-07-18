@@ -21,8 +21,9 @@ class PROJECT_IK_API ASentryGun : public AUnit
 public:
 	// Sets default values for this character's properties
 	ASentryGun();
+	
+	virtual void InitSentryGun(bool is_upgraded, float skill_power);
 	virtual void BeginFire(AActor* target);
-
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION()
@@ -32,15 +33,21 @@ public:
 	virtual void StopFire();
 
 private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = SentryGun, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SentryGun", meta = (AllowPrivateAccess = "true"))
+	float hit_points_scaling_factor_ = 0.8f;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SentryGun", meta = (AllowPrivateAccess = "true"))
+	float dmg_scaling_factor_ = 0.8f;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SentryGun", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UObjectPoolComponent> bullet_pool_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = SentryGun, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SentryGun", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class USphereComponent> muzzle_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = SentryGun, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SentryGun", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AUnit> target_class_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = SentryGun, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SentryGun", meta = (AllowPrivateAccess = "true"))
 	FTimerHandle fire_timer_handle_;
 };

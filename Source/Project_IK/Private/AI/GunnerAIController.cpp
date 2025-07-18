@@ -27,7 +27,7 @@ void AGunnerAIController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	{
 		ACover* casted_cover = Cast<ACover>(cover);
 		casted_cover->SetIsBroken(false);
-		casted_cover->SetCoveringOwner(nullptr);
+		casted_cover->OnSettleDown(nullptr);
 	}
 }
 

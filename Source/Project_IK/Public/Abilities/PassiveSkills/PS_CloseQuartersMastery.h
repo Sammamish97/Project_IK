@@ -25,10 +25,7 @@ class PROJECT_IK_API UPS_CloseQuartersMastery : public UPassiveSkillBase
 {
 	GENERATED_BODY()
 public:
-
-	virtual void InitEquipmentSkill(AActor* hero_ref) override;
-
-
+	virtual void InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data) override;
 
 protected:
 	UFUNCTION()
