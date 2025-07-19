@@ -48,6 +48,11 @@ public:
 	UFUNCTION(BlueprintPure)
 	int32 GetCombatEndEquipmentRewardMaxChoice() const;
 
+	UFUNCTION(BlueprintCallable)
+	void SetCombatEndCreditsBonusPercentage(float combat_end_credits_bonus_percentage);
+	UFUNCTION(BlueprintPure)
+	float GetCombatEndCreditsBonusPercentage() const;
+
 protected:
 	int32 num_max_pull_ = 0;
 	ERarity seed_weight_rarity_ = ERarity::Common;
@@ -56,4 +61,5 @@ protected:
 
 	int32 combat_end_equipment_reward_num_candidates_ = 6;
 	int32 combat_end_equipment_reward_max_choice_ = 3;
+	float combat_end_credits_bonus_percentage_ = 1.f;
 };

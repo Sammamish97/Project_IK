@@ -44,6 +44,7 @@ public:
 	const TArray<FGlobalBuffData>& GetBuffs() const;
 
 	void AddEverlastingBuff(EGlobalBuffType buff_type);
+	void RemoveEverlastingBuff(EGlobalBuffType buff_type);
 
 	// Naively implement for sake of implementation of displaying everlasting buffs rapidly.
 	const TSet<EGlobalBuffType> GetEverlastingBuffTypes() const;

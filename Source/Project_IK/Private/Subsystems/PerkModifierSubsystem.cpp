@@ -60,3 +60,13 @@ int32 UPerkModifierSubsystem::GetCombatEndEquipmentRewardMaxChoice() const
 {
 	return combat_end_equipment_reward_max_choice_;
 }
+
+void UPerkModifierSubsystem::SetCombatEndCreditsBonusPercentage(float combat_end_credits_bonus_percentage)
+{
+	combat_end_credits_bonus_percentage_ = combat_end_credits_bonus_percentage;
+}
+
+float UPerkModifierSubsystem::GetCombatEndCreditsBonusPercentage() const
+{
+	return combat_end_credits_bonus_percentage_;
+}

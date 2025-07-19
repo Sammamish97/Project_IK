@@ -217,6 +217,12 @@ void UGlobalBuffSubsystem::AddEverlastingBuff(EGlobalBuffType buff_type)
 	}
 }
 
+void UGlobalBuffSubsystem::RemoveEverlastingBuff(EGlobalBuffType buff_type)
+{
+	everlasting_buff_.Remove(buff_type);
+	buff_logic_containers_.Remove(buff_type);
+}
+
 const TSet<EGlobalBuffType> UGlobalBuffSubsystem::GetEverlastingBuffTypes() const
 {
 	return everlasting_buff_;

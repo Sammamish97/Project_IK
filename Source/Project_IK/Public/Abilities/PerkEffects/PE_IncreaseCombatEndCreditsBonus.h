@@ -1,8 +1,8 @@
 /******************************************************************************
 Copyright(C) 2025
 Author: sinil.kang(rtd99062@gmail.com)
-Creation Date : 07.17.2025
-Summary : Header file for perk effects that modify combat_end_heal_percentage_ .
+Creation Date : 7.18.2025
+Summary : Header file for perk effects that Increase combat_end_credits_bonus_percentage_.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -12,13 +12,13 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Abilities/PerkEffects/PerkEffectBase.h"
-#include "PE_ModifyCombatEndHealPercentage.generated.h"
+#include "PE_IncreaseCombatEndCreditsBonus.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PROJECT_IK_API UPE_ModifyCombatEndHealPercentage : public UPerkEffectBase
+class PROJECT_IK_API UPE_IncreaseCombatEndCreditsBonus : public UPerkEffectBase
 {
 	GENERATED_BODY()
 public:
@@ -27,5 +27,5 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int32 new_combat_end_heal_percentage_ = 0;
+	float new_combat_end_credits_bonus_percentage_ = 0;
 };

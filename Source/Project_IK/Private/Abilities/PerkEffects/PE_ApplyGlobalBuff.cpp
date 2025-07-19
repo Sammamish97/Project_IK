@@ -23,4 +23,9 @@ void UPE_ApplyGlobalBuff::ApplyEffect()
 
 void UPE_ApplyGlobalBuff::RemoveEffect()
 {
+	UGlobalBuffSubsystem* global_buff_subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+	if (global_buff_subsystem)
+	{
+		global_buff_subsystem->RemoveEverlastingBuff(global_buff_type_);
+	}
 }
