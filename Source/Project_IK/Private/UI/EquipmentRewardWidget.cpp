@@ -18,14 +18,19 @@ See LICENSE file in the project root for full license information.
 #include "Components/UniformGridPanel.h"
 #include "Managers/InventoryManager.h"
 
+#include "Subsystems/PerkModifierSubsystem.h"
+
 void UEquipmentRewardWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-	// IKTODO: number of requested data count may differ by acts.
-	const auto& equipments_ = game_instance->GetDataTableManager()->GetUniqueEquipmentDataRandomly(NUM_CANDIDATES);
+	const auto& equipments_ = game_instance->GetDataTableManager()->GetUniqueEquipmentDataRandomly(
+		game_instance->GetSubsystem<UPerkModifierSubsystem>()->GetCombatEndEquipmentRewardNumCandidates()
+	);
+
+	max_choice_ = game_instance->GetSubsystem<UPerkModifierSubsystem>()->GetCombatEndEquipmentRewardMaxChoice();
 	
 	for (const auto& elem : equipments_.active_skills_)
 	{
@@ -80,9 +85,9 @@ void UEquipmentRewardWidget::NativeDestruct()
 
 void UEquipmentRewardWidget::IncreaseSelectedCounter()
 {
-	selected_amount = FMath::Min(selected_amount + 1, MAX_CHOICE);
+	selected_amount_ = FMath::Min(selected_amount_ + 1, max_choice_);
 	//만약 선택 한계에 도달했다면, 선택되지 못한 widget들을 disable 시킨다.
-	if (selected_amount >= MAX_CHOICE)
+	if (selected_amount_ >= max_choice_)
 	{
 		for (auto& elem : reward_widgets_)
 		{
@@ -96,17 +101,12 @@ void UEquipmentRewardWidget::IncreaseSelectedCounter()
 
 void UEquipmentRewardWidget::DecreaseSelectedCounter()
 {
-	selected_amount = FMath::Max(selected_amount - 1, 0);
+	selected_amount_ = FMath::Max(selected_amount_ - 1, 0);
 	//모든 widget을 enable 시킨다.
 	for (auto& elem : reward_widgets_)
 	{
 		elem->SetIsEnabled(true);
 	}	
-}
-
-bool UEquipmentRewardWidget::AbleToSelectMoreReward()
-{
-	return selected_amount < MAX_CHOICE;
 }
 
 void UEquipmentRewardWidget::OnConfirmButtonClicked()

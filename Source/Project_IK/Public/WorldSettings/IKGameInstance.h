@@ -18,6 +18,8 @@ class USetBonusManager;
 class UIKMaps;
 class UCharacterDataManager;
 class UInventoryManager;
+struct FPerkNode;
+enum class ECharacterStatType : uint8;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UIKGameInstance : public UGameInstance
@@ -30,6 +32,8 @@ public:
 	virtual void Init() override;
 	virtual void Shutdown() override;
 
+	void ClearRunData();
+
 	UFUNCTION(BlueprintPure)
 	class UIKMaps* GetMapPtr() const noexcept;
 	UFUNCTION(BlueprintPure)
@@ -38,19 +42,19 @@ public:
 	class ULevelTransitionSubsystem* GetLevelTransitionSubsystem() const noexcept;
 	UFUNCTION(BlueprintPure)
 	UDataTableManager* GetDataTableManager() const noexcept;
+
+	void EnhanceHeroesStatData(ECharacterStatType stat_type, float increase_amount);
+	void DiminishHeroesStatData(ECharacterStatType stat_type, float decrease_amount);
+
+	const TArray<FPerkNode>& GetTree() const;
+	
 	UFUNCTION(BlueprintPure)
 	USetBonusManager* GetSetBonusManager() const noexcept;
 	UFUNCTION(BlueprintPure)
 	class UEventManager* GetEventManager() const noexcept;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelTransition")
-	TSubclassOf<AActor> hero_blueprint_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelTransition")
-	TSubclassOf<AActor> enemy_blueprint_;
-
 private:
-	void InitializeCharacterDataManager();
+	void InitializePerkEffectsAlreadyUnlocked();
 	void InitializeMaps();
 	void InitInventoryManager();
 	void InitDataTableManager();
@@ -59,7 +63,7 @@ private:
 	void InitEventManager();
 
 	UPROPERTY()
-	class UIKMaps* maps_;
+	TObjectPtr<UIKMaps> maps_;
 
 	UPROPERTY()
 	TObjectPtr<UDataTableManager> data_table_manager_;

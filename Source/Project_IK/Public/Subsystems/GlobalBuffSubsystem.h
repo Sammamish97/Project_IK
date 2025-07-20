@@ -37,14 +37,27 @@ public:
 
 	bool HasBuff(EGlobalBuffType buff_type);
 
+	void ClearBuffs();
+
 	void UpdateBuffDurations();
 
-	const TArray<FGlobalBuffData>& GetBuffs();
+	const TArray<FGlobalBuffData>& GetBuffs() const;
+
+	void AddEverlastingBuff(EGlobalBuffType buff_type);
+	void RemoveEverlastingBuff(EGlobalBuffType buff_type);
+
+	// Naively implement for sake of implementation of displaying everlasting buffs rapidly.
+	const TSet<EGlobalBuffType> GetEverlastingBuffTypes() const;
 
 protected:
 	TMap<EGlobalBuffType, int32> buff_lookup_;
+	TMap<EGlobalBuffType, int32> newly_added_buff_lookup_;
+
+	// Self curious -> No need to contain it?
 	TArray<FGlobalBuffData> buffs_;
 
 	UPROPERTY()
-	TMap<TSubclassOf<UGlobalBuffLogicBase>, TObjectPtr<UGlobalBuffLogicBase>> buff_logic_containers_;
+	TMap<EGlobalBuffType, TObjectPtr<UGlobalBuffLogicBase>> buff_logic_containers_;
+
+	TSet<EGlobalBuffType> everlasting_buff_;
 };

@@ -38,8 +38,6 @@ public:
 	void SwitchUIByState(ECombatEndState state);
 
 	UButtonBarWidget* GetButtonBarWidget();
-
-	void LoadSelectedRewards(const FWrapperEquipmentData& rewards);
 	
 	// Reference to the Widget Blueprint class to create
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")

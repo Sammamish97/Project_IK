@@ -28,17 +28,17 @@ class PROJECT_IK_API UEquipmentRewardWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	virtual void NativeConstruct() override;
-	virtual void NativeDestruct() override;
 
 	void IncreaseSelectedCounter();
 	void DecreaseSelectedCounter();
-	bool AbleToSelectMoreReward();
-	
+
+protected:
+	virtual void NativeConstruct() override;
+	virtual void NativeDestruct() override;
+
 	UFUNCTION()
 	void OnConfirmButtonClicked();
 
-private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> text_max_selectables_;
 
@@ -51,11 +51,8 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> confirm_button_;
 
-public:
-	static constexpr int32 NUM_CANDIDATES = 6;
-	static constexpr int32 MAX_CHOICE = 3;
-
-	int32 selected_amount = 0;
+	int32 selected_amount_ = 0;
+	int32 max_choice_ = 0;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<URewardSelectWidget> reward_widget_class_;

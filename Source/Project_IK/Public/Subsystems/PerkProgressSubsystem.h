@@ -32,9 +32,10 @@ public:
 
 	virtual void Deinitialize() override;
 
-	const TSet<int32>& GetProgress(ECharacterType hero_type);
-	bool AddProgress(ECharacterType hero_type, int32 progress);
+	const TSet<int32>& GetProgress() const;
+	// Return false when there is a recorded progress already.
+	bool AddProgress(int32 progress);
 
 protected:
-	TMap<ECharacterType, TSet<int32>> progresses_;
+	TSet<int32> progress_;	
 };

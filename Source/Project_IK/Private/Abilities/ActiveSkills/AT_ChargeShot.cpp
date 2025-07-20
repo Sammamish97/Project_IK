@@ -11,7 +11,13 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/AT_ChargeShot.h"
 #include "Characters/HeroBase.h"
 #include "Components/WeaponMechanics.h"
+#include "Components/CharacterStatComponent.h"
 #include "Weapons/Guns/GunBase.h"
+
+#include "Kismet/KismetMathLibrary.h"
+#include "Engine/SkeletalMeshSocket.h"
+
+#include "Weapons/Skills/ChargeShot.h"
 
 UAT_ChargeShot::UAT_ChargeShot()
 {
@@ -21,37 +27,71 @@ UAT_ChargeShot::UAT_ChargeShot()
 
 bool UAT_ChargeShot::ActivateSkill(const FTargetResult& TargetResult)
 {
-	// TWeakObjectPtr<AHeroBase> owner_hero_ptr = Cast<AHeroBase>(skill_owner_);
-	// if (owner_hero_ptr.IsValid())
-	// {
-	// 	AHeroBase* hero = owner_hero_ptr.Get();
-	// 	TWeakObjectPtr<AActor> target_ptr = TargetResult.target_actors_[0];
-	// 	if (target_ptr.IsValid())
-	// 	{
-	// 		AActor* target = target_ptr.Get();
-	// 		hero->SetAttackTarget(target);
-	// 		auto weapon_mechanics_cache = hero->GetWeaponMechanics();
-	// 		
-	// 		weapon_mechanics_cache->StopFire();
-	// 		FTimerHandle& fire_timer_handle = weapon_mechanics_cache->RentFireTimerHandle();
-	//
-	// 		if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle) == false && target)
-	// 		{
-	// 			weapon_mechanics_cache->GetWeaponActor()->Reload(1);
-	// 			FDamageData dmg_data = weapon_mechanics_cache->GetWeaponFireDamageData();
-	// 			dmg_data.atk_base_dmg *= dmg_scale_;
-	// 			FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UAT_ChargeShot::OnChargeShot, target, weapon_mechanics_cache, dmg_data);
-	// 			GetWorld()->GetTimerManager().SetTimer(fire_timer_handle, fire_del, charge_time_, false, charge_time_); 
-	// 		}
-	// 		return true;
-	// 	}
-	// }
+	 AHeroBase* hero = Cast<AHeroBase>(skill_owner_);
+	 if (hero)
+	 {
+	 	AActor* target = TargetResult.target_actors_[0];
+	 	if (target)
+	 	{
+	 		auto weapon_mechanics_cache = hero->GetWeaponMechanics();
+	 		
+
+			// @@ TODO: This code is written under a condition
+			// 1. FinishFire halts all AI actions.
+	 		weapon_mechanics_cache->FinishFire();
+			FireChargeShot(target);
+			GetWorld()->GetTimerManager().SetTimer(handler_, this, &UAT_ChargeShot::ResumeFiring, charge_time_);
+	 		return true;
+	 	}
+	 }
 	return Super::ActivateSkill(TargetResult);
 }
 
-void UAT_ChargeShot::OnChargeShot(AActor* target, UWeaponMechanics* weapon_mechanics_cache, FDamageData dmg_data)
+void UAT_ChargeShot::ResumeFiring()
 {
-	// weapon_mechanics_cache->OnFire(target, dmg_data, recoil_time_);
-	// weapon_mechanics_cache->FinishFire();
-	// weapon_mechanics_cache->ResumeFire();
+	// Resume AI behavior
+
+	if (chargeshot_)
+	{ 
+		if (!IsValid(skill_owner_)) 
+		{
+			// When skill owner (hero) has died,
+			chargeshot_->Destroy();
+		}
+	}
+}
+
+void UAT_ChargeShot::FireChargeShot(AActor* target)
+{
+	AHeroBase* hero = Cast<AHeroBase>(skill_owner_);
+	if (hero)
+	{
+		if (charge_shot_class_)
+		{
+			// Fire ChargeShot
+
+			AGunBase* weapon_actor = hero->GetWeaponMechanics()->GetWeaponActor();
+			USkeletalMeshComponent* skeletal_mesh = weapon_actor->GetWeaponSkeletalMesh();
+			const USkeletalMeshSocket* muzzle_socket = skeletal_mesh->GetSocketByName(weapon_actor->GetMuzzleSocketName());
+
+			FTransform spawn_transform;
+			if (muzzle_socket)
+			{
+				FVector muzzle_location = muzzle_socket->GetSocketLocation(skeletal_mesh);
+				spawn_transform.SetLocation(muzzle_location);
+			}
+			else
+			{
+				spawn_transform.SetLocation(weapon_actor->GetActorLocation() + FVector(50.f, 0.f, 0.f));
+			}
+			FRotator rotation = UKismetMathLibrary::FindLookAtRotation(spawn_transform.GetLocation(), target->GetActorLocation());
+			spawn_transform.SetRotation(rotation.Quaternion());
+
+			chargeshot_ = GetWorld()->SpawnActor<AChargeShot>(charge_shot_class_, spawn_transform);
+			chargeshot_->SetCastingTime(charge_time_);
+			chargeshot_->SetDamageData(FDamageData{ 0.f, weapon_actor->GetWeaponFireDamageData().atk_base_dmg_ * dmg_scale_ + (hero->GetCharacterStat()->GetSkillPower() * scaling_factor_), EDamageType::Magic, skill_owner_ });
+
+			hero->GetWeaponMechanics()->BeginFire(target);
+		}
+	}
 }

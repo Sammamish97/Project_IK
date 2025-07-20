@@ -41,9 +41,10 @@ public:
 	virtual void FinishFire();
 	
 	bool IsMagazineEmpty() const;
-	FWeaponStatusData GetWeaponStatusData();
-	TObjectPtr<USkeletalMeshComponent> GetWeaponSkeletalMesh();
-	FName GetGrabSocketName();
+	FWeaponStatusData GetWeaponStatusData() const;
+	TObjectPtr<USkeletalMeshComponent> GetWeaponSkeletalMesh() const;
+	FName GetGrabSocketName() const;
+	FName GetMuzzleSocketName() const;
 
 	FDamageData GetWeaponFireDamageData();
 

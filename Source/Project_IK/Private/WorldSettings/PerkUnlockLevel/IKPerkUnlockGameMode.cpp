@@ -11,8 +11,6 @@ See LICENSE file in the project root for full license information.
 
 #include "WorldSettings/PerkUnlockLevel/IKPerkUnlockGameMode.h"
 
-#include "Subsystems/PerkTreeSubsystem.h"
-
 void AIKPerkUnlockGameMode::BeginPlay()
 {
 	Super::BeginPlay();

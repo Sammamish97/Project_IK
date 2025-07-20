@@ -228,12 +228,20 @@ EHeroType AHeroBase::GetHeroType() const
 void AHeroBase::Reposition(FVector target_location)
 {
 	DispatchUnitEvent(EUnitEvent::OnMove);
-	Cast<AHeroAIController>(GetController())->RepositionHero(target_location);
+	AHeroAIController* controller = Cast<AHeroAIController>(GetController());
+	if (controller)
+	{
+		controller->RepositionHero(target_location);
+	}
 }
 
 void AHeroBase::SetAttackTarget(AActor* target)
 {
-	Cast<AHeroAIController>(GetController())->SetAttackTarget(target);
+	AHeroAIController* controller = Cast<AHeroAIController>(GetController());
+	if (controller)
+	{
+		controller->SetAttackTarget(target);
+	}
 }
 
 void AHeroBase::SetIsCovered(bool is_covered)
@@ -243,7 +251,12 @@ void AHeroBase::SetIsCovered(bool is_covered)
 
 AActor* AHeroBase::GetAttackTarget() const
 {
-	return Cast<AMeleeAIController>(GetController())->GetTargetActor();
+	AHeroAIController* controller = Cast<AHeroAIController>(GetController());
+	if (controller)
+	{
+		controller->GetTargetActor();
+	}
+	return nullptr;
 }
 
 FColor AHeroBase::GetHeroBaseColor_1() const

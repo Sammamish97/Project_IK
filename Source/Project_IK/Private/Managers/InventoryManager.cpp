@@ -31,16 +31,6 @@ void UInventoryManager::OpenReadOnlyInventory()
 	
 }
 
-void UInventoryManager::SetTickets(int32 tickets)
-{
-	tickets_ = tickets;
-}
-
-int32 UInventoryManager::GetTickets() const
-{
-	return tickets_;
-}
-
 void UInventoryManager::SetCredits(int32 credits)
 {
 	credits_ = credits;

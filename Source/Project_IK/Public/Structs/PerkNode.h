@@ -15,6 +15,8 @@ See LICENSE file in the project root for full license information.
 #include "PerkNode.generated.h"
 
 
+class UPerkEffectBase;
+
 enum class ECharacterStatType : uint8;
 
 USTRUCT(BlueprintType)
@@ -22,16 +24,12 @@ struct FPerkNode
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PerkData")
+	TSubclassOf<UPerkEffectBase> effect_class_;
 
-	UPROPERTY(VisibleAnywhere, Category = "PerkData")
-	ECharacterStatType stat_;
-
-	UPROPERTY(VisibleAnywhere, Category = "PerkData")
-	float modifier_;	
-
-	UPROPERTY(VisibleAnywhere, Category = "PerkData")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PerkData")
 	int32 cost_;
 
-	UPROPERTY(VisibleAnywhere, Category = "PerkData")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PerkData")
 	TArray<int32> next_;
 };

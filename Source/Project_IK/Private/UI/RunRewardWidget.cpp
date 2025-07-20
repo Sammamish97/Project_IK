@@ -62,7 +62,6 @@ void URunRewardWidget::NativeConstruct()
 
 
 	perk_points_text_->SetText(FText::AsNumber(perk_points_reward_));
-	ticket_text_->SetText(FText::AsNumber(tickets_reward_));
 }
 
 void URunRewardWidget::NativeDestruct()
@@ -74,7 +73,6 @@ void URunRewardWidget::NativeDestruct()
 	{
 		UInventoryManager* inventory = game_instance->GetInventoryManager();
 		inventory->SetPerkPoints(inventory->GetPerkPoints() + perk_points_reward_);
-		inventory->SetTickets(inventory->GetTickets() + tickets_reward_);
 	}
 }
 

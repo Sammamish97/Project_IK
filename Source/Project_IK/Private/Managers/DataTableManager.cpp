@@ -22,6 +22,7 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/SupportSkillDataAsset.h"
 #include "DataAssets/UnitTypeDataAsset.h"
 #include "DataAssets/WeaponAnimDataAsset.h"
+#include "DataAssets/PerkTreeDataAsset.h"
 #include "Structs/SupportSkillData.h"
 #include "Structs/WrapperEquipmentData.h"
 
@@ -214,14 +215,20 @@ const FCharacterData& UDataTableManager::GetCharacterData(ECharacterType char_ty
 	return character_stat_data_asset_->GetCharacterData(char_type);
 }
 
-void UDataTableManager::EnhanceCharacterData(ECharacterType char_type, ECharacterStatType stat_type, float increase_amount)
+void UDataTableManager::EnhanceHeroesStatData(ECharacterStatType stat_type, float increase_amount)
 {
-	character_stat_data_asset_->EnhanceCharacterData(char_type, stat_type, increase_amount);
+	character_stat_data_asset_->EnhanceCharacterData(ECharacterType::Hero1, stat_type, increase_amount);
+	character_stat_data_asset_->EnhanceCharacterData(ECharacterType::Hero2, stat_type, increase_amount);
+	character_stat_data_asset_->EnhanceCharacterData(ECharacterType::Hero3, stat_type, increase_amount);
+	character_stat_data_asset_->EnhanceCharacterData(ECharacterType::Hero4, stat_type, increase_amount);
 }
 
-void UDataTableManager::DiminishCharacterData(ECharacterType char_type, ECharacterStatType stat_type, float decrease_amount)
+void UDataTableManager::DiminishHeroesStatData(ECharacterStatType stat_type, float decrease_amount)
 {
-	character_stat_data_asset_->DiminishCharacterData(char_type, stat_type, decrease_amount);
+	character_stat_data_asset_->DiminishCharacterData(ECharacterType::Hero1, stat_type, decrease_amount);
+	character_stat_data_asset_->DiminishCharacterData(ECharacterType::Hero2, stat_type, decrease_amount);
+	character_stat_data_asset_->DiminishCharacterData(ECharacterType::Hero3, stat_type, decrease_amount);
+	character_stat_data_asset_->DiminishCharacterData(ECharacterType::Hero4, stat_type, decrease_amount);
 }
 
 FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type) const
@@ -240,25 +247,25 @@ FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type) 
 
 FWrapperEquipmentData UDataTableManager::GetEquipmentDataRandomly(ERarity weight_rarity) const
 {
-	int32 data_type = FMath::RandRange(0, 3);
+	int32 data_type = FMath::RandRange(0, 99);
 
 	FWrapperEquipmentData result;
-	switch (data_type)
+
+	if (data_type <= 12)
 	{
-	case 0:
-		result.active_skills_.Add(GetActiveSkillDataRandomly(weight_rarity));
-		break;
-	case 1:
-		result.passive_skills_.Add(GetPassiveSkillDataRandomly(weight_rarity));
-		break;
-	case 2:
-		result.runes_.Add(GetRuneDataRandomly(weight_rarity));
-		break;
-	case 3:
 		result.weapons_.Add(GetWeaponDataRandomly(weight_rarity));
-		break;
-	default:
-		break;
+	}
+	else if(data_type <= 24)
+	{
+		result.active_skills_.Add(GetActiveSkillDataRandomly(weight_rarity));
+	}
+	else if(data_type <= 46)
+	{
+		result.passive_skills_.Add(GetPassiveSkillDataRandomly(weight_rarity));
+	}
+	else
+	{
+		result.runes_.Add(GetRuneDataRandomly(weight_rarity));
 	}
 
 	return result;
@@ -266,21 +273,39 @@ FWrapperEquipmentData UDataTableManager::GetEquipmentDataRandomly(ERarity weight
 
 FWrapperEquipmentData UDataTableManager::GetUniqueEquipmentDataRandomly(int32 n, ERarity weight_rarity) const
 {
-	TArray<int32> data_counts({ 0, 0, 0, 0, 0 });
+	TArray<int32> data_counts({ 0, 0, 0, 0 });
 
 	for (int32 i = 0; i < n; i++)
 	{
-		int32 index = FMath::RandRange(0, 4);
+		int32 index = 0;
+		int32 probability = FMath::RandRange(0, 99);
+
+		if (probability <= 12)
+		{
+			index = 0;
+		}
+		else if (probability <= 24)
+		{
+			index = 1;
+		}
+		else if (probability <= 46)
+		{
+			index = 2;
+		}
+		else
+		{
+			index = 3;
+		}
 
 		// Increase count by randomly chosen data index
 		data_counts[index] += 1;
 	}
 
 	FWrapperEquipmentData result;
-	result.active_skills_ = GetUniqueActiveSkillDataRandomly(data_counts[0], weight_rarity);
+	result.weapons_ = GetUniqueWeaponDataRandomly(data_counts[0], weight_rarity);
+	result.active_skills_ = GetUniqueActiveSkillDataRandomly(data_counts[1], weight_rarity);
 	result.passive_skills_ = GetUniquePassiveSkillDataRandomly(data_counts[2], weight_rarity);
 	result.runes_ = GetUniqueRuneDataRandomly(data_counts[3], weight_rarity);
-	result.weapons_ = GetUniqueWeaponDataRandomly(data_counts[4], weight_rarity);
 
 	return result;
 }
@@ -314,4 +339,8 @@ TSubclassOf<AUnit> UDataTableManager::GetUnitType(ECharacterType type)
 FSupportSkillData UDataTableManager::GetSupportSkillType(ESupportSkillType type)
 {
 	return support_skill_type_asset_->GetSupportSkillData(type);
+}
+const TArray<FPerkNode>& UDataTableManager::GetTree() const
+{
+	return perk_tree_data_asset_->GetTree();
 }

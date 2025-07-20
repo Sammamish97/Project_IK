@@ -17,10 +17,10 @@ void UPerkProgressSubsystem::Initialize(FSubsystemCollectionBase& collection)
 {
 	Super::Initialize(collection);
 
-	progresses_.Add(ECharacterType::Hero1, TSet<int32>());
-	progresses_.Add(ECharacterType::Hero2, TSet<int32>());
-	progresses_.Add(ECharacterType::Hero3, TSet<int32>());
-	progresses_.Add(ECharacterType::Hero4, TSet<int32>());
+	for (int32 i = 0; i < 16; i++)
+	{
+		AddProgress(i);
+	}
 }
 
 void UPerkProgressSubsystem::Deinitialize()
@@ -28,24 +28,20 @@ void UPerkProgressSubsystem::Deinitialize()
 	Super::Deinitialize();
 }
 
-const TSet<int32>& UPerkProgressSubsystem::GetProgress(ECharacterType hero_type)
+const TSet<int32>& UPerkProgressSubsystem::GetProgress() const
 {
-	return progresses_[hero_type];
+	return progress_;
 }
 
-bool UPerkProgressSubsystem::AddProgress(ECharacterType hero_type, int32 progress)
+bool UPerkProgressSubsystem::AddProgress(int32 progress)
 {
-	if (progresses_.Contains(hero_type))
+	if (progress_.Contains(progress))
 	{
-		if (progresses_[hero_type].Contains(progress))
-		{
-			return false;
-		}
-		else
-		{
-			progresses_[hero_type].Add(progress);
-			return true;
-		}
+		return false;
 	}
-	return false;
+	else
+	{
+		progress_.Add(progress);
+		return true;
+	}
 }

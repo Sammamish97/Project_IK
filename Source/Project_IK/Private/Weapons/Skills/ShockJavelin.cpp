@@ -45,6 +45,7 @@ void AShockJavelin::Tick(float DeltaSeconds)
 	{
 		return;
 	}
+	Super::Tick(DeltaSeconds);
 
 	timer_ += DeltaSeconds;
 	if (timer_ < casting_time_)

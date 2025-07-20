@@ -518,6 +518,10 @@ enum class EGlobalBuffType : uint8
 	Deathbound_Hero2 UMETA(DisplayName = "Deathbound Hero2"),
 	Deathbound_Hero3 UMETA(DisplayName = "Deathbound Hero3"),
 	Deathbound_Hero4 UMETA(DisplayName = "Deathbound Hero4"),
+	Upgrade_Alpha UMETA(DisplayName = "Upgrade Alpha"),
+	Upgrade_Beta UMETA(DisplayName = "Upgrade Beta"),
+	Upgrade_Gamma UMETA(DisplayName = "Upgrade Gamma"),
+	Upgrade_Omega UMETA(DisplayName = "Upgrade Omega"),
 	None UMETA(DisplayName = "None"),
 };
 
@@ -682,4 +686,9 @@ enum class EBuffType : uint8
 
 	//Global
 	Deathbound UMETA(DisplayName = "Deathbound"),
+
+	Upgrade_Alpha UMETA(DisplayName = "Upgrade Alpha"),
+	Upgrade_Beta UMETA(DisplayName = "Upgrade Beta"),
+	Upgrade_Gamma UMETA(DisplayName = "Upgrade Gamma"),
+	Upgrade_Omega UMETA(DisplayName = "Upgrade Omega"),
 };
