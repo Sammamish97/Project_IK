@@ -129,30 +129,28 @@ void URewardContainerWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	//TEST perpose
-	// auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
-	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm));
-	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm));
-	//
-	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
-	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::LowProfile));
-	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Agility));
-	//
-	// reward_cache_.support_skills_.Push(data_table_manager_->GetSupportSkillData(ESupportSkillType::InstantRepair));
-	// reward_cache_.support_skills_.Push(data_table_manager_->GetSupportSkillData(ESupportSkillType::InstantRepair));
-	//
-	// reward_cache_.support_skills_.Push(data_table_manager_->GetSupportSkillData(ESupportSkillType::SupportFire));
-	// reward_cache_.support_skills_.Push(data_table_manager_->GetSupportSkillData(ESupportSkillType::SupportFire));
-	//
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 0));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 1));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 2));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 3));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 4));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 5));
-	//
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 0));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 2));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 4));
+	auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
+	//// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ChargeShot_B));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Ricochet_B));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::MagnetizedBullet_B));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm_B));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::DeployCover_B));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::DeploySentryGun_B));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Thunder_B));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::TripleFire_B));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Encourage_B));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::FateSpiral_B));
+
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::DeploySentryGun_A));
+	//reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ChargeShot_A));
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Ricochet_A));
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::MagnetizedBullet_A));
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm_A));
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::DeployCover_A));
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Thunder_A));
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::TripleFire_A));
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Encourage_A));
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::FateSpiral_A));
 	//
 	
 	for (auto weapon_data : reward_cache_.weapons_)

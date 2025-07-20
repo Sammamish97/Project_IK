@@ -27,8 +27,8 @@ class PROJECT_IK_API AIKGameModeBase : public AGameModeBase
 public:
 	AIKGameModeBase();
 
-	virtual void StartPlay() override;
 	virtual void BeginPlay() override;
+	virtual void StartPlay() override;
 
 	void SpawnHeroes();
 	void SpawnEnemies();
@@ -66,6 +66,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Spawn")
 	TSubclassOf<UEnemySpawnerManager> enemy_spawner_manager_class_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Spawn")
+	TSubclassOf<AActor> outliner_world_class_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Spawn")
 	TMap<EHeroType, TSubclassOf<class AHeroBase>> hero_bp_class_;

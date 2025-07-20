@@ -32,6 +32,7 @@ void UGB_Deathbound::ApplyBuff(UObject* buff_target)
 		hero->ApplyBuff(EBuffType::Deathbound, FBuffStatusData(ECharacterStatType::AttackPower, 0.5f, true, true));
 		hero->ApplyBuff(EBuffType::Deathbound, FBuffStatusData(ECharacterStatType::AttackSpeed, 0.5f, true, true));
 
-		hero->AddBuffUI(FBuffUIData(FText::FromString("Deathbound"), EBuffType::Deathbound, nullptr, 0.f, true, FText::FromString("x0.5 HP, AttackPower, AttackSpeed")));
+		//IKTODO: DeathBound를 위한 FBuffData가 필요함.
+		//hero->AddBuffUI(FBuffUIData(FText::FromString("Deathbound"), EBuffType::Deathbound, nullptr, 0.f, true, FText::FromString("x0.5 HP, AttackPower, AttackSpeed")));
 	}
 }

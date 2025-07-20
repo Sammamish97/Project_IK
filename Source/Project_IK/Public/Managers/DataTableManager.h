@@ -89,8 +89,6 @@ public:
 	TSubclassOf<class AUnit> GetUnitType(ECharacterType type);
 	FSupportSkillData GetSupportSkillType(ESupportSkillType type);
 
-	FBuffUIData GetBuffUIData(EBuffType type);
-	
 	const TArray<FPerkNode>& GetTree() const;
 
 protected:
@@ -129,9 +127,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info")
 	TObjectPtr<class USupportSkillDataAsset> support_skill_type_asset_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info")
-	TObjectPtr<class UBuffUIDataAsset> buff_ui_data_asset_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PerkTree")
 	TObjectPtr<UPerkTreeDataAsset> perk_tree_data_asset_;

@@ -19,20 +19,24 @@ See LICENSE file in the project root for full license information.
 class ACover;
 class UNiagaraSystem;
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UAT_DeployCover : public UActiveSkillBase, public FTickableGameObject
 {
 	GENERATED_BODY()
 public:
 	UAT_DeployCover();
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual void OnEnterCasting() override;
 
 	virtual void Tick(float DeltaTime) override;
 	inline virtual bool IsTickable() const override { return true; }
 	inline virtual TStatId GetStatId() const override { RETURN_QUICK_DECLARE_CYCLE_STAT(UAT_DeployCover, STATGROUP_Tickables); }
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<ACover> actor_class_;
+	TSubclassOf<ACover> cover_b_class_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<ACover> cover_a_class_;
 
 protected:
 
@@ -48,6 +52,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float deploy_time_ = 0.5f;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ThunderStorm", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UAnimMontage> casting_anim_montage_;
+	
 	protected:
 	UPROPERTY()
 	ACover* actor_;

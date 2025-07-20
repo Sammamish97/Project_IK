@@ -40,6 +40,11 @@ void UWeaponMechanics::Reload(float duration_multiplier)
 	weapon_actor_->Reload();
 }
 
+void UWeaponMechanics::StopReload()
+{
+	weapon_actor_->StopReload();
+}
+
 void UWeaponMechanics::FinishFire()
 {
 	weapon_actor_->FinishFire();
@@ -58,6 +63,11 @@ FWeaponStatusData UWeaponMechanics::GetWeaponData()
 	}
 	//TODO: 적절한 예외처리가 필요하다.
 	return FWeaponStatusData();
+}
+
+void UWeaponMechanics::SetHoldAction(bool hold_action)
+{
+	weapon_actor_->SetHoldAction(hold_action);
 }
 
 AGunBase* UWeaponMechanics::GetWeaponActor()

@@ -10,9 +10,19 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SupportSkills/SupportSkillBase.h"
 #include "WorldSettings/IKGameState.h"
 
+void USupportSkillBase::InitSupportSkill(const FSupportSkillData& skill_data)
+{
+	skill_data_ = skill_data;
+}
+
 float USupportSkillBase::GetCost() const
 {
 	return cost_;
+}
+
+const FSupportSkillData& USupportSkillBase::GetSupportSkillData() const
+{
+	return skill_data_;
 }
 
 bool USupportSkillBase::ActivateSkill(const FTargetResult& TargetResult)

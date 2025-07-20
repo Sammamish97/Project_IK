@@ -25,8 +25,7 @@ class PROJECT_IK_API UPS_Berserker : public UPassiveSkillBase
 {
 	GENERATED_BODY()
 public:
-
-	virtual void InitEquipmentSkill(AActor* hero_ref) override;
+	virtual void InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UNiagaraSystem> skill_particle_system_;

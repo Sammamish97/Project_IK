@@ -9,7 +9,6 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Managers/InventoryManager.h"
-#include "Structs/WrapperEquipmentData.h"
 #include "UI/InventoryWidget.h"
 
 void UInventoryManager::OpenInventoryWidgetReward(const FWrapperEquipmentData& rewards)
@@ -20,7 +19,7 @@ void UInventoryManager::OpenInventoryWidgetReward(const FWrapperEquipmentData& r
 		if(inventory_widget_)
 		{
 			inventory_widget_->LoadSelectedRewards(rewards);
-			inventory_widget_->InitInventoryWidget();
+			inventory_widget_->InitInventoryWidget(1, 2);
 			inventory_widget_->AddToViewport();
 			inventory_widget_->SetVisibility(ESlateVisibility::Visible);
 		}

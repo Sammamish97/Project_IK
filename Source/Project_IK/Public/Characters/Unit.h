@@ -54,6 +54,9 @@ public:
 	void SetAttackTarget(AActor* target);
 	AActor* GetAttackTarget();
 
+	virtual void InterruptUnitBehavior(EUnitState type);
+	virtual void ResetUnitState();
+
 	void SetOutlineState(EOutlineState state);
 
 	virtual void Attack(AActor* target) override;
@@ -98,7 +101,7 @@ public:
 	float GetPitchDiffBetweenTarget();
 
 	float GetStunRequestID() const;
-
+	
 	UFUNCTION()
 	void DispatchUnitEvent(EUnitEvent type);
 

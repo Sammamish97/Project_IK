@@ -243,3 +243,24 @@ void URuneBoardWidget::UpdateSetBonusEffect()
 		}
 	}
 }
+
+TObjectPtr<URuneSlotWidget> URuneBoardWidget::GetRuneSlotWidget(int32 idx)
+{
+	switch (idx)
+	{
+		case 0:
+			return slot_0_;
+		case 1:
+			return slot_1_;
+		case 2:
+			return slot_2_;
+		case 3:
+			return slot_3_;
+		case 4:
+			return slot_4_;
+		case 5:
+			return slot_5_;
+		default:
+			return nullptr;
+	}
+}

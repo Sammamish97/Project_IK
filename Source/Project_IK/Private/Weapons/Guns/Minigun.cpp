@@ -18,6 +18,10 @@ See LICENSE file in the project root for full license information.
 
 void AMinigun::BeginFire(AActor* target)
 {
+	if (hold_action_)
+	{
+		return;
+	}
 	Super::BeginFire(target);
 	if(GetWorld()->GetTimerManager().IsTimerActive(pre_heat_timer_) == false && on_fire_ == false)
 	{

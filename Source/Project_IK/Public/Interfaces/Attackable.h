@@ -10,7 +10,6 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Structs/DamageData.h"
 #include "UObject/Interface.h"
 #include "Attackable.generated.h"
 

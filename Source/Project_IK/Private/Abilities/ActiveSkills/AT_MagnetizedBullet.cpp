@@ -8,9 +8,8 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Abilities/ActiveSkills/AT_MagnetizedBullet.h"
-
+#include "Abilities/OnHitComponents/BulletMagnetizeEffectComponent.h"
 #include "Characters/HeroBase.h"
-#include "Components/BulletChainEffectComponent.h"
 #include "Components/WeaponMechanics.h"
 #include "Weapons/Guns/GunBase.h"
 
@@ -23,43 +22,33 @@ UAT_MagnetizedBullet::UAT_MagnetizedBullet()
 
 bool UAT_MagnetizedBullet::ActivateSkill(const FTargetResult& TargetResult)
 {
-	//1. 지속시간동안 다음의 효과를 일으켜야 함
-		//a. 총알이 3명의 적에게 도탄 되어야 함.
-		//b. 총알을 맞은 적은 추가 데미지와 함께 스택이 쌓임.
-		//c. 스택이 n스택이 되면 터지면서 효과 발생.
-	AHeroBase* hero = Cast<AHeroBase>(skill_owner_);
-	if (hero)
+	if (AHeroBase* hero = Cast<AHeroBase>(skill_owner_))
 	{
-		auto weapon_actor = hero->GetWeaponMechanics()->GetWeaponActor();
-
-		if (on_hit_class_)
+		if (auto weapon_actor = hero->GetWeaponMechanics()->GetWeaponActor())
 		{
-			weapon_actor->AddOnHitComponent(on_hit_class_);
+			weapon_actor->AddOnHitComponent(magnetized_on_hit_class_);
 		}
-		else
+		//만약 A급일 시, 지속시간 동안 공격속도 15% 증가.
+		if (IsUpgradedActiveSkill(skill_data_.type_))
 		{
-			weapon_actor->AddOnHitComponent(UBulletChainEffectComponent::StaticClass());
+			FBuffStatusData status_data = {ECharacterStatType::AttackSpeed, 1.15, true, false, duration_};
+			hero->ApplyBuff(EBuffType::MagnetizedBullet_A, status_data);
+			hero->AddBuffUI({skill_data_.item_data_, EBuffType::MagnetizedBullet_A, duration_});
 		}
-
+		hero->AddBuffUI({skill_data_.item_data_, EBuffType::MagnetizedBullet_A, duration_, false});
 		FTimerDelegate timer_delegate = FTimerDelegate::CreateUObject(this, &UAT_MagnetizedBullet::OnFinishSkill);
 		GetWorld()->GetTimerManager().SetTimer(duration_timer_handle_, timer_delegate, duration_, false);
 	}
-	return Super::ActivateSkill(TargetResult);
+	return 	Super::ActivateSkill(TargetResult);
 }
 
 void UAT_MagnetizedBullet::OnFinishSkill()
 {
-	AHeroBase* owner_hero_ptr = Cast<AHeroBase>(skill_owner_);
-	if (owner_hero_ptr)
+	if (AHeroBase* owner_hero_ptr = Cast<AHeroBase>(skill_owner_))
 	{
-		auto weapon_actor = owner_hero_ptr->GetWeaponMechanics()->GetWeaponActor();
-		if (on_hit_class_)
+		if (auto weapon_actor = owner_hero_ptr->GetWeaponMechanics()->GetWeaponActor())
 		{
-			weapon_actor->RemoveOnHitComponent(on_hit_class_);
-		}
-		else
-		{
-			weapon_actor->RemoveOnHitComponent(UBulletChainEffectComponent::StaticClass());
+			weapon_actor->RemoveOnHitComponent(magnetized_on_hit_class_);
 		}
 		GetWorld()->GetTimerManager().ClearTimer(duration_timer_handle_);
 	}

@@ -9,18 +9,15 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-
 #include "Abilities/PassiveSkills/PS_Executioner.h"
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "Structs/BuffStatusData.h"
 #include "Characters/HeroBase.h"
 
-void UPS_Executioner::InitEquipmentSkill(AActor* hero_ref)
+void UPS_Executioner::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data)
 {
-	Super::InitEquipmentSkill(hero_ref);
-
-	
+	Super::InitPassiveSkill(hero_ref, skill_data);
 	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::OnEliminate, this, &UPS_Executioner::ApplyExecutionerBuff);
 }
 

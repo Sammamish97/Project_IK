@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "AIController.h"
 #include "Components/WeaponMechanics.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Characters/HeroBase.h"
 #include "Interfaces/Attackable.h"
 
 UTask_BeginFire::UTask_BeginFire()
@@ -31,12 +32,10 @@ EBTNodeResult::Type UTask_BeginFire::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 		if (auto casted_attackable_unit = Cast<IAttackable>(casted_pawn))
 		{
 			TWeakObjectPtr target_ptr = blackboard->GetValueAsObject(attack_target_key_.SelectedKeyName);
-			if(UObject* casted_target =target_ptr.Get())
+			if(UObject* casted_target = target_ptr.Get())
 			{
 				casted_attackable_unit->Attack(Cast<AActor>(casted_target));
 				return EBTNodeResult::Succeeded;
-				//IKTODO: 로직과 코스트 상 InProgress를 쓰는것이 더 좋을 수 있으나, 개발 코스트가 커질 수 있다. 그러므로 일단 간단한 버전으로 구현한다.
-				//return EBTNodeResult::InProgress;
 			}
 		}
 	}
@@ -45,6 +44,7 @@ EBTNodeResult::Type UTask_BeginFire::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 
 EBTNodeResult::Type UTask_BeginFire::AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
+	Super::AbortTask(OwnerComp, NodeMemory);
 	if (auto casted_pawn = OwnerComp.GetAIOwner()->GetPawn())
 	{
 		auto component = casted_pawn->GetComponentByClass(UWeaponMechanics::StaticClass()); 

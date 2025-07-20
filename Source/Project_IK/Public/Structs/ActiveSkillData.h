@@ -13,15 +13,13 @@ See LICENSE file in the project root for full license information.
 #include "ItemData.h"
 #include "Managers/EnumCluster.h"
 #include "ActiveSkillData.generated.h"
-
 USTRUCT(BlueprintType)
 struct PROJECT_IK_API FActiveSkillData
 {
 	GENERATED_BODY();
-
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	EActiveSkillType type_ = EActiveSkillType::INVALID;
-
+	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
 	TSubclassOf<class UActiveSkillBase> active_skill_class;
 

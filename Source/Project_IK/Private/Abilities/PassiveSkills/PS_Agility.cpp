@@ -9,30 +9,24 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-
 #include "Abilities/PassiveSkills/PS_Agility.h"
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "Characters/Unit.h"
-#include "DataAssets/BuffUIDataAsset.h"
 
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
-#include "WorldSettings/IKGameInstance.h"
 
-void UPS_Agility::InitEquipmentSkill(AActor* hero_ref)
+void UPS_Agility::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data)
 {
-	Super::InitEquipmentSkill(hero_ref);
+	Super::InitPassiveSkill(hero_ref, skill_data);
 	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::OnActiveSkill, this, &UPS_Agility::BuffAttackSpeed);
 
 	buff_duration_ = 3.f;
 	buff_amount_ = 2.0f;
 	buff_status_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, buff_amount_, true, false, buff_duration_);
-	auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
-	buff_ui_data_ = data_table_manager_->GetBuffUIData(EBuffType::Agility);
 
 	SpawnParticles(Cast<AUnit>(hero_ref));
 }
@@ -44,7 +38,7 @@ void UPS_Agility::BuffAttackSpeed()
 	 	if(AHeroBase* hero = Cast<AHeroBase>(hero_actor))
 	 	{
 	 		hero->ApplyBuff(EBuffType::Agility, buff_status_data_);
-	 		hero->AddBuffUI(buff_ui_data_);
+	 		hero->AddBuffUI(FBuffUIData(skill_data_.item_data_, EBuffType::Berserker, buff_status_data_.duration_, true));
 			ActivateParticles();
 
 	 	}

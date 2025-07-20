@@ -290,6 +290,17 @@ void AUnit::FinishStun()
 	FAIMessage::Send(this, Msg);
 }
 
+
+void AUnit::InterruptUnitBehavior(EUnitState type)
+{
+	
+}
+
+void AUnit::ResetUnitState()
+{
+	Cast<AMeleeAIController>(GetController())->ResetUnitState();
+}
+
 void AUnit::OnEnterBattleOnce()
 {
 	DispatchUnitEvent(EUnitEvent::OnEnterBattle);

@@ -18,6 +18,7 @@ class PROJECT_IK_API USupportSkillSlotWidget : public UInventorySlot
 	GENERATED_BODY()
 public:
 	virtual void NativeConstruct() override;
+	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	void SetSupportSkillSlotData(FSupportSkillData passive_skill_data);
 	FSupportSkillData GetStoredSupportSkillData();

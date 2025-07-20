@@ -33,29 +33,21 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetNecessaryData(float radius, float scaling_factor, float damage, AActor* skill_owner);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
-	TArray<TObjectPtr<USoundCue>> zap_sound_cue_array_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
-	TObjectPtr<UNiagaraSystem> zap_particle_ = nullptr;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
-	TObjectPtr<UMaterialInterface> visual_material_ = nullptr;
+	void DamageEnemies();
+	void BeginThunderStormPostProcess();
+	void EndThunderStormPostProcess();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason);
 
-	void DamageEnemies();
 	void ApplyDamage(FDamageData DamageData);
 	void SpawnSFX(UWorld* world, const FVector& location);
 	void SpawnVFX(UWorld* world, const FVector& location);
 
 	void FindPostProcessVolume();
-	void BeginThunderStormPostProcess();
-	void EndThunderStormPostProcess();
-
+	
 	UPROPERTY()
 	TObjectPtr<UAudioComponent> zap_sfx_component_ = nullptr;
 	UPROPERTY()
@@ -71,4 +63,15 @@ protected:
 	TWeakObjectPtr<AActor> skill_owner_;
 
 	TWeakObjectPtr<AIKPostProcessVolume> post_process_volume_;
+
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
+	TArray<TObjectPtr<USoundCue>> zap_sound_cue_array_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UNiagaraSystem> zap_particle_ = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UMaterialInterface> visual_material_ = nullptr;
+
 };

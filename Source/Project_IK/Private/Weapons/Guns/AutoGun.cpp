@@ -17,6 +17,10 @@ See LICENSE file in the project root for full license information.
 
 void AAutoGun::BeginFire(AActor* target)
 {
+	if (hold_action_)
+	{
+		return;
+	}
 	Super::BeginFire(target);
 	TWeakObjectPtr<AActor> weak_target_ptr = target;
 	if (AActor* target_ptr = weak_target_ptr.Get())
@@ -41,6 +45,7 @@ void AAutoGun::OnFire(AActor* target, float attack_speed)
 	{
 		if(AUnit* gun_owner = weak_gun_owner_.Get())
 		{
+			OnFireWeapon.Broadcast();
 			gun_owner->PlayAnimMontage(fire_montage_, fire_montage_->GetPlayLength() / attack_speed);
 			FVector rand_vec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, HARD_CODED_ACCURACY);
 			if (weapon_status_data_.bullet_type == EBulletType::FMJ)
@@ -50,11 +55,7 @@ void AAutoGun::OnFire(AActor* target, float attack_speed)
 			{
 				FireBuckShot(target_ptr->GetActorLocation() + rand_vec, GetWeaponFireDamageData());
 			}
-			
 		}
 	}
-	if(IsMagazineEmpty())
-	{
-		FinishFire();
-	}
+	FinishFire();
 }

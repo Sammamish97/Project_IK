@@ -30,7 +30,7 @@ EBTNodeResult::Type UTask_OnArrivedCover::ExecuteTask(UBehaviorTreeComponent& Ow
 		AUnit* casted_unit = Cast<AUnit>(OwnerComp.GetAIOwner()->GetPawn());
 		casted_unit->DispatchUnitEvent(EUnitEvent::HideOnCover);
 		ACover* casted_cover = Cast<ACover>(owned_cover);
-		casted_cover->SetCoveringOwner(casted_unit);
+		casted_cover->OnSettleDown(casted_unit);
 		casted_unit->SetCurHidingCover(casted_cover);
 	}
 	return EBTNodeResult::Succeeded;

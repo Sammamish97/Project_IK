@@ -14,12 +14,12 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "HeroEquipBoardWidget.generated.h"
 
-class UInventoryWidget;
 class UPassiveSkillSlotWidget;
-class UActiveSkillSlotWidget;
 class UWeaponSlotWidget;
+class UActiveSkillSlotWidget;
+class UInventorySlot;
+class UInventoryWidget;
 class UButton;
-class UEquipSlot;
 class UImage;
 
 UCLASS()
@@ -29,9 +29,11 @@ class PROJECT_IK_API UHeroEquipBoardWidget : public UUserWidget
 	friend UInventoryWidget;
 	
 public:
+	bool CheckDuplicatedPassiveSkill(EPassiveSkillType type);
 	void InitHeroEquipBoard(UInventoryWidget* widget_ptr, EHeroType hero_type);
 	void LoadHeroData();
 	void UpdateHeroData();
+	void SetAvailablePassiveSkillAmount(int32 amount);
 	
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
@@ -42,6 +44,12 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UPassiveSkillSlotWidget> passive_skill_1_slot_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
+	TObjectPtr<UPassiveSkillSlotWidget> passive_skill_2_slot_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
+	TObjectPtr<UPassiveSkillSlotWidget> passive_skill_3_slot_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UButton> button_;

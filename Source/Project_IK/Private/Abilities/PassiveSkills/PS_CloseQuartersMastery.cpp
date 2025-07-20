@@ -16,10 +16,9 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 #include "Structs/DamageData.h"
 
-void UPS_CloseQuartersMastery::InitEquipmentSkill(AActor* hero_ref)
+void UPS_CloseQuartersMastery::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data)
 {
-	Super::InitEquipmentSkill(hero_ref);
-
+	Super::InitPassiveSkill(hero_ref, skill_data);
 	bool bind_result = hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnCriticalRateCalculation(hero_ref, this, &UPS_CloseQuartersMastery::CloseQuatersMastery);
 	if (bind_result == false)
 	{

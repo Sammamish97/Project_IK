@@ -14,9 +14,9 @@ See LICENSE file in the project root for full license information.
 
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
-void UPS_StableFirstRound::InitEquipmentSkill(AActor* hero_ref)
+void UPS_StableFirstRound::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data)
 {
-	Super::InitEquipmentSkill(hero_ref);
+	Super::InitPassiveSkill(hero_ref, skill_data);
 
 	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnCriticalRateCalculation(hero_ref, this, &UPS_StableFirstRound::CriticalRateBuffIfReloaded);
 	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::OnReload, this, &UPS_StableFirstRound::CheckHasReloaded);

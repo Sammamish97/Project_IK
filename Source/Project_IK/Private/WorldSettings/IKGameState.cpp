@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/SupportSkills/SupportSkillBase.h"
 #include "Characters/HeroBase.h"
+#include "Components/ActiveSkillMechanics.h"
 #include "Components/EnergySystemComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Structs/SupportSkillData.h"
@@ -90,9 +91,10 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 			if (GetWorld()->GetTimerManager().IsTimerActive(active_skill_timers_[casted_hero->GetHeroType()]) == false)
 			{
 				player_controller_cache_->StartTargeting(casted_hero->GetActiveSkillTargetParameters(), casted_hero);
-				selected_skill_ = casted_hero->GetActiveSkill();
+				selected_active_skill_mechanics_ = casted_hero->GetActiveSkillMechanics();
 				selected_hero_type_ = hero_type;
-				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdateSkillPopupData(selected_hero_type_);
+				selected_skill_type_ = ESelectedSkill::ActiveSkill;
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(casted_hero->GetActiveSkillItemData());
 			}
 		}
 	}
@@ -102,15 +104,15 @@ void AIKGameState::ActivateSupportSkill(int32 support_num)
 {
 	if (equipped_support_skills_[support_num] != nullptr)
 	{
-		//IKTODO: 장착 유무를 여기서 확인해야 함.
 		if (energy_system_component_->GetEnergy() > equipped_support_skills_[support_num]->GetCost())
 		{
 			if (GetWorld()->GetTimerManager().IsTimerActive(support_skill_timers_[support_num]) == false)
 			{
 				player_controller_cache_->StartTargeting(equipped_support_skills_[support_num]->GetTargetParameters());
-				selected_skill_ = equipped_support_skills_[support_num];
+				selected_support_skill_ = equipped_support_skills_[support_num];;
 				selected_support_num_ = support_num;
-				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdateSkillPopupData(selected_support_num_);
+				selected_skill_type_ = ESelectedSkill::SupportSKill;
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(equipped_support_skills_[support_num]->GetSupportSkillData().item_data_);
 			}
 		}
 	}
@@ -118,33 +120,45 @@ void AIKGameState::ActivateSupportSkill(int32 support_num)
 
 bool AIKGameState::OnDecide(const FTargetResult& result)
 {
-	if (selected_skill_)
+	switch (selected_skill_type_)
 	{
-		if (selected_skill_.IsA(USupportSkillBase::StaticClass()))
-		{
-			energy_system_component_->UseEnergy(Cast<USupportSkillBase>(selected_skill_)->GetCost());
-			GetWorld()->GetTimerManager().SetTimer(support_skill_timers_[selected_support_num_],selected_skill_->GetCoolTime(), false);
-		}
-		else
-		{
-			GetWorld()->GetTimerManager().SetTimer(active_skill_timers_[selected_hero_type_],selected_skill_->GetCoolTime(), false);
-		}
-		if (selected_skill_->ActivateSkill(result))
-		{			
-			ClearTargetingState();
-		}
-		return true;
+		case ESelectedSkill::ActiveSkill:
+			{
+				GetWorld()->GetTimerManager().SetTimer(active_skill_timers_[selected_hero_type_],selected_active_skill_mechanics_->GetCooltime(), false);
+				selected_active_skill_mechanics_->ActivateSkill(result);
+				ClearTargetingState();
+			}
+			break;
+		case ESelectedSkill::SupportSKill:
+			{
+				energy_system_component_->UseEnergy(Cast<USupportSkillBase>(selected_support_skill_)->GetCost());
+				GetWorld()->GetTimerManager().SetTimer(support_skill_timers_[selected_support_num_],selected_support_skill_->GetCoolTime(), false);
+				if (selected_support_skill_->ActivateSkill(result))
+				{			
+					ClearTargetingState();
+				}
+			}
+			break;
 	}
 	return false;
 }
 
 void AIKGameState::ClearTargetingState()
 {
-	if(selected_skill_)
+	if (selected_active_skill_mechanics_)
 	{
-		selected_skill_->ResetSkill();
-		selected_skill_ = nullptr;
+		if (selected_active_skill_mechanics_->HasActiveSkill())
+		{
+			selected_active_skill_mechanics_->GetActiveSkill()->ResetSkill();
+			selected_active_skill_mechanics_ = nullptr;
+		}
 	}
+	if(selected_support_skill_)
+	{
+		selected_support_skill_->ResetSkill();
+		selected_support_skill_ = nullptr;
+	}
+	selected_skill_type_ = ESelectedSkill::INVALID;
 	selected_hero_type_ = EHeroType::INVALID;
 	selected_support_num_ = -1;
 	Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->SetVisibility(ESlateVisibility::Hidden);

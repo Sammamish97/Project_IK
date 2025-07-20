@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 #include "Structs/RuneSetData.h"
 
 #include "DataAssets/ActiveSkillDataAsset.h"
-#include "DataAssets/BuffUIDataAsset.h"
 #include "DataAssets/RuneDataAsset.h"
 #include "DataAssets/WeaponDataAsset.h"
 #include "DataAssets/GlobalBuffDataAsset.h"
@@ -341,12 +340,6 @@ FSupportSkillData UDataTableManager::GetSupportSkillType(ESupportSkillType type)
 {
 	return support_skill_type_asset_->GetSupportSkillData(type);
 }
-
-FBuffUIData UDataTableManager::GetBuffUIData(EBuffType type)
-{
-	return buff_ui_data_asset_->GetBuffUIData(type);
-}
-
 const TArray<FPerkNode>& UDataTableManager::GetTree() const
 {
 	return perk_tree_data_asset_->GetTree();

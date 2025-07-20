@@ -33,8 +33,9 @@ void UBuffPopupWidget::SetBuffDetail(FBuffUIData target_data)
 	if(target_data.buff_type_!=EBuffType::INVALID)
 	{
 		SetVisibility(ESlateVisibility::Visible);
-		thumbnail_->SetBrushFromTexture(target_data.thumbnail);
-		name_->SetText(target_data.buff_name_);
-		detail_->SetText(target_data.detail_);
+		thumbnail_->SetBrushFromTexture(target_data.item_data_.thumbnail);
+		name_->SetText(target_data.item_data_.name_);
+		//IKTODO: Evaluate에 적절한 값을 넣어야 한다.
+		//detail_->SetText(target_data.item_data_.detail_.Evaluate());
 	}
 }

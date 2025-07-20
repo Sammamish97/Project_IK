@@ -16,6 +16,10 @@ See LICENSE file in the project root for full license information.
 
 void ABurstGun::BeginFire(AActor* target)
 {
+	if (hold_action_)
+	{
+		return;
+	}
 	Super::BeginFire(target);
 	TWeakObjectPtr<AActor> weak_target_ptr = target;
 	if (AActor* target_ptr = weak_target_ptr.Get())
@@ -43,6 +47,10 @@ void ABurstGun::OnFire(AActor* target, FDamageData dmg_data, float attack_speed)
 	{
 		if(AUnit* gun_owner = weak_gun_owner_.Get())
 		{
+			if (burst_count_ == 0)
+			{
+				OnFireWeapon.Broadcast();
+			}
 			burst_count_ += 1;
 			gun_owner->PlayAnimMontage(fire_montage_, fire_montage_->GetPlayLength() / attack_speed);
 			FVector rand_vec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, HARD_CODED_ACCURACY);

@@ -93,3 +93,8 @@ void AMeleeAIController::SetAIFindTargetType(EAIFindTargetType type)
 {
 	GetBlackboardComponent()->SetValueAsEnum(ai_find_target_key_name_, static_cast<uint8>(type));
 }
+
+void AMeleeAIController::ResetUnitState()
+{
+	SetUnitState(EUnitState::OnLogic);
+}

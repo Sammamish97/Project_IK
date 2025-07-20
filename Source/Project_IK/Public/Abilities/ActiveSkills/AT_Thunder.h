@@ -15,13 +15,19 @@ See LICENSE file in the project root for full license information.
 #include "AT_Thunder.generated.h"
 
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UAT_Thunder : public UActiveSkillBase
 {
 	GENERATED_BODY()
+public:
 	UAT_Thunder();
+	virtual void InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data) override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual void OnEnterCasting() override;
 
 protected:
 	float damage_ = 0.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SkillData", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UAnimMontage> casting_anim_montage_;
 };

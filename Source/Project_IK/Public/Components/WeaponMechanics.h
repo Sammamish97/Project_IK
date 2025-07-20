@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Managers/EnumCluster.h"
 #include "Structs/CharacterData.h"
 #include "Structs/WeaponStatusData.h"
 #include "AITypes.h"
@@ -29,19 +28,23 @@ public:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
 	void BeginFire(AActor* target);
-	void Reload(float duration_multiplier = 1.0f);
 	void FinishFire();
+
+	void Reload(float duration_multiplier = 1.0f);
+	void StopReload();
 	
 	bool IsMagazineEmpty() const;
 
 	UFUNCTION(BlueprintCallable)
 	FWeaponStatusData GetWeaponData();
+
+	void SetHoldAction(bool hold_action);
 	
 	UFUNCTION(BlueprintCallable)
 	AGunBase* GetWeaponActor();
 
 	FAIRequestID GetReloadRequestId() const;
-	
+
 private:
 	UPROPERTY(Transient)
 	TObjectPtr<AGunBase> weapon_actor_ = nullptr;

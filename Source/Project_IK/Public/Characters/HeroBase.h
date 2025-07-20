@@ -17,7 +17,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/SpawnData.h"
 #include "HeroBase.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnApplyBuffDelegate, FBuffUIData, buff_type);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnApplyBuffDelegate, const FBuffUIData&, buff_data);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffExpired, EBuffType, ui_data);
 
 UCLASS(Abstract)
@@ -31,6 +31,9 @@ public:
 	
 	virtual void SyncWithSpawnData(const FSpawnData& spawn_data);
 	virtual void Die() override;
+
+	virtual void InterruptUnitBehavior(EUnitState type) override;
+	virtual void ResetUnitState() override;
 	
 	virtual void Attack(AActor* target) override;
 	virtual void GetStunned(float stun_duration) override;
@@ -39,10 +42,11 @@ public:
 	EHeroType GetHeroType() const;
 	FTargetParameters GetActiveSkillTargetParameters() const;
 	
-	void AddBuffUI(FBuffUIData buff_ui_data);
+	void AddBuffUI(const FBuffUIData& buff_ui_data);
 	void RemoveBuffUI(EBuffType buff_type);
 
 	bool HasActiveSkill() const;
+	const FItemData& GetActiveSkillItemData() const;
 	void ReduceActiveSkillCoolDown(float amount);
 	void ReduceActiveSkillCoolDownPercentage(float percentage);
 

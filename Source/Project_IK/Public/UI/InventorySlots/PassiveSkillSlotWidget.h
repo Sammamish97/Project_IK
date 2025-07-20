@@ -20,12 +20,15 @@ class PROJECT_IK_API UPassiveSkillSlotWidget : public UInventorySlot
 	GENERATED_BODY()
 public:
 	virtual void NativeConstruct() override;
+	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-	void SetPassiveSkillSlotData(FPassiveSkillData passive_skill_data);
-	FPassiveSkillData GetStoredPassiveSkillData();
+	void SetHeroType(EHeroType hero_type);
+	void SetPassiveSkillSlotData(const FPassiveSkillData& passive_skill_data);
+	const FPassiveSkillData& GetStoredPassiveSkillData();
 	virtual void SetImageTexture() override;
 	virtual void ClearData() override;
 
 private:
+	EHeroType hero_type_ = EHeroType::INVALID;
 	FPassiveSkillData passive_skill_data_cache_;
 };

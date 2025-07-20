@@ -98,9 +98,8 @@ void AHeroBase::BeginPlay()
 	// {
 	// 	weapon_mechanics_->EquipWeapon(default_weapon_class_);
 	// }
-	// active_skill_mechanics_->EquipActiveSkill(EActiveSkillType::ThunderStorm);
 	//
-	
+
 	switch (GetCharacterType())
 	{
 	case ECharacterType::Hero1:
@@ -145,12 +144,12 @@ void AHeroBase::SyncWithSpawnData(const FSpawnData& spawn_data)
 	}
 	if (spawn_data.passive_skill_data_1_.IsSet())
 	{
-		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_1_.GetValue().type_);
+		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_1_.GetValue());
 	}
 	//IKTODO: 추후 Passive Skill 2, 3에 대한 처리도 추가해야 함.
 	if (spawn_data.active_skill_data_.IsSet())
 	{
-		active_skill_mechanics_->EquipActiveSkill(spawn_data.active_skill_data_.GetValue().type_);
+		active_skill_mechanics_->EquipActiveSkill(spawn_data.active_skill_data_.GetValue());
 	}
 
 	TArray rune_data_array = {spawn_data.rune_data_1, spawn_data.rune_data_2, spawn_data.rune_data_3, spawn_data.rune_data_4, spawn_data.rune_data_5, spawn_data.rune_data_6};
@@ -178,6 +177,38 @@ void AHeroBase::Attack(AActor* target)
 	weapon_mechanics_->BeginFire(target);
 }
 
+void AHeroBase::InterruptUnitBehavior(EUnitState type)
+{
+	Cast<AMeleeAIController>(GetController())->SetUnitState(type);
+	switch (type)
+	{
+	case EUnitState::OnStunned:
+		Cast<AHeroAIController>(GetController())->StopMovement();
+		
+	case EUnitState::OnRepositioning:
+		active_skill_mechanics_->StopActiveSkill();
+		
+	case EUnitState::OnActiveSkill:
+		weapon_mechanics_->StopReload();
+		
+	case EUnitState::OnReloading:
+	{
+		weapon_mechanics_->FinishFire();
+		weapon_mechanics_->SetHoldAction(true);
+	}
+	
+	default:
+		break;
+		//IKTODO: 예외처리
+	}
+}
+
+void AHeroBase::ResetUnitState()
+{
+	Super::ResetUnitState();
+	weapon_mechanics_->SetHoldAction(false);
+}
+
 void AHeroBase::GetStunned(float stun_duration)
 {
 	Super::GetStunned(stun_duration);
@@ -187,7 +218,6 @@ void AHeroBase::OnStunned()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hero Stunned"));
 	Super::OnStunned();
-	//weapon_mechanics_->OnStunned();
 }
 
 EHeroType AHeroBase::GetHeroType() const
@@ -249,6 +279,11 @@ bool AHeroBase::HasActiveSkill() const
 	return active_skill_mechanics_->HasActiveSkill();
 }
 
+const FItemData& AHeroBase::GetActiveSkillItemData() const
+{
+	return active_skill_mechanics_->GetEquippedActiveSkillData().item_data_;
+}
+
 void AHeroBase::ReduceActiveSkillCoolDown(float amount)
 {
 	auto game_state_cache_ = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
@@ -261,7 +296,7 @@ void AHeroBase::ReduceActiveSkillCoolDownPercentage(float percentage)
 	game_state_cache_->ReduceCoolDownPercentage(GetHeroType(), percentage);
 }
 
-void AHeroBase::AddBuffUI(FBuffUIData buff_ui_data)
+void AHeroBase::AddBuffUI(const FBuffUIData& buff_ui_data)
 {
 	OnApplyBuff.Broadcast(buff_ui_data);
 }
