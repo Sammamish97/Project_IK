@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Weapons/Guns/AutoGun.h"
 
+#include "Characters/HeroBase.h"
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"
 #include "Components/WeaponMechanics.h"
@@ -31,8 +32,7 @@ void AAutoGun::BeginFire(AActor* target)
 			float weapon_attack_speed = 1.f / total_fire_per_sec;
 			if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target_ptr)
 			{
-				FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &AAutoGun::OnFire, target_ptr, weapon_attack_speed);
-				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, weapon_attack_speed); 
+				OnFire(target_ptr, weapon_attack_speed);
 			}
 		}
 	}
@@ -51,11 +51,21 @@ void AAutoGun::OnFire(AActor* target, float attack_speed)
 			if (weapon_status_data_.bullet_type == EBulletType::FMJ)
 			{
 				FireSingleBullet(target_ptr->GetActorLocation() + rand_vec, GetWeaponFireDamageData());
-			}else if (weapon_status_data_.bullet_type == EBulletType::Buckshot)
+			}
+			else if (weapon_status_data_.bullet_type == EBulletType::Buckshot)
 			{
 				FireBuckShot(target_ptr->GetActorLocation() + rand_vec, GetWeaponFireDamageData());
 			}
 		}
 	}
-	FinishFire();
+	if (IsMagazineEmpty() == false)
+	{
+		if(AUnit* gun_owner = weak_gun_owner_.Get())
+		{
+			float total_fire_per_sec =  weapon_status_data_.fire_per_sec * (1 + gun_owner->GetCharacterStat()->GetAttackSpeed() / 100.f);
+			float weapon_attack_speed = 1.f / total_fire_per_sec;
+			FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &AAutoGun::OnFire, target, weapon_attack_speed);
+			GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, false);
+		}
+	}
 }
