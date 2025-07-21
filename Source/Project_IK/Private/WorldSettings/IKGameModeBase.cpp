@@ -31,6 +31,10 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/GlobalBuffSubsystem.h"
 #include "Managers/DataTableManager.h"
 
+#include "Subsystems/PerkModifierSubsystem.h"
+#include "Managers/InventoryManager.h"
+//#include ""
+
 AIKGameModeBase::AIKGameModeBase()
 	: Super::AGameModeBase()
 {
@@ -142,7 +146,7 @@ void AIKGameModeBase::SaveHeroSpawnData()
 		{
 			spawn_map[type].character_data_ = Cast<AHeroBase>(heroes_[cur_idx])->GetCharacterStat()->GetCharacterData();
 		}
-		else
+		else if(spawn_map[type].is_dead_ == false)
 		{
 			UGlobalBuffSubsystem* global_buff_subsystem = GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
 			const EGlobalBuffType deathbound_type = HeroTypeToDeathbound(type);
@@ -225,6 +229,8 @@ void AIKGameModeBase::CheckWinLoseCondition()
 	// Need changes in CombatResultUI if the below line called after SaveHeroSpawnData.
 	DisplayCombatResult();
 
+	HealHeroesAfterCombat();
+
 	// Function call matters. 
 	// Need changes in CombatResultUI if the below line called before DisplayCombatResult.
 	SaveHeroSpawnData();
@@ -243,6 +249,22 @@ void AIKGameModeBase::CheckWinLoseCondition()
 void AIKGameModeBase::OnGameWin()
 {
 	has_game_won_ = true;
+
+	// Rewarded credits
+	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+	if (instance)
+	{
+		UInventoryManager* inventory = instance->GetInventoryManager();
+		UPerkModifierSubsystem* perk_modifier_subsystem = instance->GetSubsystem<UPerkModifierSubsystem>();
+		if (inventory && perk_modifier_subsystem)
+		{
+			// @@ TODO: Need to modify an amount of credits per combats.
+			// i.e. -> ((current node level / 2) + 1) * 10;
+			int32 credits = 10;
+			credits *= perk_modifier_subsystem->GetCombatEndCreditsBonusPercentage();
+			inventory->AddCredits(credits);
+		}
+	}
 }
 
 void AIKGameModeBase::OnGameLose()
@@ -250,6 +272,12 @@ void AIKGameModeBase::OnGameLose()
 	if (IsAllHeroesPermanentlyDead())
 	{
 		has_game_won_ = false;
+
+		UIKGameInstance* ik_instance = Cast<UIKGameInstance>(GetGameInstance());
+		if (ik_instance)
+		{
+			ik_instance->ClearRunData();
+		}
 	}
 }
 
@@ -342,4 +370,24 @@ bool AIKGameModeBase::IsAllHeroesPermanentlyDead() const
 		}
 	}
 	return true;
+}
+
+void AIKGameModeBase::HealHeroesAfterCombat()
+{
+	float heal_percentage = GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>()->GetCombatEndHealPercentage();
+	
+	if (heal_percentage <= 0.f)
+	{
+		return;
+	}
+
+
+	for (AActor* actor : heroes_)
+	{
+		if (actor)
+		{
+			AHeroBase* hero = Cast<AHeroBase>(actor);
+			hero->Heal(hero->GetCharacterStat()->GetMaxHitPoint() * heal_percentage);
+		}
+	}
 }

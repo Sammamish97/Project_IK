@@ -13,18 +13,34 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_ChargeShot.generated.h"
 
-UCLASS(Abstract)
+class AChargeShot;
+
+UCLASS()
 class PROJECT_IK_API UAT_ChargeShot : public UActiveSkillBase
 {
 	GENERATED_BODY()
-	
+
 public:
 	UAT_ChargeShot();
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
-	void OnChargeShot(AActor* target, class UWeaponMechanics* OtherTarget, FDamageData dmg_data);
 
-private:
+protected:
+	UFUNCTION()
+	void ResumeFiring();
+	void FireChargeShot(AActor* target);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<AChargeShot> charge_shot_class_;
+
+	UPROPERTY()
+	TObjectPtr<AChargeShot> chargeshot_ = nullptr;
+
+	FTimerHandle handler_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float charge_time_ = 1.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float dmg_scale_ = 1.5f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float recoil_time_ = 1.0f;
 };

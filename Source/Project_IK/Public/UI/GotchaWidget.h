@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Structs/WrapperEquipmentData.h"
 #include "GotchaWidget.generated.h"
 
 class UButton;
@@ -37,7 +38,7 @@ protected:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 	UFUNCTION()
-	void BackSpace();
+	void EndGotchaButtonPressed();
 	UFUNCTION()
 	void PullOne();
 	UFUNCTION()
@@ -55,7 +56,7 @@ protected:
 	void StorePulledData();
 
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TObjectPtr<UButton> back_space_;
+	TObjectPtr<UButton> end_gotcha_button_;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
 	TObjectPtr<UButton> pull_one_button_;
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
@@ -66,6 +67,7 @@ protected:
 	TObjectPtr<UGotchaResultWidget> result_widget_;
 
 	int32 pulled_credits_;
+	FWrapperEquipmentData pulled_equipments_;
 
-	int32 tickets_;
+	int32 num_max_pull_;
 };

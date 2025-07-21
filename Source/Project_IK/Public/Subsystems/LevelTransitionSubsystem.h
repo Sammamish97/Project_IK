@@ -47,6 +47,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	const TMap<int32, FSupportSkillData>& GetSupportSkillData() const;
 
+	void ClearSpawnData();
+
 protected:
 	UPROPERTY()
 	TMap<EHeroType, FSpawnData> spawn_data_;

@@ -16,10 +16,11 @@ See LICENSE file in the project root for full license information.
 #include "Managers/DataTableManager.h"
 
 #include "Structs/SpawnData.h"
+#include "Abilities/PerkEffects/PerkEffectBase.h"
 
 #include "Subsystems/PerkProgressSubsystem.h"
-#include "Subsystems/PerkTreeSubsystem.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
+#include "Subsystems/GlobalBuffSubsystem.h"
 
 UIKGameInstance::UIKGameInstance()
 	:Super::UGameInstance()
@@ -29,28 +30,29 @@ UIKGameInstance::UIKGameInstance()
 void UIKGameInstance::Init()
 {
 	Super::Init();
-
-	InitializeCharacterDataManager();
 	InitializeMaps();
 	InitDataTableManager();
 	InitInventoryManager();
 	InitSpawnData();
 	InitSetBonusManager();
 	InitEventManager();
+
+	InitializePerkEffectsAlreadyUnlocked();
 }
 
 void UIKGameInstance::Shutdown()
 {
 	// Enhance data by recorded progress.
 	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
-	const TArray<FPerkNode>& tree = GetSubsystem<UPerkTreeSubsystem>()->GetTree();
+	const TArray<FPerkNode>& tree = GetTree();
 
-	for (ECharacterType type : { ECharacterType::Hero1, ECharacterType::Hero2, ECharacterType::Hero3, ECharacterType::Hero4 })
+	const TSet<int32>& progress = progress_system->GetProgress();
+	for (int32 p : progress)
 	{
-		const TSet<int32>& progress = progress_system->GetProgress(type);
-		for (int32 p : progress)
+		UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, tree[p].effect_class_);
+		if (perk_effect)
 		{
-			data_table_manager_->DiminishCharacterData(type, tree[p].stat_, tree[p].modifier_);
+			perk_effect->RemoveEffect();
 		}
 	}
 
@@ -58,16 +60,29 @@ void UIKGameInstance::Shutdown()
 	Super::Shutdown();
 }
 
+void UIKGameInstance::ClearRunData()
+{
+
+	UGlobalBuffSubsystem* global_buff_subsystem = GetSubsystem<UGlobalBuffSubsystem>();
+	global_buff_subsystem->ClearBuffs();
+
+	int32 height = maps_->GetHeight();
+	int32 width = maps_->GetWidth();
+	maps_->GenerateMaps(height, width);
+
+	InitSpawnData();
+}
+
 void UIKGameInstance::InitSpawnData()
 {
 	TMap<EHeroType, FSpawnData> spawn_data_map;
 	TArray char_type_array = { ECharacterType::Hero1, ECharacterType::Hero2, ECharacterType::Hero3, ECharacterType::Hero4 };
-	TArray hero_type_array = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
-	for(int32 i = 0; i < 4; ++i)
+	TArray hero_type_array = { EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4 };
+	for (int32 i = 0; i < 4; ++i)
 	{
 		FSpawnData spawn_data;
 		spawn_data.character_data_ = data_table_manager_->GetCharacterData(char_type_array[i]);
-		spawn_data_map.Add({hero_type_array[i], spawn_data});
+		spawn_data_map.Add({ hero_type_array[i], spawn_data });
 	}
 	GetSubsystem<ULevelTransitionSubsystem>()->UpdateSpawnData(spawn_data_map);
 }
@@ -92,6 +107,21 @@ UDataTableManager* UIKGameInstance::GetDataTableManager() const noexcept
 	return data_table_manager_;
 }
 
+void UIKGameInstance::EnhanceHeroesStatData(ECharacterStatType stat_type, float increase_amount)
+{
+	data_table_manager_->EnhanceHeroesStatData(stat_type, increase_amount);
+}
+
+void UIKGameInstance::DiminishHeroesStatData(ECharacterStatType stat_type, float decrease_amount)
+{
+	data_table_manager_->DiminishHeroesStatData(stat_type, decrease_amount);
+}
+
+const TArray<FPerkNode>& UIKGameInstance::GetTree() const
+{
+	return data_table_manager_->GetTree();
+}
+
 USetBonusManager* UIKGameInstance::GetSetBonusManager() const noexcept
 {
 	return set_bonus_manager_;
@@ -108,17 +138,18 @@ void UIKGameInstance::InitEventManager()
 	event_manager_->InitEventManager(this, inventory_manager_);
 }
 
-void UIKGameInstance::InitializeCharacterDataManager()
+void UIKGameInstance::InitializePerkEffectsAlreadyUnlocked()
 {
 	// Enhance data by recorded progress.
 	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
-	const TArray<FPerkNode>& tree = GetSubsystem<UPerkTreeSubsystem>()->GetTree();
-	for (ECharacterType type : { ECharacterType::Hero1, ECharacterType::Hero2, ECharacterType::Hero3, ECharacterType::Hero4 })
+	const TArray<FPerkNode>& tree = GetTree();
+	const TSet<int32>& progress = progress_system->GetProgress();
+	for (int32 p : progress)
 	{
-		const TSet<int32>& progress = progress_system->GetProgress(type);
-		for (int32 p : progress)
+		UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, tree[p].effect_class_);
+		if (perk_effect)
 		{
-			data_table_manager_->EnhanceCharacterData(type, tree[p].stat_, tree[p].modifier_);
+			perk_effect->ApplyEffect();
 		}
 	}
 }
@@ -132,6 +163,10 @@ void UIKGameInstance::InitializeMaps()
 void UIKGameInstance::InitInventoryManager()
 {
 	inventory_manager_ = NewObject<UInventoryManager>(this, inventory_manager_class_);
+
+	// DEBUG PURPOSE.
+	inventory_manager_->SetPerkPoints(999);
+	inventory_manager_->SetCredits(999);
 }
 
 void UIKGameInstance::InitDataTableManager()

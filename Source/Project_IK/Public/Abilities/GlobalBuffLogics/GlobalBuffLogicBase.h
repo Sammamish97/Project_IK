@@ -23,10 +23,10 @@ class PROJECT_IK_API UGlobalBuffLogicBase : public UObject
 	GENERATED_BODY()
 public:
 	// A function that returns true if the parameter is expected data such as AActor*, UIKGameMode*
-	virtual bool IsBuffValidOnTarget(UObject* buff_target);
+	virtual bool IsBuffValidOnTarget(UObject* buff_target) PURE_VIRTUAL(UGlobalBuffLogicBase::IsBuffValidOnTarget, return false;);
 
 	// A function that contains real logic of buffs or triggers applying buffs.
-	virtual void ApplyBuff(UObject* buff_target);
+	virtual void ApplyBuff(UObject* buff_target) PURE_VIRTUAL(UGlobalBuffLogicBase::ApplyBuff, );
 
 protected:
 

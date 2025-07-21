@@ -11,3 +11,13 @@ See LICENSE file in the project root for full license information.
 
 #include "WorldSettings/RunResultLevel/IKRunResultGameMode.h"
 
+#include "WorldSettings/IKGameInstance.h"
+
+void AIKRunResultGameMode::BeginPlay()
+{
+	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+	if (instance)
+	{
+		instance->ClearRunData();
+	}
+}

@@ -18,11 +18,30 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/GlobalBuffSubsystem.h"
 #include "Blueprint/WidgetTree.h"
 
+#include "WorldSettings/IKGameInstance.h"
+#include "Managers/DataTableManager.h"
+
 void UGlobalBuffDisplayer::NativeConstruct()
 {
 
 	UGlobalBuffSubsystem* global_buff_subsystem = GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
 	TArray<FGlobalBuffData> buffs = global_buff_subsystem->GetBuffs();
+
+	// Naively implement for sake of implementation of displaying everlasting buffs rapidly.
+	// @@ TODO: design and improve the way displaying everlasting buffs.
+
+	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+	if (instance)
+	{
+		UDataTableManager* data_table_manager = instance->GetDataTableManager();
+
+		TSet<EGlobalBuffType> everlasting_buff_types = global_buff_subsystem->GetEverlastingBuffTypes();
+		for (EGlobalBuffType type : everlasting_buff_types)
+		{
+			buffs.Add(data_table_manager->GetGlobalBuffData(type));
+		}
+	}
+
 	for (size_t i = 0; i < buffs.Num(); i++)
 	{
 		UImage* image = WidgetTree->ConstructWidget<UImage>();

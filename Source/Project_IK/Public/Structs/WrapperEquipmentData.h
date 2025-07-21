@@ -28,4 +28,15 @@ struct FWrapperEquipmentData
 	TArray<FPassiveSkillData> passive_skills_;
 	TArray<FSupportSkillData> support_skills_;
 	TArray<FRuneData> runes_;
+
+	FWrapperEquipmentData& operator+=(const FWrapperEquipmentData& rhs)
+	{
+		weapons_.Append(rhs.weapons_);
+		active_skills_.Append(rhs.active_skills_);
+		passive_skills_.Append(rhs.passive_skills_);
+		support_skills_.Append(rhs.support_skills_);
+		runes_.Append(rhs.runes_);
+
+		return *this;
+	}
 };

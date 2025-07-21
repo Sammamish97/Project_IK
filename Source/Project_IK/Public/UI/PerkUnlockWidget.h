@@ -40,15 +40,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UConfirmationWidget> confirmation_widget_class_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Textures")
-	UTexture2D* hero_portrait_image_1_;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Textures")
-	UTexture2D* hero_portrait_image_2_;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Textures")
-	UTexture2D* hero_portrait_image_3_;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Textures")
-	UTexture2D* hero_portrait_image_4_;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")
 	FButtonStyle lockable_node_style_;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")
@@ -90,12 +81,7 @@ protected:
 	void StartLinkAnimation(TArray<TWeakObjectPtr<UProgressBar>> links);
 	void UpdateLinkAnimation();
 
-	UFUNCTION()
-	void OnLeftButtonClicked();
-	UFUNCTION()
-	void OnRightButtonClicked();
-
-	void UpdateHeroData();
+	void InitWidgets();
 
 	// A function invoked when users actually clicked the button.
 	bool UnlockPerk(int32 clicked_index);
@@ -136,16 +122,6 @@ protected:
 
 
 	TArray<int32> path_to_selected_node_;
-
-
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> left_button_;
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UImage> portrait_image_;
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> right_button_;
-
-	ECharacterType current_hero_type_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> perk_points_text_;
