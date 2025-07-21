@@ -229,8 +229,6 @@ void AIKGameModeBase::CheckWinLoseCondition()
 	// Need changes in CombatResultUI if the below line called after SaveHeroSpawnData.
 	DisplayCombatResult();
 
-	HealHeroesAfterCombat();
-
 	// Function call matters. 
 	// Need changes in CombatResultUI if the below line called before DisplayCombatResult.
 	SaveHeroSpawnData();
@@ -370,24 +368,4 @@ bool AIKGameModeBase::IsAllHeroesPermanentlyDead() const
 		}
 	}
 	return true;
-}
-
-void AIKGameModeBase::HealHeroesAfterCombat()
-{
-	float heal_percentage = GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>()->GetCombatEndHealPercentage();
-	
-	if (heal_percentage <= 0.f)
-	{
-		return;
-	}
-
-
-	for (AActor* actor : heroes_)
-	{
-		if (actor)
-		{
-			AHeroBase* hero = Cast<AHeroBase>(actor);
-			hero->Heal(hero->GetCharacterStat()->GetMaxHitPoint() * heal_percentage);
-		}
-	}
 }

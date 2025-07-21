@@ -82,7 +82,6 @@ protected:
 	void DisplayCombatResult();
 	bool IsDefeated() const;
 	bool IsAllHeroesPermanentlyDead() const;
-	void HealHeroesAfterCombat();
 
 	FVector hero_spawn_position_;
 
