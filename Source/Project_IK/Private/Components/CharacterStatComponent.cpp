@@ -183,6 +183,11 @@ float UCharacterStatComponent::GetHitPoint() const noexcept
 	return CalculateStat(ECharacterStatType::HitPoints);
 }
 
+float UCharacterStatComponent::GetReloadSpeedBonus() const noexcept
+{
+	return CalculateStat(ECharacterStatType::ReloadSpeedBonus);
+}
+
 float UCharacterStatComponent::GetMagazineBonus() const noexcept
 {
 	return CalculateStat(ECharacterStatType::MagazineBonus);

@@ -68,10 +68,11 @@ void AGunBase::Reload()
 	{
 		if (AUnit* gun_owner = weak_gun_owner_.Get())
 		{
+			float reload_duration = weapon_status_data_.reload_duration * (1 - gun_owner->GetCharacterStat()->GetReloadSpeedBonus());
 			gun_owner->DispatchUnitEvent(EUnitEvent::OnReload);
-			float reload_play_rate = reload_montage_->GetPlayLength() / weapon_status_data_.reload_duration;
+			float reload_play_rate = reload_montage_->GetPlayLength() / reload_duration;
 			gun_owner->PlayAnimMontage(reload_montage_, reload_play_rate);
-			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &AGunBase::OnReload, weapon_status_data_.reload_duration);
+			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &AGunBase::OnReload, reload_duration);
 		}
 	}
 }

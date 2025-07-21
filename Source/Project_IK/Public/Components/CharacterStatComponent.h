@@ -69,6 +69,8 @@ public:
 	UFUNCTION(BlueprintPure)
 	float GetMagazineBonus() const noexcept;
 	UFUNCTION(BlueprintPure)
+	float GetReloadSpeedBonus() const noexcept;
+	UFUNCTION(BlueprintPure)
 	float GetLifeSteal() const noexcept;
 
 
