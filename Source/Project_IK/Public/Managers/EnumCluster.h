@@ -214,7 +214,7 @@ enum class EUnitEvent : uint8
 	OnReload UMETA(DisplayName = "OnReload"),
 	OnFire UMETA(DisplayName = "OnFire"),
 	OnActiveSkill UMETA(DisplayName = "OnActiveSkill"),
-	OnMove UMETA(DisplayName = "OnMove"),
+	OnReposition UMETA(DisplayName = "OnMove"),
 	OnEliminate UMETA(DisplayName = "OnEliminate"),
 	OnCriticalFire UMETA(DisplayName = "OnCriticalFire"),
 	HideOnCover UMETA(DisplayName = "HideOnCover"),
@@ -659,6 +659,7 @@ enum class EBuffType : uint8
 	Agility UMETA(DisplayName = "Agility"),
 	Berserker UMETA(DisplayName = "Berserker"),
 	LowProfile UMETA(DisplayName = "LowProfile"),
+	WeaponMounting UMETA(DisplayName = "WeaponMounting"),
 
 	//Support
 	InstantRepair UMETA(DisplayName = "InstantRepair"),

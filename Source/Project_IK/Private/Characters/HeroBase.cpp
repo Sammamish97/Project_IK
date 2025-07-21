@@ -227,7 +227,7 @@ EHeroType AHeroBase::GetHeroType() const
 
 void AHeroBase::Reposition(FVector target_location)
 {
-	DispatchUnitEvent(EUnitEvent::OnMove);
+	DispatchUnitEvent(EUnitEvent::OnReposition);
 	Cast<AHeroAIController>(GetController())->RepositionHero(target_location);
 }
 

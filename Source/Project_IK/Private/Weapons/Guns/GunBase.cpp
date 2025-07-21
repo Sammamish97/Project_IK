@@ -54,6 +54,11 @@ AGunBase::AGunBase()
 void AGunBase::BeginPlay()
 {
 	Super::BeginPlay();
+	InstantReload();
+}
+
+void AGunBase::InstantReload()
+{
 	cur_magazine_ = weapon_status_data_.max_magazine;
 }
 
@@ -95,7 +100,7 @@ void AGunBase::OnReload()
 			UE_LOG(LogTemp, Warning, TEXT("Hero ReloadFinished"));
 		}
 		is_first_bullet_on_magazine_ = true;
-		cur_magazine_ = weapon_status_data_.max_magazine;
+		InstantReload();
 		FAIMessage Msg(TEXT("ReloadFinished"), this, reload_request_id_, FAIMessage::Success);
 		FAIMessage::Send(gun_owner, Msg);
 	}

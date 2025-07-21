@@ -33,6 +33,7 @@ public:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason);
 
+	virtual void InstantReload();
 	virtual void Reload();
 	virtual void OnReload();
 	virtual void StopReload();

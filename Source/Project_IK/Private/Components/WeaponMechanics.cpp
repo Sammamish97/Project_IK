@@ -35,6 +35,11 @@ void UWeaponMechanics::BeginFire(AActor* target)
 	weapon_actor_->BeginFire(target);
 }
 
+void UWeaponMechanics::InstantReload()
+{
+	weapon_actor_->InstantReload();
+}
+
 void UWeaponMechanics::Reload(float duration_multiplier)
 {
 	weapon_actor_->Reload();

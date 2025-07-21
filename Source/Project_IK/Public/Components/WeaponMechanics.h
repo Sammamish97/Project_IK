@@ -30,6 +30,7 @@ public:
 	void BeginFire(AActor* target);
 	void FinishFire();
 
+	void InstantReload();
 	void Reload(float duration_multiplier = 1.0f);
 	void StopReload();
 	
