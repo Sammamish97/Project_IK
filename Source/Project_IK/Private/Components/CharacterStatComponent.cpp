@@ -65,10 +65,10 @@ void UCharacterStatComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 }
 
 //만약 유닛 생성 시, 데이터 에셋에 있는 character stat에 상황에 따라 추가적인 값을 더하고 싶다면 유닛을 생성후 이 함수를 통해 조정한다.
-void UCharacterStatComponent::InitWithExtraValue(float extra_hp, float extra_skill_power)
+void UCharacterStatComponent::ApplyExtraStatusForSummoned(const FStatusData& status)
 {
-	max_hit_points_ = GetHitPoint() + extra_hp;
-	SetSkillPower(GetSkillPower() + extra_skill_power);
+	character_data_.status_data_ += status;
+	max_hit_points_ = character_data_.status_data_.hit_point_;
 }
 
 // Called every frame

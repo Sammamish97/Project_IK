@@ -39,7 +39,10 @@ void ASentryGun::InitSentryGun(bool is_upgraded, float skill_power)
 		extra_hp *= 1.2;
 		extra_skill_power *= 1.2;
 	}
-	GetCharacterStat()->InitWithExtraValue(extra_hp, extra_skill_power);
+	FStatusData extra_status;
+	extra_status.hit_point_ = extra_hp;
+	extra_status.skill_power_ = extra_skill_power;
+	GetCharacterStat()->ApplyExtraStatusForSummoned(extra_status);
 }
 
 void ASentryGun::BeginFire(AActor* target)

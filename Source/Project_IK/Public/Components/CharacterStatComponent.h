@@ -42,7 +42,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunctionoverride);
 
 	//만약 유닛 생성 시, 데이터 에셋에 있는 character stat에 상황에 따라 추가적인 값을 더하고 싶다면 유닛을 생성후 이 함수를 통해 조정한다.
-	void InitWithExtraValue(float extra_hp, float extra_skill_power);
+	void ApplyExtraStatusForSummoned(const FStatusData& status);
 	
 	UFUNCTION(BlueprintCallable)
 	bool CalcDamage(FDamageData& data_ref);

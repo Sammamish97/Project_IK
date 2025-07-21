@@ -68,9 +68,6 @@ public:
 	TSubclassOf<UEnemySpawnerManager> enemy_spawner_manager_class_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Spawn")
-	TSubclassOf<AActor> outliner_world_class_;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Spawn")
 	TMap<EHeroType, TSubclassOf<class AHeroBase>> hero_bp_class_;
 	
 protected:
