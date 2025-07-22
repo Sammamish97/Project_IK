@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Blueprint/DragDropOperation.h"
 #include "Components/Image.h"
+#include "DataAssets/DisplayDataAsset.h"
 #include "UI/InventoryWidget.h"
 
 void USupportSkillSlotWidget::NativeConstruct()
@@ -73,7 +74,7 @@ FSupportSkillData USupportSkillSlotWidget::GetStoredSupportSkillData()
 void USupportSkillSlotWidget::SetImageTexture()
 {
 	Super::SetImageTexture();
-	image_->SetBrushFromTexture(support_skill_data_cache_.item_data_.thumbnail);
+	image_->SetBrushFromTexture(support_skill_data_cache_.item_data_.display_data_->thumbnail);
 }
 
 void USupportSkillSlotWidget::ClearData()

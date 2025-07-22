@@ -31,11 +31,11 @@ bool UAT_MagnetizedBullet::ActivateSkill(const FTargetResult& TargetResult)
 		//만약 A급일 시, 지속시간 동안 공격속도 15% 증가.
 		if (IsUpgradedActiveSkill(skill_data_.type_))
 		{
-			FBuffStatusData status_data = {ECharacterStatType::AttackSpeed, 1.15, true, false, duration_};
-			hero->ApplyBuff(EBuffType::MagnetizedBullet_A, status_data);
-			hero->AddBuffUI({skill_data_.item_data_, EBuffType::MagnetizedBullet_A, duration_});
+			// FBuffStatusData status_data = {ECharacterStatType::AttackSpeed, 1.15, true, false, duration_};
+			// hero->ApplyStatusBuff(EBuffType::MagnetizedBullet_A, status_data);
+			// hero->AddBuffUI({skill_data_.item_data_, EBuffType::MagnetizedBullet_A, duration_});
 		}
-		hero->AddBuffUI({skill_data_.item_data_, EBuffType::MagnetizedBullet_A, duration_, false});
+		//hero->AddBuffUI({skill_data_.item_data_, EBuffType::MagnetizedBullet_A, duration_, false});
 		FTimerDelegate timer_delegate = FTimerDelegate::CreateUObject(this, &UAT_MagnetizedBullet::OnFinishSkill);
 		GetWorld()->GetTimerManager().SetTimer(duration_timer_handle_, timer_delegate, duration_, false);
 	}

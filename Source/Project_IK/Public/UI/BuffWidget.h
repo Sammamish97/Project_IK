@@ -11,9 +11,10 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Structs/BuffUIData.h"
+#include "Managers/EnumCluster.h"
 #include "BuffWidget.generated.h"
 
+class UDisplayDataAsset;
 class UBuffPopupWidget;
 class UBuffContainer;
 class UProgressBar;
@@ -24,17 +25,22 @@ class PROJECT_IK_API UBuffWidget : public UUserWidget
 	GENERATED_BODY()
 public:
 	void InitWidget(UBuffPopupWidget* popup, UBuffContainer* container);
-	void BeginBuffUI(FBuffUIData buff_data);
+	void BeginBuffUI();
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
-	
+
+	bool GetIsPermanent() const;
+	float GetDuration() const;
 	float GetLeftTime() const;
-	FBuffUIData GetBuffDataCache() const;
+	TObjectPtr<UDisplayDataAsset> GetDisplayDataCache() const;
+
+	EBuffType GetCurBuffType() const;
 	FProgressBarStyle GetProgressBarStyle() const;
+
+	void SetWidget(const FProgressBarStyle& style, EBuffType buff_type, UDisplayDataAsset* data_cache, bool is_permanent, float duration, float left_time, bool is_available);
 	
-	void SetWidget(const FProgressBarStyle& style, const FBuffUIData& data_cache, float left_time, bool is_available);
 	void ResetWidget();
 	bool IsWidgetAvailable() const;
 	
@@ -47,11 +53,16 @@ private:
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UProgressBar> buff_image_;
-
+	
 	UPROPERTY()
-	FBuffUIData buff_data_cache_;
-
+	TObjectPtr<UDisplayDataAsset> display_data_cache_;
+	
+	UPROPERTY()
+	EBuffType cur_buff_type_;
+	
+	float duration_ = 0.f;
 	float left_time_ = 0.f;
 	
+	bool is_permanent_ = false;
 	bool is_available_ = true;
 };

@@ -49,8 +49,8 @@ bool UAT_TripleFire::ActivateSkill(const FTargetResult& TargetResult)
 		{
 			on_triple_fire_ = true;
 			hero->SetAttackTarget(target);
-			hero->ApplyBuff(EBuffType::TripleFire, buff_status_data_);
-			hero->AddBuffUI({skill_data_.item_data_, EBuffType::TripleFire, 0.f, true  });
+			hero->ApplyStatusBuff(EBuffType::TripleFire, buff_status_data_);
+			//hero->AddBuffUI({skill_data_.item_data_, EBuffType::TripleFire, 0.f, true  });
 		}
 	}
 	return Super::ActivateSkill(TargetResult);

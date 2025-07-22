@@ -21,7 +21,6 @@ See LICENSE file in the project root for full license information.
 #include "UI/HitPointsUI.h"
 #include "Components/ObjectPoolComponent.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "Structs/BuffUIData.h"
 #include "UI/DamageUI.h"
 
 #include "Subsystems/GlobalBuffSubsystem.h"
@@ -72,16 +71,6 @@ FVector AUnit::GetForwardDir() const
 void AUnit::SetForwardDir(const FVector& Forward_Dir)
 {
 	forward_dir_ = Forward_Dir;
-}
-
-void AUnit::SetCurHidingCover(AActor* cover)
-{
-	cur_hiding_cover_ = cover;
-}
-
-AActor* AUnit::GetCurHidingCover() const
-{
-	return cur_hiding_cover_.Get();
 }
 
 void AUnit::SetAttackTarget(AActor* target)
@@ -245,9 +234,24 @@ void AUnit::Heal(float heal)
 	}
 }
 
-void AUnit::ApplyBuff(EBuffType buff_type, FBuffStatusData buff_status)
+void AUnit::ApplyStatusBuff(EBuffType buff_type, FBuffStatusData buff_status)
 {
 	character_stat_component_->ApplyBuff(buff_type, buff_status);
+}
+
+void AUnit::AddBuffUI(EBuffType type, UDisplayDataAsset* ui_data)
+{
+	OnApplyBuff.Broadcast(type, ui_data, true, -1.f);
+}
+
+void AUnit::AddBuffUI(EBuffType type, UDisplayDataAsset* ui_data, float duration)
+{
+	OnApplyBuff.Broadcast(type, ui_data, false, duration);
+}
+
+void AUnit::RemoveBuffUI(EBuffType type)
+{
+	OnBuffExpired.Broadcast(type);
 }
 
 void AUnit::RemoveBuff(EBuffType buff_type)

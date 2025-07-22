@@ -217,8 +217,6 @@ enum class EUnitEvent : uint8
 	OnReposition UMETA(DisplayName = "OnMove"),
 	OnEliminate UMETA(DisplayName = "OnEliminate"),
 	OnCriticalFire UMETA(DisplayName = "OnCriticalFire"),
-	HideOnCover UMETA(DisplayName = "HideOnCover"),
-	LeaveCover UMETA(DisplayName = "LeaveCover"),
 	OnEnterBattle UMETA(DisplayName = "OnEnterBattle"),
 };
 
@@ -358,9 +356,6 @@ enum class EActiveSkillType : uint8
 	DeploySentryGun_B UMETA(DisplayName = "DeploySentryGun_B"),
 	DeploySentryGun_A UMETA(DisplayName = "DeploySentryGun_A"),
 	
-	DeployCover_B UMETA(DisplayName = "DeployCover_B"),
-	DeployCover_A UMETA(DisplayName = "DeployCover_A"),
-	
 	TripleFire_B UMETA(DisplayName = "TripleFire_B"),
 	TripleFire_A UMETA(DisplayName = "TripleFire_A"),
 	
@@ -390,9 +385,6 @@ inline EActiveSkillType GetOppositeActiveSkillType(EActiveSkillType type)
 	case EActiveSkillType::Encourage_B:
 		return EActiveSkillType::Encourage_A;
 		
-	case EActiveSkillType::DeployCover_B:
-		return EActiveSkillType::DeployCover_A;
-		
 	case EActiveSkillType::DeploySentryGun_B:
 		return EActiveSkillType::DeploySentryGun_A;
 		
@@ -421,10 +413,7 @@ inline EActiveSkillType GetOppositeActiveSkillType(EActiveSkillType type)
 		
 	case EActiveSkillType::Encourage_A:
 		return EActiveSkillType::Encourage_B;
-		
-	case EActiveSkillType::DeployCover_A:
-		return EActiveSkillType::DeployCover_B;
-		
+	
 	case EActiveSkillType::DeploySentryGun_A:
 		return EActiveSkillType::DeploySentryGun_B;
 		
@@ -453,7 +442,6 @@ inline bool IsUpgradedActiveSkill(EActiveSkillType type)
 		case EActiveSkillType::ThunderStorm_B:
 		case EActiveSkillType::FateSpiral_B:
 		case EActiveSkillType::Encourage_B:
-		case EActiveSkillType::DeployCover_B:
 		case EActiveSkillType::DeploySentryGun_B:
 		case EActiveSkillType::TripleFire_B:
 		case EActiveSkillType::ChargeShot_B:
@@ -465,7 +453,6 @@ inline bool IsUpgradedActiveSkill(EActiveSkillType type)
 		case EActiveSkillType::ThunderStorm_A:
 		case EActiveSkillType::FateSpiral_A:
 		case EActiveSkillType::Encourage_A:
-		case EActiveSkillType::DeployCover_A:
 		case EActiveSkillType::DeploySentryGun_A:
 		case EActiveSkillType::TripleFire_A:
 		case EActiveSkillType::ChargeShot_A:
@@ -657,7 +644,6 @@ enum class EBuffType : uint8
 	MagnetizedBullet_A UMETA(DisplayName = "MagnetizedBullet_A"),
 	Ricochet UMETA(DisplayName = "Ricochet"),
 	TripleFire UMETA(DisplayName = "TripleFire"),
-	DeployCover UMETA(DisplayName = "DeployCover"),
 	Encourage UMETA(DisplayName = "Encourage"),
 
 	//Passive

@@ -56,8 +56,11 @@ void UInventoryWidget::InitInventoryWidget(int32 available_support_skill_amount,
 	auto saved_support_skill_data = subsystem->GetSupportSkillData();
 	for(int32 i = 0; i < 3; ++i)
 	{
-		support_skill_widget_array[i]->InitInventorySlot(this, true);
-		support_skill_widget_array[i]->SetSupportSkillSlotData(saved_support_skill_data[i]);
+		if (saved_support_skill_data[i].type_ != ESupportSkillType::INVALID)
+		{
+			support_skill_widget_array[i]->InitInventorySlot(this, true);
+			support_skill_widget_array[i]->SetSupportSkillSlotData(saved_support_skill_data[i]);
+		}
 	}
 	
 	hero_board_0_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_0_Board_Clicked);

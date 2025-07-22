@@ -292,16 +292,6 @@ void AHeroBase::ReduceActiveSkillCoolDownPercentage(float percentage)
 	game_state_cache_->ReduceCoolDownPercentage(GetHeroType(), percentage);
 }
 
-void AHeroBase::AddBuffUI(const FBuffUIData& buff_ui_data)
-{
-	OnApplyBuff.Broadcast(buff_ui_data);
-}
-
-void AHeroBase::RemoveBuffUI(EBuffType buff_type)
-{
-	OnBuffExpired.Broadcast(buff_type);
-}
-
 UWeaponMechanics* AHeroBase::GetWeaponMechanics()
 {
 	return weapon_mechanics_;

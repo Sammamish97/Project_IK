@@ -76,7 +76,7 @@ void AIKHUD::BeginPlay()
 					auto cur_skill_data = cur_active_skill_mechanics->GetEquippedActiveSkillData();
 					auto cur_skill = cur_active_skill_mechanics->GetActiveSkill();
 					
-					cur_skill_button_widget->SetThumbnailTexture(cur_skill_data.item_data_.thumbnail);
+					cur_skill_button_widget->SetThumbnailTexture(cur_skill_data.item_data_.display_data_->thumbnail);
 					cur_skill->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 					
 					subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero_type)->GetHPWidget(), &USegmentedHPUI::UpdateWidget);
@@ -111,7 +111,7 @@ void AIKHUD::BeginPlay()
 			if (equipped_support_skills[i] != nullptr)
 			{
 				auto cur_skill_button_widget = button_bar_widget_->GetSupportSkillButtonWidget(i);
-				cur_skill_button_widget->SetThumbnailTexture(equipped_support_data[i].item_data_.thumbnail);
+				cur_skill_button_widget->SetThumbnailTexture(equipped_support_data[i].item_data_.display_data_->thumbnail);
 				cur_skill_button_widget->SetSupportSkillCost(equipped_support_skills[i]->GetCost());
 				equipped_support_skills[i]->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 			}

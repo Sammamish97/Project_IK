@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 #include "AITypes.h"
 
 #include "Unit.generated.h"
+class UDisplayDataAsset;
 class UHitPointsUI;
 class UObjectPoolComponent;
 class UWidgetComponent;
@@ -29,6 +30,9 @@ enum class EUnitEvent : uint8;
 struct FBuffStatusData;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUnitEvent);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnApplyBuffDelegate, EBuffType, buff_type, UDisplayDataAsset*, buff_data, bool, is_permanant, float, duration);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffExpired, EBuffType, buff_type);
 
 UCLASS(Abstract)
 class PROJECT_IK_API AUnit : public ACharacter, public IAttackable, public IDamageable, public IUnitInterface
@@ -47,9 +51,6 @@ public:
 	
 	FVector GetForwardDir() const;
 	void SetForwardDir(const FVector& Forward_Dir);
-
-	void SetCurHidingCover(AActor* cover);
-	AActor* GetCurHidingCover() const;
 
 	void SetAttackTarget(AActor* target);
 	AActor* GetAttackTarget();
@@ -76,7 +77,10 @@ public:
 	void Heal(float heal);
 	
 	UFUNCTION(BlueprintCallable)
-	virtual void ApplyBuff(EBuffType buff_type, FBuffStatusData buff_status);
+	virtual void ApplyStatusBuff(EBuffType buff_type, FBuffStatusData buff_status);
+	virtual void AddBuffUI(EBuffType type, UDisplayDataAsset* ui_data);
+	virtual void AddBuffUI(EBuffType type, UDisplayDataAsset* ui_data, float duration_);
+	virtual void RemoveBuffUI(EBuffType type);
 
 	UFUNCTION(BlueprintCallable)
 	virtual void RemoveBuff(EBuffType buff_type);
@@ -128,6 +132,13 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data")
 	EUnitBoneType bone_type_;
+
+public:
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnBuffExpired OnBuffExpired;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnApplyBuffDelegate OnApplyBuff;
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))

@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
 #include "Managers/EnumCluster.h"
+#include "DataAssets/DisplayDataAsset.h"
 #include "Structs/FormattedText.h"
 #include "ItemData.generated.h"
 
@@ -21,18 +22,9 @@ struct PROJECT_IK_API FItemData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	UTexture2D* thumbnail = nullptr;
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "SupportSkillData")
+	TObjectPtr<UDisplayDataAsset> display_data_;
 	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	FText name_;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
-	FFormattedText detail_;
-	
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "SupportSkillData")
-    FText flavor_text;
-    
     UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "SupportSkillData")
     ERarity rarity_;
 };

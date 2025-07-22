@@ -13,9 +13,9 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Abilities/PassiveSkills/PassiveSkillBase.h"
-#include "Structs/BuffUIData.h"
 #include "PS_Agility.generated.h"
 
+class UBuffBase;
 class UNiagaraSystem;
 class UNiagaraComponent;
 
@@ -36,7 +36,10 @@ protected:
 	void BuffAttackSpeed();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
-	FBuffStatusData buff_status_data_;
+	TSubclassOf<UBuffBase> buff_class_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
+	TObjectPtr<UBuffBase> buff_;
 
 	void SpawnParticles(AActor* actor);
 	void ActivateParticles();

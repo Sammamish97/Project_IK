@@ -21,7 +21,7 @@ void USetBonus_Viper::ActivateEdgeBonus()
 {
 	Super::ActivateEdgeBonus();
 	edge_buff_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, 1.2f, true, true);
-	hero_cache_->ApplyBuff(EBuffType::Viper_Edge, edge_buff_data_);
+	hero_cache_->ApplyStatusBuff(EBuffType::Viper_Edge, edge_buff_data_);
 }
 
 //3세트: 장전 후 초탄에 받는 피해 20%증가 디버프 추가.

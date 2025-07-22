@@ -27,7 +27,7 @@ void UGB_UpgradeGamma::ApplyBuff(UObject* buff_target)
 	if (AHeroBase* hero = Cast<AHeroBase>(buff_target))
 	{
 
-		hero->ApplyBuff(EBuffType::Upgrade_Gamma, FBuffStatusData(ECharacterStatType::SkillPower, 10.f, false, true));
+		hero->ApplyStatusBuff(EBuffType::Upgrade_Gamma, FBuffStatusData(ECharacterStatType::SkillPower, 10.f, false, true));
 
 		// @@ TODO: Add buffUI after 
 		// hero->AddBuffUI(FBuffUIData(FText::FromString("Upgrade Gamma"), EBuffType::Upgrade_Gamma, nullptr, 0.f, true, FText::FromString("Gamma upgraded. Gain 10 skill power.")));

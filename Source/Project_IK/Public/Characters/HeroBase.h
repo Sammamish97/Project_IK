@@ -13,12 +13,8 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "Structs/TargetParameters.h"
 #include "Managers/EnumCluster.h"
-#include "Structs/BuffUIData.h"
 #include "Structs/SpawnData.h"
 #include "HeroBase.generated.h"
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnApplyBuffDelegate, const FBuffUIData&, buff_data);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffExpired, EBuffType, ui_data);
 
 UCLASS(Abstract)
 class PROJECT_IK_API AHeroBase : public AUnit
@@ -42,9 +38,6 @@ public:
 	EHeroType GetHeroType() const;
 	FTargetParameters GetActiveSkillTargetParameters() const;
 	
-	void AddBuffUI(const FBuffUIData& buff_ui_data);
-	void RemoveBuffUI(EBuffType buff_type);
-
 	bool HasActiveSkill() const;
 	const FItemData& GetActiveSkillItemData() const;
 	void ReduceActiveSkillCoolDown(float amount);
@@ -86,12 +79,6 @@ protected:
 	TObjectPtr<class USphereComponent> ui_position_ = nullptr;
 	
 public:
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnBuffExpired OnBuffExpired;
-
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnApplyBuffDelegate OnApplyBuff;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero")
 	FColor hero_base_color_1_;
 	

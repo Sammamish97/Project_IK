@@ -1,19 +1,21 @@
 /******************************************************************************
-Copyright(C) 2024
+Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 12.10.2024
-Summary : Header file for Common functions.
+Creation Date : 7.22.2025
+Summary : Source file for Buff Base.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-#pragma once
 
-#include "CoreMinimal.h"
-class ACover;
 
-class PROJECT_IK_API CommonFunctions
+#include "Abilities/Buffs/BuffBase.h"
+void UBuffBase::ApplyBuff(AUnit* target)
 {
-public:
-	static ACover* FindBestCover(TArray<AActor*>& cover_candidates, FVector attack_target_pos, float fire_range);
-};
+	target_cache_ = target;
+}
+
+void UBuffBase::RemoveBuff(AUnit* target)
+{
+	target_cache_ = nullptr;
+}

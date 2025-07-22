@@ -15,6 +15,8 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_Encourage.generated.h"
 
+class UBuffBase;
+
 UCLASS(Abstract)
 class PROJECT_IK_API UAT_Encourage : public UActiveSkillBase
 {
@@ -22,21 +24,16 @@ class PROJECT_IK_API UAT_Encourage : public UActiveSkillBase
 public:
 	UAT_Encourage();
 	virtual void OnEnterCasting() override;
+	virtual void InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data) override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
-	float buff_duration_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SkillData", meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBuffBase> buff_class_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
-	float shield_amount_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
-	float attack_power_buff_amount_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
-	float skill_power_buff_amount_;
-
+	UPROPERTY();
+	TObjectPtr<UBuffBase> buff_;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SkillData", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> casting_anim_montage_;
 };

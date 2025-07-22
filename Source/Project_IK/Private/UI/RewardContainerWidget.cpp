@@ -141,16 +141,17 @@ void URewardContainerWidget::NativeConstruct()
 	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Encourage_B));
 	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::FateSpiral_B));
 
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::DeploySentryGun_A));
-	//reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ChargeShot_A));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Ricochet_A));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::MagnetizedBullet_A));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm_A));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::DeployCover_A));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Thunder_A));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::TripleFire_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::DeploySentryGun_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ChargeShot_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Ricochet_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::MagnetizedBullet_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Thunder_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::TripleFire_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::FateSpiral_A));
+
 	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Encourage_A));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::FateSpiral_A));
+
 	//
 	
 	for (auto weapon_data : reward_cache_.weapons_)

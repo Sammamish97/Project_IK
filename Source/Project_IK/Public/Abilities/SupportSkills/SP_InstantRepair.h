@@ -11,10 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "SupportSkillBase.h"
-#include "Structs/BuffUIData.h"
 #include "SP_InstantRepair.generated.h"
-
-class UBuffUIDataAsset;
 
 UCLASS()
 class PROJECT_IK_API USP_InstantRepair : public USupportSkillBase

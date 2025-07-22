@@ -26,51 +26,51 @@ void UEquipmentRewardWidget::NativeConstruct()
 
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-	const auto& equipments_ = game_instance->GetDataTableManager()->GetUniqueEquipmentDataRandomly(
-		game_instance->GetSubsystem<UPerkModifierSubsystem>()->GetCombatEndEquipmentRewardNumCandidates()
-	);
-
-	max_choice_ = game_instance->GetSubsystem<UPerkModifierSubsystem>()->GetCombatEndEquipmentRewardMaxChoice();
-	
-	for (const auto& elem : equipments_.active_skills_)
-	{
-		auto new_widget = CreateWidget<URewardSelectWidget>(this, reward_widget_class_);
-		new_widget->SetRewardData(elem);
-		reward_widgets_.Push(new_widget);
-	}
-	for (const auto& elem : equipments_.passive_skills_)
-	{
-		auto new_widget = CreateWidget<URewardSelectWidget>(this, reward_widget_class_);
-		new_widget->SetRewardData(elem);
-		reward_widgets_.Push(new_widget);
-	}
-	for (const auto& elem : equipments_.weapons_)
-	{
-		auto new_widget = CreateWidget<URewardSelectWidget>(this, reward_widget_class_);
-		new_widget->SetRewardData(elem);
-		reward_widgets_.Push(new_widget);
-	}
-	for (const auto& elem : equipments_.runes_)
-	{
-		auto new_widget = CreateWidget<URewardSelectWidget>(this, reward_widget_class_);
-		new_widget->SetRewardData(elem);
-		reward_widgets_.Push(new_widget);
-	}
-	for (const auto& elem : equipments_.support_skills_)
-	{
-		auto new_widget = CreateWidget<URewardSelectWidget>(this, reward_widget_class_);
-		new_widget->SetRewardData(elem);
-		reward_widgets_.Push(new_widget);
-	}
-
-	const int32 width_size = 4;
-	int32 counter = 0;
-	for (const auto& elem : reward_widgets_)
-	{
-		elem->SetEquipmentWidgetCache(this);
-		reward_container_->AddChildToUniformGrid(elem, counter / width_size, counter % width_size);
-		counter += 1;
-	}
+	// const auto& equipments_ = game_instance->GetDataTableManager()->GetUniqueEquipmentDataRandomly(
+	// 	game_instance->GetSubsystem<UPerkModifierSubsystem>()->GetCombatEndEquipmentRewardNumCandidates()
+	// );
+	//
+	// max_choice_ = game_instance->GetSubsystem<UPerkModifierSubsystem>()->GetCombatEndEquipmentRewardMaxChoice();
+	//
+	// for (const auto& elem : equipments_.active_skills_)
+	// {
+	// 	auto new_widget = CreateWidget<URewardSelectWidget>(this, reward_widget_class_);
+	// 	new_widget->SetRewardData(elem);
+	// 	reward_widgets_.Push(new_widget);
+	// }
+	// for (const auto& elem : equipments_.passive_skills_)
+	// {
+	// 	auto new_widget = CreateWidget<URewardSelectWidget>(this, reward_widget_class_);
+	// 	new_widget->SetRewardData(elem);
+	// 	reward_widgets_.Push(new_widget);
+	// }
+	// for (const auto& elem : equipments_.weapons_)
+	// {
+	// 	auto new_widget = CreateWidget<URewardSelectWidget>(this, reward_widget_class_);
+	// 	new_widget->SetRewardData(elem);
+	// 	reward_widgets_.Push(new_widget);
+	// }
+	// for (const auto& elem : equipments_.runes_)
+	// {
+	// 	auto new_widget = CreateWidget<URewardSelectWidget>(this, reward_widget_class_);
+	// 	new_widget->SetRewardData(elem);
+	// 	reward_widgets_.Push(new_widget);
+	// }
+	// for (const auto& elem : equipments_.support_skills_)
+	// {
+	// 	auto new_widget = CreateWidget<URewardSelectWidget>(this, reward_widget_class_);
+	// 	new_widget->SetRewardData(elem);
+	// 	reward_widgets_.Push(new_widget);
+	// }
+	//
+	// const int32 width_size = 4;
+	// int32 counter = 0;
+	// for (const auto& elem : reward_widgets_)
+	// {
+	// 	elem->SetEquipmentWidgetCache(this);
+	// 	reward_container_->AddChildToUniformGrid(elem, counter / width_size, counter % width_size);
+	// 	counter += 1;
+	// }
 
 	confirm_button_->OnClicked.AddDynamic(this, &UEquipmentRewardWidget::OnConfirmButtonClicked);
 }

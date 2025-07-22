@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/Border.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "DataAssets/DisplayDataAsset.h"
 #include "UI/InventoryWidget.h"
 
 void URuneSlotWidget::SetRuneSetSlotData(const FRuneData& rune_data)
@@ -98,7 +99,7 @@ bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 void URuneSlotWidget::SetImageTexture()
 {
 	Super::SetImageTexture();
-	image_->SetBrushFromTexture(rune_data_cache_.item_data_.thumbnail);
+	image_->SetBrushFromTexture(rune_data_cache_.item_data_.display_data_->thumbnail);
 }
 
 void URuneSlotWidget::ClearData()

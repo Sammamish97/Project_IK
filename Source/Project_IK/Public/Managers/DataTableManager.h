@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
 #include "Managers/EnumCluster.h"
-#include "Structs/BuffUIData.h"
 #include "Structs/PerkNode.h"
 #include "DataTableManager.generated.h"
 

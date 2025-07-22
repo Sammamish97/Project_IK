@@ -28,10 +28,10 @@ bool USP_InstantRepair::ActivateSkill(const FTargetResult& target_result)
 	{
 		if (AHeroBase* target_hero = Cast<AHeroBase>(target_result.target_actors_[0]))
 		{
-			target_hero->ApplyBuff(type, status_data);
+			target_hero->ApplyStatusBuff(type, status_data);
 			target_hero->Heal(300.f);
 			target_hero->AcquireShield(100.f, 3.f);
-			target_hero->AddBuffUI({skill_data_.item_data_, EBuffType::InstantRepair, 3, false});
+			//target_hero->AddBuffUI({skill_data_.item_data_, EBuffType::InstantRepair, 3, false});
 		}
 	}
 	return Super::ActivateSkill(target_result);

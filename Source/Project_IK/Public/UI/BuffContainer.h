@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Structs/BuffUIData.h"
 #include "Managers/EnumCluster.h"
 #include "BuffContainer.generated.h"
 
@@ -28,7 +27,7 @@ public:
 	void NativeConstruct() override;
 
 	UFUNCTION()
-	void EnqueueBuff(const FBuffUIData& buff_data);
+	void EnqueueBuff(EBuffType buff_type, UDisplayDataAsset* buff_data, bool is_permanent, float duration);
 	UFUNCTION()
 	void UpdateQueue(EBuffType buff_type);
 	void ClearBuffQueue();

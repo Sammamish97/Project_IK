@@ -27,7 +27,7 @@ void UGB_UpgradeAlpha::ApplyBuff(UObject* buff_target)
 {
 	if (AHeroBase* hero = Cast<AHeroBase>(buff_target))
 	{
-		hero->ApplyBuff(EBuffType::Upgrade_Alpha, FBuffStatusData(ECharacterStatType::AttackPower, 0.3f, true, true));
+		hero->ApplyStatusBuff(EBuffType::Upgrade_Alpha, FBuffStatusData(ECharacterStatType::AttackPower, 0.3f, true, true));
 
 		// @@ TODO: Add buffUI after 
 		// hero->AddBuffUI(FBuffUIData(FText::FromString("Upgrade Alpha"), EBuffType::Upgrade_Alpha, nullptr, 0.f, true, FText::FromString("Alpha upgraded. Gets 30% extra attack&magic power")));
