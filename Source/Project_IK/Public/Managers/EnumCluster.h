@@ -522,6 +522,7 @@ enum class EGlobalBuffType : uint8
 	Upgrade_Beta UMETA(DisplayName = "Upgrade Beta"),
 	Upgrade_Gamma UMETA(DisplayName = "Upgrade Gamma"),
 	Upgrade_Omega UMETA(DisplayName = "Upgrade Omega"),
+	Acquire_Shield UMETA(DisplayName = "Acquire Shield"),
 	None UMETA(DisplayName = "None"),
 };
 

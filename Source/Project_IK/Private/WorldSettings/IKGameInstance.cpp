@@ -33,11 +33,12 @@ void UIKGameInstance::Init()
 	InitializeMaps();
 	InitDataTableManager();
 	InitInventoryManager();
-	InitSpawnData();
 	InitSetBonusManager();
 	InitEventManager();
 
+	// Function call matters. PerkEffects -> InitSpawnData
 	InitializePerkEffectsAlreadyUnlocked();
+	InitSpawnData();
 }
 
 void UIKGameInstance::Shutdown()
