@@ -151,6 +151,8 @@ void URewardContainerWidget::NativeConstruct()
 	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::FateSpiral_A));
 
 	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Encourage_A));
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::MagnetizedBullet_A));
+
 
 	//
 	

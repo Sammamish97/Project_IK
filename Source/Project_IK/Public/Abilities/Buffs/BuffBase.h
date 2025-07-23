@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 
 class UDisplayDataAsset;
 class AUnit;
+enum class EBuffType : uint8;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UBuffBase : public UObject
