@@ -142,15 +142,25 @@ void AHeroBase::SyncWithSpawnData(const FSpawnData& spawn_data)
 	{
 		weapon_mechanics_->EquipWeapon(default_weapon_class_);
 	}
-	if (spawn_data.passive_skill_data_1_.IsSet())
-	{
-		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_1_.GetValue());
-	}
-	//IKTODO: 추후 Passive Skill 2, 3에 대한 처리도 추가해야 함.
+
 	if (spawn_data.active_skill_data_.IsSet())
 	{
 		active_skill_mechanics_->EquipActiveSkill(spawn_data.active_skill_data_.GetValue());
 	}
+	
+	if (spawn_data.passive_skill_data_1_.IsSet())
+	{
+		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_1_.GetValue(), 0);
+	}
+	if (spawn_data.passive_skill_data_2_.IsSet())
+	{
+		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_2_.GetValue(), 1);
+	}
+	if (spawn_data.passive_skill_data_3_.IsSet())
+	{
+		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_3_.GetValue(), 2);
+	}
+
 
 	TArray rune_data_array = {spawn_data.rune_data_1, spawn_data.rune_data_2, spawn_data.rune_data_3, spawn_data.rune_data_4, spawn_data.rune_data_5, spawn_data.rune_data_6};
 

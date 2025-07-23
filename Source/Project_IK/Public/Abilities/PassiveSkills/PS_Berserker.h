@@ -34,9 +34,6 @@ protected:
 	UFUNCTION()
 	void BuffBerserker(float hp_ratio);
 
-	void ApplyBuff();
-	void RemoveBuff();
-
 	void SpawnParticles(AUnit* actor);
 	void ActivateParticles();
 	void DeactivateParticles();

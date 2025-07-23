@@ -31,6 +31,7 @@ void UPS_Berserker::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& 
 		hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnHPChanged(unit->GetCharacterStat(), this, &UPS_Berserker::BuffBerserker);
 		SpawnParticles(unit);
 	}
+	buff_ = NewObject<UBuffBase>(this, buff_class_);
 }
 
 void UPS_Berserker::BuffBerserker(float hp_ratio)
@@ -40,7 +41,9 @@ void UPS_Berserker::BuffBerserker(float hp_ratio)
 	{
 		if (hp_ratio > hp_ratio_threshold_)
 		{
-			RemoveBuff();
+			buff_->RemoveBuff(Cast<AUnit>(hero_cache_));
+			DeactivateParticles();
+			is_buff_applied_ = false;
 		}
 	}
 	// If buff NOT applied & current hp is below the threshold -> APPLY
@@ -48,41 +51,9 @@ void UPS_Berserker::BuffBerserker(float hp_ratio)
 	{
 		if (hp_ratio < hp_ratio_threshold_)
 		{
-			ApplyBuff();
-		}
-	}
-}
-
-void UPS_Berserker::ApplyBuff()
-{
-	if (is_buff_applied_ == false)
-	{
-		if (AActor* actor = hero_cache_.Get())
-		{
-			if (AHeroBase* hero_ptr = Cast<AHeroBase>(actor))
-			{
-				buff_->ApplyBuff(hero_ptr);
-				ActivateParticles();
-				is_buff_applied_ = true;
-			}
-		}
-	}
-}
-
-void UPS_Berserker::RemoveBuff()
-{
-	if (is_buff_applied_)
-	{
-		AActor* actor = hero_cache_.Get();
-		if (actor)
-		{
-			AHeroBase* unit = Cast<AHeroBase>(actor);
-			if (unit)
-			{
-				buff_->RemoveBuff(unit);
-				DeactivateParticles();
-				is_buff_applied_ = false;
-			}
+			buff_->ApplyBuff(Cast<AUnit>(hero_cache_));
+			ActivateParticles();
+			is_buff_applied_ = true;
 		}
 	}
 }

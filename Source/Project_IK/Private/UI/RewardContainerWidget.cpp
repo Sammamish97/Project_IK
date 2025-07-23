@@ -152,6 +152,11 @@ void URewardContainerWidget::NativeConstruct()
 
 	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Encourage_A));
 	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::MagnetizedBullet_A));
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
+
 
 
 	//
