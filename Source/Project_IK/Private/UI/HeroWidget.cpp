@@ -7,7 +7,7 @@ Summary : Source file for Unit widget UI.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-#include "UI/UnitWidget.h"
+#include "UI/HeroWidget.h"
 #include "UI/BuffContainer.h"
 #include "Components/Border.h"
 #include "UI/SegmentedHPUI.h"

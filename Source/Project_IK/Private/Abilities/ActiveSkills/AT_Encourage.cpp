@@ -20,7 +20,7 @@ See LICENSE file in the project root for full license information.
 //IKTODO: 실드에 계수를 추가하는것도 좋을듯 하다.
 UAT_Encourage::UAT_Encourage()
 {
-	target_param_ = FTargetParameters(ETargetingMode::Location, ETargetType::Allies, 0.f, 1000.f, true);
+	target_param_ = FTargetParameters(ETargetingMode::Location, ETargetType::All, 0.f, 1000.f, true);
 
 	cool_time_ = 10.f;
 	scaling_factor_ = 0.02f;
@@ -42,13 +42,18 @@ bool UAT_Encourage::ActivateSkill(const FTargetResult& TargetResult)
 {
 	for (AActor* ally : TargetResult.target_actors_)
 	{
-		if (AHeroBase* casted_hero = Cast<AHeroBase>(ally))
+		// if (AHeroBase* casted_hero = Cast<AHeroBase>(ally))
+		// {
+		// 	buff_->ApplyBuff(casted_hero);
+		// 	if (IsUpgradedActiveSkill(skill_data_.type_))
+		// 	{
+		// 		casted_hero->ReduceActiveSkillCoolDown(1.f);
+		// 	}
+		// }
+
+		if (AUnit* casted_hero = Cast<AUnit>(ally))
 		{
 			buff_->ApplyBuff(casted_hero);
-			if (IsUpgradedActiveSkill(skill_data_.type_))
-			{
-				casted_hero->ReduceActiveSkillCoolDown(1.f);
-			}
 		}
 	}
 

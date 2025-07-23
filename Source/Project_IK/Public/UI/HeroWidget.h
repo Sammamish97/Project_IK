@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Managers/EnumCluster.h"
-#include "UnitWidget.generated.h"
+#include "HeroWidget.generated.h"
 
 class UBuffContainer;
 enum class ECharacterStatType : uint8;

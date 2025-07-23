@@ -109,9 +109,6 @@ public:
 	UFUNCTION()
 	void DispatchUnitEvent(EUnitEvent type);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<class UHPUICore> hp_UI_class_;
-	
 protected:
 	void SetDamageUI(FDamageData data, bool is_evaded);
 
@@ -139,6 +136,14 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnApplyBuffDelegate OnApplyBuff;
+
+//HP UI
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UUserWidget> hp_UI_class_;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UWidgetComponent> hp_widget_component_;
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
@@ -146,13 +151,12 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Unit")
 	TObjectPtr<UCrowdControlComponent> cc_component_;
+
+	
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> stun_montage_;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UWidgetComponent> hp_UI_;
-
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Animation", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> stunned_montage_;
 

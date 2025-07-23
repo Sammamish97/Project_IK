@@ -33,7 +33,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/SkillButtonWidget.h"
 #include "UI/SkillPopupWidget.h"
 #include "UI/SupportSkillButtonWidget.h"
-#include "UI/UnitWidget.h"
+#include "UI/HeroWidget.h"
 
 #include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKGameModeBase.h"
@@ -45,8 +45,6 @@ typedef TPair<ERuneSetType, TArray<int32>> RuneSetBonus;
 
 void AIKHUD::BeginPlay()
 {
-	Super::BeginPlay();
-
 	UWorld* world = GetWorld();
 	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
 
@@ -63,6 +61,7 @@ void AIKHUD::BeginPlay()
 		TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 		TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
 		
+		//각 EHerpType을 순회하며 HeroBase와 HeroWidget사이 필요한 delegate들을 bind. 
 		for(auto cur_hero_type : hero_types)
 		{
 			auto cur_spawn_data = transition_system->GetSpawnData(cur_hero_type);

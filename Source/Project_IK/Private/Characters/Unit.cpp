@@ -18,7 +18,6 @@ See LICENSE file in the project root for full license information.
 #include "Components/CapsuleComponent.h"
 #include "Components/OutlineComponent.h"
 
-#include "UI/HitPointsUI.h"
 #include "Components/ObjectPoolComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "UI/DamageUI.h"
@@ -35,8 +34,8 @@ AUnit::AUnit()
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	character_stat_component_ = CreateDefaultSubobject<UCharacterStatComponent>(TEXT("CharacterStatComponent"));
-	hp_UI_ = CreateDefaultSubobject<UWidgetComponent>(TEXT("HP UI"));
-	
+	hp_widget_component_ = CreateDefaultSubobject<UWidgetComponent>(TEXT("HP Widget Component"));
+
 	cc_component_ = CreateDefaultSubobject<UCrowdControlComponent>(TEXT("CC Component"));
 	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
 	outline_component_ = CreateDefaultSubobject<UOutlineComponent>(TEXT("OutlineComponent"));
@@ -135,19 +134,11 @@ void AUnit::BeginPlay()
 
 	if (hp_UI_class_)
 	{
-		hp_UI_->SetWidgetClass(hp_UI_class_);
-		hp_UI_->InitWidget();
-		hp_UI_->SetWidgetSpace(EWidgetSpace::Screen);
+		hp_widget_component_->SetWidgetClass(hp_UI_class_);
+		hp_widget_component_->InitWidget();
+		hp_widget_component_->SetWidgetSpace(EWidgetSpace::Screen);
 	}
-	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
-
-	if (UHPUICore* hp_widget = Cast<UHPUICore>(hp_UI_->GetWidget()))
-	{
-		hp_widget->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
-		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_widget, &UHPUICore::UpdateWidget);
-	}
-	hp_UI_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	hp_UI_->SetDrawSize({ 100, 15 });
+	hp_widget_component_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void AUnit::EndPlay(const EEndPlayReason::Type EndPlayReason)

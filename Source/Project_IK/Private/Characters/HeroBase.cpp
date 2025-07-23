@@ -49,77 +49,16 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
-	//TEST PURPOSE
-	// switch (GetCharacterType())
-	// {
-	// case ECharacterType::Hero1:
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
-	// 	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
-	// 	hero_type_ = EHeroType::Hero1;
-	// 	break;
-	// case ECharacterType::Hero2:
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
-	// 	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Berserker);
-	// 	hero_type_ = EHeroType::Hero2;
-	// 	break;
-	// case ECharacterType::Hero3:
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Viper, 0);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Viper, 2);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Viper, 4);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 3);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 5);
-	// 	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Agility);
-	// 	hero_type_ = EHeroType::Hero3;
-	// 	break;
-	// case ECharacterType::Hero4:
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 2);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 4);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 3);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 5);
-	// 	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
-	// 	hero_type_ = EHeroType::Hero4;
-	// 	break;
-	//
-	// default:
-	// 	checkNoEntry();
-	// }
-	// if (weapon_mechanics_->GetWeaponActor() == nullptr)
-	// {
-	// 	weapon_mechanics_->EquipWeapon(default_weapon_class_);
-	// }
-	//
-	// if (weapon_mechanics_->GetWeaponActor() == nullptr)
-	// {
-	// 	weapon_mechanics_->EquipWeapon(default_weapon_class_);
-	// }
-	//
-
-	switch (GetCharacterType())
-	{
-	case ECharacterType::Hero1:
-		hero_type_ = EHeroType::Hero1;
-		break;
-	case ECharacterType::Hero2:
-		hero_type_ = EHeroType::Hero2;
-		break;
-	case ECharacterType::Hero3:
-		hero_type_ = EHeroType::Hero3;
-		break;
-	case ECharacterType::Hero4:
-		hero_type_ = EHeroType::Hero4;
-		break;
-
-	default:
-		checkNoEntry();
-	}
-	UHPUICore* widget = Cast<UHPUICore>(hp_UI_->GetWidget());
+	UHPUICore* widget = Cast<UHPUICore>(hp_widget_component_->GetWidget());
 	widget->SetHPBarColor(hero_base_color_2_);
+
+	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
+	if (UHPUICore* hp_widget = Cast<UHPUICore>(hp_widget_component_->GetWidget()))
+	{
+		hp_widget->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
+		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_widget, &UHPUICore::UpdateWidget);
+	}
+	hp_widget_component_->SetDrawSize({ 100, 15 });
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
