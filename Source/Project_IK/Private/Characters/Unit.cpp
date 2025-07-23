@@ -62,6 +62,12 @@ UCrowdControlComponent* AUnit::GetCCComponent()
 	return cc_component_;
 }
 
+
+UUserWidget* AUnit::GetHPUIWidget()
+{
+	return hp_widget_component_->GetWidget();
+}
+
 FVector AUnit::GetForwardDir() const
 {
 	return forward_dir_;
@@ -139,6 +145,7 @@ void AUnit::BeginPlay()
 		hp_widget_component_->SetWidgetSpace(EWidgetSpace::Screen);
 	}
 	hp_widget_component_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	hp_widget_component_->SetDrawSize({ 100, 15 });
 }
 
 void AUnit::EndPlay(const EEndPlayReason::Type EndPlayReason)

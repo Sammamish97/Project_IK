@@ -37,11 +37,7 @@ void AEnemyBase::BeginPlay()
 
 		hp_widget->GetHPUICore()->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
 		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_widget->GetHPUICore().Get(), &UHPUICore::UpdateWidget);
-		
-		hp_widget->GetHPUICore()->SetHPBarColor(FColor::Red);
 	}
-	
-	hp_widget_component_->SetDrawSize({ 100, 15 });
 }
 
 void AEnemyBase::Die()

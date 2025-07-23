@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "BuffContainer.generated.h"
 
+class USizeBox;
 class UBuffPopupWidget;
 class UBuffWidget;
 class UHorizontalBox;
@@ -40,6 +41,9 @@ private:
 	TObjectPtr<UBuffPopupWidget> buff_popup_cache_;
 	
 	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<USizeBox> size_box_;
+	
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHorizontalBox> buff_container_;
 
 	const int32 max_buffs_ = 5;
@@ -58,4 +62,7 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UBuffWidget> buff_widget_4_;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess));
+	float height_;
 };

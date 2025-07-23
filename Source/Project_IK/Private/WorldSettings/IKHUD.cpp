@@ -28,6 +28,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/BuffContainer.h"
 
 #include "UI/ButtonBarWidget.h"
+#include "UI/EnemyHPUI.h"
 #include "UI/SegmentedHPUI.h"
 #include "UI/RunePopupWidget.h"
 #include "UI/SkillButtonWidget.h"
@@ -60,6 +61,18 @@ void AIKHUD::BeginPlay()
 
 		TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 		TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
+
+		//적들의 Butt Widget와 Popup Widget을 연결.
+		for (const auto& enemy : game_mode->GetEnemyContainers())
+		{
+			if (auto enemy_widget = Cast<AUnit>(enemy)->GetHPUIWidget())
+			{
+				if (auto enemy_hp_widget = Cast<UEnemyHPUI>(enemy_widget))
+				{
+					enemy_hp_widget->InitEnemyHPUI(button_bar_widget_->GetBuffPopupWidget());
+				}
+			}
+		}
 		
 		//각 EHerpType을 순회하며 HeroBase와 HeroWidget사이 필요한 delegate들을 bind. 
 		for(auto cur_hero_type : hero_types)

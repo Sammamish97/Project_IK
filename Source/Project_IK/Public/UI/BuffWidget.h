@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "BuffWidget.generated.h"
 
+class USizeBox;
 class UDisplayDataAsset;
 class UBuffPopupWidget;
 class UBuffContainer;
@@ -23,6 +24,8 @@ UCLASS()
 class PROJECT_IK_API UBuffWidget : public UUserWidget
 {
 	GENERATED_BODY()
+	friend UBuffContainer;
+	
 public:
 	void InitWidget(UBuffPopupWidget* popup, UBuffContainer* container);
 	void BeginBuffUI();
@@ -50,6 +53,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UBuffPopupWidget> buff_popup_ref_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<USizeBox> size_box_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UProgressBar> buff_image_;

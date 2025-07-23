@@ -20,7 +20,7 @@ See LICENSE file in the project root for full license information.
 //IKTODO: 실드에 계수를 추가하는것도 좋을듯 하다.
 UAT_Encourage::UAT_Encourage()
 {
-	target_param_ = FTargetParameters(ETargetingMode::Location, ETargetType::All, 0.f, 1000.f, true);
+	target_param_ = FTargetParameters(ETargetingMode::Location, ETargetType::All, 0.f, 1000.f, false);
 
 	cool_time_ = 10.f;
 	scaling_factor_ = 0.02f;

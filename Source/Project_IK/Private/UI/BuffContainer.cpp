@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/BuffContainer.h"
 
 #include "Components/HorizontalBox.h"
+#include "Components/SizeBox.h"
 #include "UI/BuffWidget.h"
 
 void UBuffContainer::InitBuffContainer(UBuffPopupWidget* popup_widget)
@@ -36,6 +37,9 @@ void UBuffContainer::NativeConstruct()
 		{
 			widget_array[i]->SetVisibility(ESlateVisibility::Visible);
 		}
+		size_box_->SetHeightOverride(height_);
+		widget_array[i]->size_box_->SetWidthOverride(height_);
+		widget_array[i]->size_box_->SetHeightOverride(height_);
 	}
 }
 

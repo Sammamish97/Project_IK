@@ -11,6 +11,11 @@ See LICENSE file in the project root for full license information.
 #include "UI/EnemyHPUI.h"
 #include "UI/BuffContainer.h"
 
+void UEnemyHPUI::InitEnemyHPUI(UBuffPopupWidget* popup_widget)
+{
+	buff_container_->InitBuffContainer(popup_widget);
+}
+
 TObjectPtr<UHPUICore> UEnemyHPUI::GetHPUICore()
 {
 	return hp_widget_;

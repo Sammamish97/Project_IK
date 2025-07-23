@@ -49,16 +49,14 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
-	UHPUICore* widget = Cast<UHPUICore>(hp_widget_component_->GetWidget());
-	widget->SetHPBarColor(hero_base_color_2_);
 
 	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
-	if (UHPUICore* hp_widget = Cast<UHPUICore>(hp_widget_component_->GetWidget()))
+	if (TObjectPtr<UHPUICore> hp_core = Cast<UHPUICore>(hp_widget_component_->GetWidget()))
 	{
-		hp_widget->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
-		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_widget, &UHPUICore::UpdateWidget);
+		hp_core->SetHPBarColor(hero_base_color_2_);
+		hp_core->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
+		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_core.Get(), &UHPUICore::UpdateWidget);
 	}
-	hp_widget_component_->SetDrawSize({ 100, 15 });
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
