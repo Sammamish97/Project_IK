@@ -14,11 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "EnhancedInputSubsystems.h"
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
-#include "UI/ButtonBarWidget.h"
-#include "UI/SkillPopupWidget.h"
-#include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKGameState.h"
-#include "WorldSettings/IKHUD.h"
 #include "WorldSettings/IKPlayerCameraManager.h"
 
 AIKPlayerController::AIKPlayerController()
@@ -67,6 +63,7 @@ void AIKPlayerController::SetupInputComponent()
 		
 		enhanced_input_component->BindAction(rotate_camera_left_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::RotateCameraLeft);
 		enhanced_input_component->BindAction(rotate_camera_right_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::RotateCameraRight);
+		enhanced_input_component->BindAction(toggle_focus_mode_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::ToggleFocusMode);
 	}
 }
 
@@ -148,4 +145,9 @@ void AIKPlayerController::RotateCameraRight()
 {
 	AIKPlayerCameraManager* camera_manger = Cast<AIKPlayerCameraManager>(PlayerCameraManager);
 	camera_manger->RotateCameraRight();
+}
+
+void AIKPlayerController::ToggleFocusMode()
+{
+	game_state_cache_->ToggleFocusMode();
 }

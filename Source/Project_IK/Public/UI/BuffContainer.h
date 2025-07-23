@@ -30,7 +30,7 @@ public:
 	void EnqueueBuff(EBuffType buff_type, UDisplayDataAsset* buff_data, bool is_permanent, float duration);
 	UFUNCTION()
 	void UpdateQueue(EBuffType buff_type);
-	void ClearBuffQueue();
+	void UpdateWidgetSize(float new_height);
 	
 private:
 	UPROPERTY()

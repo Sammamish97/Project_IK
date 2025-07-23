@@ -15,6 +15,8 @@ See LICENSE file in the project root for full license information.
 #include "Structs/TargetResult.h"
 #include "IKGameState.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnToggleFocusMode, bool, on_detail_mode);
+
 class UActiveSkillMechanics;
 class USkillBase;
 class UButtonBarWidget;
@@ -54,7 +56,12 @@ public:
 	void ReduceCoolDown(EHeroType hero_type, float amount);
 	UFUNCTION()
 	void ReduceCoolDownPercentage(EHeroType hero_type, float percentage);
-	
+	UFUNCTION()
+	void ToggleFocusMode();
+
+public:
+	FOnToggleFocusMode OnToggleDetailMode;
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "EnergySystem")
 	TObjectPtr<UEnergySystemComponent> energy_system_component_;
@@ -76,9 +83,10 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<USupportSkillBase> selected_support_skill_;
-
 	
 	ESelectedSkill selected_skill_type_;
 	EHeroType selected_hero_type_;
 	int32 selected_support_num_;
+
+	bool on_focus_mode_ = false;
 };

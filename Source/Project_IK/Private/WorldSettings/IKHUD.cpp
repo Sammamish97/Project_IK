@@ -61,6 +61,7 @@ void AIKHUD::BeginPlay()
 		TMap<EHeroType, TArray<RuneSetBonus>> hero_rune_bonus_detail_map;
 
 		TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		TObjectPtr<AIKGameState> ik_game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
 		TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
 
 		//적들의 Butt Widget와 Popup Widget을 연결.
@@ -71,6 +72,7 @@ void AIKHUD::BeginPlay()
 				if (auto enemy_hp_widget = Cast<UEnemyHPUI>(enemy_widget_component->GetWidget()))
 				{
 					enemy_hp_widget->InitEnemyHPUI(button_bar_widget_->GetBuffPopupWidget());
+					ik_game_state->OnToggleDetailMode.AddDynamic(enemy_hp_widget, &UEnemyHPUI::OnToggleDetailMode);
 				}
 			}
 		}

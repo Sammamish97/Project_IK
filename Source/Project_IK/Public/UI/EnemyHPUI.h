@@ -25,7 +25,10 @@ public:
 	void InitEnemyHPUI(UBuffPopupWidget* popup_widget);
 	TObjectPtr<UHPUICore> GetHPUICore();
 	TObjectPtr<UBuffContainer> GetBuffContainer();
-	
+
+	UFUNCTION()
+	void OnToggleDetailMode(bool on_focus_mode);
+
 private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHPUICore> hp_widget_;

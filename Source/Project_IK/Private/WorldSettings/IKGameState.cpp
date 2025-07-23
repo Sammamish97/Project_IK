@@ -210,3 +210,9 @@ void AIKGameState::ReduceCoolDownPercentage(EHeroType hero_type, float percentag
 		}
 	}
 }
+
+void AIKGameState::ToggleFocusMode()
+{
+	on_focus_mode_ = !on_focus_mode_;
+	OnToggleDetailMode.Broadcast(on_focus_mode_);
+}

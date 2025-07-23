@@ -88,6 +88,13 @@ void UBuffContainer::UpdateQueue(EBuffType buff_type)
 	}
 }
 
-void UBuffContainer::ClearBuffQueue()
+void UBuffContainer::UpdateWidgetSize(float new_height)
 {
+	height_ = new_height;
+	for (const auto& widget : {buff_widget_0_, buff_widget_1_, buff_widget_2_, buff_widget_3_, buff_widget_4_})
+	{
+		size_box_->SetHeightOverride(height_);
+		widget->size_box_->SetWidthOverride(height_);
+		widget->size_box_->SetHeightOverride(height_);
+	}
 }

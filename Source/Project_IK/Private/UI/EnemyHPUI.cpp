@@ -16,6 +16,18 @@ void UEnemyHPUI::InitEnemyHPUI(UBuffPopupWidget* popup_widget)
 	buff_container_->InitBuffContainer(popup_widget);
 }
 
+void UEnemyHPUI::OnToggleDetailMode(bool on_focus_mode)
+{
+	if (on_focus_mode)
+	{
+		buff_container_->UpdateWidgetSize(50);
+	}
+	else
+	{
+		buff_container_->UpdateWidgetSize(25);
+	}
+}
+
 TObjectPtr<UHPUICore> UEnemyHPUI::GetHPUICore()
 {
 	return hp_widget_;
