@@ -20,6 +20,8 @@ See LICENSE file in the project root for full license information.
 #include "UI/EventWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 
+#include "Subsystems/GlobalBuffSubsystem.h"
+
 void UEventManager::InitEventManager(TObjectPtr<UIKGameInstance> instance,
 	TObjectPtr<UInventoryManager> inventory_manager)
 {
@@ -35,7 +37,7 @@ FEventData UEventManager::GetRandomEventData()
 		switch (rand_idx)
 		{
 			case 0:
-				return *event_table_->FindRow<FEventData>(FName("EventType_1"), TEXT(""));
+				return *event_table_->FindRow<FEventData>(FName("AirStrike"), TEXT(""));
 			
 			case 1:
 				return *event_table_->FindRow<FEventData>(FName("EventType_2"), TEXT(""));
@@ -54,10 +56,10 @@ void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> wi
 {
 	switch (data.event_type_)
 	{
-	case EEventType::EventType_1:
-		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_1_FirstOptionResult);
-		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_1_SecondOptionResult);
-		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_1_ThirdOptionResult);
+	case EEventType::AirStrike:
+		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_AirStrike_FirstOptionResult);
+		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_AirStrike_SecondOptionResult);
+		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_AirStrike_ThirdOptionResult);
 		break;
 
 	case EEventType::EventType_2:
@@ -83,20 +85,36 @@ void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> wi
 	}
 }
 
-//Event 1: 재화
-void UEventManager::Event_1_FirstOptionResult()
+void UEventManager::Event_AirStrike_FirstOptionResult()
 {
-	inventory_manager_->AddCredits(10);
+	ULevelTransitionSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
+	auto spawn_data = subsystem->GetSpawnData();
+	TArray<TOptional<FWeaponData>*> weapon_data_ref;
+	for (auto& [Key,Value] : spawn_data)
+	{
+		if (Value.weapon_data_.IsSet())
+		{
+			weapon_data_ref.Add(&Value.weapon_data_);
+		}
+	}
+
+	if (!weapon_data_ref.IsEmpty())
+	{
+		int32 index = FMath::RandRange(0, weapon_data_ref.Num() - 1);
+		weapon_data_ref[index]->Reset();
+	}
 }
 
-void UEventManager::Event_1_SecondOptionResult()
+void UEventManager::Event_AirStrike_SecondOptionResult()
 {
-	inventory_manager_->AddCredits(-10);
+	UGlobalBuffSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+	subsystem->AddBuff(EGlobalBuffType::AirStrike_HPDebuff);
 }
 
-void UEventManager::Event_1_ThirdOptionResult()
+void UEventManager::Event_AirStrike_ThirdOptionResult()
 {
-	inventory_manager_->AddCredits(inventory_manager_->GetCredits());
+	UGlobalBuffSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+	subsystem->AddBuff(EGlobalBuffType::AirStrike_ArmorDebuff);
 }
 
 //Event 2: 장비

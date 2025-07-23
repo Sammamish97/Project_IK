@@ -523,6 +523,8 @@ enum class EGlobalBuffType : uint8
 	Upgrade_Gamma UMETA(DisplayName = "Upgrade Gamma"),
 	Upgrade_Omega UMETA(DisplayName = "Upgrade Omega"),
 	Acquire_Shield UMETA(DisplayName = "Acquire Shield"),
+	AirStrike_ArmorDebuff UMETA(DisplayName = "AirStrike Armor Debuff"),
+	AirStrike_HPDebuff UMETA(DisplayName = "AirStrike HP Debuff"),
 	None UMETA(DisplayName = "None"),
 };
 
@@ -590,7 +592,7 @@ UENUM(BlueprintType)
 enum class EEventType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
-	EventType_1 UMETA(DisplayName = "EventType_1"),
+	AirStrike UMETA(DisplayName = "Air Strike"),
 	EventType_2 UMETA(DisplayName = "EventType_2"),
 	EventType_3 UMETA(DisplayName = "EventType_3"),
 	EventType_4 UMETA(DisplayName = "EventType_4"),
@@ -692,4 +694,7 @@ enum class EBuffType : uint8
 	Upgrade_Beta UMETA(DisplayName = "Upgrade Beta"),
 	Upgrade_Gamma UMETA(DisplayName = "Upgrade Gamma"),
 	Upgrade_Omega UMETA(DisplayName = "Upgrade Omega"),
+
+	AirStrikeArmorDebuff UMETA(DisplayName = "AirStrike Armor Debuff"),
+	AirStrikeHPDebuff UMETA(DisplayName = "AirStrike HP Debuff"),
 };
