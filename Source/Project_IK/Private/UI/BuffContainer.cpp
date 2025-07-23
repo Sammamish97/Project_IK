@@ -17,12 +17,6 @@ See LICENSE file in the project root for full license information.
 void UBuffContainer::InitBuffContainer(UBuffPopupWidget* popup_widget)
 {
 	buff_popup_cache_ = popup_widget;
-}
-
-//EnqueBuff가 NativeConstruct이전에 실행될 수 있다.
-void UBuffContainer::NativeConstruct()
-{
-	Super::NativeConstruct();
 	TArray widget_array = {buff_widget_0_, buff_widget_1_, buff_widget_2_, buff_widget_3_, buff_widget_4_};
 
 	for(int32 i = 0; i < max_buffs_; ++i)

@@ -66,7 +66,7 @@ public:
 	ECharacterType GetCharacterType() const;
 	UCharacterStatComponent* GetCharacterStat();
 	UCrowdControlComponent* GetCCComponent();
-	UUserWidget* GetHPUIWidget();
+	UWidgetComponent* GetHPUIWidgetComponent();
 	EUnitBoneType GetBoneType() const;
 	bool IsHero() const;
 

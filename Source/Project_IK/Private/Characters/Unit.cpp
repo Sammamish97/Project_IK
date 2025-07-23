@@ -62,10 +62,9 @@ UCrowdControlComponent* AUnit::GetCCComponent()
 	return cc_component_;
 }
 
-
-UUserWidget* AUnit::GetHPUIWidget()
+UWidgetComponent* AUnit::GetHPUIWidgetComponent()
 {
-	return hp_widget_component_->GetWidget();
+	return hp_widget_component_;
 }
 
 FVector AUnit::GetForwardDir() const

@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 #include "Components/ActiveSkillMechanics.h"
 #include "Components/RuneMechanics.h"
+#include "Components/WidgetComponent.h"
 
 #include "Runtime/UMG/Public/Blueprint/UserWidget.h"
 
@@ -65,9 +66,9 @@ void AIKHUD::BeginPlay()
 		//적들의 Butt Widget와 Popup Widget을 연결.
 		for (const auto& enemy : game_mode->GetEnemyContainers())
 		{
-			if (auto enemy_widget = Cast<AUnit>(enemy)->GetHPUIWidget())
+			if (auto enemy_widget_component = Cast<AUnit>(enemy)->GetHPUIWidgetComponent())
 			{
-				if (auto enemy_hp_widget = Cast<UEnemyHPUI>(enemy_widget))
+				if (auto enemy_hp_widget = Cast<UEnemyHPUI>(enemy_widget_component->GetWidget()))
 				{
 					enemy_hp_widget->InitEnemyHPUI(button_bar_widget_->GetBuffPopupWidget());
 				}
@@ -81,6 +82,14 @@ void AIKHUD::BeginPlay()
 			if(cur_spawn_data.is_dead_ == false)
 			{
 				auto cur_hero = Cast<AHeroBase>(game_mode->GetHero(cur_hero_type));
+				
+				button_bar_widget_->GetHeroWidget(cur_hero_type)->InitHeroWidget(button_bar_widget_->GetBuffPopupWidget(),
+					cur_hero->GetRuneMechanics(), button_bar_widget_->GetRunePopupWidget(),
+					cur_hero_type, cur_hero->GetHeroBaseColor_1(), cur_hero->GetHeroBaseColor_2(),
+					cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
+
+				subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero_type)->GetHPWidget(), &USegmentedHPUI::UpdateWidget);
+				
 				if(cur_hero->HasActiveSkill())
 				{
 					auto cur_skill_button_widget = button_bar_widget_->GetActiveSkillButtonWidget(cur_hero_type);
@@ -90,12 +99,6 @@ void AIKHUD::BeginPlay()
 					
 					cur_skill_button_widget->SetThumbnailTexture(cur_skill_data.item_data_.display_data_->thumbnail);
 					cur_skill->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
-					
-					subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero_type)->GetHPWidget(), &USegmentedHPUI::UpdateWidget);
-					button_bar_widget_->GetHeroWidget(cur_hero_type)->InitHeroWidget(button_bar_widget_->GetBuffPopupWidget(),
-						cur_hero->GetRuneMechanics(), button_bar_widget_->GetRunePopupWidget(),
-						cur_hero_type, cur_hero->GetHeroBaseColor_1(), cur_hero->GetHeroBaseColor_2(),
-						cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
 				}
 				else
 				{

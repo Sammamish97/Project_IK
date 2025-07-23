@@ -25,7 +25,6 @@ class PROJECT_IK_API UBuffContainer : public UUserWidget
 	GENERATED_BODY()
 public:
 	void InitBuffContainer(UBuffPopupWidget* popup_widget);
-	void NativeConstruct() override;
 
 	UFUNCTION()
 	void EnqueueBuff(EBuffType buff_type, UDisplayDataAsset* buff_data, bool is_permanent, float duration);
