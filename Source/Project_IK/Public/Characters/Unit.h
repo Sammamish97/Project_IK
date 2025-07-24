@@ -14,9 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Interfaces/Attackable.h"
 #include "Interfaces/Damageable.h"
 #include "Interfaces/UnitInterface.h"
-#include "AITypes.h"
-
 #include "Unit.generated.h"
+
 class UDisplayDataAsset;
 class UHitPointsUI;
 class UObjectPoolComponent;
@@ -33,6 +32,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUnitEvent);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnApplyBuffDelegate, EBuffType, buff_type, UDisplayDataAsset*, buff_data, bool, is_permanant, float, duration);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffExpired, EBuffType, buff_type);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnFinishAction, UBehaviorTreeComponent*, bt_component, bool, is_interrupted);
+
 
 UCLASS(Abstract)
 class PROJECT_IK_API AUnit : public ACharacter, public IAttackable, public IDamageable, public IUnitInterface
@@ -71,8 +72,6 @@ public:
 	bool IsHero() const;
 
 	void FinishAction();
-	FAIRequestID GetActionRequestID() const;
-
 	
 	UFUNCTION(BlueprintCallable)
 	virtual void GetDamage(FDamageData data) override;
@@ -107,8 +106,6 @@ public:
 	virtual void OnEnterBattleOnce();
 	
 	float GetPitchDiffBetweenTarget();
-
-	float GetStunRequestID() const;
 	
 	UFUNCTION()
 	void DispatchUnitEvent(EUnitEvent type);
@@ -136,11 +133,14 @@ protected:
 	EUnitBoneType bone_type_;
 
 public:
-	UPROPERTY(BlueprintAssignable, Category = "Events")
+	UPROPERTY()
 	FOnBuffExpired OnBuffExpired;
 
-	UPROPERTY(BlueprintAssignable, Category = "Events")
+	UPROPERTY()
 	FOnApplyBuffDelegate OnApplyBuff;
+	
+	UPROPERTY()
+	FOnFinishAction OnFinishAction;
 
 //HP UI
 protected:
@@ -187,13 +187,7 @@ protected:
 
 	UPROPERTY()
 	TMap<EUnitEvent, FOnUnitEvent> on_unit_event_;
-
-	UPROPERTY()
-	FAIRequestID action_request_id_ = 1;
 	
-	UPROPERTY()
-	FAIRequestID stun_ai_request_id_ = 2;
-
 	bool is_first_attack_ = true;
 	
 	float capsule_half_height_ = 0.f;

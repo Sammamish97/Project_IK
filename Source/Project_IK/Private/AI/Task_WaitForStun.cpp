@@ -22,7 +22,6 @@ EBTNodeResult::Type UTask_WaitForStun::ExecuteTask(UBehaviorTreeComponent& Owner
 {
 	if(auto casted_unit = Cast<AUnit>(OwnerComp.GetAIOwner()->GetPawn()))
 	{
-		WaitForMessage(OwnerComp, TEXT("StunFinished"), casted_unit->GetStunRequestID());
 		return EBTNodeResult::InProgress;
 	}
 	return EBTNodeResult::Failed;

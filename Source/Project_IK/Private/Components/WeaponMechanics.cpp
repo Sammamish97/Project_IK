@@ -40,7 +40,7 @@ void UWeaponMechanics::InstantReload()
 	weapon_actor_->InstantReload();
 }
 
-void UWeaponMechanics::Reload(float duration_multiplier)
+void UWeaponMechanics::Reload()
 {
 	weapon_actor_->Reload();
 }
@@ -78,13 +78,4 @@ void UWeaponMechanics::SetHoldAction(bool hold_action)
 AGunBase* UWeaponMechanics::GetWeaponActor()
 {
 	return weapon_actor_;
-}
-
-FAIRequestID UWeaponMechanics::GetReloadRequestId() const
-{
-	if (weapon_actor_)
-	{
-		return weapon_actor_->GetReloadRequestId();
-	}
-	return -1;
 }

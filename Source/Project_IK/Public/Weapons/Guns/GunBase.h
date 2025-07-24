@@ -18,6 +18,7 @@ See LICENSE file in the project root for full license information.
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnCriticalRateCalculationDelegate, float&);
 DECLARE_MULTICAST_DELEGATE(FOnFireWeapon);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnFinishReload, UBehaviorTreeComponent*, bt_component, bool, is_interrupted);
 
 class UNiagaraComponent;
 
@@ -69,9 +70,6 @@ protected:
 	void SpawnBullet(const FRotator& rotation, const FVector& translation, const FDamageData& dmg_data);
 
 	void PlayFireParticle() const;
-
-public:
-	FORCEINLINE FAIRequestID GetReloadRequestId() const { return reload_request_id_; }
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon" )
@@ -127,8 +125,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponMechanics" )
 	FName owned_cover_key_name_;
 	
-	FAIRequestID reload_request_id_ = 3;
-
 	bool is_first_bullet_on_magazine_ = true;
 
 	bool hold_action_ = false;
@@ -136,4 +132,8 @@ protected:
 protected:
 	UPROPERTY(Transient)
 	float HARD_CODED_ACCURACY = 10.f;
+
+public:
+	UPROPERTY()
+	FOnFinishReload OnFinishReload;
 };

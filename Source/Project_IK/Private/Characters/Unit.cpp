@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "BrainComponent.h"
 #include "AI/MeleeAIController.h"
+#include "BehaviorTree/BehaviorTreeComponent.h"
 #include "Components/CharacterStatComponent.h"
 #include "Components/CrowdControlComponent.h"
 #include "Components/WidgetComponent.h"
@@ -121,13 +122,8 @@ bool AUnit::IsHero() const
 
 void AUnit::FinishAction()
 {
-	FAIMessage Msg(TEXT("CastingFinished"), this, action_request_id_, FAIMessage::Success);
-	FAIMessage::Send(Cast<APawn>(GetOwner()), Msg);
-}
-
-FAIRequestID AUnit::GetActionRequestID() const
-{
-	return action_request_id_;
+	auto bt_component = Cast<UBehaviorTreeComponent>(Cast<AAIController>(GetController())->GetBrainComponent());
+	OnFinishAction.Broadcast(bt_component, false);
 }
 
 // Called when the game starts or when spawned
@@ -235,8 +231,7 @@ void AUnit::Heal(float heal)
 {
 	character_stat_component_->Heal(heal);
 
-	ADamageUI* ui = SpawnDamageUI();
-	if (ui)
+	if (ADamageUI* ui = SpawnDamageUI())
 	{
 		ui->SetHealAmount(heal);
 	}
@@ -297,9 +292,7 @@ void AUnit::OnStunned()
 
 void AUnit::FinishStun()
 {
-	UE_LOG(LogTemp, Display, TEXT("AUnit::FinishStunned"));
-	FAIMessage Msg(TEXT("StunFinished"), this, stun_ai_request_id_, FAIMessage::Success);
-	FAIMessage::Send(this, Msg);
+	//IKTODO: AI_BEHAVIOR TREE와 연결해야 함.
 }
 
 
@@ -417,9 +410,4 @@ void AUnit::RecoverAttackerByLifeSteal(FDamageData data)
 			}
 		}
 	}
-}
-
-float AUnit::GetStunRequestID() const
-{
-	return stun_ai_request_id_;
 }

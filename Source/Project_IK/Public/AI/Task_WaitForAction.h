@@ -12,13 +12,18 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "Task_WaitForActiveSkill.generated.h"
+#include "Task_WaitForAction.generated.h"
 
 UCLASS()
-class PROJECT_IK_API UTask_WaitForActiveSkill : public UBTTaskNode
+class PROJECT_IK_API UTask_WaitForAction : public UBTTaskNode
 {
 	GENERATED_BODY()
 public:
-	UTask_WaitForActiveSkill();
+	UTask_WaitForAction();
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+	virtual EBTNodeResult::Type AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+	
+private:
+	UFUNCTION()
+	void OnFinishAction(UBehaviorTreeComponent* bt_component, bool is_interrupted);
 };
