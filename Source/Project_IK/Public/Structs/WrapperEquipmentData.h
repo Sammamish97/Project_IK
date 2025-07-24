@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SupportSkillData.h"
 #include "Structs/ActiveSKillData.h"
 #include "Structs/PassiveSkillData.h"
 #include "Structs/RuneData.h"
@@ -26,7 +25,6 @@ struct FWrapperEquipmentData
 	TArray<FWeaponData> weapons_;
 	TArray<FActiveSkillData> active_skills_;
 	TArray<FPassiveSkillData> passive_skills_;
-	TArray<FSupportSkillData> support_skills_;
 	TArray<FRuneData> runes_;
 
 	FWrapperEquipmentData& operator+=(const FWrapperEquipmentData& rhs)
@@ -34,7 +32,6 @@ struct FWrapperEquipmentData
 		weapons_.Append(rhs.weapons_);
 		active_skills_.Append(rhs.active_skills_);
 		passive_skills_.Append(rhs.passive_skills_);
-		support_skills_.Append(rhs.support_skills_);
 		runes_.Append(rhs.runes_);
 
 		return *this;

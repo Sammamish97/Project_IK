@@ -31,7 +31,6 @@ void UInventoryWidget::InitInventoryWidget(int32 available_support_skill_amount,
 	rune_board_->SetInventoryWidget(this);
 	rune_board_->LoadRuneBoardWidget();
 	
-	TArray support_skill_widget_array =  {support_skill_0_, support_skill_1_, support_skill_2_};
 	TArray hero_type_array = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
 	TArray hero_board_array =  {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_};
 
@@ -39,28 +38,11 @@ void UInventoryWidget::InitInventoryWidget(int32 available_support_skill_amount,
 	{
 		elem->SetAvailablePassiveSkillAmount(available_passive_skill_amount);
 	}
-
-	for (int32 i = available_support_skill_amount; i < 3; ++i)
-	{
-		support_skill_widget_array[i]->SetIsEnabled(false);
-	}
 	
 	for(int32 i = 0; i < 4; i++)
 	{
 		hero_board_array[i]->InitHeroEquipBoard(this, hero_type_array[i]);
 		hero_board_array[i]->LoadHeroData();
-	}
-
-	ULevelTransitionSubsystem* subsystem = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
-
-	auto saved_support_skill_data = subsystem->GetSupportSkillData();
-	for(int32 i = 0; i < 3; ++i)
-	{
-		if (saved_support_skill_data[i].type_ != ESupportSkillType::INVALID)
-		{
-			support_skill_widget_array[i]->InitInventorySlot(this, true);
-			support_skill_widget_array[i]->SetSupportSkillSlotData(saved_support_skill_data[i]);
-		}
 	}
 	
 	hero_board_0_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_0_Board_Clicked);
@@ -110,18 +92,6 @@ bool UInventoryWidget::CheckDuplicatedActiveSkill(EActiveSkillType type)
 	return false;
 }
 
-bool UInventoryWidget::CheckDuplicatedSupportSkill(ESupportSkillType type)
-{
-	for (const auto& elem : {support_skill_0_, support_skill_1_, support_skill_2_})
-	{
-		if (elem->GetStoredSupportSkillData().type_ == type)
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
 bool UInventoryWidget::CheckDuplicatedPassiveSkill(EHeroType hero_type, EPassiveSkillType type)
 {
 	TObjectPtr<UHeroEquipBoardWidget> target_widget = nullptr;
@@ -154,12 +124,12 @@ void UInventoryWidget::NativeDestruct()
 	Super::NativeDestruct();
 }
 
-void UInventoryWidget::CreatePopupWidget(const FItemData& item_data)
+void UInventoryWidget::CreatePopupWidget(TObjectPtr<UDisplayDataAsset> display_data)
 {
 	if(equip_popup_class_ && equip_popup_ptr_ == nullptr)
 	{
 		equip_popup_ptr_ = CreateWidget<USkillPopupWidget>(this, equip_popup_class_);
-		equip_popup_ptr_->UpdatePopupData(item_data);
+		equip_popup_ptr_->UpdatePopupData(display_data);
 		equip_popup_ptr_->AddToViewport();
 		equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
 	}
@@ -218,17 +188,7 @@ void UInventoryWidget::SetHighlightVisibility(EGearType type, ESlateVisibility v
 			}
 		}
 		break;
-
-	case EGearType::SupportSkill:
-		for(const auto& elem : {support_skill_0_, support_skill_1_, support_skill_2_})
-		{
-			if (elem->GetIsEnabled())
-			{
-				elem->SetHighlightImageVisibility(visibility);
-			}
-		}
-		break;
-		
+	
 	default:
 		last_highlighted_gear_type = EGearType::INVALID;
 	}
@@ -298,16 +258,7 @@ void UInventoryWidget::OnConfirm()
 	{
 		elem->UpdateHeroData();
 	}
-
-	//현재 장착된 서포트 스킬 정보 저장.
-	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
-	TMap<int32, FSupportSkillData> support_skill_map;
-	support_skill_map.Add(0, support_skill_0_->GetStoredSupportSkillData());
-	support_skill_map.Add(1, support_skill_1_->GetStoredSupportSkillData());
-	support_skill_map.Add(2, support_skill_2_->GetStoredSupportSkillData());
-	transition_system->UpdateSupportSkillData(support_skill_map);
-
+	
 	//지도 UI 팝업
 	AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 	if (hud)

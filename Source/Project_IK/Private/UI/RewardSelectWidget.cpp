@@ -61,16 +61,6 @@ void URewardSelectWidget::SetRewardData(const FWeaponData& data)
 	detail_->SetText(reward_data_.weapon_data_.item_data_.display_data_->detail_.Evaluate({}));
 }
 
-void URewardSelectWidget::SetRewardData(const FSupportSkillData& data)
-{
-	reward_data_.gear_type_ = EGearType::SupportSkill;
-	reward_data_.support_skill_data_ = data;
-
-	thumbnail_->SetBrushFromTexture(reward_data_.support_skill_data_.item_data_.display_data_->thumbnail);
-	name_->SetText(reward_data_.support_skill_data_.item_data_.display_data_->name_);
-	detail_->SetText(reward_data_.support_skill_data_.item_data_.display_data_->detail_.Evaluate({}));
-}
-
 void URewardSelectWidget::SetEquipmentWidgetCache(UEquipmentRewardWidget* equipment_widget_ptr)
 {
 	equipment_reward_widget_cache_ = equipment_widget_ptr;

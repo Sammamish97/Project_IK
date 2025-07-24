@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/ActiveSkillMechanics.h"
 #include "Components/RuneMechanics.h"
 #include "Components/WidgetComponent.h"
+#include "DataAssets/SupportSkillDataAsset.h"
 
 #include "Runtime/UMG/Public/Blueprint/UserWidget.h"
 
@@ -84,9 +85,12 @@ void AIKHUD::BeginPlay()
 			if(cur_spawn_data.is_dead_ == false)
 			{
 				auto cur_hero = Cast<AHeroBase>(game_mode->GetHero(cur_hero_type));
+
+				auto rune_pop_up_widget = button_bar_widget_->GetRunePopupWidget();
+				rune_pop_up_widget->InitSetBonusDetails(hero_rune_bonus_detail_map);
 				
 				button_bar_widget_->GetHeroWidget(cur_hero_type)->InitHeroWidget(button_bar_widget_->GetBuffPopupWidget(),
-					cur_hero->GetRuneMechanics(), button_bar_widget_->GetRunePopupWidget(),
+					cur_hero->GetRuneMechanics(), rune_pop_up_widget,
 					cur_hero_type, cur_hero->GetHeroBaseColor_1(), cur_hero->GetHeroBaseColor_2(),
 					cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
 
@@ -121,21 +125,18 @@ void AIKHUD::BeginPlay()
 
 		//서포트 스킬 UI에 썸네일과 Cost를 Bind.
 		auto game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
-		auto equipped_support_skills = game_state->GetSupportSkillPtr();
-		auto equipped_support_data = transition_system->GetSupportSkillData();
+		auto support_skill_data = game_state->GetSupportSkillData();
+		auto support_skills = game_state->GetSupportSkills();
 		for (int32 i = 0; i < 3; i++)
 		{
-			if (equipped_support_skills[i] != nullptr)
+			if (support_skills[i] != nullptr)
 			{
 				auto cur_skill_button_widget = button_bar_widget_->GetSupportSkillButtonWidget(i);
-				cur_skill_button_widget->SetThumbnailTexture(equipped_support_data[i].item_data_.display_data_->thumbnail);
-				cur_skill_button_widget->SetSupportSkillCost(equipped_support_skills[i]->GetCost());
-				equipped_support_skills[i]->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
+				cur_skill_button_widget->SetThumbnailTexture(support_skill_data[i]->display_data_->thumbnail);
+				cur_skill_button_widget->SetSupportSkillCost(support_skills[i]->GetCost());
+				support_skills[i]->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 			}
 		}
-		
-		auto rune_pop_up_widget = button_bar_widget_->GetRunePopupWidget();
-		rune_pop_up_widget->InitSetBonusDetails(hero_rune_bonus_detail_map);
 		
 		if (button_bar_widget_)
 		{

@@ -9,6 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "AI/HeroAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Characters/HeroBase.h"
 
 // Sets default values
 AHeroAIController::AHeroAIController()
@@ -20,13 +21,17 @@ AHeroAIController::AHeroAIController()
 void AHeroAIController::RepositionHero(FVector target_location)
 {
 	GetBlackboardComponent()->SetValueAsVector(relocate_target_position_key_name_, target_location);
-	SetUnitState(EUnitState::OnRepositioning);
-	DrawDebugSphere(GetWorld(), target_location, 32, 32, FColor::White, true, 1.0);
 }
 
 void AHeroAIController::SetAttackTarget(AActor* target)
 {
 	GetBlackboardComponent()->SetValueAsObject(attack_target_key_name_, target);
+}
+
+void AHeroAIController::OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result)
+{
+	Super::OnMoveCompleted(RequestID, Result);
+	Cast<AHeroBase>(GetPawn())->ResetUnitState();
 }
 
 // Called when the game starts or when spawned

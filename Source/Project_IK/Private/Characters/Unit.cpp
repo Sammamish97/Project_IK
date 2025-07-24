@@ -119,6 +119,17 @@ bool AUnit::IsHero() const
 	return is_hero_;
 }
 
+void AUnit::FinishAction()
+{
+	FAIMessage Msg(TEXT("CastingFinished"), this, action_request_id_, FAIMessage::Success);
+	FAIMessage::Send(Cast<APawn>(GetOwner()), Msg);
+}
+
+FAIRequestID AUnit::GetActionRequestID() const
+{
+	return action_request_id_;
+}
+
 // Called when the game starts or when spawned
 void AUnit::BeginPlay()
 {
@@ -292,7 +303,7 @@ void AUnit::FinishStun()
 }
 
 
-void AUnit::InterruptUnitBehavior(EUnitState type)
+void AUnit::SetUnitStateWithInterrupt(EUnitState type)
 {
 	
 }

@@ -13,8 +13,8 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 #include "Components/ActiveSkillMechanics.h"
 #include "Components/EnergySystemComponent.h"
+#include "DataAssets/SupportSkillDataAsset.h"
 #include "Kismet/GameplayStatics.h"
-#include "Structs/SupportSkillData.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "UI/ButtonBarWidget.h"
 #include "UI/SkillPopupWidget.h"
@@ -32,19 +32,12 @@ void AIKGameState::BeginPlay()
 {
 	Super::BeginPlay();
 	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	auto level_transition_manager = UGameplayStatics::GetGameInstance(GetWorld())->GetSubsystem<ULevelTransitionSubsystem>();
-	auto support_skill_data_ = level_transition_manager->GetSupportSkillData();
+	support_skill_data_ = {relocation_data_, set_attack_target_data_, maintain_data_};
+
 	for (int32 i = 0; i < 3; i++)
 	{
-		if (support_skill_data_[i].type_ != ESupportSkillType::INVALID)
-		{
-			equipped_support_skills_.Push(NewObject<USupportSkillBase>(this, support_skill_data_[i].support_skill_class_));
-		}
-		else
-		{
-			equipped_support_skills_.Push(nullptr);
-		}
 		support_skill_timers_.Push(FTimerHandle());
+		support_skills_.Push(NewObject<USupportSkillBase>(this,support_skill_data_[i]->support_skill_class_));
 	}
 
 	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
@@ -60,7 +53,7 @@ void AIKGameState::BeginPlay()
 void AIKGameState::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-	equipped_support_skills_.Empty();
+	support_skills_.Empty();
 	support_skill_timers_.Empty();
 	active_skill_timers_.Empty();
 }
@@ -68,11 +61,6 @@ void AIKGameState::EndPlay(const EEndPlayReason::Type EndPlayReason)
 bool AIKGameState::UseEnergy(float amount)
 {
 	return energy_system_component_->UseEnergy(amount);
-}
-
-const TArray<TObjectPtr<USupportSkillBase>>& AIKGameState::GetSupportSkillPtr() const
-{
-	return equipped_support_skills_;
 }
 
 UEnergySystemComponent* AIKGameState::GetEnergySystemComponent()
@@ -94,7 +82,7 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 				selected_active_skill_mechanics_ = casted_hero->GetActiveSkillMechanics();
 				selected_hero_type_ = hero_type;
 				selected_skill_type_ = ESelectedSkill::ActiveSkill;
-				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(casted_hero->GetActiveSkillItemData());
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(casted_hero->GetActiveSkillItemData().display_data_);
 			}
 		}
 	}
@@ -102,17 +90,17 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 
 void AIKGameState::ActivateSupportSkill(int32 support_num)
 {
-	if (equipped_support_skills_[support_num] != nullptr)
+	if (support_skills_[support_num] != nullptr)
 	{
-		if (energy_system_component_->GetEnergy() > equipped_support_skills_[support_num]->GetCost())
+		if (energy_system_component_->GetEnergy() > support_skills_[support_num]->GetCost())
 		{
 			if (GetWorld()->GetTimerManager().IsTimerActive(support_skill_timers_[support_num]) == false)
 			{
-				player_controller_cache_->StartTargeting(equipped_support_skills_[support_num]->GetTargetParameters());
-				selected_support_skill_ = equipped_support_skills_[support_num];;
+				player_controller_cache_->StartTargeting(support_skills_[support_num]->GetTargetParameters());
+				selected_support_skill_ = support_skills_[support_num];;
 				selected_support_num_ = support_num;
 				selected_skill_type_ = ESelectedSkill::SupportSKill;
-				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(equipped_support_skills_[support_num]->GetSupportSkillData().item_data_);
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(support_skill_data_[support_num]->display_data_);
 			}
 		}
 	}
@@ -215,4 +203,14 @@ void AIKGameState::ToggleFocusMode()
 {
 	on_focus_mode_ = !on_focus_mode_;
 	OnToggleDetailMode.Broadcast(on_focus_mode_);
+}
+
+const TArray<TObjectPtr<USupportSkillDataAsset>>& AIKGameState::GetSupportSkillData()
+{
+	return support_skill_data_;
+}
+
+const TArray<TObjectPtr<USupportSkillBase>>& AIKGameState::GetSupportSkills()
+{
+	return support_skills_;
 }

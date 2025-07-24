@@ -236,7 +236,6 @@ enum class EGearType : uint8
 	Weapon UMETA(DisplayName = "Weapon"),
 	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
 	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
-	SupportSkill UMETA(DisplayName = "SupportSkill"),
 	Rune UMETA(DisplayName = "Rune"),
 };
 
@@ -618,15 +617,6 @@ enum class EWeaponAction : uint8
 };
 
 UENUM(BlueprintType)
-enum class ESupportSkillType : uint8
-{
-	INVALID UMETA(DisplayName = "INVALID"),
-	Reposition UMETA(DisplayName = "Reposition"),
-	SupportFire UMETA(DisplayName = "SupportFire"),
-	InstantRepair UMETA(DisplayName = "InstantRepair"),
-};
-
-UENUM(BlueprintType)
 enum class EOutlineState : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
@@ -664,7 +654,7 @@ enum class EBuffType : uint8
 	Conductor UMETA(DisplayName = "Conductor"),
 
 	//Support
-	InstantRepair UMETA(DisplayName = "InstantRepair"),
+	Maintain UMETA(DisplayName = "Maintain"),
 	
 	//Rune
 	Chariot_Edge UMETA(DisplayName = "Chariot_Edge"),

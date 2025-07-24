@@ -10,6 +10,8 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 
+#include "BrainComponent.h"
+#include "Abilities/Buffs/BuffBase.h"
 #include "AI/GunnerAIController.h"
 #include "AI/HeroAIController.h"
 
@@ -58,6 +60,8 @@ void AHeroBase::BeginPlay()
 		hp_core->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
 		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_core.Get(), &UHPUICore::UpdateWidget);
 	}
+
+	maintain_buff_ = NewObject<UBuffBase>(this, maintain_buff_class_);
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -125,7 +129,7 @@ void AHeroBase::Attack(AActor* target)
 	weapon_mechanics_->BeginFire(target);
 }
 
-void AHeroBase::InterruptUnitBehavior(EUnitState type)
+void AHeroBase::SetUnitStateWithInterrupt(EUnitState type)
 {
 	Cast<AMeleeAIController>(GetController())->SetUnitState(type);
 	switch (type)
@@ -137,7 +141,13 @@ void AHeroBase::InterruptUnitBehavior(EUnitState type)
 		active_skill_mechanics_->StopActiveSkill();
 		
 	case EUnitState::OnActiveSkill:
+	{
 		weapon_mechanics_->StopReload();
+		if (on_maintain_)
+		{
+			FinishMaintaining();
+		}
+	}
 		
 	case EUnitState::OnReloading:
 	{
@@ -177,26 +187,40 @@ void AHeroBase::Reposition(FVector target_location)
 {
 	DispatchUnitEvent(EUnitEvent::OnReposition);
 	Cast<AHeroAIController>(GetController())->RepositionHero(target_location);
+	SetUnitStateWithInterrupt(EUnitState::OnRepositioning);
 }
 
 void AHeroBase::SetAttackTarget(AActor* target)
 {
-	AHeroAIController* controller = Cast<AHeroAIController>(GetController());
-	if (controller)
+	if (on_maintain_)
+	{
+		FinishMaintaining();
+	}
+	if (AHeroAIController* controller = Cast<AHeroAIController>(GetController()))
 	{
 		controller->SetAttackTarget(target);
 	}
 }
 
-void AHeroBase::SetIsCovered(bool is_covered)
+void AHeroBase::BeginMaintaining()
 {
-	is_covered_ = is_covered;
+	SetUnitStateWithInterrupt(EUnitState::OnActiveSkill);
+	PlayAnimMontage(maintain_anim_montage_);
+	on_maintain_ = true;
+	maintain_buff_->ApplyBuff(this);
+}
+
+void AHeroBase::FinishMaintaining()
+{
+	StopAnimMontage(maintain_anim_montage_);
+	on_maintain_ = false;
+	maintain_buff_->RemoveBuff(this);
+	FinishAction();
 }
 
 AActor* AHeroBase::GetAttackTarget() const
 {
-	AHeroAIController* controller = Cast<AHeroAIController>(GetController());
-	if (controller)
+	if (AHeroAIController* controller = Cast<AHeroAIController>(GetController()))
 	{
 		controller->GetTargetActor();
 	}

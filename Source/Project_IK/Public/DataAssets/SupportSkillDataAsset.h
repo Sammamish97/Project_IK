@@ -12,20 +12,17 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include "Managers/EnumCluster.h"
-#include "Structs/SupportSkillData.h"
 #include "SupportSkillDataAsset.generated.h"
 
+class UDisplayDataAsset;
 UCLASS()
 class PROJECT_IK_API USupportSkillDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 public:
-	FSupportSkillData GetSupportSkillData(ESupportSkillType type);
-	FSupportSkillData GetSupportSkillDataRandomly(ERarity weight_rarity = ERarity::Common);
-	TArray<FSupportSkillData> GetUniqueSupportSkillDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class USupportSkillBase> support_skill_class_;
 	
-private:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Active Skill Data", meta = (AllowPrivateAccess = "true"))
-	TMap<ESupportSkillType, FSupportSkillData> support_skill_data_map_;
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UDisplayDataAsset> display_data_;
 };

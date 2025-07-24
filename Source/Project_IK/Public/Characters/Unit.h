@@ -55,7 +55,7 @@ public:
 	void SetAttackTarget(AActor* target);
 	AActor* GetAttackTarget();
 
-	virtual void InterruptUnitBehavior(EUnitState type);
+	virtual void SetUnitStateWithInterrupt(EUnitState type);
 	virtual void ResetUnitState();
 
 	void SetOutlineState(EOutlineState state);
@@ -69,6 +69,9 @@ public:
 	UWidgetComponent* GetHPUIWidgetComponent();
 	EUnitBoneType GetBoneType() const;
 	bool IsHero() const;
+
+	void FinishAction();
+	FAIRequestID GetActionRequestID() const;
 
 	
 	UFUNCTION(BlueprintCallable)
@@ -128,6 +131,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data")
 	ECharacterType character_type_;
 
+	//IKTODO: 현재 모든 유닛은 동일한 bone을 사용한다. 이후 제거되어야 한다.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data")
 	EUnitBoneType bone_type_;
 
@@ -152,7 +156,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Unit")
 	TObjectPtr<UCrowdControlComponent> cc_component_;
-
 	
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
@@ -185,6 +188,9 @@ protected:
 	UPROPERTY()
 	TMap<EUnitEvent, FOnUnitEvent> on_unit_event_;
 
+	UPROPERTY()
+	FAIRequestID action_request_id_ = 1;
+	
 	UPROPERTY()
 	FAIRequestID stun_ai_request_id_ = 2;
 

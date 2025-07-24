@@ -22,9 +22,9 @@ struct PROJECT_IK_API FItemData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "SupportSkillData")
+	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UDisplayDataAsset> display_data_;
 	
-    UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "SupportSkillData")
+    UPROPERTY(EditDefaultsOnly)
     ERarity rarity_;
 };

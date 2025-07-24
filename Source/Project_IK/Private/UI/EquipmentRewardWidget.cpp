@@ -134,9 +134,6 @@ void UEquipmentRewardWidget::OnConfirmButtonClicked()
 				case EGearType::Rune:
 					selected_reward_data.runes_.Push(reward_data.rune_data_);
 					break;
-				case EGearType::SupportSkill:
-					selected_reward_data.support_skills_.Push(reward_data.support_skill_data_);
-					break;
 				default:
 					break;
 					//IKTODO: 예외처리

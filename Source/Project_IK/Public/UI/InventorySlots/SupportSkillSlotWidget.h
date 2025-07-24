@@ -10,21 +10,21 @@ See LICENSE file in the project root for full license information.
 #pragma once
 #include "CoreMinimal.h"
 #include "InventorySlot.h"
-#include "Structs/SupportSkillData.h"
 #include "SupportSkillSlotWidget.generated.h"
+class USupportSkillDataAsset;
+
 UCLASS()
-class PROJECT_IK_API USupportSkillSlotWidget : public UInventorySlot
+class PROJECT_IK_API USupportSkillSlotWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	virtual void NativeConstruct() override;
-	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
-	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-	void SetSupportSkillSlotData(FSupportSkillData passive_skill_data);
-	FSupportSkillData GetStoredSupportSkillData();
-	virtual void SetImageTexture() override;
-	virtual void ClearData() override;
+	void SetSupportSkillSlotData(USupportSkillDataAsset* support_skill_data);
+	USupportSkillDataAsset* GetStoredSupportSkillData();
 
 private:
-	FSupportSkillData support_skill_data_cache_;
+	UPROPERTY()
+	TObjectPtr<USupportSkillDataAsset> support_skill_data_cache_;
+
+	UPROPERTY(meta=(BindWidget))
+	TObjectPtr<UImage> image_;
 };
