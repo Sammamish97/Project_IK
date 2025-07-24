@@ -525,6 +525,8 @@ enum class EGlobalBuffType : uint8
 	Acquire_Shield UMETA(DisplayName = "Acquire Shield"),
 	AirStrike_ArmorDebuff UMETA(DisplayName = "AirStrike Armor Debuff"),
 	AirStrike_HPDebuff UMETA(DisplayName = "AirStrike HP Debuff"),
+	Ambush_AttackSpeedDebuff UMETA(DisplayName = "Ambush AttackSpeed Debuff"),
+	Ambush_AttackPowerDebuff UMETA(DisplayName = "Ambush AttackPower Debuff"),
 	None UMETA(DisplayName = "None"),
 };
 
@@ -593,7 +595,7 @@ enum class EEventType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
 	AirStrike UMETA(DisplayName = "Air Strike"),
-	EventType_2 UMETA(DisplayName = "EventType_2"),
+	Ambush UMETA(DisplayName = "Ambush"),
 	EventType_3 UMETA(DisplayName = "EventType_3"),
 	EventType_4 UMETA(DisplayName = "EventType_4"),
 };
@@ -697,4 +699,7 @@ enum class EBuffType : uint8
 
 	AirStrikeArmorDebuff UMETA(DisplayName = "AirStrike Armor Debuff"),
 	AirStrikeHPDebuff UMETA(DisplayName = "AirStrike HP Debuff"),
+
+	AmbushAttackSpeedDebuff UMETA(DisplayName = "Ambush AttackSpeed Debuff"),
+	AmbushAttackPowerDebuff UMETA(DisplayName = "Ambush AttackPower Debuff"),
 };

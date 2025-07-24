@@ -40,7 +40,7 @@ FEventData UEventManager::GetRandomEventData()
 				return *event_table_->FindRow<FEventData>(FName("AirStrike"), TEXT(""));
 			
 			case 1:
-				return *event_table_->FindRow<FEventData>(FName("EventType_2"), TEXT(""));
+				return *event_table_->FindRow<FEventData>(FName("Ambush"), TEXT(""));
 			
 			case 2:
 				return *event_table_->FindRow<FEventData>(FName("EventType_3"), TEXT(""));
@@ -62,10 +62,10 @@ void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> wi
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_AirStrike_ThirdOptionResult);
 		break;
 
-	case EEventType::EventType_2:
-		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_2_FirstOptionResult);
-		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_2_SecondOptionResult);
-		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_2_ThirdOptionResult);
+	case EEventType::Ambush:
+		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_Ambush_FirstOptionResult);
+		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_Ambush_SecondOptionResult);
+		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_Ambush_ThirdOptionResult);
 		break;
 
 	case EEventType::EventType_3:
@@ -87,6 +87,7 @@ void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> wi
 
 void UEventManager::Event_AirStrike_FirstOptionResult()
 {
+	// Discard a weapon randomly.
 	ULevelTransitionSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
 	auto spawn_data = subsystem->GetSpawnData();
 	TArray<TOptional<FWeaponData>*> weapon_data_ref;
@@ -118,19 +119,37 @@ void UEventManager::Event_AirStrike_ThirdOptionResult()
 }
 
 //Event 2: 장비
-void UEventManager::Event_2_FirstOptionResult()
+void UEventManager::Event_Ambush_FirstOptionResult()
 {
-	//inventory_manager_->AddEquipment(EWeaponType::AssaultRifle_B);
+	// Discard a active skill randomly.
+	ULevelTransitionSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
+	auto spawn_data = subsystem->GetSpawnData();
+	TArray<TOptional<FActiveSkillData>*> active_data_ref;
+	for (auto& [Key, Value] : spawn_data)
+	{
+		if (Value.active_skill_data_.IsSet())
+		{
+			active_data_ref.Add(&Value.active_skill_data_);
+		}
+	}
+
+	if (!active_data_ref.IsEmpty())
+	{
+		int32 index = FMath::RandRange(0, active_data_ref.Num() - 1);
+		active_data_ref[index]->Reset();
+	}
 }
 
-void UEventManager::Event_2_SecondOptionResult()
+void UEventManager::Event_Ambush_SecondOptionResult()
 {
-	//inventory_manager_->AddEquipment(EActiveSkillType::Thunder);
+	UGlobalBuffSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+	subsystem->AddBuff(EGlobalBuffType::Ambush_AttackSpeedDebuff);
 }
 
-void UEventManager::Event_2_ThirdOptionResult()
+void UEventManager::Event_Ambush_ThirdOptionResult()
 {
-	//inventory_manager_->AddEquipment(EActiveSkillType::Thunder);
+	UGlobalBuffSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+	subsystem->AddBuff(EGlobalBuffType::Ambush_AttackPowerDebuff);
 }
 
 //Event 3: 룬

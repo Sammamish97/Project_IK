@@ -33,13 +33,13 @@ public:
 	void Event_AirStrike_ThirdOptionResult();
 //
 	UFUNCTION()
-	void Event_2_FirstOptionResult();
+	void Event_Ambush_FirstOptionResult();
 	
 	UFUNCTION()
-	void Event_2_SecondOptionResult();
+	void Event_Ambush_SecondOptionResult();
 
 	UFUNCTION()
-	void Event_2_ThirdOptionResult();
+	void Event_Ambush_ThirdOptionResult();
 //
 	UFUNCTION()
 	void Event_3_FirstOptionResult();
