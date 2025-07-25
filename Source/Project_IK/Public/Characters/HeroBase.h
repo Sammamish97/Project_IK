@@ -66,16 +66,16 @@ protected:
 
 	//Mechanics
 	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	class UActiveSkillMechanics* active_skill_mechanics_;
+	TObjectPtr<class UActiveSkillMechanics> active_skill_mechanics_;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	class UWeaponMechanics* weapon_mechanics_;
+	TObjectPtr<class UWeaponMechanics> weapon_mechanics_;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	class UPassiveSkillMechanics* passive_skill_mechanics_;
+	TObjectPtr<class UPassiveSkillMechanics> passive_skill_mechanics_;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	class URuneMechanics* rune_mechanics_;
+	TObjectPtr<class URuneMechanics> rune_mechanics_;
 	
 	//Maintaining
 	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = true))
