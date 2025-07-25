@@ -527,6 +527,8 @@ enum class EGlobalBuffType : uint8
 	AirStrike_HPDebuff UMETA(DisplayName = "AirStrike HP Debuff"),
 	Ambush_AttackSpeedDebuff UMETA(DisplayName = "Ambush AttackSpeed Debuff"),
 	Ambush_AttackPowerDebuff UMETA(DisplayName = "Ambush AttackPower Debuff"),
+	Trap_RewardCandidateDebuff UMETA(DisplayName = "Trap Reward Candidate Debuff"),
+	Trap_RewardChoiceDebuff UMETA(DisplayName = "Trap Reward Choice Debuff"),
 	None UMETA(DisplayName = "None"),
 };
 
@@ -596,7 +598,7 @@ enum class EEventType : uint8
 	INVALID UMETA(DisplayName = "INVALID"),
 	AirStrike UMETA(DisplayName = "Air Strike"),
 	Ambush UMETA(DisplayName = "Ambush"),
-	EventType_3 UMETA(DisplayName = "EventType_3"),
+	Trap UMETA(DisplayName = "Trap"),
 	EventType_4 UMETA(DisplayName = "EventType_4"),
 };
 

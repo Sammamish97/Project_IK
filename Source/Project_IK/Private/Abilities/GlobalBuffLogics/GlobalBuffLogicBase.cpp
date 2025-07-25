@@ -10,3 +10,16 @@ See LICENSE file in the project root for full license information.
 
 
 #include "Abilities/GlobalBuffLogics/GlobalBuffLogicBase.h"
+
+bool UGlobalBuffLogicBase::IsBuffValidOnTarget(UObject* buff_target)
+{
+	return false;
+}
+
+void UGlobalBuffLogicBase::ApplyBuff(UObject* buff_target)
+{
+}
+
+void UGlobalBuffLogicBase::OnBuffExpired()
+{
+}

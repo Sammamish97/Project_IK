@@ -42,13 +42,13 @@ public:
 	void Event_Ambush_ThirdOptionResult();
 //
 	UFUNCTION()
-	void Event_3_FirstOptionResult();
+	void Event_Trap_FirstOptionResult();
 	
 	UFUNCTION()
-	void Event_3_SecondOptionResult();
+	void Event_Trap_SecondOptionResult();
 
 	UFUNCTION()
-	void Event_3_ThirdOptionResult();
+	void Event_Trap_ThirdOptionResult();
 //
 	UFUNCTION()
 	void Event_4_FirstOptionResult();

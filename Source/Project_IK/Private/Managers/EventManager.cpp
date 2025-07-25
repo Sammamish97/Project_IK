@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/InventoryManager.h"
 #include "Subsystems/GlobalBuffSubsystem.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
+#include "Subsystems/PerkModifierSubsystem.h"
 
 #include "Components/Button.h"
 #include "Managers/EnumCluster.h"
@@ -43,7 +44,7 @@ FEventData UEventManager::GetRandomEventData()
 				return *event_table_->FindRow<FEventData>(FName("Ambush"), TEXT(""));
 			
 			case 2:
-				return *event_table_->FindRow<FEventData>(FName("EventType_3"), TEXT(""));
+				return *event_table_->FindRow<FEventData>(FName("Trap"), TEXT(""));
 			
 			case 3:
 				return *event_table_->FindRow<FEventData>(FName("EventType_4"), TEXT(""));
@@ -68,10 +69,10 @@ void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> wi
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_Ambush_ThirdOptionResult);
 		break;
 
-	case EEventType::EventType_3:
-		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_3_FirstOptionResult);
-		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_3_SecondOptionResult);
-		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_3_ThirdOptionResult);
+	case EEventType::Trap:
+		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_Trap_FirstOptionResult);
+		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_Trap_SecondOptionResult);
+		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_Trap_ThirdOptionResult);
 		break;
 
 	case EEventType::EventType_4:
@@ -153,19 +154,35 @@ void UEventManager::Event_Ambush_ThirdOptionResult()
 }
 
 //Event 3: 룬
-void UEventManager::Event_3_FirstOptionResult()
+void UEventManager::Event_Trap_FirstOptionResult()
 {
-	//inventory_manager_->AddRune(ERuneSetType::Chariot, 0);
+	inventory_manager_->SetCredits(
+		FMath::Max(inventory_manager_->GetCredits() - 200, 0)
+	);
 }
 
-void UEventManager::Event_3_SecondOptionResult()
+void UEventManager::Event_Trap_SecondOptionResult()
 {
-	//inventory_manager_->AddRune(ERuneSetType::Chariot, 1);
+
+	UPerkModifierSubsystem* perk_modifier = GetWorld()->GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>();
+	perk_modifier->SetCombatEndEquipmentRewardNumCandidates(
+		FMath::Max(perk_modifier->GetCombatEndEquipmentRewardNumCandidates() - 2, 0)
+	);
+
+	UGlobalBuffSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+	subsystem->AddBuff(EGlobalBuffType::Trap_RewardCandidateDebuff);
 }
 
-void UEventManager::Event_3_ThirdOptionResult()
+void UEventManager::Event_Trap_ThirdOptionResult()
 {
-	//inventory_manager_->AddRune(ERuneSetType::Chariot, 2);
+
+	UPerkModifierSubsystem* perk_modifier = GetWorld()->GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>();
+	perk_modifier->SetCombatEndEquipmentRewardMaxChoice(
+		FMath::Max(perk_modifier->GetCombatEndEquipmentRewardMaxChoice() - 1, 0)
+	);
+
+	UGlobalBuffSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+	subsystem->AddBuff(EGlobalBuffType::Trap_RewardChoiceDebuff);
 }
 
 //Event 4: 글로벌 버프
