@@ -15,11 +15,11 @@ See LICENSE file in the project root for full license information.
 void USkillPopupWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	SetVisibility(ESlateVisibility::Hidden);
 }
 
 void USkillPopupWidget::UpdatePopupData(TObjectPtr<UDisplayDataAsset> display_asset)
 {
+	SetVisibility(ESlateVisibility::Visible);
 	thumbnail_->SetBrushFromTexture(display_asset->thumbnail);
 	skill_name_->SetText(display_asset->name_);
 }

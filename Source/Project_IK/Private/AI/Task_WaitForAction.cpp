@@ -37,7 +37,7 @@ void UTask_WaitForAction::OnFinishAction(UBehaviorTreeComponent* bt_component, b
 {
 	if(auto casted_unit = Cast<AUnit>(bt_component->GetAIOwner()->GetPawn()))
 	{
-		casted_unit->OnFinishAction.AddDynamic(this, &UTask_WaitForAction::OnFinishAction);
+		casted_unit->OnFinishAction.RemoveDynamic(this, &UTask_WaitForAction::OnFinishAction);
 	}
 	FinishLatentTask(*bt_component, is_interrupted ? EBTNodeResult::Failed : EBTNodeResult::Succeeded);
 }

@@ -196,6 +196,7 @@ void AHeroBase::SetAttackTarget(AActor* target)
 	{
 		FinishMaintaining();
 	}
+	ResetUnitState();
 	if (AHeroAIController* controller = Cast<AHeroAIController>(GetController()))
 	{
 		controller->SetAttackTarget(target);
