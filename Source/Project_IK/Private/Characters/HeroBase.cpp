@@ -213,7 +213,6 @@ void AHeroBase::BeginMaintaining()
 
 void AHeroBase::FinishMaintaining()
 {
-	StopAnimMontage(maintain_anim_montage_);
 	on_maintain_ = false;
 	maintain_buff_->RemoveBuff(this);
 	FinishAction();

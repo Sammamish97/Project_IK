@@ -95,9 +95,6 @@ protected:
 	UPROPERTY(Transient)
 	FTimerHandle reload_timer_handle_;
 
-	FOnCriticalRateCalculationDelegate OnCriticalRateCalculation;
-	FOnFireWeapon OnFireWeapon;
-	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon" )
 	TObjectPtr<class UObjectPoolComponent> object_pool_component_;
 
@@ -134,6 +131,7 @@ protected:
 	float HARD_CODED_ACCURACY = 10.f;
 
 public:
-	UPROPERTY()
 	FOnFinishReload OnFinishReload;
+	FOnCriticalRateCalculationDelegate OnCriticalRateCalculation;
+	FOnFireWeapon OnFireWeapon;
 };
