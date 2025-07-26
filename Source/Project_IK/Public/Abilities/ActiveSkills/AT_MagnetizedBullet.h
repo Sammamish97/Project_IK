@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_MagnetizedBullet.generated.h"
 
-class UBuffBase;
+class UBuffHandler;
 class UBulletMagnetizeEffectComponent;
 class UNiagaraSystem;
 
@@ -28,8 +28,8 @@ public:
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<UBuffBase> buff_class_;
+	TSubclassOf<UBuffHandler> buff_class_;
 
 	UPROPERTY()
-	TObjectPtr<UBuffBase> buff_;
+	TObjectPtr<UBuffHandler> buff_;
 };

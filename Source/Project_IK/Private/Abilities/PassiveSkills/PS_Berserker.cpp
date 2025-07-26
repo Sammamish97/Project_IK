@@ -17,7 +17,7 @@ See LICENSE file in the project root for full license information.
 
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
-#include "Abilities/Buffs/BuffBase.h"
+#include "Abilities/Buffs/BuffHandler.h"
 #include "Components/CapsuleComponent.h"
 
 #include "Managers/DataTableManager.h"
@@ -31,7 +31,7 @@ void UPS_Berserker::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& 
 		hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnHPChanged(unit->GetCharacterStat(), this, &UPS_Berserker::BuffBerserker);
 		SpawnParticles(unit);
 	}
-	buff_ = NewObject<UBuffBase>(this, buff_class_);
+	buff_ = NewObject<UBuffHandler>(this, buff_class_);
 }
 
 void UPS_Berserker::BuffBerserker(float hp_ratio)

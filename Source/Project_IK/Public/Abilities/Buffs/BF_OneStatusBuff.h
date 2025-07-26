@@ -10,12 +10,12 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BuffBase.h"
+#include "BuffHandler.h"
 #include "Structs/BuffStatusData.h"
 #include "BF_OneStatusBuff.generated.h"
 
 UCLASS()
-class PROJECT_IK_API UBF_OneStatusBuff : public UBuffBase
+class PROJECT_IK_API UBF_OneStatusBuff : public UBuffHandler
 {
 	GENERATED_BODY()
 public:

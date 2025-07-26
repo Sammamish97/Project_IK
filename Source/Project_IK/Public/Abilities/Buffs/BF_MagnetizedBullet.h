@@ -10,12 +10,12 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BuffBase.h"
+#include "BuffHandler.h"
 #include "BF_MagnetizedBullet.generated.h"
 class UBulletMagnetizeEffectComponent;
 
 UCLASS()
-class PROJECT_IK_API UBF_MagnetizedBullet : public UBuffBase
+class PROJECT_IK_API UBF_MagnetizedBullet : public UBuffHandler
 {
 	GENERATED_BODY()
 public:

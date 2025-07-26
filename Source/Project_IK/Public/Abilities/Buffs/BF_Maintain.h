@@ -10,11 +10,11 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BuffBase.h"
+#include "BuffHandler.h"
 #include "BF_Maintain.generated.h"
 
 UCLASS()
-class PROJECT_IK_API UBF_Maintain : public UBuffBase
+class PROJECT_IK_API UBF_Maintain : public UBuffHandler
 {
 	GENERATED_BODY()
 public:

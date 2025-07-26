@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/ActiveSkills/AT_Encourage.h"
 
-#include "Abilities/Buffs/BuffBase.h"
+#include "Abilities/Buffs/BuffHandler.h"
 #include "Structs/TargetResult.h"
 #include "Structs/BuffStatusData.h"
 #include "Characters/HeroBase.h"
@@ -29,7 +29,7 @@ UAT_Encourage::UAT_Encourage()
 void UAT_Encourage::InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data)
 {
 	Super::InitActiveSkill(skill_owner, skill_data);
-	buff_ = NewObject<UBuffBase>(this, buff_class_);
+	buff_ = NewObject<UBuffHandler>(this, buff_class_);
 }
 
 void UAT_Encourage::OnEnterCasting()

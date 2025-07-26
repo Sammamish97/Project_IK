@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 
 #include "BrainComponent.h"
-#include "Abilities/Buffs/BuffBase.h"
+#include "Abilities/Buffs/BuffHandler.h"
 #include "AI/GunnerAIController.h"
 #include "AI/HeroAIController.h"
 
@@ -61,7 +61,7 @@ void AHeroBase::BeginPlay()
 		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_core.Get(), &UHPUICore::UpdateWidget);
 	}
 
-	maintain_buff_ = NewObject<UBuffBase>(this, maintain_buff_class_);
+	maintain_buff_ = NewObject<UBuffHandler>(this, maintain_buff_class_);
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)

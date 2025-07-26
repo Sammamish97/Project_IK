@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_Encourage.generated.h"
 
-class UBuffBase;
+class UBuffHandler;
 
 UCLASS(Abstract)
 class PROJECT_IK_API UAT_Encourage : public UActiveSkillBase
@@ -29,10 +29,10 @@ public:
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SkillData", meta = (AllowPrivateAccess = true))
-	TSubclassOf<UBuffBase> buff_class_;
+	TSubclassOf<UBuffHandler> buff_class_;
 
 	UPROPERTY();
-	TObjectPtr<UBuffBase> buff_;
+	TObjectPtr<UBuffHandler> buff_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SkillData", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> casting_anim_montage_;

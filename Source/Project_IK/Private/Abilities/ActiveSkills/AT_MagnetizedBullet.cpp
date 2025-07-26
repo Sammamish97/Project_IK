@@ -9,7 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Abilities/ActiveSkills/AT_MagnetizedBullet.h"
 
-#include "Abilities/Buffs/BuffBase.h"
+#include "Abilities/Buffs/BuffHandler.h"
 #include "Characters/HeroBase.h"
 
 UAT_MagnetizedBullet::UAT_MagnetizedBullet()
@@ -21,7 +21,7 @@ UAT_MagnetizedBullet::UAT_MagnetizedBullet()
 void UAT_MagnetizedBullet::InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data)
 {
 	Super::InitActiveSkill(skill_owner, skill_data);
-	buff_ = NewObject<UBuffBase>(this, buff_class_);
+	buff_ = NewObject<UBuffHandler>(this, buff_class_);
 }
 
 bool UAT_MagnetizedBullet::ActivateSkill(const FTargetResult& TargetResult)

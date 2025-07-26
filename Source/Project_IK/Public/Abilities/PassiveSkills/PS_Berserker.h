@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/PassiveSkills/PassiveSkillBase.h"
 #include "PS_Berserker.generated.h"
 
-class UBuffBase;
+class UBuffHandler;
 class AUnit;
 class UNiagaraSystem;
 class UNiagaraComponent;
@@ -39,10 +39,10 @@ protected:
 	void DeactivateParticles();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Passive Skills")
-	TSubclassOf<UBuffBase> buff_class_;
+	TSubclassOf<UBuffHandler> buff_class_;
 
 	UPROPERTY(Transient)
-	TObjectPtr<UBuffBase> buff_;
+	TObjectPtr<UBuffHandler> buff_;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
 	float hp_ratio_threshold_ = 0.8f;

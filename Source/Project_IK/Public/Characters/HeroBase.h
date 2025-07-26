@@ -79,10 +79,10 @@ protected:
 	
 	//Maintaining
 	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = true))
-	TSubclassOf<class UBuffBase> maintain_buff_class_;
+	TSubclassOf<class UBuffHandler> maintain_buff_class_;
 
 	UPROPERTY(Transient);
-	TObjectPtr<class UBuffBase> maintain_buff_;
+	TObjectPtr<class UBuffHandler> maintain_buff_;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> maintain_anim_montage_;

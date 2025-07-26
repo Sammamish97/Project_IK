@@ -13,14 +13,14 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Structs/FormattedText.h"
 #include "UObject/Object.h"
-#include "BuffBase.generated.h"
+#include "BuffHandler.generated.h"
 
 class UDisplayDataAsset;
 class AUnit;
 enum class EBuffType : uint8;
 
 UCLASS(Blueprintable)
-class PROJECT_IK_API UBuffBase : public UObject
+class PROJECT_IK_API UBuffHandler : public UObject
 {
 	GENERATED_BODY()
 public:
@@ -28,7 +28,6 @@ public:
 	virtual void RemoveBuff(AUnit* target);
 	
 protected:
-	
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Buffs", meta = (AllowPrivateAccess = "true"))
 	EBuffType buff_type_;
 	
@@ -36,5 +35,5 @@ protected:
 	TObjectPtr<UDisplayDataAsset> display_data_;
 
 	UPROPERTY(Transient)
-	TObjectPtr<AUnit> target_cache_;
+	TWeakObjectPtr<AUnit> target_cache_;
 };

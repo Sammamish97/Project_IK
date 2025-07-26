@@ -9,13 +9,13 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 
-#include "Abilities/Buffs/BuffBase.h"
-void UBuffBase::ApplyBuff(AUnit* target)
+#include "Abilities/Buffs/BuffHandler.h"
+void UBuffHandler::ApplyBuff(AUnit* target)
 {
 	target_cache_ = target;
 }
 
-void UBuffBase::RemoveBuff(AUnit* target)
+void UBuffHandler::RemoveBuff(AUnit* target)
 {
 	target_cache_ = nullptr;
 }
