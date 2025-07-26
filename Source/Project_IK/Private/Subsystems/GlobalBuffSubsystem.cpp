@@ -71,19 +71,13 @@ bool UGlobalBuffSubsystem::RemoveBuff(EGlobalBuffType buff_type)
 	if (existing_index)
 	{
 		int32 index_to_remove = *existing_index;
+		buff_logic_containers_[buff_type]->OnBuffExpired();
 		buff_logic_containers_.Remove(buff_type);
 		buffs_.RemoveAt(index_to_remove);
 		buff_lookup_.Remove(buff_type);
 
 		// Manually shrink them because they are custom indices.
 		for (auto& pair : buff_lookup_)
-		{
-			if (pair.Value > index_to_remove)
-			{
-				pair.Value -= 1;
-			}
-		}
-		for (auto& pair : newly_added_buff_lookup_)
 		{
 			if (pair.Value > index_to_remove)
 			{
@@ -98,18 +92,12 @@ bool UGlobalBuffSubsystem::RemoveBuff(EGlobalBuffType buff_type)
 		if (existing_index)
 		{
 			int32 index_to_remove = *existing_index;
+			buff_logic_containers_[buff_type]->OnBuffExpired();
 			buff_logic_containers_.Remove(buff_type);
 			buffs_.RemoveAt(index_to_remove);
 			newly_added_buff_lookup_.Remove(buff_type);
 
 			// Manually shrink them because they are custom indices.
-			for (auto& pair : buff_lookup_)
-			{
-				if (pair.Value > index_to_remove)
-				{
-					pair.Value -= 1;
-				}
-			}
 			for (auto& pair : newly_added_buff_lookup_)
 			{
 				if (pair.Value > index_to_remove)
@@ -154,15 +142,18 @@ void UGlobalBuffSubsystem::ClearBuffs()
 {
 	for (const auto& [buff_type, index] : buff_lookup_)
 	{
+		buff_logic_containers_[buff_type]->OnBuffExpired();
 		buff_logic_containers_.Remove(buff_type);
 	}
 	for (const auto& [buff_type, index] : newly_added_buff_lookup_)
 	{
+		buff_logic_containers_[buff_type]->OnBuffExpired();
 		buff_logic_containers_.Remove(buff_type);
 	}
 
 	buff_lookup_.Empty();
 	buffs_.Empty();
+	newly_added_buff_lookup_.Empty();
 }
 
 void UGlobalBuffSubsystem::UpdateBuffDurations()
@@ -180,15 +171,10 @@ void UGlobalBuffSubsystem::UpdateBuffDurations()
 	{
 		if (buffs_[i].duration_ <= 0)
 		{
-			buff_lookup_.Remove(buffs_[i].buff_type_);
-
-			buffs_.RemoveAtSwap(i, 1, false);
-
-			// If removed item is not the last element,
-			if (i < buffs_.Num() - 1)
+			bool remove_result = RemoveBuff(buffs_[i].buff_type_);
+			if (!remove_result)
 			{
-				// Update buff_lookup_
-				buff_lookup_[buffs_[i].buff_type_] = i;
+				checkNoEntry();
 			}
 		}
 	}
@@ -220,6 +206,8 @@ void UGlobalBuffSubsystem::AddEverlastingBuff(EGlobalBuffType buff_type)
 void UGlobalBuffSubsystem::RemoveEverlastingBuff(EGlobalBuffType buff_type)
 {
 	everlasting_buff_.Remove(buff_type);
+
+	buff_logic_containers_[buff_type]->OnBuffExpired();
 	buff_logic_containers_.Remove(buff_type);
 }
 

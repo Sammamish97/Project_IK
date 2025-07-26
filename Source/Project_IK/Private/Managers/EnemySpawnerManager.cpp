@@ -74,9 +74,12 @@ void UEnemySpawnerManager::RemoveEnemy(AEnemyBase* enemy_defeated)
 	}
 }
 
-//치트 코드 용 함수.
 void UEnemySpawnerManager::RemoveAllEnemy()
 {
+	for (AActor* actor : enemies_)
+	{
+		actor->Destroy();
+	}
 	enemies_.Empty();
 	enemy_waves_ = 0;
 }

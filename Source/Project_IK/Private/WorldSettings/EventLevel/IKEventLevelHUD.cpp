@@ -30,10 +30,11 @@ void AIKEventLevelHUD::BeginPlay()
 				FEventData cur_event_data = event_manager->GetRandomEventData();
 				event_widget_->InitEventWidget(cur_event_data);
 				event_widget_->AddToViewport();
+				// BindEventResult must be bound before binding AfterPickOption
+				event_manager->BindEventResult(cur_event_data, event_widget_);
 				event_widget_->button_1_->OnClicked.AddDynamic(this, &AIKEventLevelHUD::AfterPickOption);
 				event_widget_->button_2_->OnClicked.AddDynamic(this, &AIKEventLevelHUD::AfterPickOption);
 				event_widget_->button_3_->OnClicked.AddDynamic(this, &AIKEventLevelHUD::AfterPickOption);
-				event_manager->BindEventResult(cur_event_data, event_widget_);
 			}
 		}
 	}

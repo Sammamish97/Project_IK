@@ -13,12 +13,15 @@ See LICENSE file in the project root for full license information.
 #include "Managers/InventoryManager.h"
 #include "Subsystems/GlobalBuffSubsystem.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
+#include "Subsystems/PerkModifierSubsystem.h"
 
 #include "Components/Button.h"
 #include "Managers/EnumCluster.h"
 #include "Structs/EventData.h"
 #include "UI/EventWidget.h"
 #include "WorldSettings/IKGameInstance.h"
+
+#include "Subsystems/GlobalBuffSubsystem.h"
 
 void UEventManager::InitEventManager(TObjectPtr<UIKGameInstance> instance,
 	TObjectPtr<UInventoryManager> inventory_manager)
@@ -35,13 +38,13 @@ FEventData UEventManager::GetRandomEventData()
 		switch (rand_idx)
 		{
 			case 0:
-				return *event_table_->FindRow<FEventData>(FName("EventType_1"), TEXT(""));
+				return *event_table_->FindRow<FEventData>(FName("AirStrike"), TEXT(""));
 			
 			case 1:
-				return *event_table_->FindRow<FEventData>(FName("EventType_2"), TEXT(""));
+				return *event_table_->FindRow<FEventData>(FName("Ambush"), TEXT(""));
 			
 			case 2:
-				return *event_table_->FindRow<FEventData>(FName("EventType_3"), TEXT(""));
+				return *event_table_->FindRow<FEventData>(FName("Trap"), TEXT(""));
 			
 			case 3:
 				return *event_table_->FindRow<FEventData>(FName("EventType_4"), TEXT(""));
@@ -54,22 +57,22 @@ void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> wi
 {
 	switch (data.event_type_)
 	{
-	case EEventType::EventType_1:
-		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_1_FirstOptionResult);
-		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_1_SecondOptionResult);
-		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_1_ThirdOptionResult);
+	case EEventType::AirStrike:
+		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_AirStrike_FirstOptionResult);
+		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_AirStrike_SecondOptionResult);
+		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_AirStrike_ThirdOptionResult);
 		break;
 
-	case EEventType::EventType_2:
-		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_2_FirstOptionResult);
-		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_2_SecondOptionResult);
-		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_2_ThirdOptionResult);
+	case EEventType::Ambush:
+		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_Ambush_FirstOptionResult);
+		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_Ambush_SecondOptionResult);
+		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_Ambush_ThirdOptionResult);
 		break;
 
-	case EEventType::EventType_3:
-		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_3_FirstOptionResult);
-		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_3_SecondOptionResult);
-		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_3_ThirdOptionResult);
+	case EEventType::Trap:
+		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_Trap_FirstOptionResult);
+		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_Trap_SecondOptionResult);
+		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_Trap_ThirdOptionResult);
 		break;
 
 	case EEventType::EventType_4:
@@ -83,52 +86,103 @@ void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> wi
 	}
 }
 
-//Event 1: 재화
-void UEventManager::Event_1_FirstOptionResult()
+void UEventManager::Event_AirStrike_FirstOptionResult()
 {
-	inventory_manager_->AddCredits(10);
+	// Discard a weapon randomly.
+	ULevelTransitionSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
+	auto spawn_data = subsystem->GetSpawnData();
+	TArray<TOptional<FWeaponData>*> weapon_data_ref;
+	for (auto& [Key,Value] : spawn_data)
+	{
+		if (Value.weapon_data_.IsSet())
+		{
+			weapon_data_ref.Add(&Value.weapon_data_);
+		}
+	}
+
+	if (!weapon_data_ref.IsEmpty())
+	{
+		int32 index = FMath::RandRange(0, weapon_data_ref.Num() - 1);
+		weapon_data_ref[index]->Reset();
+	}
 }
 
-void UEventManager::Event_1_SecondOptionResult()
+void UEventManager::Event_AirStrike_SecondOptionResult()
 {
-	inventory_manager_->AddCredits(-10);
+	UGlobalBuffSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+	subsystem->AddBuff(EGlobalBuffType::AirStrike_HPDebuff);
 }
 
-void UEventManager::Event_1_ThirdOptionResult()
+void UEventManager::Event_AirStrike_ThirdOptionResult()
 {
-	inventory_manager_->AddCredits(inventory_manager_->GetCredits());
+	UGlobalBuffSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+	subsystem->AddBuff(EGlobalBuffType::AirStrike_ArmorDebuff);
 }
 
 //Event 2: 장비
-void UEventManager::Event_2_FirstOptionResult()
+void UEventManager::Event_Ambush_FirstOptionResult()
 {
-	//inventory_manager_->AddEquipment(EWeaponType::AssaultRifle_B);
+	// Discard a active skill randomly.
+	ULevelTransitionSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
+	auto spawn_data = subsystem->GetSpawnData();
+	TArray<TOptional<FActiveSkillData>*> active_data_ref;
+	for (auto& [Key, Value] : spawn_data)
+	{
+		if (Value.active_skill_data_.IsSet())
+		{
+			active_data_ref.Add(&Value.active_skill_data_);
+		}
+	}
+
+	if (!active_data_ref.IsEmpty())
+	{
+		int32 index = FMath::RandRange(0, active_data_ref.Num() - 1);
+		active_data_ref[index]->Reset();
+	}
 }
 
-void UEventManager::Event_2_SecondOptionResult()
+void UEventManager::Event_Ambush_SecondOptionResult()
 {
-	//inventory_manager_->AddEquipment(EActiveSkillType::Thunder);
+	UGlobalBuffSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+	subsystem->AddBuff(EGlobalBuffType::Ambush_AttackSpeedDebuff);
 }
 
-void UEventManager::Event_2_ThirdOptionResult()
+void UEventManager::Event_Ambush_ThirdOptionResult()
 {
-	//inventory_manager_->AddEquipment(EActiveSkillType::Thunder);
+	UGlobalBuffSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+	subsystem->AddBuff(EGlobalBuffType::Ambush_AttackPowerDebuff);
 }
 
 //Event 3: 룬
-void UEventManager::Event_3_FirstOptionResult()
+void UEventManager::Event_Trap_FirstOptionResult()
 {
-	//inventory_manager_->AddRune(ERuneSetType::Chariot, 0);
+	inventory_manager_->SetCredits(
+		FMath::Max(inventory_manager_->GetCredits() - 200, 0)
+	);
 }
 
-void UEventManager::Event_3_SecondOptionResult()
+void UEventManager::Event_Trap_SecondOptionResult()
 {
-	//inventory_manager_->AddRune(ERuneSetType::Chariot, 1);
+
+	UPerkModifierSubsystem* perk_modifier = GetWorld()->GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>();
+	perk_modifier->SetCombatEndEquipmentRewardNumCandidates(
+		FMath::Max(perk_modifier->GetCombatEndEquipmentRewardNumCandidates() - 2, 0)
+	);
+
+	UGlobalBuffSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+	subsystem->AddBuff(EGlobalBuffType::Trap_RewardCandidateDebuff);
 }
 
-void UEventManager::Event_3_ThirdOptionResult()
+void UEventManager::Event_Trap_ThirdOptionResult()
 {
-	//inventory_manager_->AddRune(ERuneSetType::Chariot, 2);
+
+	UPerkModifierSubsystem* perk_modifier = GetWorld()->GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>();
+	perk_modifier->SetCombatEndEquipmentRewardMaxChoice(
+		FMath::Max(perk_modifier->GetCombatEndEquipmentRewardMaxChoice() - 1, 0)
+	);
+
+	UGlobalBuffSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
+	subsystem->AddBuff(EGlobalBuffType::Trap_RewardChoiceDebuff);
 }
 
 //Event 4: 글로벌 버프

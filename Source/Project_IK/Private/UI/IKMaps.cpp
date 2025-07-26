@@ -108,6 +108,11 @@ const FMapNode& UIKMaps::GetNode(int32 row, int32 col) const
 	return map[row][col];
 }
 
+const FMapNode& UIKMaps::GetNode(FIntPoint int_point) const
+{
+	return map[int_point.X][int_point.Y];
+}
+
 void UIKMaps::SetPlayerGridPosition(FIntPoint position)
 {
 	player_visited_path_.Add(position);
