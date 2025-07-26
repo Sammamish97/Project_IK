@@ -22,7 +22,7 @@ void UGB_EventAmbushAttackSpeedDebuff::ApplyBuff(UObject* buff_target)
 {
 	if (AHeroBase* hero = Cast<AHeroBase>(buff_target))
 	{
-		hero->ApplyBuff(EBuffType::AmbushAttackSpeedDebuff, FBuffStatusData(ECharacterStatType::AttackSpeed, -0.15f, true, true));
+		//hero->ApplyBuff(EBuffType::AmbushAttackSpeedDebuff, FBuffStatusData(ECharacterStatType::AttackSpeed, -0.15f, true, true));
 
 		// @@ TODO: Add buffUI after 
 		// hero->AddBuffUI(FBuffUIData(FText::FromString("Ambush AttackSpeed Debuff"), EBuffType::AmbushAttackSpeedDebuff, nullptr, 0.f, true, FText::FromString("Ambushed! AttackSpeed decreased by 15%.")));

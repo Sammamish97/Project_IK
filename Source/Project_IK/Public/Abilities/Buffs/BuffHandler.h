@@ -28,12 +28,12 @@ public:
 	virtual void RemoveBuff(AUnit* target);
 	
 protected:
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Buffs", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Buffs")
 	EBuffType buff_type_;
 	
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Buffs", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Buffs")
 	TObjectPtr<UDisplayDataAsset> display_data_;
 
 	UPROPERTY(Transient)
-	TWeakObjectPtr<AUnit> target_cache_;
+	TObjectPtr<AUnit> target_cache_;
 };

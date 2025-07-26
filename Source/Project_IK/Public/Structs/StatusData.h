@@ -9,7 +9,9 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #pragma once
 #include "CoreMinimal.h"
+#include "Managers/EnumCluster.h"
 #include "StatusData.generated.h"
+
 USTRUCT(BlueprintType)
 struct PROJECT_IK_API FStatusData
 {
