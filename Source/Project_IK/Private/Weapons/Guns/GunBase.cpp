@@ -54,6 +54,11 @@ AGunBase::AGunBase()
 void AGunBase::BeginPlay()
 {
 	Super::BeginPlay();
+	InstantReload();
+}
+
+void AGunBase::InstantReload()
+{
 	cur_magazine_ = weapon_status_data_.max_magazine;
 }
 
@@ -63,10 +68,11 @@ void AGunBase::Reload()
 	{
 		if (AUnit* gun_owner = weak_gun_owner_.Get())
 		{
+			float reload_duration = weapon_status_data_.reload_duration * (1 - gun_owner->GetCharacterStat()->GetReloadSpeedBonus());
 			gun_owner->DispatchUnitEvent(EUnitEvent::OnReload);
-			float reload_play_rate = reload_montage_->GetPlayLength() / weapon_status_data_.reload_duration;
+			float reload_play_rate = reload_montage_->GetPlayLength() / reload_duration;
 			gun_owner->PlayAnimMontage(reload_montage_, reload_play_rate);
-			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &AGunBase::OnReload, weapon_status_data_.reload_duration);
+			GetWorld()->GetTimerManager().SetTimer(reload_timer_handle_, this, &AGunBase::OnReload, reload_duration);
 		}
 	}
 }
@@ -95,7 +101,7 @@ void AGunBase::OnReload()
 			UE_LOG(LogTemp, Warning, TEXT("Hero ReloadFinished"));
 		}
 		is_first_bullet_on_magazine_ = true;
-		cur_magazine_ = weapon_status_data_.max_magazine;
+		InstantReload();
 		FAIMessage Msg(TEXT("ReloadFinished"), this, reload_request_id_, FAIMessage::Success);
 		FAIMessage::Send(gun_owner, Msg);
 	}

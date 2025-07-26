@@ -23,8 +23,12 @@ struct PROJECT_IK_API FStatusData
 	float critical_hit_rate_ = 0.f;
 	UPROPERTY(EditAnywhere, Category = "AttackData")
 	float accuracy_ = 0.f;
+	
 	UPROPERTY(EditAnywhere, Category = "AttackData")
 	float magazine_bonus_ = 0.f;
+	UPROPERTY(EditAnywhere, Category = "AttackData")
+	float reload_speed_bonus_ = 0.f;
+	
 	UPROPERTY(EditAnywhere, Category = "AttackData")
 	float life_steal_ = 0.f;
 

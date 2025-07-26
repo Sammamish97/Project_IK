@@ -39,11 +39,9 @@ void UPS_LowProfile::ApplyBuff()
 {
 	if (is_buff_applied_ == false)
 	{
-		AActor* actor = hero_cache_.Get();
-		if (actor)
+		if (AActor* actor = hero_cache_.Get())
 		{
-			AHeroBase* hero = Cast<AHeroBase>(actor);
-			if (hero)
+			if (AHeroBase* hero = Cast<AHeroBase>(actor))
 			{
 				hero->ApplyBuff(EBuffType::LowProfile, buff_status_data_);
 				hero->AddBuffUI(FBuffUIData(skill_data_.item_data_, EBuffType::LowProfile, buff_status_data_.duration_, true));
@@ -59,11 +57,9 @@ void UPS_LowProfile::RemoveBuff()
 {
 	if (is_buff_applied_)
 	{
-		AActor* actor = hero_cache_.Get();
-		if (actor)
+		if (AActor* actor = hero_cache_.Get())
 		{
-			AHeroBase* unit = Cast<AHeroBase>(actor);
-			if (unit)
+			if (AHeroBase* unit = Cast<AHeroBase>(actor))
 			{
 				unit->RemoveBuff(EBuffType::LowProfile);
 				unit->RemoveBuffUI(EBuffType::LowProfile);
