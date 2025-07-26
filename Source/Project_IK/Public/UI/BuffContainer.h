@@ -11,10 +11,10 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Structs/BuffUIData.h"
 #include "Managers/EnumCluster.h"
 #include "BuffContainer.generated.h"
 
+class USizeBox;
 class UBuffPopupWidget;
 class UBuffWidget;
 class UHorizontalBox;
@@ -25,13 +25,12 @@ class PROJECT_IK_API UBuffContainer : public UUserWidget
 	GENERATED_BODY()
 public:
 	void InitBuffContainer(UBuffPopupWidget* popup_widget);
-	void NativeConstruct() override;
 
 	UFUNCTION()
-	void EnqueueBuff(const FBuffUIData& buff_data);
+	void EnqueueBuff(EBuffType buff_type, UDisplayDataAsset* buff_data, bool is_permanent, float duration);
 	UFUNCTION()
 	void UpdateQueue(EBuffType buff_type);
-	void ClearBuffQueue();
+	void UpdateWidgetSize(float new_height);
 	
 private:
 	UPROPERTY()
@@ -39,6 +38,9 @@ private:
 	
 	UPROPERTY()
 	TObjectPtr<UBuffPopupWidget> buff_popup_cache_;
+	
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<USizeBox> size_box_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHorizontalBox> buff_container_;
@@ -59,4 +61,7 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UBuffWidget> buff_widget_4_;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess));
+	float height_;
 };

@@ -41,21 +41,6 @@ void ULevelTransitionSubsystem::UpdateSpawnDataIdx(EHeroType type, FSpawnData da
 	spawn_data_[type] = data;
 }
 
-void ULevelTransitionSubsystem::UpdateSupportSkillDataIdx(int32 idx, FSupportSkillData data)
-{
-	if(support_skill_data_.Contains(idx))
-	{
-		support_skill_data_.Remove(idx);
-	}
-	support_skill_data_[idx] = data;
-}
-
-void ULevelTransitionSubsystem::UpdateSupportSkillData(const TMap<int32, FSupportSkillData>& data)
-{
-	support_skill_data_.Empty();
-	support_skill_data_ = data;
-}
-
 void ULevelTransitionSubsystem::OpenMapLevel(UWorld* world)
 {
 	GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->UpdateBuffDurations();
@@ -99,17 +84,7 @@ FSpawnData ULevelTransitionSubsystem::GetSpawnData(EHeroType type) const
 	return spawn_data_[type];
 }
 
-const TMap<int32, FSupportSkillData>& ULevelTransitionSubsystem::GetSupportSkillData() const
-{
-	return support_skill_data_;
-}
-
 void ULevelTransitionSubsystem::ClearSpawnData()
 {
-	support_skill_data_.Empty();
-	support_skill_data_.Add(0, FSupportSkillData());
-	support_skill_data_.Add(1, FSupportSkillData());
-	support_skill_data_.Add(2, FSupportSkillData());
-
 	spawn_data_.Empty();
 }

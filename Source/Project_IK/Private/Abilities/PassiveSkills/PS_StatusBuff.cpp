@@ -24,6 +24,6 @@ void UPS_StatusBuff::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData&
 	Super::InitPassiveSkill(hero_ref, skill_data);
 	auto casted_hero = Cast<AHeroBase>(hero_ref);
 
-	casted_hero->ApplyBuff(buff_type_, buff_status_data_);
-	casted_hero->AddBuffUI({skill_data_.item_data_, buff_type_, buff_status_data_.duration_, buff_status_data_.is_permanent_ });
+	casted_hero->ApplyStatusBuff(buff_type_, buff_status_data_);
+	//casted_hero->AddBuffUI({skill_data_.item_data_, buff_type_, buff_status_data_.duration_, buff_status_data_.is_permanent_ });
 }

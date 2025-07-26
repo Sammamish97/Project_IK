@@ -54,9 +54,7 @@ void UActiveSkillMechanics::ActivateSkill(const FTargetResult& target_result)
 		{
 			if (auto casted_hero = Cast<AHeroBase>(hero_cache_))
 			{
-				casted_hero->InterruptUnitBehavior(EUnitState::OnActiveSkill);
-				
-				UE_LOG(LogTemp, Warning, TEXT("Finish Fire!"));
+				casted_hero->SetUnitStateWithInterrupt(EUnitState::OnActiveSkill);
 				casted_hero->GetWeaponMechanics()->FinishFire();
 
 				active_skill_->OnEnterCasting();
@@ -81,7 +79,6 @@ void UActiveSkillMechanics::StopActiveSkill()
 {
 	GetWorld()->GetTimerManager().ClearTimer(casting_time_handle_);
 	GetWorld()->GetTimerManager().ClearTimer(ai_hold_time_handle_);
-	//active_skill_->OnSkillCanceled();
 }
 
 FTargetParameters UActiveSkillMechanics::GetTargetParameters() const
@@ -125,9 +122,8 @@ void UActiveSkillMechanics::OnFinishAIHolding()
 	if (auto casted_hero = Cast<AHeroBase>(hero_cache_))
 	{
 		casted_hero->ResetUnitState();
+		casted_hero->FinishAction();
 	}
-	FAIMessage Msg(TEXT("CastingFinished"), this, active_skill_request_id_, FAIMessage::Success);
-	FAIMessage::Send(Cast<APawn>(GetOwner()), Msg);
 }
 
 const FActiveSkillData& UActiveSkillMechanics::GetEquippedActiveSkillData()
@@ -158,9 +154,4 @@ void UActiveSkillMechanics::UnEquipActiveSkill()
 {
 	equipped_active_skill_data_ = FActiveSkillData();
 	active_skill_ = nullptr;
-}
-
-FAIRequestID UActiveSkillMechanics::GetCastingRequestID() const
-{
-	return active_skill_request_id_;
 }

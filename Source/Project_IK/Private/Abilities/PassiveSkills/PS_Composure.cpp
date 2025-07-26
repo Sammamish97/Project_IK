@@ -47,8 +47,8 @@ void UPS_Composure::OnHPChanged(float hp_ratio)
 void UPS_Composure::ApplyBuff(float buff_amount)
 {
 	auto buff_status = FBuffStatusData(ECharacterStatType::EvasionRate, buff_amount, false, true);
-	Cast<AHeroBase>(hero_cache_)->ApplyBuff(EBuffType::Composure, buff_status);
-	Cast<AHeroBase>(hero_cache_)->AddBuffUI({skill_data_.item_data_, EBuffType::Composure, 0.f, true});
+	Cast<AHeroBase>(hero_cache_)->ApplyStatusBuff(EBuffType::Composure, buff_status);
+	//Cast<AHeroBase>(hero_cache_)->AddBuffUI({skill_data_.item_data_, EBuffType::Composure, 0.f, true});
 }
 
 void UPS_Composure::RemoveBuff()

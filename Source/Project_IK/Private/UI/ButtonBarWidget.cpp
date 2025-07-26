@@ -9,7 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "UI/ButtonBarWidget.h"
 #include "UI/SupportSkillButtonWidget.h"
-#include "UI/UnitWidget.h"
+#include "UI/HeroWidget.h"
 #include "UI/SkillPopupWidget.h"
 #include "UI/BuffPopupWidget.h"
 

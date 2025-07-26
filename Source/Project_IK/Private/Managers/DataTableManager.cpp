@@ -23,7 +23,6 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/UnitTypeDataAsset.h"
 #include "DataAssets/WeaponAnimDataAsset.h"
 #include "DataAssets/PerkTreeDataAsset.h"
-#include "Structs/SupportSkillData.h"
 #include "Structs/WrapperEquipmentData.h"
 
 
@@ -136,7 +135,7 @@ TArray<FRuneData> UDataTableManager::GetUniqueRuneDataRandomly(int32 n, ERarity 
 
 UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type) const
 {
-	return GetRuneSetData(type).item_data_.thumbnail;
+	return GetRuneSetData(type).item_data_.display_data_->thumbnail;
 }
 
 FText UDataTableManager::GetRuneSetBonusDetail(ERuneSetType set_type, ERuneBonusType bonus_type) const
@@ -172,42 +171,6 @@ FActiveSkillData UDataTableManager::GetActiveSkillDataRandomly(ERarity weight_ra
 TArray<FActiveSkillData> UDataTableManager::GetUniqueActiveSkillDataRandomly(int32 n, ERarity weight_rarity) const
 {
 	return active_skill_data_asset_->GetUniqueActiveSkillDataRandomly(n, weight_rarity);
-}
-
-FSupportSkillData UDataTableManager::GetSupportSkillData(ESupportSkillType type) const
-{
-	return support_skill_data_asset_->GetSupportSkillData(type);
-}
-
-FString UDataTableManager::SupportSkillEnumToString(ESupportSkillType support_skill_type) const
-{
-	FString string;
-	switch (support_skill_type)
-	{
-	case ESupportSkillType::Reposition:
-		string = TEXT("Reposition");
-		break;
-	case ESupportSkillType::InstantRepair:
-		string = TEXT("InstantRepair");
-		break;
-	case ESupportSkillType::SupportFire:
-		string = TEXT("SupportFire");
-		break;
-	default:
-		string = TEXT("Empty");
-		break;
-	}
-	return string;
-}
-
-FSupportSkillData UDataTableManager::GetSupportSkillDataRandomly(ERarity weight_rarity) const
-{
-	return support_skill_data_asset_->GetSupportSkillDataRandomly(weight_rarity);
-}
-
-TArray<FSupportSkillData> UDataTableManager::GetUniqueSupportSkillDataRandomly(int32 n, ERarity weight_rarity) const
-{
-	return support_skill_data_asset_->GetUniqueSupportSkillDataRandomly(n, weight_rarity);
 }
 
 const FCharacterData& UDataTableManager::GetCharacterData(ECharacterType char_type) const
@@ -336,10 +299,6 @@ TSubclassOf<AUnit> UDataTableManager::GetUnitType(ECharacterType type)
 	return unit_type_asset_->GetUnitClass(type);
 }
 
-FSupportSkillData UDataTableManager::GetSupportSkillType(ESupportSkillType type)
-{
-	return support_skill_type_asset_->GetSupportSkillData(type);
-}
 const TArray<FPerkNode>& UDataTableManager::GetTree() const
 {
 	return perk_tree_data_asset_->GetTree();

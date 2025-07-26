@@ -10,10 +10,12 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/EnemyBase.h"
 
-#include "Components/CapsuleComponent.h"
+#include "Components/CharacterStatComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "UI/HPUICore.h"
+#include "Subsystems/DelegateBridgeSubsystem.h"
+#include "UI/BuffContainer.h"
+#include "UI/EnemyHPUI.h"
 #include "WorldSettings/IKGameModeBase.h"
 
 AEnemyBase::AEnemyBase()
@@ -26,10 +28,15 @@ AEnemyBase::AEnemyBase()
 void AEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
-	UHPUICore* widget = Cast<UHPUICore>(hp_UI_->GetWidget());
-	if (widget)
+	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
+
+	if (UEnemyHPUI* hp_widget = Cast<UEnemyHPUI>(hp_widget_component_->GetWidget()))
 	{
-		widget->SetHPBarColor(FColor::Red);
+		OnApplyBuff.AddDynamic(hp_widget->GetBuffContainer(), &UBuffContainer::EnqueueBuff);
+		OnBuffExpired.AddDynamic(hp_widget->GetBuffContainer(), &UBuffContainer::UpdateQueue);
+
+		hp_widget->GetHPUICore()->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
+		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_widget->GetHPUICore().Get(), &UHPUICore::UpdateWidget);
 	}
 }
 

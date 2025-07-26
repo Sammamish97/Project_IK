@@ -71,7 +71,7 @@ FActiveSkillData UActiveSkillSlotWidget::GetStoredActiveSkillData()
 void UActiveSkillSlotWidget::SetImageTexture()
 {
 	Super::SetImageTexture();
-	image_->SetBrushFromTexture(active_skill_data_cache_.item_data_.thumbnail);
+	image_->SetBrushFromTexture(active_skill_data_cache_.item_data_.display_data_->thumbnail);
 }
 
 void UActiveSkillSlotWidget::ClearData()

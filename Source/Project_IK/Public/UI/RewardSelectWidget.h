@@ -29,7 +29,6 @@ public:
 	void SetRewardData(const FPassiveSkillData& data);
 	void SetRewardData(const FRuneData& data);
 	void SetRewardData(const FWeaponData& data);
-	void SetRewardData(const FSupportSkillData& data);
 
 	void SetEquipmentWidgetCache(UEquipmentRewardWidget* equipment_widget_ptr);
 	const FRewardData& GetRewardData();

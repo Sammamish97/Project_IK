@@ -31,7 +31,7 @@ public:
 	void FinishFire();
 
 	void InstantReload();
-	void Reload(float duration_multiplier = 1.0f);
+	void Reload();
 	void StopReload();
 	
 	bool IsMagazineEmpty() const;
@@ -43,8 +43,6 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	AGunBase* GetWeaponActor();
-
-	FAIRequestID GetReloadRequestId() const;
 
 private:
 	UPROPERTY(Transient)

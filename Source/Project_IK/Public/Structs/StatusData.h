@@ -60,6 +60,8 @@ struct PROJECT_IK_API FStatusData
 			return accuracy_;
 		case ECharacterStatType::MagazineBonus:
 			return magazine_bonus_;
+		case ECharacterStatType::ReloadSpeedBonus:
+			return reload_speed_bonus_;
 		case ECharacterStatType::LifeSteal:
 			return life_steal_;
 			

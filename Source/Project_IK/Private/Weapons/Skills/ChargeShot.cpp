@@ -14,7 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "Components/BoxComponent.h"
 #include "Components/DecalComponent.h"
-#include "Environments/Cover.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Interfaces/Damageable.h"
 

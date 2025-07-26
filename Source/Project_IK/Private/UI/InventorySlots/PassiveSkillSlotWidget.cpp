@@ -54,7 +54,7 @@ bool UPassiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FD
 		}
 		else
 		{
-			if (inventory_widget_cache_->CheckDuplicatedPassiveSkill(hero_type_, passive_skill_data_cache_.type_) == false)
+			if (inventory_widget_cache_->CheckDuplicatedPassiveSkill(hero_type_, casted_slot->GetStoredPassiveSkillData().type_) == false)
 			{
 				if (is_empty_ == false)
 				{
@@ -77,7 +77,7 @@ const FPassiveSkillData& UPassiveSkillSlotWidget::GetStoredPassiveSkillData()
 void UPassiveSkillSlotWidget::SetImageTexture()
 {
 	Super::SetImageTexture();
-	image_->SetBrushFromTexture(passive_skill_data_cache_.item_data_.thumbnail);
+	image_->SetBrushFromTexture(passive_skill_data_cache_.item_data_.display_data_->thumbnail);
 }
 
 void UPassiveSkillSlotWidget::ClearData()

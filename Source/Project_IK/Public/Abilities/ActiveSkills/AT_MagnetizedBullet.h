@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "AT_MagnetizedBullet.generated.h"
 
+class UBuffHandler;
 class UBulletMagnetizeEffectComponent;
 class UNiagaraSystem;
 
@@ -23,13 +24,12 @@ class PROJECT_IK_API UAT_MagnetizedBullet : public UActiveSkillBase
 
 public:
 	UAT_MagnetizedBullet();
+	virtual void InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data) override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
-	void OnFinishSkill();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<UBulletMagnetizeEffectComponent> magnetized_on_hit_class_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UBuffHandler> buff_class_;
 
-protected:
-	float duration_ = 0.f;
-	FTimerHandle duration_timer_handle_;
+	UPROPERTY()
+	TObjectPtr<UBuffHandler> buff_;
 };

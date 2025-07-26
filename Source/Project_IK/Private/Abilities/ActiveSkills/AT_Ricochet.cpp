@@ -39,7 +39,7 @@ bool UAT_Ricochet::ActivateSkill(const FTargetResult& TargetResult)
 				weapon_actor->AddOnHitComponent(chain_on_hit_class_);
 			}
 		}
-		hero->AddBuffUI({skill_data_.item_data_, EBuffType::Ricochet, duration_, false});
+		//hero->AddBuffUI({skill_data_.item_data_, EBuffType::Ricochet, duration_, false});
 
 		FTimerDelegate timer_delegate = FTimerDelegate::CreateUObject(this, &UAT_Ricochet::OnFinishSkill);
 		GetWorld()->GetTimerManager().SetTimer(duration_timer_handle_, timer_delegate, duration_, false);

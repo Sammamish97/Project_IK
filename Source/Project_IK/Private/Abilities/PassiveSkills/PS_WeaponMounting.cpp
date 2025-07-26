@@ -16,8 +16,8 @@ void UPS_WeaponMounting::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillD
 {
 	Super::InitPassiveSkill(hero_ref, skill_data);
 
-	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::HideOnCover, this, &UPS_WeaponMounting::ApplyBuff);
-	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::LeaveCover, this, &UPS_WeaponMounting::RemoveBuff);
+	//hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::HideOnCover, this, &UPS_WeaponMounting::ApplyBuff);
+	//hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::LeaveCover, this, &UPS_WeaponMounting::RemoveBuff);
 	
 	buff_status_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, 0.15f, true, true);
 }
@@ -30,8 +30,8 @@ void UPS_WeaponMounting::ApplyBuff()
 		{
 			if (AHeroBase* hero = Cast<AHeroBase>(actor))
 			{
-				hero->ApplyBuff(EBuffType::WeaponMounting, buff_status_data_);
-				hero->AddBuffUI(FBuffUIData(skill_data_.item_data_, EBuffType::WeaponMounting, buff_status_data_.duration_, true));
+				hero->ApplyStatusBuff(EBuffType::WeaponMounting, buff_status_data_);
+				//hero->AddBuffUI(FBuffUIData(skill_data_.item_data_, EBuffType::WeaponMounting, buff_status_data_.duration_, true));
 
 				is_buff_applied_ = true;
 			}

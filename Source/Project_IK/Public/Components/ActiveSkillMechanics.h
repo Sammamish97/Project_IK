@@ -54,8 +54,6 @@ public:
 	void EquipActiveSkill(const FActiveSkillData& data);
 	void UnEquipActiveSkill();
 
-	FAIRequestID GetCastingRequestID() const;
-
 private:
 	UPROPERTY()
 	FActiveSkillData equipped_active_skill_data_;
@@ -74,7 +72,4 @@ private:
 	
 	FTimerHandle casting_time_handle_;
 	FTimerHandle ai_hold_time_handle_;
-	
-	UPROPERTY()
-	FAIRequestID active_skill_request_id_ = 1;
 };

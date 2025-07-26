@@ -15,9 +15,6 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/PassiveSkills/PassiveSkillBase.h"
 #include "PS_Regenerate.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API UPS_Regenerate : public UPassiveSkillBase
 {

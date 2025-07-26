@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
-#include "Structs/BuffUIData.h"
+#include "DataAssets/DisplayDataAsset.h"
 
 void UBuffPopupWidget::NativeConstruct()
 {
@@ -27,14 +27,13 @@ void UBuffPopupWidget::ResetWidget()
 	detail_->SetText(NSLOCTEXT("UI", "BuffPopupDetail", "detail"));
 }
 
-void UBuffPopupWidget::SetBuffDetail(FBuffUIData target_data)
+void UBuffPopupWidget::SetBuffDetail(UDisplayDataAsset* target_data)
 {
-	//IKTODO: 한번씩 INVALID가 들어온다. 이유를 알아야 한다.
-	if(target_data.buff_type_!=EBuffType::INVALID)
+	if (target_data)
 	{
 		SetVisibility(ESlateVisibility::Visible);
-		thumbnail_->SetBrushFromTexture(target_data.item_data_.thumbnail);
-		name_->SetText(target_data.item_data_.name_);
+		thumbnail_->SetBrushFromTexture(target_data->thumbnail);
+		name_->SetText(target_data->name_);
 		//IKTODO: Evaluate에 적절한 값을 넣어야 한다.
 		//detail_->SetText(target_data.item_data_.detail_.Evaluate());
 	}

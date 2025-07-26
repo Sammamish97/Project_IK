@@ -29,8 +29,8 @@ void UGB_UpgradeOmega::ApplyBuff(UObject* buff_target)
 	{
 
 		float max_hp = hero->GetCharacterStat()->GetMaxHitPoint();
-		hero->ApplyBuff(EBuffType::Upgrade_Gamma, FBuffStatusData(ECharacterStatType::AttackPower, max_hp * attack_power_scaler_, false, true));
-		hero->ApplyBuff(EBuffType::Upgrade_Gamma, FBuffStatusData(ECharacterStatType::SkillPower, max_hp * skill_power_scaler_, false, true));
+		hero->ApplyStatusBuff(EBuffType::Upgrade_Gamma, FBuffStatusData(ECharacterStatType::AttackPower, max_hp * attack_power_scaler_, false, true));
+		hero->ApplyStatusBuff(EBuffType::Upgrade_Gamma, FBuffStatusData(ECharacterStatType::SkillPower, max_hp * skill_power_scaler_, false, true));
 
 		// @@ TODO: Add buffUI after 
 		// hero->AddBuffUI(FBuffUIData(FText::FromString("Upgrade Omega"), EBuffType::Upgrade_Omega, nullptr, 0.f, true, FText::FromString("Omega upgraded. Gain extra attack power & skill power bonus by its max hit points.")));

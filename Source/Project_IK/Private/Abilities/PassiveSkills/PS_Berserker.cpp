@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
+#include "Abilities/Buffs/BuffHandler.h"
 #include "Components/CapsuleComponent.h"
 
 #include "Managers/DataTableManager.h"
@@ -30,9 +31,7 @@ void UPS_Berserker::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& 
 		hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnHPChanged(unit->GetCharacterStat(), this, &UPS_Berserker::BuffBerserker);
 		SpawnParticles(unit);
 	}
-
-	as_status_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, 2.f, true, true);
-	vamp_status_data_ = FBuffStatusData(ECharacterStatType::LifeSteal, 0.05f, false, true);
+	buff_ = NewObject<UBuffHandler>(this, buff_class_);
 }
 
 void UPS_Berserker::BuffBerserker(float hp_ratio)
@@ -42,7 +41,9 @@ void UPS_Berserker::BuffBerserker(float hp_ratio)
 	{
 		if (hp_ratio > hp_ratio_threshold_)
 		{
-			RemoveBuff();
+			buff_->RemoveBuff(Cast<AUnit>(hero_cache_));
+			DeactivateParticles();
+			is_buff_applied_ = false;
 		}
 	}
 	// If buff NOT applied & current hp is below the threshold -> APPLY
@@ -50,46 +51,9 @@ void UPS_Berserker::BuffBerserker(float hp_ratio)
 	{
 		if (hp_ratio < hp_ratio_threshold_)
 		{
-			ApplyBuff();
-		}
-	}
-}
-
-void UPS_Berserker::ApplyBuff()
-{
-	if (is_buff_applied_ == false)
-	{
-		AActor* actor = hero_cache_.Get();
-		if (actor)
-		{
-			AHeroBase* unit = Cast<AHeroBase>(actor);
-			if (unit)
-			{
-				unit->ApplyBuff(EBuffType::Berserker, as_status_data_);
-				unit->ApplyBuff(EBuffType::Berserker, vamp_status_data_);
-				unit->AddBuffUI(FBuffUIData(skill_data_.item_data_, EBuffType::Berserker, as_status_data_.duration_, true));
-				ActivateParticles();
-				is_buff_applied_ = true;
-			}
-		}
-	}
-}
-
-void UPS_Berserker::RemoveBuff()
-{
-	if (is_buff_applied_)
-	{
-		AActor* actor = hero_cache_.Get();
-		if (actor)
-		{
-			AHeroBase* unit = Cast<AHeroBase>(actor);
-			if (unit)
-			{
-				unit->RemoveBuff(EBuffType::Berserker);
-				unit->RemoveBuffUI(EBuffType::Berserker);
-				DeactivateParticles();
-				is_buff_applied_ = false;
-			}
+			buff_->ApplyBuff(Cast<AUnit>(hero_cache_));
+			ActivateParticles();
+			is_buff_applied_ = true;
 		}
 	}
 }

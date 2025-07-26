@@ -16,6 +16,8 @@ See LICENSE file in the project root for full license information.
 #include "PassiveSkillMechanics.generated.h"
 
 class UPassiveSkillBase;
+class AHeroBase;
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class PROJECT_IK_API UPassiveSkillMechanics : public UActorComponent
 {
@@ -26,20 +28,17 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	FPassiveSkillData GetEquippedPassiveSkillData();
-	void EquipPassiveSkill(const FPassiveSkillData& skill_data);
+	void EquipPassiveSkill(const FPassiveSkillData& skill_data, int32 idx);
 	void InitPassiveSkill();
-	void UnEquipPassiveSkill();
+	void UnEquipPassiveSkill(int32 idx);
 	
 private:
-	FPassiveSkillData equipped_passive_skill_data_;
+	UPROPERTY()
+	TArray<FPassiveSkillData> equipped_passive_skill_data_;
+
+	UPROPERTY()
+	TArray<TObjectPtr<UPassiveSkillBase>> passive_skills_;
 	
-	UPROPERTY(EditAnywhere)
-	TObjectPtr<UPassiveSkillBase> passive_skill_cache_;
-
 	UPROPERTY()
-	class UDataTableManager* data_table_cache_;
-
-	UPROPERTY()
-	class AHeroBase* hero_cache_;
+	TObjectPtr<AHeroBase> hero_cache_;
 };

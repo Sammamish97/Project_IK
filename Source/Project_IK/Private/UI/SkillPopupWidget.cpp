@@ -15,13 +15,11 @@ See LICENSE file in the project root for full license information.
 void USkillPopupWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	SetVisibility(ESlateVisibility::Hidden);
 }
 
-void USkillPopupWidget::UpdatePopupData(const FItemData& item_data)
+void USkillPopupWidget::UpdatePopupData(TObjectPtr<UDisplayDataAsset> display_asset)
 {
-	thumbnail_->SetBrushFromTexture(item_data.thumbnail);
-	skill_name_->SetText(item_data.name_);
-	//IKTODO: 이후 적절한 값을 Evaluate에 넣어야 한다.
-	//skill_detail_->SetText(item_data.detail_.Evaluate());
+	SetVisibility(ESlateVisibility::Visible);
+	thumbnail_->SetBrushFromTexture(display_asset->thumbnail);
+	skill_name_->SetText(display_asset->name_);
 }

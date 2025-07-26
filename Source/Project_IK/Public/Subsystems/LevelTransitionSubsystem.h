@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
-#include "Structs/SupportSkillData.h"
 #include "Structs/SpawnData.h"
 #include "LevelTransitionSubsystem.generated.h"
 
@@ -27,11 +26,6 @@ public:
 	void UpdateSpawnData(const TMap<EHeroType, FSpawnData>& data);
 	UFUNCTION(BlueprintCallable)
 	void UpdateSpawnDataIdx(EHeroType type, FSpawnData data);
-
-	UFUNCTION(BlueprintCallable)
-	void UpdateSupportSkillDataIdx(int32 idx, FSupportSkillData data);
-	UFUNCTION(BlueprintCallable)
-	void UpdateSupportSkillData(const TMap<int32, FSupportSkillData>& data);
 	
 	UFUNCTION(BlueprintCallable)
 	void OpenMapLevel(UWorld* world);
@@ -43,16 +37,10 @@ public:
 	const TMap<EHeroType, FSpawnData>& GetSpawnData() const;
 
 	FSpawnData GetSpawnData(EHeroType type) const;
-
-	UFUNCTION(BlueprintCallable)
-	const TMap<int32, FSupportSkillData>& GetSupportSkillData() const;
-
+	
 	void ClearSpawnData();
 
 protected:
 	UPROPERTY()
 	TMap<EHeroType, FSpawnData> spawn_data_;
-	
-	UPROPERTY()
-	TMap<int32, FSupportSkillData> support_skill_data_;
 };

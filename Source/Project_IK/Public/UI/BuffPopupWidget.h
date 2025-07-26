@@ -11,9 +11,9 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Structs/BuffUIData.h"
 #include "BuffPopupWidget.generated.h"
 
+class UDisplayDataAsset;
 class UImage;
 class UTextBlock;
 
@@ -23,7 +23,7 @@ class PROJECT_IK_API UBuffPopupWidget : public UUserWidget
 	GENERATED_BODY()
 public:
 	virtual void NativeConstruct() override;
-	void SetBuffDetail(FBuffUIData target_data);
+	void SetBuffDetail(UDisplayDataAsset* target_data);
 	void ResetWidget();
 	
 private:

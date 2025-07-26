@@ -13,7 +13,6 @@ See LICENSE file in the project root for full license information.
 #include "ActiveSkillData.h"
 #include "PassiveSkillData.h"
 #include "RuneData.h"
-#include "SupportSkillData.h"
 #include "WeaponData.h"
 #include "UObject/Object.h"
 #include "RewardData.generated.h"
@@ -29,5 +28,4 @@ struct PROJECT_IK_API FRewardData
 	FActiveSkillData active_skill_data_;
 	FPassiveSkillData passive_skill_data_;
 	FRuneData rune_data_;
-	FSupportSkillData support_skill_data_;
 };
