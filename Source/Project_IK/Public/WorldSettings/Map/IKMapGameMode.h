@@ -20,4 +20,10 @@ UCLASS()
 class PROJECT_IK_API AIKMapGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
+
+protected:
+	virtual void BeginPlay() override;
+
+
+	void HealHeroesAfterCombat();
 };

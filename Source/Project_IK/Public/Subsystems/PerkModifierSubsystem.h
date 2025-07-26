@@ -53,6 +53,16 @@ public:
 	UFUNCTION(BlueprintPure)
 	float GetCombatEndCreditsBonusPercentage() const;
 
+	UFUNCTION(BlueprintCallable)
+	void SetInventorySupportSkillUnlockedSlots(int32 inventory_support_skill_unlocked_slots);
+	UFUNCTION(BlueprintPure)
+	int32 GetInventorySupportSkillUnlockedSlots() const;
+
+	UFUNCTION(BlueprintCallable)
+	void SetInventoryPassiveSkillUnlockedSlots(int32 inventory_passive_skill_unlocked_slots);
+	UFUNCTION(BlueprintPure)
+	int32 GetInventoryPassiveSkillUnlockedSlots() const;
+
 protected:
 	int32 num_max_pull_ = 0;
 	ERarity seed_weight_rarity_ = ERarity::Common;
@@ -62,4 +72,7 @@ protected:
 	int32 combat_end_equipment_reward_num_candidates_ = 6;
 	int32 combat_end_equipment_reward_max_choice_ = 3;
 	float combat_end_credits_bonus_percentage_ = 1.f;
+
+	int32 inventory_support_skill_unlocked_slots_ = 1;
+	int32 inventory_passive_skill_unlocked_slots_ = 1;
 };

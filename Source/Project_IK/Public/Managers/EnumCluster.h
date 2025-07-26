@@ -523,6 +523,13 @@ enum class EGlobalBuffType : uint8
 	Upgrade_Beta UMETA(DisplayName = "Upgrade Beta"),
 	Upgrade_Gamma UMETA(DisplayName = "Upgrade Gamma"),
 	Upgrade_Omega UMETA(DisplayName = "Upgrade Omega"),
+	Acquire_Shield UMETA(DisplayName = "Acquire Shield"),
+	AirStrike_ArmorDebuff UMETA(DisplayName = "AirStrike Armor Debuff"),
+	AirStrike_HPDebuff UMETA(DisplayName = "AirStrike HP Debuff"),
+	Ambush_AttackSpeedDebuff UMETA(DisplayName = "Ambush AttackSpeed Debuff"),
+	Ambush_AttackPowerDebuff UMETA(DisplayName = "Ambush AttackPower Debuff"),
+	Trap_RewardCandidateDebuff UMETA(DisplayName = "Trap Reward Candidate Debuff"),
+	Trap_RewardChoiceDebuff UMETA(DisplayName = "Trap Reward Choice Debuff"),
 	None UMETA(DisplayName = "None"),
 };
 
@@ -590,9 +597,9 @@ UENUM(BlueprintType)
 enum class EEventType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
-	EventType_1 UMETA(DisplayName = "EventType_1"),
-	EventType_2 UMETA(DisplayName = "EventType_2"),
-	EventType_3 UMETA(DisplayName = "EventType_3"),
+	AirStrike UMETA(DisplayName = "Air Strike"),
+	Ambush UMETA(DisplayName = "Ambush"),
+	Trap UMETA(DisplayName = "Trap"),
 	EventType_4 UMETA(DisplayName = "EventType_4"),
 };
 
@@ -704,4 +711,10 @@ enum class EBuffType : uint8
 	Upgrade_Beta UMETA(DisplayName = "Upgrade Beta"),
 	Upgrade_Gamma UMETA(DisplayName = "Upgrade Gamma"),
 	Upgrade_Omega UMETA(DisplayName = "Upgrade Omega"),
+
+	AirStrikeArmorDebuff UMETA(DisplayName = "AirStrike Armor Debuff"),
+	AirStrikeHPDebuff UMETA(DisplayName = "AirStrike HP Debuff"),
+
+	AmbushAttackSpeedDebuff UMETA(DisplayName = "Ambush AttackSpeed Debuff"),
+	AmbushAttackPowerDebuff UMETA(DisplayName = "Ambush AttackPower Debuff"),
 };

@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/InventoryManager.h"
 #include "UI/InventoryWidget.h"
+#include "Subsystems/PerkModifierSubsystem.h"
 
 void UInventoryManager::OpenInventoryWidgetReward(const FWrapperEquipmentData& rewards)
 {
@@ -19,7 +20,8 @@ void UInventoryManager::OpenInventoryWidgetReward(const FWrapperEquipmentData& r
 		if(inventory_widget_)
 		{
 			inventory_widget_->LoadSelectedRewards(rewards);
-			inventory_widget_->InitInventoryWidget(1, 2);
+			UPerkModifierSubsystem* perk_modifier = GetWorld()->GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>();
+			inventory_widget_->InitInventoryWidget(perk_modifier->GetInventorySupportSkillUnlockedSlots(), perk_modifier->GetInventoryPassiveSkillUnlockedSlots());
 			inventory_widget_->AddToViewport();
 			inventory_widget_->SetVisibility(ESlateVisibility::Visible);
 		}
