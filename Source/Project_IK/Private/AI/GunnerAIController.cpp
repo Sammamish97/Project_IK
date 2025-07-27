@@ -10,7 +10,6 @@ See LICENSE file in the project root for full license information.
 
 #include "AI/GunnerAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "Environments/Cover.h"
 
 AGunnerAIController::AGunnerAIController()
 {
@@ -22,13 +21,6 @@ AGunnerAIController::AGunnerAIController()
 void AGunnerAIController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-	UObject* cover = GetBlackboardComponent()->GetValueAsObject(owned_cover_key_name_);
-	if(cover != nullptr)
-	{
-		ACover* casted_cover = Cast<ACover>(cover);
-		casted_cover->SetIsBroken(false);
-		casted_cover->OnSettleDown(nullptr);
-	}
 }
 
 AActor* AGunnerAIController::GetOwnedCover()

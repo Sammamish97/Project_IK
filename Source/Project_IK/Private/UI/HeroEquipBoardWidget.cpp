@@ -28,7 +28,14 @@ void UHeroEquipBoardWidget::InitHeroEquipBoard(UInventoryWidget* widget_ptr, EHe
 	{
 		elem->InitInventorySlot(inventory_widget_cache_);
 	}
+
+	TArray<UPassiveSkillSlotWidget*> passive_array_ = {passive_skill_1_slot_, passive_skill_2_slot_, passive_skill_3_slot_};
+	for (auto elem : passive_array_)
+	{
+		elem->SetHeroType(hero_type_);
+	}
 }
+
 
 void UHeroEquipBoardWidget::LoadHeroData()
 {
@@ -50,11 +57,11 @@ void UHeroEquipBoardWidget::LoadHeroData()
 		if (data_cache.passive_skill_data_1_.IsSet())
 		{
 			passive_skill_1_slot_->SetPassiveSkillSlotData(data_cache.passive_skill_data_1_.GetValue());
-			passive_skill_1_slot_->SetHeroType(hero_type_);
 		}
 		if (data_cache.passive_skill_data_2_.IsSet())
 		{
 			passive_skill_2_slot_->SetPassiveSkillSlotData(data_cache.passive_skill_data_2_.GetValue());
+
 		}
 		if (data_cache.passive_skill_data_3_.IsSet())
 		{

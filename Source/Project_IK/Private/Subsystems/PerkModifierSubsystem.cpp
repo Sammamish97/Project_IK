@@ -70,3 +70,23 @@ float UPerkModifierSubsystem::GetCombatEndCreditsBonusPercentage() const
 {
 	return combat_end_credits_bonus_percentage_;
 }
+
+void UPerkModifierSubsystem::SetInventorySupportSkillUnlockedSlots(int32 inventory_support_skill_unlocked_slots)
+{
+	inventory_support_skill_unlocked_slots_ = inventory_support_skill_unlocked_slots;
+}
+
+int32 UPerkModifierSubsystem::GetInventorySupportSkillUnlockedSlots() const
+{
+	return inventory_support_skill_unlocked_slots_;
+}
+
+void UPerkModifierSubsystem::SetInventoryPassiveSkillUnlockedSlots(int32 inventory_passive_skill_unlocked_slots)
+{
+	inventory_passive_skill_unlocked_slots_ = inventory_passive_skill_unlocked_slots;
+}
+
+int32 UPerkModifierSubsystem::GetInventoryPassiveSkillUnlockedSlots() const
+{
+	return inventory_passive_skill_unlocked_slots_;
+}

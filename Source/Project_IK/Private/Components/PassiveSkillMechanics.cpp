@@ -11,37 +11,34 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/PassiveSkills/PassiveSkillBase.h"
 #include "Characters/HeroBase.h"
-#include "Kismet/GameplayStatics.h"
-#include "Managers/DataTableManager.h"
-#include "WorldSettings/IKGameInstance.h"
 
 void UPassiveSkillMechanics::BeginPlay()
 {
 	Super::BeginPlay();
 	hero_cache_ = Cast<AHeroBase>(GetOwner());
-	data_table_cache_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
+	passive_skills_.Init(nullptr, 3);
+	equipped_passive_skill_data_.Init(FPassiveSkillData(), 3);
 }
 
-FPassiveSkillData UPassiveSkillMechanics::GetEquippedPassiveSkillData()
+void UPassiveSkillMechanics::EquipPassiveSkill(const FPassiveSkillData& skill_data, int32 idx)
 {
-	return equipped_passive_skill_data_;
-}
-
-void UPassiveSkillMechanics::EquipPassiveSkill(const FPassiveSkillData& skill_data)
-{
-	equipped_passive_skill_data_ = skill_data;
-	passive_skill_cache_ = NewObject<UPassiveSkillBase>(this, equipped_passive_skill_data_.passive_skill_class);
+	equipped_passive_skill_data_[idx] = skill_data;
+	passive_skills_[idx] = NewObject<UPassiveSkillBase>(this, equipped_passive_skill_data_[idx].passive_skill_class);
 }
 
 void UPassiveSkillMechanics::InitPassiveSkill()
 {
-	if (passive_skill_cache_)
+	for (int32 i = 0; i < 3; i++)
 	{
-		passive_skill_cache_->InitPassiveSkill(hero_cache_, equipped_passive_skill_data_);
+		if (passive_skills_[i] != nullptr)
+		{
+			passive_skills_[i]->InitPassiveSkill(hero_cache_, equipped_passive_skill_data_[i]);
+		}
 	}
 }
-
-void UPassiveSkillMechanics::UnEquipPassiveSkill()
+	
+void UPassiveSkillMechanics::UnEquipPassiveSkill(int32 idx)
 {
-	equipped_passive_skill_data_ = data_table_cache_->GetPassiveSkillData(EPassiveSkillType::INVALID);
+	passive_skills_[idx] = nullptr;
+	equipped_passive_skill_data_[idx] = FPassiveSkillData();
 }

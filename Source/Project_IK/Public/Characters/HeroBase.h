@@ -13,12 +13,8 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "Structs/TargetParameters.h"
 #include "Managers/EnumCluster.h"
-#include "Structs/BuffUIData.h"
 #include "Structs/SpawnData.h"
 #include "HeroBase.generated.h"
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnApplyBuffDelegate, const FBuffUIData&, buff_data);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffExpired, EBuffType, ui_data);
 
 UCLASS(Abstract)
 class PROJECT_IK_API AHeroBase : public AUnit
@@ -32,7 +28,7 @@ public:
 	virtual void SyncWithSpawnData(const FSpawnData& spawn_data);
 	virtual void Die() override;
 
-	virtual void InterruptUnitBehavior(EUnitState type) override;
+	virtual void SetUnitStateWithInterrupt(EUnitState type) override;
 	virtual void ResetUnitState() override;
 	
 	virtual void Attack(AActor* target) override;
@@ -42,9 +38,6 @@ public:
 	EHeroType GetHeroType() const;
 	FTargetParameters GetActiveSkillTargetParameters() const;
 	
-	void AddBuffUI(const FBuffUIData& buff_ui_data);
-	void RemoveBuffUI(EBuffType buff_type);
-
 	bool HasActiveSkill() const;
 	const FItemData& GetActiveSkillItemData() const;
 	void ReduceActiveSkillCoolDown(float amount);
@@ -52,7 +45,9 @@ public:
 
 	void Reposition(FVector target_location);
 	void SetAttackTarget(AActor* target);
-	void SetIsCovered(bool is_covered);
+	void BeginMaintaining();
+	void FinishMaintaining();
+
 
 	AActor* GetAttackTarget() const;
 
@@ -66,40 +61,46 @@ public:
 	class UPassiveSkillMechanics* GetPassiveSkillMechanics();
 
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AGunBase> default_weapon_class_ = nullptr;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	class UActiveSkillMechanics* active_skill_mechanics_;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	class UWeaponMechanics* weapon_mechanics_;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	class UPassiveSkillMechanics* passive_skill_mechanics_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	class URuneMechanics* rune_mechanics_;
+	//Mechanics
+	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UActiveSkillMechanics> active_skill_mechanics_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UWeaponMechanics> weapon_mechanics_;
 	
-	TObjectPtr<class USphereComponent> ui_position_ = nullptr;
+	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UPassiveSkillMechanics> passive_skill_mechanics_;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class URuneMechanics> rune_mechanics_;
+	
+	//Maintaining
+	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = true))
+	TSubclassOf<class UBuffHandler> maintain_buff_class_;
+
+	UPROPERTY(Transient);
+	TObjectPtr<class UBuffHandler> maintain_buff_;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UAnimMontage> maintain_anim_montage_;
+
+	bool on_maintain_ = false;
 	
 public:
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnBuffExpired OnBuffExpired;
-
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnApplyBuffDelegate OnApplyBuff;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero")
+	//UI
+	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class USphereComponent> ui_position_ = nullptr;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Hero")
 	FColor hero_base_color_1_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hero")
+	UPROPERTY(EditDefaultsOnly, Category = "Hero")
 	FColor hero_base_color_2_;
 	
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly)
 	EHeroType hero_type_;
-	bool is_covered_ = false;
 };

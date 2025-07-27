@@ -10,6 +10,8 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/HeroBase.h"
 
+#include "BrainComponent.h"
+#include "Abilities/Buffs/BuffHandler.h"
 #include "AI/GunnerAIController.h"
 #include "AI/HeroAIController.h"
 
@@ -49,77 +51,17 @@ AHeroBase::AHeroBase()
 void AHeroBase::BeginPlay()
 {
 	Super::BeginPlay();
-	//TEST PURPOSE
-	// switch (GetCharacterType())
-	// {
-	// case ECharacterType::Hero1:
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 0);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 2);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Dagger, 4);
-	// 	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
-	// 	hero_type_ = EHeroType::Hero1;
-	// 	break;
-	// case ECharacterType::Hero2:
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
-	// 	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Berserker);
-	// 	hero_type_ = EHeroType::Hero2;
-	// 	break;
-	// case ECharacterType::Hero3:
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Viper, 0);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Viper, 2);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Viper, 4);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 3);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 5);
-	// 	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::Agility);
-	// 	hero_type_ = EHeroType::Hero3;
-	// 	break;
-	// case ECharacterType::Hero4:
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 0);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 2);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 4);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 1);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 3);
-	// 	rune_mechanics_->EquipRune(ERuneSetType::Quake, 5);
-	// 	passive_skill_mechanics_->EquipPassiveSkill(EPassiveSkillType::LowProfile);
-	// 	hero_type_ = EHeroType::Hero4;
-	// 	break;
-	//
-	// default:
-	// 	checkNoEntry();
-	// }
-	// if (weapon_mechanics_->GetWeaponActor() == nullptr)
-	// {
-	// 	weapon_mechanics_->EquipWeapon(default_weapon_class_);
-	// }
-	//
-	// if (weapon_mechanics_->GetWeaponActor() == nullptr)
-	// {
-	// 	weapon_mechanics_->EquipWeapon(default_weapon_class_);
-	// }
-	//
+	hp_widget_component_->InitWidget();
 
-	switch (GetCharacterType())
+	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
+	if (TObjectPtr<UHPUICore> hp_core = Cast<UHPUICore>(hp_widget_component_->GetWidget()))
 	{
-	case ECharacterType::Hero1:
-		hero_type_ = EHeroType::Hero1;
-		break;
-	case ECharacterType::Hero2:
-		hero_type_ = EHeroType::Hero2;
-		break;
-	case ECharacterType::Hero3:
-		hero_type_ = EHeroType::Hero3;
-		break;
-	case ECharacterType::Hero4:
-		hero_type_ = EHeroType::Hero4;
-		break;
-
-	default:
-		checkNoEntry();
+		hp_core->SetHPBarColor(hero_base_color_2_);
+		hp_core->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
+		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_core.Get(), &UHPUICore::UpdateWidget);
 	}
-	UHPUICore* widget = Cast<UHPUICore>(hp_UI_->GetWidget());
-	widget->SetHPBarColor(hero_base_color_2_);
+
+	maintain_buff_ = NewObject<UBuffHandler>(this, maintain_buff_class_);
 }
 
 void AHeroBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -142,15 +84,25 @@ void AHeroBase::SyncWithSpawnData(const FSpawnData& spawn_data)
 	{
 		weapon_mechanics_->EquipWeapon(default_weapon_class_);
 	}
-	if (spawn_data.passive_skill_data_1_.IsSet())
-	{
-		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_1_.GetValue());
-	}
-	//IKTODO: 추후 Passive Skill 2, 3에 대한 처리도 추가해야 함.
+
 	if (spawn_data.active_skill_data_.IsSet())
 	{
 		active_skill_mechanics_->EquipActiveSkill(spawn_data.active_skill_data_.GetValue());
 	}
+	
+	if (spawn_data.passive_skill_data_1_.IsSet())
+	{
+		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_1_.GetValue(), 0);
+	}
+	if (spawn_data.passive_skill_data_2_.IsSet())
+	{
+		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_2_.GetValue(), 1);
+	}
+	if (spawn_data.passive_skill_data_3_.IsSet())
+	{
+		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_3_.GetValue(), 2);
+	}
+
 
 	TArray rune_data_array = {spawn_data.rune_data_1, spawn_data.rune_data_2, spawn_data.rune_data_3, spawn_data.rune_data_4, spawn_data.rune_data_5, spawn_data.rune_data_6};
 
@@ -177,7 +129,7 @@ void AHeroBase::Attack(AActor* target)
 	weapon_mechanics_->BeginFire(target);
 }
 
-void AHeroBase::InterruptUnitBehavior(EUnitState type)
+void AHeroBase::SetUnitStateWithInterrupt(EUnitState type)
 {
 	Cast<AMeleeAIController>(GetController())->SetUnitState(type);
 	switch (type)
@@ -189,7 +141,13 @@ void AHeroBase::InterruptUnitBehavior(EUnitState type)
 		active_skill_mechanics_->StopActiveSkill();
 		
 	case EUnitState::OnActiveSkill:
+	{
 		weapon_mechanics_->StopReload();
+		if (on_maintain_)
+		{
+			FinishMaintaining();
+		}
+	}
 		
 	case EUnitState::OnReloading:
 	{
@@ -229,26 +187,40 @@ void AHeroBase::Reposition(FVector target_location)
 {
 	DispatchUnitEvent(EUnitEvent::OnReposition);
 	Cast<AHeroAIController>(GetController())->RepositionHero(target_location);
+	SetUnitStateWithInterrupt(EUnitState::OnRepositioning);
 }
 
 void AHeroBase::SetAttackTarget(AActor* target)
 {
-	AHeroAIController* controller = Cast<AHeroAIController>(GetController());
-	if (controller)
+	if (on_maintain_)
+	{
+		FinishMaintaining();
+	}
+	ResetUnitState();
+	if (AHeroAIController* controller = Cast<AHeroAIController>(GetController()))
 	{
 		controller->SetAttackTarget(target);
 	}
 }
 
-void AHeroBase::SetIsCovered(bool is_covered)
+void AHeroBase::BeginMaintaining()
 {
-	is_covered_ = is_covered;
+	SetUnitStateWithInterrupt(EUnitState::OnActiveSkill);
+	PlayAnimMontage(maintain_anim_montage_);
+	on_maintain_ = true;
+	maintain_buff_->ApplyBuff(this);
+}
+
+void AHeroBase::FinishMaintaining()
+{
+	on_maintain_ = false;
+	maintain_buff_->RemoveBuff(this);
+	FinishAction();
 }
 
 AActor* AHeroBase::GetAttackTarget() const
 {
-	AHeroAIController* controller = Cast<AHeroAIController>(GetController());
-	if (controller)
+	if (AHeroAIController* controller = Cast<AHeroAIController>(GetController()))
 	{
 		controller->GetTargetActor();
 	}
@@ -290,16 +262,6 @@ void AHeroBase::ReduceActiveSkillCoolDownPercentage(float percentage)
 {
 	auto game_state_cache_ = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
 	game_state_cache_->ReduceCoolDownPercentage(GetHeroType(), percentage);
-}
-
-void AHeroBase::AddBuffUI(const FBuffUIData& buff_ui_data)
-{
-	OnApplyBuff.Broadcast(buff_ui_data);
-}
-
-void AHeroBase::RemoveBuffUI(EBuffType buff_type)
-{
-	OnBuffExpired.Broadcast(buff_type);
 }
 
 UWeaponMechanics* AHeroBase::GetWeaponMechanics()

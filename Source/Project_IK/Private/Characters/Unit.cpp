@@ -12,16 +12,15 @@ See LICENSE file in the project root for full license information.
 
 #include "BrainComponent.h"
 #include "AI/MeleeAIController.h"
+#include "BehaviorTree/BehaviorTreeComponent.h"
 #include "Components/CharacterStatComponent.h"
 #include "Components/CrowdControlComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/OutlineComponent.h"
 
-#include "UI/HitPointsUI.h"
 #include "Components/ObjectPoolComponent.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "Structs/BuffUIData.h"
 #include "UI/DamageUI.h"
 
 #include "Subsystems/GlobalBuffSubsystem.h"
@@ -36,8 +35,8 @@ AUnit::AUnit()
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	character_stat_component_ = CreateDefaultSubobject<UCharacterStatComponent>(TEXT("CharacterStatComponent"));
-	hp_UI_ = CreateDefaultSubobject<UWidgetComponent>(TEXT("HP UI"));
-	
+	hp_widget_component_ = CreateDefaultSubobject<UWidgetComponent>(TEXT("HP Widget Component"));
+
 	cc_component_ = CreateDefaultSubobject<UCrowdControlComponent>(TEXT("CC Component"));
 	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
 	outline_component_ = CreateDefaultSubobject<UOutlineComponent>(TEXT("OutlineComponent"));
@@ -64,6 +63,11 @@ UCrowdControlComponent* AUnit::GetCCComponent()
 	return cc_component_;
 }
 
+UWidgetComponent* AUnit::GetHPUIWidgetComponent()
+{
+	return hp_widget_component_;
+}
+
 FVector AUnit::GetForwardDir() const
 {
 	return forward_dir_;
@@ -72,16 +76,6 @@ FVector AUnit::GetForwardDir() const
 void AUnit::SetForwardDir(const FVector& Forward_Dir)
 {
 	forward_dir_ = Forward_Dir;
-}
-
-void AUnit::SetCurHidingCover(AActor* cover)
-{
-	cur_hiding_cover_ = cover;
-}
-
-AActor* AUnit::GetCurHidingCover() const
-{
-	return cur_hiding_cover_.Get();
 }
 
 void AUnit::SetAttackTarget(AActor* target)
@@ -126,6 +120,12 @@ bool AUnit::IsHero() const
 	return is_hero_;
 }
 
+void AUnit::FinishAction()
+{
+	auto bt_component = Cast<UBehaviorTreeComponent>(Cast<AAIController>(GetController())->GetBrainComponent());
+	OnFinishAction.Broadcast(bt_component, false);
+}
+
 // Called when the game starts or when spawned
 void AUnit::BeginPlay()
 {
@@ -146,19 +146,12 @@ void AUnit::BeginPlay()
 
 	if (hp_UI_class_)
 	{
-		hp_UI_->SetWidgetClass(hp_UI_class_);
-		hp_UI_->InitWidget();
-		hp_UI_->SetWidgetSpace(EWidgetSpace::Screen);
+		hp_widget_component_->SetWidgetClass(hp_UI_class_);
+		hp_widget_component_->InitWidget();
+		hp_widget_component_->SetWidgetSpace(EWidgetSpace::Screen);
 	}
-	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
-
-	if (UHPUICore* hp_widget = Cast<UHPUICore>(hp_UI_->GetWidget()))
-	{
-		hp_widget->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
-		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_widget, &UHPUICore::UpdateWidget);
-	}
-	hp_UI_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	hp_UI_->SetDrawSize({ 100, 15 });
+	hp_widget_component_->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	hp_widget_component_->SetDrawSize({ 100, 15 });
 }
 
 void AUnit::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -238,16 +231,30 @@ void AUnit::Heal(float heal)
 {
 	character_stat_component_->Heal(heal);
 
-	ADamageUI* ui = SpawnDamageUI();
-	if (ui)
+	if (ADamageUI* ui = SpawnDamageUI())
 	{
 		ui->SetHealAmount(heal);
 	}
 }
 
-void AUnit::ApplyBuff(EBuffType buff_type, FBuffStatusData buff_status)
+void AUnit::ApplyStatusBuff(EBuffType buff_type, FBuffStatusData buff_status)
 {
 	character_stat_component_->ApplyBuff(buff_type, buff_status);
+}
+
+void AUnit::AddBuffUI(EBuffType type, UDisplayDataAsset* ui_data)
+{
+	OnApplyBuff.Broadcast(type, ui_data, true, -1.f);
+}
+
+void AUnit::AddBuffUI(EBuffType type, UDisplayDataAsset* ui_data, float duration)
+{
+	OnApplyBuff.Broadcast(type, ui_data, false, duration);
+}
+
+void AUnit::RemoveBuffUI(EBuffType type)
+{
+	OnBuffExpired.Broadcast(type);
 }
 
 void AUnit::RemoveBuff(EBuffType buff_type)
@@ -285,13 +292,11 @@ void AUnit::OnStunned()
 
 void AUnit::FinishStun()
 {
-	UE_LOG(LogTemp, Display, TEXT("AUnit::FinishStunned"));
-	FAIMessage Msg(TEXT("StunFinished"), this, stun_ai_request_id_, FAIMessage::Success);
-	FAIMessage::Send(this, Msg);
+	//IKTODO: AI_BEHAVIOR TREE와 연결해야 함.
 }
 
 
-void AUnit::InterruptUnitBehavior(EUnitState type)
+void AUnit::SetUnitStateWithInterrupt(EUnitState type)
 {
 	
 }
@@ -405,9 +410,4 @@ void AUnit::RecoverAttackerByLifeSteal(FDamageData data)
 			}
 		}
 	}
-}
-
-float AUnit::GetStunRequestID() const
-{
-	return stun_ai_request_id_;
 }

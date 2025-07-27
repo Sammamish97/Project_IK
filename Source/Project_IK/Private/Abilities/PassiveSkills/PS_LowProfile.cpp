@@ -24,8 +24,8 @@ void UPS_LowProfile::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData&
 {
 	Super::InitPassiveSkill(hero_ref, skill_data);
 
-	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::HideOnCover, this, &UPS_LowProfile::RemoveBuff);
-	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::LeaveCover, this, &UPS_LowProfile::ApplyBuff);
+	//hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::HideOnCover, this, &UPS_LowProfile::RemoveBuff);
+	//hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::LeaveCover, this, &UPS_LowProfile::ApplyBuff);
 	
 	if (AHeroBase* hero = Cast<AHeroBase>(hero_ref))
 	{
@@ -43,8 +43,8 @@ void UPS_LowProfile::ApplyBuff()
 		{
 			if (AHeroBase* hero = Cast<AHeroBase>(actor))
 			{
-				hero->ApplyBuff(EBuffType::LowProfile, buff_status_data_);
-				hero->AddBuffUI(FBuffUIData(skill_data_.item_data_, EBuffType::LowProfile, buff_status_data_.duration_, true));
+				hero->ApplyStatusBuff(EBuffType::LowProfile, buff_status_data_);
+				//hero->AddBuffUI(FBuffUIData(skill_data_.item_data_, EBuffType::LowProfile, buff_status_data_.duration_, true));
 
 				ActivateParticles();
 				is_buff_applied_ = true;

@@ -52,14 +52,11 @@ public:
 	bool CheckDuplicatedActiveSkill(EActiveSkillType type);
 
 	UFUNCTION()
-	bool CheckDuplicatedSupportSkill(ESupportSkillType type);
-
-	UFUNCTION()
 	bool CheckDuplicatedPassiveSkill(EHeroType hero_type, EPassiveSkillType type);
 
 	void LoadSelectedRewards(const FWrapperEquipmentData& rewards);
 
-	void CreatePopupWidget(const FItemData&  item_data);
+	void CreatePopupWidget(TObjectPtr<UDisplayDataAsset> display_data);
 	void SetPopupWidgetPos(FVector2D pos);
 	void RemovePopupWidget();
 
@@ -84,15 +81,6 @@ private:
 	void OnConfirm();
 
 private:
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<USupportSkillSlotWidget> support_skill_0_;
-	
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<USupportSkillSlotWidget> support_skill_1_;
-	
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<USupportSkillSlotWidget> support_skill_2_;
-	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHeroEquipBoardWidget> hero_board_0_;
 

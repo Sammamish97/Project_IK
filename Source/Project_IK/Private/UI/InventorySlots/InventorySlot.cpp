@@ -88,7 +88,7 @@ void UInventorySlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPoin
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
 	if (is_empty_ == false)
 	{
-		inventory_widget_cache_->CreatePopupWidget(item_data_cache_);
+		inventory_widget_cache_->CreatePopupWidget(item_data_cache_.display_data_);
 	}
 }
 

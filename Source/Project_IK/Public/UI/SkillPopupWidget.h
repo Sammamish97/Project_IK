@@ -18,6 +18,7 @@ See LICENSE file in the project root for full license information.
 enum class EHeroType : uint8;
 class UImage;
 class UTextBlock;
+class UDisplayDataAsset;
 
 UCLASS()
 class PROJECT_IK_API USkillPopupWidget : public UUserWidget
@@ -25,7 +26,7 @@ class PROJECT_IK_API USkillPopupWidget : public UUserWidget
 	GENERATED_BODY()
 public:
 	void NativeConstruct() override;
-	void UpdatePopupData(const FItemData& item_data);
+	void UpdatePopupData(TObjectPtr<UDisplayDataAsset> display_asset);
 	
 private:
 	UPROPERTY(meta = (BindWidget))

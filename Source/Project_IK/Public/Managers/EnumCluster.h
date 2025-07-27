@@ -217,8 +217,6 @@ enum class EUnitEvent : uint8
 	OnReposition UMETA(DisplayName = "OnMove"),
 	OnEliminate UMETA(DisplayName = "OnEliminate"),
 	OnCriticalFire UMETA(DisplayName = "OnCriticalFire"),
-	HideOnCover UMETA(DisplayName = "HideOnCover"),
-	LeaveCover UMETA(DisplayName = "LeaveCover"),
 	OnEnterBattle UMETA(DisplayName = "OnEnterBattle"),
 };
 
@@ -238,7 +236,6 @@ enum class EGearType : uint8
 	Weapon UMETA(DisplayName = "Weapon"),
 	ActiveSkill UMETA(DisplayName = "ActiveSkill"),
 	PassiveSkill UMETA(DisplayName = "PassiveSkill"),
-	SupportSkill UMETA(DisplayName = "SupportSkill"),
 	Rune UMETA(DisplayName = "Rune"),
 };
 
@@ -358,9 +355,6 @@ enum class EActiveSkillType : uint8
 	DeploySentryGun_B UMETA(DisplayName = "DeploySentryGun_B"),
 	DeploySentryGun_A UMETA(DisplayName = "DeploySentryGun_A"),
 	
-	DeployCover_B UMETA(DisplayName = "DeployCover_B"),
-	DeployCover_A UMETA(DisplayName = "DeployCover_A"),
-	
 	TripleFire_B UMETA(DisplayName = "TripleFire_B"),
 	TripleFire_A UMETA(DisplayName = "TripleFire_A"),
 	
@@ -390,9 +384,6 @@ inline EActiveSkillType GetOppositeActiveSkillType(EActiveSkillType type)
 	case EActiveSkillType::Encourage_B:
 		return EActiveSkillType::Encourage_A;
 		
-	case EActiveSkillType::DeployCover_B:
-		return EActiveSkillType::DeployCover_A;
-		
 	case EActiveSkillType::DeploySentryGun_B:
 		return EActiveSkillType::DeploySentryGun_A;
 		
@@ -421,10 +412,7 @@ inline EActiveSkillType GetOppositeActiveSkillType(EActiveSkillType type)
 		
 	case EActiveSkillType::Encourage_A:
 		return EActiveSkillType::Encourage_B;
-		
-	case EActiveSkillType::DeployCover_A:
-		return EActiveSkillType::DeployCover_B;
-		
+	
 	case EActiveSkillType::DeploySentryGun_A:
 		return EActiveSkillType::DeploySentryGun_B;
 		
@@ -453,7 +441,6 @@ inline bool IsUpgradedActiveSkill(EActiveSkillType type)
 		case EActiveSkillType::ThunderStorm_B:
 		case EActiveSkillType::FateSpiral_B:
 		case EActiveSkillType::Encourage_B:
-		case EActiveSkillType::DeployCover_B:
 		case EActiveSkillType::DeploySentryGun_B:
 		case EActiveSkillType::TripleFire_B:
 		case EActiveSkillType::ChargeShot_B:
@@ -465,7 +452,6 @@ inline bool IsUpgradedActiveSkill(EActiveSkillType type)
 		case EActiveSkillType::ThunderStorm_A:
 		case EActiveSkillType::FateSpiral_A:
 		case EActiveSkillType::Encourage_A:
-		case EActiveSkillType::DeployCover_A:
 		case EActiveSkillType::DeploySentryGun_A:
 		case EActiveSkillType::TripleFire_A:
 		case EActiveSkillType::ChargeShot_A:
@@ -523,6 +509,13 @@ enum class EGlobalBuffType : uint8
 	Upgrade_Beta UMETA(DisplayName = "Upgrade Beta"),
 	Upgrade_Gamma UMETA(DisplayName = "Upgrade Gamma"),
 	Upgrade_Omega UMETA(DisplayName = "Upgrade Omega"),
+	Acquire_Shield UMETA(DisplayName = "Acquire Shield"),
+	AirStrike_ArmorDebuff UMETA(DisplayName = "AirStrike Armor Debuff"),
+	AirStrike_HPDebuff UMETA(DisplayName = "AirStrike HP Debuff"),
+	Ambush_AttackSpeedDebuff UMETA(DisplayName = "Ambush AttackSpeed Debuff"),
+	Ambush_AttackPowerDebuff UMETA(DisplayName = "Ambush AttackPower Debuff"),
+	Trap_RewardCandidateDebuff UMETA(DisplayName = "Trap Reward Candidate Debuff"),
+	Trap_RewardChoiceDebuff UMETA(DisplayName = "Trap Reward Choice Debuff"),
 	None UMETA(DisplayName = "None"),
 };
 
@@ -590,9 +583,9 @@ UENUM(BlueprintType)
 enum class EEventType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
-	EventType_1 UMETA(DisplayName = "EventType_1"),
-	EventType_2 UMETA(DisplayName = "EventType_2"),
-	EventType_3 UMETA(DisplayName = "EventType_3"),
+	AirStrike UMETA(DisplayName = "Air Strike"),
+	Ambush UMETA(DisplayName = "Ambush"),
+	Trap UMETA(DisplayName = "Trap"),
 	EventType_4 UMETA(DisplayName = "EventType_4"),
 };
 
@@ -631,15 +624,6 @@ enum class EWeaponAction : uint8
 };
 
 UENUM(BlueprintType)
-enum class ESupportSkillType : uint8
-{
-	INVALID UMETA(DisplayName = "INVALID"),
-	Reposition UMETA(DisplayName = "Reposition"),
-	SupportFire UMETA(DisplayName = "SupportFire"),
-	InstantRepair UMETA(DisplayName = "InstantRepair"),
-};
-
-UENUM(BlueprintType)
 enum class EOutlineState : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
@@ -657,7 +641,6 @@ enum class EBuffType : uint8
 	MagnetizedBullet_A UMETA(DisplayName = "MagnetizedBullet_A"),
 	Ricochet UMETA(DisplayName = "Ricochet"),
 	TripleFire UMETA(DisplayName = "TripleFire"),
-	DeployCover UMETA(DisplayName = "DeployCover"),
 	Encourage UMETA(DisplayName = "Encourage"),
 
 	//Passive
@@ -678,7 +661,7 @@ enum class EBuffType : uint8
 	Conductor UMETA(DisplayName = "Conductor"),
 
 	//Support
-	InstantRepair UMETA(DisplayName = "InstantRepair"),
+	Maintain UMETA(DisplayName = "Maintain"),
 	
 	//Rune
 	Chariot_Edge UMETA(DisplayName = "Chariot_Edge"),
@@ -704,4 +687,10 @@ enum class EBuffType : uint8
 	Upgrade_Beta UMETA(DisplayName = "Upgrade Beta"),
 	Upgrade_Gamma UMETA(DisplayName = "Upgrade Gamma"),
 	Upgrade_Omega UMETA(DisplayName = "Upgrade Omega"),
+
+	AirStrikeArmorDebuff UMETA(DisplayName = "AirStrike Armor Debuff"),
+	AirStrikeHPDebuff UMETA(DisplayName = "AirStrike HP Debuff"),
+
+	AmbushAttackSpeedDebuff UMETA(DisplayName = "Ambush AttackSpeed Debuff"),
+	AmbushAttackPowerDebuff UMETA(DisplayName = "Ambush AttackPower Debuff"),
 };

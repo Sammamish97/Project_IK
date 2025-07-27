@@ -17,7 +17,7 @@ USP_Reposition::USP_Reposition()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Allies, 10000.f);
 	reposition_location_params_ = FTargetParameters(ETargetingMode::Location, ETargetType::None, 1000.f, 1000.f);
-	cool_time_ = 1.f;
+	cool_time_ = 0.3f;
 	cost_ = 1.f;
 }
 

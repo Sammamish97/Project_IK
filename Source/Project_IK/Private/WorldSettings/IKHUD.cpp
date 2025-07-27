@@ -13,6 +13,8 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 #include "Components/ActiveSkillMechanics.h"
 #include "Components/RuneMechanics.h"
+#include "Components/WidgetComponent.h"
+#include "DataAssets/SupportSkillDataAsset.h"
 
 #include "Runtime/UMG/Public/Blueprint/UserWidget.h"
 
@@ -28,12 +30,13 @@ See LICENSE file in the project root for full license information.
 #include "UI/BuffContainer.h"
 
 #include "UI/ButtonBarWidget.h"
+#include "UI/EnemyHPUI.h"
 #include "UI/SegmentedHPUI.h"
 #include "UI/RunePopupWidget.h"
 #include "UI/SkillButtonWidget.h"
 #include "UI/SkillPopupWidget.h"
 #include "UI/SupportSkillButtonWidget.h"
-#include "UI/UnitWidget.h"
+#include "UI/HeroWidget.h"
 
 #include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKGameModeBase.h"
@@ -45,8 +48,6 @@ typedef TPair<ERuneSetType, TArray<int32>> RuneSetBonus;
 
 void AIKHUD::BeginPlay()
 {
-	Super::BeginPlay();
-
 	UWorld* world = GetWorld();
 	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
 
@@ -61,14 +62,40 @@ void AIKHUD::BeginPlay()
 		TMap<EHeroType, TArray<RuneSetBonus>> hero_rune_bonus_detail_map;
 
 		TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		TObjectPtr<AIKGameState> ik_game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
 		TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
+
+		//적들의 Butt Widget와 Popup Widget을 연결.
+		for (const auto& enemy : game_mode->GetEnemyContainers())
+		{
+			if (auto enemy_widget_component = Cast<AUnit>(enemy)->GetHPUIWidgetComponent())
+			{
+				if (auto enemy_hp_widget = Cast<UEnemyHPUI>(enemy_widget_component->GetWidget()))
+				{
+					enemy_hp_widget->InitEnemyHPUI(button_bar_widget_->GetBuffPopupWidget());
+					ik_game_state->OnToggleDetailMode.AddDynamic(enemy_hp_widget, &UEnemyHPUI::OnToggleDetailMode);
+				}
+			}
+		}
 		
+		//각 EHerpType을 순회하며 HeroBase와 HeroWidget사이 필요한 delegate들을 bind. 
 		for(auto cur_hero_type : hero_types)
 		{
 			auto cur_spawn_data = transition_system->GetSpawnData(cur_hero_type);
 			if(cur_spawn_data.is_dead_ == false)
 			{
 				auto cur_hero = Cast<AHeroBase>(game_mode->GetHero(cur_hero_type));
+
+				auto rune_pop_up_widget = button_bar_widget_->GetRunePopupWidget();
+				rune_pop_up_widget->InitSetBonusDetails(hero_rune_bonus_detail_map);
+				
+				button_bar_widget_->GetHeroWidget(cur_hero_type)->InitHeroWidget(button_bar_widget_->GetBuffPopupWidget(),
+					cur_hero->GetRuneMechanics(), rune_pop_up_widget,
+					cur_hero_type, cur_hero->GetHeroBaseColor_1(), cur_hero->GetHeroBaseColor_2(),
+					cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
+
+				subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero_type)->GetHPWidget(), &USegmentedHPUI::UpdateWidget);
+				
 				if(cur_hero->HasActiveSkill())
 				{
 					auto cur_skill_button_widget = button_bar_widget_->GetActiveSkillButtonWidget(cur_hero_type);
@@ -76,14 +103,8 @@ void AIKHUD::BeginPlay()
 					auto cur_skill_data = cur_active_skill_mechanics->GetEquippedActiveSkillData();
 					auto cur_skill = cur_active_skill_mechanics->GetActiveSkill();
 					
-					cur_skill_button_widget->SetThumbnailTexture(cur_skill_data.item_data_.thumbnail);
+					cur_skill_button_widget->SetThumbnailTexture(cur_skill_data.item_data_.display_data_->thumbnail);
 					cur_skill->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
-					
-					subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero_type)->GetHPWidget(), &USegmentedHPUI::UpdateWidget);
-					button_bar_widget_->GetHeroWidget(cur_hero_type)->InitHeroWidget(button_bar_widget_->GetBuffPopupWidget(),
-						cur_hero->GetRuneMechanics(), button_bar_widget_->GetRunePopupWidget(),
-						cur_hero_type, cur_hero->GetHeroBaseColor_1(), cur_hero->GetHeroBaseColor_2(),
-						cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
 				}
 				else
 				{
@@ -104,21 +125,18 @@ void AIKHUD::BeginPlay()
 
 		//서포트 스킬 UI에 썸네일과 Cost를 Bind.
 		auto game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
-		auto equipped_support_skills = game_state->GetSupportSkillPtr();
-		auto equipped_support_data = transition_system->GetSupportSkillData();
+		auto support_skill_data = game_state->GetSupportSkillData();
+		auto support_skills = game_state->GetSupportSkills();
 		for (int32 i = 0; i < 3; i++)
 		{
-			if (equipped_support_skills[i] != nullptr)
+			if (support_skills[i] != nullptr)
 			{
 				auto cur_skill_button_widget = button_bar_widget_->GetSupportSkillButtonWidget(i);
-				cur_skill_button_widget->SetThumbnailTexture(equipped_support_data[i].item_data_.thumbnail);
-				cur_skill_button_widget->SetSupportSkillCost(equipped_support_skills[i]->GetCost());
-				equipped_support_skills[i]->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
+				cur_skill_button_widget->SetThumbnailTexture(support_skill_data[i]->display_data_->thumbnail);
+				cur_skill_button_widget->SetSupportSkillCost(support_skills[i]->GetCost());
+				support_skills[i]->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 			}
 		}
-		
-		auto rune_pop_up_widget = button_bar_widget_->GetRunePopupWidget();
-		rune_pop_up_widget->InitSetBonusDetails(hero_rune_bonus_detail_map);
 		
 		if (button_bar_widget_)
 		{

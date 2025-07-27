@@ -67,6 +67,7 @@ public:
 	}
 	UFUNCTION(BlueprintCallable, Category = "Map")
 	const FMapNode& GetNode(int32 row, int32 col) const;
+	const FMapNode& GetNode(FIntPoint int_point) const;
 
 	void SetPlayerGridPosition(FIntPoint position);
 	FIntPoint GetPlayerGridPosition() const;

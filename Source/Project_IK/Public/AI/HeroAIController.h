@@ -25,6 +25,7 @@ public:
 	AHeroAIController();
 	void RepositionHero(FVector target_location);
 	void SetAttackTarget(AActor* target);
+	void OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result) override;
 
 protected:
 	// Called when the game starts or when spawned

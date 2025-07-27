@@ -32,8 +32,8 @@ void USetBonus_Dagger::ActivateEdgeBonus()
 	edge_as_buff_data_ = FBuffStatusData(ECharacterStatType::AttackSpeed, 1.1f, true, true);
 	edge_crit_buff_data_ = FBuffStatusData(ECharacterStatType::CriticalHitRate, 0.05f, false, true);
 
-	hero_cache_->ApplyBuff(EBuffType::Dagger_Edge, edge_as_buff_data_);
-	hero_cache_->ApplyBuff(EBuffType::Dagger_Edge, edge_crit_buff_data_);
+	hero_cache_->ApplyStatusBuff(EBuffType::Dagger_Edge, edge_as_buff_data_);
+	hero_cache_->ApplyStatusBuff(EBuffType::Dagger_Edge, edge_crit_buff_data_);
 }
 
 //3세트: 장전 시 2초간 치명타율 10% 추가.
@@ -55,7 +55,7 @@ void USetBonus_Dagger::ActivateHexagonBonus()
 void USetBonus_Dagger::TriangleReloadCritRateBuff()
 {
 	triangle_buff_data_ = FBuffStatusData(ECharacterStatType::CriticalHitRate, 0.1f, false, false, 2.f);
-	hero_cache_->ApplyBuff(EBuffType::Dagger_Triangle, triangle_buff_data_);
+	hero_cache_->ApplyStatusBuff(EBuffType::Dagger_Triangle, triangle_buff_data_);
 }
 
 void USetBonus_Dagger::HexagonBonus()

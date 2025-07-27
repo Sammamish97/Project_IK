@@ -77,19 +77,6 @@ void URewardContainerWidget::AddToRewardContainer(UInventorySlot* add_target)
 			}
 			break;
 
-	case EInventorySlotType::SupportSkill:
-		{
-			if (auto casted_from_support_skill = Cast<USupportSkillSlotWidget>(add_target))
-			{
-				auto created_widget = CreateWidget<USupportSkillSlotWidget>(this, support_skill_slot_widget_class_);
-				created_widget->InitInventorySlot(inventory_widget_cache_, false);
-				created_widget->SetSupportSkillSlotData(casted_from_support_skill->GetStoredSupportSkillData());
-				reward_slots_.Push(created_widget);
-				container_->AddChildToHorizontalBox(created_widget);
-			}
-		}
-		break;
-
 		case EInventorySlotType::Rune_0:
 		case EInventorySlotType::Rune_1:
 		case EInventorySlotType::Rune_2:
@@ -141,16 +128,24 @@ void URewardContainerWidget::NativeConstruct()
 	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Encourage_B));
 	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::FateSpiral_B));
 
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::DeploySentryGun_A));
-	//reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ChargeShot_A));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Ricochet_A));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::MagnetizedBullet_A));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm_A));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::DeployCover_A));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Thunder_A));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::TripleFire_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::DeploySentryGun_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ChargeShot_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Ricochet_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::MagnetizedBullet_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Thunder_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::TripleFire_A));
+	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::FateSpiral_A));
+
 	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Encourage_A));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::FateSpiral_A));
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::MagnetizedBullet_A));
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
+
+
+
 	//
 	
 	for (auto weapon_data : reward_cache_.weapons_)
@@ -174,13 +169,6 @@ void URewardContainerWidget::NativeConstruct()
 		reward_slots_.Push(created_widget);
 	}
 
-	for (auto support_skill_data : reward_cache_.support_skills_)
-	{
-		auto created_widget = CreateWidget<USupportSkillSlotWidget>(this, support_skill_slot_widget_class_);
-		created_widget->SetSupportSkillSlotData(support_skill_data);
-		reward_slots_.Push(created_widget);
-	}
-	
 	for (auto rune_data : reward_cache_.runes_)
     {
     	auto created_widget = CreateWidget<URuneSlotWidget>(this, rune_slot_widget_class_);

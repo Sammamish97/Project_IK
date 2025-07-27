@@ -8,6 +8,8 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Weapons/Guns/GunBase.h"
+
+#include "AIController.h"
 #include "Characters/Unit.h"
 #include "Components/ObjectPoolComponent.h"
 #include "Abilities/OnHitComponents/BulletOnHitEffectComponent.h"
@@ -20,6 +22,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/SphereComponent.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "NiagaraComponent.h"
+#include "BehaviorTree/BehaviorTreeComponent.h"
 
 AGunBase::AGunBase()
 {
@@ -85,32 +88,28 @@ void AGunBase::StopReload()
 		{
 			gun_owner->StopAnimMontage();
 			GetWorld()->GetTimerManager().ClearTimer(reload_timer_handle_);
-			FAIMessage Msg(TEXT("ReloadFinished"), this, reload_request_id_, FAIMessage::Failure);
-			FAIMessage::Send(gun_owner, Msg);
+			auto bt_component = Cast<UBehaviorTreeComponent>(Cast<AAIController>(gun_owner->GetController())->GetBrainComponent());
+			OnFinishReload.Broadcast(bt_component,true);
 		}
 	}
 }
 
-
 void AGunBase::OnReload()
 {
+	is_first_bullet_on_magazine_ = true;
+	InstantReload();
+	
 	if (AUnit* gun_owner = weak_gun_owner_.Get())
 	{
-		if (gun_owner->IsA(AHeroBase::StaticClass()))
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Hero ReloadFinished"));
-		}
-		is_first_bullet_on_magazine_ = true;
-		InstantReload();
-		FAIMessage Msg(TEXT("ReloadFinished"), this, reload_request_id_, FAIMessage::Success);
-		FAIMessage::Send(gun_owner, Msg);
+		gun_owner->ResetUnitState();
+		auto bt_component = Cast<UBehaviorTreeComponent>(Cast<AAIController>(gun_owner->GetController())->GetBrainComponent());
+		OnFinishReload.Broadcast(bt_component,false);
 	}
 }
 
 void AGunBase::SpawnBullet(const FRotator& rotation, const FVector& translation, const FDamageData& dmg_data)
 {
-	ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(rotation, translation));
-	if (bullet)
+	if (ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(rotation, translation)))
 	{
 		if (is_first_bullet_on_magazine_)
 		{

@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "SupportSkillBase.h"
 #include "SP_Reposition.generated.h"
+class AHeroBase;
 
 UCLASS()
 class PROJECT_IK_API USP_Reposition : public USupportSkillBase
@@ -24,5 +25,7 @@ public:
 	
 private:
 	FTargetParameters reposition_location_params_ = FTargetParameters();
-	TObjectPtr<class AHeroBase> selected_hero_ = nullptr;
+
+	UPROPERTY(Transient)
+	TObjectPtr<AHeroBase> selected_hero_ = nullptr;
 };

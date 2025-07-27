@@ -12,22 +12,24 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/ActiveSkills/AT_Encourage.h"
 
+#include "Abilities/Buffs/BuffHandler.h"
 #include "Structs/TargetResult.h"
 #include "Structs/BuffStatusData.h"
-
 #include "Characters/HeroBase.h"
 
+//IKTODO: 실드에 계수를 추가하는것도 좋을듯 하다.
 UAT_Encourage::UAT_Encourage()
 {
-	target_param_ = FTargetParameters(ETargetingMode::Location, ETargetType::Allies, 0.f, 1000.f, true);
+	target_param_ = FTargetParameters(ETargetingMode::Location, ETargetType::All, 0.f, 1000.f, false);
 
 	cool_time_ = 10.f;
 	scaling_factor_ = 0.02f;
+}
 
-	buff_duration_ = 4.f;
-	attack_power_buff_amount_ = 2.f;
-	skill_power_buff_amount_ = 2.f;
-	shield_amount_ = 500.f;
+void UAT_Encourage::InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data)
+{
+	Super::InitActiveSkill(skill_owner, skill_data);
+	buff_ = NewObject<UBuffHandler>(this, buff_class_);
 }
 
 void UAT_Encourage::OnEnterCasting()
@@ -38,22 +40,20 @@ void UAT_Encourage::OnEnterCasting()
 
 bool UAT_Encourage::ActivateSkill(const FTargetResult& TargetResult)
 {
-	//실드 + 공격력 + 스킬 위력
-	FBuffStatusData attack_power_buff_data = {ECharacterStatType::AttackPower, attack_power_buff_amount_, true, false ,buff_duration_};
-	FBuffStatusData skill_power_buff_data = {ECharacterStatType::SkillPower, skill_power_buff_amount_, true, false ,buff_duration_};
-	
 	for (AActor* ally : TargetResult.target_actors_)
 	{
-		if (AHeroBase* casted_hero = Cast<AHeroBase>(ally))
+		// if (AHeroBase* casted_hero = Cast<AHeroBase>(ally))
+		// {
+		// 	buff_->ApplyBuff(casted_hero);
+		// 	if (IsUpgradedActiveSkill(skill_data_.type_))
+		// 	{
+		// 		casted_hero->ReduceActiveSkillCoolDown(1.f);
+		// 	}
+		// }
+
+		if (AUnit* casted_hero = Cast<AUnit>(ally))
 		{
-			casted_hero->ApplyBuff(EBuffType::Encourage, attack_power_buff_data);
-			casted_hero->ApplyBuff(EBuffType::Encourage, skill_power_buff_data);
-			casted_hero->AcquireShield(shield_amount_, buff_duration_);
-			casted_hero->AddBuffUI({skill_data_.item_data_, EBuffType::Encourage, buff_duration_});
-			if (IsUpgradedActiveSkill(skill_data_.type_))
-			{
-				casted_hero->ReduceActiveSkillCoolDown(1.f);
-			}
+			buff_->ApplyBuff(casted_hero);
 		}
 	}
 

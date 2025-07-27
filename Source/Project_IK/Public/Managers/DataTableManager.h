@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
 #include "Managers/EnumCluster.h"
-#include "Structs/BuffUIData.h"
 #include "Structs/PerkNode.h"
 #include "DataTableManager.generated.h"
 
@@ -33,7 +32,6 @@ struct FPassiveSkillData;
 struct FRuneData;
 struct FActiveSkillData;
 struct FGlobalBuffData;
-struct FSupportSkillData;
 struct FPerkNode;
 
 UCLASS(Blueprintable)
@@ -65,11 +63,6 @@ public:
 	FActiveSkillData GetActiveSkillDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	TArray<FActiveSkillData> GetUniqueActiveSkillDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
-	FSupportSkillData GetSupportSkillData(ESupportSkillType type) const;
-	FString SupportSkillEnumToString(ESupportSkillType weapon_type) const;
-	FSupportSkillData GetSupportSkillDataRandomly(ERarity weight_rarity = ERarity::Common) const;
-	TArray<FSupportSkillData> GetUniqueSupportSkillDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
-
 	const FCharacterData& GetCharacterData(ECharacterType char_type) const;
 
 	void EnhanceHeroesStatData(ECharacterStatType stat_type, float increase_amount);
@@ -87,7 +80,6 @@ public:
 	TSoftObjectPtr<UAnimBlueprint> GetWeaponAnimInstance(EUnitBoneType bone, EWeaponAnimationType weapon);
 
 	TSubclassOf<class AUnit> GetUnitType(ECharacterType type);
-	FSupportSkillData GetSupportSkillType(ESupportSkillType type);
 
 	const TArray<FPerkNode>& GetTree() const;
 
@@ -100,9 +92,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table")
 	TObjectPtr<class UActiveSkillDataAsset> active_skill_data_asset_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table")
-	TObjectPtr<class USupportSkillDataAsset> support_skill_data_asset_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table")
 	TObjectPtr<class UCharacterStatDataAsset> character_stat_data_asset_;
@@ -124,9 +113,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info")
 	TObjectPtr<class UUnitTypeDataAsset> unit_type_asset_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info")
-	TObjectPtr<class USupportSkillDataAsset> support_skill_type_asset_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PerkTree")
 	TObjectPtr<UPerkTreeDataAsset> perk_tree_data_asset_;

@@ -11,10 +11,13 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
-#include "Structs/SupportSkillData.h"
 #include "Structs/TargetResult.h"
 #include "IKGameState.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnToggleFocusMode, bool, on_detail_mode);
+
+class USupportSkillBase;
+class USupportSkillDataAsset;
 class UActiveSkillMechanics;
 class USkillBase;
 class UButtonBarWidget;
@@ -39,7 +42,6 @@ public:
 	
 	UFUNCTION()
 	bool UseEnergy(float amount);
-	const TArray<TObjectPtr<USupportSkillBase>>& GetSupportSkillPtr() const;
 	UFUNCTION(BlueprintPure)
 	class UEnergySystemComponent* GetEnergySystemComponent();
 	UFUNCTION()
@@ -54,9 +56,27 @@ public:
 	void ReduceCoolDown(EHeroType hero_type, float amount);
 	UFUNCTION()
 	void ReduceCoolDownPercentage(EHeroType hero_type, float percentage);
+	UFUNCTION()
+	void ToggleFocusMode();
+
+	const TArray<TObjectPtr<USupportSkillDataAsset>>& GetSupportSkillData();
+	const TArray<TObjectPtr<USupportSkillBase>>& GetSupportSkills();
+
+public:
+	FOnToggleFocusMode OnToggleDetailMode;
+
+private:
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<USupportSkillDataAsset> relocation_data_;
+
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<USupportSkillDataAsset> set_attack_target_data_;
+
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<USupportSkillDataAsset> maintain_data_;
 	
 private:
-	UPROPERTY(VisibleAnywhere, Category = "EnergySystem")
+	UPROPERTY()
 	TObjectPtr<UEnergySystemComponent> energy_system_component_;
 	
 	UPROPERTY()
@@ -64,9 +84,12 @@ private:
 
 	UPROPERTY()
 	TMap<EHeroType, FTimerHandle> active_skill_timers_;
+
+	UPROPERTY()
+	TArray<TObjectPtr<USupportSkillDataAsset>> support_skill_data_;
 	
 	UPROPERTY()
-	TArray<TObjectPtr<USupportSkillBase>> equipped_support_skills_;
+	TArray<TObjectPtr<USupportSkillBase>> support_skills_;
 	
 	UPROPERTY()
 	TArray<FTimerHandle> support_skill_timers_;
@@ -76,9 +99,10 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<USupportSkillBase> selected_support_skill_;
-
 	
 	ESelectedSkill selected_skill_type_;
 	EHeroType selected_hero_type_;
 	int32 selected_support_num_;
+
+	bool on_focus_mode_ = false;
 };

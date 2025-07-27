@@ -56,7 +56,7 @@ void URunePopupWidget::UpdateRuneData(EHeroType type)
 		auto cur_set_data = data_table_cache_->GetRuneSetData(elem.Key);
 		
 		auto new_widget = CreateWidget<URunePopupDetailWidget>(this, rune_popup_detail_widget_class_);
-		new_widget->thumbnail_->SetBrushFromTexture(cur_set_data.item_data_.thumbnail);
+		new_widget->thumbnail_->SetBrushFromTexture(cur_set_data.item_data_.display_data_->thumbnail);
 		new_widget->set_bonus_type_->SetText(bonus_type_text);
 		new_widget->set_bonus_detail_->SetText(cur_set_data.bonus_details_[bonus_type_]);
 		new_widget->AddToViewport();

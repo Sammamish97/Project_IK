@@ -13,7 +13,6 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Structs/BuffStatusData.h"
-#include "Structs/BuffUIData.h"
 #include "Structs/CharacterData.h"
 #include "CharacterStatComponent.generated.h"
 

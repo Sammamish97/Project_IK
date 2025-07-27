@@ -28,7 +28,7 @@ void UGB_UpgradeBeta::ApplyBuff(UObject* buff_target)
 	if (AHeroBase* hero = Cast<AHeroBase>(buff_target))
 	{
 		
-		hero->ApplyBuff(EBuffType::Upgrade_Beta, FBuffStatusData(ECharacterStatType::MagazineBonus, hero->GetCharacterStat()->GetAttackSpeed() * scaler_, false, true));
+		hero->ApplyStatusBuff(EBuffType::Upgrade_Beta, FBuffStatusData(ECharacterStatType::MagazineBonus, hero->GetCharacterStat()->GetAttackSpeed() * scaler_, false, true));
 
 		// @@ TODO: Add buffUI after 
 		// hero->AddBuffUI(FBuffUIData(FText::FromString("Upgrade Beta"), EBuffType::Upgrade_Beta, nullptr, 0.f, true, FText::FromString("Beta upgraded. Gain extra magazine bonus by its attack speed.")));

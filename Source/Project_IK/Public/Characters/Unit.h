@@ -14,9 +14,9 @@ See LICENSE file in the project root for full license information.
 #include "Interfaces/Attackable.h"
 #include "Interfaces/Damageable.h"
 #include "Interfaces/UnitInterface.h"
-#include "AITypes.h"
-
 #include "Unit.generated.h"
+
+class UDisplayDataAsset;
 class UHitPointsUI;
 class UObjectPoolComponent;
 class UWidgetComponent;
@@ -29,6 +29,11 @@ enum class EUnitEvent : uint8;
 struct FBuffStatusData;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUnitEvent);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnApplyBuffDelegate, EBuffType, buff_type, UDisplayDataAsset*, buff_data, bool, is_permanant, float, duration);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffExpired, EBuffType, buff_type);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnFinishAction, UBehaviorTreeComponent*, bt_component, bool, is_interrupted);
+
 
 UCLASS(Abstract)
 class PROJECT_IK_API AUnit : public ACharacter, public IAttackable, public IDamageable, public IUnitInterface
@@ -48,13 +53,10 @@ public:
 	FVector GetForwardDir() const;
 	void SetForwardDir(const FVector& Forward_Dir);
 
-	void SetCurHidingCover(AActor* cover);
-	AActor* GetCurHidingCover() const;
-
 	void SetAttackTarget(AActor* target);
 	AActor* GetAttackTarget();
 
-	virtual void InterruptUnitBehavior(EUnitState type);
+	virtual void SetUnitStateWithInterrupt(EUnitState type);
 	virtual void ResetUnitState();
 
 	void SetOutlineState(EOutlineState state);
@@ -65,9 +67,11 @@ public:
 	ECharacterType GetCharacterType() const;
 	UCharacterStatComponent* GetCharacterStat();
 	UCrowdControlComponent* GetCCComponent();
+	UWidgetComponent* GetHPUIWidgetComponent();
 	EUnitBoneType GetBoneType() const;
 	bool IsHero() const;
 
+	void FinishAction();
 	
 	UFUNCTION(BlueprintCallable)
 	virtual void GetDamage(FDamageData data) override;
@@ -76,7 +80,10 @@ public:
 	void Heal(float heal);
 	
 	UFUNCTION(BlueprintCallable)
-	virtual void ApplyBuff(EBuffType buff_type, FBuffStatusData buff_status);
+	virtual void ApplyStatusBuff(EBuffType buff_type, FBuffStatusData buff_status);
+	virtual void AddBuffUI(EBuffType type, UDisplayDataAsset* ui_data);
+	virtual void AddBuffUI(EBuffType type, UDisplayDataAsset* ui_data, float duration_);
+	virtual void RemoveBuffUI(EBuffType type);
 
 	UFUNCTION(BlueprintCallable)
 	virtual void RemoveBuff(EBuffType buff_type);
@@ -99,15 +106,10 @@ public:
 	virtual void OnEnterBattleOnce();
 	
 	float GetPitchDiffBetweenTarget();
-
-	float GetStunRequestID() const;
 	
 	UFUNCTION()
 	void DispatchUnitEvent(EUnitEvent type);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<class UHPUICore> hp_UI_class_;
-	
 protected:
 	void SetDamageUI(FDamageData data, bool is_evaded);
 
@@ -126,8 +128,27 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data")
 	ECharacterType character_type_;
 
+	//IKTODO: 현재 모든 유닛은 동일한 bone을 사용한다. 이후 제거되어야 한다.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data")
 	EUnitBoneType bone_type_;
+
+public:
+	UPROPERTY()
+	FOnBuffExpired OnBuffExpired;
+
+	UPROPERTY()
+	FOnApplyBuffDelegate OnApplyBuff;
+	
+	UPROPERTY()
+	FOnFinishAction OnFinishAction;
+
+//HP UI
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UUserWidget> hp_UI_class_;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UWidgetComponent> hp_widget_component_;
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
@@ -136,12 +157,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Unit")
 	TObjectPtr<UCrowdControlComponent> cc_component_;
 	
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> stun_montage_;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UWidgetComponent> hp_UI_;
-
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Animation", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> stunned_montage_;
 
@@ -168,10 +187,7 @@ protected:
 
 	UPROPERTY()
 	TMap<EUnitEvent, FOnUnitEvent> on_unit_event_;
-
-	UPROPERTY()
-	FAIRequestID stun_ai_request_id_ = 2;
-
+	
 	bool is_first_attack_ = true;
 	
 	float capsule_half_height_ = 0.f;

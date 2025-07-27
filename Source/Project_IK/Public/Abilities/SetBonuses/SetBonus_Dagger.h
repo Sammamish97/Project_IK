@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Structs/DamageData.h"
 #include "SetBonusBase.h"
-#include "Structs/BuffUIData.h"
 #include "SetBonus_Dagger.generated.h"
 
 class APooledActor;
@@ -54,7 +53,6 @@ protected:
 	FBuffStatusData edge_crit_buff_data_;
 
 	FBuffStatusData triangle_buff_data_;
-	FBuffUIData triangle_buff_UI_data_;
 	
 	UPROPERTY()
 	TObjectPtr<class UObjectPoolComponent> bullet_pool_;

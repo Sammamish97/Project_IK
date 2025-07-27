@@ -11,9 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "Characters/Unit.h"
 #include "Components/WeaponMechanics.h"
-#include "Environments/Cover.h"
 UTask_ResetGunnerValues::UTask_ResetGunnerValues()
 {
 	NodeName = "ResetGunnerValues";
@@ -21,19 +19,6 @@ UTask_ResetGunnerValues::UTask_ResetGunnerValues()
 
 EBTNodeResult::Type UTask_ResetGunnerValues::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
-	if (auto owned_cover = blackboard->GetValueAsObject(owned_cover_key_.SelectedKeyName))
-	{
-		blackboard->SetValueAsObject(owned_cover_key_.SelectedKeyName, nullptr);
-		blackboard->SetValueAsBool(is_arrived_cover_key_.SelectedKeyName, false);
-
-		ACover* casted_cover = Cast<ACover>(owned_cover);
-		casted_cover->OnLeave();
-		AUnit* casted_unit = Cast<AUnit>(OwnerComp.GetAIOwner()->GetPawn());
-		casted_unit->DispatchUnitEvent(EUnitEvent::LeaveCover);
-		casted_unit->SetCurHidingCover(nullptr);
-	}
-
 	TWeakObjectPtr<APawn> casted_pawn_ptr = OwnerComp.GetAIOwner()->GetPawn();
 	if (auto casted_pawn = casted_pawn_ptr.Get())
 	{

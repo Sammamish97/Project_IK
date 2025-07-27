@@ -64,7 +64,7 @@ void AAutoGun::OnFire(AActor* target, float attack_speed)
 		{
 			float total_fire_per_sec =  weapon_status_data_.fire_per_sec * (1 + gun_owner->GetCharacterStat()->GetAttackSpeed() / 100.f);
 			float weapon_attack_speed = 1.f / total_fire_per_sec;
-			FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &AAutoGun::OnFire, target, weapon_attack_speed);
+			FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &AAutoGun::OnFire, gun_owner->GetAttackTarget(), weapon_attack_speed);
 			GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, false);
 		}
 	}
