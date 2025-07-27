@@ -51,13 +51,13 @@ public:
 	void Event_Trap_ThirdOptionResult();
 //
 	UFUNCTION()
-	void Event_4_FirstOptionResult();
+	void Event_EMP_FirstOptionResult();
 	
 	UFUNCTION()
-	void Event_4_SecondOptionResult();
+	void Event_EMP_SecondOptionResult();
 
 	UFUNCTION()
-	void Event_4_ThirdOptionResult();
+	void Event_EMP_ThirdOptionResult();
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))

@@ -47,7 +47,7 @@ FEventData UEventManager::GetRandomEventData()
 				return *event_table_->FindRow<FEventData>(FName("Trap"), TEXT(""));
 			
 			case 3:
-				return *event_table_->FindRow<FEventData>(FName("EventType_4"), TEXT(""));
+				return *event_table_->FindRow<FEventData>(FName("EMP"), TEXT(""));
 		}
 	}
 	return FEventData();
@@ -75,10 +75,10 @@ void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> wi
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_Trap_ThirdOptionResult);
 		break;
 
-	case EEventType::EventType_4:
-		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_4_FirstOptionResult);
-		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_4_SecondOptionResult);
-		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_4_ThirdOptionResult);
+	case EEventType::EMP:
+		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_EMP_FirstOptionResult);
+		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_EMP_SecondOptionResult);
+		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_EMP_ThirdOptionResult);
 		break;
 
 	default:
@@ -119,7 +119,6 @@ void UEventManager::Event_AirStrike_ThirdOptionResult()
 	subsystem->AddBuff(EGlobalBuffType::AirStrike_ArmorDebuff);
 }
 
-//Event 2: 장비
 void UEventManager::Event_Ambush_FirstOptionResult()
 {
 	// Discard a active skill randomly.
@@ -153,7 +152,6 @@ void UEventManager::Event_Ambush_ThirdOptionResult()
 	subsystem->AddBuff(EGlobalBuffType::Ambush_AttackPowerDebuff);
 }
 
-//Event 3: 룬
 void UEventManager::Event_Trap_FirstOptionResult()
 {
 	inventory_manager_->SetCredits(
@@ -185,19 +183,17 @@ void UEventManager::Event_Trap_ThirdOptionResult()
 	subsystem->AddBuff(EGlobalBuffType::Trap_RewardChoiceDebuff);
 }
 
-//Event 4: 글로벌 버프
-
-void UEventManager::Event_4_FirstOptionResult()
+void UEventManager::Event_EMP_FirstOptionResult()
 {
-	global_buff_subsystem_->AddBuff(EGlobalBuffType::WoundingBullets);
+	global_buff_subsystem_->AddBuff(EGlobalBuffType::EMP_CritBuff);
 }
 
-void UEventManager::Event_4_SecondOptionResult()
+void UEventManager::Event_EMP_SecondOptionResult()
 {
-	global_buff_subsystem_->AddBuff(EGlobalBuffType::WoundingBullets);
+	global_buff_subsystem_->AddBuff(EGlobalBuffType::EMP_AttackSpeedBuff);
 }
 
-void UEventManager::Event_4_ThirdOptionResult()
+void UEventManager::Event_EMP_ThirdOptionResult()
 {
-	global_buff_subsystem_->AddBuff(EGlobalBuffType::WoundingBullets);
+	global_buff_subsystem_->AddBuff(EGlobalBuffType::EMP_HPDebuff);
 }

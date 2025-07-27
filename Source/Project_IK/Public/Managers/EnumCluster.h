@@ -516,6 +516,9 @@ enum class EGlobalBuffType : uint8
 	Ambush_AttackPowerDebuff UMETA(DisplayName = "Ambush AttackPower Debuff"),
 	Trap_RewardCandidateDebuff UMETA(DisplayName = "Trap Reward Candidate Debuff"),
 	Trap_RewardChoiceDebuff UMETA(DisplayName = "Trap Reward Choice Debuff"),
+	EMP_CritBuff UMETA(DisplayName = "EMP Critical hit rate Buff"),
+	EMP_AttackSpeedBuff UMETA(DisplayName = "EMP AttackSpeed Buff"),
+	EMP_HPDebuff UMETA(DisplayName = "EMP HP Debuff"),
 	None UMETA(DisplayName = "None"),
 };
 
@@ -586,7 +589,7 @@ enum class EEventType : uint8
 	AirStrike UMETA(DisplayName = "Air Strike"),
 	Ambush UMETA(DisplayName = "Ambush"),
 	Trap UMETA(DisplayName = "Trap"),
-	EventType_4 UMETA(DisplayName = "EventType_4"),
+	EMP UMETA(DisplayName = "EMP"),
 };
 
 UENUM(BlueprintType)
@@ -693,4 +696,8 @@ enum class EBuffType : uint8
 
 	AmbushAttackSpeedDebuff UMETA(DisplayName = "Ambush AttackSpeed Debuff"),
 	AmbushAttackPowerDebuff UMETA(DisplayName = "Ambush AttackPower Debuff"),
+
+	EMPCritBuff UMETA(DisplayName = "EMP Critical hit rate Buff"),
+	EMPAttackSpeedBuff UMETA(DisplayName = "EMP AttackSpeed Buff"),
+	EMPHPDebuff UMETA(DisplayName = "EMP HP Debuff"),
 };
