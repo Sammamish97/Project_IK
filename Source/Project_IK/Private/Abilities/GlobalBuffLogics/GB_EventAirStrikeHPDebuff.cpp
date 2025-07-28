@@ -22,7 +22,7 @@ void UGB_EventAirStrikeHPDebuff::ApplyBuff(UObject* buff_target)
 {
 	if (AHeroBase* hero = Cast<AHeroBase>(buff_target))
 	{
-		hero->ApplyBuff(EBuffType::AirStrikeHPDebuff, FBuffStatusData(ECharacterStatType::HitPoints, -0.3f, true, true));
+		//hero->ApplyBuff(EBuffType::AirStrikeHPDebuff, FBuffStatusData(ECharacterStatType::HitPoints, -0.3f, true, true));
 
 		// @@ TODO: Add buffUI after 
 		// hero->AddBuffUI(FBuffUIData(FText::FromString("AirStrike HP Debuff"), EBuffType::AirStrikeHPDebuff, nullptr, 0.f, true, FText::FromString("Wound by AirStrik not yet recovered, Max HP decreased by 30%.")));

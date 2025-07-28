@@ -16,10 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "PS_CloseQuartersMastery.generated.h"
 
 struct FDamageData;
-
-/**
- * 
- */
+class UBuffHandler;
 UCLASS()
 class PROJECT_IK_API UPS_CloseQuartersMastery : public UPassiveSkillBase
 {
@@ -28,11 +25,9 @@ public:
 	virtual void InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data) override;
 
 protected:
-	UFUNCTION()
-	void CloseQuatersMastery(float& critical_rate);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
+	TSubclassOf<UBuffHandler> buff_class_;
 
-	float GetDistance2D(const AActor* hero, const AActor* target, float weapon_range);
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float max_critical_rate_bonus_ = 50.f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
+	TObjectPtr<UBuffHandler> buff_;
 };

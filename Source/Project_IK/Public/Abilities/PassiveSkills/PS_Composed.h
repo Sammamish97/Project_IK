@@ -11,26 +11,30 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "PassiveSkillBase.h"
-#include "Structs/BuffStatusData.h"
-#include "PS_Composure.generated.h"
+#include "PS_Composed.generated.h"
 
+class UBuffHandler;
 UCLASS()
-class PROJECT_IK_API UPS_Composure : public UPassiveSkillBase
+class PROJECT_IK_API UPS_Composed : public UPassiveSkillBase
 {
 	GENERATED_BODY()
 public:
 	virtual void InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data) override;
 	
 private:
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBuffHandler> buff_class_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UBuffHandler> buff_;
+	
 	void OnHPChanged(float hp_ratio);
-	void ApplyBuff(float buff_amount);
-	void RemoveBuff();
 
+	UPROPERTY(EditDefaultsOnly)
 	float min_hp_ratio_ = 0.5f;
+	
+	UPROPERTY(EditDefaultsOnly)
 	float max_hp_ratio_ = 0.2f;
-
-	float min_dodge_rate_ = 0.05f;
-	float max_dodge_rate_ = 0.15f;
 
 	bool is_buff_applied_ = false;
 };

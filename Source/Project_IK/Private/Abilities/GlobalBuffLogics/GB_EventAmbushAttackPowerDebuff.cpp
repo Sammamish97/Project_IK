@@ -22,7 +22,7 @@ void UGB_EventAmbushAttackPowerDebuff::ApplyBuff(UObject* buff_target)
 {
 	if (AHeroBase* hero = Cast<AHeroBase>(buff_target))
 	{
-		hero->ApplyBuff(EBuffType::AmbushAttackPowerDebuff, FBuffStatusData(ECharacterStatType::AttackPower, -0.2f, true, true));
+		//hero->ApplyBuff(EBuffType::AmbushAttackPowerDebuff, FBuffStatusData(ECharacterStatType::AttackPower, -0.2f, true, true));
 
 		// @@ TODO: Add buffUI after 
 		// hero->AddBuffUI(FBuffUIData(FText::FromString("Ambush AttackPower Debuff"), EBuffType::AmbushAttackPowerDebuff, nullptr, 0.f, true, FText::FromString("Ambushed! AttackPower decreased by 20%.")));

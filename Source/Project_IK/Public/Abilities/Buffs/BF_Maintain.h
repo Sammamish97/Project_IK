@@ -18,6 +18,7 @@ class PROJECT_IK_API UBF_Maintain : public UBuffHandler
 {
 	GENERATED_BODY()
 public:
+	//Shield + Heal
 	virtual void ApplyBuff(AUnit* target) override;
 	virtual void RemoveBuff(AUnit* target) override;
 private:

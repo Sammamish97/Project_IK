@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 
 #include "Abilities/Buffs/BuffHandler.h"
+#include "Characters/Unit.h"
 void UBuffHandler::ApplyBuff(AUnit* target)
 {
 	target_cache_ = target;

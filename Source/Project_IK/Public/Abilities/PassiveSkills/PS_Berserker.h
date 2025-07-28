@@ -38,13 +38,13 @@ protected:
 	void ActivateParticles();
 	void DeactivateParticles();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Passive Skills")
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = true))
 	TSubclassOf<UBuffHandler> buff_class_;
 
 	UPROPERTY(Transient)
 	TObjectPtr<UBuffHandler> buff_;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float hp_ratio_threshold_ = 0.8f;
 	
 	bool is_buff_applied_ = false;

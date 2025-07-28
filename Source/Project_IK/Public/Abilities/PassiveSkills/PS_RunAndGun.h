@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "PassiveSkillBase.h"
 #include "Structs/BuffStatusData.h"
 #include "PS_RunAndGun.generated.h"
-
+class UBuffHandler;
 UCLASS()
 class PROJECT_IK_API UPS_RunAndGun : public UPassiveSkillBase
 {
@@ -21,7 +21,11 @@ class PROJECT_IK_API UPS_RunAndGun : public UPassiveSkillBase
 
 public:
 	virtual void InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data) override;
-	void OnReposition();
+	
 private:
-	FBuffStatusData buff_amount_;
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBuffHandler> buff_class_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UBuffHandler> buff_;
 };
