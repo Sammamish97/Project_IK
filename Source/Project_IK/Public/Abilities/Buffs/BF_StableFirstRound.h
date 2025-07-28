@@ -21,7 +21,9 @@ public:
 	virtual void ApplyBuff(AUnit* target) override;
 	
 private:
+	UFUNCTION()
 	void OnReload();
+	UFUNCTION()
 	void CritBuffOnReload(float& critical_rate);
 
 	bool is_first_shot_ = true;

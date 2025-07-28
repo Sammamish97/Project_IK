@@ -25,5 +25,5 @@ private:
 	void CloseQuatersMastery(float& critical_rate);
 
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = true))
-	float max_critical_rate_bonus_ = 20.f;
+	float max_critical_rate_bonus_ = 200.f;
 };

@@ -222,7 +222,7 @@ AActor* AHeroBase::GetAttackTarget() const
 {
 	if (AHeroAIController* controller = Cast<AHeroAIController>(GetController()))
 	{
-		controller->GetTargetActor();
+		return controller->GetTargetActor();
 	}
 	return nullptr;
 }

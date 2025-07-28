@@ -26,12 +26,20 @@ void UPS_Composed::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& s
 
 void UPS_Composed::OnHPChanged(float hp_ratio)
 {
-	if (hp_ratio <= max_hp_ratio_)
+	if (hp_ratio <= trigger_hp_ratio_)
 	{
-		buff_->ApplyBuff(Cast<AUnit>(hero_cache_));
+		if (is_buff_applied_ == false)
+		{
+			buff_->ApplyBuff(Cast<AUnit>(hero_cache_));
+			is_buff_applied_ = true;
+		}
 	}
 	else
 	{
-		buff_->RemoveBuff(Cast<AUnit>(hero_cache_));
+		if (is_buff_applied_ == true)
+		{
+			buff_->RemoveBuff(Cast<AUnit>(hero_cache_));
+			is_buff_applied_ = false;
+		}
 	}
 }

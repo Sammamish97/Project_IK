@@ -27,14 +27,12 @@ private:
 
 	UPROPERTY(Transient)
 	TObjectPtr<UBuffHandler> buff_;
-	
+
+	UFUNCTION()
 	void OnHPChanged(float hp_ratio);
 
 	UPROPERTY(EditDefaultsOnly)
-	float min_hp_ratio_ = 0.5f;
+	float trigger_hp_ratio_ = 0.5f;
 	
-	UPROPERTY(EditDefaultsOnly)
-	float max_hp_ratio_ = 0.2f;
-
 	bool is_buff_applied_ = false;
 };

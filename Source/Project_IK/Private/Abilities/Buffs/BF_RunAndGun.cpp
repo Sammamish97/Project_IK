@@ -19,6 +19,7 @@ void UBF_RunAndGun::ApplyBuff(AUnit* target)
 {
 	Super::ApplyBuff(target);
 	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(target_cache_.Get(), EUnitEvent::OnReposition, this, &UBF_RunAndGun::OnReposition);
+	target->AddBuffUI(EBuffType::RunAndGun, display_data_);
 }
 
 void UBF_RunAndGun::OnReposition()
