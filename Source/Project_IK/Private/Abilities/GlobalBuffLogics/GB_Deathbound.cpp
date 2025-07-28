@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/EnumCluster.h"
 #include "Characters/HeroBase.h"
+#include "Structs/BuffStatusData.h"
 
 bool UGB_Deathbound::IsBuffValidOnTarget(UObject* buff_target)
 {

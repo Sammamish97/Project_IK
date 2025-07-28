@@ -519,6 +519,8 @@ enum class EGlobalBuffType : uint8
 	EMP_CritBuff UMETA(DisplayName = "EMP Critical hit rate Buff"),
 	EMP_AttackSpeedBuff UMETA(DisplayName = "EMP AttackSpeed Buff"),
 	EMP_HPDebuff UMETA(DisplayName = "EMP HP Debuff"),
+	ProtocolSurvive_Shield UMETA(DisplayName = "ProtocolSurvive Shield"),
+	ProtocolSurvive_LifeSteal UMETA(DisplayName = "ProtocolSurvive LifeSteal"),
 	None UMETA(DisplayName = "None"),
 };
 
@@ -590,6 +592,7 @@ enum class EEventType : uint8
 	Ambush UMETA(DisplayName = "Ambush"),
 	Trap UMETA(DisplayName = "Trap"),
 	EMP UMETA(DisplayName = "EMP"),
+	ProtocolSurvive UMETA(DisplayName = "Protocol Survive"),
 };
 
 UENUM(BlueprintType)
@@ -700,4 +703,7 @@ enum class EBuffType : uint8
 	EMPCritBuff UMETA(DisplayName = "EMP Critical hit rate Buff"),
 	EMPAttackSpeedBuff UMETA(DisplayName = "EMP AttackSpeed Buff"),
 	EMPHPDebuff UMETA(DisplayName = "EMP HP Debuff"),
+
+	ProtocolSurvive_Shield UMETA(DisplayName = "ProtocolSurvive Shield"),
+	ProtocolSurvive_LifeSteal UMETA(DisplayName = "ProtocolSurvive LifeSteal"),
 };

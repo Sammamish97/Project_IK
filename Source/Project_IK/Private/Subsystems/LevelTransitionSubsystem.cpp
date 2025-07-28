@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/SpawnData.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/IKMaps.h"
+#include "Managers/DataTableManager.h"
 
 class UIKGameInstance;
 
@@ -39,6 +40,54 @@ void ULevelTransitionSubsystem::UpdateSpawnData(const TMap<EHeroType, FSpawnData
 void ULevelTransitionSubsystem::UpdateSpawnDataIdx(EHeroType type, FSpawnData data)
 {
 	spawn_data_[type] = data;
+}
+
+void ULevelTransitionSubsystem::HealHeroesSpawnDataPercentage(float heal_percentage)
+{
+	if (heal_percentage <= 0.f)
+	{
+		return;
+	}
+
+	UIKGameInstance* ik_game_instance = Cast<UIKGameInstance>(GetGameInstance());
+	if (!ik_game_instance)
+	{
+		return;
+	}
+
+	UDataTableManager* data_table_manager = ik_game_instance->GetDataTableManager();
+	for (EHeroType type : {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4})
+	{
+		if (spawn_data_[type].is_dead_)
+		{
+			continue;
+		}
+		float max_hp = data_table_manager->GetCharacterData(HeroTypeToCharacterType(type)).status_data_.hit_point_;
+		float& hp = spawn_data_[type].character_data_.status_data_.hit_point_;
+		hp = FMath::Min(max_hp, hp + max_hp * heal_percentage);
+	}
+}
+
+void ULevelTransitionSubsystem::HealHeroesSpawnData(float heal_amount)
+{
+
+	UIKGameInstance* ik_game_instance = Cast<UIKGameInstance>(GetGameInstance());
+	if (!ik_game_instance)
+	{
+		return;
+	}
+
+	UDataTableManager* data_table_manager = ik_game_instance->GetDataTableManager();
+	for (EHeroType type : {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4})
+	{
+		if (spawn_data_[type].is_dead_)
+		{
+			continue;
+		}
+		float max_hp = data_table_manager->GetCharacterData(HeroTypeToCharacterType(type)).status_data_.hit_point_;
+		float& hp = spawn_data_[type].character_data_.status_data_.hit_point_;
+		hp = FMath::Min(max_hp, hp + heal_amount);
+	}
 }
 
 void ULevelTransitionSubsystem::OpenMapLevel(UWorld* world)

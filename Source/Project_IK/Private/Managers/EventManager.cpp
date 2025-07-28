@@ -32,22 +32,25 @@ void UEventManager::InitEventManager(TObjectPtr<UIKGameInstance> instance,
 
 FEventData UEventManager::GetRandomEventData()
 {
-	int32 rand_idx = FMath::RandRange(0, 3);
+	int32 rand_idx = FMath::RandRange(0, 4);
 	if (event_table_)
 	{
 		switch (rand_idx)
 		{
-			case 0:
-				return *event_table_->FindRow<FEventData>(FName("AirStrike"), TEXT(""));
-			
-			case 1:
-				return *event_table_->FindRow<FEventData>(FName("Ambush"), TEXT(""));
-			
-			case 2:
-				return *event_table_->FindRow<FEventData>(FName("Trap"), TEXT(""));
-			
-			case 3:
-				return *event_table_->FindRow<FEventData>(FName("EMP"), TEXT(""));
+		case 0:
+			return *event_table_->FindRow<FEventData>(FName("AirStrike"), TEXT(""));
+
+		case 1:
+			return *event_table_->FindRow<FEventData>(FName("Ambush"), TEXT(""));
+
+		case 2:
+			return *event_table_->FindRow<FEventData>(FName("Trap"), TEXT(""));
+
+		case 3:
+			return *event_table_->FindRow<FEventData>(FName("EMP"), TEXT(""));
+
+		case 4:
+			return *event_table_->FindRow<FEventData>(FName("ProtocolSurvive"), TEXT(""));
 		}
 	}
 	return FEventData();
@@ -81,6 +84,12 @@ void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> wi
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_EMP_ThirdOptionResult);
 		break;
 
+	case EEventType::ProtocolSurvive:
+		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolSurvive_FirstOptionResult);
+		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolSurvive_SecondOptionResult);
+		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolSurvive_ThirdOptionResult);
+		break;
+
 	default:
 		break;
 	}
@@ -92,7 +101,7 @@ void UEventManager::Event_AirStrike_FirstOptionResult()
 	ULevelTransitionSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
 	auto spawn_data = subsystem->GetSpawnData();
 	TArray<TOptional<FWeaponData>*> weapon_data_ref;
-	for (auto& [Key,Value] : spawn_data)
+	for (auto& [Key, Value] : spawn_data)
 	{
 		if (Value.weapon_data_.IsSet())
 		{
@@ -196,4 +205,19 @@ void UEventManager::Event_EMP_SecondOptionResult()
 void UEventManager::Event_EMP_ThirdOptionResult()
 {
 	global_buff_subsystem_->AddBuff(EGlobalBuffType::EMP_HPDebuff);
+}
+
+void UEventManager::Event_ProtocolSurvive_FirstOptionResult()
+{
+	global_buff_subsystem_->AddBuff(EGlobalBuffType::ProtocolSurvive_Shield);
+}
+
+void UEventManager::Event_ProtocolSurvive_SecondOptionResult()
+{
+	global_buff_subsystem_->AddBuff(EGlobalBuffType::ProtocolSurvive_LifeSteal);
+}
+
+void UEventManager::Event_ProtocolSurvive_ThirdOptionResult()
+{
+	GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->HealHeroesSpawnData(50);
 }

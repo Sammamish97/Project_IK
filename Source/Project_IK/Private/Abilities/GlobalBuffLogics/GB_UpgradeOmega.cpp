@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/GlobalBuffLogics/GB_UpgradeOmega.h"
 #include "Characters/HeroBase.h"
 #include "Components/CharacterStatComponent.h"
+#include "Structs/BuffStatusData.h"
 
 bool UGB_UpgradeOmega::IsBuffValidOnTarget(UObject* buff_target)
 {
