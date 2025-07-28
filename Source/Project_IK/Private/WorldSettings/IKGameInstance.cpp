@@ -82,10 +82,6 @@ void UIKGameInstance::InitSpawnData()
 	for (int32 i = 0; i < 4; ++i)
 	{
 		FSpawnData spawn_data;
-		if (i != 0)
-		{
-			spawn_data.is_dead_ = true;
-		}
 		spawn_data.character_data_ = data_table_manager_->GetCharacterData(char_type_array[i]);
 		spawn_data_map.Add({ hero_type_array[i], spawn_data });
 	}
