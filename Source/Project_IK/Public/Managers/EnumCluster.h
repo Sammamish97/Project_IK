@@ -332,6 +332,15 @@ enum class EPassiveSkillType : uint8
 	RunAndGun UMETA(DisplayName = "RunAndGun"),
 	QuickHands UMETA(DisplayName = "QuickHands"),
 	Composed UMETA(DisplayName = "Composed"),
+
+	OptimizedCore UMETA(DisplayName = "OptimizedCore"),
+	ReinforcedCore UMETA(DisplayName = "ReinforcedCore"),
+	SlopedArmor UMETA(DisplayName = "SlopedArmor"),
+	ExtraPadding UMETA(DisplayName = "ExtraPadding"),
+	AcceleratedBarrel UMETA(DisplayName = "AcceleratedBarrel"),
+	EnhancedPistons UMETA(DisplayName = "EnhancedPistons"),
+	ReinforcedCamera UMETA(DisplayName = "ReinforcedCamera"),
+	Conductor UMETA(DisplayName = "Conductor"),
 };
 
 UENUM(BlueprintType)

@@ -119,14 +119,23 @@ void URewardContainerWidget::NativeConstruct()
 	auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Encourage_A));
 
-	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Agility));
-	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::CloseQuartersMastery));
-	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Executioner));
-	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
-	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::StableFirstRound));
-	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::RunAndGun));
-	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::QuickHands));
-	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Composed));
+	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Agility));
+	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::CloseQuartersMastery));
+	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Executioner));
+	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Berserker));
+	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::StableFirstRound));
+	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::RunAndGun));
+	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::QuickHands));
+	// reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Composed));
+
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::OptimizedCore));
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::ReinforcedCore));
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::SlopedArmor));
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::ExtraPadding));
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::AcceleratedBarrel));
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::EnhancedPistons));
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::ReinforcedCore));
+	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Conductor));
 	//
 	
 	for (auto weapon_data : reward_cache_.weapons_)
