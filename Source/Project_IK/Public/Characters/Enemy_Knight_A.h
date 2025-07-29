@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Enemy_RifleMan.h"
 #include "Enemy_Knight_A.generated.h"
-
+class UBuffHandler;
 UCLASS()
 class PROJECT_IK_API AEnemy_Knight_A : public AEnemy_RifleMan
 {
@@ -21,14 +21,18 @@ class PROJECT_IK_API AEnemy_Knight_A : public AEnemy_RifleMan
 
 public:
 	virtual void BeginPlay() override;
+
+	UFUNCTION()
 	void OnHPThreshold(float ratio);
 	
 private:
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = true))
 	TSubclassOf<UBuffHandler> buff_class_;
 
-	UPROPERTY();
+	UPROPERTY()
 	TObjectPtr<UBuffHandler> buff_;
 
+	UPROPERTY()
+	float buff_hp_ratio_ = 0.5f;
 	bool on_buff_ = false;
 };

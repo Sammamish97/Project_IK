@@ -23,7 +23,7 @@ void AEnemy_Knight_A::BeginPlay()
 
 void AEnemy_Knight_A::OnHPThreshold(float ratio)
 {
-	if (on_buff_ == false)
+	if (ratio < buff_hp_ratio_ && on_buff_ == false)
 	{
 		buff_->ApplyBuff(this);
 		on_buff_ = true;
