@@ -67,6 +67,15 @@ public:
 
 	UFUNCTION()
 	void Event_ProtocolSurvive_ThirdOptionResult();
+	//
+	UFUNCTION()
+	void Event_ProtocolAssault_FirstOptionResult();
+
+	UFUNCTION()
+	void Event_ProtocolAssault_SecondOptionResult();
+
+	UFUNCTION()
+	void Event_ProtocolAssault_ThirdOptionResult();
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))

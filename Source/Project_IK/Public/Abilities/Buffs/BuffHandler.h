@@ -34,6 +34,5 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Buffs")
 	TObjectPtr<UDisplayDataAsset> display_data_;
 
-	UPROPERTY(Transient)
-	TObjectPtr<AUnit> target_cache_;
+	TWeakObjectPtr<AUnit> target_cache_;
 };

@@ -521,6 +521,9 @@ enum class EGlobalBuffType : uint8
 	EMP_HPDebuff UMETA(DisplayName = "EMP HP Debuff"),
 	ProtocolSurvive_Shield UMETA(DisplayName = "ProtocolSurvive Shield"),
 	ProtocolSurvive_LifeSteal UMETA(DisplayName = "ProtocolSurvive LifeSteal"),
+	ProtocolAssault_AttackPowerBuff UMETA(DisplayName = "ProtocolAssault AttackPowerBuff"),
+	ProtocolAssault_SkillPowerBuff UMETA(DisplayName = "ProtocolAssault SkillPowerBuff"),
+	ProtocolAssault_AttackSpeedBuff UMETA(DisplayName = "ProtocolAssault AttackSpeedBuff"),
 	None UMETA(DisplayName = "None"),
 };
 
@@ -593,6 +596,7 @@ enum class EEventType : uint8
 	Trap UMETA(DisplayName = "Trap"),
 	EMP UMETA(DisplayName = "EMP"),
 	ProtocolSurvive UMETA(DisplayName = "Protocol Survive"),
+	ProtocolAssault UMETA(DisplayName = "Protocol Assault"),
 };
 
 UENUM(BlueprintType)
@@ -706,4 +710,8 @@ enum class EBuffType : uint8
 
 	ProtocolSurvive_Shield UMETA(DisplayName = "ProtocolSurvive Shield"),
 	ProtocolSurvive_LifeSteal UMETA(DisplayName = "ProtocolSurvive LifeSteal"),
+
+	ProtocolAssault_AttackPowerBuff UMETA(DisplayName = "ProtocolAssault AttackPowerBuff"),
+	ProtocolAssault_SkillPowerBuff UMETA(DisplayName = "ProtocolAssault SkillPowerBuff"),
+	ProtocolAssault_AttackSpeedBuff UMETA(DisplayName = "ProtocolAssault AttackSpeedBuff"),
 };

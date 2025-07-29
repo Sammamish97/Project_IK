@@ -32,7 +32,7 @@ void UEventManager::InitEventManager(TObjectPtr<UIKGameInstance> instance,
 
 FEventData UEventManager::GetRandomEventData()
 {
-	int32 rand_idx = FMath::RandRange(0, 4);
+	int32 rand_idx = FMath::RandRange(0, 5);
 	if (event_table_)
 	{
 		switch (rand_idx)
@@ -51,6 +51,9 @@ FEventData UEventManager::GetRandomEventData()
 
 		case 4:
 			return *event_table_->FindRow<FEventData>(FName("ProtocolSurvive"), TEXT(""));
+
+		case 5:
+			return *event_table_->FindRow<FEventData>(FName("ProtocolAssault"), TEXT(""));
 		}
 	}
 	return FEventData();
@@ -88,6 +91,12 @@ void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> wi
 		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolSurvive_FirstOptionResult);
 		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolSurvive_SecondOptionResult);
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolSurvive_ThirdOptionResult);
+		break;
+
+	case EEventType::ProtocolAssault:
+		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolAssault_FirstOptionResult);
+		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolAssault_SecondOptionResult);
+		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolAssault_ThirdOptionResult);
 		break;
 
 	default:
@@ -220,4 +229,19 @@ void UEventManager::Event_ProtocolSurvive_SecondOptionResult()
 void UEventManager::Event_ProtocolSurvive_ThirdOptionResult()
 {
 	GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->HealHeroesSpawnData(50);
+}
+
+void UEventManager::Event_ProtocolAssault_FirstOptionResult()
+{
+	global_buff_subsystem_->AddBuff(EGlobalBuffType::ProtocolAssault_AttackPowerBuff);
+}
+
+void UEventManager::Event_ProtocolAssault_SecondOptionResult()
+{
+	global_buff_subsystem_->AddBuff(EGlobalBuffType::ProtocolAssault_SkillPowerBuff);
+}
+
+void UEventManager::Event_ProtocolAssault_ThirdOptionResult()
+{
+	global_buff_subsystem_->AddBuff(EGlobalBuffType::ProtocolAssault_AttackSpeedBuff);
 }
