@@ -110,11 +110,6 @@ ECharacterType AUnit::GetCharacterType() const
 	return character_type_;
 }
 
-EUnitBoneType AUnit::GetBoneType() const
-{
-	return bone_type_;
-}
-
 bool AUnit::IsHero() const
 {
 	return is_hero_;

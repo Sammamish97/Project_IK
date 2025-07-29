@@ -14,8 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "Structs/PassiveSkillData.h"
 #include "PassiveSkillBase.generated.h"
 
-class UTextBlock;
-
 UCLASS(Blueprintable, Abstract)
 class PROJECT_IK_API UPassiveSkillBase : public UObject
 {

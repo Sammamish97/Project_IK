@@ -122,15 +122,11 @@ protected:
 
 protected:
 	//Name/Character Type/Bone Type은 BP에서 초기화 되는것을 기대한다.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data")
+	UPROPERTY(EditDefaultsOnly, Category = "Data")
 	FName character_name_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data")
+	UPROPERTY(EditDefaultsOnly, Category = "Data")
 	ECharacterType character_type_;
-
-	//IKTODO: 현재 모든 유닛은 동일한 bone을 사용한다. 이후 제거되어야 한다.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data")
-	EUnitBoneType bone_type_;
 
 public:
 	UPROPERTY()
@@ -144,7 +140,7 @@ public:
 
 //HP UI
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Unit")
 	TSubclassOf<UUserWidget> hp_UI_class_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
@@ -161,29 +157,26 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> stun_montage_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Animation", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> stunned_montage_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DamageUI", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UObjectPoolComponent> object_pool_component_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Unit")
 	TObjectPtr<UOutlineComponent> outline_component_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	EAIFindTargetType ai_find_target_type_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	FVector forward_dir_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	bool is_hero_ = false;
 	
 	UPROPERTY(Transient)
 	FTimerHandle stun_timer_;
-
-	UPROPERTY(Transient)
-	TWeakObjectPtr<AActor> cur_hiding_cover_ = nullptr;
 
 	UPROPERTY()
 	TMap<EUnitEvent, FOnUnitEvent> on_unit_event_;

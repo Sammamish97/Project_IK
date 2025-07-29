@@ -29,5 +29,8 @@ void UBF_Maintain::RemoveBuff(AUnit* target)
 
 void UBF_Maintain::Heal()
 {
-	target_cache_->Heal(heal_per_half_sec_);
+	if (auto target = target_cache_.Get())
+	{
+		target_cache_->Heal(heal_per_half_sec_);
+	}
 }

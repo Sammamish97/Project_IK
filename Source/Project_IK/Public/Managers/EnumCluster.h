@@ -99,11 +99,18 @@ enum class ECharacterType  : uint8
 	EnemySoldier UMETA(DisplayName = "EnemySoldier"),
 	EnemySniper UMETA(DisplayName = "EnemySniper"),
 	EnemyKnight UMETA(DisplayName = "EnemyKnight"),
-	EnemyLaserDrone	UMETA(DisplayName = "EnemyLaserDrone"),
-	EnemyHealingPillar UMETA(DisplayName = "EnemyHealingPillar"),
 	EnemyHeavyGunner UMETA(DisplayName = "EnemyHeavyGunner"),
 	EnemyOfficer UMETA(DisplayName = "EnemyOfficer"),
 	EnemyAssassin UMETA(DisplayName = "EnemyAssassin"),
+
+	EnemySoldier_A UMETA(DisplayName = "EnemySoldier_A"),
+	EnemySniper_A UMETA(DisplayName = "EnemySniper_A"),
+	EnemyKnight_A UMETA(DisplayName = "EnemyKnight_A"),
+	EnemyHeavyGunner_A UMETA(DisplayName = "EnemyHeavyGunner_A"),
+	EnemyOfficer_A UMETA(DisplayName = "EnemyOfficer_A"),
+	EnemyAssassin_A UMETA(DisplayName = "EnemyAssassin_A"),
+	
+	EnemyHealingPillar UMETA(DisplayName = "EnemyHealingPillar"),
 
 	SentryGun UMETA(DisplayName = "SentryGun"),
 };
@@ -689,6 +696,10 @@ enum class EBuffType : uint8
 	Viper_Edge UMETA(DisplayName = "Viper_Edge"),
 	Viper_Triangle UMETA(DisplayName = "Viper_Triangle"),
 	Viper_Hexagon UMETA(DisplayName = "Viper_Hexagon"),
+
+	//Enemy
+	Soldier_A UMETA(DisplayName = "Soldier_A"),
+	Knight_A UMETA(DisplayName = "Knight_A"),
 
 	//Global
 	Deathbound UMETA(DisplayName = "Deathbound"),
