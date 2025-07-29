@@ -22,7 +22,7 @@ public:
 	virtual void ApplyBuff(AUnit* target) override;
 	virtual void RemoveBuff(AUnit* target) override;
 	
-private:
+protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Buffs", meta = (AllowPrivateAccess = "true"))
 	FBuffStatusData buff_status_data_;
 };

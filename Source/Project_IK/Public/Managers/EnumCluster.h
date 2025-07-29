@@ -324,15 +324,23 @@ UENUM(BlueprintType)
 enum class EPassiveSkillType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
-	FixedDmgReduce UMETA(DisplayName = "FixedDmgReduce"),
-	RandDmgIncrease UMETA(DisplayName = "RandDmgIncrease"),
 	Agility UMETA(DisplayName = "Agility"),
-	Regenerate UMETA(DisplayName = "Regenerate"),
-	Berserker UMETA(DisplayName = "Berserker"),
-	Executioner UMETA(DisplayName = "Executioner"),
 	CloseQuartersMastery UMETA(DisplayName = "CloseQuartersMastery"),
-	LowProfile UMETA(DisplayName = "LowProfile"),
+	Executioner UMETA(DisplayName = "Executioner"),
+	Berserker UMETA(DisplayName = "Berserker"),
 	StableFirstRound UMETA(DisplayName = "StableFirstRound"),
+	RunAndGun UMETA(DisplayName = "RunAndGun"),
+	QuickHands UMETA(DisplayName = "QuickHands"),
+	Composed UMETA(DisplayName = "Composed"),
+
+	OptimizedCore UMETA(DisplayName = "OptimizedCore"),
+	ReinforcedCore UMETA(DisplayName = "ReinforcedCore"),
+	SlopedArmor UMETA(DisplayName = "SlopedArmor"),
+	ExtraPadding UMETA(DisplayName = "ExtraPadding"),
+	AcceleratedBarrel UMETA(DisplayName = "AcceleratedBarrel"),
+	EnhancedPistons UMETA(DisplayName = "EnhancedPistons"),
+	ReinforcedCamera UMETA(DisplayName = "ReinforcedCamera"),
+	Conductor UMETA(DisplayName = "Conductor"),
 };
 
 UENUM(BlueprintType)
@@ -645,9 +653,11 @@ enum class EBuffType : uint8
 
 	//Passive
 	Agility UMETA(DisplayName = "Agility"),
+	CloseQuartersMastery UMETA(DisplayName = "CloseQuartersMastery"),
+	Executioner UMETA(DisplayName = "Executioner"),
 	Berserker UMETA(DisplayName = "Berserker"),
-	LowProfile UMETA(DisplayName = "LowProfile"),
-	WeaponMounting UMETA(DisplayName = "WeaponMounting"),
+	StableFirstRound UMETA(DisplayName = "StableFirstRound"),
+	RunAndGun UMETA(DisplayName = "RunAndGun"),
 	QuickHands UMETA(DisplayName = "QuickHands"),
 	Composure UMETA(DisplayName = "Composure"),
 	

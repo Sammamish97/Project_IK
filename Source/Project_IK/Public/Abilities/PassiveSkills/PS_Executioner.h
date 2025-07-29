@@ -14,10 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Abilities/PassiveSkills/PassiveSkillBase.h"
 #include "PS_Executioner.generated.h"
-
-/**
- * 
- */
+class UBuffHandler;
 UCLASS()
 class PROJECT_IK_API UPS_Executioner : public UPassiveSkillBase
 {
@@ -26,17 +23,9 @@ public:
 	virtual void InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data) override;
 
 protected:
-	UFUNCTION()
-	void ApplyExecutionerBuff();
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBuffHandler> buff_class_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	float buff_amount_ = 1.15f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	bool is_buff_percentage_ = true;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	float buff_duration_ = 1.f;
-
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	float reduce_cooltime_amount_ = 1.f;
+	UPROPERTY(Transient)
+	TObjectPtr<UBuffHandler> buff_;
 };

@@ -22,7 +22,7 @@ void UGB_EventAirStrikeArmorDebuff::ApplyBuff(UObject* buff_target)
 {
 	if (AHeroBase* hero = Cast<AHeroBase>(buff_target))
 	{
-		hero->ApplyBuff(EBuffType::AirStrikeArmorDebuff, FBuffStatusData(ECharacterStatType::Armor, -0.3f, true, true));
+		//hero->ApplyBuff(EBuffType::AirStrikeArmorDebuff, FBuffStatusData(ECharacterStatType::Armor, -0.3f, true, true));
 
 		// @@ TODO: Add buffUI after 
 		// hero->AddBuffUI(FBuffUIData(FText::FromString("AirStrike Armor Debuff"), EBuffType::AirStrikeArmorDebuff, nullptr, 0.f, true, FText::FromString("Armor crashed, armor efficient decreased by 30%.")));
