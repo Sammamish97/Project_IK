@@ -11,28 +11,12 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/PassiveSkills/PS_Executioner.h"
 
-#include "Subsystems/DelegateBridgeSubsystem.h"
-#include "Structs/BuffStatusData.h"
-#include "Characters/HeroBase.h"
+#include "Abilities/Buffs/BuffHandler.h"
+#include "Characters/Unit.h"
 
 void UPS_Executioner::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data)
 {
 	Super::InitPassiveSkill(hero_ref, skill_data);
-	hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_ref, EUnitEvent::OnEliminate, this, &UPS_Executioner::ApplyExecutionerBuff);
-}
-
-void UPS_Executioner::ApplyExecutionerBuff()
-{
-	//FBuffStatusData attack_speed(TEXT("ExecutionerBuff"), ECharacterStatType::AttackSpeed, buff_amount_, is_buff_percentage_, buff_duration_);
-
-	AActor* hero = hero_cache_.Get();
-	if (hero)
-	{
-		//IKTODO: 테스트 이후 정상화 시켜야 함.
-		// AHeroBase* unit = Cast<AHeroBase>(hero);
-		// unit->ApplyBuff(attack_speed);
-		//TODO: 이후 Reduce Cooltime 다시 구현해야 함.
-		//unit->ReduceCooltime(reduce_cooltime_amount_);
-	}
-
+	buff_ = NewObject<UBuffHandler>(this, buff_class_);
+	buff_->ApplyBuff(Cast<AUnit>(hero_ref));
 }

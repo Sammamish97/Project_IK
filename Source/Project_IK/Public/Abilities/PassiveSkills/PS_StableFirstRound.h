@@ -14,10 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Abilities/PassiveSkills/PassiveSkillBase.h"
 #include "PS_StableFirstRound.generated.h"
-
-/**
- * 
- */
+class UBuffHandler;
 UCLASS()
 class PROJECT_IK_API UPS_StableFirstRound : public UPassiveSkillBase
 {
@@ -25,12 +22,10 @@ class PROJECT_IK_API UPS_StableFirstRound : public UPassiveSkillBase
 public:
 	virtual void InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data) override;
 
+private:
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBuffHandler> buff_class_;
 
-protected:
-	UFUNCTION()
-	void CriticalRateBuffIfReloaded(float& critical_rate);
-	UFUNCTION()
-	void CheckHasReloaded();
-
-	bool is_first_shot_ = true;
+	UPROPERTY(Transient)
+	TObjectPtr<UBuffHandler> buff_;
 };

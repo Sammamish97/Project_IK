@@ -29,4 +29,6 @@ void UBF_OneStatusBuff::ApplyBuff(AUnit* target)
 void UBF_OneStatusBuff::RemoveBuff(AUnit* target)
 {
 	Super::RemoveBuff(target);
+	target_cache_->RemoveBuff(buff_type_);
+	target_cache_->RemoveBuffUI(buff_type_);
 }

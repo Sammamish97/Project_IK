@@ -35,21 +35,17 @@ protected:
 	UFUNCTION()
 	void BuffAttackSpeed();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = true))
 	TSubclassOf<UBuffHandler> buff_class_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Agility")
+	UPROPERTY(Transient)
 	TObjectPtr<UBuffHandler> buff_;
 
 	void SpawnParticles(AActor* actor);
 	void ActivateParticles();
 	void DeactivateParticles();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	float buff_amount_ = 1.2f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
-	bool is_buff_percentage_ = true;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Passive Skills")
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float buff_duration_ = 6.f;
 
 	UPROPERTY()

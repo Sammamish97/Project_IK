@@ -26,7 +26,7 @@ class PROJECT_IK_API UBuffHandler : public UObject
 public:
 	virtual void ApplyBuff(AUnit* target);
 	virtual void RemoveBuff(AUnit* target);
-	
+
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Buffs", meta = (AllowPrivateAccess = "true"))
 	EBuffType buff_type_;
