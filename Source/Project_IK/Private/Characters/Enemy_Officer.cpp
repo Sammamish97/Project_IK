@@ -14,13 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "WorldSettings/IKGameModeBase.h"
 
-// Sets default values
-AEnemy_Officer::AEnemy_Officer()
-{
-	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-}
-
 // Called when the game starts or when spawned
 void AEnemy_Officer::BeginPlay()
 {
@@ -29,7 +22,7 @@ void AEnemy_Officer::BeginPlay()
 	auto delegate_bridge = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
 	for(auto& hero_elem : game_mode->GetHeroContainer())
 	{
-		if(hero_elem)
+		if(hero_elem != nullptr)
 		{
 			delegate_bridge->BindOnHPChangedWithOwner(Cast<AUnit>(hero_elem)->GetCharacterStat(), this, &AEnemy_Officer::PointTarget);
 		}
@@ -40,8 +33,7 @@ void AEnemy_Officer::PointTarget(float hp_ratio, AActor* owner_actor)
 {
 	if(is_targeting_available_)
 	{
-		is_targeting_available_ = false;
-		if(hp_ratio <= 0.5f)
+		if(hp_ratio <= hp_threshold_)
 		{
 			//0. 애니메이션 재생
 			PlayAnimMontage(pointing_animation_);
@@ -63,6 +55,7 @@ void AEnemy_Officer::PointTarget(float hp_ratio, AActor* owner_actor)
 			{
 				Cast<AUnit>(elem)->SetAttackTarget(owner_actor);
 			}
+			is_targeting_available_ = false;
 		}
 	}
 }
