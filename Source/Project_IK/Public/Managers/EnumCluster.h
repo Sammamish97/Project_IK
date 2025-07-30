@@ -524,6 +524,9 @@ enum class EGlobalBuffType : uint8
 	ProtocolAssault_AttackPowerBuff UMETA(DisplayName = "ProtocolAssault AttackPowerBuff"),
 	ProtocolAssault_SkillPowerBuff UMETA(DisplayName = "ProtocolAssault SkillPowerBuff"),
 	ProtocolAssault_AttackSpeedBuff UMETA(DisplayName = "ProtocolAssault AttackSpeedBuff"),
+	ProtocolEfficiency_CritBuff UMETA(DisplayName = "ProtocolEfficiency CritBuff"),
+	ProtocolEfficiency_EvadeBuff UMETA(DisplayName = "ProtocolEfficiency EvadeBuff"),
+	ProtocolEfficiency_CooldownBuff UMETA(DisplayName = "ProtocolEfficiency CooldownBuff"),
 	None UMETA(DisplayName = "None"),
 };
 
@@ -595,8 +598,9 @@ enum class EEventType : uint8
 	Ambush UMETA(DisplayName = "Ambush"),
 	Trap UMETA(DisplayName = "Trap"),
 	EMP UMETA(DisplayName = "EMP"),
-	ProtocolSurvive UMETA(DisplayName = "Protocol Survive"),
-	ProtocolAssault UMETA(DisplayName = "Protocol Assault"),
+	ProtocolSurvive UMETA(DisplayName = "Protocol : Survive"),
+	ProtocolAssault UMETA(DisplayName = "Protocol : Assault"),
+	ProtocolEfficiency UMETA(DisplayName = "Protocol : Efficiency"),
 };
 
 UENUM(BlueprintType)
@@ -714,4 +718,8 @@ enum class EBuffType : uint8
 	ProtocolAssault_AttackPowerBuff UMETA(DisplayName = "ProtocolAssault AttackPowerBuff"),
 	ProtocolAssault_SkillPowerBuff UMETA(DisplayName = "ProtocolAssault SkillPowerBuff"),
 	ProtocolAssault_AttackSpeedBuff UMETA(DisplayName = "ProtocolAssault AttackSpeedBuff"),
+
+	ProtocolEfficiency_CritBuff UMETA(DisplayName = "ProtocolEfficiency CritBuff"),
+	ProtocolEfficiency_EvadeBuff UMETA(DisplayName = "ProtocolEfficiency EvadeBuff"),
+	ProtocolEfficiency_CooldownBuff UMETA(DisplayName = "ProtocolEfficiency CooldownBuff"),
 };
