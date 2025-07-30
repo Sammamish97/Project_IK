@@ -113,17 +113,6 @@ void UService_FindEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Node
 				break;
 			}
 			blackboard->SetValueAsObject(attack_target_key_.SelectedKeyName, target);
-
-			//IKTODO: 이 코드는 사격 하던 적이 죽고 바로 다음 적으로 이동될 때 Weapon의 FinishFire를 불러주는 로직이다.
-			if(auto last_target = blackboard->GetValueAsObject(last_attack_target_key_.SelectedKeyName);
-				last_target != target)
-			{
-				if (auto weapon_mechanics = casted_gunner->GetComponentByClass<UWeaponMechanics>())
-				{
-					weapon_mechanics->FinishFire();
-					blackboard->SetValueAsObject(last_attack_target_key_.SelectedKeyName, distance_object_pairs[0].Value);
-				}
-			}
 		}
 	}
 }
