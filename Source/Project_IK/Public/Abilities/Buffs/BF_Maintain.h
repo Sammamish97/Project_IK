@@ -30,5 +30,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Buffs", meta = (AllowPrivateAccess = "true"))
 	float heal_per_half_sec_;
 
+	UPROPERTY(Transient)
+	TWeakObjectPtr<AUnit> target_cache_;
+
 	FTimerHandle heal_timer_handle_;
 };

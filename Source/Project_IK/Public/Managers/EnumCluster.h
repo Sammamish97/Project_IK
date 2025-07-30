@@ -700,6 +700,7 @@ enum class EBuffType : uint8
 	//Enemy
 	Soldier_A UMETA(DisplayName = "Soldier_A"),
 	Knight_A UMETA(DisplayName = "Knight_A"),
+	Officer_A UMETA(DisplayName = "Officer_A"),
 
 	//Global
 	Deathbound UMETA(DisplayName = "Deathbound"),

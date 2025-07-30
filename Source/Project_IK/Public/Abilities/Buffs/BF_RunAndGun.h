@@ -24,4 +24,7 @@ public:
 private:
 	UFUNCTION()
 	void OnReposition();
+
+	UPROPERTY(Transient)
+	TWeakObjectPtr<AUnit> target_cache_;
 };

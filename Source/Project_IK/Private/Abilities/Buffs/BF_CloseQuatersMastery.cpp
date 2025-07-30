@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 
 void UBF_CloseQuatersMastery::ApplyBuff(AUnit* target)
 {
-	Super::ApplyBuff(target);
+	target_cache_ = target;
 	bool bind_result = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnCriticalRateCalculation(target, this, &UBF_CloseQuatersMastery::CloseQuatersMastery);
 	if (bind_result == false)
 	{

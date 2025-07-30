@@ -20,7 +20,6 @@ class PROJECT_IK_API UBF_Executioner : public UBuffHandler
 	GENERATED_BODY()
 public:
 	virtual void ApplyBuff(AUnit* target) override;
-	virtual void RemoveBuff(AUnit* target) override;
 
 private:
 	UFUNCTION()
@@ -28,4 +27,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Buffs", meta = (AllowPrivateAccess = "true"))
 	FBuffStatusData buff_status_data_;
+
+	UPROPERTY(Transient)
+	TWeakObjectPtr<AUnit> target_cache_;
 };

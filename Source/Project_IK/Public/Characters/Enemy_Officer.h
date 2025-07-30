@@ -26,14 +26,14 @@ protected:
 	void PointTarget(float hp_ratio, AActor* owner_actor);
 
 private:
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	float rally_range_ = 600.f;
 
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> pointing_animation_;
 	
 	UPROPERTY(EditDefaultsOnly)
-	float hp_threshold_ = 0.7;
+	float targeting_hp_threshold_ = 0.7;
 
 	bool is_targeting_available_ = true;
 };

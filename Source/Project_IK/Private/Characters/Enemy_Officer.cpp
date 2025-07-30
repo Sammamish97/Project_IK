@@ -33,7 +33,7 @@ void AEnemy_Officer::PointTarget(float hp_ratio, AActor* owner_actor)
 {
 	if(is_targeting_available_)
 	{
-		if(hp_ratio <= hp_threshold_)
+		if(hp_ratio <= targeting_hp_threshold_)
 		{
 			//0. 애니메이션 재생
 			PlayAnimMontage(pointing_animation_);

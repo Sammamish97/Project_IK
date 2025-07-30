@@ -14,8 +14,8 @@ See LICENSE file in the project root for full license information.
 
 void UBF_Maintain::ApplyBuff(AUnit* target)
 {
-	Super::ApplyBuff(target);
-	target_cache_->AcquireShield(shield_amount_, 5.f);
+	target_cache_ = target;
+	target->AcquireShield(shield_amount_, 5.f);
 	FTimerDelegate heal_del = FTimerDelegate::CreateUObject(this, &UBF_Maintain::Heal);
 	GetWorld()->GetTimerManager().SetTimer(heal_timer_handle_, heal_del, 0.5f, true);
 }
@@ -23,14 +23,13 @@ void UBF_Maintain::ApplyBuff(AUnit* target)
 void UBF_Maintain::RemoveBuff(AUnit* target)
 {
 	GetWorld()->GetTimerManager().ClearTimer(heal_timer_handle_);
-	target_cache_->RemoveBuffUI(buff_type_);
-	Super::RemoveBuff(target);
+	target->RemoveBuffUI(buff_type_);
 }
 
 void UBF_Maintain::Heal()
 {
 	if (auto target = target_cache_.Get())
 	{
-		target_cache_->Heal(heal_per_half_sec_);
+		target->Heal(heal_per_half_sec_);
 	}
 }

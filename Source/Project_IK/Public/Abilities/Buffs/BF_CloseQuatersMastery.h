@@ -26,4 +26,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = true))
 	float max_critical_rate_bonus_ = 200.f;
+
+	UPROPERTY(Transient)
+	TWeakObjectPtr<AUnit> target_cache_;
 };

@@ -14,31 +14,32 @@ See LICENSE file in the project root for full license information.
 
 void UBF_TwoStatusBuff::ApplyBuff(AUnit* target)
 {
-	Super::ApplyBuff(target);
-	target_cache_->ApplyStatusBuff(buff_type_, first_buff_status_data_);
+	target->ApplyStatusBuff(buff_type_, first_buff_status_data_);
 	if (first_buff_status_data_.is_permanent_)
 	{
-		target_cache_->AddBuffUI(buff_type_, display_data_);
+		target->AddBuffUI(buff_type_, display_data_);
 	}
 	else
 	{
-		target_cache_->AddBuffUI(buff_type_, display_data_, first_buff_status_data_.duration_);
+		target->AddBuffUI(buff_type_, display_data_, first_buff_status_data_.duration_);
 	}
 	
-	target_cache_->ApplyStatusBuff(buff_type_, second_buff_status_data_);
+	target->ApplyStatusBuff(buff_type_, second_buff_status_data_);
 	if (second_buff_status_data_.is_permanent_)
 	{
-		target_cache_->AddBuffUI(buff_type_, display_data_);
+		target->AddBuffUI(buff_type_, display_data_);
 	}
 	else
 	{
-		target_cache_->AddBuffUI(buff_type_, display_data_, second_buff_status_data_.duration_);
+		target->AddBuffUI(buff_type_, display_data_, second_buff_status_data_.duration_);
 	}
 }
 
 void UBF_TwoStatusBuff::RemoveBuff(AUnit* target)
 {
-	Super::RemoveBuff(target);
-	target_cache_->RemoveBuff(buff_type_);
-	target_cache_->RemoveBuffUI(buff_type_);
+	if (IsValid(target))
+	{
+		target->RemoveBuff(buff_type_);
+		target->RemoveBuffUI(buff_type_);
+	}
 }

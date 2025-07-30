@@ -30,10 +30,10 @@ void UBF_MagnetizedBullet::ApplyBuff(AUnit* target)
 
 void UBF_MagnetizedBullet::RemoveBuff(AUnit* target)
 {
-	Super::RemoveBuff(target);
 	if (auto weapon_mechanics = target->GetComponentByClass<UWeaponMechanics>())
 	{
 		weapon_mechanics->GetWeaponActor()->RemoveOnHitComponent(magnetized_on_hit_class_);
 		GetWorld()->GetTimerManager().ClearTimer(duration_timer_handle_);
 	}
+	Super::RemoveBuff(target);
 }
