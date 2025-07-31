@@ -18,9 +18,6 @@ class UWorld;
 class AEnemyBase;
 class UEnemySpawnDataAsset;
 
-/**
- * 
- */
 UCLASS(Blueprintable)
 class PROJECT_IK_API UEnemySpawnerManager : public UObject
 {
@@ -53,8 +50,21 @@ protected:
 	// How strong enemies spawned?
 	UPROPERTY(BlueprintReadWrite)
 	TArray<TObjectPtr<AActor>> enemies_;
-
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UEnemySpawnDataAsset> enemy_spawn_data_asset_;
+	
+	//Test Perpose
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UBuffHandler> revenge_buff_class_;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UBuffHandler> unity_buff_class_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UBuffHandler> revenge_buff_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UBuffHandler> unity_buff_;
+
 };

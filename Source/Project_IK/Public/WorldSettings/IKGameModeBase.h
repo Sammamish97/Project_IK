@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 
 #include "IKGameModeBase.generated.h"
 
+class UBuffHandler;
 class UTimeDilationManager;
 class UEnemySpawnerManager;
 

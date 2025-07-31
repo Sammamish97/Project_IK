@@ -9,6 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Managers/EnemySpawnerManager.h"
 
+#include "Abilities/Buffs/BuffHandler.h"
 #include "Characters/EnemyBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKPlayerController.h"
@@ -25,6 +26,16 @@ void UEnemySpawnerManager::Initialize(FVector base_spawn_position, int32 waves)
 {
 	spawn_position_ = base_spawn_position;
 	enemy_waves_ = waves;
+
+	//Test Perpose
+	if (revenge_buff_ ==nullptr)
+	{
+		revenge_buff_ = NewObject<UBuffHandler>(this, revenge_buff_class_);
+	}
+	if (unity_buff_ ==nullptr)
+	{
+		unity_buff_ = NewObject<UBuffHandler>(this, unity_buff_class_);
+	}
 }
 
 void UEnemySpawnerManager::SpawnEnemies()
@@ -49,6 +60,12 @@ void UEnemySpawnerManager::SpawnEnemies()
 			enemies_.Add(enemy);
 		}
 	}
+	//Test Perpose
+	for (const auto& elem : enemies_)
+	{
+		unity_buff_->ApplyBuff(Cast<AUnit>(elem));
+	}
+	//
 
 	AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if (pc)
