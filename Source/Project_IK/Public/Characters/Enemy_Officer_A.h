@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 
 class AOfficerShield;
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AEnemy_Officer_A : public AEnemy_Officer
 {
 	GENERATED_BODY()

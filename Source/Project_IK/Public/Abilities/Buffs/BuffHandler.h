@@ -19,7 +19,7 @@ class UDisplayDataAsset;
 class AUnit;
 enum class EBuffType : uint8;
 
-UCLASS(Blueprintable)
+UCLASS(Blueprintable, Abstract)
 class PROJECT_IK_API UBuffHandler : public UObject
 {
 	GENERATED_BODY()

@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Enemy_RifleMan.h"
 #include "Enemy_Soldier_A.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AEnemy_Soldier_A : public AEnemy_RifleMan
 {
 	GENERATED_BODY()

@@ -49,36 +49,55 @@ typedef TPair<ERuneSetType, TArray<int32>> RuneSetBonus;
 void AIKHUD::BeginPlay()
 {
 	UWorld* world = GetWorld();
-	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
 
 	// Create the widget and add it to the viewport
 	if (button_widget_class_)
 	{
 		button_bar_widget_ = CreateWidget<UButtonBarWidget>(world, button_widget_class_);
+		BindHeroWidgetUI();
+		BindSupportSkills();
 		
-		//액티브 스킬 UI에 썸네일을 Bind.
-		auto game_mode =  Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-		auto hero_types = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
-		TMap<EHeroType, TArray<RuneSetBonus>> hero_rune_bonus_detail_map;
-
-		TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-		TObjectPtr<AIKGameState> ik_game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
-		TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
-
-		//적들의 Butt Widget와 Popup Widget을 연결.
-		for (const auto& enemy : game_mode->GetEnemyContainers())
+		if (button_bar_widget_)
 		{
-			if (auto enemy_widget_component = Cast<AUnit>(enemy)->GetHPUIWidgetComponent())
+			button_bar_widget_->AddToViewport();
+		}
+	}
+	
+	combat_level_result_manager_ = NewObject<UCombatLevelResultManager>(world, combat_level_widget_class_);
+	if (combat_level_result_manager_)
+	{
+		combat_level_result_manager_->InitializeUI();
+	}
+}
+
+void AIKHUD::BindEnemyHPUI(const TArray<AActor*>& enemies)
+{
+	TObjectPtr<AIKGameState> ik_game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
+	//적들의 Butt Widget와 Popup Widget을 연결.
+	for (const auto& enemy : enemies)
+	{
+		if (auto enemy_widget_component = Cast<AUnit>(enemy)->GetHPUIWidgetComponent())
+		{
+			if (auto enemy_hp_widget = Cast<UEnemyHPUI>(enemy_widget_component->GetWidget()))
 			{
-				if (auto enemy_hp_widget = Cast<UEnemyHPUI>(enemy_widget_component->GetWidget()))
-				{
-					enemy_hp_widget->InitEnemyHPUI(button_bar_widget_->GetBuffPopupWidget());
-					ik_game_state->OnToggleDetailMode.AddDynamic(enemy_hp_widget, &UEnemyHPUI::OnToggleDetailMode);
-				}
+				enemy_hp_widget->InitEnemyHPUI(button_bar_widget_->GetBuffPopupWidget());
+				ik_game_state->OnToggleDetailMode.AddDynamic(enemy_hp_widget, &UEnemyHPUI::OnToggleDetailMode);
 			}
 		}
-		
-		//각 EHerpType을 순회하며 HeroBase와 HeroWidget사이 필요한 delegate들을 bind. 
+	}
+}
+
+void AIKHUD::BindHeroWidgetUI()
+{
+	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
+	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
+	auto game_mode =  Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	
+	TMap<EHeroType, TArray<RuneSetBonus>> hero_rune_bonus_detail_map;
+	
+	auto hero_types = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
+	//각 EHerpType을 순회하며 HeroBase와 HeroWidget사이 필요한 delegate들을 bind. 
 		for(auto cur_hero_type : hero_types)
 		{
 			auto cur_spawn_data = transition_system->GetSpawnData(cur_hero_type);
@@ -123,31 +142,22 @@ void AIKHUD::BeginPlay()
 			}
 		}
 
-		//서포트 스킬 UI에 썸네일과 Cost를 Bind.
-		auto game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
-		auto support_skill_data = game_state->GetSupportSkillData();
-		auto support_skills = game_state->GetSupportSkills();
-		for (int32 i = 0; i < 3; i++)
-		{
-			if (support_skills[i] != nullptr)
-			{
-				auto cur_skill_button_widget = button_bar_widget_->GetSupportSkillButtonWidget(i);
-				cur_skill_button_widget->SetThumbnailTexture(support_skill_data[i]->display_data_->thumbnail);
-				cur_skill_button_widget->SetSupportSkillCost(support_skills[i]->GetCost());
-				support_skills[i]->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
-			}
-		}
-		
-		if (button_bar_widget_)
-		{
-			button_bar_widget_->AddToViewport();
-		}
-	}
-	
-	combat_level_result_manager_ = NewObject<UCombatLevelResultManager>(world, combat_level_widget_class_);
-	if (combat_level_result_manager_)
+}
+
+void AIKHUD::BindSupportSkills()
+{
+	auto game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
+	auto support_skill_data = game_state->GetSupportSkillData();
+	auto support_skills = game_state->GetSupportSkills();
+	for (int32 i = 0; i < 3; i++)
 	{
-		combat_level_result_manager_->InitializeUI();
+		if (support_skills[i] != nullptr)
+		{
+			auto cur_skill_button_widget = button_bar_widget_->GetSupportSkillButtonWidget(i);
+			cur_skill_button_widget->SetThumbnailTexture(support_skill_data[i]->display_data_->thumbnail);
+			cur_skill_button_widget->SetSupportSkillCost(support_skills[i]->GetCost());
+			support_skills[i]->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
+		}
 	}
 }
 

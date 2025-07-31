@@ -10,14 +10,11 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnemySpawnerManager.h"
 
 #include "Characters/EnemyBase.h"
-#include "Components/CharacterStatComponent.h"
-
 #include "Kismet/GameplayStatics.h"
-#include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKPlayerController.h"
-#include "Managers/DataTableManager.h"
 
 #include "DataAssets/EnemySpawnDataAsset.h"
+#include "WorldSettings/IKHUD.h"
 
 UEnemySpawnerManager::UEnemySpawnerManager()
 	:spawn_distance_(), enemy_waves_(0), spawn_position_(), enemy_spacing_(300)
@@ -57,6 +54,7 @@ void UEnemySpawnerManager::SpawnEnemies()
 	if (pc)
 	{
 		pc->UpdateEnemies(enemies_);
+		Cast<AIKHUD>(pc->GetHUD())->BindEnemyHPUI(enemies_);
 	}
 }
 

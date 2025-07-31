@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 
 class AChargeShot;
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UAT_ChargeShot : public UActiveSkillBase
 {
 	GENERATED_BODY()

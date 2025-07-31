@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "BuffHandler.h"
 #include "BF_RunAndGun.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UBF_RunAndGun : public UBuffHandler
 {
 	GENERATED_BODY()

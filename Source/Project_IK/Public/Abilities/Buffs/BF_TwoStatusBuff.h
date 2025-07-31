@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/BuffStatusData.h"
 #include "BF_TwoStatusBuff.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UBF_TwoStatusBuff : public UBuffHandler
 {
 	GENERATED_BODY()

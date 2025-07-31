@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "BuffHandler.h"
 #include "BF_CloseQuatersMastery.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UBF_CloseQuatersMastery : public UBuffHandler
 {
 	GENERATED_BODY()
