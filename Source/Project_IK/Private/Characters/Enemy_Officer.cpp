@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/Enemy_Officer.h"
 
+#include "Abilities/Buffs/BuffHandler.h"
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "WorldSettings/IKGameModeBase.h"
@@ -27,6 +28,8 @@ void AEnemy_Officer::BeginPlay()
 			delegate_bridge->BindOnHPChangedWithOwner(Cast<AUnit>(hero_elem)->GetCharacterStat(), this, &AEnemy_Officer::PointTarget);
 		}
 	}
+	focusing_buff_ = NewObject<UBuffHandler>(this, focusing_buff_class_);
+	marked_buff_= NewObject<UBuffHandler>(this, marked_buff_class_);
 }
 
 void AEnemy_Officer::PointTarget(float hp_ratio, AActor* owner_actor)
@@ -53,8 +56,13 @@ void AEnemy_Officer::PointTarget(float hp_ratio, AActor* owner_actor)
 			//2. 적의 타겟을 owner_actor로 변경.
 			for(const auto& elem : out_actors)
 			{
-				Cast<AUnit>(elem)->SetAttackTarget(owner_actor);
+				AUnit* casted_enemy = Cast<AUnit>(elem);
+				casted_enemy->SetAttackTarget(owner_actor);
+				focusing_buff_->ApplyBuff(casted_enemy);
 			}
+
+			//3. 선택된 영웅에게 표식 추가.
+			marked_buff_->ApplyBuff(Cast<AUnit>(owner_actor));
 			is_targeting_available_ = false;
 		}
 	}

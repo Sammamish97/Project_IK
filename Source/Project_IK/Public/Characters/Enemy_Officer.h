@@ -36,4 +36,16 @@ private:
 	float targeting_hp_threshold_ = 0.7;
 
 	bool is_targeting_available_ = true;
+
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBuffHandler> focusing_buff_class_;
+
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBuffHandler> marked_buff_class_;
+	
+	UPROPERTY(Transient)
+	TObjectPtr<UBuffHandler> focusing_buff_;
+	
+	UPROPERTY(Transient)
+	TObjectPtr<UBuffHandler> marked_buff_;
 };

@@ -24,7 +24,10 @@ void AEnemy_Officer_A::BeginPlay()
 
 void AEnemy_Officer_A::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	force_shield_ptr_->Destroy();
+	if (force_shield_ptr_)
+	{
+		force_shield_ptr_->Destroy();
+	}
 	Super::EndPlay(EndPlayReason);
 }
 
