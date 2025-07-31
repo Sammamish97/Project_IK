@@ -85,6 +85,15 @@ public:
 
 	UFUNCTION()
 	void Event_ProtocolEfficiency_ThirdOptionResult();
+	//
+	UFUNCTION()
+	void Event_AbandonedSupply_FirstOptionResult();
+
+	UFUNCTION()
+	void Event_AbandonedSupply_SecondOptionResult();
+
+	UFUNCTION()
+	void Event_AbandonedSupply_ThirdOptionResult();
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))

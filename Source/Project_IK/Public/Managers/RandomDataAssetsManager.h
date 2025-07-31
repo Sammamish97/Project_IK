@@ -34,6 +34,10 @@ public:
 	static TArray<TMapValue> GetDataAssetRandomly(int32 n, ERarity weight_rarity, const TMap<TMapKey, TMapValue>& map);
 	template<typename TMapKey, typename TMapValue>
 	static TArray<TMapValue> GetUniqueDataAssetsRandomly(int32 n, ERarity rarity, const TMap<TMapKey, TMapValue>& map);
+	template<typename TMapKey, typename TMapValue>
+	static TMapValue GetDataAssetByRarity(ERarity rarity, const TMap<TMapKey, TMapValue>& map);
+	template<typename TMapKey, typename TMapValue>
+	static TArray<TMapValue> GetDataAssetByRarity(int32 n, ERarity rarity, const TMap<TMapKey, TMapValue>& map);
 
 protected:
 	static ERarity GetRarityRandomly(ERarity weight_rarity);
@@ -146,6 +150,41 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetUniqueDataAssetsRandomly(i
 	}
 
 	return return_array;
+}
+
+template<typename TMapKey, typename TMapValue>
+inline TMapValue URandomDataAssetsManager::GetDataAssetByRarity(ERarity rarity, const TMap<TMapKey, TMapValue>& map)
+{
+	return GetDataAssetByRarity(1, rarity, map)[0];
+}
+
+template<typename TMapKey, typename TMapValue>
+inline TArray<TMapValue> URandomDataAssetsManager::GetDataAssetByRarity(int32 n, ERarity rarity, const TMap<TMapKey, TMapValue>& map)
+{
+	TArray<TMapKey> asset_candidates;
+
+	for (const auto& element : map)
+	{
+		if (element.Value.item_data_.rarity_ == rarity)
+		{
+			asset_candidates.Add(element.Key);
+		}
+	}
+
+	TArray<TMapValue> results;
+	//checkf(!asset_candidates.IsEmpty(), TEXT("No elements that matches weight_rarity!"));
+	if (asset_candidates.IsEmpty())
+	{
+		UE_LOG(LogTemp, Error, TEXT("No elements that matches weight_rarity!"));
+		return GetDataAssetByRarity(n, ERarity::Common, map);
+	}
+	for (int32 i = 0; i < n; i++)
+	{
+		int32 rand_index = FMath::RandRange(0, asset_candidates.Num() - 1);
+		results.Add(map[asset_candidates[rand_index]]);
+	}
+
+	return results;
 }
 
 template<typename TMapKey, typename TMapValue>

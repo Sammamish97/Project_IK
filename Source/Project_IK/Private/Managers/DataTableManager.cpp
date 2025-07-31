@@ -36,6 +36,11 @@ FWeaponData UDataTableManager::GetWeaponDataRandomly(ERarity weight_rarity) cons
 	return weapon_data_asset_->GetWeaponDataRandomly(weight_rarity);
 }
 
+FWeaponData UDataTableManager::GetWeaponDataByRarity(ERarity rarity) const
+{
+	return weapon_data_asset_->GetWeaponDataByRarity(rarity);
+}
+
 TArray<FWeaponData> UDataTableManager::GetUniqueWeaponDataRandomly(int32 n, ERarity weight_rarity) const
 {
 	return weapon_data_asset_->GetUniqueWeaponDataRandomly(n, weight_rarity);
@@ -153,6 +158,11 @@ FPassiveSkillData UDataTableManager::GetPassiveSkillDataRandomly(ERarity weight_
 	return passive_skill_data_asset_->GetPassiveSkillDataRandomly(weight_rarity);
 }
 
+TArray<FPassiveSkillData> UDataTableManager::GetPassiveSkillDataByRarity(int32 n, ERarity weight_rarity) const
+{
+	return passive_skill_data_asset_->GetPassiveSkillDataByRarity(n, weight_rarity);
+}
+
 TArray<FPassiveSkillData> UDataTableManager::GetUniquePassiveSkillDataRandomly(int32 n, ERarity weight_rarity) const
 {
 	return passive_skill_data_asset_->GetUniquePassiveSkillDataRandomly(n, weight_rarity);
@@ -166,6 +176,11 @@ FActiveSkillData UDataTableManager::GetActiveSkillData(EActiveSkillType type) co
 FActiveSkillData UDataTableManager::GetActiveSkillDataRandomly(ERarity weight_rarity) const
 {
 	return active_skill_data_asset_->GetActiveSkillDataRandomly(weight_rarity);
+}
+
+FActiveSkillData UDataTableManager::GetActiveSkillDataByRarity(ERarity rarity) const
+{
+	return active_skill_data_asset_->GetActiveSkillDataByRarity(rarity);
 }
 
 TArray<FActiveSkillData> UDataTableManager::GetUniqueActiveSkillDataRandomly(int32 n, ERarity weight_rarity) const

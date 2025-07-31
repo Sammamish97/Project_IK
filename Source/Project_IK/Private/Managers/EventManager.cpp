@@ -21,7 +21,8 @@ See LICENSE file in the project root for full license information.
 #include "UI/EventWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 
-#include "Subsystems/GlobalBuffSubsystem.h"
+#include "Managers/DataTableManager.h"
+#include "Structs/WrapperEquipmentData.h"
 
 void UEventManager::InitEventManager(TObjectPtr<UIKGameInstance> instance,
 	TObjectPtr<UInventoryManager> inventory_manager)
@@ -32,7 +33,7 @@ void UEventManager::InitEventManager(TObjectPtr<UIKGameInstance> instance,
 
 FEventData UEventManager::GetRandomEventData()
 {
-	int32 rand_idx = FMath::RandRange(0, 6);
+	int32 rand_idx = FMath::RandRange(0, 7);
 	if (event_table_)
 	{
 		switch (rand_idx)
@@ -57,6 +58,9 @@ FEventData UEventManager::GetRandomEventData()
 
 		case 6:
 			return *event_table_->FindRow<FEventData>(FName("Protocol:Efficiency"), TEXT(""));
+
+		case 7:
+			return *event_table_->FindRow<FEventData>(FName("AbandonedSupply"), TEXT(""));
 		}
 	}
 	return FEventData();
@@ -106,6 +110,12 @@ void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> wi
 		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolEfficiency_FirstOptionResult);
 		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolEfficiency_SecondOptionResult);
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolEfficiency_ThirdOptionResult);
+		break;
+
+	case EEventType::AbandonedSupply:
+		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_AbandonedSupply_FirstOptionResult);
+		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_AbandonedSupply_SecondOptionResult);
+		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_AbandonedSupply_ThirdOptionResult);
 		break;
 
 	default:
@@ -268,4 +278,46 @@ void UEventManager::Event_ProtocolEfficiency_SecondOptionResult()
 void UEventManager::Event_ProtocolEfficiency_ThirdOptionResult()
 {
 	global_buff_subsystem_->AddBuff(EGlobalBuffType::ProtocolEfficiency_CooldownBuff);
+}
+
+void UEventManager::Event_AbandonedSupply_FirstOptionResult()
+{
+	UWorld* world = GetWorld();
+	if (!world)
+	{
+		return;
+	}
+
+	UIKGameInstance* instance = Cast<UIKGameInstance>(world->GetGameInstance());
+	FWrapperEquipmentData data;
+	data.active_skills_.Add(instance->GetDataTableManager()->GetActiveSkillDataByRarity(ERarity::Rare));
+	inventory_manager_->OpenInventoryWidgetReward(data);
+}
+
+void UEventManager::Event_AbandonedSupply_SecondOptionResult()
+{
+	UWorld* world = GetWorld();
+	if (!world)
+	{
+		return;
+	}
+
+	UIKGameInstance* instance = Cast<UIKGameInstance>(world->GetGameInstance());
+	FWrapperEquipmentData data;
+	data.passive_skills_ = instance->GetDataTableManager()->GetPassiveSkillDataByRarity(2, ERarity::Rare);
+	inventory_manager_->OpenInventoryWidgetReward(data);
+}
+
+void UEventManager::Event_AbandonedSupply_ThirdOptionResult()
+{
+	UWorld* world = GetWorld();
+	if (!world)
+	{
+		return;
+	}
+
+	UIKGameInstance* instance = Cast<UIKGameInstance>(world->GetGameInstance());
+	FWrapperEquipmentData data;
+	data.weapons_.Add(instance->GetDataTableManager()->GetWeaponDataByRarity(ERarity::Rare));
+	inventory_manager_->OpenInventoryWidgetReward(data);
 }

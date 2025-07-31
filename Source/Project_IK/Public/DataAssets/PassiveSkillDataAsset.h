@@ -22,6 +22,7 @@ class PROJECT_IK_API UPassiveSkillDataAsset : public UPrimaryDataAsset
 public:
 	FPassiveSkillData GetPassiveSkillData(EPassiveSkillType type);
 	FPassiveSkillData GetPassiveSkillDataRandomly(ERarity weight_rarity = ERarity::Common);
+	TArray<FPassiveSkillData> GetPassiveSkillDataByRarity(int32 n, ERarity rarity = ERarity::Common);
 	TArray<FPassiveSkillData> GetUniquePassiveSkillDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
 	
 private:

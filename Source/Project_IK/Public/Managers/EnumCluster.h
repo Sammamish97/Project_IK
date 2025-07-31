@@ -601,6 +601,7 @@ enum class EEventType : uint8
 	ProtocolSurvive UMETA(DisplayName = "Protocol : Survive"),
 	ProtocolAssault UMETA(DisplayName = "Protocol : Assault"),
 	ProtocolEfficiency UMETA(DisplayName = "Protocol : Efficiency"),
+	AbandonedSupply UMETA(DisplayName = "Abandoned Supply"),
 };
 
 UENUM(BlueprintType)

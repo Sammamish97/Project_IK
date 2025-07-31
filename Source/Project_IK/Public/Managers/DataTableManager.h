@@ -42,6 +42,7 @@ class PROJECT_IK_API UDataTableManager : public UObject
 public:
 	FWeaponData GetWeaponStatusData(EWeaponType type) const;
 	FWeaponData GetWeaponDataRandomly(ERarity weight_rarity = ERarity::Common) const;
+	FWeaponData GetWeaponDataByRarity(ERarity rarity = ERarity::Common) const;
 	TArray<FWeaponData> GetUniqueWeaponDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
 	FRuneSetData GetRuneSetData(ERuneSetType type) const;
@@ -57,10 +58,12 @@ public:
 
 	FPassiveSkillData GetPassiveSkillData(EPassiveSkillType type) const;
 	FPassiveSkillData GetPassiveSkillDataRandomly(ERarity weight_rarity = ERarity::Common) const;
+	TArray<FPassiveSkillData> GetPassiveSkillDataByRarity(int32 n = 1, ERarity rarity = ERarity::Common) const;
 	TArray<FPassiveSkillData> GetUniquePassiveSkillDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
 	FActiveSkillData GetActiveSkillData(EActiveSkillType type) const;
 	FActiveSkillData GetActiveSkillDataRandomly(ERarity weight_rarity = ERarity::Common) const;
+	FActiveSkillData GetActiveSkillDataByRarity(ERarity rarity = ERarity::Common) const;
 	TArray<FActiveSkillData> GetUniqueActiveSkillDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
 	const FCharacterData& GetCharacterData(ECharacterType char_type) const;
