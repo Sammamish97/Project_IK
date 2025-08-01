@@ -13,6 +13,8 @@ See LICENSE file in the project root for full license information.
 #include "UObject/Object.h"
 #include "EventManager.generated.h"
 
+class UIKMaps;
+
 UCLASS(Blueprintable)
 class PROJECT_IK_API UEventManager : public UObject
 {
@@ -95,7 +97,12 @@ public:
 	UFUNCTION()
 	void Event_AbandonedSupply_ThirdOptionResult();
 
+	UFUNCTION()
+	void Event_SetTrap_FirstOptionResult();
+
 private:
+	void SetNextNodeToElite(UIKMaps* map, int32 row, int32 col, int32 left_level);
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UDataTable> event_table_;
 

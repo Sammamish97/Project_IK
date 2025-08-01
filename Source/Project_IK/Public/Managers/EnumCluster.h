@@ -527,6 +527,7 @@ enum class EGlobalBuffType : uint8
 	ProtocolEfficiency_CritBuff UMETA(DisplayName = "ProtocolEfficiency CritBuff"),
 	ProtocolEfficiency_EvadeBuff UMETA(DisplayName = "ProtocolEfficiency EvadeBuff"),
 	ProtocolEfficiency_CooldownBuff UMETA(DisplayName = "ProtocolEfficiency CooldownBuff"),
+	SetTrap_HPDebuff UMETA(DisplayName = "Set Trap HP Debuff"),
 	None UMETA(DisplayName = "None"),
 };
 
@@ -602,6 +603,7 @@ enum class EEventType : uint8
 	ProtocolAssault UMETA(DisplayName = "Protocol : Assault"),
 	ProtocolEfficiency UMETA(DisplayName = "Protocol : Efficiency"),
 	AbandonedSupply UMETA(DisplayName = "Abandoned Supply"),
+	SetTrap UMETA(DisplayName = "Set Trap"),
 };
 
 UENUM(BlueprintType)
@@ -723,4 +725,6 @@ enum class EBuffType : uint8
 	ProtocolEfficiency_CritBuff UMETA(DisplayName = "ProtocolEfficiency CritBuff"),
 	ProtocolEfficiency_EvadeBuff UMETA(DisplayName = "ProtocolEfficiency EvadeBuff"),
 	ProtocolEfficiency_CooldownBuff UMETA(DisplayName = "ProtocolEfficiency CooldownBuff"),
+
+	SetTrap_HPDebuff UMETA(DisplayName = "Set Trap HP Debuff"),
 };

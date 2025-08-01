@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "EventManager.h"
 #include "Managers/EventManager.h"
 #include "Managers/InventoryManager.h"
+#include "UI/IKMaps.h"
 #include "Subsystems/GlobalBuffSubsystem.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "Subsystems/PerkModifierSubsystem.h"
@@ -33,7 +34,7 @@ void UEventManager::InitEventManager(TObjectPtr<UIKGameInstance> instance,
 
 FEventData UEventManager::GetRandomEventData()
 {
-	int32 rand_idx = FMath::RandRange(0, 7);
+	int32 rand_idx = FMath::RandRange(0, 8);
 	if (event_table_)
 	{
 		switch (rand_idx)
@@ -61,6 +62,9 @@ FEventData UEventManager::GetRandomEventData()
 
 		case 7:
 			return *event_table_->FindRow<FEventData>(FName("AbandonedSupply"), TEXT(""));
+
+		case 8:
+			return *event_table_->FindRow<FEventData>(FName("SetTrap"), TEXT(""));
 		}
 	}
 	return FEventData();
@@ -116,6 +120,12 @@ void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> wi
 		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_AbandonedSupply_FirstOptionResult);
 		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_AbandonedSupply_SecondOptionResult);
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_AbandonedSupply_ThirdOptionResult);
+		break;
+
+	case EEventType::SetTrap:
+		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_SetTrap_FirstOptionResult);
+		widget->button_3_->SetIsEnabled(false);
+		widget->button_3_->SetVisibility(ESlateVisibility::Hidden);;
 		break;
 
 	default:
@@ -320,4 +330,53 @@ void UEventManager::Event_AbandonedSupply_ThirdOptionResult()
 	FWrapperEquipmentData data;
 	data.weapons_.Add(instance->GetDataTableManager()->GetWeaponDataByRarity(ERarity::Rare));
 	inventory_manager_->OpenInventoryWidgetReward(data);
+}
+
+void UEventManager::Event_SetTrap_FirstOptionResult()
+{
+	bool is_succeed = FMath::RandBool();
+
+	if (is_succeed)
+	{
+		global_buff_subsystem_->AddBuff(EGlobalBuffType::SetTrap_HPDebuff);
+	}
+	else
+	{
+		UIKGameInstance* instance = Cast<UIKGameInstance>(GetWorld()->GetGameInstance());
+		UIKMaps* map = instance->GetMapPtr();
+		TArray<FIntPoint> path = map->GetPlayerVisitedPath();
+		if (path.IsEmpty())
+		{
+			for (int32 i = 0; i < map->GetWidth(); i++)
+			{
+				if (map->GetNode(0, i).type != NodeType::None)
+				{
+					SetNextNodeToElite(map, 0, i, 2);
+				}
+			}
+		}
+		else
+		{
+			FIntPoint position = path.Last();
+			SetNextNodeToElite(map, position.X, position.Y, 2);
+		}
+	}
+}
+
+void UEventManager::SetNextNodeToElite(UIKMaps* map, int32 row, int32 col, int32 left_level)
+{
+	if (left_level < 0)
+	{
+		return;
+	}
+
+	FMapNode node = map->GetNode(row, col);
+
+	for (int32 next_index : node.next)
+	{
+		FMapNode next_node = map->GetNode(row + 1, next_index);
+		next_node.type = NodeType::Enemy;
+		map->SetNode(row + 1, next_index, next_node);
+		SetNextNodeToElite(map, row + 1, next_index, left_level - 1);
+	}
 }

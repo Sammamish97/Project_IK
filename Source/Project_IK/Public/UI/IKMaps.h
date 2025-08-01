@@ -68,11 +68,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Map")
 	const FMapNode& GetNode(int32 row, int32 col) const;
 	const FMapNode& GetNode(FIntPoint int_point) const;
+	void SetNode(int32 row, int32 col, const FMapNode& node);
 
 	void SetPlayerGridPosition(FIntPoint position);
 	FIntPoint GetPlayerGridPosition() const;
 
-	TArray<FIntPoint> GetPlayerVisitedPath() const;
+	const TArray<FIntPoint>& GetPlayerVisitedPath() const;
 
 protected:
 	TArray<TArray<FMapNode>> map;
