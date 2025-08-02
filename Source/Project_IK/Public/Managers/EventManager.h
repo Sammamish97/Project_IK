@@ -24,6 +24,8 @@ public:
 	void InitEventManager(TObjectPtr<class UIKGameInstance> instance, TObjectPtr<class UInventoryManager> inventory_manager);
 	FEventData GetRandomEventData();
 	void BindEventResult(FEventData data, TObjectPtr<class UEventWidget> widget);
+	void CountUpIsNegativeEventsRemoved();
+	void CountDownIsNegativeEventsRemoved();
 //
 	UFUNCTION()
 	void Event_AirStrike_FirstOptionResult();
@@ -96,12 +98,25 @@ public:
 
 	UFUNCTION()
 	void Event_AbandonedSupply_ThirdOptionResult();
+	//
+	UFUNCTION()
+	void Event_Recon_FirstOptionResult();
 
 	UFUNCTION()
+	void Event_Recon_SecondOptionResult();
+
+	UFUNCTION()
+	void Event_Recon_ThirdOptionResult();
+	//
+	UFUNCTION()
 	void Event_SetTrap_FirstOptionResult();
+	//
+	UFUNCTION()
+	void Event_Core_FirstOptionResult();
 
 private:
 	void SetNextNodeToElite(UIKMaps* map, int32 row, int32 col, int32 left_level);
+	bool IsNegativeEventsRemoved() const;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UDataTable> event_table_;
@@ -109,4 +124,5 @@ private:
 	TWeakObjectPtr<class UGlobalBuffSubsystem> global_buff_subsystem_;
 	TWeakObjectPtr<class UInventoryManager> inventory_manager_;
 
+	int32 only_positive_event_counter_ = 0;
 };

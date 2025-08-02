@@ -527,7 +527,12 @@ enum class EGlobalBuffType : uint8
 	ProtocolEfficiency_CritBuff UMETA(DisplayName = "ProtocolEfficiency CritBuff"),
 	ProtocolEfficiency_EvadeBuff UMETA(DisplayName = "ProtocolEfficiency EvadeBuff"),
 	ProtocolEfficiency_CooldownBuff UMETA(DisplayName = "ProtocolEfficiency CooldownBuff"),
+	Recon_RemoveNegativeEvents UMETA(DisplayName = "Recon Remove Negative Events"),
+	Recon_RewardChoiceBuff UMETA(DisplayName = "Recon Reward choice buff"),
+	Recon_CreditBonusBuff UMETA(DisplayName = "Recon credit bonus buff"),
 	SetTrap_HPDebuff UMETA(DisplayName = "Set Trap HP Debuff"),
+	Core_AttackBuff UMETA(DisplayName = "Core Attack buff"),
+	Core_AttackDebuff UMETA(DisplayName = "Core Attack debuff"),
 	None UMETA(DisplayName = "None"),
 };
 
@@ -603,7 +608,9 @@ enum class EEventType : uint8
 	ProtocolAssault UMETA(DisplayName = "Protocol : Assault"),
 	ProtocolEfficiency UMETA(DisplayName = "Protocol : Efficiency"),
 	AbandonedSupply UMETA(DisplayName = "Abandoned Supply"),
+	Recon UMETA(DisplayName = "Recon"),
 	SetTrap UMETA(DisplayName = "Set Trap"),
+	Core UMETA(DisplayName = "Core"),
 };
 
 UENUM(BlueprintType)
@@ -726,5 +733,12 @@ enum class EBuffType : uint8
 	ProtocolEfficiency_EvadeBuff UMETA(DisplayName = "ProtocolEfficiency EvadeBuff"),
 	ProtocolEfficiency_CooldownBuff UMETA(DisplayName = "ProtocolEfficiency CooldownBuff"),
 
+	Recon_RemoveNegativeEvents UMETA(DisplayName = "Recon Remove Negative Events"),
+	Recon_RewardChoiceBuff UMETA(DisplayName = "Recon Reward choice buff"),
+	Recon_CreditBonusBuff UMETA(DisplayName = "Recon credit bonus buff"),
+
 	SetTrap_HPDebuff UMETA(DisplayName = "Set Trap HP Debuff"),
+
+	Core_AttackBuff UMETA(DisplayName = "Core Attack buff"),
+	Core_AttackDebuff UMETA(DisplayName = "Core Attack debuff"),
 };

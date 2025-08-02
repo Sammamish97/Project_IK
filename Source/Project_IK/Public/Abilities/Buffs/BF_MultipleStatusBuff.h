@@ -13,13 +13,13 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Abilities/Buffs/BuffHandler.h"
 #include "Structs/BuffStatusData.h"
-#include "BF_Deathbound.generated.h"
+#include "BF_MultipleStatusBuff.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PROJECT_IK_API UBF_Deathbound : public UBuffHandler
+class PROJECT_IK_API UBF_MultipleStatusBuff : public UBuffHandler
 {
 	GENERATED_BODY()
 

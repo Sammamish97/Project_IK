@@ -9,11 +9,11 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 
-#include "Abilities/Buffs/BF_Deathbound.h"
+#include "Abilities/Buffs/BF_MultipleStatusBuff.h"
 
 #include "Characters/Unit.h"
 
-void UBF_Deathbound::ApplyBuff(AUnit* target)
+void UBF_MultipleStatusBuff::ApplyBuff(AUnit* target)
 {
 	Super::ApplyBuff(target);
 
