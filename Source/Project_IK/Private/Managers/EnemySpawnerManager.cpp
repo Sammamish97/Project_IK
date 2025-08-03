@@ -60,19 +60,19 @@ void UEnemySpawnerManager::SpawnEnemies()
 			enemies_.Add(enemy);
 		}
 	}
-	//Test Perpose
+	//Test Perpose. 나중에 회차 후반부, 랜덤한 유닛에게 이런식으로 버프를 걸어야 한다.
 	for (const auto& elem : enemies_)
 	{
 		unity_buff_->ApplyBuff(Cast<AUnit>(elem));
 	}
 	//
 
-	AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	if (pc)
-	{
-		pc->UpdateEnemies(enemies_);
-		Cast<AIKHUD>(pc->GetHUD())->BindEnemyHPUI(enemies_);
-	}
+	// AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	// if (pc)
+	// {
+	// 	pc->UpdateEnemies(enemies_);
+	// 	Cast<AIKHUD>(pc->GetHUD())->BindEnemyHPUI(enemies_);
+	// }
 }
 
 const TArray<TObjectPtr<AActor>>& UEnemySpawnerManager::GetEnemies()

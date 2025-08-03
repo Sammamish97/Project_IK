@@ -11,12 +11,12 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
 #include "EnemySpawnerManager.generated.h"
 
 class UWorld;
 class AEnemyBase;
 class UEnemySpawnDataAsset;
+class UBuffHandler;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UEnemySpawnerManager : public UObject
@@ -66,5 +66,5 @@ protected:
 
 	UPROPERTY(Transient)
 	TObjectPtr<UBuffHandler> unity_buff_;
-
+	//
 };

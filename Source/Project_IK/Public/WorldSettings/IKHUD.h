@@ -33,7 +33,7 @@ public:
 	UFUNCTION()
 	virtual void BeginPlay() override;
 	void DisplayCombatResult(const TMap<EHeroType, float>& damage_map);
-	void BindEnemyHPUI(const TArray<AActor*>& enemies);
+	void BindEnemyHPUI(AActor* enemies);
 	void BindHeroWidgetUI();
 	void BindSupportSkills();
 

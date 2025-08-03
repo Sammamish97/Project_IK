@@ -70,19 +70,16 @@ void AIKHUD::BeginPlay()
 	}
 }
 
-void AIKHUD::BindEnemyHPUI(const TArray<AActor*>& enemies)
+void AIKHUD::BindEnemyHPUI(AActor* enemy)
 {
 	TObjectPtr<AIKGameState> ik_game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
 	//적들의 Butt Widget와 Popup Widget을 연결.
-	for (const auto& enemy : enemies)
+	if (auto enemy_widget_component = Cast<AUnit>(enemy)->GetHPUIWidgetComponent())
 	{
-		if (auto enemy_widget_component = Cast<AUnit>(enemy)->GetHPUIWidgetComponent())
+		if (auto enemy_hp_widget = Cast<UEnemyHPUI>(enemy_widget_component->GetWidget()))
 		{
-			if (auto enemy_hp_widget = Cast<UEnemyHPUI>(enemy_widget_component->GetWidget()))
-			{
-				enemy_hp_widget->InitEnemyHPUI(button_bar_widget_->GetBuffPopupWidget());
-				ik_game_state->OnToggleDetailMode.AddDynamic(enemy_hp_widget, &UEnemyHPUI::OnToggleDetailMode);
-			}
+			enemy_hp_widget->InitEnemyHPUI(button_bar_widget_->GetBuffPopupWidget());
+			ik_game_state->OnToggleDetailMode.AddDynamic(enemy_hp_widget, &UEnemyHPUI::OnToggleDetailMode);
 		}
 	}
 }
