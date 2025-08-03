@@ -30,7 +30,7 @@ AGunBase::AGunBase()
 	PrimaryActorTick.bCanEverTick = true;
 
 	weapon_skeletal_mesh_ = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GunMesh"));
-	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
+	bullet_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
 	root_sphere_mesh_ = CreateDefaultSubobject<USphereComponent>(TEXT("RootSphere"));
 
 	weapon_skeletal_mesh_->SetCollisionProfileName(TEXT("NoCollision"));
@@ -109,7 +109,7 @@ void AGunBase::OnReload()
 
 void AGunBase::SpawnBullet(const FRotator& rotation, const FVector& translation, const FDamageData& dmg_data)
 {
-	if (ABullet* bullet = Cast<ABullet>(object_pool_component_->SpawnFromPool(rotation, translation)))
+	if (ABullet* bullet = Cast<ABullet>(bullet_pool_component_->SpawnFromPool(rotation, translation)))
 	{
 		if (is_first_bullet_on_magazine_)
 		{
@@ -148,6 +148,8 @@ void AGunBase::PlayFireParticle() const
 
 void AGunBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	bullet_pool_component_->EndPlay(EndPlayReason);
+	
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
 	GetWorld()->GetTimerManager().ClearTimer(reload_timer_handle_);
 
@@ -260,7 +262,7 @@ void AGunBase::SetHoldAction(bool hold_action)
 void AGunBase::SetGunOwner(TWeakObjectPtr<AUnit> gun_owner, bool is_hero)
 {
 	weak_gun_owner_ = gun_owner;
-	for (auto elem : object_pool_component_->GetObjectPool())
+	for (auto elem : bullet_pool_component_->GetObjectPool())
 	{
 		Cast<ABullet>(elem)->SetCollisionPreset(is_hero);
 	}

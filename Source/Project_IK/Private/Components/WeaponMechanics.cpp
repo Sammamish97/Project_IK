@@ -26,8 +26,8 @@ void UWeaponMechanics::BeginPlay()
 
 void UWeaponMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	Super::EndPlay(EndPlayReason);
 	weapon_actor_->Destroy();
+	Super::EndPlay(EndPlayReason);
 }
 
 void UWeaponMechanics::BeginFire(AActor* target)

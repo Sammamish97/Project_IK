@@ -38,7 +38,7 @@ AUnit::AUnit()
 	hp_widget_component_ = CreateDefaultSubobject<UWidgetComponent>(TEXT("HP Widget Component"));
 
 	cc_component_ = CreateDefaultSubobject<UCrowdControlComponent>(TEXT("CC Component"));
-	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
+	dmg_ui_object_pool_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
 	outline_component_ = CreateDefaultSubobject<UOutlineComponent>(TEXT("OutlineComponent"));
 
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Pawn"));
@@ -348,7 +348,7 @@ ADamageUI* AUnit::SpawnDamageUI()
 	transform.SetLocation(transform.GetLocation() + rand_offsets);
 
 
-	return Cast<ADamageUI>(object_pool_component_->SpawnFromPool(transform.Rotator(), transform.GetLocation()));
+	return Cast<ADamageUI>(dmg_ui_object_pool_->SpawnFromPool(transform.Rotator(), transform.GetLocation()));
 }
 
 void AUnit::GetDamageByDot(FDamageData data)
