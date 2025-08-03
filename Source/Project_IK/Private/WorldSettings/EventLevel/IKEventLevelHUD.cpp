@@ -35,6 +35,7 @@ void AIKEventLevelHUD::BeginPlay()
 				event_widget_->button_1_->OnClicked.AddDynamic(this, &AIKEventLevelHUD::AfterPickOption);
 				event_widget_->button_2_->OnClicked.AddDynamic(this, &AIKEventLevelHUD::AfterPickOption);
 				event_widget_->button_3_->OnClicked.AddDynamic(this, &AIKEventLevelHUD::AfterPickOption);
+				event_widget_->button_4_->OnClicked.AddDynamic(this, &AIKEventLevelHUD::AfterPickOption);
 			}
 		}
 	}

@@ -35,7 +35,7 @@ void UEventManager::InitEventManager(TObjectPtr<UIKGameInstance> instance,
 FEventData UEventManager::GetRandomEventData()
 {
 	int32 zero_event_index = 0;
-	int32 max_event_index = 10;
+	int32 max_event_index = 12;
 	if (IsNegativeEventsRemoved())
 	{
 		zero_event_index = 4;
@@ -77,6 +77,12 @@ FEventData UEventManager::GetRandomEventData()
 
 		case 10:
 			return *event_table_->FindRow<FEventData>(FName("Core"), TEXT(""));
+
+		case 11:
+			return *event_table_->FindRow<FEventData>(FName("Patrol"), TEXT(""));
+
+		case 12:
+			return *event_table_->FindRow<FEventData>(FName("DisarmTrap"), TEXT(""));
 		}
 	}
 	return FEventData();
@@ -87,69 +93,92 @@ void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> wi
 	switch (data.event_type_)
 	{
 	case EEventType::AirStrike:
+		widget->EnableButtons(3);
 		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_AirStrike_FirstOptionResult);
 		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_AirStrike_SecondOptionResult);
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_AirStrike_ThirdOptionResult);
 		break;
 
 	case EEventType::Ambush:
+		widget->EnableButtons(3);
 		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_Ambush_FirstOptionResult);
 		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_Ambush_SecondOptionResult);
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_Ambush_ThirdOptionResult);
 		break;
 
 	case EEventType::Trap:
+		widget->EnableButtons(3);
 		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_Trap_FirstOptionResult);
 		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_Trap_SecondOptionResult);
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_Trap_ThirdOptionResult);
 		break;
 
 	case EEventType::EMP:
+		widget->EnableButtons(3);
 		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_EMP_FirstOptionResult);
 		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_EMP_SecondOptionResult);
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_EMP_ThirdOptionResult);
 		break;
 
 	case EEventType::ProtocolSurvive:
+		widget->EnableButtons(3);
 		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolSurvive_FirstOptionResult);
 		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolSurvive_SecondOptionResult);
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolSurvive_ThirdOptionResult);
 		break;
 
 	case EEventType::ProtocolAssault:
+		widget->EnableButtons(3);
 		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolAssault_FirstOptionResult);
 		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolAssault_SecondOptionResult);
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolAssault_ThirdOptionResult);
 		break;
 
 	case EEventType::ProtocolEfficiency:
+		widget->EnableButtons(3);
 		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolEfficiency_FirstOptionResult);
 		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolEfficiency_SecondOptionResult);
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_ProtocolEfficiency_ThirdOptionResult);
 		break;
 
 	case EEventType::AbandonedSupply:
+		widget->EnableButtons(3);
 		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_AbandonedSupply_FirstOptionResult);
 		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_AbandonedSupply_SecondOptionResult);
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_AbandonedSupply_ThirdOptionResult);
 		break;
 
 	case EEventType::Recon:
+		widget->EnableButtons(3);
 		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_Recon_FirstOptionResult);
 		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_Recon_SecondOptionResult);
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_Recon_ThirdOptionResult);
 		break;
 
 	case EEventType::SetTrap:
+		widget->EnableButtons(2);
 		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_SetTrap_FirstOptionResult);
-		widget->button_3_->SetIsEnabled(false);
-		widget->button_3_->SetVisibility(ESlateVisibility::Hidden);;
 		break;
 
 	case EEventType::Core:
+		widget->EnableButtons(2);
 		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_Core_FirstOptionResult);
-		widget->button_3_->SetIsEnabled(false);
-		widget->button_3_->SetVisibility(ESlateVisibility::Hidden);;
+		break;
+
+	case EEventType::Patrol:
+		widget->EnableButtons(4);
+		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_Patrol_FirstOptionResult);
+		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_Patrol_SecondOptionResult);
+		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_Patrol_ThirdOptionResult);
+		widget->button_4_->OnClicked.AddDynamic(this, &UEventManager::Event_Patrol_FourthOptionResult);
+		break;
+
+	case EEventType::DisarmTrap:
+		widget->EnableButtons(4);
+		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_DisarmTrap_FirstOptionResult);
+		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_DisarmTrap_SecondOptionResult);
+		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_DisarmTrap_ThirdOptionResult);
+		widget->button_4_->OnClicked.AddDynamic(this, &UEventManager::Event_DisarmTrap_FourthOptionResult);
 		break;
 
 	default:
@@ -366,6 +395,32 @@ void UEventManager::Event_AbandonedSupply_ThirdOptionResult()
 	inventory_manager_->OpenInventoryWidgetReward(data);
 }
 
+void UEventManager::Event_Recon_FirstOptionResult()
+{
+	CountUpIsNegativeEventsRemoved();
+	global_buff_subsystem_->AddBuff(EGlobalBuffType::Recon_RemoveNegativeEvents);
+}
+
+void UEventManager::Event_Recon_SecondOptionResult()
+{
+	UPerkModifierSubsystem* perk_modifier = GetWorld()->GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>();
+	perk_modifier->SetCombatEndEquipmentRewardMaxChoice(
+		perk_modifier->GetCombatEndEquipmentRewardMaxChoice() + 1
+	);
+
+	global_buff_subsystem_->AddBuff(EGlobalBuffType::Recon_RewardChoiceBuff);
+}
+
+void UEventManager::Event_Recon_ThirdOptionResult()
+{
+	UPerkModifierSubsystem* perk_modifier = GetWorld()->GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>();
+	perk_modifier->SetCombatEndCreditsBonusPercentage(
+		perk_modifier->GetCombatEndCreditsBonusPercentage() + 0.2f
+	);
+
+	global_buff_subsystem_->AddBuff(EGlobalBuffType::Recon_CreditBonusBuff);
+}
+
 void UEventManager::Event_SetTrap_FirstOptionResult()
 {
 	bool is_succeed = FMath::RandBool();
@@ -411,30 +466,82 @@ void UEventManager::Event_Core_FirstOptionResult()
 	}
 }
 
-void UEventManager::Event_Recon_FirstOptionResult()
+void UEventManager::Event_Patrol_FirstOptionResult()
 {
-	CountUpIsNegativeEventsRemoved();
-	global_buff_subsystem_->AddBuff(EGlobalBuffType::Recon_RemoveNegativeEvents);
+	bool is_succeed = FMath::RandBool();
+
+	if (is_succeed)
+	{
+		global_buff_subsystem_->AddBuff(EGlobalBuffType::Patrol_RandomBuff1);
+	}
+	else
+	{
+		global_buff_subsystem_->AddBuff(EGlobalBuffType::Patrol_RandomDebuff1);
+	}
 }
 
-void UEventManager::Event_Recon_SecondOptionResult()
+void UEventManager::Event_Patrol_SecondOptionResult()
 {
-	UPerkModifierSubsystem* perk_modifier = GetWorld()->GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>();
-	perk_modifier->SetCombatEndEquipmentRewardMaxChoice(
-			perk_modifier->GetCombatEndEquipmentRewardMaxChoice() + 1
-	);
+	bool is_succeed = FMath::RandBool();
 
-	global_buff_subsystem_->AddBuff(EGlobalBuffType::Recon_RewardChoiceBuff);
+	if (is_succeed)
+	{
+		global_buff_subsystem_->AddBuff(EGlobalBuffType::Patrol_RandomBuff2);
+	}
+	else
+	{
+		global_buff_subsystem_->AddBuff(EGlobalBuffType::Patrol_RandomDebuff2);
+	}
 }
 
-void UEventManager::Event_Recon_ThirdOptionResult()
+void UEventManager::Event_Patrol_ThirdOptionResult()
 {
-	UPerkModifierSubsystem* perk_modifier = GetWorld()->GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>();
-	perk_modifier->SetCombatEndCreditsBonusPercentage(
-		perk_modifier->GetCombatEndCreditsBonusPercentage() + 0.2f
-	);
 
-	global_buff_subsystem_->AddBuff(EGlobalBuffType::Recon_CreditBonusBuff);
+	bool is_succeed = FMath::RandBool();
+
+	if (is_succeed)
+	{
+		global_buff_subsystem_->AddBuff(EGlobalBuffType::Patrol_RandomBuff3);
+	}
+	else
+	{
+		global_buff_subsystem_->AddBuff(EGlobalBuffType::Patrol_RandomDebuff3);
+	}
+}
+
+void UEventManager::Event_Patrol_FourthOptionResult()
+{
+
+	bool is_succeed = FMath::RandBool();
+
+	if (is_succeed)
+	{
+		global_buff_subsystem_->AddBuff(EGlobalBuffType::Patrol_RandomBuff4);
+	}
+	else
+	{
+		global_buff_subsystem_->AddBuff(EGlobalBuffType::Patrol_RandomDebuff4);
+	}
+}
+
+void UEventManager::Event_DisarmTrap_FirstOptionResult()
+{
+	DisarmTrapLogic(EHeroType::Hero1);
+}
+
+void UEventManager::Event_DisarmTrap_SecondOptionResult()
+{
+	DisarmTrapLogic(EHeroType::Hero2);
+}
+
+void UEventManager::Event_DisarmTrap_ThirdOptionResult()
+{
+	DisarmTrapLogic(EHeroType::Hero3);
+}
+
+void UEventManager::Event_DisarmTrap_FourthOptionResult()
+{
+	DisarmTrapLogic(EHeroType::Hero4);
 }
 
 void UEventManager::SetNextNodeToElite(UIKMaps* map, int32 row, int32 col, int32 left_level)
@@ -458,4 +565,24 @@ void UEventManager::SetNextNodeToElite(UIKMaps* map, int32 row, int32 col, int32
 bool UEventManager::IsNegativeEventsRemoved() const
 {
 	return only_positive_event_counter_ > 0;
+}
+
+void UEventManager::DisarmTrapLogic(EHeroType hero_type)
+{
+	// Discard a weapon randomly.
+	ULevelTransitionSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
+	auto spawn_data = subsystem->GetSpawnData();
+
+	bool is_succeed = FMath::RandBool();
+
+
+	if (is_succeed)
+	{
+		// @@ TODO: Upgrade weapon.
+	}
+	else
+	{
+		// Discard a weapon data
+		spawn_data[hero_type].weapon_data_.Reset();
+	}
 }

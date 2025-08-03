@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "EventManager.generated.h"
 
 class UIKMaps;
+enum class EHeroType : uint8;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UEventManager : public UObject
@@ -113,10 +114,35 @@ public:
 	//
 	UFUNCTION()
 	void Event_Core_FirstOptionResult();
+	//
+	UFUNCTION()
+	void Event_Patrol_FirstOptionResult();
+
+	UFUNCTION()
+	void Event_Patrol_SecondOptionResult();
+
+	UFUNCTION()
+	void Event_Patrol_ThirdOptionResult();
+
+	UFUNCTION()
+	void Event_Patrol_FourthOptionResult();
+	//
+	UFUNCTION()
+	void Event_DisarmTrap_FirstOptionResult();
+
+	UFUNCTION()
+	void Event_DisarmTrap_SecondOptionResult();
+
+	UFUNCTION()
+	void Event_DisarmTrap_ThirdOptionResult();
+
+	UFUNCTION()
+	void Event_DisarmTrap_FourthOptionResult();
 
 private:
 	void SetNextNodeToElite(UIKMaps* map, int32 row, int32 col, int32 left_level);
 	bool IsNegativeEventsRemoved() const;
+	void DisarmTrapLogic(EHeroType hero_type);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UDataTable> event_table_;

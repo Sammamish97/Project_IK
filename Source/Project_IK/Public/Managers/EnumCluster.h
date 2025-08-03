@@ -268,11 +268,11 @@ enum class ECharacterStatType : uint8
 	HitPoints UMETA(DisplayName = "HitPoints"),
 	EvasionRate UMETA(DisplayName = "EvasionRate"),
 	Armor UMETA(DisplayName = "Armor"),
-	Survivability UMETA(DisplayName = "Survivability"),
 	SightRange UMETA(DisplayName = "SightRange"),
 	MoveSpeed UMETA(DisplayName = "MoveSpeed"),
 	SkillPower UMETA(DisplayName = "SkillPower"),
 	SkillCoolDown UMETA(DisplayName = "SkillCoolDown"),
+	Survivability UMETA(DisplayName = "Survivability"),
 	Shield UMETA(DisplayName = "Shield"),
 };
 
@@ -533,6 +533,14 @@ enum class EGlobalBuffType : uint8
 	SetTrap_HPDebuff UMETA(DisplayName = "Set Trap HP Debuff"),
 	Core_AttackBuff UMETA(DisplayName = "Core Attack buff"),
 	Core_AttackDebuff UMETA(DisplayName = "Core Attack debuff"),
+	Patrol_RandomBuff1 UMETA(DisplayName = "Patrol random buff 1"),
+	Patrol_RandomDebuff1 UMETA(DisplayName = "Patrol random debuff 1"),
+	Patrol_RandomBuff2 UMETA(DisplayName = "Patrol random buff 2"),
+	Patrol_RandomDebuff2 UMETA(DisplayName = "Patrol random debuff 2"),
+	Patrol_RandomBuff3 UMETA(DisplayName = "Patrol random buff 3"),
+	Patrol_RandomDebuff3 UMETA(DisplayName = "Patrol random debuff 3"),
+	Patrol_RandomBuff4 UMETA(DisplayName = "Patrol random buff 4"),
+	Patrol_RandomDebuff4 UMETA(DisplayName = "Patrol random debuff 4"),
 	None UMETA(DisplayName = "None"),
 };
 
@@ -611,6 +619,8 @@ enum class EEventType : uint8
 	Recon UMETA(DisplayName = "Recon"),
 	SetTrap UMETA(DisplayName = "Set Trap"),
 	Core UMETA(DisplayName = "Core"),
+	Patrol UMETA(DisplayName = "Patrol"),
+	DisarmTrap UMETA(DisplayName = "Disarm Trap"),
 };
 
 UENUM(BlueprintType)
@@ -741,4 +751,13 @@ enum class EBuffType : uint8
 
 	Core_AttackBuff UMETA(DisplayName = "Core Attack buff"),
 	Core_AttackDebuff UMETA(DisplayName = "Core Attack debuff"),
+
+	Patrol_RandomBuff1 UMETA(DisplayName = "Patrol random buff 1"),
+	Patrol_RandomDebuff1 UMETA(DisplayName = "Patrol random debuff 1"),
+	Patrol_RandomBuff2 UMETA(DisplayName = "Patrol random buff 2"),
+	Patrol_RandomDebuff2 UMETA(DisplayName = "Patrol random debuff 2"),
+	Patrol_RandomBuff3 UMETA(DisplayName = "Patrol random buff 3"),
+	Patrol_RandomDebuff3 UMETA(DisplayName = "Patrol random debuff 3"),
+	Patrol_RandomBuff4 UMETA(DisplayName = "Patrol random buff 4"),
+	Patrol_RandomDebuff4 UMETA(DisplayName = "Patrol random debuff 4"),
 };

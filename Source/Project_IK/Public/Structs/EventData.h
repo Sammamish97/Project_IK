@@ -18,24 +18,27 @@ struct PROJECT_IK_API FEventData : public FTableRowBase
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "EventData")
 	TObjectPtr<UTexture2D> situation_;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "EventData")
 	EEventType event_type_;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "EventData")
 	FText event_title_;
 	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "EventData")
 	FText text_body_;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "EventData")
 	FText option_1;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "EventData")
 	FText option_2;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "EventData")
 	FText option_3;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "EventData")
+	FText option_4;
 };
