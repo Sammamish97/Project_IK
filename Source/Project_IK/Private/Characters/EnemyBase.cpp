@@ -42,7 +42,7 @@ void AEnemyBase::BeginPlay()
 
 	if (AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
 	{
-		//pc->UpdateEnemies(enemies_);
+		pc->AddEnemyToCameraManager(this);
 		Cast<AIKHUD>(pc->GetHUD())->BindEnemyHPUI(this);
 	}
 }

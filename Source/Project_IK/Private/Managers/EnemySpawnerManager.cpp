@@ -65,14 +65,6 @@ void UEnemySpawnerManager::SpawnEnemies()
 	{
 		unity_buff_->ApplyBuff(Cast<AUnit>(elem));
 	}
-	//
-
-	// AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	// if (pc)
-	// {
-	// 	pc->UpdateEnemies(enemies_);
-	// 	Cast<AIKHUD>(pc->GetHUD())->BindEnemyHPUI(enemies_);
-	// }
 }
 
 const TArray<TObjectPtr<AActor>>& UEnemySpawnerManager::GetEnemies()

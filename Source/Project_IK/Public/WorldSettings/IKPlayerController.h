@@ -42,7 +42,7 @@ public:
 	UFUNCTION()
 	void FinishTargeting();
 	
-	void UpdateEnemies(TArray<AActor*> tracked_enemies);
+	void AddEnemyToCameraManager(AActor* tracked_enemy);
 
 private:
 	UFUNCTION()

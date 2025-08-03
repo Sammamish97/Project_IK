@@ -72,11 +72,11 @@ UTargetingComponent* AIKPlayerController::GetTargetingComponent()
 	return targeting_component_;
 }
 
-void AIKPlayerController::UpdateEnemies(TArray<AActor*> tracked_enemies)
+void AIKPlayerController::AddEnemyToCameraManager(AActor* tracked_enemy)
 {
 	AIKPlayerCameraManager * camera_manger = Cast<AIKPlayerCameraManager>(PlayerCameraManager);
 
-	camera_manger->UpdateEnemies(tracked_enemies);
+	camera_manger->AddEnemy(tracked_enemy);
 }
 
 void AIKPlayerController::ActivateFirstHeroActiveSkill()

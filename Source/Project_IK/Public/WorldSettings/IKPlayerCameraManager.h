@@ -23,7 +23,7 @@ class PROJECT_IK_API AIKPlayerCameraManager : public APlayerCameraManager
 	GENERATED_BODY()
 	
 public:
-	void UpdateEnemies(TArray<AActor*> tracked_enemies);
+	void AddEnemy(AActor* tracked_enemy);
 
 	void RotateCameraLeft();
 	void RotateCameraRight();
