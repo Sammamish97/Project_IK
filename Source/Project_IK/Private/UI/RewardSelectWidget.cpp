@@ -27,8 +27,8 @@ void URewardSelectWidget::SetRewardData(const FActiveSkillData& data)
 	reward_data_.active_skill_data_ = data;
 	
 	thumbnail_->SetBrushFromTexture(reward_data_.active_skill_data_.item_data_.display_data_->thumbnail);
-	name_->SetText(reward_data_.active_skill_data_.item_data_.display_data_->name_);
-	detail_->SetText(reward_data_.active_skill_data_.item_data_.display_data_->detail_.Evaluate({}));
+	//name_->SetText(reward_data_.active_skill_data_.item_data_.display_data_->name_);
+	//detail_->SetText(reward_data_.active_skill_data_.item_data_.display_data_->detail_.Evaluate({}));
 }
 
 void URewardSelectWidget::SetRewardData(const FPassiveSkillData& data)
@@ -37,8 +37,8 @@ void URewardSelectWidget::SetRewardData(const FPassiveSkillData& data)
 	reward_data_.passive_skill_data_ = data;
 
 	thumbnail_->SetBrushFromTexture(reward_data_.passive_skill_data_.item_data_.display_data_->thumbnail);
-	name_->SetText(reward_data_.passive_skill_data_.item_data_.display_data_->name_);
-	detail_->SetText(reward_data_.passive_skill_data_.item_data_.display_data_->detail_.Evaluate({}));
+	//name_->SetText(reward_data_.passive_skill_data_.item_data_.display_data_->name_);
+	//detail_->SetText(reward_data_.passive_skill_data_.item_data_.display_data_->detail_.Evaluate({}));
 }
 
 void URewardSelectWidget::SetRewardData(const FRuneData& data)
@@ -47,8 +47,8 @@ void URewardSelectWidget::SetRewardData(const FRuneData& data)
 	reward_data_.rune_data_ = data;
 
 	thumbnail_->SetBrushFromTexture(reward_data_.rune_data_.item_data_.display_data_->thumbnail);
-	name_->SetText(reward_data_.rune_data_.item_data_.display_data_->name_);
-	detail_->SetText(reward_data_.rune_data_.item_data_.display_data_->detail_.Evaluate({}));
+	//name_->SetText(reward_data_.rune_data_.item_data_.display_data_->name_);
+	//detail_->SetText(reward_data_.rune_data_.item_data_.display_data_->detail_.Evaluate({}));
 }
 
 void URewardSelectWidget::SetRewardData(const FWeaponData& data)
@@ -57,8 +57,8 @@ void URewardSelectWidget::SetRewardData(const FWeaponData& data)
 	reward_data_.weapon_data_ = data;
 
 	thumbnail_->SetBrushFromTexture(reward_data_.weapon_data_.item_data_.display_data_->thumbnail);
-	name_->SetText(reward_data_.weapon_data_.item_data_.display_data_->name_);
-	detail_->SetText(reward_data_.weapon_data_.item_data_.display_data_->detail_.Evaluate({}));
+	//name_->SetText(reward_data_.weapon_data_.item_data_.display_data_->name_);
+	//detail_->SetText(reward_data_.weapon_data_.item_data_.display_data_->detail_.Evaluate({}));
 }
 
 void URewardSelectWidget::SetEquipmentWidgetCache(UEquipmentRewardWidget* equipment_widget_ptr)

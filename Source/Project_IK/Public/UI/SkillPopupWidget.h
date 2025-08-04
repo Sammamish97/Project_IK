@@ -25,8 +25,7 @@ class PROJECT_IK_API USkillPopupWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void NativeConstruct() override;
-	void UpdatePopupData(TObjectPtr<UDisplayDataAsset> display_asset);
+	void UpdatePopupData(UTexture2D* thumbnail, const FText& name, const FText& detail);
 	
 private:
 	UPROPERTY(meta = (BindWidget))

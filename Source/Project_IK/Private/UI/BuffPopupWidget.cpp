@@ -33,7 +33,7 @@ void UBuffPopupWidget::SetBuffDetail(UDisplayDataAsset* target_data)
 	{
 		SetVisibility(ESlateVisibility::Visible);
 		thumbnail_->SetBrushFromTexture(target_data->thumbnail);
-		name_->SetText(target_data->name_);
+		//name_->SetText(target_data->name_);
 		//IKTODO: Evaluate에 적절한 값을 넣어야 한다.
 		//detail_->SetText(target_data.item_data_.detail_.Evaluate());
 	}

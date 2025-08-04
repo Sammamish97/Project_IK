@@ -14,11 +14,11 @@ See LICENSE file in the project root for full license information.
 #include "UI/SlotDragDropImage.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 
-
-void UInventorySlot::InitInventorySlot(UInventoryWidget* widget_ptr, bool is_board_slot)
+void UInventorySlot::InitInventorySlot(UInventoryWidget* widget_ptr, bool is_board_slot, EHeroType hero_type)
 {
 	inventory_widget_cache_ = widget_ptr;
 	is_board_slot_ = is_board_slot;
+	hero_type_ = hero_type;
 }
 
 void UInventorySlot::NativeConstruct()
@@ -88,7 +88,7 @@ void UInventorySlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPoin
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
 	if (is_empty_ == false)
 	{
-		inventory_widget_cache_->CreatePopupWidget(item_data_cache_.display_data_);
+		inventory_widget_cache_->CreatePopupWidget(item_data_cache_.display_data_->thumbnail, BuildNameString(), BuildDetailString());
 	}
 }
 
@@ -113,6 +113,16 @@ void UInventorySlot::ClearData()
 	item_data_cache_ = FItemData();
 	//IKTODO: 이후 비워두는 것이 아닌, 빈칸 텍스쳐를 띄워야 함.
 	image_->SetBrushFromTexture(nullptr);
+}
+
+FText UInventorySlot::BuildNameString()
+{
+	return FText::FromStringTable("/Game/StringTables/Names", item_data_cache_.display_data_->text_key_);
+}
+
+FText UInventorySlot::BuildDetailString()
+{
+	return FText::FromStringTable("/Game/StringTables/Details", item_data_cache_.display_data_->text_key_);
 }
 
 void UInventorySlot::SetImageTexture()

@@ -17,12 +17,15 @@ USTRUCT(BlueprintType)
 struct PROJECT_IK_API FActiveSkillData
 {
 	GENERATED_BODY();
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
+	UPROPERTY(EditDefaultsOnly)
 	EActiveSkillType type_ = EActiveSkillType::INVALID;
 	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "ActiveSkillData")
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UActiveSkillBase> active_skill_class;
 
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly)
 	FItemData item_data_;
+
+	UPROPERTY(EditDefaultsOnly)
+	float skill_power_ratio_;
 };

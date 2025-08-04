@@ -124,12 +124,12 @@ void UInventoryWidget::NativeDestruct()
 	Super::NativeDestruct();
 }
 
-void UInventoryWidget::CreatePopupWidget(TObjectPtr<UDisplayDataAsset> display_data)
+void UInventoryWidget::CreatePopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail)
 {
 	if(equip_popup_class_ && equip_popup_ptr_ == nullptr)
 	{
 		equip_popup_ptr_ = CreateWidget<USkillPopupWidget>(this, equip_popup_class_);
-		equip_popup_ptr_->UpdatePopupData(display_data);
+		equip_popup_ptr_->UpdatePopupData(thumbnail, name, detail);
 		equip_popup_ptr_->AddToViewport();
 		equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
 	}

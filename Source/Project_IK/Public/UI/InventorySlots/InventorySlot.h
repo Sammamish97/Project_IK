@@ -24,7 +24,7 @@ class PROJECT_IK_API UInventorySlot : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void InitInventorySlot(UInventoryWidget* widget_ptr, bool is_board_slot = true);
+	void InitInventorySlot(UInventoryWidget* widget_ptr, bool is_board_slot = true, EHeroType hero_type = EHeroType::INVALID);
 
 	virtual void NativeConstruct() override;
 	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
@@ -35,8 +35,11 @@ public:
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	virtual FReply NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
-	
+
+	virtual FText BuildNameString();
+	virtual FText BuildDetailString();
 	virtual void SetImageTexture();
+
 	void SetHighlightImageVisibility(ESlateVisibility visibility);
 
 	EInventorySlotType GetSlotType() const;
@@ -64,4 +67,5 @@ protected:
 
 	bool is_empty_ = true;
 	bool is_board_slot_ = true;
+	EHeroType hero_type_ = EHeroType::INVALID;
 };

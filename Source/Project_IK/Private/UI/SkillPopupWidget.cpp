@@ -10,16 +10,11 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/SkillPopupWidget.h"
 #include "Components/Image.h"
-#include "Structs/ItemData.h"
 
-void USkillPopupWidget::NativeConstruct()
-{
-	Super::NativeConstruct();
-}
-
-void USkillPopupWidget::UpdatePopupData(TObjectPtr<UDisplayDataAsset> display_asset)
+void USkillPopupWidget::UpdatePopupData(UTexture2D* thumbnail, const FText& name, const FText& detail)
 {
 	SetVisibility(ESlateVisibility::Visible);
-	thumbnail_->SetBrushFromTexture(display_asset->thumbnail);
-	skill_name_->SetText(display_asset->name_);
+	thumbnail_->SetBrushFromTexture(thumbnail);
+	skill_name_->SetText(name);
+	skill_detail_->SetText(detail);
 }

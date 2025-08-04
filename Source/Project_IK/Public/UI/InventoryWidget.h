@@ -56,7 +56,8 @@ public:
 
 	void LoadSelectedRewards(const FWrapperEquipmentData& rewards);
 
-	void CreatePopupWidget(TObjectPtr<UDisplayDataAsset> display_data);
+	void CreatePopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail);
+
 	void SetPopupWidgetPos(FVector2D pos);
 	void RemovePopupWidget();
 

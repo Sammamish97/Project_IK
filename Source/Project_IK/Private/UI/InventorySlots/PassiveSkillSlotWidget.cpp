@@ -18,11 +18,6 @@ void UPassiveSkillSlotWidget::NativeConstruct()
 	slot_type_ = EInventorySlotType::PassiveSkill;
 }
 
-void UPassiveSkillSlotWidget::SetHeroType(EHeroType hero_type)
-{
-	hero_type_ = hero_type;
-}
-
 void UPassiveSkillSlotWidget::SetPassiveSkillSlotData(const FPassiveSkillData& passive_skill_data)
 {
 	is_empty_ = false;
@@ -49,6 +44,7 @@ bool UPassiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FD
 		{
 			Swap(casted_slot->passive_skill_data_cache_, passive_skill_data_cache_);
 			Swap(casted_slot->is_empty_, is_empty_);
+			Swap(casted_slot->item_data_cache_, item_data_cache_);
 			SetImageTexture();
 			casted_slot->SetImageTexture();
 		}
