@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/BuffContainer.h"
 #include "UI/EnemyHPUI.h"
 #include "WorldSettings/IKGameModeBase.h"
+#include "WorldSettings/IKHUD.h"
 
 AEnemyBase::AEnemyBase()
 {
@@ -37,6 +38,12 @@ void AEnemyBase::BeginPlay()
 
 		hp_widget->GetHPUICore()->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
 		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_widget->GetHPUICore().Get(), &UHPUICore::UpdateWidget);
+	}
+
+	if (AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
+	{
+		pc->AddEnemyToCameraManager(this);
+		Cast<AIKHUD>(pc->GetHUD())->BindEnemyHPUI(this);
 	}
 }
 

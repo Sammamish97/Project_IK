@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "BuffHandler.h"
 #include "BF_Maintain.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API UBF_Maintain : public UBuffHandler
 {
 	GENERATED_BODY()
@@ -29,6 +29,9 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Buffs", meta = (AllowPrivateAccess = "true"))
 	float heal_per_half_sec_;
+
+	UPROPERTY(Transient)
+	TWeakObjectPtr<AUnit> target_cache_;
 
 	FTimerHandle heal_timer_handle_;
 };

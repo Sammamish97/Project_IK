@@ -50,6 +50,9 @@ void AIKGameModeBase::StartPlay()
 			GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->ApplyBuff(hero);
 		}
 	}
+	
+	// SpawnEnemies function should be called after SpawnHeroes has been called.
+	SpawnEnemies();
 }
 
 void AIKGameModeBase::BeginPlay()
@@ -58,9 +61,6 @@ void AIKGameModeBase::BeginPlay()
 	hero_spawn_position_ = FVector();
 	time_dilation_manager_ = NewObject<UTimeDilationManager>(this);
 	SpawnHeroes();
-
-	// SpawnEnemies function should be called after SpawnHeroes has been called.
-	SpawnEnemies();
 }
 
 

@@ -18,11 +18,15 @@ class UDelegateBridgeSubsystem;
 void UBF_RunAndGun::ApplyBuff(AUnit* target)
 {
 	Super::ApplyBuff(target);
+	target_cache_ = target;
 	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(target_cache_.Get(), EUnitEvent::OnReposition, this, &UBF_RunAndGun::OnReposition);
 	target->AddBuffUI(EBuffType::RunAndGun, display_data_);
 }
 
 void UBF_RunAndGun::OnReposition()
 {
-	Cast<AHeroBase>(target_cache_)->GetWeaponMechanics()->InstantReload();
+	if (auto target_ptr = target_cache_.Get())
+	{
+		Cast<AHeroBase>(target_ptr)->GetWeaponMechanics()->InstantReload();
+	}
 }

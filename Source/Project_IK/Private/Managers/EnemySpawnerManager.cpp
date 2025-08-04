@@ -9,15 +9,13 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Managers/EnemySpawnerManager.h"
 
+#include "Abilities/Buffs/BuffHandler.h"
 #include "Characters/EnemyBase.h"
-#include "Components/CharacterStatComponent.h"
-
 #include "Kismet/GameplayStatics.h"
-#include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKPlayerController.h"
-#include "Managers/DataTableManager.h"
 
 #include "DataAssets/EnemySpawnDataAsset.h"
+#include "WorldSettings/IKHUD.h"
 
 UEnemySpawnerManager::UEnemySpawnerManager()
 	:spawn_distance_(), enemy_waves_(0), spawn_position_(), enemy_spacing_(300)
@@ -28,6 +26,16 @@ void UEnemySpawnerManager::Initialize(FVector base_spawn_position, int32 waves)
 {
 	spawn_position_ = base_spawn_position;
 	enemy_waves_ = waves;
+
+	//Test Perpose
+	if (revenge_buff_ ==nullptr)
+	{
+		revenge_buff_ = NewObject<UBuffHandler>(this, revenge_buff_class_);
+	}
+	if (unity_buff_ ==nullptr)
+	{
+		unity_buff_ = NewObject<UBuffHandler>(this, unity_buff_class_);
+	}
 }
 
 void UEnemySpawnerManager::SpawnEnemies()
@@ -52,11 +60,10 @@ void UEnemySpawnerManager::SpawnEnemies()
 			enemies_.Add(enemy);
 		}
 	}
-
-	AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	if (pc)
+	//Test Perpose. 나중에 회차 후반부, 랜덤한 유닛에게 이런식으로 버프를 걸어야 한다.
+	for (const auto& elem : enemies_)
 	{
-		pc->UpdateEnemies(enemies_);
+		unity_buff_->ApplyBuff(Cast<AUnit>(elem));
 	}
 }
 
