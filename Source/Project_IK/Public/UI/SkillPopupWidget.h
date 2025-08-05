@@ -18,6 +18,7 @@ See LICENSE file in the project root for full license information.
 enum class EHeroType : uint8;
 class UImage;
 class UTextBlock;
+class URichTextBlock;
 class UDisplayDataAsset;
 
 UCLASS()
@@ -35,5 +36,5 @@ private:
 	TObjectPtr<UTextBlock> skill_name_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> skill_detail_;
+	TObjectPtr<URichTextBlock> skill_detail_;
 };

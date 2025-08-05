@@ -23,42 +23,54 @@ void URewardSelectWidget::NativeConstruct()
 
 void URewardSelectWidget::SetRewardData(const FActiveSkillData& data)
 {
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	UTextManager* text_manager = game_instance->GetTextManager();
+	
 	reward_data_.gear_type_ = EGearType::ActiveSkill;
 	reward_data_.active_skill_data_ = data;
 	
 	thumbnail_->SetBrushFromTexture(reward_data_.active_skill_data_.item_data_.display_data_->thumbnail);
-	//name_->SetText(reward_data_.active_skill_data_.item_data_.display_data_->name_);
-	//detail_->SetText(reward_data_.active_skill_data_.item_data_.display_data_->detail_.Evaluate({}));
+	name_->SetText(text_manager->GetNameText(reward_data_.active_skill_data_.item_data_.display_data_->text_key_));
+	detail_->SetText(reward_data_.active_skill_data_.BuildDetailText(GetWorld()));
 }
 
 void URewardSelectWidget::SetRewardData(const FPassiveSkillData& data)
 {
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	UTextManager* text_manager = game_instance->GetTextManager();
+	
 	reward_data_.gear_type_ = EGearType::PassiveSkill;
 	reward_data_.passive_skill_data_ = data;
 
 	thumbnail_->SetBrushFromTexture(reward_data_.passive_skill_data_.item_data_.display_data_->thumbnail);
-	//name_->SetText(reward_data_.passive_skill_data_.item_data_.display_data_->name_);
-	//detail_->SetText(reward_data_.passive_skill_data_.item_data_.display_data_->detail_.Evaluate({}));
+	name_->SetText(text_manager->GetNameText(reward_data_.passive_skill_data_.item_data_.display_data_->text_key_));
+	detail_->SetText(text_manager->GetDetailText(reward_data_.passive_skill_data_.item_data_.display_data_->text_key_));
 }
 
 void URewardSelectWidget::SetRewardData(const FRuneData& data)
 {
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	UTextManager* text_manager = game_instance->GetTextManager();
+	
 	reward_data_.gear_type_ = EGearType::Rune;
 	reward_data_.rune_data_ = data;
 
 	thumbnail_->SetBrushFromTexture(reward_data_.rune_data_.item_data_.display_data_->thumbnail);
-	//name_->SetText(reward_data_.rune_data_.item_data_.display_data_->name_);
-	//detail_->SetText(reward_data_.rune_data_.item_data_.display_data_->detail_.Evaluate({}));
+	name_->SetText(text_manager->GetNameText(reward_data_.rune_data_.item_data_.display_data_->text_key_));
+	detail_->SetText(text_manager->GetDetailText(reward_data_.rune_data_.item_data_.display_data_->text_key_));
 }
 
 void URewardSelectWidget::SetRewardData(const FWeaponData& data)
 {
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	UTextManager* text_manager = game_instance->GetTextManager();
+	
 	reward_data_.gear_type_ = EGearType::Weapon;
 	reward_data_.weapon_data_ = data;
 
 	thumbnail_->SetBrushFromTexture(reward_data_.weapon_data_.item_data_.display_data_->thumbnail);
-	//name_->SetText(reward_data_.weapon_data_.item_data_.display_data_->name_);
-	//detail_->SetText(reward_data_.weapon_data_.item_data_.display_data_->detail_.Evaluate({}));
+	name_->SetText(text_manager->GetNameText(reward_data_.weapon_data_.item_data_.display_data_->text_key_));
+	detail_->SetText(text_manager->GetDetailText(reward_data_.weapon_data_.item_data_.display_data_->text_key_));
 }
 
 void URewardSelectWidget::SetEquipmentWidgetCache(UEquipmentRewardWidget* equipment_widget_ptr)

@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/SkillPopupWidget.h"
 #include "Components/Image.h"
+#include "Components/RichTextBlock.h"
 
 void USkillPopupWidget::UpdatePopupData(UTexture2D* thumbnail, const FText& name, const FText& detail)
 {
