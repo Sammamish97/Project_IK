@@ -32,7 +32,7 @@ void UObjectPoolComponent::InitializePool()
 	checkf(pooled_actor_class_, TEXT("Should Select Object Pool target object class"))
 
 	object_pool_.Empty();
-	for(int i = 0; i < pool_size_; ++i)
+	for(int32 i = 0; i < pool_size_; ++i)
 	{
 		auto pooled_actor = GetWorld()->SpawnActor<APooledActor>(pooled_actor_class_);
 		pooled_actor->AttachToComponent(objects_root_, FAttachmentTransformRules::KeepWorldTransform);

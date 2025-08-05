@@ -148,8 +148,6 @@ void AGunBase::PlayFireParticle() const
 
 void AGunBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	bullet_pool_component_->EndPlay(EndPlayReason);
-	
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
 	GetWorld()->GetTimerManager().ClearTimer(reload_timer_handle_);
 
