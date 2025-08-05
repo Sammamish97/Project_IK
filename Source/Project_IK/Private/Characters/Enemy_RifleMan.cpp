@@ -21,18 +21,6 @@ void AEnemy_RifleMan::BeginPlay()
 	weapon_mechanics_->EquipWeapon(weapon_class_);
 }
 
-void AEnemy_RifleMan::Die()
-{
-	Super::Die();
-}
-
-void AEnemy_RifleMan::OnStunned()
-{
-	UE_LOG(LogTemp, Warning, TEXT("AEnemy_RifleMan Stunned"));
-	Super::OnStunned();
-	//weapon_mechanics_->OnStunned();
-}
-
 void AEnemy_RifleMan::Attack(AActor* target)
 {
 	Super::Attack(target);

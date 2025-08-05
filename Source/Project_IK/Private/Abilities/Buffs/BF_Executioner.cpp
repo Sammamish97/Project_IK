@@ -14,13 +14,8 @@ See LICENSE file in the project root for full license information.
 
 void UBF_Executioner::ApplyBuff(AUnit* target)
 {
-	Super::ApplyBuff(target);
+	target_cache_ = target;
 	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(target, EUnitEvent::OnEliminate, this, &UBF_Executioner::OnEliminate);
-}
-
-void UBF_Executioner::RemoveBuff(AUnit* target)
-{
-	Super::RemoveBuff(target);
 }
 
 void UBF_Executioner::OnEliminate()

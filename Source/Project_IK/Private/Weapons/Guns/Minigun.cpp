@@ -48,7 +48,7 @@ void AMinigun::OnFinishPreheat(AActor* target)
 			if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target_ptr)
 			{
 				FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &AMinigun::OnFire, target_ptr);
-				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, pre_heat_time_);
+				GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true);
 			}
 		}
 	}
