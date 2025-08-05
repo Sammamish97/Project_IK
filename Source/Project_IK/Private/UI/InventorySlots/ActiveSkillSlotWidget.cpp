@@ -70,6 +70,27 @@ bool UActiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDr
 	return false;
 }
 
+void UActiveSkillSlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	if (is_empty_ == false)
+	{
+		FText detail;
+		if (is_board_slot_)
+		{
+			auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
+			const FCharacterData& cur_data = data_table_manager_->GetCharacterData(HeroTypeToCharacterType(hero_type_));
+			detail = active_skill_data_cache_.BuildDetailText(GetWorld(), cur_data);
+		}
+		else
+		{
+			detail = active_skill_data_cache_.BuildDetailText(GetWorld());
+		}
+		inventory_widget_cache_->CreatePopupWidget(item_data_cache_.display_data_->thumbnail,
+			text_manager_cache_->GetNameText(item_data_cache_.display_data_->text_key_),
+			detail);
+	}
+}
+
 FActiveSkillData UActiveSkillSlotWidget::GetStoredActiveSkillData()
 {
 	return active_skill_data_cache_;
@@ -88,38 +109,4 @@ void UActiveSkillSlotWidget::ClearData()
 {
 	Super::ClearData();
 	active_skill_data_cache_ = FActiveSkillData();
-}
-
-FText UActiveSkillSlotWidget::BuildDetailString()
-{
-	FText base = Super::BuildDetailString();
-	FText final_text;
-	//영웅에게 장착되어 있다면 총 데미지를 계산해야 한다.
-	if (is_board_slot_ && hero_type_ != EHeroType::INVALID)
-	{
-		auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
-		const FCharacterData& cur_data = data_table_manager_->GetCharacterData(HeroTypeToCharacterType(hero_type_));
-		FFormatNamedArguments args;
-		args.Add("val", FText::AsNumber(cur_data.status_data_.skill_power_ * active_skill_data_cache_.skill_power_ratio_));
-
-		final_text = FText::Format(base, args);
-	}
-	//영웅에게 장착되어 있지 않다면, 스킬 계수만 보여저야 한다.
-	else
-	{
-		//1. 먼저 value에 해당하는 string을 format을 통해 조립한다.
-		FText stat_text = FText::FromStringTable("/Game/StringTables/Status", "SkillPower");
-		FText val_base = FText::FromString("{sp} x {stat}");
-		FFormatNamedArguments val_args;
-		val_args.Add("sp", FText::AsNumber(active_skill_data_cache_.skill_power_ratio_));
-		val_args.Add("stat", stat_text);
-
-		FText::Format(val_base, val_args);
-		
-		//2. base를 detail의 val에 넣는다.
-		FFormatNamedArguments args;
-		args.Add("val", FText::Format(val_base, val_args));
-		final_text = FText::Format(base, args);
-	}
-	return final_text;
 }

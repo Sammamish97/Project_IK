@@ -23,7 +23,6 @@ UAT_Encourage::UAT_Encourage()
 	target_param_ = FTargetParameters(ETargetingMode::Location, ETargetType::All, 0.f, 1000.f, false);
 
 	cool_time_ = 10.f;
-	scaling_factor_ = 0.02f;
 }
 
 void UAT_Encourage::InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data)

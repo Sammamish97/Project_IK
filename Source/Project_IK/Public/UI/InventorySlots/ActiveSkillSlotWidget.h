@@ -23,13 +23,12 @@ public:
 	void SetActiveSkillSlotData(FActiveSkillData active_skill_data);
 	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	
 	FActiveSkillData GetStoredActiveSkillData();
 	virtual void SetImageTexture() override;
 	virtual void ClearData() override;
 
-	virtual FText BuildDetailString() override;
-	
 	
 private:
 	FActiveSkillData active_skill_data_cache_;

@@ -23,8 +23,6 @@ void UBuffPopupWidget::ResetWidget()
 {
 	SetVisibility(ESlateVisibility::Hidden);
 	thumbnail_->SetBrushFromTexture(nullptr);
-	name_->SetText(NSLOCTEXT("UI", "BuffPopupName", "name"));
-	detail_->SetText(NSLOCTEXT("UI", "BuffPopupDetail", "detail"));
 }
 
 void UBuffPopupWidget::SetBuffDetail(UDisplayDataAsset* target_data)
@@ -33,8 +31,10 @@ void UBuffPopupWidget::SetBuffDetail(UDisplayDataAsset* target_data)
 	{
 		SetVisibility(ESlateVisibility::Visible);
 		thumbnail_->SetBrushFromTexture(target_data->thumbnail);
-		//name_->SetText(target_data->name_);
-		//IKTODO: Evaluate에 적절한 값을 넣어야 한다.
-		//detail_->SetText(target_data.item_data_.detail_.Evaluate());
+		FText name = FText::FromStringTable("/Game/StringTables/Names", target_data->text_key_);
+		FText detail = FText::FromStringTable("/Game/StringTables/Details", target_data->text_key_);
+
+		name_->SetText(name);
+		detail_->SetText(detail);
 	}
 }

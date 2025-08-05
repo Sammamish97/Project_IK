@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 
 class USlotDragDropImage;
 class UInventoryWidget;
+class UTextManager;
 class UImage;
 
 UCLASS()
@@ -35,9 +36,7 @@ public:
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	virtual FReply NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
-
-	virtual FText BuildNameString();
-	virtual FText BuildDetailString();
+	
 	virtual void SetImageTexture();
 
 	void SetHighlightImageVisibility(ESlateVisibility visibility);
@@ -56,6 +55,9 @@ protected:
 
 	UPROPERTY(Transient)
 	TObjectPtr<UInventoryWidget> inventory_widget_cache_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UTextManager> text_manager_cache_;
 	
 	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<UImage> image_;

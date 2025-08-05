@@ -82,8 +82,11 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 				selected_active_skill_mechanics_ = casted_hero->GetActiveSkillMechanics();
 				selected_hero_type_ = hero_type;
 				selected_skill_type_ = ESelectedSkill::ActiveSkill;
-				//IKTODO
-				//Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(casted_hero->GetActiveSkillItemData().display_data_);
+				//IKTODO: 여기서 액티브 스킬의 공격력이 계산 되어야 함.
+				FText name = FText::FromStringTable("/Game/StringTables/Names", casted_hero->GetActiveSkillItemData().display_data_->text_key_);
+				FText detail = FText::FromStringTable("/Game/StringTables/Details", casted_hero->GetActiveSkillItemData().display_data_->text_key_);
+				
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(casted_hero->GetActiveSkillItemData().display_data_->thumbnail, name, detail);
 			}
 		}
 	}
@@ -101,8 +104,9 @@ void AIKGameState::ActivateSupportSkill(int32 support_num)
 				selected_support_skill_ = support_skills_[support_num];
 				selected_support_num_ = support_num;
 				selected_skill_type_ = ESelectedSkill::SupportSKill;
-				//IKTODO
-				//Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(support_skill_data_[support_num]->display_data_);
+				FText name = FText::FromStringTable("/Game/StringTables/Names", support_skill_data_[support_num]->display_data_->text_key_);
+				FText detail = FText::FromStringTable("/Game/StringTables/Details", support_skill_data_[support_num]->display_data_->text_key_);
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(support_skill_data_[support_num]->display_data_->thumbnail, name, detail);
 			}
 		}
 	}

@@ -36,7 +36,7 @@ FReply UPassiveSkillSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& 
 bool UPassiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
                                            UDragDropOperation* InOperation)
 {
-	//IKTODO: Hero가 동일한 Passive Skill를 이미 장착하고 있는지 확인.
+	//Hero가 동일한 Passive Skill를 이미 장착하고 있는지 확인.
 	if (Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation))
 	{
 		auto casted_slot = Cast<UPassiveSkillSlotWidget>(InOperation->Payload);
