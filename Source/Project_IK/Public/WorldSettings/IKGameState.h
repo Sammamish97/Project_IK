@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/TargetResult.h"
 #include "IKGameState.generated.h"
 
+class UTextManager;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnToggleFocusMode, bool, on_detail_mode);
 
 class USupportSkillBase;
@@ -81,6 +82,9 @@ private:
 	
 	UPROPERTY()
 	TObjectPtr<AIKPlayerController> player_controller_cache_;
+
+	UPROPERTY()
+	TObjectPtr<UTextManager> text_manager_cache_;
 
 	UPROPERTY()
 	TMap<EHeroType, FTimerHandle> active_skill_timers_;

@@ -21,7 +21,7 @@ void UInventorySlot::InitInventorySlot(UInventoryWidget* widget_ptr, bool is_boa
 	hero_type_ = hero_type;
 	
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	text_manager_cache_ = game_instance->GetTextManager();;
+	text_manager_cache_ = game_instance->GetTextManager();
 }
 
 void UInventorySlot::NativeConstruct()

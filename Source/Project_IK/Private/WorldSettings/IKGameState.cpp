@@ -12,15 +12,16 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SupportSkills/SupportSkillBase.h"
 #include "Characters/HeroBase.h"
 #include "Components/ActiveSkillMechanics.h"
+#include "Components/CharacterStatComponent.h"
 #include "Components/EnergySystemComponent.h"
 #include "DataAssets/SupportSkillDataAsset.h"
 #include "Kismet/GameplayStatics.h"
-#include "Subsystems/LevelTransitionSubsystem.h"
 #include "UI/ButtonBarWidget.h"
 #include "UI/SkillPopupWidget.h"
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKHUD.h"
 #include "WorldSettings/IKPlayerController.h"
+#include "Managers/TextManager.h"
 
 AIKGameState::AIKGameState()
 	:Super::AGameStateBase()
@@ -31,7 +32,11 @@ AIKGameState::AIKGameState()
 void AIKGameState::BeginPlay()
 {
 	Super::BeginPlay();
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	text_manager_cache_ = game_instance->GetTextManager();
+	
 	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	
 	support_skill_data_ = {relocation_data_, set_attack_target_data_, maintain_data_};
 
 	for (int32 i = 0; i < 3; i++)
@@ -82,11 +87,13 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 				selected_active_skill_mechanics_ = casted_hero->GetActiveSkillMechanics();
 				selected_hero_type_ = hero_type;
 				selected_skill_type_ = ESelectedSkill::ActiveSkill;
-				//IKTODO: 여기서 액티브 스킬의 공격력이 계산 되어야 함.
-				FText name = FText::FromStringTable("/Game/StringTables/Names", casted_hero->GetActiveSkillItemData().display_data_->text_key_);
-				FText detail = FText::FromStringTable("/Game/StringTables/Details", casted_hero->GetActiveSkillItemData().display_data_->text_key_);
 				
-				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(casted_hero->GetActiveSkillItemData().display_data_->thumbnail, name, detail);
+				FText name = text_manager_cache_->GetNameText(casted_hero->GetActiveSkillItemData().display_data_->text_key_);
+				auto active_skill_data = casted_hero->GetActiveSkillMechanics()->GetEquippedActiveSkillData();
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(
+					casted_hero->GetActiveSkillItemData().display_data_->thumbnail,
+					name,
+					active_skill_data.BuildDetailText(GetWorld(), casted_hero->GetCharacterStat()->GetCharacterData()));
 			}
 		}
 	}
@@ -104,9 +111,13 @@ void AIKGameState::ActivateSupportSkill(int32 support_num)
 				selected_support_skill_ = support_skills_[support_num];
 				selected_support_num_ = support_num;
 				selected_skill_type_ = ESelectedSkill::SupportSKill;
-				FText name = FText::FromStringTable("/Game/StringTables/Names", support_skill_data_[support_num]->display_data_->text_key_);
-				FText detail = FText::FromStringTable("/Game/StringTables/Details", support_skill_data_[support_num]->display_data_->text_key_);
-				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(support_skill_data_[support_num]->display_data_->thumbnail, name, detail);
+				
+				FText name = text_manager_cache_->GetNameText(support_skill_data_[support_num]->display_data_->text_key_);
+				FText detail = text_manager_cache_->GetDetailText(support_skill_data_[support_num]->display_data_->text_key_);
+				Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSkillPopupWidget()->UpdatePopupData(
+					support_skill_data_[support_num]->display_data_->thumbnail,
+					name,
+					detail);
 			}
 		}
 	}
