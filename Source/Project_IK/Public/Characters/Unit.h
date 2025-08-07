@@ -22,9 +22,9 @@ class UObjectPoolComponent;
 class UWidgetComponent;
 class UCharacterStatComponent;
 class UCrowdControlComponent;
-class ADamageUI;
 class UDelegateBridgeSubsystem;
 class UOutlineComponent;
+class UNiagaraSystem;
 enum class EUnitEvent : uint8;
 struct FBuffStatusData;
 
@@ -113,8 +113,6 @@ public:
 protected:
 	void SetDamageUI(FDamageData data, bool is_evaded);
 
-	ADamageUI* SpawnDamageUI();
-
 	void GetDamageByDot(FDamageData data);
 	void GetDamageByPEM(FDamageData data);
 	void GetDamageByMagic(FDamageData data);
@@ -164,8 +162,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Animation", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> stunned_montage_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DamageUI", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UObjectPoolComponent> object_pool_component_;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<USceneComponent> damage_ui_spawn_position_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "DamageUI")
+	TObjectPtr<UNiagaraSystem> damage_ui_system_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Unit")
 	TObjectPtr<UOutlineComponent> outline_component_;

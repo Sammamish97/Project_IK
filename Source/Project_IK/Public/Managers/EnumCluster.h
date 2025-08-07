@@ -620,7 +620,6 @@ enum class EEventType : uint8
 	SetTrap UMETA(DisplayName = "Set Trap"),
 	Core UMETA(DisplayName = "Core"),
 	Patrol UMETA(DisplayName = "Patrol"),
-	DisarmTrap UMETA(DisplayName = "Disarm Trap"),
 };
 
 UENUM(BlueprintType)

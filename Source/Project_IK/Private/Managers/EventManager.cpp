@@ -35,7 +35,7 @@ void UEventManager::InitEventManager(TObjectPtr<UIKGameInstance> instance,
 FEventData UEventManager::GetRandomEventData()
 {
 	int32 zero_event_index = 0;
-	int32 max_event_index = 12;
+	int32 max_event_index = 11;
 	if (IsNegativeEventsRemoved())
 	{
 		zero_event_index = 4;
@@ -80,9 +80,6 @@ FEventData UEventManager::GetRandomEventData()
 
 		case 11:
 			return *event_table_->FindRow<FEventData>(FName("Patrol"), TEXT(""));
-
-		case 12:
-			return *event_table_->FindRow<FEventData>(FName("DisarmTrap"), TEXT(""));
 		}
 	}
 	return FEventData();
@@ -171,14 +168,6 @@ void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> wi
 		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_Patrol_SecondOptionResult);
 		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_Patrol_ThirdOptionResult);
 		widget->button_4_->OnClicked.AddDynamic(this, &UEventManager::Event_Patrol_FourthOptionResult);
-		break;
-
-	case EEventType::DisarmTrap:
-		widget->EnableButtons(4);
-		widget->button_1_->OnClicked.AddDynamic(this, &UEventManager::Event_DisarmTrap_FirstOptionResult);
-		widget->button_2_->OnClicked.AddDynamic(this, &UEventManager::Event_DisarmTrap_SecondOptionResult);
-		widget->button_3_->OnClicked.AddDynamic(this, &UEventManager::Event_DisarmTrap_ThirdOptionResult);
-		widget->button_4_->OnClicked.AddDynamic(this, &UEventManager::Event_DisarmTrap_FourthOptionResult);
 		break;
 
 	default:
@@ -524,26 +513,6 @@ void UEventManager::Event_Patrol_FourthOptionResult()
 	}
 }
 
-void UEventManager::Event_DisarmTrap_FirstOptionResult()
-{
-	DisarmTrapLogic(EHeroType::Hero1);
-}
-
-void UEventManager::Event_DisarmTrap_SecondOptionResult()
-{
-	DisarmTrapLogic(EHeroType::Hero2);
-}
-
-void UEventManager::Event_DisarmTrap_ThirdOptionResult()
-{
-	DisarmTrapLogic(EHeroType::Hero3);
-}
-
-void UEventManager::Event_DisarmTrap_FourthOptionResult()
-{
-	DisarmTrapLogic(EHeroType::Hero4);
-}
-
 void UEventManager::SetNextNodeToElite(UIKMaps* map, int32 row, int32 col, int32 left_level)
 {
 	if (left_level < 0)
@@ -565,24 +534,4 @@ void UEventManager::SetNextNodeToElite(UIKMaps* map, int32 row, int32 col, int32
 bool UEventManager::IsNegativeEventsRemoved() const
 {
 	return only_positive_event_counter_ > 0;
-}
-
-void UEventManager::DisarmTrapLogic(EHeroType hero_type)
-{
-	// Discard a weapon randomly.
-	ULevelTransitionSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
-	auto spawn_data = subsystem->GetSpawnData();
-
-	bool is_succeed = FMath::RandBool();
-
-
-	if (is_succeed)
-	{
-		// @@ TODO: Upgrade weapon.
-	}
-	else
-	{
-		// Discard a weapon data
-		spawn_data[hero_type].weapon_data_.Reset();
-	}
 }

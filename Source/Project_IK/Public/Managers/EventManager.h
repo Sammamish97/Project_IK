@@ -126,23 +126,10 @@ public:
 
 	UFUNCTION()
 	void Event_Patrol_FourthOptionResult();
-	//
-	UFUNCTION()
-	void Event_DisarmTrap_FirstOptionResult();
-
-	UFUNCTION()
-	void Event_DisarmTrap_SecondOptionResult();
-
-	UFUNCTION()
-	void Event_DisarmTrap_ThirdOptionResult();
-
-	UFUNCTION()
-	void Event_DisarmTrap_FourthOptionResult();
 
 private:
 	void SetNextNodeToElite(UIKMaps* map, int32 row, int32 col, int32 left_level);
 	bool IsNegativeEventsRemoved() const;
-	void DisarmTrapLogic(EHeroType hero_type);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UDataTable> event_table_;

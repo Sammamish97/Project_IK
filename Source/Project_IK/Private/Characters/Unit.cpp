@@ -19,15 +19,16 @@ See LICENSE file in the project root for full license information.
 #include "Components/CapsuleComponent.h"
 #include "Components/OutlineComponent.h"
 
-#include "Components/ObjectPoolComponent.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "UI/DamageUI.h"
 
 #include "Subsystems/GlobalBuffSubsystem.h"
 
 #include "Structs/BuffStatusData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "UI/HPUICore.h"
+
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 // Sets default values
 AUnit::AUnit()
@@ -38,8 +39,10 @@ AUnit::AUnit()
 	hp_widget_component_ = CreateDefaultSubobject<UWidgetComponent>(TEXT("HP Widget Component"));
 
 	cc_component_ = CreateDefaultSubobject<UCrowdControlComponent>(TEXT("CC Component"));
-	object_pool_component_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
 	outline_component_ = CreateDefaultSubobject<UOutlineComponent>(TEXT("OutlineComponent"));
+
+	damage_ui_spawn_position_ = CreateDefaultSubobject<USceneComponent>(TEXT("Damage UI Spawn Position"));
+	damage_ui_spawn_position_->SetupAttachment(RootComponent);
 
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Pawn"));
 	USkeletalMeshComponent* skeletal = GetMesh();
@@ -162,42 +165,10 @@ void AUnit::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 {
-	if (is_evaded)
-	{
-		ADamageUI* missed_ui = SpawnDamageUI();
-		if (missed_ui)
-		{
-			missed_ui->SetMissed();
-		}
-	}
-	else
-	{
-		if (data.atk_base_dmg_ > 0.f)
-		{
-			ADamageUI* atk_ui = SpawnDamageUI();
-			if (atk_ui)
-			{
-				atk_ui->SetDamageAmount(data.atk_base_dmg_, FLinearColor::White);
-			}
-		}
-		else if (data.atk_base_dmg_ < 0.f)
-		{
-			UE_LOG(LogTemp, Error, TEXT("atk_base_dmg less than 0 has come."));
-		}
-
-		if (data.skill_power_base_dmg_ > 0.f)
-		{
-			ADamageUI* skill_ui = SpawnDamageUI();
-			if (skill_ui)
-			{
-				skill_ui->SetDamageAmount(data.skill_power_base_dmg_, FLinearColor::Blue);
-			}
-		}
-		else if (data.skill_power_base_dmg_ < 0.f)
-		{
-			UE_LOG(LogTemp, Error, TEXT("skill_power_base_dmg less than 0 has come."));
-		}
-	}
+	UNiagaraComponent* damage_ui = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, damage_ui_system_, damage_ui_spawn_position_->GetComponentLocation());
+	damage_ui->SetBoolParameter(FName("IsCrit"), data.is_critical_shot_);
+	damage_ui->SetBoolParameter(FName("IsMissed"), is_evaded);
+	damage_ui->SetFloatParameter(FName("DamageAmount"), data.atk_base_dmg_ + data.skill_power_base_dmg_);
 }
 
 void AUnit::GetDamage(FDamageData data)
@@ -231,10 +202,8 @@ void AUnit::Heal(float heal)
 {
 	character_stat_component_->Heal(heal);
 
-	if (ADamageUI* ui = SpawnDamageUI())
-	{
-		ui->SetHealAmount(heal);
-	}
+	UNiagaraComponent* damage_ui = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, damage_ui_system_, GetActorLocation());
+	damage_ui->SetFloatParameter(FName("DamageAmount"), heal);
 }
 
 void AUnit::ApplyStatusBuff(EBuffType buff_type, FBuffStatusData buff_status)
@@ -331,24 +300,6 @@ void AUnit::Die()
 		delegate_map.Value.Clear();
 	}
 	Destroy();
-}
-
-ADamageUI* AUnit::SpawnDamageUI()
-{
-	// Randomize spawn locations
-	FTransform transform = GetActorTransform();
-	FVector rand_offsets = FVector(0.f, capsule_radius_ + FMath::RandRange(-10.f, 50.f), capsule_half_height_ + FMath::RandRange(-10.f, 50.f));
-
-	APlayerController* player_controller = GetWorld()->GetFirstPlayerController();
-	if (player_controller && player_controller->PlayerCameraManager)
-	{
-		rand_offsets = player_controller->PlayerCameraManager->GetCameraRotation().RotateVector(rand_offsets);
-	}
-
-	transform.SetLocation(transform.GetLocation() + rand_offsets);
-
-
-	return Cast<ADamageUI>(object_pool_component_->SpawnFromPool(transform.Rotator(), transform.GetLocation()));
 }
 
 void AUnit::GetDamageByDot(FDamageData data)
