@@ -88,8 +88,12 @@ void AGunBase::StopReload()
 		{
 			gun_owner->StopAnimMontage();
 			GetWorld()->GetTimerManager().ClearTimer(reload_timer_handle_);
-			auto bt_component = Cast<UBehaviorTreeComponent>(Cast<AAIController>(gun_owner->GetController())->GetBrainComponent());
-			OnFinishReload.Broadcast(bt_component,true);
+			AAIController* controller = Cast<AAIController>(gun_owner->GetController());
+			if (controller)
+			{
+				auto bt_component = Cast<UBehaviorTreeComponent>(controller->GetBrainComponent());
+				OnFinishReload.Broadcast(bt_component, true);
+			}
 		}
 	}
 }
@@ -102,8 +106,12 @@ void AGunBase::OnReload()
 	if (AUnit* gun_owner = weak_gun_owner_.Get())
 	{
 		gun_owner->ResetUnitState();
-		auto bt_component = Cast<UBehaviorTreeComponent>(Cast<AAIController>(gun_owner->GetController())->GetBrainComponent());
-		OnFinishReload.Broadcast(bt_component,false);
+		AAIController* controller = Cast<AAIController>(gun_owner->GetController());
+		if (controller)
+		{
+			auto bt_component = Cast<UBehaviorTreeComponent>(controller->GetBrainComponent());
+			OnFinishReload.Broadcast(bt_component, true);
+		}
 	}
 }
 

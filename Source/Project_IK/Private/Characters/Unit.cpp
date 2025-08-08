@@ -18,6 +18,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/WidgetComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/OutlineComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 #include "Kismet/KismetMathLibrary.h"
 
@@ -41,8 +42,6 @@ AUnit::AUnit()
 	cc_component_ = CreateDefaultSubobject<UCrowdControlComponent>(TEXT("CC Component"));
 	outline_component_ = CreateDefaultSubobject<UOutlineComponent>(TEXT("OutlineComponent"));
 
-	damage_ui_spawn_position_ = CreateDefaultSubobject<USceneComponent>(TEXT("Damage UI Spawn Position"));
-	damage_ui_spawn_position_->SetupAttachment(RootComponent);
 
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Pawn"));
 	USkeletalMeshComponent* skeletal = GetMesh();
@@ -83,17 +82,29 @@ void AUnit::SetForwardDir(const FVector& Forward_Dir)
 
 void AUnit::SetAttackTarget(AActor* target)
 {
-	return Cast<AMeleeAIController>(GetController())->SetTargetActor(target);
+	AMeleeAIController* controller = Cast<AMeleeAIController>(GetController());
+	if (controller)
+	{
+		controller->SetTargetActor(target);
+	}
 }
 
 AActor* AUnit::GetAttackTarget()
 {
-	return Cast<AMeleeAIController>(GetController())->GetTargetActor();
+	AMeleeAIController* controller = Cast<AMeleeAIController>(GetController());
+	if (controller)
+	{
+		return controller->GetTargetActor();
+	}
+	else
+	{
+		return nullptr;
+	}
 }
 
 void AUnit::SetOutlineState(EOutlineState state)
 {
-	if(auto target = GetComponentByClass<UPrimitiveComponent>())
+	if (auto target = GetComponentByClass<UPrimitiveComponent>())
 	{
 		outline_component_->SwitchOutline(target, state);
 	}
@@ -125,8 +136,12 @@ bool AUnit::IsHero() const
 
 void AUnit::FinishAction()
 {
-	auto bt_component = Cast<UBehaviorTreeComponent>(Cast<AAIController>(GetController())->GetBrainComponent());
-	OnFinishAction.Broadcast(bt_component, false);
+	AAIController* controller = Cast<AAIController>(GetController());
+	if (controller)
+	{
+		auto bt_component = Cast<UBehaviorTreeComponent>(controller->GetBrainComponent());
+		OnFinishAction.Broadcast(bt_component, false);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -165,7 +180,7 @@ void AUnit::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 {
-	UNiagaraComponent* damage_ui = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, damage_ui_system_, damage_ui_spawn_position_->GetComponentLocation());
+	UNiagaraComponent* damage_ui = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, damage_ui_system_, hp_widget_component_->GetComponentLocation() + FVector(0.f, 0.f, 130.f));
 	damage_ui->SetBoolParameter(FName("IsCrit"), data.is_critical_shot_);
 	damage_ui->SetBoolParameter(FName("IsMissed"), is_evaded);
 	damage_ui->SetFloatParameter(FName("DamageAmount"), data.atk_base_dmg_ + data.skill_power_base_dmg_);
@@ -173,9 +188,9 @@ void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 
 void AUnit::GetDamage(FDamageData data)
 {
-	if (GetCharacterStat()->GetHitPoint() + GetCharacterStat()->GetShield() - data.atk_base_dmg_  - data.skill_power_base_dmg_ <= 0.f )
+	if (GetCharacterStat()->GetHitPoint() + GetCharacterStat()->GetShield() - data.atk_base_dmg_ - data.skill_power_base_dmg_ <= 0.f)
 	{
- 		if (AActor* attacker_ptr = data.attacker_.Get())
+		if (AActor* attacker_ptr = data.attacker_.Get())
 		{
 			Cast<AUnit>(attacker_ptr)->DispatchUnitEvent(EUnitEvent::OnEliminate);
 		}
@@ -255,7 +270,11 @@ void AUnit::GetStunned(float stun_duration)
 void AUnit::OnStunned()
 {
 	//BT 역시 stun시키기
-	Cast<AMeleeAIController>(GetController())->GetStunned();
+	AMeleeAIController* controller = Cast<AMeleeAIController>(GetController());
+	if (controller)
+	{
+		controller->GetStunned();
+	}
 	PlayAnimMontage(stun_montage_);
 }
 
@@ -267,12 +286,16 @@ void AUnit::FinishStun()
 
 void AUnit::SetUnitStateWithInterrupt(EUnitState type)
 {
-	
+
 }
 
 void AUnit::ResetUnitState()
 {
-	Cast<AMeleeAIController>(GetController())->ResetUnitState();
+	AMeleeAIController* controller = Cast<AMeleeAIController>(GetController());
+	if (controller)
+	{
+		controller->ResetUnitState();
+	}
 }
 
 void AUnit::OnEnterBattleOnce()
@@ -299,6 +322,19 @@ void AUnit::Die()
 	{
 		delegate_map.Value.Clear();
 	}
+
+	GetCharacterMovement()->DisableMovement();
+	DetachFromControllerPendingDestroy();
+	GetMesh()->SetCollisionProfileName(TEXT("Ragdoll"));
+	GetMesh()->SetSimulatePhysics(true);
+	FVector impulse = -GetActorForwardVector() * FMath::RandRange(2500.f, 4500.f);
+	GetMesh()->AddImpulse(impulse, NAME_None, true);
+
+	GetWorldTimerManager().SetTimer(destroy_timer_, this, &AUnit::OnDieFinished, 5.f);
+}
+
+void AUnit::OnDieFinished()
+{
 	Destroy();
 }
 

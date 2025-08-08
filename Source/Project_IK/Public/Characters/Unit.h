@@ -49,6 +49,9 @@ public:
 	
 	UFUNCTION()
 	virtual void Die() override;
+
+	UFUNCTION()
+	void OnDieFinished();
 	
 	FVector GetForwardDir() const;
 	void SetForwardDir(const FVector& Forward_Dir);
@@ -162,9 +165,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Animation", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> stunned_montage_;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	TObjectPtr<USceneComponent> damage_ui_spawn_position_;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "DamageUI")
 	TObjectPtr<UNiagaraSystem> damage_ui_system_;
 
@@ -182,6 +182,8 @@ protected:
 	
 	UPROPERTY(Transient)
 	FTimerHandle stun_timer_;
+
+	FTimerHandle destroy_timer_;
 
 	UPROPERTY(Transient)
 	TWeakObjectPtr<AActor> cur_hiding_cover_ = nullptr;
