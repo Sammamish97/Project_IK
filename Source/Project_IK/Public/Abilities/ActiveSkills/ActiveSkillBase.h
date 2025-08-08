@@ -37,7 +37,7 @@ public:
 protected:
 	UPROPERTY()
 	TObjectPtr<AActor> skill_owner_ = nullptr;
-
+	
 	UPROPERTY()
 	FActiveSkillData skill_data_ = FActiveSkillData();
 

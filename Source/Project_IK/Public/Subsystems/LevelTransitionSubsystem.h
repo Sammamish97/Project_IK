@@ -26,12 +26,15 @@ public:
 	void UpdateSpawnData(const TMap<EHeroType, FSpawnData>& data);
 	UFUNCTION(BlueprintCallable)
 	void UpdateSpawnDataIdx(EHeroType type, FSpawnData data);
+
+	UFUNCTION(BlueprintCallable)
+	void OpenLevel(UWorld* world, ELevelState state);
 	
 	UFUNCTION(BlueprintCallable)
 	void OpenMapLevel(UWorld* world);
 	
 	UFUNCTION(BlueprintCallable)
-	void OpenLevel(UWorld* world, FIntPoint map_position);
+	void OpenNode(UWorld* world, FIntPoint map_position);
 	
 	UFUNCTION(BlueprintCallable)
 	const TMap<EHeroType, FSpawnData>& GetSpawnData() const;

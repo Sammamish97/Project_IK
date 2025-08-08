@@ -325,7 +325,7 @@ void UMapWidget::OpenLevel()
 	{
 		if (pair.Value->IsHovered())
 		{
-			Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(world))->GetLevelTransitionSubsystem()->OpenLevel(world, pair.Key);
+			Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(world))->GetLevelTransitionSubsystem()->OpenNode(world, pair.Key);
 		}
 	}
 

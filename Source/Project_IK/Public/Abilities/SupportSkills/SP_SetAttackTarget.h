@@ -13,6 +13,8 @@ See LICENSE file in the project root for full license information.
 #include "SupportSkillBase.h"
 #include "SP_SetAttackTarget.generated.h"
 
+class AHeroBase;
+
 UCLASS()
 class PROJECT_IK_API USP_SetAttackTarget : public USupportSkillBase
 {

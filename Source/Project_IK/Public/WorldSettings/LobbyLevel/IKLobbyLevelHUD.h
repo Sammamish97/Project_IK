@@ -1,34 +1,32 @@
 /******************************************************************************
-Copyright(C) 2024
-Author: sinil.kang(rtd99062@gmail.com)
-Creation Date : 03.02.2025
-Summary : Header file for HUD in MainMenu.
+Copyright(C) 2025
+Author: chunmook.kim(chunmook.kim97@gmail.com)
+Creation Date : 8.06.2025
+Summary : Header file for Lobby level hud.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
-#include "IKMainMenuHUD.generated.h"
+#include "IKLobbyLevelHUD.generated.h"
 
-class UMainMenuWidget;
+class ULobbyWidget;
 
 UCLASS()
-class PROJECT_IK_API AIKMainMenuHUD : public AHUD
+class PROJECT_IK_API AIKLobbyLevelHUD : public AHUD
 {
 	GENERATED_BODY()
-	
 public:
 	// Need to add TSubclassOf and ptr of MapWidget
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
-	TSubclassOf<UMainMenuWidget> main_menu_widget_class_;
+	TSubclassOf<ULobbyWidget> lobby_widget_class_;
 	
 protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY()
-	TObjectPtr<UMainMenuWidget> main_menu_widget_;
+	TObjectPtr<ULobbyWidget> lobby_widget_;
 };

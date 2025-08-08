@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Engine/GameInstance.h"
 #include "IKGameInstance.generated.h"
 
+class UPauseManager;
 class UTextManager;
 class USetBonusManager;
 class UIKMaps;
@@ -43,7 +44,6 @@ public:
 	class ULevelTransitionSubsystem* GetLevelTransitionSubsystem() const noexcept;
 	UFUNCTION(BlueprintPure)
 	UDataTableManager* GetDataTableManager() const noexcept;
-
 	UFUNCTION(BlueprintPure)
 	UTextManager* GetTextManager() const noexcept;
 
@@ -66,7 +66,7 @@ private:
 	void InitSetBonusManager();
 	void InitEventManager();
 	void InitTextManager();
-
+	
 	UPROPERTY()
 	TObjectPtr<UIKMaps> maps_;
 
@@ -84,7 +84,6 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UTextManager> text_manager_;
-	
 	//
 
 	UPROPERTY(EditDefaultsOnly, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))

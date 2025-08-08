@@ -35,7 +35,7 @@ struct PROJECT_IK_API FActiveSkillData
 	
 	UPROPERTY(EditDefaultsOnly)
 	TArray<float> skill_power_scales_;
-
+	
 	//영웅에게 장착 되었을 시.
 	FText BuildDetailText(UWorld* world, const FCharacterData& char_data)
 	{

@@ -721,3 +721,12 @@ enum class EBuffType : uint8
 	AmbushAttackSpeedDebuff UMETA(DisplayName = "Ambush AttackSpeed Debuff"),
 	AmbushAttackPowerDebuff UMETA(DisplayName = "Ambush AttackPower Debuff"),
 };
+
+UENUM(BlueprintType)
+enum class ELevelState : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	MainMenuLevel UMETA(DisplayName = "MainMenuLevel"),
+	LobbyLevel UMETA(DisplayName = "LobbyLevel"),
+	MapLevel UMETA(DisplayName = "MapLevel"),
+};

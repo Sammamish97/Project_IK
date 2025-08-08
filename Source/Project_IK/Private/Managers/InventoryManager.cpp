@@ -28,11 +28,6 @@ void UInventoryManager::OpenInventoryWidgetReward(const FWrapperEquipmentData& r
 	}
 }
 
-void UInventoryManager::OpenReadOnlyInventory()
-{
-	
-}
-
 void UInventoryManager::SetCredits(int32 credits)
 {
 	credits_ = credits;
