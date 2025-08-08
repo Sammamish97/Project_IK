@@ -10,6 +10,8 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Enemy_Suppressor.h"
 #include "Components/WeaponMechanics.h"
 #include "Structs/BuffStatusData.h"
+#include "Weapons/Guns/GunBase.h"
+
 // Sets default values
 AEnemy_Suppressor::AEnemy_Suppressor()
 {
@@ -29,6 +31,9 @@ void AEnemy_Suppressor::OnStunned()
 
 void AEnemy_Suppressor::Die()
 {
+	// Originally I wanted to call PlayDieEffect, but I just made it invisible. 
+	// The reason why particles are not visible vividly because impulse added for ragdoll image shattered particles
+	weapon_mechanics_->GetWeaponActor()->GetWeaponSkeletalMesh()->SetVisibility(false);
 	Super::Die();
 }
 

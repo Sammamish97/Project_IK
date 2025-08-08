@@ -180,10 +180,19 @@ void AUnit::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 {
-	UNiagaraComponent* damage_ui = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, damage_ui_system_, hp_widget_component_->GetComponentLocation() + FVector(0.f, 0.f, 130.f));
-	damage_ui->SetBoolParameter(FName("IsCrit"), data.is_critical_shot_);
+	UNiagaraComponent* damage_ui = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, damage_ui_system_, hp_widget_component_->GetComponentLocation());
+
 	damage_ui->SetBoolParameter(FName("IsMissed"), is_evaded);
 	damage_ui->SetFloatParameter(FName("DamageAmount"), data.atk_base_dmg_ + data.skill_power_base_dmg_);
+	if (data.is_critical_shot_)
+	{
+		damage_ui->SetColorParameter(FName("Color"), FLinearColor::Red / 5.f);
+		damage_ui->SetFloatParameter(FName("SizeMultiplier"), 3.f);
+	}
+	else
+	{
+		damage_ui->SetColorParameter(FName("Color"), FLinearColor::Blue / 5.f);
+	}
 }
 
 void AUnit::GetDamage(FDamageData data)
@@ -217,8 +226,9 @@ void AUnit::Heal(float heal)
 {
 	character_stat_component_->Heal(heal);
 
-	UNiagaraComponent* damage_ui = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, damage_ui_system_, GetActorLocation());
+	UNiagaraComponent* damage_ui = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, damage_ui_system_, hp_widget_component_->GetComponentLocation());
 	damage_ui->SetFloatParameter(FName("DamageAmount"), heal);
+	damage_ui->SetColorParameter(FName("Color"), FLinearColor::Green / 5.f);
 }
 
 void AUnit::ApplyStatusBuff(EBuffType buff_type, FBuffStatusData buff_status)
@@ -329,8 +339,24 @@ void AUnit::Die()
 	GetMesh()->SetSimulatePhysics(true);
 	FVector impulse = -GetActorForwardVector() * FMath::RandRange(2500.f, 4500.f);
 	GetMesh()->AddImpulse(impulse, NAME_None, true);
+	hp_widget_component_->SetVisibility(false);
 
-	GetWorldTimerManager().SetTimer(destroy_timer_, this, &AUnit::OnDieFinished, 5.f);
+	GetWorldTimerManager().SetTimer(destroy_timer_, this, &AUnit::OnUnitDied, 3.f);
+}
+
+void AUnit::OnUnitDied()
+{
+	PlayDieEffect(GetMesh());
+	GetWorldTimerManager().SetTimer(destroy_timer_, this, &AUnit::OnDieFinished, 1.f);
+}
+
+void AUnit::PlayDieEffect(USceneComponent* component)
+{
+	if (death_fx_system_)
+	{
+		component->SetVisibility(false);
+		UNiagaraComponent* fx = UNiagaraFunctionLibrary::SpawnSystemAttached(death_fx_system_, component, FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget true);
+	}
 }
 
 void AUnit::OnDieFinished()

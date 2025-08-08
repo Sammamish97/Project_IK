@@ -10,6 +10,8 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Enemy_RifleMan.h"
 #include "Components/WeaponMechanics.h"
 
+#include "Weapons/Guns/GunBase.h"
+
 AEnemy_RifleMan::AEnemy_RifleMan()
 {
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
@@ -23,6 +25,9 @@ void AEnemy_RifleMan::BeginPlay()
 
 void AEnemy_RifleMan::Die()
 {
+	// Originally I wanted to call PlayDieEffect, but I just made it invisible. 
+	// The reason why particles are not visible vividly because impulse added for ragdoll image shattered particles
+	weapon_mechanics_->GetWeaponActor()->GetWeaponSkeletalMesh()->SetVisibility(false);
 	Super::Die();
 }
 

@@ -49,9 +49,6 @@ public:
 	
 	UFUNCTION()
 	virtual void Die() override;
-
-	UFUNCTION()
-	void OnDieFinished();
 	
 	FVector GetForwardDir() const;
 	void SetForwardDir(const FVector& Forward_Dir);
@@ -114,6 +111,15 @@ public:
 	void DispatchUnitEvent(EUnitEvent type);
 
 protected:
+	UFUNCTION()
+	void OnUnitDied();
+
+	void PlayDieEffect(USceneComponent* component);
+
+	UFUNCTION()
+	void OnDieFinished();
+
+
 	void SetDamageUI(FDamageData data, bool is_evaded);
 
 	void GetDamageByDot(FDamageData data);
@@ -168,6 +174,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "DamageUI")
 	TObjectPtr<UNiagaraSystem> damage_ui_system_;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Death")
+	TObjectPtr<UNiagaraSystem> death_fx_system_;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Unit")
 	TObjectPtr<UOutlineComponent> outline_component_;
 
@@ -184,6 +193,7 @@ protected:
 	FTimerHandle stun_timer_;
 
 	FTimerHandle destroy_timer_;
+	float destroy_counter_ = 0.f;
 
 	UPROPERTY(Transient)
 	TWeakObjectPtr<AActor> cur_hiding_cover_ = nullptr;
