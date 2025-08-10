@@ -25,8 +25,7 @@ See LICENSE file in the project root for full license information.
 void UPS_Berserker::InitPassiveSkill(AActor* hero_ref, const FPassiveSkillData& skill_data)
 {
 	Super::InitPassiveSkill(hero_ref, skill_data);
-	AUnit* unit = Cast<AUnit>(hero_ref);
-	if (unit)
+	if (AUnit* unit = Cast<AUnit>(hero_ref))
 	{
 		hero_ref->GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnHPChanged(unit->GetCharacterStat(), this, &UPS_Berserker::BuffBerserker);
 		SpawnParticles(unit);

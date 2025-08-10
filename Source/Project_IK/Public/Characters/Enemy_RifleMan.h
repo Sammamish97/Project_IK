@@ -21,9 +21,9 @@ class PROJECT_IK_API AEnemy_RifleMan : public AEnemyBase
 public:
 	AEnemy_RifleMan();
 	virtual void BeginPlay() override;
-	virtual void OnStunned() override;
-	virtual void Die() override;
 	virtual void Attack(AActor* target) override;
+
+	virtual void Die() override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner")

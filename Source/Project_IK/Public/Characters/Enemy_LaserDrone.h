@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "EnemyBase.h"
 #include "Enemy_LaserDrone.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class PROJECT_IK_API AEnemy_LaserDrone : public AEnemyBase
 {
 	GENERATED_BODY()

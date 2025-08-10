@@ -13,25 +13,41 @@ See LICENSE file in the project root for full license information.
 #include "Enemy_RifleMan.h"
 #include "Enemy_Officer.generated.h"
 
-UCLASS()
+class UBuffHandler;
+
+UCLASS(Abstract)
 class PROJECT_IK_API AEnemy_Officer : public AEnemy_RifleMan
 {
 	GENERATED_BODY()
 
-public:
-	// Sets default values for this character's properties
-	AEnemy_Officer();
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
 	UFUNCTION()
 	void PointTarget(float hp_ratio, AActor* owner_actor);
 
 private:
-	bool is_targeting_available_ = true;
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	float rally_range_ = 600.f;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> pointing_animation_;
+	
+	UPROPERTY(EditDefaultsOnly)
+	float targeting_hp_threshold_ = 0.7;
+
+	bool is_targeting_available_ = true;
+
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBuffHandler> focusing_buff_class_;
+
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBuffHandler> marked_buff_class_;
+	
+	UPROPERTY(Transient)
+	TObjectPtr<UBuffHandler> focusing_buff_;
+	
+	UPROPERTY(Transient)
+	TObjectPtr<UBuffHandler> marked_buff_;
 };

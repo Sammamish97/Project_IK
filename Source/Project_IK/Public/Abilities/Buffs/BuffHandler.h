@@ -19,20 +19,18 @@ class UDisplayDataAsset;
 class AUnit;
 enum class EBuffType : uint8;
 
-UCLASS(Blueprintable)
+UCLASS(Blueprintable, Abstract)
 class PROJECT_IK_API UBuffHandler : public UObject
 {
 	GENERATED_BODY()
 public:
 	virtual void ApplyBuff(AUnit* target);
 	virtual void RemoveBuff(AUnit* target);
-	
+
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Buffs")
 	EBuffType buff_type_;
 	
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Buffs")
 	TObjectPtr<UDisplayDataAsset> display_data_;
-
-	TWeakObjectPtr<AUnit> target_cache_;
 };

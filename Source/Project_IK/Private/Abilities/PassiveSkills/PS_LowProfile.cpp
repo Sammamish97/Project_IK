@@ -43,7 +43,7 @@ void UPS_LowProfile::ApplyBuff()
 		{
 			if (AHeroBase* hero = Cast<AHeroBase>(actor))
 			{
-				hero->ApplyStatusBuff(EBuffType::LowProfile, buff_status_data_);
+				//hero->ApplyStatusBuff(EBuffType::LowProfile, buff_status_data_);
 				//hero->AddBuffUI(FBuffUIData(skill_data_.item_data_, EBuffType::LowProfile, buff_status_data_.duration_, true));
 
 				ActivateParticles();
@@ -61,8 +61,8 @@ void UPS_LowProfile::RemoveBuff()
 		{
 			if (AHeroBase* unit = Cast<AHeroBase>(actor))
 			{
-				unit->RemoveBuff(EBuffType::LowProfile);
-				unit->RemoveBuffUI(EBuffType::LowProfile);
+				//unit->RemoveBuff(EBuffType::LowProfile);
+				//unit->RemoveBuffUI(EBuffType::LowProfile);
 				DeactivateParticles();
 				is_buff_applied_ = false;
 			}

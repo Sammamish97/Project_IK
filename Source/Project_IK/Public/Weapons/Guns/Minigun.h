@@ -24,7 +24,9 @@ public:
 	void FinishFire() override;
 
 private:
+	UPROPERTY(EditDefaultsOnly)
 	float pre_heat_time_ = 1.f;
+	
 	FTimerHandle pre_heat_timer_;
 	bool on_fire_ = false;
 };
