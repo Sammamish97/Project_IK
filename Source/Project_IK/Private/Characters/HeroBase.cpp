@@ -123,9 +123,7 @@ void AHeroBase::Die()
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if (casted_mode) casted_mode->RemoveHero(hero_type_);
 
-	// Originally I wanted to call PlayDieEffect, but I just made it invisible. 
-	// The reason why particles are not visible vividly because impulse added for ragdoll image shattered particles
-	weapon_mechanics_->GetWeaponActor()->GetWeaponSkeletalMesh()->SetVisibility(false);
+	weapon_mechanics_->DieWeaponActor();
 	
 
 	Super::Die();

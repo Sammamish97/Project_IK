@@ -178,6 +178,11 @@ void AUnit::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	GetWorld()->GetTimerManager().ClearTimer(stun_timer_);
 }
 
+bool AUnit::IsDead() const
+{
+	return is_dead_;
+}
+
 void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 {
 	UNiagaraComponent* damage_ui = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, damage_ui_system_, hp_widget_component_->GetComponentLocation());
@@ -327,6 +332,8 @@ float AUnit::GetPitchDiffBetweenTarget()
 
 void AUnit::Die()
 {
+	is_dead_ = true;
+
 	DispatchUnitEvent(EUnitEvent::OnDie);
 	for (auto& delegate_map : on_unit_event_)
 	{
@@ -335,8 +342,7 @@ void AUnit::Die()
 
 	GetCharacterMovement()->DisableMovement();
 	DetachFromControllerPendingDestroy();
-	GetMesh()->SetCollisionProfileName(TEXT("Ragdoll"));
-	GetMesh()->SetSimulatePhysics(true);
+	PlayRagdollAnimation(GetMesh());
 	FVector impulse = -GetActorForwardVector() * FMath::RandRange(2500.f, 4500.f);
 	GetMesh()->AddImpulse(impulse, NAME_None, true);
 	hp_widget_component_->SetVisibility(false);
@@ -350,12 +356,18 @@ void AUnit::OnUnitDied()
 	GetWorldTimerManager().SetTimer(destroy_timer_, this, &AUnit::OnDieFinished, 1.f);
 }
 
+void AUnit::PlayRagdollAnimation(UPrimitiveComponent* component)
+{
+	component->SetCollisionProfileName(TEXT("Ragdoll"));
+	component->SetSimulatePhysics(true);
+}
+
 void AUnit::PlayDieEffect(USceneComponent* component)
 {
 	if (death_fx_system_)
 	{
 		component->SetVisibility(false);
-		UNiagaraComponent* fx = UNiagaraFunctionLibrary::SpawnSystemAttached(death_fx_system_, component, FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget true);
+		UNiagaraComponent* fx = UNiagaraFunctionLibrary::SpawnSystemAttached(death_fx_system_, component, FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget, true);
 	}
 }
 

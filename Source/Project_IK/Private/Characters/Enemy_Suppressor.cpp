@@ -31,9 +31,7 @@ void AEnemy_Suppressor::OnStunned()
 
 void AEnemy_Suppressor::Die()
 {
-	// Originally I wanted to call PlayDieEffect, but I just made it invisible. 
-	// The reason why particles are not visible vividly because impulse added for ragdoll image shattered particles
-	weapon_mechanics_->GetWeaponActor()->GetWeaponSkeletalMesh()->SetVisibility(false);
+	weapon_mechanics_->DieWeaponActor();
 	Super::Die();
 }
 

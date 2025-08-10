@@ -22,6 +22,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/SphereComponent.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "NiagaraComponent.h"
+#include "NiagaraFunctionLibrary.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
 
 AGunBase::AGunBase()
@@ -154,6 +155,23 @@ void AGunBase::PlayFireParticle() const
 	}
 }
 
+void AGunBase::OnGunDied()
+{
+	if (death_fx_system_)
+	{
+		weapon_skeletal_mesh_->SetVisibility(false);
+		UNiagaraComponent* fx = UNiagaraFunctionLibrary::SpawnSystemAttached(death_fx_system_, weapon_skeletal_mesh_, FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget, true);
+		fx->SetColorParameter(FName("Color"), FLinearColor::White);
+	}
+
+	GetWorld()->GetTimerManager().SetTimer(die_timer_, this, &AGunBase::OnDieFinished, 1.f);
+}
+
+void AGunBase::OnDieFinished()
+{
+	Destroy();
+}
+
 void AGunBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
@@ -206,6 +224,15 @@ void AGunBase::BeginFire(AActor* target)
 void AGunBase::FinishFire()
 {
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
+}
+
+void AGunBase::Die()
+{
+	root_sphere_mesh_->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+	weapon_skeletal_mesh_->SetCollisionProfileName(TEXT("Ragdoll"));
+	weapon_skeletal_mesh_->SetSimulatePhysics(true);
+
+	GetWorld()->GetTimerManager().SetTimer(die_timer_, this, &AGunBase::OnGunDied, 3.f);
 }
 
 bool AGunBase::IsMagazineEmpty() const

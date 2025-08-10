@@ -47,6 +47,8 @@ public:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
+	bool IsDead() const;
+
 	UFUNCTION()
 	virtual void Die() override;
 	
@@ -114,6 +116,8 @@ protected:
 	UFUNCTION()
 	void OnUnitDied();
 
+	UFUNCTION()
+	void PlayRagdollAnimation(UPrimitiveComponent* component);
 	void PlayDieEffect(USceneComponent* component);
 
 	UFUNCTION()
@@ -205,4 +209,6 @@ protected:
 	
 	float capsule_half_height_ = 0.f;
 	float capsule_radius_ = 0.f;
+
+	bool is_dead_ = false;
 };

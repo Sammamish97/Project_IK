@@ -79,3 +79,8 @@ AGunBase* UWeaponMechanics::GetWeaponActor()
 {
 	return weapon_actor_;
 }
+
+void UWeaponMechanics::DieWeaponActor()
+{
+	weapon_actor_->Die();
+}
