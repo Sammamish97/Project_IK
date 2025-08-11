@@ -21,7 +21,7 @@ void UInventoryManager::OpenInventoryWidgetReward(const FWrapperEquipmentData& r
 		{
 			inventory_widget_->LoadSelectedRewards(rewards);
 			UPerkModifierSubsystem* perk_modifier = GetWorld()->GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>();
-			inventory_widget_->InitInventoryWidget(perk_modifier->GetInventorySupportSkillUnlockedSlots(), perk_modifier->GetInventoryPassiveSkillUnlockedSlots());
+			inventory_widget_->InitInventoryWidget(perk_modifier->GetInventoryPassiveSkillUnlockedSlots());
 			inventory_widget_->AddToViewport();
 			inventory_widget_->SetVisibility(ESlateVisibility::Visible);
 		}

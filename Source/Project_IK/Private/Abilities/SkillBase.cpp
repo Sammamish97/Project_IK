@@ -14,11 +14,6 @@ FTargetParameters USkillBase::GetTargetParameters() const
 	return target_param_;
 }
 
-float USkillBase::GetCoolTime() const
-{
-	return cool_time_;
-}
-
 void USkillBase::UpdateCoolDown(float cool_down)
 {
 	on_activate_skill_.Broadcast(cool_down);
@@ -26,7 +21,6 @@ void USkillBase::UpdateCoolDown(float cool_down)
 
 bool USkillBase::ActivateSkill(const FTargetResult& TargetResult)
 {
-	UpdateCoolDown(cool_time_);
 	return true;
 }
 

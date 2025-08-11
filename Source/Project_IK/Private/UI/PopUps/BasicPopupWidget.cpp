@@ -8,14 +8,20 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "UI/SkillPopupWidget.h"
+#include "UI/PopUps/BasicPopupWidget.h"
 #include "Components/Image.h"
 #include "Components/RichTextBlock.h"
 
-void USkillPopupWidget::UpdatePopupData(UTexture2D* thumbnail, const FText& name, const FText& detail)
+void UBasicPopupWidget::UpdatePopupData(UTexture2D* thumbnail, const FText& name, const FText& detail)
 {
 	SetVisibility(ESlateVisibility::Visible);
 	thumbnail_->SetBrushFromTexture(thumbnail);
-	skill_name_->SetText(name);
-	skill_detail_->SetText(detail);
+	name_->SetText(name);
+	detail_->SetText(detail);
+}
+
+void UBasicPopupWidget::ResetWidget()
+{
+	SetVisibility(ESlateVisibility::Hidden);
+	thumbnail_->SetBrushFromTexture(nullptr);
 }

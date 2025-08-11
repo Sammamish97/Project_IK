@@ -23,6 +23,7 @@ class UHorizontalBox;
 class UBuffDisplayer;
 class UDataTableManager;
 class USkillButtonWidget;
+class UBasicPopupWidget;
 struct FBuffStatusData;
 
 UCLASS()
@@ -31,7 +32,7 @@ class PROJECT_IK_API UHeroWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	void InitHeroWidget(class UBuffPopupWidget* popup_widget, class URuneMechanics* rune_mechanics, class URunePopupWidget* rune_popup_widget,
+	void InitHeroWidget(UBasicPopupWidget* popup_widget, class URuneMechanics* rune_mechanics, class URunePopupWidget* rune_popup_widget,
 		EHeroType hero_type, FColor hero_base_color_1, FColor hero_base_color_2, float max_hp, float cur_hp);
 	USegmentedHPUI* GetHPWidget();
 	USkillButtonWidget* GetSkillButtonWidget();

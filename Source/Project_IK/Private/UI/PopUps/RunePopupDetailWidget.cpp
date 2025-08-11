@@ -8,7 +8,4 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "UI/RunePopupDetailWidget.h"
-#include "Components/TextBlock.h"
-#include "Components/Border.h"
-#include "Components/Image.h"
+#include "UI/PopUps/RunePopupDetailWidget.h"

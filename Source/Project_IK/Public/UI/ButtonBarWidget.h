@@ -15,8 +15,9 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "ButtonBarWidget.generated.h"
 
-class UBuffPopupWidget;
-class USkillPopupWidget;
+class USupportSkillPopupWidget;
+class UActiveSkillPopupWidget;
+class UBasicPopupWidget;
 class URunePopupWidget;
 class USupportSkillButtonWidget;
 class USkillButtonWidget;
@@ -39,9 +40,11 @@ public:
 	USupportSkillButtonWidget* GetSupportSkillButtonWidget(int32 idx);
 	USkillButtonWidget* GetActiveSkillButtonWidget(EHeroType idx);
 	UHeroWidget* GetHeroWidget(EHeroType idx);
-	USkillPopupWidget* GetSkillPopupWidget();
-	UBuffPopupWidget* GetBuffPopupWidget();
+	UActiveSkillPopupWidget* GetActiveSkillPopupWidget();
+	USupportSkillPopupWidget* GetSupportSkillPopupWidget();
+	UBasicPopupWidget* GetBuffPopupWidget();
 	URunePopupWidget* GetRunePopupWidget();
+	void ClearPopupWidget();
 
 protected:
 	virtual void NativeConstruct() override;
@@ -107,10 +110,13 @@ private:
 	//
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<USkillPopupWidget> skill_popup_widget_;
+	TObjectPtr<UActiveSkillPopupWidget> active_skill_popup_widget_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<USupportSkillPopupWidget> support_skill_popup_widget_;
 	
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UBuffPopupWidget> buff_popup_widget_;
+	TObjectPtr<UBasicPopupWidget> buff_popup_widget_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<URunePopupWidget> rune_popup_widget_;

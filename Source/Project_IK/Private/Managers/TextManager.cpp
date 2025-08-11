@@ -55,3 +55,36 @@ FText UTextManager::GetStatusText(ECharacterStatType stat_type) const
 	}
 	return FText::FromStringTable(status_table_->GetStringTableId(), key);
 }
+
+FText UTextManager::GetPopUpText(const FString& key) const
+{
+	return FText::FromStringTable(popup_table_->GetStringTableId(), key);
+}
+
+FText UTextManager::GetRuneNameText(ERuneSetType set_type) const
+{
+	return FText::FromStringTable(rune_name_table_->GetStringTableId(), RuneTypeToString(set_type));
+}
+
+FText UTextManager::GetRuneSetBonusText(ERuneSetType set_type, ERuneSetBonusType bonus_type) const
+{
+	switch (set_type)
+	{
+	case ERuneSetType::Chariot:
+		return FText::FromStringTable(rune_chariot_set_bonus_table_->GetStringTableId(), RuneSetBonusTypeToString(bonus_type));
+	case ERuneSetType::GreatBow:
+		return FText::FromStringTable(rune_greatbow_set_bonus_table_->GetStringTableId(), RuneSetBonusTypeToString(bonus_type));
+	case ERuneSetType::Dagger:
+		return FText::FromStringTable(rune_dagger_set_bonus_table_->GetStringTableId(), RuneSetBonusTypeToString(bonus_type));
+	case ERuneSetType::Quake:
+		return FText::FromStringTable(rune_quake_set_bonus_table_->GetStringTableId(), RuneSetBonusTypeToString(bonus_type));
+	case ERuneSetType::Tempest:
+		return FText::FromStringTable(rune_tempest_bonus_table_->GetStringTableId(), RuneSetBonusTypeToString(bonus_type));
+	case ERuneSetType::Viper:
+		return FText::FromStringTable(rune_viper_bonus_table_->GetStringTableId(), RuneSetBonusTypeToString(bonus_type));
+	case ERuneSetType::Poet:
+		return FText::FromStringTable(rune_poet_set_bonus_table_->GetStringTableId(), RuneSetBonusTypeToString(bonus_type));
+	default:
+		return FText::FromName("INVALID");
+	}
+}

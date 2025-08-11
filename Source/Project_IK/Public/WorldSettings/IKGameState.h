@@ -94,9 +94,6 @@ private:
 	
 	UPROPERTY()
 	TArray<TObjectPtr<USupportSkillBase>> support_skills_;
-	
-	UPROPERTY()
-	TArray<FTimerHandle> support_skill_timers_;
 
 	UPROPERTY()
 	TObjectPtr<UActiveSkillMechanics> selected_active_skill_mechanics_;

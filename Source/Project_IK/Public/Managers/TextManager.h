@@ -22,7 +22,10 @@ public:
 	FText GetNameText(const FString& key) const;
 	FText GetDetailText(const FString& key) const;
 	FText GetStatusText(ECharacterStatType stat_type) const;
-	
+	FText GetPopUpText(const FString& key) const;
+	FText GetRuneNameText(ERuneSetType set_type) const;
+	FText GetRuneSetBonusText(ERuneSetType set_type, ERuneSetBonusType bonus_type) const;
+
 private:
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> name_table_;
@@ -32,4 +35,33 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> status_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> popup_table_;
+
+	//
+	
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> rune_name_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> rune_chariot_set_bonus_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> rune_dagger_set_bonus_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> rune_greatbow_set_bonus_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> rune_poet_set_bonus_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> rune_quake_set_bonus_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> rune_tempest_bonus_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> rune_viper_bonus_table_;
 };

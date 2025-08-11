@@ -17,7 +17,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/SizeBox.h"
 #include "UI/RuneBoardEdgeWidget.h"
 #include "UI/MiniRuneSlotWidget.h"
-#include "UI/RunePopupWidget.h"
+#include "UI/PopUps/RunePopupWidget.h"
 void UMiniRuneBoardWidget::NativeConstruct()
 {
 	Super::NativeConstruct();

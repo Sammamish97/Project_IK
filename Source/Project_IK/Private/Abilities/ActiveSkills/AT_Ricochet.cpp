@@ -20,7 +20,6 @@ class AHeroBase;
 UAT_Ricochet::UAT_Ricochet()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Allies, 0.f, 0.f, true);
-	cool_time_ = 8.f;
 	duration_ = 5.f;
 }
 

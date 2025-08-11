@@ -32,11 +32,10 @@ See LICENSE file in the project root for full license information.
 #include "UI/ButtonBarWidget.h"
 #include "UI/EnemyHPUI.h"
 #include "UI/SegmentedHPUI.h"
-#include "UI/RunePopupWidget.h"
 #include "UI/SkillButtonWidget.h"
-#include "UI/SkillPopupWidget.h"
 #include "UI/SupportSkillButtonWidget.h"
 #include "UI/HeroWidget.h"
+#include "UI/PopUps/RunePopupWidget.h"
 
 #include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKGameModeBase.h"
@@ -95,50 +94,50 @@ void AIKHUD::BindHeroWidgetUI()
 	
 	auto hero_types = {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4};
 	//각 EHerpType을 순회하며 HeroBase와 HeroWidget사이 필요한 delegate들을 bind. 
-		for(auto cur_hero_type : hero_types)
+	for(auto cur_hero_type : hero_types)
+	{
+		auto cur_spawn_data = transition_system->GetSpawnData(cur_hero_type);
+		if(cur_spawn_data.is_dead_ == false)
 		{
-			auto cur_spawn_data = transition_system->GetSpawnData(cur_hero_type);
-			if(cur_spawn_data.is_dead_ == false)
+			auto cur_hero = Cast<AHeroBase>(game_mode->GetHero(cur_hero_type));
+
+			auto rune_pop_up_widget = button_bar_widget_->GetRunePopupWidget();
+			
+			button_bar_widget_->GetHeroWidget(cur_hero_type)->InitHeroWidget(button_bar_widget_->GetBuffPopupWidget(),
+				cur_hero->GetRuneMechanics(), rune_pop_up_widget,
+				cur_hero_type, cur_hero->GetHeroBaseColor_1(), cur_hero->GetHeroBaseColor_2(),
+				cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
+
+			subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero_type)->GetHPWidget(), &USegmentedHPUI::UpdateWidget);
+			
+			if(cur_hero->HasActiveSkill())
 			{
-				auto cur_hero = Cast<AHeroBase>(game_mode->GetHero(cur_hero_type));
-
-				auto rune_pop_up_widget = button_bar_widget_->GetRunePopupWidget();
-				rune_pop_up_widget->InitSetBonusDetails(hero_rune_bonus_detail_map);
+				auto cur_skill_button_widget = button_bar_widget_->GetActiveSkillButtonWidget(cur_hero_type);
+				auto cur_active_skill_mechanics = cur_hero->GetActiveSkillMechanics();
+				auto cur_skill_data = cur_active_skill_mechanics->GetEquippedActiveSkillData();
+				auto cur_skill = cur_active_skill_mechanics->GetActiveSkill();
 				
-				button_bar_widget_->GetHeroWidget(cur_hero_type)->InitHeroWidget(button_bar_widget_->GetBuffPopupWidget(),
-					cur_hero->GetRuneMechanics(), rune_pop_up_widget,
-					cur_hero_type, cur_hero->GetHeroBaseColor_1(), cur_hero->GetHeroBaseColor_2(),
-					cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
-
-				subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero_type)->GetHPWidget(), &USegmentedHPUI::UpdateWidget);
-				
-				if(cur_hero->HasActiveSkill())
-				{
-					auto cur_skill_button_widget = button_bar_widget_->GetActiveSkillButtonWidget(cur_hero_type);
-					auto cur_active_skill_mechanics = cur_hero->GetActiveSkillMechanics();
-					auto cur_skill_data = cur_active_skill_mechanics->GetEquippedActiveSkillData();
-					auto cur_skill = cur_active_skill_mechanics->GetActiveSkill();
-					
-					cur_skill_button_widget->SetThumbnailTexture(cur_skill_data.item_data_.display_data_->thumbnail);
-					cur_skill->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
-				}
-				else
-				{
-					auto cur_skill_button_widget = button_bar_widget_->GetActiveSkillButtonWidget(cur_hero_type);
-					//IKTODO: 이후 nullptr에서 Empty Icon같은 걸로 바꿔야 함.
-					cur_skill_button_widget->SetThumbnailTexture(nullptr);
-				}
-				cur_hero->OnApplyBuff.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::EnqueueBuff);
-				cur_hero->OnBuffExpired.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::UpdateQueue);
-				
-				hero_rune_bonus_detail_map.Add(cur_hero_type, cur_hero->GetRuneMechanics()->GetSetBonusData());
+				cur_skill_button_widget->SetThumbnailTexture(cur_skill_data.item_data_.display_data_->thumbnail);
+				cur_skill->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 			}
 			else
 			{
-				//IKTODO: 만약 죽은 영웅이라면?
+				auto cur_skill_button_widget = button_bar_widget_->GetActiveSkillButtonWidget(cur_hero_type);
+				//IKTODO: 이후 nullptr에서 Empty Icon같은 걸로 바꿔야 함.
+				cur_skill_button_widget->SetThumbnailTexture(nullptr);
 			}
-		}
+			cur_hero->OnApplyBuff.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::EnqueueBuff);
+			cur_hero->OnBuffExpired.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::UpdateQueue);
 
+			hero_rune_bonus_detail_map.Add(cur_hero_type, cur_hero->GetRuneMechanics()->GetSetBonusData());
+		}
+		else
+		{
+			//IKTODO: 만약 죽은 영웅이라면?
+		}
+	}
+	auto rune_pop_up_widget = button_bar_widget_->GetRunePopupWidget();
+	rune_pop_up_widget->InitSetBonusDetails(hero_rune_bonus_detail_map);
 }
 
 void AIKHUD::BindSupportSkills()

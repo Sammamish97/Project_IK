@@ -22,8 +22,6 @@ See LICENSE file in the project root for full license information.
 UAT_DeploySentryGun::UAT_DeploySentryGun()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Location, ETargetType::None, 1000.f, 100.f);
-
-	cool_time_ = 15.f;
 }
 
 void UAT_DeploySentryGun::OnEnterCasting()

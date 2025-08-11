@@ -57,7 +57,7 @@ struct PROJECT_IK_API FWeaponStatusData
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true"))
 	float reload_duration = 0.f;
 
-	//예열 소요 시간
+	//탄 튐 정도.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gun", meta = (AllowPrivateAccess = "true"))
 	float accuracy_ = 0.f;
 };

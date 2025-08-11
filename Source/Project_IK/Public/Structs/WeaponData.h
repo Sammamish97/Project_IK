@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
+#include "WeaponStatusData.h"
 #include "Managers/EnumCluster.h"
 #include "Structs/ItemData.h"
 #include "WeaponData.generated.h"
@@ -19,12 +20,15 @@ struct PROJECT_IK_API FWeaponData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class AGunBase> weapon_class_ = nullptr;
 	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
+	UPROPERTY(EditDefaultsOnly)
 	EWeaponType type_ = EWeaponType::INVALID;
 	
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly)
 	FItemData item_data_;
+
+	UPROPERTY(EditDefaultsOnly)
+	FWeaponStatusData status_data_;
 };

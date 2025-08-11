@@ -22,7 +22,9 @@ public:
 	virtual void NativeConstruct() override;
 	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-	void SetWeaponSlotData(FWeaponData weapon_data);
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	
+	void SetWeaponSlotData(const FWeaponData&  weapon_data);
 	FWeaponData GetStoredWeaponData();
 	virtual void SetImageTexture() override;
 	virtual void ClearData() override;
