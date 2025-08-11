@@ -43,7 +43,7 @@ void AMinigun::OnFinishPreheat(AActor* target)
 			//발사 Anim Play
 			Cast<UMinigunAnimInstance>(GetWeaponSkeletalMesh()->GetAnimInstance())->SetMinigunState(EMinigunAnimState::OnFire);
 
-			float total_fire_per_sec =  weapon_status_data_.fire_per_sec * (1 + gun_owner->GetCharacterStat()->GetAttackSpeed() / 100.f);
+			float total_fire_per_sec =  weapon_data_cache_.status_data_.fire_per_sec * (1 + gun_owner->GetCharacterStat()->GetAttackSpeed() / 100.f);
 			float weapon_attack_speed = 1.f / total_fire_per_sec;
 			if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target_ptr)
 			{

@@ -9,6 +9,9 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Characters/Enemy_RifleMan.h"
 #include "Components/WeaponMechanics.h"
+#include "Managers/DataTableManager.h"
+#include "Structs/WeaponData.h"
+#include "WorldSettings/IKGameInstance.h"
 
 AEnemy_RifleMan::AEnemy_RifleMan()
 {
@@ -18,7 +21,9 @@ AEnemy_RifleMan::AEnemy_RifleMan()
 void AEnemy_RifleMan::BeginPlay()
 {
 	Super::BeginPlay();
-	weapon_mechanics_->EquipWeapon(weapon_class_);
+	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+	auto weapon_data = instance->GetDataTableManager()->GetWeaponData(weapon_type_);
+	weapon_mechanics_->EquipWeapon(weapon_data);
 }
 
 void AEnemy_RifleMan::Attack(AActor* target)

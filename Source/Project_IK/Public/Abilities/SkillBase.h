@@ -22,7 +22,6 @@ class PROJECT_IK_API USkillBase : public UObject
 	GENERATED_BODY()
 public:
 	FTargetParameters GetTargetParameters() const;
-	float GetCoolTime() const;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult);
 	virtual void UpdateCoolDown(float cool_down);
 	virtual void ResetSkill();
@@ -31,9 +30,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FTargetParameters target_param_{};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float cool_time_ = 0.f;
-	
 public:
 	UPROPERTY()
 	FOnActivateSkill on_activate_skill_;

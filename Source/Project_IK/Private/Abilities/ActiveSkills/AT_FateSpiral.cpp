@@ -21,7 +21,6 @@ See LICENSE file in the project root for full license information.
 UAT_FateSpiral::UAT_FateSpiral()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::All, 1000.f);
-	cool_time_ = 10;
 }
 
 void UAT_FateSpiral::OnEnterCasting()

@@ -22,7 +22,6 @@ See LICENSE file in the project root for full license information.
 UAT_ChargeShot::UAT_ChargeShot()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Opponents, 1000.f);
-	cool_time_ = 5.f;
 }
 
 bool UAT_ChargeShot::ActivateSkill(const FTargetResult& TargetResult)

@@ -62,7 +62,7 @@ void AGunBase::BeginPlay()
 
 void AGunBase::InstantReload()
 {
-	cur_magazine_ = weapon_status_data_.max_magazine;
+	cur_magazine_ = weapon_data_cache_.status_data_.max_magazine;
 }
 
 void AGunBase::Reload()
@@ -71,7 +71,7 @@ void AGunBase::Reload()
 	{
 		if (AUnit* gun_owner = weak_gun_owner_.Get())
 		{
-			float reload_duration = weapon_status_data_.reload_duration * (1 - gun_owner->GetCharacterStat()->GetReloadSpeedBonus());
+			float reload_duration = weapon_data_cache_.status_data_.reload_duration * (1 - gun_owner->GetCharacterStat()->GetReloadSpeedBonus());
 			gun_owner->DispatchUnitEvent(EUnitEvent::OnReload);
 			float reload_play_rate = reload_montage_->GetPlayLength() / reload_duration;
 			gun_owner->PlayAnimMontage(reload_montage_, reload_play_rate);
@@ -207,7 +207,7 @@ bool AGunBase::IsMagazineEmpty() const
 
 FWeaponStatusData AGunBase::GetWeaponStatusData() const
 {
-	return weapon_status_data_;
+	return weapon_data_cache_.status_data_;
 }
 
 TObjectPtr<USkeletalMeshComponent> AGunBase::GetWeaponSkeletalMesh() const
@@ -231,15 +231,15 @@ FDamageData AGunBase::GetWeaponFireDamageData()
 	if (AUnit* gun_owner = weak_gun_owner_.Get())
 	{
 		UCharacterStatComponent* stat_component = gun_owner->GetCharacterStat();
-		float total_atk_dmg = weapon_status_data_.basic_dmg_ + stat_component->GetAttackPower() * weapon_status_data_.attack_scale;
-		float total_skill_dmg = stat_component->GetSkillPower() * weapon_status_data_.skill_power_scale;
+		float total_atk_dmg = weapon_data_cache_.status_data_.basic_dmg_ + stat_component->GetAttackPower() * weapon_data_cache_.status_data_.attack_scale;
+		float total_skill_dmg = stat_component->GetSkillPower() * weapon_data_cache_.status_data_.skill_power_scale;
 		FDamageData dmg_data;
 		dmg_data.atk_base_dmg_ = total_atk_dmg;
 		dmg_data.skill_power_base_dmg_ = total_skill_dmg;
 		dmg_data.damage_type_ = EDamageType::Projectile;
 		dmg_data.attacker_ = weak_gun_owner_;
 
-		float total_crit_hit_rate = gun_owner->GetCharacterStat()->GetCriticalHitRate() + weapon_status_data_.critical_hit_rate_;
+		float total_crit_hit_rate = gun_owner->GetCharacterStat()->GetCriticalHitRate() + weapon_data_cache_.status_data_.critical_hit_rate_;
 		OnCriticalRateCalculation.Broadcast(total_crit_hit_rate);
 		if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
 		{
@@ -257,13 +257,15 @@ void AGunBase::SetHoldAction(bool hold_action)
 	hold_action_ = hold_action;
 }
 
-void AGunBase::SetGunOwner(TWeakObjectPtr<AUnit> gun_owner, bool is_hero)
+void AGunBase::InitWeapon(const FWeaponData& data, TWeakObjectPtr<AUnit> gun_owner, bool is_hero)
 {
+	weapon_data_cache_ = data;
 	weak_gun_owner_ = gun_owner;
 	for (auto elem : bullet_pool_component_->GetObjectPool())
 	{
 		Cast<ABullet>(elem)->SetCollisionPreset(is_hero);
 	}
+	InstantReload();
 }
 
 void AGunBase::AddOnHitComponent(TSubclassOf<UBulletOnHitEffectComponent> target_component)

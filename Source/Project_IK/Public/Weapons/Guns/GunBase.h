@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Structs/DamageData.h"
-#include "Structs/WeaponStatusData.h"
+#include "Structs/WeaponData.h"
 #include "GunBase.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnCriticalRateCalculationDelegate, float&);
@@ -52,7 +52,7 @@ public:
 	void SetHoldAction(bool hold_action);
 
 	UFUNCTION()
-	void SetGunOwner(TWeakObjectPtr<AUnit> gun_owner, bool is_hero);
+	void InitWeapon(const FWeaponData& data, TWeakObjectPtr<AUnit> gun_owner, bool is_hero);
 	
 	UFUNCTION()
 	void AddOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
@@ -78,7 +78,7 @@ protected:
 	TObjectPtr<class USphereComponent> root_sphere_mesh_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon" )
-	FWeaponStatusData weapon_status_data_;
+	FWeaponData weapon_data_cache_;
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Weapon" )
 	TObjectPtr<UAnimMontage> fire_montage_;

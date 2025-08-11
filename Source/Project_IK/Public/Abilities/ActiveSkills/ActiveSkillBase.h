@@ -31,15 +31,23 @@ public:
 	
 	float GetCastingTime() const;
 	float GetAIHoldTime() const;
+	//CoolTime은 스킬의 CoolTime을 나타낸다.
+	float GetCoolTime() const;
+
+	//CoolDown은 스킬 발동 후 남은 재사용 시간을 나타낸다.
+	float GetCoolDown() const;
 	bool HasMotion() const;
 	void ApplyDamage(FDamageData DamageData);
 	
 protected:
 	UPROPERTY()
 	TObjectPtr<AActor> skill_owner_ = nullptr;
-
+	
 	UPROPERTY()
 	FActiveSkillData skill_data_ = FActiveSkillData();
+	
+	UPROPERTY()
+	float cool_time_ = 0.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	bool has_casting_motion_ = false;

@@ -1,8 +1,8 @@
 /******************************************************************************
 Copyright(C) 2025
 Author: chunmook.kim(chunmook.kim97@gmail.com)
-Creation Date : 6.16.2025
-Summary : Header file for Buff Popup Widget.
+Creation Date : 8.06.2025
+Summary : Header file for Lobby widget.
 
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
@@ -11,28 +11,34 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "BuffPopupWidget.generated.h"
+#include "LobbyWidget.generated.h"
 
-class UDisplayDataAsset;
-class UImage;
-class UTextBlock;
+class UPerkUnlockWidget;
+class UButton;
 
 UCLASS()
-class PROJECT_IK_API UBuffPopupWidget : public UUserWidget
+class PROJECT_IK_API ULobbyWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
 	virtual void NativeConstruct() override;
-	void SetBuffDetail(UDisplayDataAsset* target_data);
-	void ResetWidget();
+	virtual void NativeDestruct() override;
+
+	UFUNCTION()
+	void OnOpenPerkTreeButtonClicked();
+
+	UFUNCTION()
+	void OnBeginRunButtonClicked();
 	
 private:
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UImage> thumbnail_;
-	
+	TObjectPtr<UButton> open_perk_tree_button_;
+
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> name_;
-	
+	TObjectPtr<UButton> begin_run_button_;
+
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> detail_;
+	TObjectPtr<UPerkUnlockWidget> perk_unlock_widget_;
+
+	bool is_perk_unlock_widget_opened = false;
 };

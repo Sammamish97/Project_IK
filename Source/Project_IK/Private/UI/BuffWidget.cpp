@@ -9,12 +9,14 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "UI/BuffWidget.h"
-
+#include "Managers/TextManager.h"
 #include "Components/ProgressBar.h"
 #include "DataAssets/DisplayDataAsset.h"
-#include "UI/BuffPopupWidget.h"
+#include "Kismet/GameplayStatics.h"
+#include "UI/PopUps/BasicPopupWidget.h"
+#include "WorldSettings/IKGameInstance.h"
 
-void UBuffWidget::InitWidget(UBuffPopupWidget* popup, UBuffContainer* container)
+void UBuffWidget::InitWidget(UBasicPopupWidget* popup, UBuffContainer* container)
 {
 	buff_popup_ref_ = popup;
 	container_ref_ = container;
@@ -23,7 +25,12 @@ void UBuffWidget::InitWidget(UBuffPopupWidget* popup, UBuffContainer* container)
 void UBuffWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
-	buff_popup_ref_->SetBuffDetail(display_data_cache_);
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	UTextManager* text_manager = game_instance->GetTextManager();
+	
+	buff_popup_ref_->UpdatePopupData(display_data_cache_->thumbnail,
+		text_manager->GetNameText(display_data_cache_->text_key_),
+		text_manager->GetDetailText(display_data_cache_->text_key_));
 }
 
 void UBuffWidget::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)

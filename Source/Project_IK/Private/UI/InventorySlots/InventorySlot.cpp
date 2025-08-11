@@ -91,7 +91,7 @@ void UInventorySlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPoin
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
 	if (is_empty_ == false)
 	{
-		inventory_widget_cache_->CreatePopupWidget(item_data_cache_.display_data_->thumbnail,
+		inventory_widget_cache_->CreatePassiveSkillPopupWidget(item_data_cache_.display_data_->thumbnail,
 			text_manager_cache_->GetNameText(item_data_cache_.display_data_->text_key_),
 			text_manager_cache_->GetDetailText(item_data_cache_.display_data_->text_key_));
 	}

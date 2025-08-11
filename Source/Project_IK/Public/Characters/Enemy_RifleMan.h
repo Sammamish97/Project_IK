@@ -24,12 +24,9 @@ public:
 	virtual void Attack(AActor* target) override;
 
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner")
+	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UWeaponMechanics> weapon_mechanics_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner")
-	TSubclassOf<class AGunBase> weapon_class_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gunner")
+	
+	UPROPERTY(EditDefaultsOnly)
 	EWeaponType weapon_type_;
 };

@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "EnhancedInputSubsystems.h"
 #include "Characters/HeroBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "Managers/PauseManager.h"
 #include "WorldSettings/IKGameState.h"
 #include "WorldSettings/IKPlayerCameraManager.h"
 
@@ -29,9 +30,10 @@ void AIKPlayerController::BeginPlay()
 	bShowMouseCursor = true;
 	bEnableClickEvents = true;
 	bEnableMouseOverEvents = true;
-
+	bShouldPerformFullTickWhenPaused = true;
+	
 	game_state_cache_ = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
-
+	pause_manager_ = NewObject<UPauseManager>(this, pause_manager_class_);
 	if (UEnhancedInputLocalPlayerSubsystem* subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		subsystem->AddMappingContext(player_input_mapping_context, 0);
@@ -63,7 +65,9 @@ void AIKPlayerController::SetupInputComponent()
 		
 		enhanced_input_component->BindAction(rotate_camera_left_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::RotateCameraLeft);
 		enhanced_input_component->BindAction(rotate_camera_right_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::RotateCameraRight);
+		
 		enhanced_input_component->BindAction(toggle_focus_mode_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::ToggleFocusMode);
+		enhanced_input_component->BindAction(toggle_pause_action_, ETriggerEvent::Triggered, this, &AIKPlayerController::TogglePause);
 	}
 }
 
@@ -150,4 +154,11 @@ void AIKPlayerController::RotateCameraRight()
 void AIKPlayerController::ToggleFocusMode()
 {
 	game_state_cache_->ToggleFocusMode();
+}
+
+void AIKPlayerController::TogglePause()
+{
+	on_pause_ = !on_pause_;
+	pause_manager_->TogglePause(on_pause_);
+	SetPause(on_pause_);
 }

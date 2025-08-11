@@ -38,22 +38,6 @@ void URuneMechanics::EquipRune(ERuneSetType set_type, int32 idx)
 	equipped_runes_[idx] = data_table_cache_->GetRuneData(set_type, idx);
 }
 
-FStatusData URuneMechanics::GetTotalStatus()
-{
-	FStatusData total_status;
-	for (int32 i = 0; i < 6; ++i)
-	{
-		if (equipped_runes_[i].set_type != ERuneSetType::INVALID)
-		{
-			for(const auto& stat : equipped_runes_[i].status_map)
-			{
-				total_status[stat.Key] += stat.Value;
-			}
-		}
-	}
-	return total_status;
-}
-
 //세트 보너스가 적용되는 시점은 전투레벨의 Begin Play이후이다.
 void URuneMechanics::ApplySetBonuses()
 {

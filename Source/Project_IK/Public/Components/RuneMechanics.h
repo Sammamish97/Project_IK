@@ -32,7 +32,6 @@ protected:
 	
 public:
 	void EquipRune(ERuneSetType set_type, int32 idx);
-	FStatusData GetTotalStatus();
 	void ApplySetBonuses();
 	TArray<RuneSetBonus> GetSetBonusData();
 	const TArray<FRuneData>& GetEquippedRunes();

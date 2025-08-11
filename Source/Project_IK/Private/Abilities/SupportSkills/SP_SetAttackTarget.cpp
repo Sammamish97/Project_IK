@@ -20,8 +20,6 @@ USP_SetAttackTarget::USP_SetAttackTarget()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Allies, 10000.f);
 	attack_target_params_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Opponents, 1000.f, 1000.f);
-	cool_time_ = 0.3f;
-	cost_ = 1.f;
 }
 
 bool USP_SetAttackTarget::ActivateSkill(const FTargetResult& target_result)

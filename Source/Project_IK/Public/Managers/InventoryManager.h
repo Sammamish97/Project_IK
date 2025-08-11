@@ -22,7 +22,6 @@ class PROJECT_IK_API UInventoryManager : public UObject
 
 public:
 	void OpenInventoryWidgetReward(const FWrapperEquipmentData& rewards);
-	void OpenReadOnlyInventory();
 	
 	UFUNCTION(BlueprintCallable)
 	void SetCredits(int32 currency);

@@ -18,6 +18,7 @@ bool UActiveSkillBase::ActivateSkill(const FTargetResult& TargetResult)
 {
 	bool result = Super::ActivateSkill(TargetResult);
 	Cast<AHeroBase>(skill_owner_)->DispatchUnitEvent(EUnitEvent::OnActiveSkill);
+	UpdateCoolDown(cool_time_);
 	return result;
 }
 
@@ -25,6 +26,7 @@ void UActiveSkillBase::InitActiveSkill(AActor* skill_owner, const FActiveSkillDa
 {
 	skill_owner_ = skill_owner;
 	skill_data_ = skill_data;
+	cool_time_ = skill_data.cool_time_;
 }
 
 float UActiveSkillBase::GetCastingTime() const
@@ -35,6 +37,16 @@ float UActiveSkillBase::GetCastingTime() const
 float UActiveSkillBase::GetAIHoldTime() const
 {
 	return ai_holding_time_;
+}
+
+float UActiveSkillBase::GetCoolTime() const
+{
+	return skill_data_.cool_time_;
+}
+
+float UActiveSkillBase::GetCoolDown() const
+{
+	return cool_time_;
 }
 
 bool UActiveSkillBase::HasMotion() const

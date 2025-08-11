@@ -14,8 +14,6 @@ See LICENSE file in the project root for full license information.
 USP_Maintain::USP_Maintain()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Allies, 10000.f);
-	cool_time_ = 0.3f;
-	cost_ = 1.f;
 }
 
 bool USP_Maintain::ActivateSkill(const FTargetResult& target_result)

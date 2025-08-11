@@ -24,6 +24,7 @@ See LICENSE file in the project root for full license information.
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Managers/DataTableManager.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "UI/HPUICore.h"
 #include "WorldSettings/IKGameModeBase.h"
@@ -78,11 +79,13 @@ void AHeroBase::SyncWithSpawnData(const FSpawnData& spawn_data)
 
 	if (spawn_data.weapon_data_.IsSet())
 	{
-		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue().weapon_class_);
+		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue());
 	}
 	else
 	{
-		weapon_mechanics_->EquipWeapon(default_weapon_class_);
+		UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+		auto weapon_data = instance->GetDataTableManager()->GetWeaponData(EWeaponType::Pistol_B);
+		weapon_mechanics_->EquipWeapon(weapon_data);
 	}
 
 	if (spawn_data.active_skill_data_.IsSet())

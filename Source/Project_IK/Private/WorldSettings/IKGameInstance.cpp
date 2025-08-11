@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Structs/SpawnData.h"
 #include "Abilities/PerkEffects/PerkEffectBase.h"
+#include "Managers/PauseManager.h"
 #include "Managers/TextManager.h"
 
 #include "Subsystems/PerkProgressSubsystem.h"
@@ -135,6 +136,11 @@ UEventManager* UIKGameInstance::GetEventManager() const noexcept
 	return event_manager_;
 }
 
+UTextManager* UIKGameInstance::GetTextManager() const noexcept
+{
+	return text_manager_;
+}
+
 void UIKGameInstance::InitEventManager()
 {
 	event_manager_ = NewObject<UEventManager>(this, event_manager_class_);
@@ -180,11 +186,6 @@ void UIKGameInstance::InitDataTableManager()
 void UIKGameInstance::InitSetBonusManager()
 {
 	set_bonus_manager_ = NewObject<USetBonusManager>(this, set_bonus_class_);
-}
-
-UTextManager* UIKGameInstance::GetTextManager() const noexcept
-{
-	return text_manager_;
 }
 
 void UIKGameInstance::InitTextManager()

@@ -26,7 +26,7 @@ void ABurstGun::BeginFire(AActor* target)
 	{
 		if(AUnit* gun_owner = weak_gun_owner_.Get())
 		{
-			float total_fire_per_sec =  weapon_status_data_.fire_per_sec * (1 + gun_owner->GetCharacterStat()->GetAttackSpeed() / 100.f);
+			float total_fire_per_sec =  weapon_data_cache_.status_data_.fire_per_sec * (1 + gun_owner->GetCharacterStat()->GetAttackSpeed() / 100.f);
 			float weapon_attack_speed = 1.f / total_fire_per_sec;
 			if (on_burst_cool_down_ == false)
 			{

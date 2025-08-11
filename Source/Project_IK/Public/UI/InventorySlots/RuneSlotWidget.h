@@ -32,6 +32,7 @@ public:
 	void SetRuneSetSlotData(EInventorySlotType slot_type);
 
 	void SetRuneRelatedWidgetsVisibility(ESlateVisibility visibility);
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	
 	const FRuneData& GetStoredRuneData();
 	virtual void SetImageTexture() override;
