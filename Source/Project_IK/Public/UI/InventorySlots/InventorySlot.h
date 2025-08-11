@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 
 class USlotDragDropImage;
 class UInventoryWidget;
+class UTextManager;
 class UImage;
 
 UCLASS()
@@ -24,7 +25,7 @@ class PROJECT_IK_API UInventorySlot : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void InitInventorySlot(UInventoryWidget* widget_ptr, bool is_board_slot = true);
+	void InitInventorySlot(UInventoryWidget* widget_ptr, bool is_board_slot = true, EHeroType hero_type = EHeroType::INVALID);
 
 	virtual void NativeConstruct() override;
 	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
@@ -37,6 +38,7 @@ public:
 	virtual FReply NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	
 	virtual void SetImageTexture();
+
 	void SetHighlightImageVisibility(ESlateVisibility visibility);
 
 	EInventorySlotType GetSlotType() const;
@@ -53,6 +55,9 @@ protected:
 
 	UPROPERTY(Transient)
 	TObjectPtr<UInventoryWidget> inventory_widget_cache_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UTextManager> text_manager_cache_;
 	
 	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<UImage> image_;
@@ -64,4 +69,5 @@ protected:
 
 	bool is_empty_ = true;
 	bool is_board_slot_ = true;
+	EHeroType hero_type_ = EHeroType::INVALID;
 };

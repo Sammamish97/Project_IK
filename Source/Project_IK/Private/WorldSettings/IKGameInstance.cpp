@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Structs/SpawnData.h"
 #include "Abilities/PerkEffects/PerkEffectBase.h"
+#include "Managers/TextManager.h"
 
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
@@ -35,6 +36,7 @@ void UIKGameInstance::Init()
 	InitInventoryManager();
 	InitSetBonusManager();
 	InitEventManager();
+	InitTextManager();
 
 	// Function call matters. PerkEffects -> InitSpawnData
 	InitializePerkEffectsAlreadyUnlocked();
@@ -178,4 +180,14 @@ void UIKGameInstance::InitDataTableManager()
 void UIKGameInstance::InitSetBonusManager()
 {
 	set_bonus_manager_ = NewObject<USetBonusManager>(this, set_bonus_class_);
+}
+
+UTextManager* UIKGameInstance::GetTextManager() const noexcept
+{
+	return text_manager_;
+}
+
+void UIKGameInstance::InitTextManager()
+{
+	text_manager_ = NewObject<UTextManager>(this, text_manager_class_);
 }

@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Engine/GameInstance.h"
 #include "IKGameInstance.generated.h"
 
+class UTextManager;
 class USetBonusManager;
 class UIKMaps;
 class UCharacterDataManager;
@@ -43,6 +44,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	UDataTableManager* GetDataTableManager() const noexcept;
 
+	UFUNCTION(BlueprintPure)
+	UTextManager* GetTextManager() const noexcept;
+
 	void EnhanceHeroesStatData(ECharacterStatType stat_type, float increase_amount);
 	void DiminishHeroesStatData(ECharacterStatType stat_type, float decrease_amount);
 
@@ -61,6 +65,7 @@ private:
 	void InitSpawnData();
 	void InitSetBonusManager();
 	void InitEventManager();
+	void InitTextManager();
 
 	UPROPERTY()
 	TObjectPtr<UIKMaps> maps_;
@@ -77,15 +82,23 @@ private:
 	UPROPERTY()
 	TObjectPtr<UInventoryManager> inventory_manager_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY()
+	TObjectPtr<UTextManager> text_manager_;
+	
+	//
+
+	UPROPERTY(EditDefaultsOnly, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UDataTableManager> data_table_class_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<USetBonusManager> set_bonus_class_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UEventManager> event_manager_class_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UInventoryManager> inventory_manager_class_;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UTextManager> text_manager_class_;
 };

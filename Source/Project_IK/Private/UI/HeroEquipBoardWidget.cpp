@@ -26,13 +26,7 @@ void UHeroEquipBoardWidget::InitHeroEquipBoard(UInventoryWidget* widget_ptr, EHe
 	TArray<UInventorySlot*> slot_array_ = {weapon_slot_, active_skill_slot_, passive_skill_1_slot_, passive_skill_2_slot_, passive_skill_3_slot_};
 	for (auto elem : slot_array_)
 	{
-		elem->InitInventorySlot(inventory_widget_cache_);
-	}
-
-	TArray<UPassiveSkillSlotWidget*> passive_array_ = {passive_skill_1_slot_, passive_skill_2_slot_, passive_skill_3_slot_};
-	for (auto elem : passive_array_)
-	{
-		elem->SetHeroType(hero_type_);
+		elem->InitInventorySlot(inventory_widget_cache_, true, hero_type);
 	}
 }
 

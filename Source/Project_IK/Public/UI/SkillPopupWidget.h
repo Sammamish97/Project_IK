@@ -18,6 +18,7 @@ See LICENSE file in the project root for full license information.
 enum class EHeroType : uint8;
 class UImage;
 class UTextBlock;
+class URichTextBlock;
 class UDisplayDataAsset;
 
 UCLASS()
@@ -25,8 +26,7 @@ class PROJECT_IK_API USkillPopupWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void NativeConstruct() override;
-	void UpdatePopupData(TObjectPtr<UDisplayDataAsset> display_asset);
+	void UpdatePopupData(UTexture2D* thumbnail, const FText& name, const FText& detail);
 	
 private:
 	UPROPERTY(meta = (BindWidget))
@@ -36,5 +36,5 @@ private:
 	TObjectPtr<UTextBlock> skill_name_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> skill_detail_;
+	TObjectPtr<URichTextBlock> skill_detail_;
 };

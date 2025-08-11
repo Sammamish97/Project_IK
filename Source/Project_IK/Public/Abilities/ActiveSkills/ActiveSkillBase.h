@@ -25,25 +25,22 @@ class PROJECT_IK_API UActiveSkillBase : public USkillBase
 	GENERATED_BODY()
 	
 public:
-	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 	virtual void InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data);
+	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
+	virtual void OnEnterCasting();
+	
 	float GetCastingTime() const;
 	float GetAIHoldTime() const;
 	bool HasMotion() const;
 	void ApplyDamage(FDamageData DamageData);
-
-	virtual void OnEnterCasting();
 	
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	float scaling_factor_ = 1.f;
-	
 	UPROPERTY()
 	TObjectPtr<AActor> skill_owner_ = nullptr;
 
 	UPROPERTY()
 	FActiveSkillData skill_data_ = FActiveSkillData();
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	bool has_casting_motion_ = false;
 	

@@ -160,8 +160,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> stunned_montage_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UObjectPoolComponent> object_pool_component_;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DamageUI", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UObjectPoolComponent> dmg_ui_object_pool_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Unit")
 	TObjectPtr<UOutlineComponent> outline_component_;

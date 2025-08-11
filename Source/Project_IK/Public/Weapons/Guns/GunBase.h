@@ -13,7 +13,6 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/Actor.h"
 #include "Structs/DamageData.h"
 #include "Structs/WeaponStatusData.h"
-#include "AITypes.h"
 #include "GunBase.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnCriticalRateCalculationDelegate, float&);
@@ -91,12 +90,15 @@ protected:
 	int32 cur_magazine_;
 	
 	UPROPERTY(Transient)
+	float HARD_CODED_ACCURACY = 10.f;
+	
+	UPROPERTY(Transient)
 	FTimerHandle fire_timer_handle_;
 	UPROPERTY(Transient)
 	FTimerHandle reload_timer_handle_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon" )
-	TObjectPtr<class UObjectPoolComponent> object_pool_component_;
+	TObjectPtr<class UObjectPoolComponent> bullet_pool_component_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon" )
 	TArray<TSubclassOf<class UBulletOnHitEffectComponent>> on_hit_effect_classes_;
@@ -125,10 +127,6 @@ protected:
 	bool is_first_bullet_on_magazine_ = true;
 
 	bool hold_action_ = false;
-
-protected:
-	UPROPERTY(Transient)
-	float HARD_CODED_ACCURACY = 10.f;
 
 public:
 	FOnFinishReload OnFinishReload;

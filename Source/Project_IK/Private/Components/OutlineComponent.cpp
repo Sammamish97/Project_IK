@@ -11,8 +11,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/OutlineComponent.h"
 void UOutlineComponent::BeginPlay()
 {
-	//IKTODO: 이 컴포넌트는 반드시 World에 BP_Outliner World Actor가 있어야 한다!
-	//만약 없다면 여기서 생성을 하던, 터뜨리던 해야 한다.
+	//이 컴포넌트는 반드시 World에 BP_Outliner World Actor가 있어야 한다!
+	//만약 없다면 현재 Level Blueprint에서 하나를 만들어 준다.
 	Super::BeginPlay();
 }
 
