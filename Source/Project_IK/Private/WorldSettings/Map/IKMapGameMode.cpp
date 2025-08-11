@@ -47,16 +47,5 @@ void AIKMapGameMode::HealHeroesAfterCombat()
 	}
 
 	ULevelTransitionSubsystem* level_transition_subsystem = game_instance->GetSubsystem<ULevelTransitionSubsystem>();
-	UDataTableManager* data_table_manager = ik_game_instance->GetDataTableManager();
-	TMap<EHeroType, FSpawnData> spawn_map = level_transition_subsystem->GetSpawnData();
-	for (EHeroType type : {EHeroType::Hero1, EHeroType::Hero2, EHeroType::Hero3, EHeroType::Hero4})
-	{
-		if (spawn_map[type].is_dead_)
-		{
-			continue;
-		}
-		float max_hp = data_table_manager->GetCharacterData(HeroTypeToCharacterType(type)).status_data_.hit_point_;
-		float& hp = spawn_map[type].character_data_.status_data_.hit_point_;
-		hp = FMath::Max(max_hp, hp + max_hp * heal_percentage);
-	}
+	level_transition_subsystem->HealHeroesSpawnDataPercentage(heal_percentage);
 }

@@ -18,16 +18,18 @@ See LICENSE file in the project root for full license information.
 #include "Components/WidgetComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/OutlineComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
-#include "Components/ObjectPoolComponent.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "UI/DamageUI.h"
 
 #include "Subsystems/GlobalBuffSubsystem.h"
 
 #include "Structs/BuffStatusData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "UI/HPUICore.h"
+
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 // Sets default values
 AUnit::AUnit()
@@ -38,8 +40,8 @@ AUnit::AUnit()
 	hp_widget_component_ = CreateDefaultSubobject<UWidgetComponent>(TEXT("HP Widget Component"));
 
 	cc_component_ = CreateDefaultSubobject<UCrowdControlComponent>(TEXT("CC Component"));
-	dmg_ui_object_pool_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("ObjectPool"));
 	outline_component_ = CreateDefaultSubobject<UOutlineComponent>(TEXT("OutlineComponent"));
+
 
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Pawn"));
 	USkeletalMeshComponent* skeletal = GetMesh();
@@ -80,17 +82,29 @@ void AUnit::SetForwardDir(const FVector& Forward_Dir)
 
 void AUnit::SetAttackTarget(AActor* target)
 {
-	return Cast<AMeleeAIController>(GetController())->SetTargetActor(target);
+	AMeleeAIController* controller = Cast<AMeleeAIController>(GetController());
+	if (controller)
+	{
+		controller->SetTargetActor(target);
+	}
 }
 
 AActor* AUnit::GetAttackTarget()
 {
-	return Cast<AMeleeAIController>(GetController())->GetTargetActor();
+	AMeleeAIController* controller = Cast<AMeleeAIController>(GetController());
+	if (controller)
+	{
+		return controller->GetTargetActor();
+	}
+	else
+	{
+		return nullptr;
+	}
 }
 
 void AUnit::SetOutlineState(EOutlineState state)
 {
-	if(auto target = GetComponentByClass<UPrimitiveComponent>())
+	if (auto target = GetComponentByClass<UPrimitiveComponent>())
 	{
 		outline_component_->SwitchOutline(target, state);
 	}
@@ -117,8 +131,12 @@ bool AUnit::IsHero() const
 
 void AUnit::FinishAction()
 {
-	auto bt_component = Cast<UBehaviorTreeComponent>(Cast<AAIController>(GetController())->GetBrainComponent());
-	OnFinishAction.Broadcast(bt_component, false);
+	AAIController* controller = Cast<AAIController>(GetController());
+	if (controller)
+	{
+		auto bt_component = Cast<UBehaviorTreeComponent>(controller->GetBrainComponent());
+		OnFinishAction.Broadcast(bt_component, false);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -155,51 +173,33 @@ void AUnit::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	GetWorld()->GetTimerManager().ClearTimer(stun_timer_);
 }
 
+bool AUnit::IsDead() const
+{
+	return is_dead_;
+}
+
 void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 {
-	if (is_evaded)
+	UNiagaraComponent* damage_ui = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, damage_ui_system_, hp_widget_component_->GetComponentLocation());
+
+	damage_ui->SetBoolParameter(FName("IsMissed"), is_evaded);
+	damage_ui->SetFloatParameter(FName("DamageAmount"), data.atk_base_dmg_ + data.skill_power_base_dmg_);
+	if (data.is_critical_shot_)
 	{
-		ADamageUI* missed_ui = SpawnDamageUI();
-		if (missed_ui)
-		{
-			missed_ui->SetMissed();
-		}
+		damage_ui->SetColorParameter(FName("Color"), FLinearColor::Red / 5.f);
+		damage_ui->SetFloatParameter(FName("SizeMultiplier"), 3.f);
 	}
 	else
 	{
-		if (data.atk_base_dmg_ > 0.f)
-		{
-			ADamageUI* atk_ui = SpawnDamageUI();
-			if (atk_ui)
-			{
-				atk_ui->SetDamageAmount(data.atk_base_dmg_, FLinearColor::White);
-			}
-		}
-		else if (data.atk_base_dmg_ < 0.f)
-		{
-			UE_LOG(LogTemp, Error, TEXT("atk_base_dmg less than 0 has come."));
-		}
-
-		if (data.skill_power_base_dmg_ > 0.f)
-		{
-			ADamageUI* skill_ui = SpawnDamageUI();
-			if (skill_ui)
-			{
-				skill_ui->SetDamageAmount(data.skill_power_base_dmg_, FLinearColor::Blue);
-			}
-		}
-		else if (data.skill_power_base_dmg_ < 0.f)
-		{
-			UE_LOG(LogTemp, Error, TEXT("skill_power_base_dmg less than 0 has come."));
-		}
+		damage_ui->SetColorParameter(FName("Color"), FLinearColor::Blue / 5.f);
 	}
 }
 
 void AUnit::GetDamage(FDamageData data)
 {
-	if (GetCharacterStat()->GetHitPoint() + GetCharacterStat()->GetShield() - data.atk_base_dmg_  - data.skill_power_base_dmg_ <= 0.f )
+	if (GetCharacterStat()->GetHitPoint() + GetCharacterStat()->GetShield() - data.atk_base_dmg_ - data.skill_power_base_dmg_ <= 0.f)
 	{
- 		if (AActor* attacker_ptr = data.attacker_.Get())
+		if (AActor* attacker_ptr = data.attacker_.Get())
 		{
 			Cast<AUnit>(attacker_ptr)->DispatchUnitEvent(EUnitEvent::OnEliminate);
 		}
@@ -226,10 +226,9 @@ void AUnit::Heal(float heal)
 {
 	character_stat_component_->Heal(heal);
 
-	if (ADamageUI* ui = SpawnDamageUI())
-	{
-		ui->SetHealAmount(heal);
-	}
+	UNiagaraComponent* damage_ui = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, damage_ui_system_, hp_widget_component_->GetComponentLocation());
+	damage_ui->SetFloatParameter(FName("DamageAmount"), heal);
+	damage_ui->SetColorParameter(FName("Color"), FLinearColor::Green / 5.f);
 }
 
 void AUnit::ApplyStatusBuff(EBuffType buff_type, FBuffStatusData buff_status)
@@ -281,7 +280,11 @@ void AUnit::GetStunned(float stun_duration)
 void AUnit::OnStunned()
 {
 	//BT 역시 stun시키기
-	Cast<AMeleeAIController>(GetController())->GetStunned();
+	AMeleeAIController* controller = Cast<AMeleeAIController>(GetController());
+	if (controller)
+	{
+		controller->GetStunned();
+	}
 	PlayAnimMontage(stun_montage_);
 }
 
@@ -293,12 +296,16 @@ void AUnit::FinishStun()
 
 void AUnit::SetUnitStateWithInterrupt(EUnitState type)
 {
-	
+
 }
 
 void AUnit::ResetUnitState()
 {
-	Cast<AMeleeAIController>(GetController())->ResetUnitState();
+	AMeleeAIController* controller = Cast<AMeleeAIController>(GetController());
+	if (controller)
+	{
+		controller->ResetUnitState();
+	}
 }
 
 void AUnit::OnEnterBattleOnce()
@@ -320,30 +327,48 @@ float AUnit::GetPitchDiffBetweenTarget()
 
 void AUnit::Die()
 {
+	is_dead_ = true;
+
 	DispatchUnitEvent(EUnitEvent::OnDie);
 	for (auto& delegate_map : on_unit_event_)
 	{
 		delegate_map.Value.Clear();
 	}
-	Destroy();
+
+	GetCharacterMovement()->DisableMovement();
+	DetachFromControllerPendingDestroy();
+	PlayRagdollAnimation(GetMesh());
+	FVector impulse = -GetActorForwardVector() * FMath::RandRange(2500.f, 4500.f);
+	GetMesh()->AddImpulse(impulse, NAME_None, true);
+	hp_widget_component_->SetVisibility(false);
+
+	GetWorldTimerManager().SetTimer(destroy_timer_, this, &AUnit::OnUnitDied, 3.f);
 }
 
-ADamageUI* AUnit::SpawnDamageUI()
+void AUnit::OnUnitDied()
 {
-	// Randomize spawn locations
-	FTransform transform = GetActorTransform();
-	FVector rand_offsets = FVector(0.f, capsule_radius_ + FMath::RandRange(-10.f, 50.f), capsule_half_height_ + FMath::RandRange(-10.f, 50.f));
+	PlayDieEffect(GetMesh());
+	GetWorldTimerManager().SetTimer(destroy_timer_, this, &AUnit::OnDieFinished, 1.f);
+}
 
-	APlayerController* player_controller = GetWorld()->GetFirstPlayerController();
-	if (player_controller && player_controller->PlayerCameraManager)
+void AUnit::PlayRagdollAnimation(UPrimitiveComponent* component)
+{
+	component->SetCollisionProfileName(TEXT("Ragdoll"));
+	component->SetSimulatePhysics(true);
+}
+
+void AUnit::PlayDieEffect(USceneComponent* component)
+{
+	if (death_fx_system_)
 	{
-		rand_offsets = player_controller->PlayerCameraManager->GetCameraRotation().RotateVector(rand_offsets);
+		component->SetVisibility(false);
+		UNiagaraComponent* fx = UNiagaraFunctionLibrary::SpawnSystemAttached(death_fx_system_, component, FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget, true);
 	}
+}
 
-	transform.SetLocation(transform.GetLocation() + rand_offsets);
-
-
-	return Cast<ADamageUI>(dmg_ui_object_pool_->SpawnFromPool(transform.Rotator(), transform.GetLocation()));
+void AUnit::OnDieFinished()
+{
+	Destroy();
 }
 
 void AUnit::GetDamageByDot(FDamageData data)

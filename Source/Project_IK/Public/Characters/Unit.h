@@ -22,9 +22,9 @@ class UObjectPoolComponent;
 class UWidgetComponent;
 class UCharacterStatComponent;
 class UCrowdControlComponent;
-class ADamageUI;
 class UDelegateBridgeSubsystem;
 class UOutlineComponent;
+class UNiagaraSystem;
 enum class EUnitEvent : uint8;
 struct FBuffStatusData;
 
@@ -47,6 +47,8 @@ public:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
+	bool IsDead() const;
+
 	UFUNCTION()
 	virtual void Die() override;
 	
@@ -111,9 +113,18 @@ public:
 	void DispatchUnitEvent(EUnitEvent type);
 
 protected:
-	void SetDamageUI(FDamageData data, bool is_evaded);
+	UFUNCTION()
+	void OnUnitDied();
 
-	ADamageUI* SpawnDamageUI();
+	UFUNCTION()
+	void PlayRagdollAnimation(UPrimitiveComponent* component);
+	void PlayDieEffect(USceneComponent* component);
+
+	UFUNCTION()
+	void OnDieFinished();
+
+
+	void SetDamageUI(FDamageData data, bool is_evaded);
 
 	void GetDamageByDot(FDamageData data);
 	void GetDamageByPEM(FDamageData data);
@@ -160,8 +171,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> stunned_montage_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DamageUI", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UObjectPoolComponent> dmg_ui_object_pool_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "DamageUI")
+	TObjectPtr<UNiagaraSystem> damage_ui_system_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Death")
+	TObjectPtr<UNiagaraSystem> death_fx_system_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Unit")
 	TObjectPtr<UOutlineComponent> outline_component_;
@@ -178,6 +192,12 @@ protected:
 	UPROPERTY(Transient)
 	FTimerHandle stun_timer_;
 
+	FTimerHandle destroy_timer_;
+	float destroy_counter_ = 0.f;
+
+	UPROPERTY(Transient)
+	TWeakObjectPtr<AActor> cur_hiding_cover_ = nullptr;
+
 	UPROPERTY()
 	TMap<EUnitEvent, FOnUnitEvent> on_unit_event_;
 	
@@ -185,4 +205,6 @@ protected:
 	
 	float capsule_half_height_ = 0.f;
 	float capsule_radius_ = 0.f;
+
+	bool is_dead_ = false;
 };

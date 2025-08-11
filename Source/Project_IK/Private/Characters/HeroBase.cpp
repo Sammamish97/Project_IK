@@ -30,6 +30,8 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKGameState.h"
 
+#include "NiagaraFunctionLibrary.h"
+
 AHeroBase::AHeroBase()
 {
 	active_skill_mechanics_ = CreateDefaultSubobject<UActiveSkillMechanics>(TEXT("ActiveMechanics"));
@@ -123,6 +125,10 @@ void AHeroBase::Die()
 {
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if (casted_mode) casted_mode->RemoveHero(hero_type_);
+
+	weapon_mechanics_->DieWeaponActor();
+	
+
 	Super::Die();
 }
 

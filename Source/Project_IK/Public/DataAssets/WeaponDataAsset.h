@@ -23,6 +23,7 @@ class PROJECT_IK_API UWeaponDataAsset : public UPrimaryDataAsset
 public:
 	FWeaponData GetWeaponData(EWeaponType type);
 	FWeaponData GetWeaponDataRandomly(ERarity weight_rarity = ERarity::Common);
+	FWeaponData GetWeaponDataByRarity(ERarity rarity = ERarity::Common);
 	TArray<FWeaponData> GetUniqueWeaponDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
 
 private:

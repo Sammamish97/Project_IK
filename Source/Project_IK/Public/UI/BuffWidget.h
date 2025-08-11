@@ -19,6 +19,7 @@ class UDisplayDataAsset;
 class UBuffPopupWidget;
 class UBuffContainer;
 class UProgressBar;
+class UBasicPopupWidget;
 
 UCLASS()
 class PROJECT_IK_API UBuffWidget : public UUserWidget

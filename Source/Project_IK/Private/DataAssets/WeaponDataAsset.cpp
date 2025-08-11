@@ -23,6 +23,11 @@ FWeaponData UWeaponDataAsset::GetWeaponDataRandomly(ERarity weight_rarity)
 	return URandomDataAssetsManager::GetDataAssetRandomly(weight_rarity, weapon_data_map_);
 }
 
+FWeaponData UWeaponDataAsset::GetWeaponDataByRarity(ERarity rarity)
+{
+	return URandomDataAssetsManager::GetDataAssetByRarity(rarity, weapon_data_map_);
+}
+
 TArray<FWeaponData> UWeaponDataAsset::GetUniqueWeaponDataRandomly(int32 n, ERarity weight_rarity)
 {
 	return URandomDataAssetsManager::GetUniqueDataAssetsRandomly(n, weight_rarity, weapon_data_map_);

@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "BasicPopupWidget.h"
 #include "WeaponPopupWidget.generated.h"
 
+struct FWeaponStatusData;
 class UTextBlock;
 UCLASS()
 class PROJECT_IK_API UWeaponPopupWidget : public UBasicPopupWidget

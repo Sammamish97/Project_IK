@@ -22,6 +22,7 @@ void UEventWidget::InitEventWidget(FEventData input_data)
 	first_option_->SetText(input_data.option_1);
 	second_option_->SetText(input_data.option_2);
 	third_option_->SetText(input_data.option_3);
+	fourth_option_->SetText(input_data.option_4);
 }
 
 void UEventWidget::ClearButtonBinding()
@@ -37,6 +38,21 @@ void UEventWidget::ClearButtonBinding()
 	if (button_3_->OnClicked.IsBound())
 	{
 		button_3_->OnClicked.Clear();
+	}
+	if (button_4_->OnClicked.IsBound())
+	{
+		button_4_->OnClicked.Clear();
+	}
+}
+
+void UEventWidget::EnableButtons(int32 num)
+{
+	TArray<UButton*> buttons{ button_1_, button_2_, button_3_, button_4_ };
+	int32 begin = FMath::Min(num, buttons.Num());
+	for (int32 i = begin; i < buttons.Num(); i++)
+	{
+		buttons[i]->SetIsEnabled(false);
+		buttons[i]->SetVisibility(ESlateVisibility::Hidden);
 	}
 }
 
