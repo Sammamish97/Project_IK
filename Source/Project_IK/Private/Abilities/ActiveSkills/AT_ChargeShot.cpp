@@ -22,7 +22,6 @@ See LICENSE file in the project root for full license information.
 UAT_ChargeShot::UAT_ChargeShot()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Opponents, 1000.f);
-	cool_time_ = 5.f;
 }
 
 bool UAT_ChargeShot::ActivateSkill(const FTargetResult& TargetResult)
@@ -89,7 +88,7 @@ void UAT_ChargeShot::FireChargeShot(AActor* target)
 
 			chargeshot_ = GetWorld()->SpawnActor<AChargeShot>(charge_shot_class_, spawn_transform);
 			chargeshot_->SetCastingTime(charge_time_);
-			chargeshot_->SetDamageData(FDamageData{ 0.f, weapon_actor->GetWeaponFireDamageData().atk_base_dmg_ * dmg_scale_ + (hero->GetCharacterStat()->GetSkillPower() * scaling_factor_), EDamageType::Magic, skill_owner_ });
+			chargeshot_->SetDamageData(FDamageData{ 0.f, weapon_actor->GetWeaponFireDamageData().atk_base_dmg_ * dmg_scale_ + (hero->GetCharacterStat()->GetSkillPower() * skill_data_.skill_power_scales_[0]), EDamageType::Magic, skill_owner_ });
 
 			hero->GetWeaponMechanics()->BeginFire(target);
 		}

@@ -40,7 +40,7 @@ class PROJECT_IK_API UDataTableManager : public UObject
 	GENERATED_BODY()
 
 public:
-	FWeaponData GetWeaponStatusData(EWeaponType type) const;
+	FWeaponData GetWeaponData(EWeaponType type) const;
 	FWeaponData GetWeaponDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	FWeaponData GetWeaponDataByRarity(ERarity rarity = ERarity::Common) const;
 	TArray<FWeaponData> GetUniqueWeaponDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
@@ -54,7 +54,6 @@ public:
 	TArray<FRuneData> GetRuneDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 	TArray<FRuneData> GetUniqueRuneDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 	UTexture2D* GetRuneSetThumbnail(ERuneSetType type) const;
-	FText GetRuneSetBonusDetail(ERuneSetType set_type, ERuneBonusType bonus_type) const;
 
 	FPassiveSkillData GetPassiveSkillData(EPassiveSkillType type) const;
 	FPassiveSkillData GetPassiveSkillDataRandomly(ERarity weight_rarity = ERarity::Common) const;

@@ -22,9 +22,7 @@ UAT_ThunderStorm::UAT_ThunderStorm()
 	has_casting_motion_ = true;
 	casting_time_ = 0.5f;
 	ai_holding_time_ = 1.5f;
-	
-	cool_time_ = 3.f;
-	scaling_factor_ = 0.8f;
+
 	damage_ = 120.f;
 }
 
@@ -36,7 +34,7 @@ bool UAT_ThunderStorm::ActivateSkill(const FTargetResult& TargetResult)
 	visual_actor_ = skill_owner_->GetWorld()->SpawnActor<AThunderStorm>(visual_actor_class_, TargetResult.target_location_, FRotator::ZeroRotator, spawn_params);
 	if (visual_actor_)
 	{
-		visual_actor_->SetNecessaryData(target_param_.radius_, scaling_factor_, damage_, skill_owner_);
+		visual_actor_->SetNecessaryData(target_param_.radius_, skill_data_.skill_power_scales_[0], damage_, skill_owner_);
 		visual_actor_->DamageEnemies();
 	}
 	

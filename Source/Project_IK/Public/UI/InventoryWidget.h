@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/WeaponStatusData.h"
 #include "Structs/WrapperEquipmentData.h"
 #include "InventoryWidget.generated.h"
 
@@ -24,7 +25,7 @@ class UHeroEquipBoardWidget;
 class URuneBoardWidget;
 class UWidgetSwitcher;
 class UInventorySlot;
-class USkillPopupWidget;
+class UBasicPopupWidget;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UInventoryWidget : public UUserWidget
@@ -34,7 +35,7 @@ public:
 	virtual void NativeDestruct() override;
 	
 	UFUNCTION(BlueprintCallable)
-	void InitInventoryWidget(int32 available_support_skill_amount, int32 available_passive_skill_amount);
+	void InitInventoryWidget(int32 available_passive_skill_amount);
 
 	UFUNCTION(BlueprintCallable)
 	void UpdateInventoryData();
@@ -56,7 +57,11 @@ public:
 
 	void LoadSelectedRewards(const FWrapperEquipmentData& rewards);
 
-	void CreatePopupWidget(TObjectPtr<UDisplayDataAsset> display_data);
+	void CreateWeaponPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail, const FWeaponStatusData& data);
+	void CreateActiveSkillPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail, float cool_down);
+	void CreatePassiveSkillPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail);
+	void CreateRunePopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail, ERuneSetType rune_set_type);
+
 	void SetPopupWidgetPos(FVector2D pos);
 	void RemovePopupWidget();
 
@@ -103,10 +108,19 @@ private:
 	TObjectPtr<UButton> confirm_button_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
-	TSubclassOf<USkillPopupWidget> equip_popup_class_;
+	TSubclassOf<UBasicPopupWidget> passive_skill_popup_class_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBasicPopupWidget> active_skill_popup_class_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBasicPopupWidget> weapon_popup_class_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBasicPopupWidget> rune_popup_class_;
 
 	UPROPERTY()
-	TObjectPtr<USkillPopupWidget> equip_popup_ptr_;
+	TObjectPtr<UBasicPopupWidget> equip_popup_ptr_;
 
 	EGearType last_highlighted_gear_type = EGearType::INVALID;
 };

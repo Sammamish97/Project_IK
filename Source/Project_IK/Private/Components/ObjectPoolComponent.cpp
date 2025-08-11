@@ -10,36 +10,41 @@ See LICENSE file in the project root for full license information.
 #include "Components/ObjectPoolComponent.h"
 #include "Weapons/PooledActor.h"
 
-// Sets default values for this component's properties
 UObjectPoolComponent::UObjectPoolComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
-
-	// ...
+	objects_root_ = CreateDefaultSubobject<USceneComponent>(TEXT("Pooled Object Root"));
 }
 
-
-// Called when the game starts
 void UObjectPoolComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
 	InitializePool();
+}
+
+void UObjectPoolComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	ClearPool();
+	Super::EndPlay(EndPlayReason);
 }
 
 void UObjectPoolComponent::InitializePool()
 {
-	if(pooled_actor_class_ == nullptr)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Should Select target object class"));
-		return;
-	}
+	checkf(pooled_actor_class_, TEXT("Should Select Object Pool target object class"))
+
 	object_pool_.Empty();
-	for(int i = 0; i < pool_size_; ++i)
+	for(int32 i = 0; i < pool_size_; ++i)
 	{
-		object_pool_.Add(GetWorld()->SpawnActor<APooledActor>(pooled_actor_class_));
+		auto pooled_actor = GetWorld()->SpawnActor<APooledActor>(pooled_actor_class_);
+		pooled_actor->AttachToComponent(objects_root_, FAttachmentTransformRules::KeepWorldTransform);
+		object_pool_.Add(pooled_actor);
+	}
+}
+
+void UObjectPoolComponent::ClearPool()
+{
+	for (const auto& elem : object_pool_)
+	{
+		elem->Destroy();
 	}
 }
 

@@ -17,8 +17,6 @@ See LICENSE file in the project root for full license information.
 UAT_ShockJavelin::UAT_ShockJavelin()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Opponents, 1000.f);
-
-	cool_time_ = 5.f;
 	casting_time_ = 0.5f;
 }
 

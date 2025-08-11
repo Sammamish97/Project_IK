@@ -61,9 +61,6 @@ public:
 	class UPassiveSkillMechanics* GetPassiveSkillMechanics();
 
 protected:
-	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<AGunBase> default_weapon_class_ = nullptr;
-
 	//Mechanics
 	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UActiveSkillMechanics> active_skill_mechanics_;

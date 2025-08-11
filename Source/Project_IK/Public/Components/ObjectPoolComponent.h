@@ -18,16 +18,15 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECT_IK_API UObjectPoolComponent : public UActorComponent
 {
 	GENERATED_BODY()
-
-public:	
-	// Sets default values for this component's properties
-	UObjectPoolComponent();
 protected:
 	APooledActor* FindFirstAvailableActor();
 
 public:
+	UObjectPoolComponent();
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	void InitializePool();
+	void ClearPool();
 	APooledActor* SpawnFromPool(const FRotator& rotator, const FVector& translator);
 	TSubclassOf<APooledActor> GetObjectClass() const;
 	void SetObjectClass(const TSubclassOf<APooledActor>& target_class);
@@ -42,4 +41,7 @@ private:
 
 	UPROPERTY(Transient)
 	TArray<APooledActor*> object_pool_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<USceneComponent> objects_root_;
 };

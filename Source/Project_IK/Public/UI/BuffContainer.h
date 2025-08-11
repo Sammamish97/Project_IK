@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "BuffContainer.generated.h"
 
 class USizeBox;
-class UBuffPopupWidget;
+class UBasicPopupWidget;
 class UBuffWidget;
 class UHorizontalBox;
 
@@ -24,7 +24,7 @@ class PROJECT_IK_API UBuffContainer : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void InitBuffContainer(UBuffPopupWidget* popup_widget);
+	void InitBuffContainer(UBasicPopupWidget* popup_widget);
 
 	UFUNCTION()
 	void EnqueueBuff(EBuffType buff_type, UDisplayDataAsset* buff_data, bool is_permanent, float duration);
@@ -37,7 +37,7 @@ private:
 	TMap<EBuffType, FTimerHandle> buff_timers_;
 	
 	UPROPERTY()
-	TObjectPtr<UBuffPopupWidget> buff_popup_cache_;
+	TObjectPtr<UBasicPopupWidget> buff_popup_cache_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<USizeBox> size_box_;

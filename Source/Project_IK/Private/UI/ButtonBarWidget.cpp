@@ -10,15 +10,15 @@ See LICENSE file in the project root for full license information.
 #include "UI/ButtonBarWidget.h"
 #include "UI/SupportSkillButtonWidget.h"
 #include "UI/HeroWidget.h"
-#include "UI/SkillPopupWidget.h"
-#include "UI/BuffPopupWidget.h"
+#include "UI/PopUps/BasicPopupWidget.h"
 
 #include "Kismet/GameplayStatics.h"
 
 #include "Components/Button.h"
-#include "UI/RunePopupWidget.h"
+#include "UI/PopUps/ActiveSkillPopupWidget.h"
+#include "UI/PopUps/RunePopupWidget.h"
+#include "UI/PopUps/SupportSkillPopupWidget.h"
 
-#include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKPlayerController.h"
 
 #include "WorldSettings/IKGameState.h"
@@ -35,7 +35,8 @@ void UButtonBarWidget::NativeConstruct()
 	hero_widget_2_->GetSkillButtonWidget()->button_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnActiveSkillButtonClicked2);
 	hero_widget_3_->GetSkillButtonWidget()->button_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnActiveSkillButtonClicked3);
 
-	skill_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
+	active_skill_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
+	support_skill_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
 	rune_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
 	buff_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
 
@@ -143,12 +144,17 @@ UHeroWidget* UButtonBarWidget::GetHeroWidget(EHeroType idx)
 	}
 }
 
-USkillPopupWidget* UButtonBarWidget::GetSkillPopupWidget()
+UActiveSkillPopupWidget* UButtonBarWidget::GetActiveSkillPopupWidget()
 {
-	return skill_popup_widget_;
+	return active_skill_popup_widget_;
 }
 
-UBuffPopupWidget* UButtonBarWidget::GetBuffPopupWidget()
+USupportSkillPopupWidget* UButtonBarWidget::GetSupportSkillPopupWidget()
+{
+	return support_skill_popup_widget_;
+}
+
+UBasicPopupWidget* UButtonBarWidget::GetBuffPopupWidget()
 {
 	return buff_popup_widget_;
 }
@@ -156,4 +162,12 @@ UBuffPopupWidget* UButtonBarWidget::GetBuffPopupWidget()
 URunePopupWidget* UButtonBarWidget::GetRunePopupWidget()
 {
 	return rune_popup_widget_;
+}
+
+void UButtonBarWidget::ClearPopupWidget()
+{
+	active_skill_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
+	support_skill_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
+	buff_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
+	rune_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
 }

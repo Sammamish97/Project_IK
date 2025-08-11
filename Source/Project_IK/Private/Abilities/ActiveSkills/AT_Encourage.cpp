@@ -21,15 +21,13 @@ See LICENSE file in the project root for full license information.
 UAT_Encourage::UAT_Encourage()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Location, ETargetType::All, 0.f, 1000.f, false);
-
-	cool_time_ = 10.f;
-	scaling_factor_ = 0.02f;
 }
 
 void UAT_Encourage::InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data)
 {
 	Super::InitActiveSkill(skill_owner, skill_data);
 	buff_ = NewObject<UBuffHandler>(this, buff_class_);
+	cool_time_ = skill_data.cool_time_;
 }
 
 void UAT_Encourage::OnEnterCasting()

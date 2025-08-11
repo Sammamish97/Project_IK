@@ -16,8 +16,6 @@ See LICENSE file in the project root for full license information.
 UAT_TripleFire::UAT_TripleFire()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Opponents, 1000.f);
-
-	cool_time_ = 5.f;
 }
 
 void UAT_TripleFire::InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data)

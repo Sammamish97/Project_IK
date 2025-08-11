@@ -15,9 +15,6 @@ See LICENSE file in the project root for full license information.
 UAT_Thunder::UAT_Thunder()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Opponents, 1000.f);
-
-	cool_time_ = 5.f;
-	scaling_factor_ = 0.8f;
 	damage_ = 100.f;
 }
 

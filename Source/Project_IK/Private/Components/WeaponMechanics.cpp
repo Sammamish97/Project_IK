@@ -10,12 +10,11 @@ See LICENSE file in the project root for full license information.
 #include "Components/WeaponMechanics.h"
 #include "Weapons/Guns/GunBase.h"
 #include "Characters/Unit.h"
-
-void UWeaponMechanics::EquipWeapon(TSubclassOf<AGunBase> weapon_class)
+void UWeaponMechanics::EquipWeapon(const FWeaponData& data)
 {
-	weapon_actor_ = GetWorld()->SpawnActor<AGunBase>(weapon_class);
+	weapon_actor_ = GetWorld()->SpawnActor<AGunBase>(data.weapon_class_);
 	weapon_actor_->AttachToComponent(owner_ref_->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, weapon_actor_->GetGrabSocketName());
-	weapon_actor_->SetGunOwner(owner_ref_, owner_ref_->IsHero());
+	weapon_actor_->InitWeapon(data, owner_ref_, owner_ref_->IsHero());
 }
 
 void UWeaponMechanics::BeginPlay()
@@ -26,8 +25,8 @@ void UWeaponMechanics::BeginPlay()
 
 void UWeaponMechanics::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	Super::EndPlay(EndPlayReason);
 	weapon_actor_->Destroy();
+	Super::EndPlay(EndPlayReason);
 }
 
 void UWeaponMechanics::BeginFire(AActor* target)

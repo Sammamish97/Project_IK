@@ -29,7 +29,7 @@ struct PROJECT_IK_API FRuneSetData
 		}
 	}
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "RuneSet", EditFixedSize)
+	UPROPERTY(EditFixedSize)
 	TArray<FRuneData> rune_set_data_ = { FRuneData(0), FRuneData(1), FRuneData(2), FRuneData(3), FRuneData(4), FRuneData(5) };
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
@@ -37,7 +37,4 @@ struct PROJECT_IK_API FRuneSetData
 	
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "RuneData")
 	ERuneSetType set_type = ERuneSetType::INVALID;
-
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-	TMap<ERuneBonusType, FText> bonus_details_;
 };

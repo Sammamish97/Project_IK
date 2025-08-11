@@ -502,8 +502,29 @@ enum class ERuneSetType : uint8
 	Poet UMETA(DisplayName = "Poet"),
 };
 
+inline FString RuneTypeToString(ERuneSetType type)
+{
+	switch (type)
+	{
+	case ERuneSetType::Chariot:
+		return FString("CHARIOT");
+	case ERuneSetType::GreatBow:
+		return FString("GREATBOW");
+	case ERuneSetType::Dagger:
+		return FString("DAGGER");
+	case ERuneSetType::Quake:
+		return FString("QUAKE");
+	case ERuneSetType::Tempest:
+		return FString("TEMPEST");
+	case ERuneSetType::Viper:
+		return FString("VIPER");
+	default:
+		return FString("INVALID");
+	}
+}
+
 UENUM(BlueprintType)
-enum class ERuneBonusType : uint8
+enum class ERuneSetBonusType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
 	Edge UMETA(DisplayName = "Edge"),
@@ -511,6 +532,20 @@ enum class ERuneBonusType : uint8
 	Hexagon UMETA(DisplayName = "Hexagon"),
 };
 
+inline FString RuneSetBonusTypeToString(ERuneSetBonusType type)
+{
+	switch (type)
+	{
+	case ERuneSetBonusType::Edge:
+		return FString("EDGE");
+	case ERuneSetBonusType::Triangle:
+		return FString("TRIANGLE");
+	case ERuneSetBonusType::Hexagon:
+		return FString("HEXAGON");
+	default:
+		return FString("INVALID");
+	}
+}
 
 UENUM(BlueprintType)
 enum class EGlobalBuffType : uint8
@@ -786,4 +821,13 @@ enum class EBuffType : uint8
 	Patrol_RandomDebuff3 UMETA(DisplayName = "Patrol random debuff 3"),
 	Patrol_RandomBuff4 UMETA(DisplayName = "Patrol random buff 4"),
 	Patrol_RandomDebuff4 UMETA(DisplayName = "Patrol random debuff 4"),
+};
+
+UENUM(BlueprintType)
+enum class ELevelState : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	MainMenuLevel UMETA(DisplayName = "MainMenuLevel"),
+	LobbyLevel UMETA(DisplayName = "LobbyLevel"),
+	MapLevel UMETA(DisplayName = "MapLevel"),
 };

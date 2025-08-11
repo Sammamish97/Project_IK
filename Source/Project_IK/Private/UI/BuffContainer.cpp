@@ -13,8 +13,9 @@ See LICENSE file in the project root for full license information.
 #include "Components/HorizontalBox.h"
 #include "Components/SizeBox.h"
 #include "UI/BuffWidget.h"
+#include "UI/PopUps/BasicPopupWidget.h"
 
-void UBuffContainer::InitBuffContainer(UBuffPopupWidget* popup_widget)
+void UBuffContainer::InitBuffContainer(UBasicPopupWidget* popup_widget)
 {
 	buff_popup_cache_ = popup_widget;
 	TArray widget_array = {buff_widget_0_, buff_widget_1_, buff_widget_2_, buff_widget_3_, buff_widget_4_};

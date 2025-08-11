@@ -32,7 +32,4 @@ struct PROJECT_IK_API FRuneData
 	//0, 1, 2, 3, 4, 5번 슬롯을 뜻함.
 	UPROPERTY()
 	int32 slot_number = 0;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "RuneData")
-	TMap<ECharacterStatType, float> status_map;
 };

@@ -20,12 +20,9 @@ class PROJECT_IK_API UDisplayDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "DisplayData")
+	UPROPERTY(EditDefaultsOnly, Category = "DisplayData")
 	TObjectPtr<UTexture2D> thumbnail = nullptr;
 	
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "DisplayData")
-	FText name_;
-
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "DisplayData")
-	FFormattedText detail_;
+	UPROPERTY(EditDefaultsOnly, Category = "DisplayData")
+	FString text_key_;
 };

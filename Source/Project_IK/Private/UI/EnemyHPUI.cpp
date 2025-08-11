@@ -10,8 +10,9 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/EnemyHPUI.h"
 #include "UI/BuffContainer.h"
+#include "UI/PopUps/BasicPopupWidget.h"
 
-void UEnemyHPUI::InitEnemyHPUI(UBuffPopupWidget* popup_widget)
+void UEnemyHPUI::InitEnemyHPUI(UBasicPopupWidget* popup_widget)
 {
 	buff_container_->InitBuffContainer(popup_widget);
 }

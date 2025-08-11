@@ -171,8 +171,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAnimMontage> stunned_montage_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UObjectPoolComponent> object_pool_component_;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "DamageUI")
 	TObjectPtr<UNiagaraSystem> damage_ui_system_;
 

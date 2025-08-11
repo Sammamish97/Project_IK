@@ -18,8 +18,9 @@ void UWeaponSlotWidget::NativeConstruct()
 	slot_type_ = EInventorySlotType::Weapon;
 }
 
-void UWeaponSlotWidget::SetWeaponSlotData(FWeaponData weapon_data)
+void UWeaponSlotWidget::SetWeaponSlotData(const FWeaponData& weapon_data)
 {
+	is_empty_ = false;
 	weapon_data_cache_ = weapon_data;
 	item_data_cache_ = weapon_data_cache_.item_data_;
 	SetImageTexture();
@@ -57,11 +58,22 @@ bool UWeaponSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDro
 	return false;
 }
 
+void UWeaponSlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	if (is_empty_ == false)
+	{
+		FText detail;
+		inventory_widget_cache_->CreateWeaponPopupWidget(item_data_cache_.display_data_->thumbnail,
+			text_manager_cache_->GetNameText(item_data_cache_.display_data_->text_key_),
+			detail,
+			weapon_data_cache_.status_data_);
+	}
+}
+
 FWeaponData UWeaponSlotWidget::GetStoredWeaponData()
 {
 	return weapon_data_cache_;
 }
-
 
 void UWeaponSlotWidget::SetImageTexture()
 {

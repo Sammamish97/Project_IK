@@ -25,4 +25,7 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UDisplayDataAsset> display_data_;
+
+	UPROPERTY(EditDefaultsOnly)
+	int32 cost_;
 };

@@ -26,7 +26,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/WrapperEquipmentData.h"
 
 
-FWeaponData UDataTableManager::GetWeaponStatusData(EWeaponType type) const
+FWeaponData UDataTableManager::GetWeaponData(EWeaponType type) const
 {
 	return weapon_data_asset_->GetWeaponData(type);
 }
@@ -141,11 +141,6 @@ TArray<FRuneData> UDataTableManager::GetUniqueRuneDataRandomly(int32 n, ERarity 
 UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type) const
 {
 	return GetRuneSetData(type).item_data_.display_data_->thumbnail;
-}
-
-FText UDataTableManager::GetRuneSetBonusDetail(ERuneSetType set_type, ERuneBonusType bonus_type) const
-{
-	return GetRuneSetData(set_type).bonus_details_[bonus_type];
 }
 
 FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type) const

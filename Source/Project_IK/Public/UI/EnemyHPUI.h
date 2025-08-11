@@ -15,14 +15,14 @@ See LICENSE file in the project root for full license information.
 
 class UHPUICore;
 class UBuffContainer;
-class UBuffPopupWidget;
+class UBasicPopupWidget;
 
 UCLASS()
 class PROJECT_IK_API UEnemyHPUI : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void InitEnemyHPUI(UBuffPopupWidget* popup_widget);
+	void InitEnemyHPUI(UBasicPopupWidget* popup_widget);
 	TObjectPtr<UHPUICore> GetHPUICore();
 	TObjectPtr<UBuffContainer> GetBuffContainer();
 

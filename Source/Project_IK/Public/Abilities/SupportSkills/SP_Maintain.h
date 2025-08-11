@@ -13,7 +13,6 @@ See LICENSE file in the project root for full license information.
 #include "SupportSkillBase.h"
 #include "SP_Maintain.generated.h"
 
-
 UCLASS()
 class PROJECT_IK_API USP_Maintain : public USupportSkillBase
 {

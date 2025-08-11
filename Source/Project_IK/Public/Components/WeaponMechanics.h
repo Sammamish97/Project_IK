@@ -22,7 +22,7 @@ class PROJECT_IK_API UWeaponMechanics : public UActorComponent
 	GENERATED_BODY()
 public:	
 	UFUNCTION()
-	void EquipWeapon(TSubclassOf<class AGunBase> weapon_class);
+	void EquipWeapon(const FWeaponData& data);
 	
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;

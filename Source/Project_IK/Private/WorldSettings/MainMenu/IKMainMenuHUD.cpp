@@ -7,30 +7,20 @@ Summary : Header file for HUD in MainMenu.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-
-
 #include "WorldSettings/MainMenu/IKMainMenuHUD.h"
 
 // Need to call CreateWidget function
 #include "Blueprint/UserWidget.h"
-#include "UI/ButtonToGoLevel.h"
-
-#include "Subsystems/PerkModifierSubsystem.h"
+#include "UI/MainMenuWidget.h"
 
 void AIKMainMenuHUD::BeginPlay()
 {
-	if (map_level_opener_class_)
+	if (main_menu_widget_class_)
 	{
-		map_level_opener_ = CreateWidget<UButtonToGoLevel>(GetOwningPlayerController(), map_level_opener_class_);
-		if (map_level_opener_)
+		main_menu_widget_ = CreateWidget<UMainMenuWidget>(GetOwningPlayerController(), main_menu_widget_class_);
+		if (main_menu_widget_)
 		{
-			map_level_opener_->AddToViewport();
-
-			int32 num_max_pull = GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>()->GetNumMaxPull();
-			if (num_max_pull > 0)
-			{
-				map_level_opener_->SetTargetLevelName(FName("GotchaLevel"));
-			}
+			main_menu_widget_->AddToViewport();
 		}
 	}
 }

@@ -42,6 +42,27 @@ void ULevelTransitionSubsystem::UpdateSpawnDataIdx(EHeroType type, FSpawnData da
 	spawn_data_[type] = data;
 }
 
+void ULevelTransitionSubsystem::OpenLevel(UWorld* world, ELevelState state)
+{
+	switch (state)
+	{
+	case ELevelState::MainMenuLevel:
+		UGameplayStatics::OpenLevel(world, FName("MainMenuLevel"));
+		break;
+
+	case ELevelState::LobbyLevel:
+		UGameplayStatics::OpenLevel(world, FName("LobbyLevel"));
+		break;
+
+	case ELevelState::MapLevel:
+		UGameplayStatics::OpenLevel(world, FName("MapInventoryLevel"));
+		break;
+
+	default:
+		checkNoEntry();
+	}
+}
+
 void ULevelTransitionSubsystem::HealHeroesSpawnDataPercentage(float heal_percentage)
 {
 	if (heal_percentage <= 0.f)
@@ -96,7 +117,7 @@ void ULevelTransitionSubsystem::OpenMapLevel(UWorld* world)
 	UGameplayStatics::OpenLevel(world, FName("MapInventoryLevel"));
 }
 
-void ULevelTransitionSubsystem::OpenLevel(UWorld* world, FIntPoint map_position)
+void ULevelTransitionSubsystem::OpenNode(UWorld* world, FIntPoint map_position)
 {
 	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
 	FMapNode node = instance->GetMapPtr()->GetNode(map_position.X, map_position.Y);

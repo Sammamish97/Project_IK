@@ -11,21 +11,22 @@ See LICENSE file in the project root for full license information.
 #include "UI/InventoryWidget.h"
 #include "Components/Button.h"
 #include "Kismet/GameplayStatics.h"
-#include "Subsystems/LevelTransitionSubsystem.h"
 #include "UI/HeroEquipBoardWidget.h"
 #include "UI/RewardContainerWidget.h"
 #include "UI/RuneBoardWidget.h"
-#include "UI/SkillPopupWidget.h"
+#include "UI/PopUps/BasicPopupWidget.h"
 #include "UI/InventorySlots/ActiveSkillSlotWidget.h"
 #include "UI/InventorySlots/PassiveSkillSlotWidget.h"
 #include "UI/InventorySlots/RuneSlotWidget.h"
-#include "UI/InventorySlots/SupportSkillSlotWidget.h"
 #include "UI/InventorySlots/WeaponSlotWidget.h"
-#include "WorldSettings/IKGameInstance.h"
+#include "UI/PopUps/ActiveSkillPopupWidget.h"
+#include "UI/PopUps/RunePopupWidget.h"
+#include "UI/PopUps/SingleRunePopupWidget.h"
+#include "UI/PopUps/WeaponPopupWidget.h"
 #include "WorldSettings/IKHUD.h"
 
 
-void UInventoryWidget::InitInventoryWidget(int32 available_support_skill_amount, int32 available_passive_skill_amount)
+void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount)
 {
 	reward_container_->SetInventoryWidgetCache(this);
 	rune_board_->SetInventoryWidget(this);
@@ -124,15 +125,41 @@ void UInventoryWidget::NativeDestruct()
 	Super::NativeDestruct();
 }
 
-void UInventoryWidget::CreatePopupWidget(TObjectPtr<UDisplayDataAsset> display_data)
+void UInventoryWidget::CreateWeaponPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail,
+	const FWeaponStatusData& data)
 {
-	if(equip_popup_class_ && equip_popup_ptr_ == nullptr)
-	{
-		equip_popup_ptr_ = CreateWidget<USkillPopupWidget>(this, equip_popup_class_);
-		equip_popup_ptr_->UpdatePopupData(display_data);
-		equip_popup_ptr_->AddToViewport();
-		equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
-	}
+	equip_popup_ptr_ = CreateWidget<UBasicPopupWidget>(this, weapon_popup_class_);
+	equip_popup_ptr_->UpdatePopupData(thumbnail, name, detail);
+	Cast<UWeaponPopupWidget>(equip_popup_ptr_)->UpdateWeaponData(data);
+	equip_popup_ptr_->AddToViewport();
+	equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
+}
+
+void UInventoryWidget::CreateActiveSkillPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail, float cool_down)
+{
+	equip_popup_ptr_ = CreateWidget<UBasicPopupWidget>(this, active_skill_popup_class_);
+	equip_popup_ptr_->UpdatePopupData(thumbnail, name, detail);
+	Cast<UActiveSkillPopupWidget>(equip_popup_ptr_)->UpdateCoolDown(cool_down);
+	equip_popup_ptr_->AddToViewport();
+	equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
+}
+
+void UInventoryWidget::CreatePassiveSkillPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail)
+{
+	equip_popup_ptr_ = CreateWidget<UBasicPopupWidget>(this, passive_skill_popup_class_);
+	equip_popup_ptr_->UpdatePopupData(thumbnail, name, detail);
+	equip_popup_ptr_->AddToViewport();
+	equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
+}
+
+void UInventoryWidget::CreateRunePopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail,
+	ERuneSetType rune_set_type)
+{
+	equip_popup_ptr_ = CreateWidget<UBasicPopupWidget>(this, rune_popup_class_);
+	equip_popup_ptr_->UpdatePopupData(thumbnail, name, detail);
+	Cast<USingleRunePopupWidget>(equip_popup_ptr_)->UpdateRuneData(rune_set_type, ERuneSetBonusType::Hexagon);
+	equip_popup_ptr_->AddToViewport();
+	equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void UInventoryWidget::SetPopupWidgetPos(FVector2D pos)

@@ -14,11 +14,14 @@ See LICENSE file in the project root for full license information.
 #include "UI/SlotDragDropImage.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 
-
-void UInventorySlot::InitInventorySlot(UInventoryWidget* widget_ptr, bool is_board_slot)
+void UInventorySlot::InitInventorySlot(UInventoryWidget* widget_ptr, bool is_board_slot, EHeroType hero_type)
 {
 	inventory_widget_cache_ = widget_ptr;
 	is_board_slot_ = is_board_slot;
+	hero_type_ = hero_type;
+	
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	text_manager_cache_ = game_instance->GetTextManager();
 }
 
 void UInventorySlot::NativeConstruct()
@@ -88,7 +91,9 @@ void UInventorySlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPoin
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
 	if (is_empty_ == false)
 	{
-		inventory_widget_cache_->CreatePopupWidget(item_data_cache_.display_data_);
+		inventory_widget_cache_->CreatePassiveSkillPopupWidget(item_data_cache_.display_data_->thumbnail,
+			text_manager_cache_->GetNameText(item_data_cache_.display_data_->text_key_),
+			text_manager_cache_->GetDetailText(item_data_cache_.display_data_->text_key_));
 	}
 }
 

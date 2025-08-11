@@ -28,7 +28,8 @@ void UHPUICore::UpdateWidget(float cur_hp, float cur_shield)
 	shield_bar_->SetPercent(shield_ratio);
 }
 
-//IKTODO: 이 함수를 사용하면 테두리가 사라지고, EnemyHPUI일 경우 크기가 이상하게 커지는 버그가 있다.
+//Widget Style를 완전히 새 변수를 만들어 사용할 시,
+//테두리가 사라지고, EnemyHPUI일 경우 크기가 이상하게 커진다.
 void UHPUICore::SetHPBarColor(FLinearColor color)
 {
 	auto last_style = hp_bar_->GetWidgetStyle();

@@ -57,8 +57,4 @@ private:
 
 	UPROPERTY(Transient)
 	TObjectPtr<UInventoryWidget> inventory_widget_cache_;
-
-	
-	// UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = true))
-	// TSubclassOf<class URuneSlotWidget> support_skill_slot_widget_class_;
 };

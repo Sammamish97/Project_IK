@@ -19,6 +19,7 @@ class UDisplayDataAsset;
 class UBuffPopupWidget;
 class UBuffContainer;
 class UProgressBar;
+class UBasicPopupWidget;
 
 UCLASS()
 class PROJECT_IK_API UBuffWidget : public UUserWidget
@@ -27,7 +28,7 @@ class PROJECT_IK_API UBuffWidget : public UUserWidget
 	friend UBuffContainer;
 	
 public:
-	void InitWidget(UBuffPopupWidget* popup, UBuffContainer* container);
+	void InitWidget(UBasicPopupWidget* popup, UBuffContainer* container);
 	void BeginBuffUI();
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	
@@ -52,7 +53,7 @@ private:
 	TObjectPtr<UBuffContainer> container_ref_;
 
 	UPROPERTY()
-	TObjectPtr<UBuffPopupWidget> buff_popup_ref_;
+	TObjectPtr<UBasicPopupWidget> buff_popup_ref_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<USizeBox> size_box_;

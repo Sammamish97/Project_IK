@@ -18,11 +18,6 @@ void UPassiveSkillSlotWidget::NativeConstruct()
 	slot_type_ = EInventorySlotType::PassiveSkill;
 }
 
-void UPassiveSkillSlotWidget::SetHeroType(EHeroType hero_type)
-{
-	hero_type_ = hero_type;
-}
-
 void UPassiveSkillSlotWidget::SetPassiveSkillSlotData(const FPassiveSkillData& passive_skill_data)
 {
 	is_empty_ = false;
@@ -41,7 +36,7 @@ FReply UPassiveSkillSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& 
 bool UPassiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
                                            UDragDropOperation* InOperation)
 {
-	//IKTODO: Hero가 동일한 Passive Skill를 이미 장착하고 있는지 확인.
+	//Hero가 동일한 Passive Skill를 이미 장착하고 있는지 확인.
 	if (Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation))
 	{
 		auto casted_slot = Cast<UPassiveSkillSlotWidget>(InOperation->Payload);
@@ -49,6 +44,7 @@ bool UPassiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FD
 		{
 			Swap(casted_slot->passive_skill_data_cache_, passive_skill_data_cache_);
 			Swap(casted_slot->is_empty_, is_empty_);
+			Swap(casted_slot->item_data_cache_, item_data_cache_);
 			SetImageTexture();
 			casted_slot->SetImageTexture();
 		}
