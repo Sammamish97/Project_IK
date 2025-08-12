@@ -11,3 +11,26 @@ See LICENSE file in the project root for full license information.
 
 #include "WorldSettings/IKSaveGame.h"
 
+#include "Kismet/GameplayStatics.h"
+
+void UIKSaveGame::SavePerkDetails()
+{
+	if (UGameplayStatics::DoesSaveGameExist("Perks", 0))
+	{
+		auto perk_save =  UGameplayStatics::LoadGameFromSlot("Perks", 0);
+		perk_node_map_ = Cast<UIKSaveGame>(perk_save)->perk_node_map_;
+		
+	}
+}
+
+void UIKSaveGame::LoadPerkDetails()
+{
+}
+
+void UIKSaveGame::LoadAllPerkDetails()
+{
+}
+
+void UIKSaveGame::DeleteSaveFiles()
+{
+}

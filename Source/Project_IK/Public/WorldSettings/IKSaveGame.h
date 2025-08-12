@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
+#include "Structs/PerkNodeDetail.h"
 #include "IKSaveGame.generated.h"
 
 /**
@@ -21,5 +22,13 @@ UCLASS()
 class PROJECT_IK_API UIKSaveGame : public USaveGame
 {
 	GENERATED_BODY()
+public:
+	void SavePerkDetails();
+	void LoadPerkDetails();
+	void LoadAllPerkDetails();
+	void DeleteSaveFiles();
 	
+private:
+	int32 perk_points;
+	TMap<int32, FPerkNodeDetail> perk_node_map_;
 };
