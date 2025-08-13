@@ -831,3 +831,10 @@ enum class ELevelState : uint8
 	LobbyLevel UMETA(DisplayName = "LobbyLevel"),
 	MapLevel UMETA(DisplayName = "MapLevel"),
 };
+
+UENUM(BlueprintType)
+enum class EAudioType : uint8
+{
+	NONE UMETA(Hidden),
+	Test UMETA(DisplayName = "Test"),
+};
