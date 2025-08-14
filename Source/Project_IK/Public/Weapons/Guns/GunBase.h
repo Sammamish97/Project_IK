@@ -21,6 +21,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnFinishReload, UBehaviorTreeCompo
 
 class UNiagaraComponent;
 class UNiagaraSystem;
+enum class EAudioType : uint8;
 
 UCLASS(Abstract)
 class PROJECT_IK_API AGunBase : public AActor
@@ -71,7 +72,7 @@ protected:
 	void FireBuckShot(FVector target_pos, const FDamageData& dmg_data);
 	void SpawnBullet(const FRotator& rotation, const FVector& translation, const FDamageData& dmg_data);
 
-	void PlayFireParticle() const;
+	void PlayFireFXs() const;
 
 	UFUNCTION()
 	void OnGunDied();
@@ -141,6 +142,9 @@ protected:
 	bool hold_action_ = false;
 	
 	FTimerHandle die_timer_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
+	EAudioType gunshot_audio_type_ = EAudioType::NONE;
 
 public:
 	FOnFinishReload OnFinishReload;

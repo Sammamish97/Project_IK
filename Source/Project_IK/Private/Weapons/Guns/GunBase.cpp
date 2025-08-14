@@ -24,6 +24,7 @@ See LICENSE file in the project root for full license information.
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
+#include "Subsystems/AudioManagerSubsystem.h"
 
 AGunBase::AGunBase()
 {
@@ -143,7 +144,7 @@ void AGunBase::SpawnBullet(const FRotator& rotation, const FVector& translation,
 	}
 }
 
-void AGunBase::PlayFireParticle() const
+void AGunBase::PlayFireFXs() const
 {
 	if (fire_particle_component_)
 	{
@@ -153,6 +154,8 @@ void AGunBase::PlayFireParticle() const
 	{
 		ejection_particle_component_->Activate(true);
 	}
+
+	UAudioManagerSubsystem::Get(this)->PlayAtLocation(gunshot_audio_type_, GetActorLocation());
 }
 
 void AGunBase::OnGunDied()
@@ -190,7 +193,7 @@ void AGunBase::FireSingleBullet(FVector target_pos, const FDamageData& dmg_data)
 	SpawnBullet(rotation, muzzle_location, dmg_data);
 	cur_magazine_ -= 1;
 
-	PlayFireParticle();
+	PlayFireFXs();
 }
 
 void AGunBase::FireBuckShot(FVector target_pos, const FDamageData& dmg_data)
@@ -214,7 +217,7 @@ void AGunBase::FireBuckShot(FVector target_pos, const FDamageData& dmg_data)
 	}
 	cur_magazine_ -= 1;
 
-	PlayFireParticle();
+	PlayFireFXs();
 }
 
 void AGunBase::BeginFire(AActor* target)

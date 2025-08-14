@@ -22,8 +22,6 @@ void UAudioManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 
-	LoadReferences();
-
 	const UAudioConfigSettings* settings = GetDefault<UAudioConfigSettings>();
 	if (settings)
 	{
@@ -32,6 +30,7 @@ void UAudioManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 		soft_master_channel_ = settings->master_channel_;
 		soft_bgm_channel_ = settings->bgm_channel_;
 		soft_sfx_channel_ = settings->sfx_channel_;
+		soft_default_sound_concurrency_ = settings->default_sound_concurrency_;
 
 		ApplyVolumes(settings->master_volume_, settings->bgm_volume_, settings->sfx_volume_);
 	}
@@ -96,8 +95,8 @@ USoundBase* UAudioManagerSubsystem::GetSoundClass(EAudioType audio_type, float& 
 		return nullptr;
 	}
 
-	const float calculated_volume = entry->volume_ * volume;
-	const float calculated_pitch = entry->pitch_ * pitch;
+	volume = entry->volume_ * volume;
+	pitch = entry->pitch_ * pitch;
 
 	if (USoundClass* sound_channel = LoadSync(entry->soft_sound_channel_))
 	{
@@ -109,27 +108,35 @@ USoundBase* UAudioManagerSubsystem::GetSoundClass(EAudioType audio_type, float& 
 		sound->SoundClassObject = master_channel_;
 	}
 
+	if (sound->bOverrideConcurrency == false && sound->ConcurrencySet.IsEmpty())
+	{
+		sound->ConcurrencySet.Add(default_sound_concurrency_);
+	}
+
 	return sound;
 }
 
 void UAudioManagerSubsystem::SetMasterVolume(float V)
 {
 	auto* settings = GetMutableDefault<UAudioConfigSettings>();
-	settings->master_volume_ = V; settings->SaveConfig();
+	settings->master_volume_ = V; 
+	settings->SaveConfig();
 	ApplyVolumes(settings->master_volume_, settings->bgm_volume_, settings->sfx_volume_);
 }
 
 void UAudioManagerSubsystem::SetBGMVolume(float V)
 {
 	auto* settings = GetMutableDefault<UAudioConfigSettings>();
-	settings->bgm_volume_ = V; settings->SaveConfig();
+	settings->bgm_volume_ = V; 
+	settings->SaveConfig();
 	ApplyVolumes(settings->master_volume_, settings->bgm_volume_, settings->sfx_volume_);
 }
 
 void UAudioManagerSubsystem::SetSFXVolume(float V)
 {
 	auto* settings = GetMutableDefault<UAudioConfigSettings>();
-	settings->sfx_volume_ = V; settings->SaveConfig();
+	settings->sfx_volume_ = V; 
+	settings->SaveConfig();
 	ApplyVolumes(settings->master_volume_, settings->bgm_volume_, settings->sfx_volume_);
 }
 
@@ -173,5 +180,9 @@ void UAudioManagerSubsystem::LoadReferences()
 	if (!sfx_channel_)
 	{
 		sfx_channel_ = LoadSync(soft_sfx_channel_);
+	}
+	if (!default_sound_concurrency_)
+	{
+		default_sound_concurrency_ = LoadSync(soft_default_sound_concurrency_);
 	}
 }

@@ -13,8 +13,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Managers/EnumCluster.h"
-#include "Engine/StreamableManager.h"
-#include "Engine/AssetManager.h"
 #include "Engine/EngineTypes.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "AudioManagerSubsystem.generated.h"
@@ -51,7 +49,6 @@ public:
 
 protected:
 	void LoadReferences();
-	inline FStreamableManager& Streamer() const { return UAssetManager::GetStreamableManager(); }
 	template<typename T>
 	T* LoadSync(const TSoftObjectPtr<T>& soft) const;
 	void ApplyVolumes(float master, float bgm, float sfx);
@@ -69,6 +66,8 @@ protected:
 	TSoftObjectPtr<USoundClass> soft_bgm_channel_ = nullptr;
 	UPROPERTY(BlueprintReadOnly)
 	TSoftObjectPtr<USoundClass> soft_sfx_channel_ = nullptr;
+	UPROPERTY(BlueprintReadOnly)
+	TSoftObjectPtr<USoundConcurrency> soft_default_sound_concurrency_ = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<UAudioDataAsset> audio_cues_ = nullptr;
@@ -80,6 +79,8 @@ protected:
 	TObjectPtr<USoundClass> bgm_channel_ = nullptr;
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<USoundClass> sfx_channel_ = nullptr;
+	UPROPERTY(BlueprintReadOnly)
+	TObjectPtr<USoundConcurrency> default_sound_concurrency_ = nullptr;
 };
 
 template<typename T>
@@ -90,5 +91,5 @@ inline T* UAudioManagerSubsystem::LoadSync(const TSoftObjectPtr<T>& soft) const
 		return nullptr;
 	}
 
-	return soft.IsValid() ? soft.Get() : Cast<T>(Streamer().LoadSynchronous(soft.ToSoftObjectPath()));
+	return soft.IsValid() ? soft.Get() : soft.LoadSynchronous();
 }

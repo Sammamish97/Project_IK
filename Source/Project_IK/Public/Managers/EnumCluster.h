@@ -836,5 +836,7 @@ UENUM(BlueprintType)
 enum class EAudioType : uint8
 {
 	NONE UMETA(Hidden),
-	Test UMETA(DisplayName = "Test"),
+	PistolShot UMETA(DisplayName = "Pistol Shot"),
+	RifleShot UMETA(DisplayName = "Rifle Shot"),
+	ShotgunShot UMETA(DisplayName = "Shotgun Shot"),
 };
