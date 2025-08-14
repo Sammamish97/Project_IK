@@ -22,7 +22,7 @@ void AIKPerkUnlockHUD::BeginPlay()
 
 	if (perk_unlock_widget_class_)
 	{
-		perk_unlock_widget_ = CreateWidget<UPerkUnlockWidget>(world, perk_unlock_widget_class_);
+		perk_unlock_widget_ = CreateWidget<UUserWidget>(world, perk_unlock_widget_class_);
 		if (perk_unlock_widget_)
 		{
 			perk_unlock_widget_->AddToViewport();

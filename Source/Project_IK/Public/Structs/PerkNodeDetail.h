@@ -23,7 +23,7 @@ struct PROJECT_IK_API FPerkNodeDetail
 	//Name은 이름이자 이 detail의 Key로서 사용한다.
 	//int32를 사용해도 되지만, 가독성을 위해 Text를 사용한다.
 	UPROPERTY(EditAnywhere)
-	FText name_;
+	FName name_;
 
 	UPROPERTY(EditAnywhere)
 	FText detail_;
@@ -35,8 +35,8 @@ struct PROJECT_IK_API FPerkNodeDetail
 	int32 cost_;
 	
 	UPROPERTY(EditAnywhere)
-	bool locked_;
+	bool locked_ = false;
 
 	UPROPERTY(EditAnywhere)
-	bool purchased_;
+	bool purchased_ = false;
 };

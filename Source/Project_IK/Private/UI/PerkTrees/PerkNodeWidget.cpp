@@ -20,6 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "UI/PerkTrees/PerkConnectionWidget.h"
+#include "WorldSettings/IKSaveGame.h"
 
 void UPerkNodeWidget::UnlockSkill()
 {
@@ -34,6 +35,15 @@ void UPerkNodeWidget::PurchaseSkill()
 {
 	perk_detail_.purchased_ = true;
 	RemoveSkillPoint(perk_detail_.cost_);
+	if (save_ref_ == nullptr)
+	{
+		save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(save_game_class_));
+	}
+	SaveSkill();
+	for (const auto& elem: GetConnectedSkills())
+	{
+		elem->UnlockSkill();
+	}
 }
 
 bool UPerkNodeWidget::CanPurchase()
@@ -107,17 +117,16 @@ TArray<UPerkNodeWidget*> UPerkNodeWidget::GetAllSkills()
 
 FLinearColor UPerkNodeWidget::LinearColorLerp(float duration)
 {
-	timer_ = UKismetMathLibrary::FInterpTo_Constant(duration,
+	timer_ = UKismetMathLibrary::FInterpTo_Constant(timer_,
 			UKismetMathLibrary::SelectFloat(duration, 0, button_->IsPressed() && CanPurchase()),
 			UGameplayStatics::GetWorldDeltaSeconds(GetWorld()),
 			1.0f);
-
 	if (timer_ == duration)
 	{
 		PurchaseSkill();
 		return FLinearColor();
 	}
-	return UKismetMathLibrary::LinearColorLerp(FLinearColor(), purchased_color_, timer_/duration);
+	return UKismetMathLibrary::LinearColorLerp(FLinearColor::White, purchased_color_, timer_/duration);
 }
 
 void UPerkNodeWidget::SetAlignment()
@@ -127,7 +136,6 @@ void UPerkNodeWidget::SetAlignment()
 		canvas_slot->SetAlignment({0.5f, 0.5f});
 		canvas_slot->SetAutoSize(true);
 	}
-	
 }
 
 ESlateVisibility UPerkNodeWidget::SetUnlockedImageVisibility()
@@ -162,7 +170,6 @@ FLinearColor UPerkNodeWidget::SetIconColor()
 		return FLinearColor();
 	}
 	return LinearColorLerp(0.9f);
-	
 }
 
 FSlateBrush UPerkNodeWidget::SetIconBrush()
@@ -183,19 +190,66 @@ void UPerkNodeWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	SetAlignment();
-	FLatentActionInfo info;
-	UKismetSystemLibrary::Delay(GetWorld(), 1, info);
-	ConnectPerkNodes();
+	FTimerDelegate timerDelegate = FTimerDelegate::CreateUObject(this, &UPerkNodeWidget::ConnectPerkNodes);
+	GetWorld()->GetTimerManager().SetTimerForNextTick(timerDelegate);
 }
 
 void UPerkNodeWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	//IKTODO: 여기서 자신의 index에 해당하는 data를 불러 bind해야 함.
+	button_->OnPressed.AddDynamic(this, &UPerkNodeWidget::OnButtonPressed);
+	button_->OnReleased.AddDynamic(this, &UPerkNodeWidget::OnButtonReleased);
+	button_->OnHovered.AddDynamic(this, &UPerkNodeWidget::OnButtonHovered);
+	button_->OnUnhovered.AddDynamic(this, &UPerkNodeWidget::OnButtonUnhovered);
+
+	thumbnail_->BrushDelegate.BindDynamic(this, &UPerkNodeWidget::SetIconBrush);
+	thumbnail_->ColorAndOpacityDelegate.BindDynamic(this, &UPerkNodeWidget::SetIconColor);
+	save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(save_game_class_));
+	//perk_detail_ = save_ref_->LoadPerkDetails(perk_detail_.name_);
 }
 
 void UPerkNodeWidget::SaveSkill()
 {
+	save_ref_->SavePerkDetails(perk_detail_.name_, perk_detail_);
+}
+
+void UPerkNodeWidget::OnButtonPressed()
+{
+	if (CanPurchase())
+	{
+		if (skill_connection_overlay_->HasAnyChildren())
+		{
+			for (const auto& elem : skill_connection_overlay_->GetAllChildren())
+			{
+				Cast<UPerkConnectionWidget>(elem)->SetLineConnectionTarget(true);
+			}
+		}
+	}
+}
+
+void UPerkNodeWidget::OnButtonReleased()
+{
+	if (CanPurchase())
+	{
+		if (skill_connection_overlay_->HasAnyChildren())
+		{
+			for (const auto& elem : skill_connection_overlay_->GetAllChildren())
+			{
+				Cast<UPerkConnectionWidget>(elem)->SetLineConnectionTarget(false);
+			}
+		}
+	}
+}
+
+void UPerkNodeWidget::OnButtonHovered()
+{
+	//IKTODO: Popup 띄우기
+}
+
+void UPerkNodeWidget::OnButtonUnhovered()
+{
+	//IKTODO: Popup 띄우기
 }
 
 

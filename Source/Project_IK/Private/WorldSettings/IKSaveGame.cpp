@@ -13,22 +13,33 @@ See LICENSE file in the project root for full license information.
 
 #include "Kismet/GameplayStatics.h"
 
-void UIKSaveGame::SavePerkDetails()
+void UIKSaveGame::SavePerkDetails(FName key, FPerkNodeDetail detail)
 {
 	if (UGameplayStatics::DoesSaveGameExist("Perks", 0))
 	{
 		auto perk_save =  UGameplayStatics::LoadGameFromSlot("Perks", 0);
 		perk_node_map_ = Cast<UIKSaveGame>(perk_save)->perk_node_map_;
-		
+		// if (perk_node_map_.Contains(key))
+		// {
+		// 	perk_node_map_.Remove(key);
+		// }
+		//perk_node_map_.Add(key, detail);
+		UGameplayStatics::SaveGameToSlot(this, "Perks", 0);
 	}
 }
 
-void UIKSaveGame::LoadPerkDetails()
+FPerkNodeDetail UIKSaveGame::LoadPerkDetails(FName key)
 {
-}
-
-void UIKSaveGame::LoadAllPerkDetails()
-{
+	if (UGameplayStatics::DoesSaveGameExist("Perks", 0))
+	{
+		auto perk_save = UGameplayStatics::LoadGameFromSlot("Perks", 0);
+		auto perk_data = Cast<UIKSaveGame>(perk_save)->perk_node_map_;
+		// if (perk_data.Contains(key))
+		// {
+		// 	return perk_data[key];
+		// }
+	}
+	return FPerkNodeDetail();
 }
 
 void UIKSaveGame::DeleteSaveFiles()

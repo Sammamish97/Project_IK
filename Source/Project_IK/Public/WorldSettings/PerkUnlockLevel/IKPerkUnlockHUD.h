@@ -26,11 +26,11 @@ class PROJECT_IK_API AIKPerkUnlockHUD : public AHUD
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UPerkUnlockWidget> perk_unlock_widget_class_;
+	TSubclassOf<UUserWidget> perk_unlock_widget_class_;
 
 protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY()
-	TObjectPtr<UPerkUnlockWidget> perk_unlock_widget_;
+	TObjectPtr<UUserWidget> perk_unlock_widget_;
 };

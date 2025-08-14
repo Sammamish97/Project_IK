@@ -15,12 +15,14 @@ See LICENSE file in the project root for full license information.
 #include "Structs/PerkNodeDetail.h"
 #include "PerkNodeWidget.generated.h"
 
+class USaveGame;
+class UIKSaveGame;
 class UPerkConnectionWidget;
 class UImage;
 class UButton;
 class UOverlay;
 
-UCLASS()
+UCLASS(Blueprintable)
 class PROJECT_IK_API UPerkNodeWidget : public UUserWidget
 {
 	GENERATED_BODY()
@@ -30,23 +32,40 @@ public:
 	bool CanPurchase();
 	void RemoveSkillPoint(int32 amount);
 	bool IsPurchased();
+	UFUNCTION(BlueprintCallable)
 	void ConnectPerkNodes();
 	TArray<UPerkNodeWidget*> GetConnectedSkills();
 	TArray<UPerkNodeWidget*> GetAllSkills();
 	FLinearColor LinearColorLerp(float duration);
+
+	UFUNCTION(BlueprintCallable)
 	void SetAlignment();
 
-private:
+public:
+	UFUNCTION(BlueprintCallable)
 	ESlateVisibility SetUnlockedImageVisibility();
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	ESlateVisibility SetLockIconVisibility();
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	FLinearColor SetIconColor();
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	FSlateBrush SetIconBrush();
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	ESlateVisibility SetCheckVisibility();
+
+private:
+	UFUNCTION()
+	void OnButtonPressed();
+	UFUNCTION()
+	void OnButtonReleased();
+	UFUNCTION()
+	void OnButtonHovered();
+	UFUNCTION()
+	void OnButtonUnhovered();
 
 public:
 	virtual void NativePreConstruct() override;
 	virtual void NativeConstruct() override;
-	
 	void SaveSkill();
 
 private:
@@ -65,6 +84,9 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UImage> unlocked_image;
 
+	UPROPERTY()
+	TObjectPtr<UIKSaveGame> save_ref_;
+	
 	//
 	UPROPERTY(EditAnywhere)
 	TArray<int32> connected_indices_;
@@ -85,4 +107,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UPerkConnectionWidget> perk_connection_widget_class_;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<USaveGame> save_game_class_;
 };
