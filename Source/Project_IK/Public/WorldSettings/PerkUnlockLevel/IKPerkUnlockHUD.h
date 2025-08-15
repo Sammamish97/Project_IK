@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/HUD.h"
 #include "IKPerkUnlockHUD.generated.h"
 
+class UPerkHUDWidget;
 class UPerkUnlockWidget;
 
 /**
@@ -26,11 +27,13 @@ class PROJECT_IK_API AIKPerkUnlockHUD : public AHUD
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UUserWidget> perk_unlock_widget_class_;
+	TSubclassOf<UPerkHUDWidget> perk_unlock_widget_class_;
 
+	TObjectPtr<UPerkHUDWidget> GetPerkHUDWidget();
+	
 protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY()
-	TObjectPtr<UUserWidget> perk_unlock_widget_;
+	TObjectPtr<UPerkHUDWidget> perk_hud_widget_;
 };

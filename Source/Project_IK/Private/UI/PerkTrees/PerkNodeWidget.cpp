@@ -20,7 +20,9 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "UI/PerkTrees/PerkConnectionWidget.h"
+#include "UI/PerkTrees/PerkHUDWidget.h"
 #include "WorldSettings/IKSaveGame.h"
+#include "WorldSettings/PerkUnlockLevel/IKPerkUnlockHUD.h"
 
 void UPerkNodeWidget::UnlockSkill()
 {
@@ -209,7 +211,11 @@ void UPerkNodeWidget::NativeConstruct()
 	{
 		save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(save_game_class_));
 	}
-	auto saved_detail = 	save_ref_->LoadPerkDetails(perk_detail_.name_);
+
+	FString string_name = perk_detail_.name_.ToString();
+	FName name = FName(*string_name);
+	
+	auto saved_detail = 	save_ref_->LoadPerkDetails(name);
 	if (saved_detail.IsSet())
 	{
 		perk_detail_ = saved_detail.GetValue();
@@ -229,7 +235,9 @@ void UPerkNodeWidget::NativeConstruct()
 
 void UPerkNodeWidget::SaveSkill()
 {
-	save_ref_->SavePerkDetails(perk_detail_.name_, perk_detail_);
+	FString string_name = perk_detail_.name_.ToString();
+	FName name = FName(*string_name);
+	save_ref_->SavePerkDetails(name, perk_detail_);
 }
 
 void UPerkNodeWidget::OnButtonPressed()
@@ -263,11 +271,15 @@ void UPerkNodeWidget::OnButtonReleased()
 void UPerkNodeWidget::OnButtonHovered()
 {
 	//IKTODO: Popup 띄우기
+	auto hud = Cast<AIKPerkUnlockHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+	hud->GetPerkHUDWidget()->SetPopupDetail(perk_detail_);
 }
 
 void UPerkNodeWidget::OnButtonUnhovered()
 {
 	//IKTODO: Popup 띄우기
+	auto hud = Cast<AIKPerkUnlockHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+	hud->GetPerkHUDWidget()->SetPopupDetail(FPerkNodeDetail());
 }
 
 
