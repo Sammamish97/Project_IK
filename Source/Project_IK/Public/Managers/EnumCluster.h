@@ -839,4 +839,8 @@ enum class EAudioType : uint8
 	PistolShot UMETA(DisplayName = "Pistol Shot"),
 	RifleShot UMETA(DisplayName = "Rifle Shot"),
 	ShotgunShot UMETA(DisplayName = "Shotgun Shot"),
+	HeroDied UMETA(DisplayName = "Hero Died"),
+	EnemyDied UMETA(DisplayName = "Enemy Died"),
+	LevelWon UMETA(DisplayName = "Level Won"),
+	LevelDefeated UMETA(DisplayName = "Level Defeated"),
 };

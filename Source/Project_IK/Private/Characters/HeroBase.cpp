@@ -31,6 +31,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameState.h"
 
 #include "NiagaraFunctionLibrary.h"
+#include "Subsystems/AudioManagerSubsystem.h"
 
 AHeroBase::AHeroBase()
 {
@@ -127,7 +128,7 @@ void AHeroBase::Die()
 	if (casted_mode) casted_mode->RemoveHero(hero_type_);
 
 	weapon_mechanics_->DieWeaponActor();
-	
+	UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::HeroDied, GetActorLocation());
 
 	Super::Die();
 }

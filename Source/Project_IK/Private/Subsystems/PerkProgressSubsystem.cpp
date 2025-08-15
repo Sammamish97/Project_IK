@@ -17,10 +17,10 @@ void UPerkProgressSubsystem::Initialize(FSubsystemCollectionBase& collection)
 {
 	Super::Initialize(collection);
 
-	for (int32 i = 0; i < 20; i++)
-	{
-		AddProgress(i);
-	}
+	//for (int32 i = 0; i < 20; i++)
+	//{
+	//	AddProgress(i);
+	//}
 }
 
 void UPerkProgressSubsystem::Deinitialize()
