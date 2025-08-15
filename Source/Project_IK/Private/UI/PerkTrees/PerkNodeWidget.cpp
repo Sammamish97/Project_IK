@@ -38,11 +38,11 @@ void UPerkNodeWidget::UnlockSkill()
 void UPerkNodeWidget::PurchaseSkill()
 {
 	perk_detail_.purchased_ = true;
-	RemoveSkillPoint(perk_detail_.cost_);
 	if (save_ref_ == nullptr)
 	{
 		save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(save_game_class_));
 	}
+	RemoveSkillPoint(perk_detail_.cost_);
 	SaveSkill();
 	for (const auto& elem: GetConnectedSkills())
 	{

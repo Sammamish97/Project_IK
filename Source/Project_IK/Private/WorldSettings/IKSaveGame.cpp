@@ -27,8 +27,8 @@ void UIKSaveGame::SavePerkDetails(FName key, FPerkNodeDetail detail)
 		{
 			perk_node_map_.Remove(key);
 		}
-		perk_node_map_.Add(key, detail);
 	}
+	perk_node_map_.Add(key, detail);
 	UGameplayStatics::SaveGameToSlot(this, "Perks", 0);
 }
 
