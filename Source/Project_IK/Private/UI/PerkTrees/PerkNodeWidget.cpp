@@ -27,6 +27,10 @@ void UPerkNodeWidget::UnlockSkill()
 	if (perk_detail_.locked_)
 	{
 		perk_detail_.locked_ = false;
+		if (save_ref_ == nullptr)
+		{
+			save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(save_game_class_));
+		}
 		SaveSkill();
 	}
 }
@@ -58,7 +62,11 @@ bool UPerkNodeWidget::CanPurchase()
 void UPerkNodeWidget::RemoveSkillPoint(int32 amount)
 {
 	//어딘가에서 cost를 받아와야 함
-	
+	if (save_ref_->LoadPerkPoint().IsSet())
+	{
+		int32 left_point = save_ref_->LoadPerkPoint().GetValue();
+		save_ref_->SavePerkPoint(left_point - amount);
+	}
 }
 
 bool UPerkNodeWidget::IsPurchased()
@@ -197,6 +205,16 @@ void UPerkNodeWidget::NativePreConstruct()
 void UPerkNodeWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+	if (save_ref_ == nullptr)
+	{
+		save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(save_game_class_));
+	}
+	auto saved_detail = 	save_ref_->LoadPerkDetails(perk_detail_.name_);
+	if (saved_detail.IsSet())
+	{
+		perk_detail_ = saved_detail.GetValue();
+	}
+	
 	//IKTODO: 여기서 자신의 index에 해당하는 data를 불러 bind해야 함.
 	button_->OnPressed.AddDynamic(this, &UPerkNodeWidget::OnButtonPressed);
 	button_->OnReleased.AddDynamic(this, &UPerkNodeWidget::OnButtonReleased);

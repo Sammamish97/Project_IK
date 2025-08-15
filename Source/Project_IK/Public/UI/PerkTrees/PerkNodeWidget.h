@@ -42,7 +42,7 @@ public:
 	void SetAlignment();
 
 public:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	ESlateVisibility SetUnlockedImageVisibility();
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	ESlateVisibility SetLockIconVisibility();
