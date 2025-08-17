@@ -217,9 +217,6 @@ void UPerkNodeWidget::NativeConstruct()
 	button_->OnReleased.AddDynamic(this, &UPerkNodeWidget::OnButtonReleased);
 	button_->OnHovered.AddDynamic(this, &UPerkNodeWidget::OnButtonHovered);
 	button_->OnUnhovered.AddDynamic(this, &UPerkNodeWidget::OnButtonUnhovered);
-
-	thumbnail_->BrushDelegate.BindDynamic(this, &UPerkNodeWidget::SetIconBrush);
-	thumbnail_->ColorAndOpacityDelegate.BindDynamic(this, &UPerkNodeWidget::SetIconColor);
 }
 
 void UPerkNodeWidget::SaveSkill()
@@ -270,5 +267,3 @@ void UPerkNodeWidget::OnButtonUnhovered()
 	auto hud = Cast<AIKPerkUnlockHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 	hud->GetPerkHUDWidget()->SetPopupDetail(FPerkNodeDetail());
 }
-
-
