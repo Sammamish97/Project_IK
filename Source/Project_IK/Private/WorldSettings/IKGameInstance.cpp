@@ -23,6 +23,7 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "Subsystems/GlobalBuffSubsystem.h"
+#include "WorldSettings/IKSaveGame.h"
 
 UIKGameInstance::UIKGameInstance()
 	:Super::UGameInstance()
@@ -47,19 +48,32 @@ void UIKGameInstance::Init()
 void UIKGameInstance::Shutdown()
 {
 	// Enhance data by recorded progress.
-	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
-	const TArray<FPerkNode>& tree = GetTree();
+	// UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
+	// const TArray<FPerkNode>& tree = GetTree();
+	//
+	// const TSet<int32>& progress = progress_system->GetProgress();
+	// for (int32 p : progress)
+	// {
+	// 	UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, tree[p].effect_class_);
+	// 	if (perk_effect)
+	// 	{
+	// 		perk_effect->RemoveEffect();
+	// 	}
+	// }
 
-	const TSet<int32>& progress = progress_system->GetProgress();
-	for (int32 p : progress)
+	//IKTODO: 이 코드는 전투 레벨의 끝에서만 불려야 한다?
+	auto save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(UIKSaveGame::StaticClass()));
+	for (const auto&[name, perk] : save_ref_->LoadAllPerkDetails())
 	{
-		UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, tree[p].effect_class_);
-		if (perk_effect)
+		if (perk.purchased_)
 		{
-			perk_effect->RemoveEffect();
+			if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
+			{
+				perk_effect->RemoveEffect();
+			}
 		}
 	}
-
+	
 	//TODO: 여기서 ULevelTransitionSubsystem의 저장이 필요한 data들을 disk에 write해야 함.
 	Super::Shutdown();
 }
@@ -150,15 +164,29 @@ void UIKGameInstance::InitEventManager()
 void UIKGameInstance::InitializePerkEffectsAlreadyUnlocked()
 {
 	// Enhance data by recorded progress.
-	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
-	const TArray<FPerkNode>& tree = GetTree();
-	const TSet<int32>& progress = progress_system->GetProgress();
-	for (int32 p : progress)
+	
+	// UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
+	// const TArray<FPerkNode>& tree = GetTree();
+	// const TSet<int32>& progress = progress_system->GetProgress();
+	// for (int32 p : progress)
+	// {
+	// 	UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, tree[p].effect_class_);
+	// 	if (perk_effect)
+	// 	{
+	// 		perk_effect->ApplyEffect();
+	// 	}
+	// }
+
+	//IKTODO: 이 코드는 전투 레벨의 시작 직전에서만 불려야 한다?
+	auto save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(UIKSaveGame::StaticClass()));
+	for (const auto&[name, perk] : save_ref_->LoadAllPerkDetails())
 	{
-		UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, tree[p].effect_class_);
-		if (perk_effect)
+		if (perk.purchased_)
 		{
-			perk_effect->ApplyEffect();
+			if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
+			{
+				perk_effect->ApplyEffect();
+			}
 		}
 	}
 }

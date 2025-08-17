@@ -18,6 +18,7 @@ See LICENSE file in the project root for full license information.
 class UImage;
 class UHorizontalBox;
 class UTextBlock;
+class UTextManager;
 
 UCLASS()
 class PROJECT_IK_API UPerkPopupWidget : public UUserWidget
@@ -57,6 +58,9 @@ private:
 
 	UPROPERTY()
 	FPerkNodeDetail perk_data_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UTextManager> text_manager_cache_;
 
 	float offset_x;
 	float offset_y;

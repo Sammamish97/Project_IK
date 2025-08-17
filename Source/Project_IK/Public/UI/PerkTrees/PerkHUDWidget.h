@@ -19,9 +19,8 @@ class UPerkConnectionWidget;
 struct FPerkNodeDetail;
 class UPerkPopupWidget;
 class UIKSaveGame;
-/**
- * 
- */
+class UTextManager;
+
 UCLASS()
 class PROJECT_IK_API UPerkHUDWidget : public UUserWidget
 {
@@ -36,13 +35,13 @@ public:
 	virtual FReply NativeOnMouseWheel(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	
 	void SetPopupDetail(const FPerkNodeDetail& node_detail);
+	void SetPerkPointText();
 	bool IsMenuOpened() const;
 	void ToggleMenu(bool open);
 
 private:
 	//void UpdatePerkTreeConnectionOpacity();
 	//void UpdatePerkTreeTransform();
-	FText SetPerkPointText();
 	float ClampPerkConnectionOpacity(float value);
 	
 private:
@@ -63,6 +62,9 @@ private:
 	
 	UPROPERTY(Transient)
 	TObjectPtr<UIKSaveGame> save_ref_;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UTextManager> text_manager_cache_;
 	
 	bool is_menu_opened_ = true;
 	bool is_mouse_down_;

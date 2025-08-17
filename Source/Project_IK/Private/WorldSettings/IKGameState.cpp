@@ -95,7 +95,7 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 				selected_hero_type_ = hero_type;
 				selected_skill_type_ = ESelectedSkill::ActiveSkill;
 				
-				FText name = text_manager_cache_->GetNameText(casted_hero->GetActiveSkillItemData().display_data_->text_key_);
+				FText name = text_manager_cache_->GetActiveSkillNameText(casted_hero->GetActiveSkillItemData().display_data_->text_key_);
 				auto active_skill_data = casted_hero->GetActiveSkillMechanics()->GetEquippedActiveSkillData();
 				auto active_skill_popup = Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetActiveSkillPopupWidget();
 				active_skill_popup->UpdatePopupData(
@@ -120,8 +120,8 @@ void AIKGameState::ActivateSupportSkill(int32 support_num)
 			selected_support_num_ = support_num;
 			selected_skill_type_ = ESelectedSkill::SupportSKill;
 			
-			FText name = text_manager_cache_->GetNameText(support_skill_data_[support_num]->display_data_->text_key_);
-			FText detail = text_manager_cache_->GetDetailText(support_skill_data_[support_num]->display_data_->text_key_);
+			FText name = text_manager_cache_->GetActiveSkillNameText(support_skill_data_[support_num]->display_data_->text_key_);
+			FText detail = text_manager_cache_->GetActiveSkillDetailText(support_skill_data_[support_num]->display_data_->text_key_);
 
 			auto support_skill_popup =Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSupportSkillPopupWidget();
 			support_skill_popup->UpdatePopupData(

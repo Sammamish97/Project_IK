@@ -10,14 +10,44 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/TextManager.h"
 
-FText UTextManager::GetNameText(const FString& key) const
+FText UTextManager::GetActiveSkillNameText(const FString& key) const
 {
-	return FText::FromStringTable(name_table_->GetStringTableId(), key);
+	return FText::FromStringTable(active_skill_name_table_->GetStringTableId(), key);
 }
 
-FText UTextManager::GetDetailText(const FString& key) const
+FText UTextManager::GetActiveSkillDetailText(const FString& key) const
 {
-	return FText::FromStringTable(detail_table_->GetStringTableId(), key);
+	return FText::FromStringTable(active_skill_detail_table_->GetStringTableId(), key);
+}
+
+FText UTextManager::GetPassiveSkillNameText(const FString& key) const
+{
+	return FText::FromStringTable(passive_skill_name_table_->GetStringTableId(), key);
+}
+
+FText UTextManager::GetPassiveSkillDetailText(const FString& key) const
+{
+	return FText::FromStringTable(passive_skill_detail_table_->GetStringTableId(), key);
+}
+
+FText UTextManager::GetSupportSkillNameText(const FString& key) const
+{
+	return FText::FromStringTable(support_skill_name_table_->GetStringTableId(), key);
+}
+
+FText UTextManager::GetSupportSkillDetailText(const FString& key) const
+{
+	return FText::FromStringTable(support_skill_detail_table_->GetStringTableId(), key);
+}
+
+FText UTextManager::GetPerkNameText(const FString& key) const
+{
+	return FText::FromStringTable(perk_name_table_->GetStringTableId(), key);
+}
+
+FText UTextManager::GetPerkDetailText(const FString& key) const
+{
+	return FText::FromStringTable(perk_detail_table_->GetStringTableId(), key);
 }
 
 FText UTextManager::GetStatusText(ECharacterStatType stat_type) const

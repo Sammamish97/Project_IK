@@ -13,7 +13,13 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/CanvasPanelSlot.h"
 #include "Components/TextBlock.h"
+#include "DataAssets/DisplayDataAsset.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetTextLibrary.h"
+#include "Managers/TextManager.h"
+#include "WorldSettings/IKGameInstance.h"
+
+class UIKGameInstance;
 
 void UPerkPopupWidget::NativePreConstruct()
 {
@@ -27,6 +33,8 @@ void UPerkPopupWidget::NativePreConstruct()
 void UPerkPopupWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	text_manager_cache_ = game_instance->GetTextManager();
 }
 
 void UPerkPopupWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -57,27 +65,26 @@ void UPerkPopupWidget::UpdateSkillDetail()
 	FText cost_text;
 	if (perk_data_.purchased_)
 	{
-		cost_text = FText::FromName("Purchased");
+		cost_text = text_manager_cache_->GetPopUpText("PURCHASED");
 	}
 	else
 	{
-		cost_text = FText::FromName("Cost: {cost}");
-		
+		cost_text = text_manager_cache_->GetPopUpText("PP");
 		FFormatNamedArguments args;
-		args.Add("cost", FText::AsNumber(perk_data_.cost_));
+		args.Add("PP", FText::AsNumber(perk_data_.cost_));
 		
 		cost_text = FText::Format(cost_text, args);
 	}
 	
 	cost_text_->SetText(cost_text);
-	name_text_->SetText(perk_data_.name_);
-	name_text_->SetText(perk_data_.detail_);
+	name_text_->SetText(text_manager_cache_->GetPerkNameText(perk_data_.display_data_->text_key_));
+	detail_text_->SetText(text_manager_cache_->GetPerkDetailText(perk_data_.display_data_->text_key_));
 }
 
 void UPerkPopupWidget::SetPerkData(const FPerkNodeDetail& perk_data)
 {
 	perk_data_ = perk_data;
-	if (UKismetTextLibrary::TextIsEmpty(perk_data_.name_))
+	if (perk_data_.display_data_ == nullptr)
 	{
 		SetVisibility(ESlateVisibility::Hidden);
 	}

@@ -16,9 +16,9 @@ See LICENSE file in the project root for full license information.
 #include "Components/CanvasPanelSlot.h"
 #include "Components/Image.h"
 #include "Components/Overlay.h"
+#include "DataAssets/DisplayDataAsset.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "Kismet/KismetSystemLibrary.h"
 #include "UI/PerkTrees/PerkConnectionWidget.h"
 #include "UI/PerkTrees/PerkHUDWidget.h"
 #include "WorldSettings/IKSaveGame.h"
@@ -29,10 +29,6 @@ void UPerkNodeWidget::UnlockSkill()
 	if (perk_detail_.locked_)
 	{
 		perk_detail_.locked_ = false;
-		if (save_ref_ == nullptr)
-		{
-			save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(save_game_class_));
-		}
 		SaveSkill();
 	}
 }
@@ -40,10 +36,6 @@ void UPerkNodeWidget::UnlockSkill()
 void UPerkNodeWidget::PurchaseSkill()
 {
 	perk_detail_.purchased_ = true;
-	if (save_ref_ == nullptr)
-	{
-		save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(save_game_class_));
-	}
 	RemoveSkillPoint(perk_detail_.cost_);
 	SaveSkill();
 	for (const auto& elem: GetConnectedSkills())
@@ -54,21 +46,22 @@ void UPerkNodeWidget::PurchaseSkill()
 
 bool UPerkNodeWidget::CanPurchase()
 {
-	//어딘가에서 cost를 받아와야 함.
-	int32 hard_code_cost = 3;
-	return perk_detail_.cost_ < hard_code_cost &&
+	//IKTODO: 어딘가에서 cost를 받아와야 함.
+	//int32 cur_point = save_ref_->LoadPerkPoint();
+	int32 cur_point = 5;
+	return perk_detail_.cost_ < cur_point &&
 		perk_detail_.purchased_ == false &&
 		perk_detail_.locked_ == false;
 }
 
 void UPerkNodeWidget::RemoveSkillPoint(int32 amount)
 {
-	//어딘가에서 cost를 받아와야 함
-	if (save_ref_->LoadPerkPoint().IsSet())
-	{
-		int32 left_point = save_ref_->LoadPerkPoint().GetValue();
-		save_ref_->SavePerkPoint(left_point - amount);
-	}
+	int32 left_point = save_ref_->LoadPerkPoint();
+	save_ref_->SavePerkPoint(left_point - amount);
+	
+	auto hud = Cast<AIKPerkUnlockHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+	hud->GetPerkHUDWidget()->SetPerkPointText();
+	
 }
 
 bool UPerkNodeWidget::IsPurchased()
@@ -184,7 +177,7 @@ FLinearColor UPerkNodeWidget::SetIconColor()
 
 FSlateBrush UPerkNodeWidget::SetIconBrush()
 {
-	return UWidgetBlueprintLibrary::MakeBrushFromTexture(perk_detail_.thumbnail, 60, 60);
+	return UWidgetBlueprintLibrary::MakeBrushFromTexture(perk_detail_.display_data_->thumbnail, 60, 60);
 }
 
 ESlateVisibility UPerkNodeWidget::SetCheckVisibility()
@@ -212,16 +205,14 @@ void UPerkNodeWidget::NativeConstruct()
 		save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(save_game_class_));
 	}
 
-	FString string_name = perk_detail_.name_.ToString();
+	FString string_name = perk_detail_.display_data_->text_key_;
 	FName name = FName(*string_name);
-	
-	auto saved_detail = 	save_ref_->LoadPerkDetails(name);
-	if (saved_detail.IsSet())
+
+	if (save_ref_->LoadPerkDetails(name).display_data_)
 	{
-		perk_detail_ = saved_detail.GetValue();
+		perk_detail_ = save_ref_->LoadPerkDetails(name);
 	}
 	
-	//IKTODO: 여기서 자신의 index에 해당하는 data를 불러 bind해야 함.
 	button_->OnPressed.AddDynamic(this, &UPerkNodeWidget::OnButtonPressed);
 	button_->OnReleased.AddDynamic(this, &UPerkNodeWidget::OnButtonReleased);
 	button_->OnHovered.AddDynamic(this, &UPerkNodeWidget::OnButtonHovered);
@@ -229,13 +220,11 @@ void UPerkNodeWidget::NativeConstruct()
 
 	thumbnail_->BrushDelegate.BindDynamic(this, &UPerkNodeWidget::SetIconBrush);
 	thumbnail_->ColorAndOpacityDelegate.BindDynamic(this, &UPerkNodeWidget::SetIconColor);
-	save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(save_game_class_));
-	//perk_detail_ = save_ref_->LoadPerkDetails(perk_detail_.name_);
 }
 
 void UPerkNodeWidget::SaveSkill()
 {
-	FString string_name = perk_detail_.name_.ToString();
+	FString string_name = perk_detail_.display_data_->text_key_;
 	FName name = FName(*string_name);
 	save_ref_->SavePerkDetails(name, perk_detail_);
 }

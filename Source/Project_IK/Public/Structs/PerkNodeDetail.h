@@ -14,22 +14,18 @@ See LICENSE file in the project root for full license information.
 #include "PerkNodeDetail.generated.h"
 
 class UDisplayDataAsset;
+class UPerkEffectBase;
 
 USTRUCT()
 struct PROJECT_IK_API FPerkNodeDetail
 {
 	GENERATED_BODY()
 
-	//Name은 이름이자 이 detail의 Key로서 사용한다.
-	//int32를 사용해도 되지만, 가독성을 위해 Text를 사용한다.
 	UPROPERTY(EditAnywhere)
-	FText name_;
+	TObjectPtr<UDisplayDataAsset> display_data_ = nullptr;
 
 	UPROPERTY(EditAnywhere)
-	FText detail_;
-
-	UPROPERTY(EditAnywhere)
-	TObjectPtr<UTexture2D> thumbnail = nullptr;
+	TSubclassOf<UPerkEffectBase> perk_effect_class = nullptr;
 	
 	UPROPERTY(EditAnywhere)
 	int32 cost_;

@@ -86,7 +86,7 @@ void UActiveSkillSlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, con
 			detail = active_skill_data_cache_.BuildDetailText(GetWorld());
 		}
 		inventory_widget_cache_->CreateActiveSkillPopupWidget(item_data_cache_.display_data_->thumbnail,
-			text_manager_cache_->GetNameText(item_data_cache_.display_data_->text_key_),
+			text_manager_cache_->GetActiveSkillNameText(item_data_cache_.display_data_->text_key_),
 			detail,
 			active_skill_data_cache_.cool_time_);
 	}

@@ -18,8 +18,10 @@ See LICENSE file in the project root for full license information.
 #include "Components/TextBlock.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Managers/TextManager.h"
 #include "UI/PerkTrees/PerkConnectionWidget.h"
 #include "UI/PerkTrees/PerkPopupWidget.h"
+#include "WorldSettings/IKGameInstance.h"
 #include "WorldSettings/IKSaveGame.h"
 
 void UPerkHUDWidget::NativePreConstruct()
@@ -38,6 +40,15 @@ void UPerkHUDWidget::NativeConstruct()
 	TArray<UUserWidget*> output_;
 	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), output_, UPerkConnectionWidget::StaticClass(), false);
 	perk_connections_cache_ = output_;
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	text_manager_cache_ = game_instance->GetTextManager();
+	SetPerkPointText();
+
+	if (save_ref_ == nullptr)
+	{
+		save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(UIKSaveGame::StaticClass()));
+	}
+	save_ref_->SavePerkPoint(10);
 }
 
 void UPerkHUDWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -124,24 +135,13 @@ void UPerkHUDWidget::ToggleMenu(bool open)
 	is_menu_opened_ = open;
 }
 
-FText UPerkHUDWidget::SetPerkPointText()
+void UPerkHUDWidget::SetPerkPointText()
 {
-	FText result = FText::FromString("Skill Points: {sp}");
 	FFormatNamedArguments args;
-	if (save_ref_ == nullptr)
-	{
-		save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(UIKSaveGame::StaticClass()));
-	}
-	auto perk_point = save_ref_->LoadPerkPoint();
-	if (perk_point.IsSet())
-	{
-		args.Add("sp", FText::AsNumber(perk_point.GetValue()));
-	}
-	else
-	{
-		args.Add("sp", FText::AsNumber(-1));
-	}
-	return FText::Format(result, args);
+	FText base_text = text_manager_cache_->GetPopUpText("PP");
+	
+	args.Add("PP", FText::AsNumber( save_ref_->LoadPerkPoint()));
+	perk_point_text_->SetText(FText::Format(base_text, args));
 }
 
 float UPerkHUDWidget::ClampPerkConnectionOpacity(float value)

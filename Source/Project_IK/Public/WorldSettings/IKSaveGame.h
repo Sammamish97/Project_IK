@@ -20,18 +20,18 @@ class PROJECT_IK_API UIKSaveGame : public USaveGame
 {
 	GENERATED_BODY()
 public:
-	UIKSaveGame();
+	void CreateEmptySaveFile();
 	void SavePerkDetails(FName key, FPerkNodeDetail detail);
-	TOptional<FPerkNodeDetail> LoadPerkDetails(FName key);
-	TOptional<TMap<FName, FPerkNodeDetail>> LoadAllPerkDetails();
+	FPerkNodeDetail LoadPerkDetails(FName key);
+	TMap<FName, FPerkNodeDetail> LoadAllPerkDetails();
 	
 	void SavePerkPoint(int32 perk_point);
-	TOptional<int32> LoadPerkPoint();
+	int32 LoadPerkPoint();
 	void DeleteSaveFiles();
 	
 private:
 	UPROPERTY()
-	int32 perk_points_ = 10;
+	int32 perk_points_;
 	UPROPERTY()
 	TMap<FName, FPerkNodeDetail> perk_node_map_;
 };

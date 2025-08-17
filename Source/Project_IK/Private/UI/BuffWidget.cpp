@@ -29,8 +29,8 @@ void UBuffWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointer
 	UTextManager* text_manager = game_instance->GetTextManager();
 	
 	buff_popup_ref_->UpdatePopupData(display_data_cache_->thumbnail,
-		text_manager->GetNameText(display_data_cache_->text_key_),
-		text_manager->GetDetailText(display_data_cache_->text_key_));
+		text_manager->GetActiveSkillNameText(display_data_cache_->text_key_),
+		text_manager->GetActiveSkillDetailText(display_data_cache_->text_key_));
 }
 
 void UBuffWidget::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)

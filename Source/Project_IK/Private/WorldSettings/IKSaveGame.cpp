@@ -12,9 +12,11 @@ See LICENSE file in the project root for full license information.
 
 #include "Kismet/GameplayStatics.h"
 
-UIKSaveGame::UIKSaveGame()
+void UIKSaveGame::CreateEmptySaveFile()
 {
-	//DeleteSaveFiles();
+	perk_points_ = 0;
+	perk_node_map_.Empty();
+	UGameplayStatics::SaveGameToSlot(this, "Perks", 0);
 }
 
 void UIKSaveGame::SavePerkDetails(FName key, FPerkNodeDetail detail)
@@ -32,7 +34,7 @@ void UIKSaveGame::SavePerkDetails(FName key, FPerkNodeDetail detail)
 	UGameplayStatics::SaveGameToSlot(this, "Perks", 0);
 }
 
-TOptional<FPerkNodeDetail> UIKSaveGame::LoadPerkDetails(FName key)
+FPerkNodeDetail UIKSaveGame::LoadPerkDetails(FName key)
 {
 	if (UGameplayStatics::DoesSaveGameExist("Perks", 0))
 	{
@@ -43,39 +45,41 @@ TOptional<FPerkNodeDetail> UIKSaveGame::LoadPerkDetails(FName key)
 			return perk_data[key];
 		}
 	}
-	return NullOpt;
+	return FPerkNodeDetail();
 }
 
-TOptional<TMap<FName, FPerkNodeDetail>> UIKSaveGame::LoadAllPerkDetails()
+TMap<FName, FPerkNodeDetail> UIKSaveGame::LoadAllPerkDetails()
 {
 	if (UGameplayStatics::DoesSaveGameExist("Perks", 0))
 	{
 		auto perk_save = UGameplayStatics::LoadGameFromSlot("Perks", 0);
 		return Cast<UIKSaveGame>(perk_save)->perk_node_map_;
 	}
-	return NullOpt;
+	return TMap<FName, FPerkNodeDetail>();
 }
 
 void UIKSaveGame::SavePerkPoint(int32 perk_point)
 {
-	if (UGameplayStatics::DoesSaveGameExist("Perks", 0))
+	if (UGameplayStatics::DoesSaveGameExist("PerkPoints", 0))
 	{
 		perk_points_ = perk_point;
 	}
-	UGameplayStatics::SaveGameToSlot(this, "Perks", 0);
+	UGameplayStatics::SaveGameToSlot(this, "PerkPoints", 0);
 }
 
-TOptional<int32> UIKSaveGame::LoadPerkPoint()
+int32 UIKSaveGame::LoadPerkPoint()
 {
-	if (UGameplayStatics::DoesSaveGameExist("Perks", 0))
+	if (UGameplayStatics::DoesSaveGameExist("PerkPoints", 0))
 	{
-		auto perk_save = UGameplayStatics::LoadGameFromSlot("Perks", 0);
+		auto perk_save = UGameplayStatics::LoadGameFromSlot("PerkPoints", 0);
 		return Cast<UIKSaveGame>(perk_save)->perk_points_;
 	}
-	return NullOpt; 
+	return -1; 
 }
 
 void UIKSaveGame::DeleteSaveFiles()
 {
 	UGameplayStatics::DeleteGameInSlot("Perks", 0);
+	UGameplayStatics::DeleteGameInSlot("PerkPoints", 0);
+
 }
