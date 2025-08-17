@@ -34,6 +34,8 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/PerkModifierSubsystem.h"
 #include "Managers/InventoryManager.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 AIKGameModeBase::AIKGameModeBase()
 	: Super::AGameModeBase()
 {
@@ -257,6 +259,8 @@ void AIKGameModeBase::OnGameWin()
 			inventory->AddCredits(credits);
 		}
 	}
+
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::LevelWon);
 }
 
 void AIKGameModeBase::OnGameLose()
@@ -271,6 +275,9 @@ void AIKGameModeBase::OnGameLose()
 			ik_instance->ClearRunData();
 		}
 	}
+
+
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::LevelDefeated);
 }
 
 void AIKGameModeBase::RecordDamage(float damage, TWeakObjectPtr<AActor> attacker)

@@ -412,7 +412,7 @@ bool UPerkUnlockWidget::UnlockPerk(int32 clicked_index)
 		UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, tree[clicked_index].effect_class_);
 		if (perk_effect)
 		{
-			perk_effect->RemoveEffect();
+			perk_effect->ApplyEffect();
 		}
 	}
 

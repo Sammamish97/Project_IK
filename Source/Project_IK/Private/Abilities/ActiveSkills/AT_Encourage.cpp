@@ -18,9 +18,13 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 
 //IKTODO: 실드에 계수를 추가하는것도 좋을듯 하다.
+#include "NiagaraFunctionLibrary.h"
+#include "Components/CapsuleComponent.h"
+#include "NiagaraComponent.h"
+
 UAT_Encourage::UAT_Encourage()
 {
-	target_param_ = FTargetParameters(ETargetingMode::Location, ETargetType::All, 0.f, 1000.f, false);
+	target_param_ = FTargetParameters(ETargetingMode::Location, ETargetType::Allies, 0.f, 1000.f, false);
 }
 
 void UAT_Encourage::InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data)
@@ -38,22 +42,34 @@ void UAT_Encourage::OnEnterCasting()
 
 bool UAT_Encourage::ActivateSkill(const FTargetResult& TargetResult)
 {
+	SpawnSkillParticle(TargetResult);
+
+
 	for (AActor* ally : TargetResult.target_actors_)
 	{
-		// if (AHeroBase* casted_hero = Cast<AHeroBase>(ally))
-		// {
-		// 	buff_->ApplyBuff(casted_hero);
-		// 	if (IsUpgradedActiveSkill(skill_data_.type_))
-		// 	{
-		// 		casted_hero->ReduceActiveSkillCoolDown(1.f);
-		// 	}
-		// }
-
 		if (AUnit* casted_hero = Cast<AUnit>(ally))
 		{
 			buff_->ApplyBuff(casted_hero);
+
+			UNiagaraFunctionLibrary::SpawnSystemAttached(encouraged_target_fx_, casted_hero->GetMesh(), FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget, true);
 		}
 	}
 
 	return Super::ActivateSkill(TargetResult);
+}
+
+void UAT_Encourage::SpawnSkillParticle(const FTargetResult& TargetResult)
+{
+	FVector ground_offset = FVector::ZeroVector;
+
+	UCapsuleComponent* capsule = Cast<UCapsuleComponent>(skill_owner_->GetRootComponent());
+	if (capsule)
+	{
+		ground_offset.Z = capsule->GetScaledCapsuleHalfHeight();
+	}
+	UNiagaraComponent* component = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, encourage_fx_, TargetResult.target_location_ - ground_offset);
+	if (component)
+	{
+		component->SetFloatParameter(FName("Radius"), target_param_.radius_);
+	}
 }

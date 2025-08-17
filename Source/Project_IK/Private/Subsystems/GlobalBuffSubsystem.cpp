@@ -219,6 +219,10 @@ void UGlobalBuffSubsystem::AddEverlastingBuff(EGlobalBuffType buff_type)
 
 void UGlobalBuffSubsystem::RemoveEverlastingBuff(EGlobalBuffType buff_type)
 {
+	if (everlasting_buff_.Contains(buff_type) == false)
+	{
+		return;
+	}
 	everlasting_buff_.Remove(buff_type);
 
 	buff_logic_containers_[buff_type]->OnBuffExpired();
