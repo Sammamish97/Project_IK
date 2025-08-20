@@ -21,6 +21,8 @@ See LICENSE file in the project root for full license information.
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 // Sets default values
 AFateSpiral::AFateSpiral()
 {
@@ -68,6 +70,8 @@ void AFateSpiral::BeginPlay()
 
 void AFateSpiral::ConductLogic()
 {
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::FateSpiral);
+
 	++jump_count_;
 
 	// @@ TODO: Need additional logic if departure became NULLPTR

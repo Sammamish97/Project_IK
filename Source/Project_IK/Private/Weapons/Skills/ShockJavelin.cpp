@@ -17,6 +17,10 @@ See LICENSE file in the project root for full license information.
 
 #include "NiagaraComponent.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+#include "Components/AudioComponent.h"
+
+
 // Sets default values
 AShockJavelin::AShockJavelin()
 {
@@ -59,6 +63,13 @@ void AShockJavelin::Tick(float DeltaSeconds)
 		movement_->Velocity = GetActorForwardVector() * movement_->InitialSpeed;
 		movement_->Activate();
 		has_dispatched_ = true;
+
+
+		if (audio_component_)
+		{
+			audio_component_->Stop();
+		}
+		audio_component_ = UAudioManagerSubsystem::Get(this)->PlayAttached(EAudioType::ShockJavelinFired, collision_);
 	}
 }
 
@@ -69,6 +80,12 @@ void AShockJavelin::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 	// Overlapped on Cover or Characters.
 	if (casted_damage_logic)
 	{
+		if (audio_component_)
+		{
+			audio_component_->Stop();
+		}
+		UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::ShockJavelinHit, GetActorLocation());
+
 		dmg_data_.attack_target_ = OtherActor;
 		Cast<AUnit>(OtherActor)->GetStunned(stun_duration_);
 		casted_damage_logic->GetDamage(dmg_data_);
@@ -91,4 +108,6 @@ void AShockJavelin::BeginPlay()
 	Super::BeginPlay();
 
 	movement_->Deactivate();
+
+	audio_component_ = UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::ShockJavelinChargeBegan, GetActorLocation());
 }

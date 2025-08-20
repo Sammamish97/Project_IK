@@ -843,4 +843,9 @@ enum class EAudioType : uint8
 	EnemyDied UMETA(DisplayName = "Enemy Died"),
 	LevelWon UMETA(DisplayName = "Level Won"),
 	LevelDefeated UMETA(DisplayName = "Level Defeated"),
+	ShockJavelinChargeBegan UMETA(DisplayName = "ShockJavelin ChargeBegan"),
+	ShockJavelinFired UMETA(DisplayName = "ShockJavelin Fired"),
+	ShockJavelinHit UMETA(DisplayName = "ShockJavelin Hit"),
+	FateSpiral UMETA(DisplayName = "FateSpiral"),
+	CombatAmbient UMETA(DisplayName = "Combat Ambient"),
 };
