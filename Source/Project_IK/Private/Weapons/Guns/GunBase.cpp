@@ -155,7 +155,17 @@ void AGunBase::PlayFireFXs() const
 		ejection_particle_component_->Activate(true);
 	}
 
-	UAudioManagerSubsystem::Get(this)->PlayAtLocation(gunshot_audio_type_, GetActorLocation());
+	if (AUnit* owner = weak_gun_owner_.Get())
+	{
+		if (owner->IsA<AHeroBase>())
+		{
+			UAudioManagerSubsystem::Get(this)->PlayAtLocation(gunshot_audio_type_, GetActorLocation());
+			return;
+		}
+	}
+
+	// Reduce volume of enemy gunshots
+	UAudioManagerSubsystem::Get(this)->PlayAtLocation(gunshot_audio_type_, GetActorLocation(), 0.5f);
 }
 
 void AGunBase::OnGunDied()

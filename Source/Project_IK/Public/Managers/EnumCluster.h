@@ -839,6 +839,12 @@ enum class EAudioType : uint8
 	PistolShot UMETA(DisplayName = "Pistol Shot"),
 	RifleShot UMETA(DisplayName = "Rifle Shot"),
 	ShotgunShot UMETA(DisplayName = "Shotgun Shot"),
+	PistolBeginReloaing UMETA(DisplayName = "Pistol Begin Reloaing"),
+	RifleBeginReloaing UMETA(DisplayName = "Rifle Begin Reloaing"),
+	ShotgunBeginReloaing UMETA(DisplayName = "Shotgun Begin Reloaing"),
+	PistolFinishReloaing UMETA(DisplayName = "Pistol Finish Reloaing"),
+	RifleFinishReloaing UMETA(DisplayName = "Rifle Finish Reloaing"),
+	ShotgunFinishReloaing UMETA(DisplayName = "Shotgun Finish Reloaing"),
 	HeroDied UMETA(DisplayName = "Hero Died"),
 	EnemyDied UMETA(DisplayName = "Enemy Died"),
 	LevelWon UMETA(DisplayName = "Level Won"),
@@ -848,4 +854,5 @@ enum class EAudioType : uint8
 	ShockJavelinHit UMETA(DisplayName = "ShockJavelin Hit"),
 	FateSpiral UMETA(DisplayName = "FateSpiral"),
 	CombatAmbient UMETA(DisplayName = "Combat Ambient"),
+	ThunderStormEnvironmental UMETA(DisplayName = "ThunderStorm Environmental"),
 };

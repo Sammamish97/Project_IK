@@ -20,6 +20,7 @@ class UNiagaraComponent;
 class USoundCue;
 struct FDamageData;
 class AIKPostProcessVolume;
+class UAudioComponent;
 
 UCLASS()
 class PROJECT_IK_API AThunderStorm : public AActor
@@ -31,7 +32,7 @@ public:
 	AThunderStorm();
 
 	UFUNCTION(BlueprintCallable)
-	void SetNecessaryData(float radius, float scaling_factor, float damage, AActor* skill_owner);
+	void SetNecessaryData(float radius, float scaling_factor, float damage, AActor* skill_owner, float max_damage_count = 4);
 
 	void DamageEnemies();
 	void BeginThunderStormPostProcess();
@@ -56,6 +57,7 @@ protected:
 	TObjectPtr<UDecalComponent> decal_ = nullptr;
 
 	int32 storm_damage_count_ = 0;
+	int32 max_storm_count_ = 0;
 	FTimerHandle damage_handler_;
 	float radius_ = 0.f;
 	float scaling_factor_ = 0.f;
@@ -74,4 +76,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UMaterialInterface> visual_material_ = nullptr;
 
+	UAudioComponent* environmental_audio_component_ = nullptr;
+
+	float first_delay_ = 1.f;
+	float gap_between_damages_ = 0.5f;
 };
