@@ -855,4 +855,6 @@ enum class EAudioType : uint8
 	FateSpiral UMETA(DisplayName = "FateSpiral"),
 	CombatAmbient UMETA(DisplayName = "Combat Ambient"),
 	ThunderStormEnvironmental UMETA(DisplayName = "ThunderStorm Environmental"),
+	Encourage UMETA(DisplayName = "Encourage"),
+	MagnetizedBulletsActivated UMETA(DisplayName = "MagnetizedBullets Activated"),
 };

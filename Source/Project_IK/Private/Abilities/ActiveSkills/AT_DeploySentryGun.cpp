@@ -30,14 +30,25 @@ void UAT_DeploySentryGun::OnEnterCasting()
 	Cast<AUnit>(skill_owner_)->PlayAnimMontage(casting_anim_montage_);
 }
 
+void UAT_DeploySentryGun::Tick(float DeltaTime)
+{
+	
+}
+
 bool UAT_DeploySentryGun::ActivateSkill(const FTargetResult& TargetResult)
 {
 	if (sentry_gun_class_)
 	{
 		AUnit* owner_unit = Cast<AUnit>(skill_owner_);
 		UCharacterStatComponent* stat_component_cache = owner_unit->GetCharacterStat();
-		sentry_gun_actor_ = skill_owner_->GetWorld()->SpawnActor<ASentryGun>(sentry_gun_class_, TargetResult.target_location_, FRotator::ZeroRotator);
-		sentry_gun_actor_->InitSentryGun(IsUpgradedActiveSkill(skill_data_.type_),stat_component_cache->GetSkillPower());
+		if (stat_component_cache)
+		{
+			sentry_gun_actor_ = skill_owner_->GetWorld()->SpawnActor<ASentryGun>(sentry_gun_class_, TargetResult.target_location_, FRotator::ZeroRotator);
+			if (sentry_gun_actor_)
+			{
+				sentry_gun_actor_->InitSentryGun(IsUpgradedActiveSkill(skill_data_.type_), stat_component_cache->GetSkillPower());
+			}
+		}
 	}
 	return Super::ActivateSkill(TargetResult);
 }
