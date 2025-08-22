@@ -16,13 +16,17 @@ void UBF_Maintain::ApplyBuff(AUnit* target)
 {
 	target_cache_ = target;
 	target->AcquireShield(shield_amount_, 5.f);
-	FTimerDelegate heal_del = FTimerDelegate::CreateUObject(this, &UBF_Maintain::Heal);
-	GetWorld()->GetTimerManager().SetTimer(heal_timer_handle_, heal_del, 0.5f, true);
+	FTimerDelegate heal_del = FTimerDelegate::CreateUObject(this, &UBF_Maintain::RemoveBuff, target_cache_.Get());
+	FTimerDelegate heal_tick_del = FTimerDelegate::CreateUObject(this, &UBF_Maintain::Heal);
+
+	GetWorld()->GetTimerManager().SetTimer(heal_timer_handle_, heal_del, heal_duration_, false);
+	GetWorld()->GetTimerManager().SetTimer(heal_tick_handle_, heal_tick_del, 0.5f, true);
 }
 
 void UBF_Maintain::RemoveBuff(AUnit* target)
 {
 	GetWorld()->GetTimerManager().ClearTimer(heal_timer_handle_);
+	GetWorld()->GetTimerManager().ClearTimer(heal_tick_handle_);
 	target->RemoveBuffUI(buff_type_);
 }
 

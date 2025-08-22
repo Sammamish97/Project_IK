@@ -153,10 +153,6 @@ void AHeroBase::SetUnitStateWithInterrupt(EUnitState type)
 	case EUnitState::OnActiveSkill:
 	{
 		weapon_mechanics_->StopReload();
-		if (on_maintain_)
-		{
-			FinishMaintaining();
-		}
 	}
 		
 	case EUnitState::OnReloading:
@@ -202,10 +198,6 @@ void AHeroBase::Reposition(FVector target_location)
 
 void AHeroBase::SetAttackTarget(AActor* target)
 {
-	if (on_maintain_)
-	{
-		FinishMaintaining();
-	}
 	ResetUnitState();
 	if (AHeroAIController* controller = Cast<AHeroAIController>(GetController()))
 	{
@@ -215,17 +207,7 @@ void AHeroBase::SetAttackTarget(AActor* target)
 
 void AHeroBase::BeginMaintaining()
 {
-	SetUnitStateWithInterrupt(EUnitState::OnActiveSkill);
-	PlayAnimMontage(maintain_anim_montage_);
-	on_maintain_ = true;
 	maintain_buff_->ApplyBuff(this);
-}
-
-void AHeroBase::FinishMaintaining()
-{
-	on_maintain_ = false;
-	maintain_buff_->RemoveBuff(this);
-	FinishAction();
 }
 
 AActor* AHeroBase::GetAttackTarget() const

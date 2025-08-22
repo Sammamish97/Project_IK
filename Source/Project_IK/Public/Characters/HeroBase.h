@@ -46,7 +46,6 @@ public:
 	void Reposition(FVector target_location);
 	void SetAttackTarget(AActor* target);
 	void BeginMaintaining();
-	void FinishMaintaining();
 
 
 	AActor* GetAttackTarget() const;
@@ -80,11 +79,6 @@ protected:
 
 	UPROPERTY(Transient);
 	TObjectPtr<class UBuffHandler> maintain_buff_;
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UAnimMontage> maintain_anim_montage_;
-
-	bool on_maintain_ = false;
 	
 public:
 	//UI

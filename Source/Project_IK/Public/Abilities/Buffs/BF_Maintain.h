@@ -20,6 +20,7 @@ class PROJECT_IK_API UBF_Maintain : public UBuffHandler
 public:
 	//Shield + Heal
 	virtual void ApplyBuff(AUnit* target) override;
+	void OnHeal(AUnit* target);
 	virtual void RemoveBuff(AUnit* target) override;
 private:
 	virtual void Heal();
@@ -33,5 +34,9 @@ private:
 	UPROPERTY(Transient)
 	TWeakObjectPtr<AUnit> target_cache_;
 
+	float heal_duration_ = 3.f;
+
 	FTimerHandle heal_timer_handle_;
+	FTimerHandle heal_tick_handle_;
+
 };

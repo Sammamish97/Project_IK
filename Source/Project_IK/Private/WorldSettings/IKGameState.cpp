@@ -114,7 +114,6 @@ void AIKGameState::ActivateSupportSkill(int32 support_num)
 	{
 		if (energy_system_component_->GetEnergy() > support_skills_[support_num]->GetCost())
 		{
-			
 			player_controller_cache_->StartTargeting(support_skills_[support_num]->GetTargetParameters());
 			selected_support_skill_ = support_skills_[support_num];
 			selected_support_num_ = support_num;
