@@ -141,17 +141,11 @@ AActor* AFateSpiral::FindNextTarget()
 
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	if (game_mode)
-	{
+	{	
 		TArray<AActor*> actor_containers = game_mode->GetEnemyContainers();
 		if (arrival_->IsA<AEnemyBase>())
 		{
-			for(AActor* elem : game_mode->GetHeroContainer())
-			{
-				if(elem != nullptr)
-				{
-					actor_containers.Push(elem);
-				}
-			}
+			actor_containers = game_mode->GetHeroContainer();
 		}
 		for (AActor* actor : actor_containers)
 		{

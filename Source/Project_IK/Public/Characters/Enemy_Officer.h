@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Enemy_Officer.generated.h"
 class UBuffHandler;
 
+class UBuffHandler;
+
 UCLASS(Abstract)
 class PROJECT_IK_API AEnemy_Officer : public AEnemy_RifleMan
 {

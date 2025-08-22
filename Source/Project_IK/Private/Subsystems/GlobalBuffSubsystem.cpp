@@ -84,6 +84,13 @@ bool UGlobalBuffSubsystem::RemoveBuff(EGlobalBuffType buff_type)
 				pair.Value -= 1;
 			}
 		}
+		for (auto& pair : newly_added_buff_lookup_)
+		{
+			if (pair.Value > index_to_remove)
+			{
+				pair.Value -= 1;
+			}
+		}
 		return true;
 	}
 	else
@@ -98,6 +105,13 @@ bool UGlobalBuffSubsystem::RemoveBuff(EGlobalBuffType buff_type)
 			newly_added_buff_lookup_.Remove(buff_type);
 
 			// Manually shrink them because they are custom indices.
+			for (auto& pair : buff_lookup_)
+			{
+				if (pair.Value > index_to_remove)
+				{
+					pair.Value -= 1;
+				}
+			}
 			for (auto& pair : newly_added_buff_lookup_)
 			{
 				if (pair.Value > index_to_remove)
@@ -205,6 +219,10 @@ void UGlobalBuffSubsystem::AddEverlastingBuff(EGlobalBuffType buff_type)
 
 void UGlobalBuffSubsystem::RemoveEverlastingBuff(EGlobalBuffType buff_type)
 {
+	if (everlasting_buff_.Contains(buff_type) == false)
+	{
+		return;
+	}
 	everlasting_buff_.Remove(buff_type);
 
 	buff_logic_containers_[buff_type]->OnBuffExpired();

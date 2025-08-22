@@ -24,6 +24,7 @@ class PROJECT_IK_API UEventWidget : public UUserWidget
 public:
 	void InitEventWidget(FEventData input_data);
 	void ClearButtonBinding();
+	void EnableButtons(int32 num);
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 	
@@ -43,13 +44,17 @@ private:
 	TObjectPtr<class UButton> button_1_;
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<class UButton> button_2_;
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = true, BindWidget))
 	TObjectPtr<class UButton> button_3_;
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = true, BindWidget))
+	TObjectPtr<class UButton> button_4_;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<class UTextBlock> first_option_;
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
 	TObjectPtr<class UTextBlock> second_option_;
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = true, BindWidget))
 	TObjectPtr<class UTextBlock> third_option_;
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = true, BindWidget))
+	TObjectPtr<class UTextBlock> fourth_option_;
 };

@@ -22,6 +22,11 @@ FPassiveSkillData UPassiveSkillDataAsset::GetPassiveSkillDataRandomly(ERarity we
 	return URandomDataAssetsManager::GetDataAssetRandomly(weight_rarity, passive_skill_data_map_);
 }
 
+TArray<FPassiveSkillData> UPassiveSkillDataAsset::GetPassiveSkillDataByRarity(int32 n, ERarity rarity)
+{
+	return URandomDataAssetsManager::GetDataAssetByRarity(n, rarity, passive_skill_data_map_);
+}
+
 TArray<FPassiveSkillData> UPassiveSkillDataAsset::GetUniquePassiveSkillDataRandomly(int32 n, ERarity weight_rarity)
 {
 	return URandomDataAssetsManager::GetUniqueDataAssetsRandomly(n, weight_rarity, passive_skill_data_map_);

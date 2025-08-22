@@ -13,6 +13,8 @@ See LICENSE file in the project root for full license information.
 #include "Structs/WeaponData.h"
 #include "WorldSettings/IKGameInstance.h"
 
+#include "Weapons/Guns/GunBase.h"
+
 AEnemy_RifleMan::AEnemy_RifleMan()
 {
 	weapon_mechanics_ = CreateDefaultSubobject<UWeaponMechanics>(TEXT("WeaponMechanics"));
@@ -26,6 +28,11 @@ void AEnemy_RifleMan::BeginPlay()
 	weapon_mechanics_->EquipWeapon(weapon_data);
 }
 
+void AEnemy_RifleMan::Die()
+{
+	weapon_mechanics_->DieWeaponActor();
+	Super::Die();
+}
 void AEnemy_RifleMan::Attack(AActor* target)
 {
 	Super::Attack(target);

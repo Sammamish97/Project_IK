@@ -22,7 +22,9 @@ See LICENSE file in the project root for full license information.
 #include "Components/SphereComponent.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "NiagaraComponent.h"
+#include "NiagaraFunctionLibrary.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
+#include "Subsystems/AudioManagerSubsystem.h"
 
 AGunBase::AGunBase()
 {
@@ -88,8 +90,12 @@ void AGunBase::StopReload()
 		{
 			gun_owner->StopAnimMontage();
 			GetWorld()->GetTimerManager().ClearTimer(reload_timer_handle_);
-			auto bt_component = Cast<UBehaviorTreeComponent>(Cast<AAIController>(gun_owner->GetController())->GetBrainComponent());
-			OnFinishReload.Broadcast(bt_component,true);
+			AAIController* controller = Cast<AAIController>(gun_owner->GetController());
+			if (controller)
+			{
+				auto bt_component = Cast<UBehaviorTreeComponent>(controller->GetBrainComponent());
+				OnFinishReload.Broadcast(bt_component, true);
+			}
 		}
 	}
 }
@@ -102,8 +108,12 @@ void AGunBase::OnReload()
 	if (AUnit* gun_owner = weak_gun_owner_.Get())
 	{
 		gun_owner->ResetUnitState();
-		auto bt_component = Cast<UBehaviorTreeComponent>(Cast<AAIController>(gun_owner->GetController())->GetBrainComponent());
-		OnFinishReload.Broadcast(bt_component,false);
+		AAIController* controller = Cast<AAIController>(gun_owner->GetController());
+		if (controller)
+		{
+			auto bt_component = Cast<UBehaviorTreeComponent>(controller->GetBrainComponent());
+			OnFinishReload.Broadcast(bt_component, true);
+		}
 	}
 }
 
@@ -134,7 +144,7 @@ void AGunBase::SpawnBullet(const FRotator& rotation, const FVector& translation,
 	}
 }
 
-void AGunBase::PlayFireParticle() const
+void AGunBase::PlayFireFXs() const
 {
 	if (fire_particle_component_)
 	{
@@ -144,6 +154,25 @@ void AGunBase::PlayFireParticle() const
 	{
 		ejection_particle_component_->Activate(true);
 	}
+
+	UAudioManagerSubsystem::Get(this)->PlayAtLocation(gunshot_audio_type_, GetActorLocation());
+}
+
+void AGunBase::OnGunDied()
+{
+	if (death_fx_system_)
+	{
+		weapon_skeletal_mesh_->SetVisibility(false);
+		UNiagaraComponent* fx = UNiagaraFunctionLibrary::SpawnSystemAttached(death_fx_system_, weapon_skeletal_mesh_, FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget, true);
+		fx->SetColorParameter(FName("Color"), FLinearColor::White);
+	}
+
+	GetWorld()->GetTimerManager().SetTimer(die_timer_, this, &AGunBase::OnDieFinished, 1.f);
+}
+
+void AGunBase::OnDieFinished()
+{
+	Destroy();
 }
 
 void AGunBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -164,7 +193,7 @@ void AGunBase::FireSingleBullet(FVector target_pos, const FDamageData& dmg_data)
 	SpawnBullet(rotation, muzzle_location, dmg_data);
 	cur_magazine_ -= 1;
 
-	PlayFireParticle();
+	PlayFireFXs();
 }
 
 void AGunBase::FireBuckShot(FVector target_pos, const FDamageData& dmg_data)
@@ -188,7 +217,7 @@ void AGunBase::FireBuckShot(FVector target_pos, const FDamageData& dmg_data)
 	}
 	cur_magazine_ -= 1;
 
-	PlayFireParticle();
+	PlayFireFXs();
 }
 
 void AGunBase::BeginFire(AActor* target)
@@ -198,6 +227,15 @@ void AGunBase::BeginFire(AActor* target)
 void AGunBase::FinishFire()
 {
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
+}
+
+void AGunBase::Die()
+{
+	root_sphere_mesh_->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+	weapon_skeletal_mesh_->SetCollisionProfileName(TEXT("Ragdoll"));
+	weapon_skeletal_mesh_->SetSimulatePhysics(true);
+
+	GetWorld()->GetTimerManager().SetTimer(die_timer_, this, &AGunBase::OnGunDied, 3.f);
 }
 
 bool AGunBase::IsMagazineEmpty() const

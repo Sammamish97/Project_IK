@@ -20,6 +20,8 @@ DECLARE_MULTICAST_DELEGATE(FOnFireWeapon);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnFinishReload, UBehaviorTreeComponent*, bt_component, bool, is_interrupted);
 
 class UNiagaraComponent;
+class UNiagaraSystem;
+enum class EAudioType : uint8;
 
 UCLASS(Abstract)
 class PROJECT_IK_API AGunBase : public AActor
@@ -40,6 +42,8 @@ public:
 	
 	virtual void BeginFire(AActor* target);
 	virtual void FinishFire();
+
+	virtual void Die();
 	
 	bool IsMagazineEmpty() const;
 	FWeaponStatusData GetWeaponStatusData() const;
@@ -68,7 +72,13 @@ protected:
 	void FireBuckShot(FVector target_pos, const FDamageData& dmg_data);
 	void SpawnBullet(const FRotator& rotation, const FVector& translation, const FDamageData& dmg_data);
 
-	void PlayFireParticle() const;
+	void PlayFireFXs() const;
+
+	UFUNCTION()
+	void OnGunDied();
+
+	UFUNCTION()
+	void OnDieFinished();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon" )
@@ -111,6 +121,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Particles")
 	TObjectPtr<UNiagaraComponent> fire_particle_component_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Death")
+	TObjectPtr<UNiagaraSystem> death_fx_system_;
 	
 	UPROPERTY(Transient)
 	TWeakObjectPtr<class AUnit> weak_gun_owner_;
@@ -127,6 +140,11 @@ protected:
 	bool is_first_bullet_on_magazine_ = true;
 
 	bool hold_action_ = false;
+	
+	FTimerHandle die_timer_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
+	EAudioType gunshot_audio_type_ = EAudioType::NONE;
 
 public:
 	FOnFinishReload OnFinishReload;

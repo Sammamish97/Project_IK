@@ -17,7 +17,7 @@ See LICENSE file in the project root for full license information.
 /**
  * 
  */
-UCLASS(Abstract)
+UCLASS(Blueprintable)
 class PROJECT_IK_API UGlobalBuffLogicBase : public UObject
 {
 	GENERATED_BODY()

@@ -44,6 +44,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	AGunBase* GetWeaponActor();
 
+	void DieWeaponActor();
+
 private:
 	UPROPERTY(Transient)
 	TObjectPtr<AGunBase> weapon_actor_ = nullptr;

@@ -22,6 +22,11 @@ FActiveSkillData UActiveSkillDataAsset::GetActiveSkillDataRandomly(ERarity weigh
 	return URandomDataAssetsManager::GetDataAssetRandomly(weight_rarity, active_skill_data_map_);
 }
 
+FActiveSkillData UActiveSkillDataAsset::GetActiveSkillDataByRarity(ERarity rarity)
+{
+	return URandomDataAssetsManager::GetDataAssetByRarity(rarity, active_skill_data_map_);
+}
+
 TArray<FActiveSkillData> UActiveSkillDataAsset::GetUniqueActiveSkillDataRandomly(int32 n, ERarity weight_rarity)
 {
 	return URandomDataAssetsManager::GetUniqueDataAssetsRandomly(n, weight_rarity, active_skill_data_map_);

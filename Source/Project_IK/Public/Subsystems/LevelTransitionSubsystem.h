@@ -29,6 +29,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void OpenLevel(UWorld* world, ELevelState state);
+	void HealHeroesSpawnDataPercentage(float heal_percentage);
+	void HealHeroesSpawnData(float heal_amount);
 	
 	UFUNCTION(BlueprintCallable)
 	void OpenMapLevel(UWorld* world);

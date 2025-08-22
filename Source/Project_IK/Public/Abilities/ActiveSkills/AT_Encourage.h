@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "AT_Encourage.generated.h"
 
 class UBuffHandler;
+class UNiagaraSystem;
 
 UCLASS(Abstract)
 class PROJECT_IK_API UAT_Encourage : public UActiveSkillBase
@@ -27,13 +28,21 @@ public:
 	virtual void InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data) override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
-private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SkillData", meta = (AllowPrivateAccess = true))
+protected:
+	void SpawnSkillParticle(const FTargetResult& TargetResult);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SkillData")
 	TSubclassOf<UBuffHandler> buff_class_;
 
 	UPROPERTY();
 	TObjectPtr<UBuffHandler> buff_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SkillData", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SkillData")
 	TObjectPtr<UAnimMontage> casting_anim_montage_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UNiagaraSystem> encourage_fx_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UNiagaraSystem> encouraged_target_fx_;
 };

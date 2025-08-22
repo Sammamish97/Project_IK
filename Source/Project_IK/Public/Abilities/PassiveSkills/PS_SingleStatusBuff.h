@@ -13,6 +13,8 @@ See LICENSE file in the project root for full license information.
 #include "PassiveSkillBase.h"
 #include "PS_SingleStatusBuff.generated.h"
 
+class UBuffHandler;
+
 UCLASS()
 class PROJECT_IK_API UPS_SingleStatusBuff : public UPassiveSkillBase
 {

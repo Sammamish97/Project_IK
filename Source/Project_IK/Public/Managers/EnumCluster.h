@@ -275,11 +275,11 @@ enum class ECharacterStatType : uint8
 	HitPoints UMETA(DisplayName = "HitPoints"),
 	EvasionRate UMETA(DisplayName = "EvasionRate"),
 	Armor UMETA(DisplayName = "Armor"),
-	Survivability UMETA(DisplayName = "Survivability"),
 	SightRange UMETA(DisplayName = "SightRange"),
 	MoveSpeed UMETA(DisplayName = "MoveSpeed"),
 	SkillPower UMETA(DisplayName = "SkillPower"),
 	SkillCoolDown UMETA(DisplayName = "SkillCoolDown"),
+	Survivability UMETA(DisplayName = "Survivability"),
 	Shield UMETA(DisplayName = "Shield"),
 };
 
@@ -566,6 +566,31 @@ enum class EGlobalBuffType : uint8
 	Ambush_AttackPowerDebuff UMETA(DisplayName = "Ambush AttackPower Debuff"),
 	Trap_RewardCandidateDebuff UMETA(DisplayName = "Trap Reward Candidate Debuff"),
 	Trap_RewardChoiceDebuff UMETA(DisplayName = "Trap Reward Choice Debuff"),
+	EMP_CritBuff UMETA(DisplayName = "EMP Critical hit rate Buff"),
+	EMP_AttackSpeedBuff UMETA(DisplayName = "EMP AttackSpeed Buff"),
+	EMP_HPDebuff UMETA(DisplayName = "EMP HP Debuff"),
+	ProtocolSurvive_Shield UMETA(DisplayName = "ProtocolSurvive Shield"),
+	ProtocolSurvive_LifeSteal UMETA(DisplayName = "ProtocolSurvive LifeSteal"),
+	ProtocolAssault_AttackPowerBuff UMETA(DisplayName = "ProtocolAssault AttackPowerBuff"),
+	ProtocolAssault_SkillPowerBuff UMETA(DisplayName = "ProtocolAssault SkillPowerBuff"),
+	ProtocolAssault_AttackSpeedBuff UMETA(DisplayName = "ProtocolAssault AttackSpeedBuff"),
+	ProtocolEfficiency_CritBuff UMETA(DisplayName = "ProtocolEfficiency CritBuff"),
+	ProtocolEfficiency_EvadeBuff UMETA(DisplayName = "ProtocolEfficiency EvadeBuff"),
+	ProtocolEfficiency_CooldownBuff UMETA(DisplayName = "ProtocolEfficiency CooldownBuff"),
+	Recon_RemoveNegativeEvents UMETA(DisplayName = "Recon Remove Negative Events"),
+	Recon_RewardChoiceBuff UMETA(DisplayName = "Recon Reward choice buff"),
+	Recon_CreditBonusBuff UMETA(DisplayName = "Recon credit bonus buff"),
+	SetTrap_HPDebuff UMETA(DisplayName = "Set Trap HP Debuff"),
+	Core_AttackBuff UMETA(DisplayName = "Core Attack buff"),
+	Core_AttackDebuff UMETA(DisplayName = "Core Attack debuff"),
+	Patrol_RandomBuff1 UMETA(DisplayName = "Patrol random buff 1"),
+	Patrol_RandomDebuff1 UMETA(DisplayName = "Patrol random debuff 1"),
+	Patrol_RandomBuff2 UMETA(DisplayName = "Patrol random buff 2"),
+	Patrol_RandomDebuff2 UMETA(DisplayName = "Patrol random debuff 2"),
+	Patrol_RandomBuff3 UMETA(DisplayName = "Patrol random buff 3"),
+	Patrol_RandomDebuff3 UMETA(DisplayName = "Patrol random debuff 3"),
+	Patrol_RandomBuff4 UMETA(DisplayName = "Patrol random buff 4"),
+	Patrol_RandomDebuff4 UMETA(DisplayName = "Patrol random debuff 4"),
 	None UMETA(DisplayName = "None"),
 };
 
@@ -636,7 +661,15 @@ enum class EEventType : uint8
 	AirStrike UMETA(DisplayName = "Air Strike"),
 	Ambush UMETA(DisplayName = "Ambush"),
 	Trap UMETA(DisplayName = "Trap"),
-	EventType_4 UMETA(DisplayName = "EventType_4"),
+	EMP UMETA(DisplayName = "EMP"),
+	ProtocolSurvive UMETA(DisplayName = "Protocol : Survive"),
+	ProtocolAssault UMETA(DisplayName = "Protocol : Assault"),
+	ProtocolEfficiency UMETA(DisplayName = "Protocol : Efficiency"),
+	AbandonedSupply UMETA(DisplayName = "Abandoned Supply"),
+	Recon UMETA(DisplayName = "Recon"),
+	SetTrap UMETA(DisplayName = "Set Trap"),
+	Core UMETA(DisplayName = "Core"),
+	Patrol UMETA(DisplayName = "Patrol"),
 };
 
 UENUM(BlueprintType)
@@ -755,6 +788,39 @@ enum class EBuffType : uint8
 
 	AmbushAttackSpeedDebuff UMETA(DisplayName = "Ambush AttackSpeed Debuff"),
 	AmbushAttackPowerDebuff UMETA(DisplayName = "Ambush AttackPower Debuff"),
+
+	EMPCritBuff UMETA(DisplayName = "EMP Critical hit rate Buff"),
+	EMPAttackSpeedBuff UMETA(DisplayName = "EMP AttackSpeed Buff"),
+	EMPHPDebuff UMETA(DisplayName = "EMP HP Debuff"),
+
+	ProtocolSurvive_Shield UMETA(DisplayName = "ProtocolSurvive Shield"),
+	ProtocolSurvive_LifeSteal UMETA(DisplayName = "ProtocolSurvive LifeSteal"),
+
+	ProtocolAssault_AttackPowerBuff UMETA(DisplayName = "ProtocolAssault AttackPowerBuff"),
+	ProtocolAssault_SkillPowerBuff UMETA(DisplayName = "ProtocolAssault SkillPowerBuff"),
+	ProtocolAssault_AttackSpeedBuff UMETA(DisplayName = "ProtocolAssault AttackSpeedBuff"),
+
+	ProtocolEfficiency_CritBuff UMETA(DisplayName = "ProtocolEfficiency CritBuff"),
+	ProtocolEfficiency_EvadeBuff UMETA(DisplayName = "ProtocolEfficiency EvadeBuff"),
+	ProtocolEfficiency_CooldownBuff UMETA(DisplayName = "ProtocolEfficiency CooldownBuff"),
+
+	Recon_RemoveNegativeEvents UMETA(DisplayName = "Recon Remove Negative Events"),
+	Recon_RewardChoiceBuff UMETA(DisplayName = "Recon Reward choice buff"),
+	Recon_CreditBonusBuff UMETA(DisplayName = "Recon credit bonus buff"),
+
+	SetTrap_HPDebuff UMETA(DisplayName = "Set Trap HP Debuff"),
+
+	Core_AttackBuff UMETA(DisplayName = "Core Attack buff"),
+	Core_AttackDebuff UMETA(DisplayName = "Core Attack debuff"),
+
+	Patrol_RandomBuff1 UMETA(DisplayName = "Patrol random buff 1"),
+	Patrol_RandomDebuff1 UMETA(DisplayName = "Patrol random debuff 1"),
+	Patrol_RandomBuff2 UMETA(DisplayName = "Patrol random buff 2"),
+	Patrol_RandomDebuff2 UMETA(DisplayName = "Patrol random debuff 2"),
+	Patrol_RandomBuff3 UMETA(DisplayName = "Patrol random buff 3"),
+	Patrol_RandomDebuff3 UMETA(DisplayName = "Patrol random debuff 3"),
+	Patrol_RandomBuff4 UMETA(DisplayName = "Patrol random buff 4"),
+	Patrol_RandomDebuff4 UMETA(DisplayName = "Patrol random debuff 4"),
 };
 
 UENUM(BlueprintType)
@@ -764,4 +830,17 @@ enum class ELevelState : uint8
 	MainMenuLevel UMETA(DisplayName = "MainMenuLevel"),
 	LobbyLevel UMETA(DisplayName = "LobbyLevel"),
 	MapLevel UMETA(DisplayName = "MapLevel"),
+};
+
+UENUM(BlueprintType)
+enum class EAudioType : uint8
+{
+	NONE UMETA(Hidden),
+	PistolShot UMETA(DisplayName = "Pistol Shot"),
+	RifleShot UMETA(DisplayName = "Rifle Shot"),
+	ShotgunShot UMETA(DisplayName = "Shotgun Shot"),
+	HeroDied UMETA(DisplayName = "Hero Died"),
+	EnemyDied UMETA(DisplayName = "Enemy Died"),
+	LevelWon UMETA(DisplayName = "Level Won"),
+	LevelDefeated UMETA(DisplayName = "Level Defeated"),
 };

@@ -19,6 +19,8 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKHUD.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 AEnemyBase::AEnemyBase()
 {
 	GetMesh()->SetCollisionProfileName(TEXT("EnemyPreset"));
@@ -51,5 +53,6 @@ void AEnemyBase::Die()
 {
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if(casted_mode) casted_mode->RemoveEnemy(this);
+	UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::HeroDied, GetActorLocation());
 	Super::Die();
 }

@@ -23,6 +23,8 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Attack(AActor* target) override;
 
+	virtual void Die() override;
+
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UWeaponMechanics> weapon_mechanics_;
