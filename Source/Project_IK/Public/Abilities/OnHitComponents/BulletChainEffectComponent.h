@@ -20,9 +20,10 @@ class PROJECT_IK_API UBulletChainEffectComponent : public UBulletOnHitEffectComp
 
 public:
 	virtual void OnHit(AActor* target) override;
-	virtual void ApplyEffect(ABullet* bullet) const override;
 
 protected:
+	void PlaySFX(const TArray<AActor*>& chained_actors);
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ChainEffect")
 	TSubclassOf<class AUnit> target_class_;
 

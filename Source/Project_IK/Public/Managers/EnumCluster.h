@@ -857,4 +857,5 @@ enum class EAudioType : uint8
 	ThunderStormEnvironmental UMETA(DisplayName = "ThunderStorm Environmental"),
 	Encourage UMETA(DisplayName = "Encourage"),
 	MagnetizedBulletsActivated UMETA(DisplayName = "MagnetizedBullets Activated"),
+	Ricochet UMETA(DisplayName = "Ricochet"),
 };
