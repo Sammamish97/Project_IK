@@ -19,6 +19,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/WeaponMechanics.h"
 #include "Structs/WeaponStatusData.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 void UBulletChainEffectComponent::OnHit(AActor* target)
 {
 	Super::OnHit(target);
@@ -69,17 +71,30 @@ void UBulletChainEffectComponent::OnHit(AActor* target)
 			cur_unit->GetDamage(dmg_data);
 		}
 	}
+
+	PlaySFX(visited);
 }
 
-void UBulletChainEffectComponent::ApplyEffect(ABullet* bullet) const
+void UBulletChainEffectComponent::PlaySFX(const TArray<AActor*>& chained_actors)
 {
-	if (on_hit_effect_)
+	if (chained_actors.Num() - 1 < 0)
 	{
-		UNiagaraComponent* component = UNiagaraFunctionLibrary::SpawnSystemAttached(on_hit_effect_, bullet->GetSceneComponent(), NAME_None, FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, false);
-		component->SetVariableFloat(FName("SphereRadius"), 10.f);
+		return;
 	}
-	if (on_hit_material_)
+
+	for (int32 i = 1; i < chained_actors.Num(); i++)
 	{
-		bullet->ApplyMaterial(0, on_hit_material_);
+		FTimerHandle audio_timer;
+
+		AActor* target = chained_actors[i];
+		if (target)
+		{
+			GetWorld()->GetTimerManager().SetTimer(audio_timer, [&, target]() {
+
+				float rand_pitch = FMath::RandRange(0.5f, 1.5f);
+				UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::Ricochet, target->GetActorLocation(), 1.f, rand_pitch);
+
+				}, 0.1f * i, false);
+		}
 	}
 }

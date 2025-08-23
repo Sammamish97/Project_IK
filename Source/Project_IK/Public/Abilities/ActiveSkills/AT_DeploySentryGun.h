@@ -18,7 +18,7 @@ See LICENSE file in the project root for full license information.
 class ASentryGun;
 
 UCLASS(Abstract)
-class PROJECT_IK_API UAT_DeploySentryGun : public UActiveSkillBase
+class PROJECT_IK_API UAT_DeploySentryGun : public UActiveSkillBase, public FTickableGameObject
 {
 	GENERATED_BODY()
 public:
@@ -26,6 +26,10 @@ public:
 	UAT_DeploySentryGun();
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 	virtual void OnEnterCasting() override;
+
+	virtual void Tick(float DeltaTime) override;
+	inline virtual bool IsTickable() const override { return true; }
+	inline virtual TStatId GetStatId() const { RETURN_QUICK_DECLARE_CYCLE_STAT(UAT_DeploySentryGun, STATGROUP_Tickables); }
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SkillData", meta = (AllowPrivateAccess = "true"))

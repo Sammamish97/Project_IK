@@ -118,6 +118,9 @@ void URewardContainerWidget::NativeConstruct()
 	//TEST perpose
 	auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
 	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Encourage_A));
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::FateSpiral_A));
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::MagnetizedBullet_A));
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Ricochet_A));
 	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm_B));
 	//
 	reward_cache_.weapons_.Push(data_table_manager_->GetWeaponData(EWeaponType::Pistol_B));

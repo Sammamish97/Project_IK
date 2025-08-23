@@ -53,6 +53,6 @@ void AEnemyBase::Die()
 {
 	AIKGameModeBase* casted_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if(casted_mode) casted_mode->RemoveEnemy(this);
-	UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::HeroDied, GetActorLocation());
+	UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::EnemyDied, GetActorLocation());
 	Super::Die();
 }

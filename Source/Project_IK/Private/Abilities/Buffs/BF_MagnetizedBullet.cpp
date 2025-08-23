@@ -37,3 +37,8 @@ void UBF_MagnetizedBullet::RemoveBuff(AUnit* target)
 	}
 	Super::RemoveBuff(target);
 }
+
+float UBF_MagnetizedBullet::GetDuration() const
+{
+	return duration_;
+}
