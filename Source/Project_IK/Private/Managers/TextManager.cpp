@@ -61,6 +61,15 @@ FText UTextManager::GetStatusText(ECharacterStatType stat_type) const
 	case ECharacterStatType::AttackSpeed:
 		key = "ATS";
 		break;
+	case ECharacterStatType::HitPoints:
+		key = "HP";
+		break;
+	case ECharacterStatType::Armor:
+		key = "ARMOR";
+		break;
+	case ECharacterStatType::Survivability:
+		key = "SURV";
+		break;
 	case ECharacterStatType::SkillPower:
 		key = "SKP";
 		break;

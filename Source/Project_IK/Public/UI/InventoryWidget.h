@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/WrapperEquipmentData.h"
 #include "InventoryWidget.generated.h"
 
+class UStatusWidget;
 class USupportSkillSlotWidget;
 class URewardContainerWidget;
 class UButton;
@@ -32,6 +33,7 @@ class PROJECT_IK_API UInventoryWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
+	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 	
 	UFUNCTION(BlueprintCallable)
@@ -99,7 +101,13 @@ private:
 	TObjectPtr<UHeroEquipBoardWidget> hero_board_3_;
 	
 	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UWidgetSwitcher> rune_status_switcher_;
+	
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<URuneBoardWidget> rune_board_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UStatusWidget> status_board_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<URewardContainerWidget> reward_container_;

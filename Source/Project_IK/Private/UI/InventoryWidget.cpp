@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/HeroEquipBoardWidget.h"
 #include "UI/RewardContainerWidget.h"
 #include "UI/RuneBoardWidget.h"
+#include "UI/StatusWidget.h"
 #include "UI/PopUps/BasicPopupWidget.h"
 #include "UI/InventorySlots/ActiveSkillSlotWidget.h"
 #include "UI/InventorySlots/PassiveSkillSlotWidget.h"
@@ -117,6 +118,12 @@ bool UInventoryWidget::CheckDuplicatedPassiveSkill(EHeroType hero_type, EPassive
 void UInventoryWidget::LoadSelectedRewards(const FWrapperEquipmentData& rewards)
 {
 	reward_container_->LoadSelectedRewards(rewards);
+}
+
+void UInventoryWidget::NativeConstruct()
+{
+	OnHero_0_Board_Clicked();
+	Super::NativeConstruct();
 }
 
 void UInventoryWidget::NativeDestruct()
@@ -252,6 +259,7 @@ void UInventoryWidget::OnHero_0_Board_Clicked()
 	rune_board_->UpdateRuneBoard();
 	rune_board_->LoadRuneBoardWidget(EHeroType::Hero1);
 	rune_board_->UpdateSetBonusEffect();
+	status_board_->LoadStatusData(EHeroType::Hero1);
 }
 
 void UInventoryWidget::OnHero_1_Board_Clicked()
@@ -259,6 +267,7 @@ void UInventoryWidget::OnHero_1_Board_Clicked()
 	rune_board_->UpdateRuneBoard();
 	rune_board_->LoadRuneBoardWidget(EHeroType::Hero2);
 	rune_board_->UpdateSetBonusEffect();
+	status_board_->LoadStatusData(EHeroType::Hero2);
 }
 
 void UInventoryWidget::OnHero_2_Board_Clicked()
@@ -266,6 +275,7 @@ void UInventoryWidget::OnHero_2_Board_Clicked()
 	rune_board_->UpdateRuneBoard();
 	rune_board_->LoadRuneBoardWidget(EHeroType::Hero3);
 	rune_board_->UpdateSetBonusEffect();
+	status_board_->LoadStatusData(EHeroType::Hero3);
 }
 
 void UInventoryWidget::OnHero_3_Board_Clicked()
@@ -273,6 +283,7 @@ void UInventoryWidget::OnHero_3_Board_Clicked()
 	rune_board_->UpdateRuneBoard();
 	rune_board_->LoadRuneBoardWidget(EHeroType::Hero4);
 	rune_board_->UpdateSetBonusEffect();
+	status_board_->LoadStatusData(EHeroType::Hero4);
 }
 
 void UInventoryWidget::OnConfirm()
