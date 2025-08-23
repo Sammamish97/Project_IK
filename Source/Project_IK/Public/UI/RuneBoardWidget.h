@@ -38,6 +38,7 @@ public:
 	void ClearSetBonusEffect();
 	void UpdateSetBonusEffect();
 	TObjectPtr<URuneSlotWidget> GetRuneSlotWidget(int32 idx);
+	void ToggleReadOnly(bool is_read_only);
 
 private:
 	TArray<FVector2D> ComputeVertices(float radius);

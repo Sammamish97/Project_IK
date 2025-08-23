@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/InventoryWidget.h"
 #include "Components/Button.h"
+#include "Components/WidgetSwitcher.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/HeroEquipBoardWidget.h"
 #include "UI/RewardContainerWidget.h"
@@ -27,7 +28,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKHUD.h"
 
 
-void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount)
+void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount, bool is_read_only)
 {
 	reward_container_->SetInventoryWidgetCache(this);
 	rune_board_->SetInventoryWidget(this);
@@ -52,7 +53,12 @@ void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount)
 	hero_board_2_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_2_Board_Clicked);
 	hero_board_3_->button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnHero_3_Board_Clicked);
 
+	rune_switch_button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnRuneSwitchButtonClicked);
+	status_switch_button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnStatusSwitchButtonClicked);
+
 	confirm_button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnConfirm);
+
+	ToggleReadOnly(is_read_only);
 }
 
 void UInventoryWidget::UpdateSetBonusEffect()
@@ -132,8 +138,26 @@ void UInventoryWidget::NativeDestruct()
 	Super::NativeDestruct();
 }
 
+void UInventoryWidget::ToggleReadOnly(bool is_read_only)
+{
+	TArray hero_board_array = {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_};
+	for (const auto& elem : hero_board_array)
+	{
+		elem->ToggleReadOnly(is_read_only);
+	}
+	rune_board_->ToggleReadOnly(is_read_only);
+	if (is_read_only)
+	{
+		reward_container_->SetVisibility(ESlateVisibility::Collapsed);
+	}
+	else
+	{
+		reward_container_->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
 void UInventoryWidget::CreateWeaponPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail,
-	const FWeaponStatusData& data)
+                                               const FWeaponStatusData& data)
 {
 	equip_popup_ptr_ = CreateWidget<UBasicPopupWidget>(this, weapon_popup_class_);
 	equip_popup_ptr_->UpdatePopupData(thumbnail, name, detail);
@@ -284,6 +308,16 @@ void UInventoryWidget::OnHero_3_Board_Clicked()
 	rune_board_->LoadRuneBoardWidget(EHeroType::Hero4);
 	rune_board_->UpdateSetBonusEffect();
 	status_board_->LoadStatusData(EHeroType::Hero4);
+}
+
+void UInventoryWidget::OnRuneSwitchButtonClicked()
+{
+	rune_status_switcher_->SetActiveWidget(rune_board_);
+}
+
+void UInventoryWidget::OnStatusSwitchButtonClicked()
+{
+	rune_status_switcher_->SetActiveWidget(status_board_);
 }
 
 void UInventoryWidget::OnConfirm()

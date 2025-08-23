@@ -22,6 +22,7 @@ class PROJECT_IK_API UInventoryManager : public UObject
 
 public:
 	void OpenInventoryWidgetReward(const FWrapperEquipmentData& rewards);
+	void OpenReadOnlyInventoryWidget();
 	
 	UFUNCTION(BlueprintCallable)
 	void SetCredits(int32 currency);
@@ -29,11 +30,6 @@ public:
 	int32 GetCredits() const;
 	UFUNCTION(BlueprintCallable)
 	void AddCredits(int32 currency);
-
-	UFUNCTION(BlueprintCallable)
-	void SetPerkPoints(int32 points);
-	UFUNCTION(BlueprintPure)
-	int32 GetPerkPoints() const;
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
@@ -47,7 +43,4 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	int32 credits_;
-
-	UPROPERTY(VisibleAnywhere, Category = "Inventory")
-	int32 perk_points_;
 };

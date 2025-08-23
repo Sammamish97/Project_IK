@@ -29,7 +29,10 @@ void UPassiveSkillSlotWidget::SetPassiveSkillSlotData(const FPassiveSkillData& p
 FReply UPassiveSkillSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry,
 	const FPointerEvent& InMouseEvent)
 {
-	inventory_widget_cache_->SetHighlightVisibility(EGearType::PassiveSkill, ESlateVisibility::Visible);
+	if (is_empty_ == false)
+	{
+		inventory_widget_cache_->SetHighlightVisibility(EGearType::PassiveSkill, ESlateVisibility::Visible);
+	}
 	return Super::NativeOnPreviewMouseButtonDown(InGeometry, InMouseEvent);
 }
 

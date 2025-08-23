@@ -35,9 +35,12 @@ class PROJECT_IK_API UInventoryWidget : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
+
+	UFUNCTION()
+	void ToggleReadOnly(bool is_read_only);
 	
 	UFUNCTION(BlueprintCallable)
-	void InitInventoryWidget(int32 available_passive_skill_amount);
+	void InitInventoryWidget(int32 available_passive_skill_amount, bool is_read_only);
 
 	UFUNCTION(BlueprintCallable)
 	void UpdateInventoryData();
@@ -85,6 +88,12 @@ private:
 	void OnHero_3_Board_Clicked();
 
 	UFUNCTION()
+	void OnRuneSwitchButtonClicked();
+
+	UFUNCTION()
+	void OnStatusSwitchButtonClicked();
+
+	UFUNCTION()
 	void OnConfirm();
 
 private:
@@ -99,6 +108,12 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHeroEquipBoardWidget> hero_board_3_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> rune_switch_button_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> status_switch_button_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UWidgetSwitcher> rune_status_switcher_;

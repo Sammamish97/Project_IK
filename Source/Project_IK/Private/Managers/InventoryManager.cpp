@@ -21,7 +21,22 @@ void UInventoryManager::OpenInventoryWidgetReward(const FWrapperEquipmentData& r
 		{
 			inventory_widget_->LoadSelectedRewards(rewards);
 			UPerkModifierSubsystem* perk_modifier = GetWorld()->GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>();
-			inventory_widget_->InitInventoryWidget(perk_modifier->GetInventoryPassiveSkillUnlockedSlots());
+			inventory_widget_->InitInventoryWidget(perk_modifier->GetInventoryPassiveSkillUnlockedSlots(), false);
+			inventory_widget_->AddToViewport();
+			inventory_widget_->SetVisibility(ESlateVisibility::Visible);
+		}
+	}
+}
+
+void UInventoryManager::OpenReadOnlyInventoryWidget()
+{
+	if(inventory_widget_class_)
+	{
+		inventory_widget_ = CreateWidget<UInventoryWidget>(GetWorld(), inventory_widget_class_);
+		if(inventory_widget_)
+		{
+			UPerkModifierSubsystem* perk_modifier = GetWorld()->GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>();
+			inventory_widget_->InitInventoryWidget(perk_modifier->GetInventoryPassiveSkillUnlockedSlots(), true);
 			inventory_widget_->AddToViewport();
 			inventory_widget_->SetVisibility(ESlateVisibility::Visible);
 		}
@@ -41,14 +56,4 @@ void UInventoryManager::AddCredits(int32 currency)
 int32 UInventoryManager::GetCredits() const
 {
 	return credits_;
-}
-
-void UInventoryManager::SetPerkPoints(int32 points)
-{
-	perk_points_ = points;
-}
-
-int32 UInventoryManager::GetPerkPoints() const
-{
-	return perk_points_;
 }

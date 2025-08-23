@@ -62,17 +62,17 @@ void UIKGameInstance::Shutdown()
 	// }
 
 	//IKTODO: 이 코드는 전투 레벨의 끝에서만 불려야 한다?
-	// auto save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(UIKSaveGame::StaticClass()));
-	// for (const auto&[name, perk] : save_ref_->LoadAllPerkDetails())
-	// {
-	// 	if (perk.purchased_)
-	// 	{
-	// 		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
-	// 		{
-	// 			perk_effect->RemoveEffect();
-	// 		}
-	// 	}
-	// }
+	auto save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(UIKSaveGame::StaticClass()));
+	for (const auto&[name, perk] : save_ref_->LoadAllPerkDetails())
+	{
+		if (perk.purchased_)
+		{
+			if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
+			{
+				perk_effect->RemoveEffect();
+			}
+		}
+	}
 	
 	//TODO: 여기서 ULevelTransitionSubsystem의 저장이 필요한 data들을 disk에 write해야 함.
 	Super::Shutdown();
@@ -165,30 +165,30 @@ void UIKGameInstance::InitializePerkEffectsAlreadyUnlocked()
 {
 	// Enhance data by recorded progress.
 	
-	// UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
-	// const TArray<FPerkNode>& tree = GetTree();
-	// const TSet<int32>& progress = progress_system->GetProgress();
-	// for (int32 p : progress)
-	// {
-	// 	UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, tree[p].effect_class_);
-	// 	if (perk_effect)
-	// 	{
-	// 		perk_effect->ApplyEffect();
-	// 	}
-	// }
+	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
+	const TArray<FPerkNode>& tree = GetTree();
+	const TSet<int32>& progress = progress_system->GetProgress();
+	for (int32 p : progress)
+	{
+		UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, tree[p].effect_class_);
+		if (perk_effect)
+		{
+			perk_effect->ApplyEffect();
+		}
+	}
 
 	//IKTODO: 이 코드는 전투 레벨의 시작 직전에서만 불려야 한다?
-	// auto save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(UIKSaveGame::StaticClass()));
-	// for (const auto&[name, perk] : save_ref_->LoadAllPerkDetails())
-	// {
-	// 	if (perk.purchased_)
-	// 	{
-	// 		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
-	// 		{
-	// 			perk_effect->ApplyEffect();
-	// 		}
-	// 	}
-	// }
+	 auto save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(UIKSaveGame::StaticClass()));
+	 for (const auto&[name, perk] : save_ref_->LoadAllPerkDetails())
+	 {
+	 	if (perk.purchased_)
+	 	{
+	 		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
+	 		{
+	 			perk_effect->ApplyEffect();
+	 		}
+	 	}
+	 }
 }
 
 void UIKGameInstance::InitializeMaps()

@@ -144,3 +144,12 @@ void UHeroEquipBoardWidget::SetAvailablePassiveSkillAmount(int32 amount)
 		passive_skill_slot_array[i]->SetIsEnabled(false);
 	}
 }
+
+void UHeroEquipBoardWidget::ToggleReadOnly(bool is_read_only)
+{
+	TArray<UInventorySlot*> slot_array = {weapon_slot_, active_skill_slot_, passive_skill_1_slot_, passive_skill_2_slot_, passive_skill_3_slot_};
+	for (const auto& elem : slot_array)
+	{
+		elem->SetIsReadOnly(is_read_only);
+	}
+}

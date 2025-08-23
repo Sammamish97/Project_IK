@@ -46,6 +46,7 @@ void UInventorySlot::NativeOnDragDetected(const FGeometry& InGeometry, const FPo
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
 	if (is_empty_) return;
+	if (is_read_only_) return;
 
 	UDragDropOperation* dragdrop_operation = UWidgetBlueprintLibrary::CreateDragDropOperation(UDragDropOperation::StaticClass());
 	dragdrop_operation->Payload = this;
@@ -126,6 +127,11 @@ void UInventorySlot::SetImageTexture()
 	{
 		image_->SetBrushFromTexture(nullptr);
 	}
+}
+
+void UInventorySlot::SetIsReadOnly(bool is_read_only)
+{
+	is_read_only_ = is_read_only;
 }
 
 void UInventorySlot::SetHighlightImageVisibility(ESlateVisibility visibility)

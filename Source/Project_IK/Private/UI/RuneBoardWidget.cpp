@@ -264,3 +264,12 @@ TObjectPtr<URuneSlotWidget> URuneBoardWidget::GetRuneSlotWidget(int32 idx)
 			return nullptr;
 	}
 }
+
+void URuneBoardWidget::ToggleReadOnly(bool is_read_only)
+{
+	TArray rune_slots = {slot_0_, slot_1_, slot_2_, slot_3_, slot_4_, slot_5_};
+	for (const auto& elem : rune_slots)
+	{
+		elem->SetIsReadOnly(is_read_only);
+	}
+}

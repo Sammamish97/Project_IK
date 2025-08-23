@@ -34,6 +34,7 @@ public:
 	void LoadHeroData();
 	void UpdateHeroData();
 	void SetAvailablePassiveSkillAmount(int32 amount);
+	void ToggleReadOnly(bool is_read_only);
 	
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
