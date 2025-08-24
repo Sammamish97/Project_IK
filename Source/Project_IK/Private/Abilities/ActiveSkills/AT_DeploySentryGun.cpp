@@ -35,8 +35,11 @@ bool UAT_DeploySentryGun::ActivateSkill(const FTargetResult& TargetResult)
 	if (sentry_gun_class_)
 	{
 		AUnit* owner_unit = Cast<AUnit>(skill_owner_);
+		auto owner_pos = owner_unit->GetActorLocation();
 		UCharacterStatComponent* stat_component_cache = owner_unit->GetCharacterStat();
-		sentry_gun_actor_ = skill_owner_->GetWorld()->SpawnActor<ASentryGun>(sentry_gun_class_, TargetResult.target_location_, FRotator::ZeroRotator);
+		FActorSpawnParameters Params;
+		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn; // or AlwaysSpawn
+		sentry_gun_actor_ = skill_owner_->GetWorld()->SpawnActor<ASentryGun>(sentry_gun_class_, TargetResult.target_location_, FRotator::ZeroRotator, Params);
 		sentry_gun_actor_->InitSentryGun(IsUpgradedActiveSkill(skill_data_.type_),stat_component_cache->GetSkillPower());
 	}
 	return Super::ActivateSkill(TargetResult);
