@@ -15,6 +15,9 @@ See LICENSE file in the project root for full license information.
 #include "Components/SphereComponent.h"
 #include "NiagaraComponent.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+#include "Components/AudioComponent.h"
+
 ADaggerProjectiles::ADaggerProjectiles()
 	: ABullet()
 {
@@ -31,6 +34,12 @@ void ADaggerProjectiles::BeginDaggerMovements()
 	movement_->Deactivate();
 	niagara_->Activate(true);
 	GetWorldTimerManager().SetTimer(dagger_timer_, this, &ADaggerProjectiles::StartBackwardMotion, summon_times_, false);
+
+	UAudioComponent* component = UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::DaggersSpawn, GetActorLocation());
+	if (component)
+	{
+		component->FadeOut(summon_times_, 0.f);
+	}
 }
 
 void ADaggerProjectiles::BeginPlay() 
@@ -51,4 +60,6 @@ void ADaggerProjectiles::StartBackwardMotion()
 void ADaggerProjectiles::LaunchForward()
 {
 	movement_->Velocity = GetActorForwardVector() * init_speed_;
+
+	UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::DaggersFire, GetActorLocation());
 }

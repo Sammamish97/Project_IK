@@ -858,4 +858,9 @@ enum class EAudioType : uint8
 	Encourage UMETA(DisplayName = "Encourage"),
 	MagnetizedBulletsActivated UMETA(DisplayName = "MagnetizedBullets Activated"),
 	Ricochet UMETA(DisplayName = "Ricochet"),
+	Deathblow UMETA(DisplayName = "Deathblow On-Hit effect"),
+	DOT UMETA(DisplayName = "Dot damage sound"),
+	DaggersSpawn UMETA(DisplayName = "Daggers Spawn"),
+	DaggersFire UMETA(DisplayName = "Daggers Fire"),
+
 };
