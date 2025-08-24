@@ -71,8 +71,9 @@ void URunRewardWidget::NativeDestruct()
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	if (game_instance)
 	{
-		UInventoryManager* inventory = game_instance->GetInventoryManager();
-		inventory->SetPerkPoints(inventory->GetPerkPoints() + perk_points_reward_);
+		//IKTODO: 매 전투 PerkPoint를 더해주는것 대신, 회차 결산에서 거친 전투 레벨의 수를 통하여 perk point를 더해야 한다.
+		// UInventoryManager* inventory = game_instance->GetInventoryManager();
+		// inventory->SetPerkPoints(inventory->GetPerkPoints() + perk_points_reward_);
 	}
 }
 

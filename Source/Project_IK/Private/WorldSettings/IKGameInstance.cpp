@@ -47,23 +47,9 @@ void UIKGameInstance::Init()
 
 void UIKGameInstance::Shutdown()
 {
-	// Enhance data by recorded progress.
-	// UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
-	// const TArray<FPerkNode>& tree = GetTree();
-	//
-	// const TSet<int32>& progress = progress_system->GetProgress();
-	// for (int32 p : progress)
-	// {
-	// 	UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, tree[p].effect_class_);
-	// 	if (perk_effect)
-	// 	{
-	// 		perk_effect->RemoveEffect();
-	// 	}
-	// }
-
 	//IKTODO: 이 코드는 전투 레벨의 끝에서만 불려야 한다?
-	auto save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(UIKSaveGame::StaticClass()));
-	for (const auto&[name, perk] : save_ref_->LoadAllPerkDetails())
+	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
+	for (const auto&[name, perk] : progress_system->LoadAllPerkDetails())
 	{
 		if (perk.purchased_)
 		{
@@ -164,22 +150,10 @@ void UIKGameInstance::InitEventManager()
 void UIKGameInstance::InitializePerkEffectsAlreadyUnlocked()
 {
 	// Enhance data by recorded progress.
-	
 	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
-	const TArray<FPerkNode>& tree = GetTree();
-	const TSet<int32>& progress = progress_system->GetProgress();
-	for (int32 p : progress)
-	{
-		UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, tree[p].effect_class_);
-		if (perk_effect)
-		{
-			perk_effect->ApplyEffect();
-		}
-	}
 
 	//IKTODO: 이 코드는 전투 레벨의 시작 직전에서만 불려야 한다?
-	 auto save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(UIKSaveGame::StaticClass()));
-	 for (const auto&[name, perk] : save_ref_->LoadAllPerkDetails())
+	 for (const auto&[name, perk] : progress_system->LoadAllPerkDetails())
 	 {
 	 	if (perk.purchased_)
 	 	{
@@ -202,7 +176,6 @@ void UIKGameInstance::InitInventoryManager()
 	inventory_manager_ = NewObject<UInventoryManager>(this, inventory_manager_class_);
 
 	// DEBUG PURPOSE.
-	inventory_manager_->SetPerkPoints(999);
 	inventory_manager_->SetCredits(999);
 }
 

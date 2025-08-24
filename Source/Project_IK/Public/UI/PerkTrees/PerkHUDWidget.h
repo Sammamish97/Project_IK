@@ -18,7 +18,7 @@ class UBorder;
 class UPerkConnectionWidget;
 struct FPerkNodeDetail;
 class UPerkPopupWidget;
-class UIKSaveGame;
+class UPerkProgressSubsystem;
 class UTextManager;
 
 UCLASS()
@@ -61,10 +61,10 @@ private:
 	TArray<UUserWidget*> perk_connections_cache_;
 	
 	UPROPERTY(Transient)
-	TObjectPtr<UIKSaveGame> save_ref_;
+	TObjectPtr<UTextManager> text_manager_cache_;
 
 	UPROPERTY(Transient)
-	TObjectPtr<UTextManager> text_manager_cache_;
+	TObjectPtr<UPerkProgressSubsystem> progress_system_cache_;
 	
 	bool is_menu_opened_ = true;
 	bool is_mouse_down_;

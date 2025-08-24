@@ -14,15 +14,14 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/Border.h"
 #include "Components/CanvasPanelSlot.h"
-#include "Components/PanelWidget.h"
 #include "Components/TextBlock.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Managers/TextManager.h"
+#include "Subsystems/PerkProgressSubsystem.h"
 #include "UI/PerkTrees/PerkConnectionWidget.h"
 #include "UI/PerkTrees/PerkPopupWidget.h"
 #include "WorldSettings/IKGameInstance.h"
-#include "WorldSettings/IKSaveGame.h"
 
 void UPerkHUDWidget::NativePreConstruct()
 {
@@ -37,18 +36,19 @@ void UPerkHUDWidget::NativePreConstruct()
 void UPerkHUDWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+	
 	TArray<UUserWidget*> output_;
 	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), output_, UPerkConnectionWidget::StaticClass(), false);
 	perk_connections_cache_ = output_;
+	
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	text_manager_cache_ = game_instance->GetTextManager();
-	SetPerkPointText();
 
-	if (save_ref_ == nullptr)
+	if (progress_system_cache_ == nullptr)
 	{
-		save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(UIKSaveGame::StaticClass()));
+		progress_system_cache_ = game_instance->GetSubsystem<UPerkProgressSubsystem>();
 	}
-	save_ref_->SavePerkPoint(10);
+	SetPerkPointText();
 }
 
 void UPerkHUDWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -139,8 +139,8 @@ void UPerkHUDWidget::SetPerkPointText()
 {
 	FFormatNamedArguments args;
 	FText base_text = text_manager_cache_->GetPopUpText("PP");
-	
-	args.Add("PP", FText::AsNumber( save_ref_->LoadPerkPoint()));
+
+	args.Add("PP", FText::AsNumber(progress_system_cache_->LoadPerkPoint()));
 	perk_point_text_->SetText(FText::Format(base_text, args));
 }
 

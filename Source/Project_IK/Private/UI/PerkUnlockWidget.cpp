@@ -48,11 +48,11 @@ void UPerkUnlockWidget::NativeConstruct()
 
 	path_to_selected_node_.Empty();
 
-	InitWidgets();
+	//InitWidgets();
 
-	perk_points_text_->SetText(FText::AsNumber(
-		Cast<UIKGameInstance>(GetGameInstance())->GetInventoryManager()->GetPerkPoints()
-	));
+	// perk_points_text_->SetText(FText::AsNumber(
+	// 	Cast<UIKGameInstance>(GetGameInstance())->GetInventoryManager()->GetPerkPoints()
+	// ));
 
 
 	if (confirmation_widget_class_)
@@ -288,29 +288,29 @@ void UPerkUnlockWidget::OnButtonClicked()
 
 void UPerkUnlockWidget::OnConfirmed()
 {
-	UIKGameInstance* game_instance = Cast<UIKGameInstance>(GetGameInstance());
-	const int32 perk_points = game_instance->GetInventoryManager()->GetPerkPoints();
-	const int32 clicked_perk_points = GetAccumulatedPerkCost(path_to_selected_node_.Top());
-	if (clicked_perk_points <= perk_points)
-	{
-		for (int32 node_index : path_to_selected_node_)
-		{
-			UnlockPerk(node_index);
-		}
-		game_instance->GetInventoryManager()->SetPerkPoints(perk_points - clicked_perk_points);
-
-		perk_points_text_->SetText(FText::AsNumber(
-			perk_points - clicked_perk_points
-		));
-
-
-		UpdateCosts(GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>()->GetProgress());
-		LockUnpayableButtons();
-	}
-	else
-	{
-		// @@ TODO: Add VFX/SFX to indicate insufficient perk points.
-	}
+	// UIKGameInstance* game_instance = Cast<UIKGameInstance>(GetGameInstance());
+	// const int32 perk_points = game_instance->GetInventoryManager()->GetPerkPoints();
+	// const int32 clicked_perk_points = GetAccumulatedPerkCost(path_to_selected_node_.Top());
+	// if (clicked_perk_points <= perk_points)
+	// {
+	// 	for (int32 node_index : path_to_selected_node_)
+	// 	{
+	// 		UnlockPerk(node_index);
+	// 	}
+	// 	game_instance->GetInventoryManager()->SetPerkPoints(perk_points - clicked_perk_points);
+	//
+	// 	perk_points_text_->SetText(FText::AsNumber(
+	// 		perk_points - clicked_perk_points
+	// 	));
+	//
+	//
+	// 	UpdateCosts(GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>()->GetProgress());
+	// 	LockUnpayableButtons();
+	// }
+	// else
+	// {
+	// 	// @@ TODO: Add VFX/SFX to indicate insufficient perk points.
+	// }
 }
 
 void UPerkUnlockWidget::ClearButtonDelegates()
@@ -363,31 +363,31 @@ void UPerkUnlockWidget::UpdateLinkAnimation()
 }
 
 
-void UPerkUnlockWidget::InitWidgets()
-{
-	UIKGameInstance* game_instance = Cast<UIKGameInstance>(GetGameInstance());
-	if (!game_instance)
-	{
-		return;
-	}
-
-	ClearWidgets();
-
-	UPerkProgressSubsystem* perk_progress_system = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
-	if (perk_progress_system)
-	{
-		TSet<int32> progress = perk_progress_system->GetProgress();
-		// Unlock buttons by recorded progress
-		for (int32 activated_node : progress)
-		{
-			MakeButtonUnlockedVisually(activated_node);
-		}
-
-		// Lock unpayable buttons by using both progress and tree costs.
-		UpdateCosts(progress);
-		LockUnpayableButtons();
-	}
-}
+// void UPerkUnlockWidget::InitWidgets()
+// {
+// 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(GetGameInstance());
+// 	if (!game_instance)
+// 	{
+// 		return;
+// 	}
+//
+// 	ClearWidgets();
+//
+// 	UPerkProgressSubsystem* perk_progress_system = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
+// 	if (perk_progress_system)
+// 	{
+// 		//TSet<int32> progress = perk_progress_system->GetProgress();
+// 		// Unlock buttons by recorded progress
+// 		for (int32 activated_node : progress)
+// 		{
+// 			MakeButtonUnlockedVisually(activated_node);
+// 		}
+//
+// 		// Lock unpayable buttons by using both progress and tree costs.
+// 		//UpdateCosts(progress);
+// 		LockUnpayableButtons();
+// 	}
+// }
 
 // It returns false when progress already recorded.
 bool UPerkUnlockWidget::UnlockPerk(int32 clicked_index)
@@ -399,11 +399,11 @@ bool UPerkUnlockWidget::UnlockPerk(int32 clicked_index)
 	{
 		return false;
 	}
-	bool successfully_added = perk_progress_system->AddProgress(clicked_index);
-	if (!successfully_added)
-	{
-		return false;
-	}
+	// bool successfully_added = perk_progress_system->AddProgress(clicked_index);
+	// if (!successfully_added)
+	// {
+	// 	return false;
+	// }
 
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(GetGameInstance());
 	const TArray<FPerkNode>& tree = Cast<UIKGameInstance>(GetGameInstance())->GetTree();
@@ -501,28 +501,28 @@ void UPerkUnlockWidget::AccumulateCost(const TArray<FPerkNode>& tree, const TSet
 
 void UPerkUnlockWidget::LockUnpayableButtons()
 {
-	UIKGameInstance* game_instance = Cast<UIKGameInstance>(GetGameInstance());
-	const int32 perk_points = game_instance->GetInventoryManager()->GetPerkPoints();
-	TArray<FPerkNode> tree = Cast<UIKGameInstance>(GetGameInstance())->GetTree();
-
-	for (int32 i = 0; i < tree.Num(); i++)
-	{
-		if (perk_points < costs_[i] && buttons_[i]->GetIsEnabled())
-		{
-			// It is Unpayable. Lock them all.
-			FButtonStyle locked_button_style = buttons_[i]->GetStyle();
-			UObject* resource_object = locked_button_style.Disabled.GetResourceObject();
-			locked_button_style.SetDisabled(locked_disabled_brush_);
-			locked_button_style.Disabled.SetResourceObject(resource_object);
-			buttons_[i]->SetStyle(locked_button_style);
-			buttons_[i]->SetIsEnabled(false);
-
-			for (int32 next_index : tree[i].next_)
-			{
-				links_[FIntPoint(i, next_index)]->SetWidgetStyle(locked_progress_bar_style_);
-			}
-		}
-	}
+	// UIKGameInstance* game_instance = Cast<UIKGameInstance>(GetGameInstance());
+	// const int32 perk_points = game_instance->GetInventoryManager()->GetPerkPoints();
+	// TArray<FPerkNode> tree = Cast<UIKGameInstance>(GetGameInstance())->GetTree();
+	//
+	// for (int32 i = 0; i < tree.Num(); i++)
+	// {
+	// 	if (perk_points < costs_[i] && buttons_[i]->GetIsEnabled())
+	// 	{
+	// 		// It is Unpayable. Lock them all.
+	// 		FButtonStyle locked_button_style = buttons_[i]->GetStyle();
+	// 		UObject* resource_object = locked_button_style.Disabled.GetResourceObject();
+	// 		locked_button_style.SetDisabled(locked_disabled_brush_);
+	// 		locked_button_style.Disabled.SetResourceObject(resource_object);
+	// 		buttons_[i]->SetStyle(locked_button_style);
+	// 		buttons_[i]->SetIsEnabled(false);
+	//
+	// 		for (int32 next_index : tree[i].next_)
+	// 		{
+	// 			links_[FIntPoint(i, next_index)]->SetWidgetStyle(locked_progress_bar_style_);
+	// 		}
+	// 	}
+	// }
 }
 
 bool UPerkUnlockWidget::OnButtonClickedDFS(const TArray<FPerkNode>& tree, int32 current_node_index, TArray<int32>& path)

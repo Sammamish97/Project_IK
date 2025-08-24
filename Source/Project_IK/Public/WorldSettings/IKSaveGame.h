@@ -19,19 +19,4 @@ UCLASS()
 class PROJECT_IK_API UIKSaveGame : public USaveGame
 {
 	GENERATED_BODY()
-public:
-	void CreateEmptySaveFile();
-	void SavePerkDetails(FName key, FPerkNodeDetail detail);
-	FPerkNodeDetail LoadPerkDetails(FName key);
-	TMap<FName, FPerkNodeDetail> LoadAllPerkDetails();
-	
-	void SavePerkPoint(int32 perk_point);
-	int32 LoadPerkPoint();
-	void DeleteSaveFiles();
-	
-private:
-	UPROPERTY()
-	int32 perk_points_;
-	UPROPERTY()
-	TMap<FName, FPerkNodeDetail> perk_node_map_;
 };

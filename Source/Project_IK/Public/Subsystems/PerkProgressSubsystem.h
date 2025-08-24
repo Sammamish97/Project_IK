@@ -11,31 +11,30 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Managers/EnumCluster.h"
+#include "Structs/PerkNodeDetail.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "PerkProgressSubsystem.generated.h"
 
 enum class EHeroType : uint8;
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API UPerkProgressSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
-	
-
 public:
-
 	virtual void Initialize(FSubsystemCollectionBase& collection) override;
 
-	virtual void Deinitialize() override;
+	void SavePerkDetails(FName key, FPerkNodeDetail detail);
+	FPerkNodeDetail LoadPerkDetails(FName key);
+	TMap<FName, FPerkNodeDetail> LoadAllPerkDetails();
 
-	const TSet<int32>& GetProgress() const;
-	// Return false when there is a recorded progress already.
-	bool AddProgress(int32 progress);
-
+	void SavePerkPoint(int32 perk_point);
+	int32 LoadPerkPoint();
+	
 protected:
-	TSet<int32> progress_;	
+	UPROPERTY()
+	int32 perk_points_;
+	
+	UPROPERTY()
+	TMap<FName, FPerkNodeDetail> perk_node_map_;	
 };

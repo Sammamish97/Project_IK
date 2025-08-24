@@ -18,6 +18,7 @@ See LICENSE file in the project root for full license information.
 class USaveGame;
 class UIKSaveGame;
 class UPerkConnectionWidget;
+class UPerkProgressSubsystem;
 class UImage;
 class UButton;
 class UOverlay;
@@ -27,6 +28,10 @@ class PROJECT_IK_API UPerkNodeWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
+	virtual void NativePreConstruct() override;
+	virtual void NativeConstruct() override;
+	void SaveSkill();
+	
 	void UnlockSkill();
 	void PurchaseSkill();
 	bool CanPurchase();
@@ -62,11 +67,6 @@ private:
 	void OnButtonHovered();
 	UFUNCTION()
 	void OnButtonUnhovered();
-
-public:
-	virtual void NativePreConstruct() override;
-	virtual void NativeConstruct() override;
-	void SaveSkill();
 
 private:
 	UPROPERTY(meta = (BindWidget))
@@ -108,6 +108,6 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UPerkConnectionWidget> perk_connection_widget_class_;
 
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<USaveGame> save_game_class_;
+	UPROPERTY(Transient)
+	TObjectPtr<UPerkProgressSubsystem> progress_system_cache_;
 };

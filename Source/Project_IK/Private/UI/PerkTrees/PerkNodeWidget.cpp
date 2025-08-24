@@ -21,8 +21,38 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/KismetMathLibrary.h"
 #include "UI/PerkTrees/PerkConnectionWidget.h"
 #include "UI/PerkTrees/PerkHUDWidget.h"
-#include "WorldSettings/IKSaveGame.h"
+#include "Subsystems/PerkProgressSubsystem.h"
 #include "WorldSettings/PerkUnlockLevel/IKPerkUnlockHUD.h"
+
+void UPerkNodeWidget::NativePreConstruct()
+{
+	Super::NativePreConstruct();
+	SetAlignment();
+	FTimerDelegate timerDelegate = FTimerDelegate::CreateUObject(this, &UPerkNodeWidget::ConnectPerkNodes);
+	GetWorld()->GetTimerManager().SetTimerForNextTick(timerDelegate);
+}
+
+void UPerkNodeWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+	if (progress_system_cache_ == nullptr)
+	{
+		progress_system_cache_ = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
+	}
+
+	FString string_name = perk_detail_.display_data_->text_key_;
+	FName name = FName(*string_name);
+
+	if (progress_system_cache_->LoadPerkDetails(name).display_data_)
+	{
+		perk_detail_ = progress_system_cache_->LoadPerkDetails(name);
+	}
+	
+	button_->OnPressed.AddDynamic(this, &UPerkNodeWidget::OnButtonPressed);
+	button_->OnReleased.AddDynamic(this, &UPerkNodeWidget::OnButtonReleased);
+	button_->OnHovered.AddDynamic(this, &UPerkNodeWidget::OnButtonHovered);
+	button_->OnUnhovered.AddDynamic(this, &UPerkNodeWidget::OnButtonUnhovered);
+}
 
 void UPerkNodeWidget::UnlockSkill()
 {
@@ -56,8 +86,8 @@ bool UPerkNodeWidget::CanPurchase()
 
 void UPerkNodeWidget::RemoveSkillPoint(int32 amount)
 {
-	int32 left_point = save_ref_->LoadPerkPoint();
-	save_ref_->SavePerkPoint(left_point - amount);
+	int32 left_point = progress_system_cache_->LoadPerkPoint();
+	progress_system_cache_->SavePerkPoint(left_point - amount);
 	
 	auto hud = Cast<AIKPerkUnlockHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 	hud->GetPerkHUDWidget()->SetPerkPointText();
@@ -189,41 +219,11 @@ ESlateVisibility UPerkNodeWidget::SetCheckVisibility()
 	return ESlateVisibility::Collapsed;
 }
 
-void UPerkNodeWidget::NativePreConstruct()
-{
-	Super::NativePreConstruct();
-	SetAlignment();
-	FTimerDelegate timerDelegate = FTimerDelegate::CreateUObject(this, &UPerkNodeWidget::ConnectPerkNodes);
-	GetWorld()->GetTimerManager().SetTimerForNextTick(timerDelegate);
-}
-
-void UPerkNodeWidget::NativeConstruct()
-{
-	Super::NativeConstruct();
-	if (save_ref_ == nullptr)
-	{
-		save_ref_ = Cast<UIKSaveGame>(UGameplayStatics::CreateSaveGameObject(save_game_class_));
-	}
-
-	FString string_name = perk_detail_.display_data_->text_key_;
-	FName name = FName(*string_name);
-
-	if (save_ref_->LoadPerkDetails(name).display_data_)
-	{
-		perk_detail_ = save_ref_->LoadPerkDetails(name);
-	}
-	
-	button_->OnPressed.AddDynamic(this, &UPerkNodeWidget::OnButtonPressed);
-	button_->OnReleased.AddDynamic(this, &UPerkNodeWidget::OnButtonReleased);
-	button_->OnHovered.AddDynamic(this, &UPerkNodeWidget::OnButtonHovered);
-	button_->OnUnhovered.AddDynamic(this, &UPerkNodeWidget::OnButtonUnhovered);
-}
-
 void UPerkNodeWidget::SaveSkill()
 {
 	FString string_name = perk_detail_.display_data_->text_key_;
 	FName name = FName(*string_name);
-	save_ref_->SavePerkDetails(name, perk_detail_);
+	progress_system_cache_->SavePerkDetails(name, perk_detail_);
 }
 
 void UPerkNodeWidget::OnButtonPressed()
@@ -256,14 +256,12 @@ void UPerkNodeWidget::OnButtonReleased()
 
 void UPerkNodeWidget::OnButtonHovered()
 {
-	//IKTODO: Popup 띄우기
 	auto hud = Cast<AIKPerkUnlockHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 	hud->GetPerkHUDWidget()->SetPopupDetail(perk_detail_);
 }
 
 void UPerkNodeWidget::OnButtonUnhovered()
 {
-	//IKTODO: Popup 띄우기
 	auto hud = Cast<AIKPerkUnlockHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 	hud->GetPerkHUDWidget()->SetPopupDetail(FPerkNodeDetail());
 }

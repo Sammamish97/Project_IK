@@ -78,7 +78,7 @@ protected:
 	void StartLinkAnimation(TArray<TWeakObjectPtr<UProgressBar>> links);
 	void UpdateLinkAnimation();
 
-	void InitWidgets();
+	//void InitWidgets();
 
 	// A function invoked when users actually clicked the button.
 	bool UnlockPerk(int32 clicked_index);
