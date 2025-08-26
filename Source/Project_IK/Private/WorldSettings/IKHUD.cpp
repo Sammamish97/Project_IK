@@ -105,7 +105,7 @@ void AIKHUD::BindHeroWidgetUI()
 			
 			button_bar_widget_->GetHeroWidget(cur_hero_type)->InitHeroWidget(button_bar_widget_->GetBuffPopupWidget(),
 				cur_hero->GetRuneMechanics(), rune_pop_up_widget,
-				cur_hero_type, cur_hero->GetHeroBaseColor_1(), cur_hero->GetHeroBaseColor_2(),
+				cur_hero_type,
 				cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
 
 			subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero_type)->GetHPWidget(), &USegmentedHPUI::UpdateWidget);

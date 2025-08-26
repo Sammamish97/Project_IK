@@ -33,7 +33,7 @@ class PROJECT_IK_API UHeroWidget : public UUserWidget
 	
 public:
 	void InitHeroWidget(UBasicPopupWidget* popup_widget, class URuneMechanics* rune_mechanics, class URunePopupWidget* rune_popup_widget,
-		EHeroType hero_type, FColor hero_base_color_1, FColor hero_base_color_2, float max_hp, float cur_hp);
+		EHeroType hero_type, float max_hp, float cur_hp);
 	USegmentedHPUI* GetHPWidget();
 	USkillButtonWidget* GetSkillButtonWidget();
 	UBuffContainer* GetBuffContainer();

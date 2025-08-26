@@ -153,16 +153,23 @@ void UIKGameInstance::InitializePerkEffectsAlreadyUnlocked()
 	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
 
 	//IKTODO: 이 코드는 전투 레벨의 시작 직전에서만 불려야 한다?
-	 for (const auto&[name, perk] : progress_system->LoadAllPerkDetails())
-	 {
-	 	if (perk.purchased_)
-	 	{
-	 		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
-	 		{
-	 			perk_effect->ApplyEffect();
-	 		}
-	 	}
-	 }
+	 // for (const auto&[name, perk] : progress_system->LoadAllPerkDetails())
+	 // {
+	 // 	if (perk.purchased_)
+	 // 	{
+	 // 		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
+	 // 		{
+	 // 			perk_effect->ApplyEffect();
+	 // 		}
+	 // 	}
+	 // }
+	for (const auto& elem :  GetTree())
+	{
+		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, elem.effect_class_))
+		{
+			perk_effect->ApplyEffect();
+		}
+	}
 }
 
 void UIKGameInstance::InitializeMaps()

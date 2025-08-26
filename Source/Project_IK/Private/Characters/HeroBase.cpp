@@ -60,7 +60,8 @@ void AHeroBase::BeginPlay()
 	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
 	if (TObjectPtr<UHPUICore> hp_core = Cast<UHPUICore>(hp_widget_component_->GetWidget()))
 	{
-		hp_core->SetHPBarColor(hero_base_color_2_);
+		//IKTODO: 현재 HP/UI 색상이 하드코드 되었다. 더 좋은 방법을 찾아야 한다.
+		hp_core->SetHPBarColor(FLinearColor::Red);
 		hp_core->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
 		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_core.Get(), &UHPUICore::UpdateWidget);
 	}
@@ -217,16 +218,6 @@ AActor* AHeroBase::GetAttackTarget() const
 		return controller->GetTargetActor();
 	}
 	return nullptr;
-}
-
-FColor AHeroBase::GetHeroBaseColor_1() const
-{
-	return hero_base_color_1_;
-}
-
-FColor AHeroBase::GetHeroBaseColor_2() const
-{
-	return hero_base_color_2_;
 }
 
 FTargetParameters AHeroBase::GetActiveSkillTargetParameters() const

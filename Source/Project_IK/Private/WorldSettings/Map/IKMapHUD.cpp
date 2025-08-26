@@ -26,32 +26,21 @@ void AIKMapHUD::BeginPlay()
 			map_widget_->AddToViewport();
 		}
 	}
-
-	if (global_buff_displayer_class_)
-	{
-		global_buff_displayer_ = CreateWidget<UGlobalBuffDisplayer>(GetWorld(), global_buff_displayer_class_);
-		if (global_buff_displayer_)
-		{
-			global_buff_displayer_->AddToViewport();
-		}
-	}
 }
 
 void AIKMapHUD::ToggleMap()
 {
-	if (map_widget_ == nullptr || global_buff_displayer_ == nullptr)
+	if (map_widget_ == nullptr)
 	{
 		return;
 	}
 
 	if (map_widget_->GetVisibility() == ESlateVisibility::Hidden)
 	{
-		global_buff_displayer_->SetVisibility(ESlateVisibility::HitTestInvisible);
 		map_widget_->SetVisibility(ESlateVisibility::Visible);
 	}
 	else
 	{
-		global_buff_displayer_->SetVisibility(ESlateVisibility::Hidden);
 		map_widget_->SetVisibility(ESlateVisibility::Hidden);
 	}
 }

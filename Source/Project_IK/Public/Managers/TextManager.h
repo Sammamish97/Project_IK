@@ -36,7 +36,22 @@ public:
 
 	FText GetStatusText(ECharacterStatType stat_type) const;
 	FText GetPopUpText(const FString& key) const;
-	
+
+	FText GetBuffNameText(EBuffType stat_type) const;
+	FText GetBuffDetailText(EBuffType stat_type) const;
+
+	FText GetGlobalBuffNameText(EGlobalBuffType stat_type) const;
+	FText GetGlobalBuffDetailText(EGlobalBuffType stat_type) const;
+
+private:
+	FString ActiveSkillEnumToKey(EActiveSkillType active_skill_type);
+	FString PassiveSkillEnumToKey(EActiveSkillType active_skill_type);
+	FString SupportSkillEnumToKey(EActiveSkillType active_skill_type);
+
+	FString StatusEnumToKey(ECharacterStatType stat_type) const;
+	FString BuffEnumToKey(EBuffType buff_type) const;
+	FString GlobalBuffEnumToKey(EGlobalBuffType global_buff_type) const;
+
 private:
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> active_skill_name_table_;
@@ -76,6 +91,21 @@ private:
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> popup_table_;
 
+	//
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> buff_name_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> buff_detail_table_;
+
+	//
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> global_buff_name_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> global_buff_detail_table_;
+	
 	//
 	
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
