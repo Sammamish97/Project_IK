@@ -110,7 +110,14 @@ USoundBase* UAudioManagerSubsystem::GetSoundClass(EAudioType audio_type, float& 
 
 	if (sound->bOverrideConcurrency == false && sound->ConcurrencySet.IsEmpty())
 	{
-		sound->ConcurrencySet.Add(default_sound_concurrency_);
+		if (USoundConcurrency* sound_concurrency = LoadSync(entry->soft_sound_concurrency_))
+		{
+			sound->ConcurrencySet.Add(sound_concurrency);
+		}
+		else
+		{
+			sound->ConcurrencySet.Add(default_sound_concurrency_);
+		}
 	}
 
 	return sound;
