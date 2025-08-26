@@ -11,12 +11,16 @@ See LICENSE file in the project root for full license information.
 #include "UI/MapHeroWidget.h"
 
 #include "Components/Border.h"
+#include "Components/Image.h"
 #include "UI/BuffContainer.h"
 #include "UI/SegmentedHPUI.h"
 
-void UMapHeroWidget::InitHeroWidget(float max_hp, float cur_hp)
+void UMapHeroWidget::InitMapHeroWidget(float max_hp, float cur_hp, const FHeroData& hero_data)
 {
 	hp_bar_->InitHPWidget(max_hp, cur_hp);
+	color_border_->SetBrushColor(hero_data.widget_color_);
+	hp_bar_->SetHPBarColor(hero_data.hp_bar_color_);
+	hero_portrait_->SetBrushFromTexture(hero_data.portrait_);
 }
 
 USegmentedHPUI* UMapHeroWidget::GetHPWidget()

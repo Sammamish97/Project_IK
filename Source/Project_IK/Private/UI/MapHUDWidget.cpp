@@ -26,7 +26,9 @@ See LICENSE file in the project root for full license information.
 void UMapHUDWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	inventory_manager_cache_ = Cast<UIKGameInstance>(GetGameInstance())->GetInventoryManager();
+	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	UDataTableManager* data_table_cache = ik_instance->GetDataTableManager();
+	inventory_manager_cache_ = ik_instance->GetInventoryManager();
 	open_inventory_button_->OnClicked.AddDynamic(this, &UMapHUDWidget::OnOpenInventory);
 	global_buff_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
 
@@ -35,9 +37,7 @@ void UMapHUDWidget::NativeConstruct()
 	
 	ULevelTransitionSubsystem* level_transition_subsystem = GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
 	const auto& spawn_map = level_transition_subsystem->GetSpawnData();
-
-	auto data_table_cache = Cast<UIKGameInstance>(GetGameInstance())->GetDataTableManager();
-
+	
 	for (int32 i = 0; i < 4; ++i)
 	{
 		//Spawn Data에서 현재 HP를 가져온다.
@@ -47,8 +47,10 @@ void UMapHUDWidget::NativeConstruct()
 		auto cur_char_data = data_table_cache->GetCharacterData(HeroTypeToCharacterType(hero_type_array[i]));
 
 		//HP Bar 업데이트
-		hero_widget_array[i]->InitHeroWidget(cur_char_data.status_data_.hit_point_,
-			cur_spawn_data.character_data_.status_data_.hit_point_);
+		hero_widget_array[i]->InitMapHeroWidget(cur_char_data.status_data_.hit_point_,
+			cur_spawn_data.character_data_.status_data_.hit_point_,
+			data_table_cache->GetHeroData(hero_type_array[i])
+			);
 	}
 
 	//Global Buff 생성

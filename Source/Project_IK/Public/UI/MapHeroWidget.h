@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/HeroData.h"
 #include "MapHeroWidget.generated.h"
 
 class UImage;
@@ -26,7 +27,7 @@ class PROJECT_IK_API UMapHeroWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void InitHeroWidget(float max_hp, float cur_hp);
+	void InitMapHeroWidget(float max_hp, float cur_hp, const FHeroData& hero_data);
 	USegmentedHPUI* GetHPWidget();
 	
 private:

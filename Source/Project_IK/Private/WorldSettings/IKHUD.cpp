@@ -21,6 +21,8 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 
 #include "Managers/CombatLevelResultManager.h"
+#include "Managers/DataTableManager.h"
+#include "Structs/HeroData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
 #include "Structs/ItemData.h"
@@ -88,6 +90,7 @@ void AIKHUD::BindHeroWidgetUI()
 	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
 	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
+	UDataTableManager* data_table_cache = ik_instance->GetDataTableManager();
 	auto game_mode =  Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	
 	TMap<EHeroType, TArray<RuneSetBonus>> hero_rune_bonus_detail_map;
@@ -100,13 +103,14 @@ void AIKHUD::BindHeroWidgetUI()
 		if(cur_spawn_data.is_dead_ == false)
 		{
 			auto cur_hero = Cast<AHeroBase>(game_mode->GetHero(cur_hero_type));
-
 			auto rune_pop_up_widget = button_bar_widget_->GetRunePopupWidget();
+			auto cur_hero_data = data_table_cache->GetHeroData(cur_hero_type);
 			
 			button_bar_widget_->GetHeroWidget(cur_hero_type)->InitHeroWidget(button_bar_widget_->GetBuffPopupWidget(),
 				cur_hero->GetRuneMechanics(), rune_pop_up_widget,
 				cur_hero_type,
-				cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint());
+				cur_hero->GetCharacterStat()->GetMaxHitPoint(), cur_hero->GetCharacterStat()->GetHitPoint(),
+				cur_hero_data);
 
 			subsystem->BindOnHPOrShieldChanged(cur_hero->GetCharacterStat(), button_bar_widget_->GetHeroWidget(cur_hero_type)->GetHPWidget(), &USegmentedHPUI::UpdateWidget);
 			

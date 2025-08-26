@@ -15,6 +15,8 @@ See LICENSE file in the project root for full license information.
 #include "Structs/PerkNode.h"
 #include "DataTableManager.generated.h"
 
+class UHeroDataAsset;
+struct FHeroData;
 class UGlobalBuffDataAsset;
 class URandomDataAssetsManager;
 class UStatInfoDataAsset;
@@ -85,37 +87,42 @@ public:
 
 	const TArray<FPerkNode>& GetTree() const;
 
+	FHeroData GetHeroData(EHeroType type) const;
+
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table")
+	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<class UWeaponDataAsset> weapon_data_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table")
+	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<class UPassiveSkillDataAsset> passive_skill_data_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table")
+	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<class UActiveSkillDataAsset> active_skill_data_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table")
+	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<class UCharacterStatDataAsset> character_stat_data_asset_;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data Table")
+	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<class URuneDataAsset> rune_data_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GlobalBuffs")
+	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UGlobalBuffDataAsset> global_buff_data_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info")
+	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UStatInfoDataAsset> stat_info_data_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info")
+	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UCrowdControlInfoDataAsset> cc_info_data_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info")
+	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<class UWeaponAnimDataAsset> unit_weapon_anim_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info")
+	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<class UUnitTypeDataAsset> unit_type_asset_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PerkTree")
+	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UPerkTreeDataAsset> perk_tree_data_asset_;
+
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UHeroDataAsset> hero_data_asset_;
 };

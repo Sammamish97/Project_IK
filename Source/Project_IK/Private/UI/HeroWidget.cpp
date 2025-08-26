@@ -10,17 +10,19 @@ See LICENSE file in the project root for full license information.
 #include "UI/HeroWidget.h"
 #include "UI/BuffContainer.h"
 #include "Components/Border.h"
+#include "Structs/HeroData.h"
 #include "UI/SegmentedHPUI.h"
 #include "UI/MiniRuneBoardWidget.h"
 
-
-void UHeroWidget::InitHeroWidget(UBasicPopupWidget* popup_widget, URuneMechanics* rune_mechanics,
-	URunePopupWidget* rune_popup_widget, EHeroType hero_type, float max_hp,
-	float cur_hp)
+void UHeroWidget::InitHeroWidget(UBasicPopupWidget* popup_widget, class URuneMechanics* rune_mechanics,
+	class URunePopupWidget* rune_popup_widget, EHeroType hero_type, float max_hp, float cur_hp,
+	const FHeroData& hero_data)
 {
 	buff_container_->InitBuffContainer(popup_widget);
 	hp_bar_->InitHPWidget(max_hp, cur_hp);
 	mini_rune_board_->InitMiniRuneBoard(rune_mechanics, rune_popup_widget, hero_type);
+	color_border_->SetBrushColor(hero_data.widget_color_);
+	hp_bar_->SetHPBarColor(hero_data.hp_bar_color_);
 }
 
 USegmentedHPUI* UHeroWidget::GetHPWidget()

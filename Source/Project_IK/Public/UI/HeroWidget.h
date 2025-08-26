@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/HeroData.h"
 #include "HeroWidget.generated.h"
 
 class UBuffContainer;
@@ -33,7 +34,7 @@ class PROJECT_IK_API UHeroWidget : public UUserWidget
 	
 public:
 	void InitHeroWidget(UBasicPopupWidget* popup_widget, class URuneMechanics* rune_mechanics, class URunePopupWidget* rune_popup_widget,
-		EHeroType hero_type, float max_hp, float cur_hp);
+		EHeroType hero_type, float max_hp, float cur_hp, const FHeroData& hero_data);
 	USegmentedHPUI* GetHPWidget();
 	USkillButtonWidget* GetSkillButtonWidget();
 	UBuffContainer* GetBuffContainer();
