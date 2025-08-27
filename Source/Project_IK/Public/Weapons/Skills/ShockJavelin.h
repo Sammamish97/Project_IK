@@ -57,4 +57,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float javelin_length_ = 300.f;
 	bool has_dispatched_ = false;
+
+	UAudioComponent* audio_component_ = nullptr;
 };

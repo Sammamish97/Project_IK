@@ -25,6 +25,9 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+#include "Components/AudioComponent.h"
+
 // Sets default values
 AThunderStorm::AThunderStorm()
 {
@@ -36,7 +39,7 @@ AThunderStorm::AThunderStorm()
 	decal_->SetRelativeRotation(FRotator(90.0, 0.0, 0.0));
 }
 
-void AThunderStorm::SetNecessaryData(float radius, float scaling_factor, float damage, AActor* skill_owner)
+void AThunderStorm::SetNecessaryData(float radius, float scaling_factor, float damage, AActor* skill_owner, float max_damage_count)
 {
 	radius_ = radius;
 	decal_->DecalSize = FVector(radius);
@@ -47,6 +50,8 @@ void AThunderStorm::SetNecessaryData(float radius, float scaling_factor, float d
 	zap_damage_ = damage;
 
 	skill_owner_ = skill_owner;
+
+	max_storm_count_ = max_damage_count;
 }
 
 // Called when the game starts or when spawned
@@ -54,22 +59,24 @@ void AThunderStorm::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//FindPostProcessVolume();
-	//BeginThunderStormPostProcess();
-
+	FindPostProcessVolume();
+	BeginThunderStormPostProcess();
+		
 	if (visual_material_)
 	{
 		decal_->SetDecalMaterial(visual_material_);
 	}
 
-	// GetWorld()->GetTimerManager().SetTimer(
-	// 	damage_handler_,
-	// 	this,
-	// 	&AThunderStorm::DamageEnemies,
-	// 	0.5f,
-	// 	true,
-	// 	1.f
-	// );
+	 GetWorld()->GetTimerManager().SetTimer(
+	 	damage_handler_,
+	 	this,
+	 	&AThunderStorm::DamageEnemies,
+		gap_between_damages_,
+	 	true,
+	 	first_delay_
+	 );
+
+	 environmental_audio_component_ = UAudioManagerSubsystem::Get(this)->PlayAttached(EAudioType::ThunderStormEnvironmental, decal_);
 }
 
 void AThunderStorm::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -112,7 +119,16 @@ void AThunderStorm::DamageEnemies()
 		SpawnSFX(world, storm_location);
 	}
 
-	if (storm_damage_count_ >= 4)
+	if (int32 fade_count = max_storm_count_ - 1;
+		storm_damage_count_ == fade_count)
+	{
+		if (environmental_audio_component_)
+		{
+			environmental_audio_component_->FadeOut(gap_between_damages_, 0.f);
+		}
+	}
+
+	if (storm_damage_count_ >= max_storm_count_)
 	{
 		world->GetWorld()->GetTimerManager().ClearTimer(damage_handler_);
 		Destroy();

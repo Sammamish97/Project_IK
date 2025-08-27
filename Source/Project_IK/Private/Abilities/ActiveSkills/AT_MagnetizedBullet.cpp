@@ -12,6 +12,10 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/Buffs/BuffHandler.h"
 #include "Characters/HeroBase.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+#include "Components/AudioComponent.h"
+#include "Abilities/Buffs/BF_MagnetizedBullet.h"
+
 UAT_MagnetizedBullet::UAT_MagnetizedBullet()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Allies, 0.f, 0.f, true);
@@ -26,6 +30,25 @@ void UAT_MagnetizedBullet::InitActiveSkill(AActor* skill_owner, const FActiveSki
 
 bool UAT_MagnetizedBullet::ActivateSkill(const FTargetResult& TargetResult)
 {
+	UAudioComponent* audio_component = nullptr;
+	if (skill_owner_)
+	{
+		audio_component = UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::MagnetizedBulletsActivated, skill_owner_->GetActorLocation());
+	}
+	else
+	{
+		audio_component = UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::MagnetizedBulletsActivated);
+	}
+
+	if (audio_component)
+	{
+		UBF_MagnetizedBullet* buff_mb = Cast<UBF_MagnetizedBullet>(buff_);
+		if (buff_mb)
+		{
+			audio_component->FadeOut(buff_mb->GetDuration(), 0.2f);
+		}
+	}
+
 	buff_->ApplyBuff(Cast<AUnit>(skill_owner_));
 	return Super::ActivateSkill(TargetResult);
 }

@@ -22,6 +22,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/CapsuleComponent.h"
 #include "NiagaraComponent.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 UAT_Encourage::UAT_Encourage()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Location, ETargetType::Allies, 0.f, 1000.f, false);
@@ -43,7 +45,15 @@ void UAT_Encourage::OnEnterCasting()
 bool UAT_Encourage::ActivateSkill(const FTargetResult& TargetResult)
 {
 	SpawnSkillParticle(TargetResult);
-
+	
+	if (skill_owner_)
+	{
+		UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::Encourage, skill_owner_->GetActorLocation());
+	}
+	else
+	{
+		UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::Encourage);
+	}
 
 	for (AActor* ally : TargetResult.target_actors_)
 	{

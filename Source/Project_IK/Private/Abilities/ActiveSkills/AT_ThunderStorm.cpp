@@ -35,7 +35,6 @@ bool UAT_ThunderStorm::ActivateSkill(const FTargetResult& TargetResult)
 	if (visual_actor_)
 	{
 		visual_actor_->SetNecessaryData(target_param_.radius_, skill_data_.skill_power_scales_[0], damage_, skill_owner_);
-		visual_actor_->DamageEnemies();
 	}
 	
 	return Super::ActivateSkill(TargetResult);
@@ -45,8 +44,4 @@ void UAT_ThunderStorm::OnEnterCasting()
 {
 	Super::OnEnterCasting();
 	Cast<AUnit>(skill_owner_)->PlayAnimMontage(casting_anim_montage_);
-}
-
-void UAT_ThunderStorm::DamageEnemies()
-{
 }

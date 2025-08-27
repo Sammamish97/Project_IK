@@ -22,6 +22,8 @@ public:
 	virtual void ApplyBuff(AUnit* target) override;
 	virtual void RemoveBuff(AUnit* target) override;
 
+	float GetDuration() const;
+
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MagnetizedBullet", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UBulletMagnetizeEffectComponent> magnetized_on_hit_class_;

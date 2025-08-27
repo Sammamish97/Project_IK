@@ -26,10 +26,7 @@ public:
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 	virtual void OnEnterCasting() override;
 
-protected:
-	UFUNCTION()
-	void DamageEnemies();
-	
+protected:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float damage_ = 0.f;
 	

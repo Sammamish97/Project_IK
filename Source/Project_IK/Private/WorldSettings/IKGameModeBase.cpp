@@ -63,6 +63,8 @@ void AIKGameModeBase::BeginPlay()
 	hero_spawn_position_ = FVector();
 	time_dilation_manager_ = NewObject<UTimeDilationManager>(this);
 	SpawnHeroes();
+
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::CombatAmbient);
 }
 
 

@@ -40,8 +40,11 @@ public:
 	void SetBGMVolume(float V);
 	void SetSFXVolume(float V);
 
+	UFUNCTION(BlueprintCallable)
 	UAudioComponent* Play2D(EAudioType audio_type, float volume = 1.f, float pitch = 1.f);
+	UFUNCTION(BlueprintCallable)
 	UAudioComponent* PlayAtLocation(EAudioType audio_type, const FVector& location, float volume = 1.f, float pitch = 1.f);
+	UFUNCTION(BlueprintCallable)
 	UAudioComponent* PlayAttached(EAudioType audio_type, USceneComponent* attach_to, FName socket = NAME_None, FVector offset = FVector::ZeroVector, 
 		EAttachLocation::Type attach_type = EAttachLocation::Type::KeepWorldPosition, bool bStopWithOwner = true, float volume = 1.f, float pitch = 1.f);
 
