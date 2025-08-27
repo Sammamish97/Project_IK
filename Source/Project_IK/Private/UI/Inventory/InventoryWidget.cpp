@@ -59,6 +59,7 @@ void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount,
 	confirm_button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnConfirm);
 
 	ToggleReadOnly(is_read_only);
+	is_read_only_ = is_read_only;
 }
 
 void UInventoryWidget::UpdateSetBonusEffect()
@@ -275,7 +276,14 @@ void UInventoryWidget::RemoveHighlight()
 
 void UInventoryWidget::UpdateInventoryData()
 {
+	//현재 룬 보드 정보 저장
 	rune_board_->UpdateRuneBoard();
+
+	//현재 장착된 영웅 장비 정보 저장
+	for (const auto& elem :  {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
+	{
+		elem->UpdateHeroData();
+	}
 }
 
 void UInventoryWidget::OnHero_0_Board_Clicked()
@@ -322,19 +330,17 @@ void UInventoryWidget::OnStatusSwitchButtonClicked()
 
 void UInventoryWidget::OnConfirm()
 {
-	//현재 룬 보드 정보 저장
-	rune_board_->UpdateRuneBoard();
-
-	//현재 장착된 영웅 장비 정보 저장
-	for (const auto& elem :  {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
+	if (is_read_only_)
 	{
-		elem->UpdateHeroData();
+		SetVisibility(ESlateVisibility::Hidden);
 	}
-	
-	//지도 UI 팝업
-	AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
-	if (hud)
+	else
 	{
-		hud->SwitchUIByState(ECombatEndState::ShowingMapUI);
+		UpdateInventoryData();
+		AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+		if (hud)
+		{
+			hud->SwitchUIByState(ECombatEndState::ShowingMapUI);
+		}
 	}
 }

@@ -24,9 +24,9 @@ void AIKEventLevelHUD::BeginPlay()
 		if(event_widget_)
 		{
 			auto ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-			auto event_manager = ik_instance->GetEventManager();
 			if(ik_instance)
 			{
+				auto event_manager = ik_instance->GetEventManager();
 				FEventData cur_event_data = event_manager->GetRandomEventData();
 				event_widget_->InitEventWidget(cur_event_data);
 				event_widget_->AddToViewport();

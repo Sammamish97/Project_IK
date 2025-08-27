@@ -146,4 +146,6 @@ private:
 	TObjectPtr<UBasicPopupWidget> equip_popup_ptr_;
 
 	EGearType last_highlighted_gear_type = EGearType::INVALID;
+
+	bool is_read_only_;
 };

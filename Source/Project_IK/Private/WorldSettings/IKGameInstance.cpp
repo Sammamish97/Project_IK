@@ -47,17 +47,9 @@ void UIKGameInstance::Init()
 
 void UIKGameInstance::Shutdown()
 {
-	//IKTODO: 이 코드는 전투 레벨의 끝에서만 불려야 한다?
-	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
-	for (const auto&[name, perk] : progress_system->LoadAllPerkDetails())
+	for (const auto& perk_effect : perk_effects_)
 	{
-		if (perk.purchased_)
-		{
-			if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
-			{
-				perk_effect->RemoveEffect();
-			}
-		}
+		perk_effect->RemoveEffect();
 	}
 	
 	//TODO: 여기서 ULevelTransitionSubsystem의 저장이 필요한 data들을 disk에 write해야 함.
@@ -151,23 +143,15 @@ void UIKGameInstance::InitializePerkEffectsAlreadyUnlocked()
 {
 	// Enhance data by recorded progress.
 	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
-
-	//IKTODO: 이 코드는 전투 레벨의 시작 직전에서만 불려야 한다?
-	 // for (const auto&[name, perk] : progress_system->LoadAllPerkDetails())
-	 // {
-	 // 	if (perk.purchased_)
-	 // 	{
-	 // 		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
-	 // 		{
-	 // 			perk_effect->ApplyEffect();
-	 // 		}
-	 // 	}
-	 // }
-	for (const auto& elem :  GetTree())
+	for (const auto&[name, perk] : progress_system->LoadAllPerkDetails())
 	{
-		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, elem.effect_class_))
+		if (perk.purchased_)
 		{
-			perk_effect->ApplyEffect();
+	  		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
+	  		{
+	  			perk_effect->ApplyEffect();
+	  			perk_effects_.Push(perk_effect);
+	  		}
 		}
 	}
 }
