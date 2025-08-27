@@ -862,5 +862,6 @@ enum class EAudioType : uint8
 	DOT UMETA(DisplayName = "Dot damage sound"),
 	DaggersSpawn UMETA(DisplayName = "Daggers Spawn"),
 	DaggersFire UMETA(DisplayName = "Daggers Fire"),
-
+	ViperGunShot UMETA(DisplayName = "Viper GunShot"),
+	MagnetizedGunShot UMETA(DisplayName = "Magnetized GunShot"),
 };

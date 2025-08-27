@@ -69,8 +69,6 @@ protected:
 	TSoftObjectPtr<USoundClass> soft_bgm_channel_ = nullptr;
 	UPROPERTY(BlueprintReadOnly)
 	TSoftObjectPtr<USoundClass> soft_sfx_channel_ = nullptr;
-	UPROPERTY(BlueprintReadOnly)
-	TSoftObjectPtr<USoundConcurrency> soft_default_sound_concurrency_ = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<UAudioDataAsset> audio_cues_ = nullptr;
@@ -82,8 +80,6 @@ protected:
 	TObjectPtr<USoundClass> bgm_channel_ = nullptr;
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<USoundClass> sfx_channel_ = nullptr;
-	UPROPERTY(BlueprintReadOnly)
-	TObjectPtr<USoundConcurrency> default_sound_concurrency_ = nullptr;
 };
 
 template<typename T>

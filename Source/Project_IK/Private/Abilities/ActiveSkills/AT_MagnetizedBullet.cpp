@@ -40,15 +40,23 @@ bool UAT_MagnetizedBullet::ActivateSkill(const FTargetResult& TargetResult)
 		audio_component = UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::MagnetizedBulletsActivated);
 	}
 
-	if (audio_component)
+	float duration = 5.f;
+	UBF_MagnetizedBullet* buff_mb = Cast<UBF_MagnetizedBullet>(buff_);
+	if (buff_mb)
 	{
-		UBF_MagnetizedBullet* buff_mb = Cast<UBF_MagnetizedBullet>(buff_);
-		if (buff_mb)
-		{
-			audio_component->FadeOut(buff_mb->GetDuration(), 0.2f);
-		}
+		duration = buff_mb->GetDuration();
 	}
 
-	buff_->ApplyBuff(Cast<AUnit>(skill_owner_));
+	if (audio_component)
+	{
+		audio_component->FadeOut(duration, 0.2f);
+	}
+
+	AHeroBase* hero = Cast<AHeroBase>(skill_owner_);
+	if (hero)
+	{
+		buff_->ApplyBuff(hero);
+		hero->ChangeGunShotSoundTemporariliy(EAudioType::MagnetizedGunShot, duration);
+	}
 	return Super::ActivateSkill(TargetResult);
 }

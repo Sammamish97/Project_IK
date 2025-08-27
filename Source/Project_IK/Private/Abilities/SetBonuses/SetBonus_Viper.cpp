@@ -43,6 +43,7 @@ void USetBonus_Viper::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
 
+	hero_cache_->ChangeGunShotSoundTemporariliy(EAudioType::ViperGunShot);
 	auto weapon_actor = hero_cache_->GetWeaponMechanics()->GetWeaponActor();
 	if (hexagon_on_hit_)
 	{

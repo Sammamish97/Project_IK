@@ -60,6 +60,10 @@ public:
 	class USkillBase* GetActiveSkill();
 	class UPassiveSkillMechanics* GetPassiveSkillMechanics();
 
+
+	void ChangeGunShotSoundTemporariliy(EAudioType temporary_gunshot_audio, float duration = 0.f);
+	void RecoverGunShotSound();
+
 protected:
 	//Mechanics
 	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))

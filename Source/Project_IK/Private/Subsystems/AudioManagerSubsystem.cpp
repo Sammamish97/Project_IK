@@ -30,7 +30,6 @@ void UAudioManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 		soft_master_channel_ = settings->master_channel_;
 		soft_bgm_channel_ = settings->bgm_channel_;
 		soft_sfx_channel_ = settings->sfx_channel_;
-		soft_default_sound_concurrency_ = settings->default_sound_concurrency_;
 
 		ApplyVolumes(settings->master_volume_, settings->bgm_volume_, settings->sfx_volume_);
 	}
@@ -108,15 +107,11 @@ USoundBase* UAudioManagerSubsystem::GetSoundClass(EAudioType audio_type, float& 
 		sound->SoundClassObject = master_channel_;
 	}
 
-	if (sound->bOverrideConcurrency == false && sound->ConcurrencySet.IsEmpty())
+	if (entry->soft_sound_concurrency_.IsNull() == false && sound->bOverrideConcurrency == false && sound->ConcurrencySet.IsEmpty())
 	{
 		if (USoundConcurrency* sound_concurrency = LoadSync(entry->soft_sound_concurrency_))
 		{
 			sound->ConcurrencySet.Add(sound_concurrency);
-		}
-		else
-		{
-			sound->ConcurrencySet.Add(default_sound_concurrency_);
 		}
 	}
 
@@ -187,9 +182,5 @@ void UAudioManagerSubsystem::LoadReferences()
 	if (!sfx_channel_)
 	{
 		sfx_channel_ = LoadSync(soft_sfx_channel_);
-	}
-	if (!default_sound_concurrency_)
-	{
-		default_sound_concurrency_ = LoadSync(soft_default_sound_concurrency_);
 	}
 }

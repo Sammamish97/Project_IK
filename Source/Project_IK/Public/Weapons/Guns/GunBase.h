@@ -67,12 +67,18 @@ public:
 	void RemoveAfterReloadOnHitComponent(TSubclassOf<class UBulletOnHitEffectComponent> target_component);
 	void ClearAfterReloadOnHitComponents();
 
+	void ChangeGunShotSoundTemporariliy(EAudioType temporary_gunshot_audio, float duration = 0.f);
+
+	UFUNCTION()
+	void RecoverGunShotSound();
+
 protected:
 	void FireSingleBullet(FVector target_pos, const FDamageData& dmg_data);
 	void FireBuckShot(FVector target_pos, const FDamageData& dmg_data);
 	void SpawnBullet(const FRotator& rotation, const FVector& translation, const FDamageData& dmg_data);
 
 	void PlayFireFXs() const;
+	void PlayFireSound() const;
 
 	UFUNCTION()
 	void OnGunDied();
@@ -145,6 +151,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
 	EAudioType gunshot_audio_type_ = EAudioType::NONE;
+
+	EAudioType temporary_gunshot_audio_type_ = EAudioType::NONE;
+	FTimerHandle temporary_gunshot_sound_timer_;
 
 public:
 	FOnFinishReload OnFinishReload;
