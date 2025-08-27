@@ -16,32 +16,37 @@ See LICENSE file in the project root for full license information.
 void UPerkProgressSubsystem::Initialize(FSubsystemCollectionBase& collection)
 {
 	Super::Initialize(collection);
-
-	//for (int32 i = 0; i < 20; i++)
-	//{
-	//	AddProgress(i);
-	//}
 }
 
-void UPerkProgressSubsystem::Deinitialize()
+void UPerkProgressSubsystem::SavePerkDetails(FName key, FPerkNodeDetail detail)
 {
-	Super::Deinitialize();
-}
-
-const TSet<int32>& UPerkProgressSubsystem::GetProgress() const
-{
-	return progress_;
-}
-
-bool UPerkProgressSubsystem::AddProgress(int32 progress)
-{
-	if (progress_.Contains(progress))
+	if (perk_node_map_.Contains(key))
 	{
-		return false;
+		perk_node_map_.Remove(key);
 	}
-	else
+	perk_node_map_.Add(key, detail);
+}
+
+FPerkNodeDetail UPerkProgressSubsystem::LoadPerkDetails(FName key)
+{
+	if (perk_node_map_.Contains(key))
 	{
-		progress_.Add(progress);
-		return true;
+		return perk_node_map_[key];
 	}
+	return FPerkNodeDetail();
+}
+
+TMap<FName, FPerkNodeDetail> UPerkProgressSubsystem::LoadAllPerkDetails()
+{
+	return perk_node_map_;
+}
+
+void UPerkProgressSubsystem::SavePerkPoint(int32 perk_point)
+{
+	perk_points_ = perk_point;
+}
+
+int32 UPerkProgressSubsystem::LoadPerkPoint()
+{
+	return perk_points_;
 }

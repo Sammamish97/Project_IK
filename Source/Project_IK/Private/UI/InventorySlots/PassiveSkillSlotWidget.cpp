@@ -10,7 +10,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/InventorySlots/PassiveSkillSlotWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
-#include "UI/InventoryWidget.h"
+#include "UI/Inventory/InventoryWidget.h"
 
 void UPassiveSkillSlotWidget::NativeConstruct()
 {
@@ -29,7 +29,10 @@ void UPassiveSkillSlotWidget::SetPassiveSkillSlotData(const FPassiveSkillData& p
 FReply UPassiveSkillSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry,
 	const FPointerEvent& InMouseEvent)
 {
-	inventory_widget_cache_->SetHighlightVisibility(EGearType::PassiveSkill, ESlateVisibility::Visible);
+	if (is_empty_ == false)
+	{
+		inventory_widget_cache_->SetHighlightVisibility(EGearType::PassiveSkill, ESlateVisibility::Visible);
+	}
 	return Super::NativeOnPreviewMouseButtonDown(InGeometry, InMouseEvent);
 }
 

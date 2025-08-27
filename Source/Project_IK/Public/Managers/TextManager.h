@@ -19,19 +19,71 @@ class PROJECT_IK_API UTextManager : public UObject
 {
 	GENERATED_BODY()
 public:
-	FText GetNameText(const FString& key) const;
-	FText GetDetailText(const FString& key) const;
-	FText GetStatusText(ECharacterStatType stat_type) const;
-	FText GetPopUpText(const FString& key) const;
+	FText GetActiveSkillNameText(const FString& key) const;
+	FText GetActiveSkillDetailText(const FString& key) const;
+
+	FText GetPassiveSkillNameText(const FString& key) const;
+	FText GetPassiveSkillDetailText(const FString& key) const;
+
+	FText GetSupportSkillNameText(const FString& key) const;
+	FText GetSupportSkillDetailText(const FString& key) const;
+
+	FText GetPerkNameText(const FString& key) const;
+	FText GetPerkDetailText(const FString& key) const;
+
 	FText GetRuneNameText(ERuneSetType set_type) const;
 	FText GetRuneSetBonusText(ERuneSetType set_type, ERuneSetBonusType bonus_type) const;
 
+	FText GetStatusText(ECharacterStatType stat_type) const;
+	FText GetPopUpText(const FString& key) const;
+
+	FText GetBuffNameText(EBuffType stat_type) const;
+	FText GetBuffDetailText(EBuffType stat_type) const;
+
+	FText GetGlobalBuffNameText(EGlobalBuffType stat_type) const;
+	FText GetGlobalBuffDetailText(EGlobalBuffType stat_type) const;
+
+private:
+	FString ActiveSkillEnumToKey(EActiveSkillType active_skill_type);
+	FString PassiveSkillEnumToKey(EActiveSkillType active_skill_type);
+	FString SupportSkillEnumToKey(EActiveSkillType active_skill_type);
+
+	FString StatusEnumToKey(ECharacterStatType stat_type) const;
+	FString BuffEnumToKey(EBuffType buff_type) const;
+	FString GlobalBuffEnumToKey(EGlobalBuffType global_buff_type) const;
+
 private:
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TObjectPtr<UStringTable> name_table_;
+	TObjectPtr<UStringTable> active_skill_name_table_;
 
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TObjectPtr<UStringTable> detail_table_;
+	TObjectPtr<UStringTable> active_skill_detail_table_;
+
+	//
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> passive_skill_name_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> passive_skill_detail_table_;
+
+	//
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> support_skill_name_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> support_skill_detail_table_;
+
+	//
+	
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> perk_name_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> perk_detail_table_;
+
+	//
 
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> status_table_;
@@ -39,6 +91,21 @@ private:
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> popup_table_;
 
+	//
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> buff_name_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> buff_detail_table_;
+
+	//
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> global_buff_name_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> global_buff_detail_table_;
+	
 	//
 	
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))

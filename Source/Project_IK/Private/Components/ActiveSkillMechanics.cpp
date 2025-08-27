@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Components/ActiveSkillMechanics.h"
 
+#include "AIController.h"
 #include "Abilities/ActiveSkills/ActiveSkillBase.h"
 #include "Characters/HeroBase.h"
 #include "BrainComponent.h"
@@ -56,7 +57,14 @@ void UActiveSkillMechanics::ActivateSkill(const FTargetResult& target_result)
 			{
 				casted_hero->SetUnitStateWithInterrupt(EUnitState::OnActiveSkill);
 				casted_hero->GetWeaponMechanics()->FinishFire();
-
+				if (target_result.target_actors_.Num() > 0)
+				{
+					Cast<AAIController>(casted_hero->GetController())->SetFocus(target_result.target_actors_[0]);
+				}
+				else
+				{
+					Cast<AAIController>(casted_hero->GetController())->SetFocalPoint(target_result.target_location_);
+				}
 				active_skill_->OnEnterCasting();
 
 				auto& timer_manager = GetWorld()->GetTimerManager();

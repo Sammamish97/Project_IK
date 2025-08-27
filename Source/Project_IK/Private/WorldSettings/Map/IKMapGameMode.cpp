@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Subsystems/PerkModifierSubsystem.h"
 #include "WorldSettings/IKGameInstance.h"
-#include "UI/IKMaps.h"
+#include "UI/Map/IKMaps.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "Managers/DataTableManager.h"
 

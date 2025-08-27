@@ -1,0 +1,38 @@
+/******************************************************************************
+Copyright(C) 2025
+Author: chunmook.kim(chunmook.kim97@gmail.com)
+Creation Date : 6.12.2025
+Summary : Source file for HP UI Core widget.
+
+Licensed under the MIT License.
+See LICENSE file in the project root for full license information.
+******************************************************************************/
+
+#include "UI/Combat/HPUICore.h"
+#include "Components/ProgressBar.h"
+
+void UHPUICore::InitHPWidget(float max_hp, float cur_hp)
+{
+	max_hp_ = max_hp;
+	cur_max_hp_ = max_hp_;
+	UpdateWidget(cur_hp, 0);
+}
+
+void UHPUICore::UpdateWidget(float cur_hp, float cur_shield)
+{
+	cur_max_hp_ = FMath::Max(cur_hp + cur_shield, max_hp_);
+	float hp_ratio = cur_hp / cur_max_hp_;
+	float shield_ratio = hp_ratio + cur_shield / cur_max_hp_;
+
+	hp_bar_->SetPercent(hp_ratio);
+	shield_bar_->SetPercent(shield_ratio);
+}
+
+//Widget Style를 완전히 새 변수를 만들어 사용할 시,
+//테두리가 사라지고, EnemyHPUI일 경우 크기가 이상하게 커진다.
+void UHPUICore::SetHPBarColor(FLinearColor color)
+{
+	auto last_style = hp_bar_->GetWidgetStyle();
+	last_style.FillImage.TintColor = color;
+	hp_bar_->SetWidgetStyle(last_style);
+}

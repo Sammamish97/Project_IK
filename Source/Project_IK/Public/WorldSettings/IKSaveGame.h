@@ -12,14 +12,11 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
+#include "Structs/PerkNodeDetail.h"
 #include "IKSaveGame.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API UIKSaveGame : public USaveGame
 {
 	GENERATED_BODY()
-	
 };

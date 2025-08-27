@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/StoreLevel/IKStoreHUD.h"
 
 #include "UI/StoreWidget.h"
-#include "UI/MapWidget.h"
+#include "UI/Map/MapWidget.h"
 
 void AIKStoreHUD::BeginPlay()
 {

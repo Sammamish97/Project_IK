@@ -10,7 +10,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/InventorySlots/InventorySlot.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
-#include "UI/InventoryWidget.h"
+#include "UI/Inventory/InventoryWidget.h"
 #include "UI/SlotDragDropImage.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 
@@ -46,6 +46,7 @@ void UInventorySlot::NativeOnDragDetected(const FGeometry& InGeometry, const FPo
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
 	if (is_empty_) return;
+	if (is_read_only_) return;
 
 	UDragDropOperation* dragdrop_operation = UWidgetBlueprintLibrary::CreateDragDropOperation(UDragDropOperation::StaticClass());
 	dragdrop_operation->Payload = this;
@@ -92,8 +93,8 @@ void UInventorySlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPoin
 	if (is_empty_ == false)
 	{
 		inventory_widget_cache_->CreatePassiveSkillPopupWidget(item_data_cache_.display_data_->thumbnail,
-			text_manager_cache_->GetNameText(item_data_cache_.display_data_->text_key_),
-			text_manager_cache_->GetDetailText(item_data_cache_.display_data_->text_key_));
+			text_manager_cache_->GetActiveSkillNameText(item_data_cache_.display_data_->text_key_),
+			text_manager_cache_->GetActiveSkillDetailText(item_data_cache_.display_data_->text_key_));
 	}
 }
 
@@ -126,6 +127,11 @@ void UInventorySlot::SetImageTexture()
 	{
 		image_->SetBrushFromTexture(nullptr);
 	}
+}
+
+void UInventorySlot::SetIsReadOnly(bool is_read_only)
+{
+	is_read_only_ = is_read_only;
 }
 
 void UInventorySlot::SetHighlightImageVisibility(ESlateVisibility visibility)

@@ -9,7 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "WorldSettings/IKGameInstance.h"
 
-#include "UI/IKMaps.h"
+#include "UI/Map/IKMaps.h"
 #include "Managers/InventoryManager.h"
 #include "Managers/SetBonusManager.h"
 #include "Managers/EventManager.h"
@@ -23,6 +23,7 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "Subsystems/GlobalBuffSubsystem.h"
+#include "WorldSettings/IKSaveGame.h"
 
 UIKGameInstance::UIKGameInstance()
 	:Super::UGameInstance()
@@ -46,20 +47,11 @@ void UIKGameInstance::Init()
 
 void UIKGameInstance::Shutdown()
 {
-	// Enhance data by recorded progress.
-	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
-	const TArray<FPerkNode>& tree = GetTree();
-
-	const TSet<int32>& progress = progress_system->GetProgress();
-	for (int32 p : progress)
+	for (const auto& perk_effect : perk_effects_)
 	{
-		UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, tree[p].effect_class_);
-		if (perk_effect)
-		{
-			perk_effect->RemoveEffect();
-		}
+		perk_effect->RemoveEffect();
 	}
-
+	
 	//TODO: 여기서 ULevelTransitionSubsystem의 저장이 필요한 data들을 disk에 write해야 함.
 	Super::Shutdown();
 }
@@ -151,14 +143,15 @@ void UIKGameInstance::InitializePerkEffectsAlreadyUnlocked()
 {
 	// Enhance data by recorded progress.
 	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
-	const TArray<FPerkNode>& tree = GetTree();
-	const TSet<int32>& progress = progress_system->GetProgress();
-	for (int32 p : progress)
+	for (const auto&[name, perk] : progress_system->LoadAllPerkDetails())
 	{
-		UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, tree[p].effect_class_);
-		if (perk_effect)
+		if (perk.purchased_)
 		{
-			perk_effect->ApplyEffect();
+	  		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
+	  		{
+	  			perk_effect->ApplyEffect();
+	  			perk_effects_.Push(perk_effect);
+	  		}
 		}
 	}
 }
@@ -174,7 +167,6 @@ void UIKGameInstance::InitInventoryManager()
 	inventory_manager_ = NewObject<UInventoryManager>(this, inventory_manager_class_);
 
 	// DEBUG PURPOSE.
-	inventory_manager_->SetPerkPoints(999);
 	inventory_manager_->SetCredits(999);
 }
 

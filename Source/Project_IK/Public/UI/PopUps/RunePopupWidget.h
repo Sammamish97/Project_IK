@@ -11,13 +11,14 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Subsystems/PerkProgressSubsystem.h"
+#include "Managers/EnumCluster.h"
 #include "RunePopupWidget.generated.h"
 
 class URunePopupDetailWidget;
 class URuneMechanics;
 class UTextBlock;
 class UVerticalBox;
+
 
 typedef TPair<ERuneSetType, TArray<int32>> RuneSetBonus;
 

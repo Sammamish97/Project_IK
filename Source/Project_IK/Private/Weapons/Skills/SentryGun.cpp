@@ -45,12 +45,12 @@ void ASentryGun::InitSentryGun(bool is_upgraded, float skill_power)
 	GetCharacterStat()->ApplyExtraStatusForSummoned(extra_status);
 }
 
-void ASentryGun::BeginFire(AActor* target)
+void ASentryGun::BeginFire(TWeakObjectPtr<AActor> target)
 {
 	float total_fire_per_sec = (1 + character_stat_component_->GetAttackSpeed() / 100.f);
 	float weapon_attack_speed = 1.f / total_fire_per_sec;
 	
-	if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
+	if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target.IsValid())
 	{
 		FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &ASentryGun::OnFire, target);
 		GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, weapon_attack_speed); 
@@ -94,11 +94,11 @@ void ASentryGun::Tick(float DeltaSeconds)
 	}
 }
 
-void ASentryGun::OnFire(AActor* nearest_actor)
+void ASentryGun::OnFire(TWeakObjectPtr<AActor> target)
 {
-	if (nearest_actor)
+	if (AActor* target_ptr = target.Get())
 	{
-		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_->GetComponentLocation(), nearest_actor->GetActorLocation());
+		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_->GetComponentLocation(), target_ptr->GetActorLocation());
 		ABullet* bullet = Cast<ABullet>(bullet_pool_->SpawnFromPool(rotation, muzzle_->GetComponentLocation()));
 		if (bullet)
 		{

@@ -46,13 +46,8 @@ public:
 	void Reposition(FVector target_location);
 	void SetAttackTarget(AActor* target);
 	void BeginMaintaining();
-	void FinishMaintaining();
-
-
+	
 	AActor* GetAttackTarget() const;
-
-	FColor GetHeroBaseColor_1() const;
-	FColor GetHeroBaseColor_2() const;
 	
 	class UWeaponMechanics* GetWeaponMechanics();
 	class URuneMechanics* GetRuneMechanics();
@@ -81,21 +76,10 @@ protected:
 	UPROPERTY(Transient);
 	TObjectPtr<class UBuffHandler> maintain_buff_;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UAnimMontage> maintain_anim_montage_;
-
-	bool on_maintain_ = false;
-	
 public:
 	//UI
 	UPROPERTY(EditDefaultsOnly, Category = "Hero", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class USphereComponent> ui_position_ = nullptr;
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Hero")
-	FColor hero_base_color_1_;
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Hero")
-	FColor hero_base_color_2_;
 	
 protected:
 	UPROPERTY(EditDefaultsOnly)

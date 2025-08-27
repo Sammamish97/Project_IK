@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "DataAssets/DisplayDataAsset.h"
-#include "UI/InventoryWidget.h"
+#include "UI/Inventory/InventoryWidget.h"
 
 void URuneSlotWidget::SetRuneSetSlotData(const FRuneData& rune_data)
 {
@@ -101,8 +101,8 @@ void URuneSlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPoi
 	if (is_empty_ == false)
 	{
 		inventory_widget_cache_->CreateRunePopupWidget(item_data_cache_.display_data_->thumbnail,
-				text_manager_cache_->GetNameText(item_data_cache_.display_data_->text_key_),
-				text_manager_cache_->GetDetailText(item_data_cache_.display_data_->text_key_),
+				text_manager_cache_->GetActiveSkillNameText(item_data_cache_.display_data_->text_key_),
+				text_manager_cache_->GetActiveSkillDetailText(item_data_cache_.display_data_->text_key_),
 				rune_data_cache_.set_type);
 	}
 }

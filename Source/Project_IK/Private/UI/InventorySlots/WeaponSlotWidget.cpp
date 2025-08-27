@@ -10,7 +10,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/InventorySlots/WeaponSlotWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
-#include "UI/InventoryWidget.h"
+#include "UI/Inventory/InventoryWidget.h"
 
 void UWeaponSlotWidget::NativeConstruct()
 {
@@ -28,8 +28,12 @@ void UWeaponSlotWidget::SetWeaponSlotData(const FWeaponData& weapon_data)
 
 FReply UWeaponSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
-	inventory_widget_cache_->SetHighlightVisibility(EGearType::Weapon, ESlateVisibility::Visible);
-	return Super::NativeOnPreviewMouseButtonDown(InGeometry, InMouseEvent);}
+	if (is_empty_ == false)
+	{
+		inventory_widget_cache_->SetHighlightVisibility(EGearType::Weapon, ESlateVisibility::Visible);
+	}
+	return Super::NativeOnPreviewMouseButtonDown(InGeometry, InMouseEvent);
+}
 
 bool UWeaponSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
                                      UDragDropOperation* InOperation)
@@ -64,7 +68,7 @@ void UWeaponSlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 	{
 		FText detail;
 		inventory_widget_cache_->CreateWeaponPopupWidget(item_data_cache_.display_data_->thumbnail,
-			text_manager_cache_->GetNameText(item_data_cache_.display_data_->text_key_),
+			text_manager_cache_->GetActiveSkillNameText(item_data_cache_.display_data_->text_key_),
 			detail,
 			weapon_data_cache_.status_data_);
 	}

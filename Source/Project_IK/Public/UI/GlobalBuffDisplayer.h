@@ -14,21 +14,20 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/UserWidget.h"
 #include "GlobalBuffDisplayer.generated.h"
 
-class UHorizontalBox;
+class UUniformGridPanel;
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API UGlobalBuffDisplayer : public UUserWidget
 {
 	GENERATED_BODY()
-
 
 protected:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UHorizontalBox> buff_image_holder_;
+	TObjectPtr<UUniformGridPanel> global_buff_widget_holder_;
+
+	UPROPERTY(transient)
+	int32 grid_column_ = 4;
 };

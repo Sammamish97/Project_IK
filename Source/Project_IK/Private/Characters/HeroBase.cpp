@@ -26,7 +26,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "UI/HPUICore.h"
+#include "UI/Combat/HPUICore.h"
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKGameState.h"
 
@@ -60,7 +60,8 @@ void AHeroBase::BeginPlay()
 	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
 	if (TObjectPtr<UHPUICore> hp_core = Cast<UHPUICore>(hp_widget_component_->GetWidget()))
 	{
-		hp_core->SetHPBarColor(hero_base_color_2_);
+		//IKTODO: 현재 HP/UI 색상이 하드코드 되었다. 더 좋은 방법을 찾아야 한다.
+		hp_core->SetHPBarColor(FLinearColor::Red);
 		hp_core->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
 		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_core.Get(), &UHPUICore::UpdateWidget);
 	}
@@ -153,10 +154,6 @@ void AHeroBase::SetUnitStateWithInterrupt(EUnitState type)
 	case EUnitState::OnActiveSkill:
 	{
 		weapon_mechanics_->StopReload();
-		if (on_maintain_)
-		{
-			FinishMaintaining();
-		}
 	}
 		
 	case EUnitState::OnReloading:
@@ -202,10 +199,6 @@ void AHeroBase::Reposition(FVector target_location)
 
 void AHeroBase::SetAttackTarget(AActor* target)
 {
-	if (on_maintain_)
-	{
-		FinishMaintaining();
-	}
 	ResetUnitState();
 	if (AHeroAIController* controller = Cast<AHeroAIController>(GetController()))
 	{
@@ -215,17 +208,7 @@ void AHeroBase::SetAttackTarget(AActor* target)
 
 void AHeroBase::BeginMaintaining()
 {
-	SetUnitStateWithInterrupt(EUnitState::OnActiveSkill);
-	PlayAnimMontage(maintain_anim_montage_);
-	on_maintain_ = true;
 	maintain_buff_->ApplyBuff(this);
-}
-
-void AHeroBase::FinishMaintaining()
-{
-	on_maintain_ = false;
-	maintain_buff_->RemoveBuff(this);
-	FinishAction();
 }
 
 AActor* AHeroBase::GetAttackTarget() const
@@ -235,16 +218,6 @@ AActor* AHeroBase::GetAttackTarget() const
 		return controller->GetTargetActor();
 	}
 	return nullptr;
-}
-
-FColor AHeroBase::GetHeroBaseColor_1() const
-{
-	return hero_base_color_1_;
-}
-
-FColor AHeroBase::GetHeroBaseColor_2() const
-{
-	return hero_base_color_2_;
 }
 
 FTargetParameters AHeroBase::GetActiveSkillTargetParameters() const

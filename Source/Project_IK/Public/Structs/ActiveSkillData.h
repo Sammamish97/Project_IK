@@ -45,7 +45,7 @@ struct PROJECT_IK_API FActiveSkillData
 		UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(world));
 		UTextManager* text_manager = game_instance->GetTextManager();
 		
-		FText detail_base = text_manager->GetDetailText(item_data_.display_data_->text_key_);
+		FText detail_base = text_manager->GetActiveSkillDetailText(item_data_.display_data_->text_key_);
 		int32 scale_amount = skill_power_scales_.Num();
 		
 		//영웅에게 장착되어 있다면 총 데미지를 계산해야 한다.
@@ -64,7 +64,7 @@ struct PROJECT_IK_API FActiveSkillData
 		UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(world));
 		UTextManager* text_manager = game_instance->GetTextManager();
 		
-		FText detail_base = text_manager->GetDetailText(item_data_.display_data_->text_key_);
+		FText detail_base = text_manager->GetActiveSkillDetailText(item_data_.display_data_->text_key_);
 		int32 scale_amount = skill_power_scales_.Num();
 		//1. 먼저 value에 해당하는 string을 format을 통해 조립한다.
 		TArray<FText> val_elems;

@@ -20,6 +20,7 @@ class USetBonusManager;
 class UIKMaps;
 class UCharacterDataManager;
 class UInventoryManager;
+class UPerkEffectBase;
 struct FPerkNode;
 enum class ECharacterStatType : uint8;
 
@@ -84,6 +85,11 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UTextManager> text_manager_;
+
+	//
+	//Instance보다 더 좋은 위치가 있을 것이다.
+	UPROPERTY()
+	TArray<TObjectPtr<UPerkEffectBase>> perk_effects_;
 	//
 
 	UPROPERTY(EditDefaultsOnly, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))

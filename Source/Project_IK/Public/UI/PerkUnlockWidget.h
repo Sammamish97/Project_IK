@@ -28,9 +28,6 @@ struct FPerkNode;
 
 class UConfirmationWidget;
 
-/**
- *
- */
 UCLASS()
 class PROJECT_IK_API UPerkUnlockWidget : public UUserWidget
 {
@@ -81,7 +78,7 @@ protected:
 	void StartLinkAnimation(TArray<TWeakObjectPtr<UProgressBar>> links);
 	void UpdateLinkAnimation();
 
-	void InitWidgets();
+	//void InitWidgets();
 
 	// A function invoked when users actually clicked the button.
 	bool UnlockPerk(int32 clicked_index);
@@ -96,7 +93,7 @@ protected:
 	void UpdateCosts(const TSet<int32>& progress);
 	// A helper recursive function.
 	void AccumulateCost(const TArray<FPerkNode>& tree, const TSet<int32>& progress, int32 current_node_index, int32 accumulated_cost);
-	void LockUnpayableButtons();
+	void LockUnpayableButtons();		
 
 	bool OnButtonClickedDFS(const TArray<FPerkNode>& tree, int32 current_node_index, TArray<int32>& path);
 

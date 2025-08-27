@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
 #include "Internationalization/StringTableCore.h"
-#include "UI/InventoryWidget.h"
+#include "UI/Inventory/InventoryWidget.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
@@ -35,7 +35,10 @@ void UActiveSkillSlotWidget::SetActiveSkillSlotData(FActiveSkillData active_skil
 FReply UActiveSkillSlotWidget::NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry,
 	const FPointerEvent& InMouseEvent)
 {
-	inventory_widget_cache_->SetHighlightVisibility(EGearType::ActiveSkill, ESlateVisibility::Visible);
+	if (is_empty_ == false)
+	{
+		inventory_widget_cache_->SetHighlightVisibility(EGearType::ActiveSkill, ESlateVisibility::Visible);
+	}
 	return Super::NativeOnPreviewMouseButtonDown(InGeometry, InMouseEvent);
 }
 
@@ -86,7 +89,7 @@ void UActiveSkillSlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, con
 			detail = active_skill_data_cache_.BuildDetailText(GetWorld());
 		}
 		inventory_widget_cache_->CreateActiveSkillPopupWidget(item_data_cache_.display_data_->thumbnail,
-			text_manager_cache_->GetNameText(item_data_cache_.display_data_->text_key_),
+			text_manager_cache_->GetActiveSkillNameText(item_data_cache_.display_data_->text_key_),
 			detail,
 			active_skill_data_cache_.cool_time_);
 	}

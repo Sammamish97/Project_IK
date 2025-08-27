@@ -11,8 +11,8 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/GlobalBuffDisplayer.h"
 
-#include "Components/HorizontalBox.h"
-#include "Components/HorizontalBoxSlot.h"
+#include "Components/UniformGridPanel.h"
+
 #include "Components/Image.h"
 
 #include "Subsystems/GlobalBuffSubsystem.h"
@@ -22,10 +22,10 @@ See LICENSE file in the project root for full license information.
 #include "Managers/DataTableManager.h"
 
 #include "DataAssets/DisplayDataAsset.h"
+#include "UI/GlobalBuffWidget.h"
 
 void UGlobalBuffDisplayer::NativeConstruct()
 {
-
 	UGlobalBuffSubsystem* global_buff_subsystem = GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
 	TArray<FGlobalBuffData> buffs = global_buff_subsystem->GetBuffs();
 
@@ -44,7 +44,8 @@ void UGlobalBuffDisplayer::NativeConstruct()
 		}
 	}
 
-	for (size_t i = 0; i < buffs.Num(); i++)
+	int32 buff_amount = buffs.Num();
+	for (size_t i = 0; i < buff_amount; i++)
 	{
 		UImage* image = WidgetTree->ConstructWidget<UImage>();
 		FSlateBrush brush = image->GetBrush();
@@ -54,11 +55,8 @@ void UGlobalBuffDisplayer::NativeConstruct()
 		}
 		brush.SetImageSize(FVector2D(128.f, 128.f));
 		image->SetBrush(brush);
-
-		UHorizontalBoxSlot* slot = buff_image_holder_->AddChildToHorizontalBox(image);
-		slot->SetPadding(FMargin(16.f));
-		slot->SetHorizontalAlignment(EHorizontalAlignment::HAlign_Center);
-		slot->SetVerticalAlignment(EVerticalAlignment::VAlign_Center);
+		
+		global_buff_widget_holder_->AddChildToUniformGrid(image, buff_amount / grid_column_, buff_amount % grid_column_);
 	}
 }
 

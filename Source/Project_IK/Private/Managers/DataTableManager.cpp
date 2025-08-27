@@ -19,6 +19,7 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/StatInfoDataAsset.h"
 #include "DataAssets/CrowdControlInfoDataAsset.h"
 #include "DataAssets/CharacterStatDataAsset.h"
+#include "DataAssets/HeroDataAsset.h"
 #include "DataAssets/SupportSkillDataAsset.h"
 #include "DataAssets/UnitTypeDataAsset.h"
 #include "DataAssets/WeaponAnimDataAsset.h"
@@ -312,4 +313,9 @@ TSubclassOf<AUnit> UDataTableManager::GetUnitType(ECharacterType type)
 const TArray<FPerkNode>& UDataTableManager::GetTree() const
 {
 	return perk_tree_data_asset_->GetTree();
+}
+
+FHeroData UDataTableManager::GetHeroData(EHeroType type) const
+{
+	return hero_data_asset_->GetHeroData(type);
 }

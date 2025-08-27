@@ -195,9 +195,6 @@ protected:
 	FTimerHandle destroy_timer_;
 	float destroy_counter_ = 0.f;
 
-	UPROPERTY(Transient)
-	TWeakObjectPtr<AActor> cur_hiding_cover_ = nullptr;
-
 	UPROPERTY()
 	TMap<EUnitEvent, FOnUnitEvent> on_unit_event_;
 	

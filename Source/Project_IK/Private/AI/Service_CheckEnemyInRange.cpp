@@ -29,26 +29,11 @@ void UService_CheckEnemyInRange::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
 	UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
 	AUnit* casted_gunner = Cast<AUnit>(OwnerComp.GetAIOwner()->GetPawn());
-	if(	UObject* target = blackboard->GetValueAsObject(attack_target_key_.SelectedKeyName))
+	if(UObject* target = blackboard->GetValueAsObject(attack_target_key_.SelectedKeyName))
 	{
-		AActor* casted_actor = Cast<AActor>(target);
-		float distance = FVector::Distance(casted_gunner->GetActorLocation(), casted_actor->GetActorLocation());
-		if (is_drone_)
+		if (AUnit* casted_unit= Cast<AUnit>(target); casted_unit->IsDead() == false)
 		{
-			if (auto drone = Cast<AEnemy_LaserDrone>(casted_gunner))
-			{
-				if (drone->GetLaserRange() > distance)
-				{
-					blackboard->SetValueAsBool(is_enemy_in_range_key_.SelectedKeyName, true);
-				}
-				else
-				{
-					blackboard->SetValueAsBool(is_enemy_in_range_key_.SelectedKeyName, false);
-				}
-			}
-		}
-		else
-		{
+			float distance = FVector::Distance(casted_gunner->GetActorLocation(), casted_unit->GetActorLocation());
 			if (auto weapon_mechanics = casted_gunner->GetComponentByClass<UWeaponMechanics>())
 			{
 				if (weapon_mechanics->GetWeaponData().fire_range > distance)
@@ -60,6 +45,10 @@ void UService_CheckEnemyInRange::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 					blackboard->SetValueAsBool(is_enemy_in_range_key_.SelectedKeyName, false);
 				}
 			}
+		}
+		else
+		{
+			blackboard->SetValueAsObject(attack_target_key_.SelectedKeyName, nullptr);
 		}
 	}
 }

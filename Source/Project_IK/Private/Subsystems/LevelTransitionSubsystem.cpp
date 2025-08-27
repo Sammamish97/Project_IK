@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "Structs/SpawnData.h"
 #include "Kismet/GameplayStatics.h"
-#include "UI/IKMaps.h"
+#include "UI/Map/IKMaps.h"
 #include "Managers/DataTableManager.h"
 
 class UIKGameInstance;

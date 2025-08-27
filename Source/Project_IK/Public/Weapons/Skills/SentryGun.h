@@ -23,11 +23,11 @@ public:
 	ASentryGun();
 	
 	virtual void InitSentryGun(bool is_upgraded, float skill_power);
-	virtual void BeginFire(AActor* target);
+	virtual void BeginFire(TWeakObjectPtr<AActor> target);
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION()
-	virtual void OnFire(AActor* target);
+	virtual void OnFire(TWeakObjectPtr<AActor> target);
 
 	UFUNCTION()
 	virtual void StopFire();

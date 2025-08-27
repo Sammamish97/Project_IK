@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Enemy_RifleMan.h"
 #include "Enemy_Officer.generated.h"
+class UBuffHandler;
 
 class UBuffHandler;
 

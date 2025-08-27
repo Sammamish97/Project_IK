@@ -62,6 +62,13 @@ void UService_FindEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Node
 			TArray<TPair<float, AActor*>> distance_object_pairs;
 			for(const auto& elem : out_actors)
 			{
+				if (AUnit* casted_unit = Cast<AUnit>(elem))
+				{
+					if (casted_unit->IsDead())
+					{
+						continue;
+					}
+				}
 				FVector owner_pos = casted_gunner->GetActorLocation();
 				FVector target_pos = elem->GetActorLocation();
 				float cur_distance = FVector::Dist2D(owner_pos, target_pos);

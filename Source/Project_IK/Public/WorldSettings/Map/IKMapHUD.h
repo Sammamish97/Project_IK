@@ -29,13 +29,7 @@ public:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<class UUserWidget> map_widget_class_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UGlobalBuffDisplayer> global_buff_displayer_class_;
-
+	
 	UPROPERTY()
 	TObjectPtr<UUserWidget> map_widget_;
-
-	UPROPERTY()
-	TObjectPtr<UGlobalBuffDisplayer> global_buff_displayer_;
 };

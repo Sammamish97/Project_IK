@@ -39,6 +39,7 @@ public:
 	
 	virtual void SetImageTexture();
 
+	void SetIsReadOnly(bool is_read_only);
 	void SetHighlightImageVisibility(ESlateVisibility visibility);
 
 	EInventorySlotType GetSlotType() const;
@@ -67,6 +68,7 @@ protected:
 	
 	FItemData item_data_cache_;
 
+	bool is_read_only_ = false;
 	bool is_empty_ = true;
 	bool is_board_slot_ = true;
 	EHeroType hero_type_ = EHeroType::INVALID;

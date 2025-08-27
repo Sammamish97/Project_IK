@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/PerkUnlockLevel/IKPerkUnlockHUD.h"
 
 #include "Blueprint/WidgetTree.h"
-#include "UI/PerkUnlockWidget.h"
+#include "UI/PerkTrees/PerkHUDWidget.h"
 
 void AIKPerkUnlockHUD::BeginPlay()
 {
@@ -22,10 +22,15 @@ void AIKPerkUnlockHUD::BeginPlay()
 
 	if (perk_unlock_widget_class_)
 	{
-		perk_unlock_widget_ = CreateWidget<UPerkUnlockWidget>(world, perk_unlock_widget_class_);
-		if (perk_unlock_widget_)
+		perk_hud_widget_ = CreateWidget<UPerkHUDWidget>(world, perk_unlock_widget_class_);
+		if (perk_hud_widget_)
 		{
-			perk_unlock_widget_->AddToViewport();
+			perk_hud_widget_->AddToViewport();
 		}
 	}
+}
+
+TObjectPtr<UPerkHUDWidget> AIKPerkUnlockHUD::GetPerkHUDWidget()
+{
+	return perk_hud_widget_;
 }

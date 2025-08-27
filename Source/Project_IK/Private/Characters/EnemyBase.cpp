@@ -14,8 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "UI/BuffContainer.h"
-#include "UI/EnemyHPUI.h"
+#include "UI/Combat/BuffContainer.h"
+#include "UI/Combat/EnemyHPUI.h"
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKHUD.h"
 
