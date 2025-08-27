@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "DataAssets/DisplayDataAsset.h"
-#include "UI/InventoryWidget.h"
+#include "UI/Inventory/InventoryWidget.h"
 
 void URuneSlotWidget::SetRuneSetSlotData(const FRuneData& rune_data)
 {

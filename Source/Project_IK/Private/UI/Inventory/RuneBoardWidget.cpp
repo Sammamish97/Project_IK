@@ -8,7 +8,7 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "UI/RuneBoardWidget.h"
+#include "UI/Inventory/RuneBoardWidget.h"
 
 #include "Components/Overlay.h"
 #include "Components/OverlaySlot.h"
@@ -20,7 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "Managers/SetBonusManager.h"
-#include "UI/RuneBoardEdgeWidget.h"
+#include "UI/Inventory/RuneBoardEdgeWidget.h"
 
 void URuneBoardWidget::NativeConstruct()
 {

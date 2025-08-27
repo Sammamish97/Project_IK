@@ -9,7 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Managers/InventoryManager.h"
-#include "UI/InventoryWidget.h"
+#include "UI/Inventory/InventoryWidget.h"
 #include "Subsystems/PerkModifierSubsystem.h"
 
 void UInventoryManager::OpenInventoryWidgetReward(const FWrapperEquipmentData& rewards)

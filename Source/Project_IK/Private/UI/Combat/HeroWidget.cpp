@@ -7,16 +7,16 @@ Summary : Source file for Unit widget UI.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-#include "UI/HeroWidget.h"
-#include "UI/BuffContainer.h"
+#include "UI/Combat/HeroWidget.h"
+#include "UI/Combat/BuffContainer.h"
 #include "Components/Border.h"
 #include "Structs/HeroData.h"
-#include "UI/SegmentedHPUI.h"
-#include "UI/MiniRuneBoardWidget.h"
+#include "UI/Combat/SegmentedHPUI.h"
+#include "UI/Combat/MiniRuneBoardWidget.h"
 
 void UHeroWidget::InitHeroWidget(UBasicPopupWidget* popup_widget, class URuneMechanics* rune_mechanics,
-	class URunePopupWidget* rune_popup_widget, EHeroType hero_type, float max_hp, float cur_hp,
-	const FHeroData& hero_data)
+                                 class URunePopupWidget* rune_popup_widget, EHeroType hero_type, float max_hp, float cur_hp,
+                                 const FHeroData& hero_data)
 {
 	buff_container_->InitBuffContainer(popup_widget);
 	hp_bar_->InitHPWidget(max_hp, cur_hp);

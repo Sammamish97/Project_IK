@@ -10,7 +10,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/InventorySlots/InventorySlot.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
-#include "UI/InventoryWidget.h"
+#include "UI/Inventory/InventoryWidget.h"
 #include "UI/SlotDragDropImage.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 

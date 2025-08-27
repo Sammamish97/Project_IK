@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/HorizontalBox.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
-#include "UI/InventoryWidget.h"
+#include "UI/Inventory/InventoryWidget.h"
 #include "UI/InventorySlots/ActiveSkillSlotWidget.h"
 #include "UI/InventorySlots/PassiveSkillSlotWidget.h"
 #include "UI/InventorySlots/RuneSlotWidget.h"

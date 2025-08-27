@@ -8,7 +8,7 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "UI/MapHUDWidget.h"
+#include "UI/Map/MapHUDWidget.h"
 
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
@@ -19,7 +19,7 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/GlobalBuffSubsystem.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "UI/GlobalBuffWidget.h"
-#include "UI/MapHeroWidget.h"
+#include "UI/Map/MapHeroWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 #include "UI/PopUps/GlobalBuffPopupWidget.h"
 

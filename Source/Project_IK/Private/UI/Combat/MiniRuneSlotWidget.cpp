@@ -9,6 +9,6 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 
-#include "UI/MiniRuneSlotWidget.h"
+#include "UI/Combat/MiniRuneSlotWidget.h"
 #include "Components/Image.h"
 #include "Components/SizeBox.h"

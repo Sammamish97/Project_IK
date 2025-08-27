@@ -9,7 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "WorldSettings/IKGameInstance.h"
 
-#include "UI/IKMaps.h"
+#include "UI/Map/IKMaps.h"
 #include "Managers/InventoryManager.h"
 #include "Managers/SetBonusManager.h"
 #include "Managers/EventManager.h"

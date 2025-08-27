@@ -26,7 +26,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "UI/HPUICore.h"
+#include "UI/Combat/HPUICore.h"
 #include "WorldSettings/IKGameModeBase.h"
 #include "WorldSettings/IKGameState.h"
 

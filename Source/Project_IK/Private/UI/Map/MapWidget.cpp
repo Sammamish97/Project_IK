@@ -9,7 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 
-#include "UI/MapWidget.h"
+#include "UI/Map/MapWidget.h"
 
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Project_IK/Public/WorldSettings/IKGameInstance.h"
@@ -29,7 +29,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Subsystems/LevelTransitionSubsystem.h"
 
-#include "UI/IKMaps.h"
+#include "UI/Map/IKMaps.h"
 
 UMapWidget::UMapWidget(const FObjectInitializer& object_initializer)
 	: Super::UUserWidget(object_initializer)

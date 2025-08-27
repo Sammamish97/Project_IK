@@ -8,8 +8,8 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "UI/EnemyHPUI.h"
-#include "UI/BuffContainer.h"
+#include "UI/Combat/EnemyHPUI.h"
+#include "UI/Combat/BuffContainer.h"
 #include "UI/PopUps/BasicPopupWidget.h"
 
 void UEnemyHPUI::InitEnemyHPUI(UBasicPopupWidget* popup_widget)

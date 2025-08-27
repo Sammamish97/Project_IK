@@ -8,15 +8,15 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "UI/MiniRuneBoardWidget.h"
+#include "UI/Combat/MiniRuneBoardWidget.h"
 #include "Components/Image.h"
 #include "Components/Overlay.h"
 #include "Components/OverlaySlot.h"
 #include "Components/ProgressBar.h"
 #include "Components/RuneMechanics.h"
 #include "Components/SizeBox.h"
-#include "UI/RuneBoardEdgeWidget.h"
-#include "UI/MiniRuneSlotWidget.h"
+#include "UI/Inventory/RuneBoardEdgeWidget.h"
+#include "UI/Combat/MiniRuneSlotWidget.h"
 #include "UI/PopUps/RunePopupWidget.h"
 void UMiniRuneBoardWidget::NativeConstruct()
 {

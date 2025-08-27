@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "EventManager.h"
 #include "Managers/EventManager.h"
 #include "Managers/InventoryManager.h"
-#include "UI/IKMaps.h"
+#include "UI/Map/IKMaps.h"
 #include "Subsystems/GlobalBuffSubsystem.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "Subsystems/PerkModifierSubsystem.h"

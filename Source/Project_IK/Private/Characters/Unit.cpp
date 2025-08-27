@@ -26,7 +26,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Structs/BuffStatusData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
-#include "UI/HPUICore.h"
+#include "UI/Combat/HPUICore.h"
 
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"

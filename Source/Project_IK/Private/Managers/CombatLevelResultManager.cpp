@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 
-#include "UI/CombatResultUI.h"
+#include "UI/Combat/CombatResultUI.h"
 #include "UI/EquipmentRewardWidget.h"
 #include "UI/ToMainMenuWidget.h"
 

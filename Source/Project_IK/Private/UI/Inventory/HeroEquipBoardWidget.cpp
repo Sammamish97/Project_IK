@@ -8,7 +8,7 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "UI/HeroEquipBoardWidget.h"
+#include "UI/Inventory/HeroEquipBoardWidget.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "Structs/SpawnData.h"

@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 
-#include "UI/IKMaps.h"
+#include "UI/Map/IKMaps.h"
 
 UIKMaps::UIKMaps()
 	: Super::UObject()
@@ -212,7 +212,7 @@ int32 UIKMaps::AvaiableBranchNum(int32 row, int32 col) const
 }
 
 // This function reassigning node to obey the below rules.
-	// 1. Merchant and Event nodes can¡¯t be assigned below the 2th Floor.
+	// 1. Merchant and Event nodes canï¿½ï¿½t be assigned below the 2th Floor.
 	// 4. All nodes before the Boss should be *Enemy* node.
 	// 2. Merchant and Event nodes cannot be consecutive.
 	// 3. A Room that that has 2 or more Paths going out 
@@ -242,7 +242,7 @@ void UIKMaps::CorrectInvalidNodes()
 	}
 }
 
-// 1. Merchant and Event nodes can¡¯t be assigned below the 2th Floor.
+// 1. Merchant and Event nodes canï¿½ï¿½t be assigned below the 2th Floor.
 void UIKMaps::ApplyRule1(int32 row, int32 col)
 {
 	if (row <= 2)

@@ -8,7 +8,7 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "UI/CostUI.h"
+#include "UI/Combat/CostUI.h"
 #include "Components/TextBlock.h"
 #include "Components/EnergySystemComponent.h"
 #include "Components/Image.h"

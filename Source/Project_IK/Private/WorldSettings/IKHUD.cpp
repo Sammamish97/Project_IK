@@ -29,14 +29,14 @@ See LICENSE file in the project root for full license information.
 #include "Structs/SpawnData.h"
 
 #include "Subsystems/LevelTransitionSubsystem.h"
-#include "UI/BuffContainer.h"
+#include "UI/Combat/BuffContainer.h"
 
-#include "UI/ButtonBarWidget.h"
-#include "UI/EnemyHPUI.h"
-#include "UI/SegmentedHPUI.h"
+#include "UI/Combat/ButtonBarWidget.h"
+#include "UI/Combat/EnemyHPUI.h"
+#include "UI/Combat/SegmentedHPUI.h"
 #include "UI/SkillButtonWidget.h"
 #include "UI/SupportSkillButtonWidget.h"
-#include "UI/HeroWidget.h"
+#include "UI/Combat/HeroWidget.h"
 #include "UI/PopUps/RunePopupWidget.h"
 
 #include "WorldSettings/IKGameInstance.h"

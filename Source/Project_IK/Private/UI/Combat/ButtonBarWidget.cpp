@@ -7,9 +7,9 @@ Summary : Source file for Skill Bar UI.
 Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
-#include "UI/ButtonBarWidget.h"
+#include "UI/Combat/ButtonBarWidget.h"
 #include "UI/SupportSkillButtonWidget.h"
-#include "UI/HeroWidget.h"
+#include "UI/Combat/HeroWidget.h"
 #include "UI/PopUps/BasicPopupWidget.h"
 
 #include "Kismet/GameplayStatics.h"

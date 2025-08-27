@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/Map/IKMapHUD.h"
 
 #include "Kismet/GameplayStatics.h"
-#include "UI/InventoryWidget.h"
+#include "UI/Inventory/InventoryWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 #include "UI/GlobalBuffDisplayer.h"
 

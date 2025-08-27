@@ -8,13 +8,13 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "UI/InventoryWidget.h"
+#include "UI/Inventory/InventoryWidget.h"
 #include "Components/Button.h"
 #include "Components/WidgetSwitcher.h"
 #include "Kismet/GameplayStatics.h"
-#include "UI/HeroEquipBoardWidget.h"
+#include "UI/Inventory/HeroEquipBoardWidget.h"
 #include "UI/RewardContainerWidget.h"
-#include "UI/RuneBoardWidget.h"
+#include "UI/Inventory/RuneBoardWidget.h"
 #include "UI/StatusWidget.h"
 #include "UI/PopUps/BasicPopupWidget.h"
 #include "UI/InventorySlots/ActiveSkillSlotWidget.h"

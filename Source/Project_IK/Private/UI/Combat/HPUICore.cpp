@@ -8,7 +8,7 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "UI/HPUICore.h"
+#include "UI/Combat/HPUICore.h"
 #include "Components/ProgressBar.h"
 
 void UHPUICore::InitHPWidget(float max_hp, float cur_hp)

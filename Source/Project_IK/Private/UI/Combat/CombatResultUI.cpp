@@ -9,7 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 
-#include "UI/CombatResultUI.h"
+#include "UI/Combat/CombatResultUI.h"
 
 // UI widget components
 #include "Blueprint/WidgetTree.h"
@@ -22,7 +22,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/TextBlock.h"
 #include "Components/HorizontalBox.h"
 #include "Components/HorizontalBoxSlot.h"
-#include "UI/CombatResultBlock.h"
+#include "UI/Combat/CombatResultBlock.h"
 
 #include "Characters/HeroBase.h"
 #include "Components/CharacterStatComponent.h"

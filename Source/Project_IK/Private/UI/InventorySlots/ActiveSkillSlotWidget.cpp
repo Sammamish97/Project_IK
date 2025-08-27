@@ -11,7 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
 #include "Internationalization/StringTableCore.h"
-#include "UI/InventoryWidget.h"
+#include "UI/Inventory/InventoryWidget.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"

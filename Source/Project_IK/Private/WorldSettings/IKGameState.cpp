@@ -20,7 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/SupportSkillDataAsset.h"
 #include "Kismet/GameplayStatics.h"
 
-#include "UI/ButtonBarWidget.h"
+#include "UI/Combat/ButtonBarWidget.h"
 #include "UI/PopUps/BasicPopupWidget.h"
 #include "UI/PopUps/ActiveSkillPopupWidget.h"
 #include "UI/PopUps/SupportSkillPopupWidget.h"

@@ -8,12 +8,12 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "UI/MapHeroWidget.h"
+#include "UI/Map/MapHeroWidget.h"
 
 #include "Components/Border.h"
 #include "Components/Image.h"
-#include "UI/BuffContainer.h"
-#include "UI/SegmentedHPUI.h"
+#include "UI/Combat/BuffContainer.h"
+#include "UI/Combat/SegmentedHPUI.h"
 
 void UMapHeroWidget::InitMapHeroWidget(float max_hp, float cur_hp, const FHeroData& hero_data)
 {

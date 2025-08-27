@@ -8,11 +8,11 @@ Licensed under the MIT License.
 See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
-#include "UI/BuffContainer.h"
+#include "UI/Combat/BuffContainer.h"
 
 #include "Components/HorizontalBox.h"
 #include "Components/SizeBox.h"
-#include "UI/BuffWidget.h"
+#include "UI/Combat/BuffWidget.h"
 #include "UI/PopUps/BasicPopupWidget.h"
 
 void UBuffContainer::InitBuffContainer(UBasicPopupWidget* popup_widget)

@@ -10,7 +10,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 
-#include "UI/CombatResultBlock.h"
+#include "UI/Combat/CombatResultBlock.h"
 
 #include "Blueprint/WidgetTree.h"
 #include "Components/VerticalBox.h"
