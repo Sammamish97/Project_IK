@@ -85,24 +85,44 @@ FText UTextManager::GetGlobalBuffDetailText(EGlobalBuffType global_buff_type) co
 	return FText::FromStringTable(global_buff_detail_table_->GetStringTableId(), GlobalBuffEnumToKey(global_buff_type));
 }
 
+FText UTextManager::GetEventNameText(EEventType event_type) const
+{
+	return FText::FromStringTable(event_name_table_->GetStringTableId(), EventEnumToKey(event_type));
+}
+
+FText UTextManager::GetEventDetailText(EEventType event_type) const
+{
+	return FText::FromStringTable(event_detail_table_->GetStringTableId(), EventEnumToKey(event_type));
+}
+
+FText UTextManager::GetEventOptionText(EEventType event_type, int32 option_idx) const
+{
+	switch (option_idx)
+	{
+		case 0:
+			return FText::FromStringTable(event_option_1_table_->GetStringTableId(), EventEnumToKey(event_type));
+		case 1:
+			return FText::FromStringTable(event_option_2_table_->GetStringTableId(), EventEnumToKey(event_type));
+		case 2:
+			return FText::FromStringTable(event_option_3_table_->GetStringTableId(), EventEnumToKey(event_type));
+		case 3:
+			return FText::FromStringTable(event_option_4_table_->GetStringTableId(), EventEnumToKey(event_type));
+	default:
+		return FText::FromName("INVALID");
+	}
+	
+}
+
 FText UTextManager::GetRuneSetBonusText(ERuneSetType set_type, ERuneSetBonusType bonus_type) const
 {
-	switch (set_type)
+	switch (bonus_type)
 	{
-	case ERuneSetType::Chariot:
-		return FText::FromStringTable(rune_chariot_set_bonus_table_->GetStringTableId(), RuneSetBonusTypeToString(bonus_type));
-	case ERuneSetType::GreatBow:
-		return FText::FromStringTable(rune_greatbow_set_bonus_table_->GetStringTableId(), RuneSetBonusTypeToString(bonus_type));
-	case ERuneSetType::Dagger:
-		return FText::FromStringTable(rune_dagger_set_bonus_table_->GetStringTableId(), RuneSetBonusTypeToString(bonus_type));
-	case ERuneSetType::Quake:
-		return FText::FromStringTable(rune_quake_set_bonus_table_->GetStringTableId(), RuneSetBonusTypeToString(bonus_type));
-	case ERuneSetType::Tempest:
-		return FText::FromStringTable(rune_tempest_bonus_table_->GetStringTableId(), RuneSetBonusTypeToString(bonus_type));
-	case ERuneSetType::Viper:
-		return FText::FromStringTable(rune_viper_bonus_table_->GetStringTableId(), RuneSetBonusTypeToString(bonus_type));
-	case ERuneSetType::Poet:
-		return FText::FromStringTable(rune_poet_set_bonus_table_->GetStringTableId(), RuneSetBonusTypeToString(bonus_type));
+	case ERuneSetBonusType::Edge:
+		return FText::FromStringTable(rune_edge_bonus_table_->GetStringTableId(), RuneTypeToString(set_type));
+	case ERuneSetBonusType::Triangle:
+		return FText::FromStringTable(rune_triangle_bonus_table_->GetStringTableId(), RuneTypeToString(set_type));
+	case ERuneSetBonusType::Hexagon:
+		return FText::FromStringTable(rune_hexagon_bonus_table_->GetStringTableId(), RuneTypeToString(set_type));
 	default:
 		return FText::FromName("INVALID");
 	}
@@ -523,6 +543,51 @@ FString UTextManager::GlobalBuffEnumToKey(EGlobalBuffType global_buff_type) cons
 		break;
 	case EGlobalBuffType::Patrol_RandomDebuff4:
 		key = "PAT_RDB4";
+		break;
+	}
+	return key;
+}
+
+FString UTextManager::EventEnumToKey(EEventType event_type) const
+{
+	FString key;
+	switch (event_type)
+	{
+	case EEventType::Ambush:
+		key = "AMBUSH";
+		break;
+	case EEventType::Core:
+		key = "CORE";
+		break;
+	case EEventType::Patrol:
+		key = "PATROL";
+		break;
+	case EEventType::Trap:
+		key = "TRAP";
+		break;
+	case EEventType::Recon:
+		key = "RECON";
+		break;
+	case EEventType::AbandonedSupply:
+		key = "SUPPLY";
+		break;
+	case EEventType::AirStrike:
+		key = "AIRSTRIKE";
+		break;
+	case EEventType::ProtocolAssault:
+		key = "PRO_ASSAULT";
+		break;
+	case EEventType::ProtocolSurvive:
+		key = "PRO_SURVIVE";
+		break;
+	case EEventType::ProtocolEfficiency:
+		key = "PRO_EFFICIENCY";
+		break;
+	case EEventType::SetTrap:
+		key = "SETTRAP";
+		break;
+	case EEventType::EMP:
+		key = "EMP";
 		break;
 	}
 	return key;

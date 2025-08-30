@@ -25,6 +25,8 @@ See LICENSE file in the project root for full license information.
 #include "Managers/DataTableManager.h"
 #include "Structs/WrapperEquipmentData.h"
 
+#include "DataAssets/EventDataAsset.h"
+
 void UEventManager::InitEventManager(TObjectPtr<UIKGameInstance> instance,
 	TObjectPtr<UInventoryManager> inventory_manager)
 {
@@ -34,55 +36,7 @@ void UEventManager::InitEventManager(TObjectPtr<UIKGameInstance> instance,
 
 FEventData UEventManager::GetRandomEventData()
 {
-	int32 zero_event_index = 0;
-	int32 max_event_index = 11;
-	if (IsNegativeEventsRemoved())
-	{
-		zero_event_index = 4;
-	}
-	int32 rand_idx = FMath::RandRange(zero_event_index, max_event_index);
-	if (event_table_)
-	{
-		switch (rand_idx)
-		{
-		case 0:
-			return *event_table_->FindRow<FEventData>(FName("AirStrike"), TEXT(""));
-
-		case 1:
-			return *event_table_->FindRow<FEventData>(FName("Ambush"), TEXT(""));
-
-		case 2:
-			return *event_table_->FindRow<FEventData>(FName("Trap"), TEXT(""));
-
-		case 3:
-			return *event_table_->FindRow<FEventData>(FName("EMP"), TEXT(""));
-
-		case 4:
-			return *event_table_->FindRow<FEventData>(FName("Protocol:Survive"), TEXT(""));
-
-		case 5:
-			return *event_table_->FindRow<FEventData>(FName("Protocol:Assault"), TEXT(""));
-
-		case 6:
-			return *event_table_->FindRow<FEventData>(FName("Protocol:Efficiency"), TEXT(""));
-
-		case 7:
-			return *event_table_->FindRow<FEventData>(FName("AbandonedSupply"), TEXT(""));
-
-		case 8:
-			return *event_table_->FindRow<FEventData>(FName("Recon"), TEXT(""));
-
-		case 9:
-			return *event_table_->FindRow<FEventData>(FName("SetTrap"), TEXT(""));
-
-		case 10:
-			return *event_table_->FindRow<FEventData>(FName("Core"), TEXT(""));
-
-		case 11:
-			return *event_table_->FindRow<FEventData>(FName("Patrol"), TEXT(""));
-		}
-	}
-	return FEventData();
+	return event_data_asset_->GetActiveSkillDataRandomly(IsNegativeEventsRemoved());
 }
 
 void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> widget)

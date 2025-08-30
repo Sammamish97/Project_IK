@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "UObject/Object.h"
 #include "EventManager.generated.h"
 
+class UEventDataAsset;
 class UIKMaps;
 enum class EHeroType : uint8;
 
@@ -131,8 +132,8 @@ private:
 	void SetNextNodeToElite(UIKMaps* map, int32 row, int32 col, int32 left_level);
 	bool IsNegativeEventsRemoved() const;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
-	TObjectPtr<UDataTable> event_table_;
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UEventDataAsset> event_data_asset_;
 
 	TWeakObjectPtr<class UGlobalBuffSubsystem> global_buff_subsystem_;
 	TWeakObjectPtr<class UInventoryManager> inventory_manager_;
