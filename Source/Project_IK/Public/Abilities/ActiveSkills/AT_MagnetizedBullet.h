@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 class UBuffHandler;
 class UBulletMagnetizeEffectComponent;
 class UNiagaraSystem;
+class AHeroBase;
 
 UCLASS(Abstract)
 class PROJECT_IK_API UAT_MagnetizedBullet : public UActiveSkillBase
@@ -27,7 +28,13 @@ public:
 	virtual void InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data) override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+protected:
+	void ApplyFXs(AHeroBase* hero);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSoftObjectPtr<UNiagaraSystem> magnetized_invoked_particle_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UBuffHandler> buff_class_;
 
 	UPROPERTY()

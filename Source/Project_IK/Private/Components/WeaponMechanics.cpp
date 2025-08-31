@@ -83,3 +83,13 @@ void UWeaponMechanics::DieWeaponActor()
 {
 	weapon_actor_->Die();
 }
+
+void UWeaponMechanics::ChangeGunShotSoundTemporariliy(EAudioType temporary_gunshot_audio, float duration)
+{
+	weapon_actor_->ChangeGunShotSoundTemporariliy(temporary_gunshot_audio, duration);
+}
+
+void UWeaponMechanics::RecoverGunShotSound()
+{
+	weapon_actor_->RecoverGunShotSound();
+}
