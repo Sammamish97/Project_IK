@@ -10,36 +10,6 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/TextManager.h"
 
-FText UTextManager::GetActiveSkillNameText(const FString& key) const
-{
-	return FText::FromStringTable(active_skill_name_table_->GetStringTableId(), key);
-}
-
-FText UTextManager::GetActiveSkillDetailText(const FString& key) const
-{
-	return FText::FromStringTable(active_skill_detail_table_->GetStringTableId(), key);
-}
-
-FText UTextManager::GetPassiveSkillNameText(const FString& key) const
-{
-	return FText::FromStringTable(passive_skill_name_table_->GetStringTableId(), key);
-}
-
-FText UTextManager::GetPassiveSkillDetailText(const FString& key) const
-{
-	return FText::FromStringTable(passive_skill_detail_table_->GetStringTableId(), key);
-}
-
-FText UTextManager::GetSupportSkillNameText(const FString& key) const
-{
-	return FText::FromStringTable(support_skill_name_table_->GetStringTableId(), key);
-}
-
-FText UTextManager::GetSupportSkillDetailText(const FString& key) const
-{
-	return FText::FromStringTable(support_skill_detail_table_->GetStringTableId(), key);
-}
-
 FText UTextManager::GetPerkNameText(const FString& key) const
 {
 	return FText::FromStringTable(perk_name_table_->GetStringTableId(), key);
@@ -128,19 +98,227 @@ FText UTextManager::GetRuneSetBonusText(ERuneSetType set_type, ERuneSetBonusType
 	}
 }
 
-FString UTextManager::ActiveSkillEnumToKey(EActiveSkillType active_skill_type)
+FText UTextManager::GetWeaponNameText(EWeaponType type) const
 {
-	return FString();
+	return FText::FromStringTable(weapon_name_table_->GetStringTableId(), WeaponEnumToKey(type));
 }
 
-FString UTextManager::PassiveSkillEnumToKey(EActiveSkillType active_skill_type)
+FText UTextManager::GetWeaponDetailText(EWeaponType type) const
 {
-	return FString();
+	return FText::FromStringTable(weapon_detail_table_->GetStringTableId(), WeaponEnumToKey(type));
 }
 
-FString UTextManager::SupportSkillEnumToKey(EActiveSkillType active_skill_type)
+FText UTextManager::GetActiveSkillNameText(EActiveSkillType type) const
 {
-	return FString();
+	return FText::FromStringTable(active_skill_name_table_->GetStringTableId(), ActiveSkillEnumToKey(type));
+}
+
+FText UTextManager::GetActiveSkillDetailText(EActiveSkillType type) const
+{
+	return FText::FromStringTable(active_skill_detail_table_->GetStringTableId(), ActiveSkillEnumToKey(type));
+}
+
+FText UTextManager::GetPassiveSkillNameText(EPassiveSkillType type) const
+{
+	return FText::FromStringTable(passive_skill_name_table_->GetStringTableId(), PassiveSkillEnumToKey(type));
+}
+
+FText UTextManager::GetPassiveSkillDetailText(EPassiveSkillType type) const
+{
+	return FText::FromStringTable(passive_skill_detail_table_->GetStringTableId(), PassiveSkillEnumToKey(type));
+}
+
+FText UTextManager::GetSupportSkillNameText(ESupportSkillType type) const
+{
+	return FText::FromStringTable(support_skill_name_table_->GetStringTableId(), SupportSkillEnumToKey(type));
+}
+
+FText UTextManager::GetSupportSkillDetailText(ESupportSkillType type) const
+{
+	return FText::FromStringTable(support_skill_detail_table_->GetStringTableId(), SupportSkillEnumToKey(type));
+}
+
+FString UTextManager::WeaponEnumToKey(EWeaponType weapon_type) const
+{
+	FString key;
+	switch (weapon_type)
+	{
+	case EWeaponType::DefaultPistol:
+		key = "DP";
+		break;
+	case EWeaponType::Pistol_B:
+		key = "PT_B";
+		break;
+	case EWeaponType::AssaultRifle_B:
+		key = "AR_B";
+		break;
+	case EWeaponType::ShotGun_B:
+		key = "SG_B";
+		break;
+	case EWeaponType::SniperRifle_B:
+		key = "SNR_B";
+		break;
+	case EWeaponType::Pistol_A:
+		key = "PT_A";
+		break;
+	case EWeaponType::AssaultRifle_A:
+		key = "AR_A";
+		break;
+	case EWeaponType::ShotGun_A:
+		key = "SG_A";
+		break;
+	case EWeaponType::SniperRifle_A:
+		key = "SNR_A";
+		break;
+	case EWeaponType::HeavyGunnerWeapon:
+		key = "HGW";
+		break;
+	case EWeaponType::OfficerWeapon:
+		key = "OFW";
+		break;
+	case EWeaponType::AssassinWeapon:
+		key = "ASW";
+		break;
+	}
+	return key;
+}
+
+FString UTextManager::ActiveSkillEnumToKey(EActiveSkillType active_skill_type) const
+{
+	FString key;
+	switch (active_skill_type)
+	{
+	case EActiveSkillType::Thunder_B:
+		key = "TD_B";
+		break;
+	case EActiveSkillType::Thunder_A:
+		key = "TD_A";
+		break;
+	case EActiveSkillType::ThunderStorm_B:
+		key = "TDS_B";
+		break;
+	case EActiveSkillType::ThunderStorm_A:
+		key = "TDS_A";
+		break;
+	case EActiveSkillType::FateSpiral_B:
+		key = "FS_B";
+		break;
+	case EActiveSkillType::FateSpiral_A:
+		key = "FS_A";
+		break;
+	case EActiveSkillType::Encourage_B:
+		key = "EC_B";
+		break;
+	case EActiveSkillType::Encourage_A:
+		key = "EC_A";
+		break;
+	case EActiveSkillType::DeploySentryGun_B:
+		key = "DS_B";
+		break;
+	case EActiveSkillType::DeploySentryGun_A:
+		key = "DS_A";
+		break;
+	case EActiveSkillType::TripleFire_B:
+		key = "TF_B";
+		break;
+	case EActiveSkillType::TripleFire_A:
+		key = "TF_A";
+		break;
+	case EActiveSkillType::ChargeShot_B:
+		key = "CS_B";
+		break;
+	case EActiveSkillType::ChargeShot_A:
+		key = "CS_A";
+		break;
+	case EActiveSkillType::MagnetizedBullet_B:
+		key = "MTB_B";
+		break;
+	case EActiveSkillType::MagnetizedBullet_A:
+		key = "MTB_A";
+		break;
+	case EActiveSkillType::Ricochet_B:
+		key = "RC_B";
+		break;
+	case EActiveSkillType::Ricochet_A:
+		key = "RC_A";
+		break;
+	}
+	return key;
+}
+
+FString UTextManager::PassiveSkillEnumToKey(EPassiveSkillType passive_skill_type) const
+{
+	FString key;
+	switch (passive_skill_type)
+	{
+	case EPassiveSkillType::Agility:
+		key = "AG";
+		break;
+	case EPassiveSkillType::CloseQuartersMastery:
+		key = "CQM";
+		break;
+	case EPassiveSkillType::Executioner:
+		key = "EC";
+		break;
+	case EPassiveSkillType::Berserker:
+		key = "BSK";
+		break;
+	case EPassiveSkillType::StableFirstRound:
+		key = "SFR";
+		break;
+	case EPassiveSkillType::RunAndGun:
+		key = "RAG";
+		break;
+	case EPassiveSkillType::QuickHands:
+		key = "QH";
+		break;
+	case EPassiveSkillType::Composed:
+		key = "CS";
+		break;
+	case EPassiveSkillType::OptimizedCore:
+		key = "OC";
+		break;
+	case EPassiveSkillType::ReinforcedCore:
+		key = "RIC";
+		break;
+	case EPassiveSkillType::SlopedArmor:
+		key = "SA";
+		break;
+	case EPassiveSkillType::ExtraPadding:
+		key = "EPD";
+		break;
+	case EPassiveSkillType::AcceleratedBarrel:
+		key = "AB";
+		break;
+	case EPassiveSkillType::EnhancedPistons:
+		key = "EPT";
+		break;
+	case EPassiveSkillType::ReinforcedCamera:
+		key = "RC";
+		break;
+	case EPassiveSkillType::Conductor:
+		key = "CDT";
+		break;
+	}
+	return key;
+}
+
+FString UTextManager::SupportSkillEnumToKey(ESupportSkillType support_skill_type) const
+{
+	FString key;
+	switch (support_skill_type)
+	{
+	case ESupportSkillType::Reposition:
+		key = "RP";
+		break;
+	case ESupportSkillType::SetAttackTarget:
+		key = "SAT";
+		break;
+	case ESupportSkillType::Maintain:
+		key = "MT";
+		break;
+	}
+	return key;
 }
 
 FString UTextManager::StatusEnumToKey(ECharacterStatType stat_type) const
@@ -197,7 +375,7 @@ FString UTextManager::BuffEnumToKey(EBuffType buff_type) const
 		key = "MTB";
 		break;
 	case EBuffType::Ricochet:
-		key = "RIC";
+		key = "RC";
 		break;
 	case EBuffType::TripleFire:
 		key = "TPF";

@@ -19,15 +19,19 @@ class PROJECT_IK_API UTextManager : public UObject
 {
 	GENERATED_BODY()
 public:
-	FText GetActiveSkillNameText(const FString& key) const;
-	FText GetActiveSkillDetailText(const FString& key) const;
+	FText GetWeaponNameText(EWeaponType type) const;
+	FText GetWeaponDetailText(EWeaponType type) const;
+	
+	FText GetActiveSkillNameText(EActiveSkillType type) const;
+	FText GetActiveSkillDetailText(EActiveSkillType type) const;
 
-	FText GetPassiveSkillNameText(const FString& key) const;
-	FText GetPassiveSkillDetailText(const FString& key) const;
+	FText GetPassiveSkillNameText(EPassiveSkillType type) const;
+	FText GetPassiveSkillDetailText(EPassiveSkillType type) const;
 
-	FText GetSupportSkillNameText(const FString& key) const;
-	FText GetSupportSkillDetailText(const FString& key) const;
+	FText GetSupportSkillNameText(ESupportSkillType type) const;
+	FText GetSupportSkillDetailText(ESupportSkillType type) const;
 
+	//Perk는 이미 Name을 Key로 사용하고 있기에, Enum이 아닌 FString을 사용한다.
 	FText GetPerkNameText(const FString& key) const;
 	FText GetPerkDetailText(const FString& key) const;
 
@@ -48,9 +52,10 @@ public:
 	FText GetEventOptionText(EEventType event_type, int32 option_idx) const;
 
 private:
-	FString ActiveSkillEnumToKey(EActiveSkillType active_skill_type);
-	FString PassiveSkillEnumToKey(EActiveSkillType active_skill_type);
-	FString SupportSkillEnumToKey(EActiveSkillType active_skill_type);
+	FString WeaponEnumToKey(EWeaponType weapon_type) const;
+	FString ActiveSkillEnumToKey(EActiveSkillType active_skill_type) const;
+	FString PassiveSkillEnumToKey(EPassiveSkillType passive_skill_type) const;
+	FString SupportSkillEnumToKey(ESupportSkillType support_skill_type) const;
 
 	FString StatusEnumToKey(ECharacterStatType stat_type) const;
 	FString BuffEnumToKey(EBuffType buff_type) const;
@@ -58,6 +63,15 @@ private:
 	FString EventEnumToKey(EEventType event_type) const;
 
 private:
+	
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> weapon_name_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> weapon_detail_table_;
+	
+	//
+	
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> active_skill_name_table_;
 

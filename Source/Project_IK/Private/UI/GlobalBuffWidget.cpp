@@ -19,7 +19,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 
 void UGlobalBuffWidget::InitGlobalBuffWidget(UDisplayDataAsset* display_data, UBasicPopupWidget* popup_widget_ptr,
-	int32 left_duration)
+	EGlobalBuffType type, int32 left_duration)
 {
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	text_manager_cache_ = game_instance->GetTextManager();
@@ -27,6 +27,7 @@ void UGlobalBuffWidget::InitGlobalBuffWidget(UDisplayDataAsset* display_data, UB
 	image_->SetBrushFromTexture(display_data_cache_->thumbnail);
 	popup_widget_cache_ = popup_widget_ptr;
 	left_duration_ = left_duration;
+	global_buff_type_ = type;
 }
 
 void UGlobalBuffWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -34,8 +35,8 @@ void UGlobalBuffWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
 	
 	popup_widget_cache_->UpdatePopupData(display_data_cache_->thumbnail,
-		text_manager_cache_->GetActiveSkillNameText(display_data_cache_->text_key_),
-		text_manager_cache_->GetActiveSkillDetailText(display_data_cache_->text_key_));
+		text_manager_cache_->GetGlobalBuffNameText(global_buff_type_),
+		text_manager_cache_->GetGlobalBuffDetailText(global_buff_type_));
 	Cast<UGlobalBuffPopupWidget>(popup_widget_cache_)->UpdateLeftDuration(left_duration_);
 }
 

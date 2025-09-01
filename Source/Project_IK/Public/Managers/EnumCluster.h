@@ -351,6 +351,15 @@ enum class EPassiveSkillType : uint8
 };
 
 UENUM(BlueprintType)
+enum class ESupportSkillType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Reposition UMETA(DisplayName = "Reposition"),
+	SetAttackTarget UMETA(DisplayName = "Reposition"),
+	Maintain UMETA(DisplayName = "Maintain")
+};
+
+UENUM(BlueprintType)
 enum class EActiveSkillType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),

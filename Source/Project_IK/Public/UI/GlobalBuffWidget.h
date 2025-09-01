@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Subsystems/GlobalBuffSubsystem.h"
 #include "GlobalBuffWidget.generated.h"
 class UBasicPopupWidget;
 class UDisplayDataAsset;
@@ -22,7 +23,7 @@ class PROJECT_IK_API UGlobalBuffWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void InitGlobalBuffWidget(UDisplayDataAsset* display_data, UBasicPopupWidget* popup_widget_ptr, int32 left_duration);
+	void InitGlobalBuffWidget(UDisplayDataAsset* display_data, UBasicPopupWidget* popup_widget_ptr, EGlobalBuffType type, int32 left_duration);
 	
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
@@ -39,6 +40,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UBasicPopupWidget> popup_widget_cache_;
+
+	UPROPERTY()
+	EGlobalBuffType global_buff_type_;
 
 	UPROPERTY()
 	int32 left_duration_;

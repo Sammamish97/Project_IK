@@ -82,17 +82,17 @@ void UButtonBarWidget::OnActiveSkillButtonClicked3()
 
 void UButtonBarWidget::OnSupportSkillButtonClicked0()
 {
-	game_state_cache_->ActivateSupportSkill(0);
+	game_state_cache_->ActivateSupportSkill(ESupportSkillType::Reposition);
 }
 
 void UButtonBarWidget::OnSupportSkillButtonClicked1()
 {
-	game_state_cache_->ActivateSupportSkill(1);
+	game_state_cache_->ActivateSupportSkill(ESupportSkillType::SetAttackTarget);
 }
 
 void UButtonBarWidget::OnSupportSkillButtonClicked2()
 {
-	game_state_cache_->ActivateSupportSkill(2);
+	game_state_cache_->ActivateSupportSkill(ESupportSkillType::Maintain);
 }
 
 USupportSkillButtonWidget* UButtonBarWidget::GetSupportSkillButtonWidget(int32 idx)
