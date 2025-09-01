@@ -10,7 +10,6 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ItemData.h"
 #include "Managers/EnumCluster.h"
 #include "RuneData.generated.h"
 
@@ -26,8 +25,8 @@ struct PROJECT_IK_API FRuneData
 	UPROPERTY()
 	ERuneSetType set_type = ERuneSetType::INVALID;
 	
-	UPROPERTY()
-	FItemData item_data_;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "PassiveSkillData")
+	TObjectPtr<UTexture2D> thumbnail_;
 	
 	//0, 1, 2, 3, 4, 5번 슬롯을 뜻함.
 	UPROPERTY()

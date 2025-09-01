@@ -39,7 +39,6 @@ public:
 	FTargetParameters GetActiveSkillTargetParameters() const;
 	
 	bool HasActiveSkill() const;
-	const FItemData& GetActiveSkillItemData() const;
 	void ReduceActiveSkillCoolDown(float amount);
 	void ReduceActiveSkillCoolDownPercentage(float percentage);
 

@@ -38,12 +38,11 @@ public:
 	bool GetIsPermanent() const;
 	float GetDuration() const;
 	float GetLeftTime() const;
-	TObjectPtr<UDisplayDataAsset> GetDisplayDataCache() const;
 
 	EBuffType GetCurBuffType() const;
 	FProgressBarStyle GetProgressBarStyle() const;
 
-	void SetWidget(const FProgressBarStyle& style, EBuffType buff_type, UDisplayDataAsset* data_cache, bool is_permanent, float duration, float left_time, bool is_available);
+	void SetWidget(const FProgressBarStyle& style, EBuffType buff_type, bool is_permanent, float duration, float left_time, bool is_available);
 	
 	void ResetWidget();
 	bool IsWidgetAvailable() const;
@@ -60,9 +59,9 @@ private:
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UProgressBar> buff_image_;
-	
-	UPROPERTY()
-	TObjectPtr<UDisplayDataAsset> display_data_cache_;
+
+	UPROPERTY(EditDefaultsOnly, Category = "PassiveSkillData")
+	TObjectPtr<UTexture2D> thumbnail_;
 	
 	UPROPERTY()
 	EBuffType cur_buff_type_;

@@ -101,7 +101,7 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 				auto active_skill_popup = Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetActiveSkillPopupWidget();
 				FText name = text_manager_cache_->GetActiveSkillNameText(active_skill_data.type_);
 				active_skill_popup->UpdatePopupData(
-					casted_hero->GetActiveSkillItemData().display_data_->thumbnail,
+					active_skill_data.thumbnail_,
 					name,
 					active_skill_data.BuildDetailText(GetWorld(), casted_hero->GetCharacterStat()->GetCharacterData()));
 				active_skill_popup->UpdateCoolDown(active_skill_data.cool_time_);
@@ -126,7 +126,7 @@ void AIKGameState::ActivateSupportSkill(ESupportSkillType type)
 
 			auto support_skill_popup =Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSupportSkillPopupWidget();
 			support_skill_popup->UpdatePopupData(
-				support_skill_data_[type]->display_data_->thumbnail,
+				support_skill_data_[type]->thumbnail_,
 				name,
 				detail);
 			support_skill_popup->UpdateCost(support_skill_data_[type]->cost_);

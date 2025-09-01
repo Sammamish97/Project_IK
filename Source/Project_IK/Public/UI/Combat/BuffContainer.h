@@ -27,7 +27,7 @@ public:
 	void InitBuffContainer(UBasicPopupWidget* popup_widget);
 
 	UFUNCTION()
-	void EnqueueBuff(EBuffType buff_type, UDisplayDataAsset* buff_data, bool is_permanent, float duration);
+	void EnqueueBuff(EBuffType buff_type, bool is_permanent, float duration);
 	UFUNCTION()
 	void UpdateQueue(EBuffType buff_type);
 	void UpdateWidgetSize(float new_height);

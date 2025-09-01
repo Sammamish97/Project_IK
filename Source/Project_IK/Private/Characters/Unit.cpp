@@ -236,14 +236,14 @@ void AUnit::ApplyStatusBuff(EBuffType buff_type, FBuffStatusData buff_status)
 	character_stat_component_->ApplyBuff(buff_type, buff_status);
 }
 
-void AUnit::AddBuffUI(EBuffType type, UDisplayDataAsset* ui_data)
+void AUnit::AddBuffUI(EBuffType type)
 {
-	OnApplyBuff.Broadcast(type, ui_data, true, -1.f);
+	OnApplyBuff.Broadcast(type, true, -1.f);
 }
 
-void AUnit::AddBuffUI(EBuffType type, UDisplayDataAsset* ui_data, float duration)
+void AUnit::AddBuffUI(EBuffType type, float duration)
 {
-	OnApplyBuff.Broadcast(type, ui_data, false, duration);
+	OnApplyBuff.Broadcast(type, false, duration);
 }
 
 void AUnit::RemoveBuffUI(EBuffType type)

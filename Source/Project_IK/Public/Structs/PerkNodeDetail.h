@@ -22,8 +22,8 @@ struct PROJECT_IK_API FPerkNodeDetail
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere)
-	TObjectPtr<UDisplayDataAsset> display_data_ = nullptr;
-
+	TObjectPtr<UTexture2D> thumbnail_;
+	
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UPerkEffectBase> perk_effect_class = nullptr;
 	
@@ -35,4 +35,7 @@ struct PROJECT_IK_API FPerkNodeDetail
 
 	UPROPERTY(EditAnywhere)
 	bool purchased_ = false;
+
+	UPROPERTY(EditAnywhere)
+	FString key_;
 };

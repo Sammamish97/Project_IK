@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "CharacterData.h"
-#include "ItemData.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/EnumCluster.h"
 #include "Managers/TextManager.h"
@@ -30,8 +29,11 @@ struct PROJECT_IK_API FActiveSkillData
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UActiveSkillBase> active_skill_class;
 
-	UPROPERTY(EditDefaultsOnly)
-	FItemData item_data_;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "PassiveSkillData")
+	TObjectPtr<UTexture2D> thumbnail_;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "PassiveSkillData")
+	ERarity rarity_;
 	
 	UPROPERTY(EditDefaultsOnly)
 	TArray<float> skill_power_scales_;

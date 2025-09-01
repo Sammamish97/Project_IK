@@ -141,7 +141,7 @@ TArray<FRuneData> UDataTableManager::GetUniqueRuneDataRandomly(int32 n, ERarity 
 
 UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type) const
 {
-	return GetRuneSetData(type).item_data_.display_data_->thumbnail;
+	return GetRuneSetData(type).thumbnail_;
 }
 
 FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type) const

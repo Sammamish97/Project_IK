@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Structs/FormattedText.h"
 #include "UObject/Object.h"
 #include "BuffHandler.generated.h"
 
@@ -30,7 +29,4 @@ public:
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Buffs")
 	EBuffType buff_type_;
-	
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Buffs")
-	TObjectPtr<UDisplayDataAsset> display_data_;
 };

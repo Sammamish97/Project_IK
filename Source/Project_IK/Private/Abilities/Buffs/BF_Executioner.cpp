@@ -26,7 +26,7 @@ void UBF_Executioner::OnEliminate()
 		{
 			casted_hero->ReduceActiveSkillCoolDown(1.f);
 			casted_hero->ApplyStatusBuff(buff_type_, buff_status_data_);
-			casted_hero->AddBuffUI(buff_type_, display_data_, buff_status_data_.duration_);
+			casted_hero->AddBuffUI(buff_type_, buff_status_data_.duration_);
 		}
 	}
 }

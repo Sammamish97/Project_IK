@@ -71,18 +71,14 @@ void UMapHUDWidget::NativeConstruct()
 	int32 buff_amount = buffs.Num();
 	for (size_t i = 0; i < buff_amount; i++)
 	{
-		//IKTODO: 이 if문은 테스트 이후 반드시 사라져야 한다. Display Data가 반드시 있어야 하기 때문이다.
-		if (buffs[i].display_data_)
+		auto cur_global_buff_widget = CreateWidget<UGlobalBuffWidget>(global_buff_widget_holder_, global_buff_widget_class_);
+		cur_global_buff_widget->InitGlobalBuffWidget(global_buff_popup_widget_, buffs[i]);
+		if (auto GridSlot = Cast<UUniformGridSlot>(cur_global_buff_widget->Slot))
 		{
-			auto cur_global_buff_widget = CreateWidget<UGlobalBuffWidget>(global_buff_widget_holder_, global_buff_widget_class_);
-			cur_global_buff_widget->InitGlobalBuffWidget(buffs[i].display_data_, global_buff_popup_widget_, buffs[i].duration_);
-			if (auto GridSlot = Cast<UUniformGridSlot>(cur_global_buff_widget->Slot))
-			{
-				GridSlot->SetHorizontalAlignment(HAlign_Center);
-				GridSlot->SetVerticalAlignment(VAlign_Center);
-			}
-			global_buff_widget_holder_->AddChildToUniformGrid(cur_global_buff_widget, i / grid_column_, i % grid_column_);
+			GridSlot->SetHorizontalAlignment(HAlign_Center);
+			GridSlot->SetVerticalAlignment(VAlign_Center);
 		}
+		global_buff_widget_holder_->AddChildToUniformGrid(cur_global_buff_widget, i / grid_column_, i % grid_column_);
 	}
 	
 

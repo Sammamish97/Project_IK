@@ -26,7 +26,7 @@ void UBF_OnAllyDead::ApplyBuff(AUnit* target)
 	{
 		GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(elem, EUnitEvent::OnDie, this, &UBF_OnAllyDead::OnAllyDie);
 	}
-	target->AddBuffUI(EBuffType::OnAllyDead, display_data_);
+	target->AddBuffUI(EBuffType::OnAllyDead);
 }
 
 void UBF_OnAllyDead::OnAllyDie()

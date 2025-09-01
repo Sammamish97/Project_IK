@@ -23,7 +23,7 @@ class PROJECT_IK_API UGlobalBuffWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void InitGlobalBuffWidget(UDisplayDataAsset* display_data, UBasicPopupWidget* popup_widget_ptr, EGlobalBuffType type, int32 left_duration);
+	void InitGlobalBuffWidget(UBasicPopupWidget* popup_widget_ptr, FGlobalBuffData global_buff_data);
 	
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
@@ -36,13 +36,10 @@ private:
 	TObjectPtr<UImage> image_;
 
 	UPROPERTY()
-	TObjectPtr<UDisplayDataAsset> display_data_cache_;
-
-	UPROPERTY()
 	TObjectPtr<UBasicPopupWidget> popup_widget_cache_;
 
 	UPROPERTY()
-	EGlobalBuffType global_buff_type_;
+	FGlobalBuffData global_buff_data_;
 
 	UPROPERTY()
 	int32 left_duration_;

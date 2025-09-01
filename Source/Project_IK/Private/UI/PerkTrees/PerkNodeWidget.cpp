@@ -16,7 +16,6 @@ See LICENSE file in the project root for full license information.
 #include "Components/CanvasPanelSlot.h"
 #include "Components/Image.h"
 #include "Components/Overlay.h"
-#include "DataAssets/DisplayDataAsset.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "UI/PerkTrees/PerkConnectionWidget.h"
@@ -40,13 +39,7 @@ void UPerkNodeWidget::NativeConstruct()
 		progress_system_cache_ = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
 	}
 
-	FString string_name = perk_detail_.display_data_->text_key_;
-	FName name = FName(*string_name);
-
-	if (progress_system_cache_->LoadPerkDetails(name).display_data_)
-	{
-		perk_detail_ = progress_system_cache_->LoadPerkDetails(name);
-	}
+	perk_detail_ = progress_system_cache_->LoadPerkDetails( FName(perk_detail_.key_));
 	
 	button_->OnPressed.AddDynamic(this, &UPerkNodeWidget::OnButtonPressed);
 	button_->OnReleased.AddDynamic(this, &UPerkNodeWidget::OnButtonReleased);
@@ -207,7 +200,7 @@ FLinearColor UPerkNodeWidget::SetIconColor()
 
 FSlateBrush UPerkNodeWidget::SetIconBrush()
 {
-	return UWidgetBlueprintLibrary::MakeBrushFromTexture(perk_detail_.display_data_->thumbnail, 60, 60);
+	return UWidgetBlueprintLibrary::MakeBrushFromTexture(perk_detail_.thumbnail_, 60, 60);
 }
 
 ESlateVisibility UPerkNodeWidget::SetCheckVisibility()
@@ -221,7 +214,7 @@ ESlateVisibility UPerkNodeWidget::SetCheckVisibility()
 
 void UPerkNodeWidget::SaveSkill()
 {
-	FString string_name = perk_detail_.display_data_->text_key_;
+	FString string_name = perk_detail_.key_;
 	FName name = FName(*string_name);
 	progress_system_cache_->SavePerkDetails(name, perk_detail_);
 }

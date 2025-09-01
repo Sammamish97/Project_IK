@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 #include "UI/Combat/BuffWidget.h"
 #include "Managers/TextManager.h"
 #include "Components/ProgressBar.h"
-#include "DataAssets/DisplayDataAsset.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/PopUps/BasicPopupWidget.h"
 #include "WorldSettings/IKGameInstance.h"
@@ -28,7 +27,7 @@ void UBuffWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointer
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	UTextManager* text_manager = game_instance->GetTextManager();
 	
-	buff_popup_ref_->UpdatePopupData(display_data_cache_->thumbnail,
+	buff_popup_ref_->UpdatePopupData(thumbnail_,
 		text_manager->GetBuffNameText(cur_buff_type_),
 		text_manager->GetBuffDetailText(cur_buff_type_));
 }
@@ -44,10 +43,10 @@ void UBuffWidget::BeginBuffUI()
 	SetVisibility(ESlateVisibility::Visible);
 	is_available_ = false;
 
-	if(display_data_cache_->thumbnail != nullptr)
+	if(thumbnail_ != nullptr)
 	{
 		FSlateBrush brush;
-		brush.SetResourceObject(display_data_cache_->thumbnail);
+		brush.SetResourceObject(thumbnail_);
 
 		FProgressBarStyle style;
 		style.BackgroundImage = brush;
@@ -80,11 +79,6 @@ float UBuffWidget::GetDuration() const
 	return duration_;
 }
 
-TObjectPtr<UDisplayDataAsset> UBuffWidget::GetDisplayDataCache() const
-{
-	return display_data_cache_;
-}
-
 bool UBuffWidget::GetIsPermanent() const
 {
 	return is_permanent_;
@@ -107,11 +101,10 @@ void UBuffWidget::ResetWidget()
 	duration_ = 0.f;
 	is_permanent_ = false;
 	is_available_ = true;
-	display_data_cache_ = nullptr;
 	cur_buff_type_ = EBuffType::INVALID;
 }
 
-void UBuffWidget::SetWidget(const FProgressBarStyle& style, EBuffType buff_type, UDisplayDataAsset* data_cache,
+void UBuffWidget::SetWidget(const FProgressBarStyle& style, EBuffType buff_type,
 	bool is_permanent, float duration, float left_time, bool is_available)
 {
 	if(is_available)
@@ -124,7 +117,6 @@ void UBuffWidget::SetWidget(const FProgressBarStyle& style, EBuffType buff_type,
 		left_time_ = left_time;
 		duration_ = duration;
 		is_available_ = is_available;
-		display_data_cache_ = data_cache;
 		cur_buff_type_ = buff_type;
 		buff_image_->SetWidgetStyle(style);
 	}

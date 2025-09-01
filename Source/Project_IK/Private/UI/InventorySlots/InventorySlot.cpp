@@ -117,7 +117,6 @@ void UInventorySlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 void UInventorySlot::ClearData()
 {
 	is_empty_ = true;
-	item_data_cache_ = FItemData();
 	//IKTODO: 이후 비워두는 것이 아닌, 빈칸 텍스쳐를 띄워야 함.
 	image_->SetBrushFromTexture(nullptr);
 }
