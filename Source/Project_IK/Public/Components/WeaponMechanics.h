@@ -47,7 +47,6 @@ public:
 	void DieWeaponActor();
 
 	void ChangeGunShotSoundTemporariliy(EAudioType temporary_gunshot_audio, float duration = 0.f);
-	void RecoverGunShotSound();
 
 private:
 	UPROPERTY(Transient)

@@ -88,8 +88,3 @@ void UWeaponMechanics::ChangeGunShotSoundTemporariliy(EAudioType temporary_gunsh
 {
 	weapon_actor_->ChangeGunShotSoundTemporariliy(temporary_gunshot_audio, duration);
 }
-
-void UWeaponMechanics::RecoverGunShotSound()
-{
-	weapon_actor_->RecoverGunShotSound();
-}
