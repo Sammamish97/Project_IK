@@ -18,7 +18,6 @@ enum class EHeroType : uint8;
 class UImage;
 class UTextBlock;
 class URichTextBlock;
-class UDisplayDataAsset;
 
 //Basic Popup widget은 제일 기본적인 정보, 썸네일/이름/디테일을 나타내는 widget이다.
 //이후 상황에 따라 이 클래스를 상속하여 액티브(쿨타임), 서포트(코스트), 무기(데미지/탄창/공격방식), 룬(세트효과)를 추가하여 구현한다.

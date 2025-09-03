@@ -14,7 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "Engine/DataAsset.h"
 #include "SupportSkillDataAsset.generated.h"
 
-class UDisplayDataAsset;
 UCLASS()
 class PROJECT_IK_API USupportSkillDataAsset : public UPrimaryDataAsset
 {

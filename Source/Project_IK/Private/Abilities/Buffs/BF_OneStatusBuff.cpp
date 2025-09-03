@@ -17,11 +17,11 @@ void UBF_OneStatusBuff::ApplyBuff(AUnit* target)
 	target->ApplyStatusBuff(buff_type_, buff_status_data_);
 	if (buff_status_data_.is_permanent_)
 	{
-		target->AddBuffUI(buff_type_);
+		target->AddBuffUI(buff_type_, thumbnail_);
 	}
 	else
 	{
-		target->AddBuffUI(buff_type_, buff_status_data_.duration_);
+		target->AddBuffUI(buff_type_,thumbnail_,  buff_status_data_.duration_);
 	}
 }
 

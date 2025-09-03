@@ -14,7 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "UObject/Object.h"
 #include "BuffHandler.generated.h"
 
-class UDisplayDataAsset;
 class AUnit;
 enum class EBuffType : uint8;
 
@@ -29,4 +28,7 @@ public:
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Buffs")
 	EBuffType buff_type_;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Buffs")
+	TObjectPtr<UTexture2D> thumbnail_;
 };

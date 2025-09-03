@@ -16,11 +16,11 @@ void UBF_DisplayOnly::ApplyBuff(AUnit* target)
 	Super::ApplyBuff(target);
 	if (is_permanent_)
 	{
-		target->AddBuffUI(buff_type_);
+	    target->AddBuffUI(buff_type_, thumbnail_);
 	}
 	else
 	{
-		target->AddBuffUI(buff_type_, duration_);
+		target->AddBuffUI(buff_type_, thumbnail_, duration_);
 	}
 }
 

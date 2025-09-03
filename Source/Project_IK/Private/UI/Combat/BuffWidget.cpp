@@ -104,7 +104,7 @@ void UBuffWidget::ResetWidget()
 	cur_buff_type_ = EBuffType::INVALID;
 }
 
-void UBuffWidget::SetWidget(const FProgressBarStyle& style, EBuffType buff_type,
+void UBuffWidget::SetWidget(const FProgressBarStyle& style, EBuffType buff_type, UTexture2D* thumbnail,
 	bool is_permanent, float duration, float left_time, bool is_available)
 {
 	if(is_available)
@@ -118,6 +118,7 @@ void UBuffWidget::SetWidget(const FProgressBarStyle& style, EBuffType buff_type,
 		duration_ = duration;
 		is_available_ = is_available;
 		cur_buff_type_ = buff_type;
+		thumbnail_ = thumbnail; 
 		buff_image_->SetWidgetStyle(style);
 	}
 }

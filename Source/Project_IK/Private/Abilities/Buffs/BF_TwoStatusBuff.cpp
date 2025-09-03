@@ -17,21 +17,21 @@ void UBF_TwoStatusBuff::ApplyBuff(AUnit* target)
 	target->ApplyStatusBuff(buff_type_, first_buff_status_data_);
 	if (first_buff_status_data_.is_permanent_)
 	{
-		target->AddBuffUI(buff_type_);
+		target->AddBuffUI(buff_type_, thumbnail_);
 	}
 	else
 	{
-		target->AddBuffUI(buff_type_, first_buff_status_data_.duration_);
+		target->AddBuffUI(buff_type_, thumbnail_, first_buff_status_data_.duration_);
 	}
 	
 	target->ApplyStatusBuff(buff_type_, second_buff_status_data_);
 	if (second_buff_status_data_.is_permanent_)
 	{
-		target->AddBuffUI(buff_type_);
+		target->AddBuffUI(buff_type_, thumbnail_);
 	}
 	else
 	{
-		target->AddBuffUI(buff_type_, second_buff_status_data_.duration_);
+		target->AddBuffUI(buff_type_, thumbnail_, second_buff_status_data_.duration_);
 	}
 }
 

@@ -15,7 +15,6 @@ See LICENSE file in the project root for full license information.
 #include "BuffWidget.generated.h"
 
 class USizeBox;
-class UDisplayDataAsset;
 class UBuffPopupWidget;
 class UBuffContainer;
 class UProgressBar;
@@ -42,7 +41,7 @@ public:
 	EBuffType GetCurBuffType() const;
 	FProgressBarStyle GetProgressBarStyle() const;
 
-	void SetWidget(const FProgressBarStyle& style, EBuffType buff_type, bool is_permanent, float duration, float left_time, bool is_available);
+	void SetWidget(const FProgressBarStyle& style, EBuffType buff_type, UTexture2D* thumbnail, bool is_permanent, float duration, float left_time, bool is_available);
 	
 	void ResetWidget();
 	bool IsWidgetAvailable() const;

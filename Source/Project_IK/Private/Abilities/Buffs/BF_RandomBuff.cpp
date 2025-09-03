@@ -24,11 +24,11 @@ void UBF_RandomBuff::ApplyBuff(AUnit* target)
 	target->ApplyStatusBuff(buff_type_, buff);
 	if (is_permanent_)
 	{
-		target->AddBuffUI(buff_type_);
+		target->AddBuffUI(buff_type_, thumbnail_);
 	}
 	else
 	{
-		target->AddBuffUI(buff_type_, duration_);
+		target->AddBuffUI(buff_type_, thumbnail_, duration_);
 	}
 }
 

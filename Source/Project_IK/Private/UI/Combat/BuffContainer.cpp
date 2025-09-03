@@ -38,7 +38,7 @@ void UBuffContainer::InitBuffContainer(UBasicPopupWidget* popup_widget)
 	}
 }
 
-void UBuffContainer::EnqueueBuff(EBuffType buff_type, bool is_permanent, float duration)
+void UBuffContainer::EnqueueBuff(EBuffType buff_type, UTexture2D* thumbnail ,bool is_permanent, float duration)
 {
 	TArray widget_array = {buff_widget_0_, buff_widget_1_, buff_widget_2_, buff_widget_3_, buff_widget_4_};
 	//겹치는 버프 제거.
@@ -48,7 +48,7 @@ void UBuffContainer::EnqueueBuff(EBuffType buff_type, bool is_permanent, float d
 	{
 		if(widget_array[i]->IsWidgetAvailable())
 		{
-			widget_array[i]->SetWidget(widget_array[i]->GetProgressBarStyle(), buff_type, is_permanent, duration, duration, false);
+			widget_array[i]->SetWidget(widget_array[i]->GetProgressBarStyle(), buff_type, thumbnail, is_permanent, duration, duration, false);
 			widget_array[i]->BeginBuffUI();
 			break;
 		}
@@ -78,7 +78,7 @@ void UBuffContainer::UpdateQueue(EBuffType buff_type)
 		for(int32 i = target_index; i < max_buffs_ - 1; ++i)
 		{
 			auto next_widget = widget_array[i + 1];
-			widget_array[i]->SetWidget(next_widget->GetProgressBarStyle(), next_widget->GetCurBuffType(), next_widget->GetIsPermanent(), next_widget->GetDuration(), next_widget->GetLeftTime(), next_widget->IsWidgetAvailable());
+			widget_array[i]->SetWidget(next_widget->GetProgressBarStyle(), next_widget->GetCurBuffType(), next_widget->thumbnail_, next_widget->GetIsPermanent(), next_widget->GetDuration(), next_widget->GetLeftTime(), next_widget->IsWidgetAvailable());
 		}
 		widget_array[max_buffs_ - 1]->ResetWidget();
 	}

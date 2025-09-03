@@ -11,10 +11,8 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
 #include "RandomDataAssetsManager.generated.h"
 
-struct FItemData;
 enum class EItemType : uint8;
 enum class ERarity : uint8;
 

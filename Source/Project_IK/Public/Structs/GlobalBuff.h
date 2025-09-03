@@ -13,7 +13,6 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "GlobalBuff.generated.h"
 
-class UDisplayDataAsset;
 class UGlobalBuffLogicBase;
 
 USTRUCT(BlueprintType)

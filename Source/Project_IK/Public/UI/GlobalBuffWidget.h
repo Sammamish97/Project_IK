@@ -14,7 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/GlobalBuffSubsystem.h"
 #include "GlobalBuffWidget.generated.h"
 class UBasicPopupWidget;
-class UDisplayDataAsset;
 class UTextManager;
 class UImage;
 
