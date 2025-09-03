@@ -22,6 +22,8 @@ public:
 	virtual void NativeConstruct() override;
 	virtual FReply NativeOnPreviewMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	
 	void SetPassiveSkillSlotData(const FPassiveSkillData& passive_skill_data);
 	const FPassiveSkillData& GetStoredPassiveSkillData();
 	virtual void SetImageTexture() override;

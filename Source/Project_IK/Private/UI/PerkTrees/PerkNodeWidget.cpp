@@ -39,7 +39,8 @@ void UPerkNodeWidget::NativeConstruct()
 		progress_system_cache_ = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
 	}
 
-	perk_detail_ = progress_system_cache_->LoadPerkDetails( FName(perk_detail_.key_));
+	//IKTODO: 이후, progress_system_cache_에 있는 것들만 대입 시켜야 함. 만약 변화가 없으면 해당 코드를 실행시킬 이유가 없음.
+	//perk_detail_ = progress_system_cache_->LoadPerkDetails( FName(perk_detail_.key_));
 	
 	button_->OnPressed.AddDynamic(this, &UPerkNodeWidget::OnButtonPressed);
 	button_->OnReleased.AddDynamic(this, &UPerkNodeWidget::OnButtonReleased);

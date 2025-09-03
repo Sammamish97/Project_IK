@@ -25,7 +25,7 @@ struct PROJECT_IK_API FRuneData
 	UPROPERTY()
 	ERuneSetType set_type = ERuneSetType::INVALID;
 	
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "PassiveSkillData")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	TObjectPtr<UTexture2D> thumbnail_;
 	
 	//0, 1, 2, 3, 4, 5번 슬롯을 뜻함.

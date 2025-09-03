@@ -31,10 +31,10 @@ struct PROJECT_IK_API FRuneSetData
 	UPROPERTY(EditFixedSize)
 	TArray<FRuneData> rune_set_data_ = { FRuneData(0), FRuneData(1), FRuneData(2), FRuneData(3), FRuneData(4), FRuneData(5) };
 
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "PassiveSkillData")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	TObjectPtr<UTexture2D> thumbnail_;
 	
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "RuneData")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	ERuneSetType set_type = ERuneSetType::INVALID;
 
 	UPROPERTY(EditDefaultsOnly)

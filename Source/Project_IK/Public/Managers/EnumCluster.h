@@ -508,7 +508,6 @@ enum class ERuneSetType : uint8
 	Quake UMETA(DisplayName = "Quake"),
 	Tempest UMETA(DisplayName = "Tempest"),
 	Viper UMETA(DisplayName = "Viper"),
-	Poet UMETA(DisplayName = "Poet"),
 };
 
 inline FString RuneTypeToString(ERuneSetType type)

@@ -66,6 +66,16 @@ bool UPassiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FD
 	return false;
 }
 
+void UPassiveSkillSlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	if (is_empty_ == false)
+	{
+		inventory_widget_cache_->CreatePassiveSkillPopupWidget(passive_skill_data_cache_.thumbnail_,
+			text_manager_cache_->GetPassiveSkillNameText(passive_skill_data_cache_.type_),
+			text_manager_cache_->GetPassiveSkillDetailText(passive_skill_data_cache_.type_));
+	}
+}
+
 const FPassiveSkillData& UPassiveSkillSlotWidget::GetStoredPassiveSkillData()
 {
 	return passive_skill_data_cache_;
