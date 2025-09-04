@@ -48,7 +48,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float deploying_height_offset_ = 2000.f;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	float deploy_time_ = 5.f;
+	float deploy_time_ = 0.5f;
 
 
 	bool is_deploying_ = false;

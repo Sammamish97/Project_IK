@@ -22,6 +22,9 @@ See LICENSE file in the project root for full license information.
 
 #include "NiagaraFunctionLibrary.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+#include "Components/AudioComponent.h"
+
 UAT_DeploySentryGun::UAT_DeploySentryGun()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Location, ETargetType::None, 1000.f, 100.f);
@@ -43,7 +46,9 @@ void UAT_DeploySentryGun::Tick(float DeltaTime)
 			if (deploying_timer_ >= deploy_time_)
 			{
 				deploying_timer_ = deploy_time_;
-				// sentry_gun_actor_->SetActorLocation(deploying_location_);
+				sentry_gun_actor_->SetActorLocation(deploying_location_);
+
+				UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::DeploySentryGun, deploying_location_);
 
 				UCapsuleComponent* component = sentry_gun_actor_->GetComponentByClass<UCapsuleComponent>();
 				if (component)
@@ -80,6 +85,12 @@ bool UAT_DeploySentryGun::ActivateSkill(const FTargetResult& TargetResult)
 			sentry_gun_actor_ = skill_owner_->GetWorld()->SpawnActor<ASentryGun>(sentry_gun_class_, spawn_location_, FRotator::ZeroRotator, params);
 			if (sentry_gun_actor_)
 			{
+				UAudioComponent* audio = UAudioManagerSubsystem::Get(this)->PlayAttached(EAudioType::BeginFallingSentryGun, sentry_gun_actor_->GetRootComponent());
+				if (audio)
+				{
+					audio->FadeOut(deploy_time_, 0.3f);
+				}
+
 				sentry_gun_actor_->InitSentryGun(IsUpgradedActiveSkill(skill_data_.type_), stat_component_cache->GetSkillPower());
 
 				is_deploying_ = true;
