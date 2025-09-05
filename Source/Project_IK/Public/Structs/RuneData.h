@@ -22,7 +22,7 @@ struct PROJECT_IK_API FRuneData
 	: set_type(init_set_type), slot_number(init_slot){};
 
 	//IKNOTICE: set_type과 Item Type은 Data Asset에서 손으로 설정하는 것이 아닌, 코드를 통해 RuneSetData를 통해 자동으로 초기화 되어야 한다.
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	ERuneSetType set_type = ERuneSetType::INVALID;
 	
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
@@ -31,4 +31,7 @@ struct PROJECT_IK_API FRuneData
 	//0, 1, 2, 3, 4, 5번 슬롯을 뜻함.
 	UPROPERTY()
 	int32 slot_number = 0;
+
+	UPROPERTY(EditDefaultsOnly)
+	ERarity rarity_;
 };

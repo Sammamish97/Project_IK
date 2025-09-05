@@ -141,7 +141,7 @@ void UIKGameInstance::InitEventManager()
 
 void UIKGameInstance::InitializePerkEffectsAlreadyUnlocked()
 {
-	// Enhance data by recorded progress.
+	//Enhance data by recorded progress.
 	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
 	for (const auto&[name, perk] : progress_system->LoadAllPerkDetails())
 	{
@@ -154,6 +154,15 @@ void UIKGameInstance::InitializePerkEffectsAlreadyUnlocked()
 	  		}
 		}
 	}
+
+	//GLOBAL BUFF TEST PURPOSE
+	// for (const auto& elem :  GetTree())
+	// {
+	// 	if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, elem.effect_class_))
+	// 	{
+	// 		perk_effect->ApplyEffect();
+	// 	}
+	// }
 }
 
 void UIKGameInstance::InitializeMaps()

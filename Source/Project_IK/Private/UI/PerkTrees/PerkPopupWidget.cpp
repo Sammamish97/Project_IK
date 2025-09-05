@@ -75,8 +75,8 @@ void UPerkPopupWidget::UpdateSkillDetail()
 	}
 	
 	cost_text_->SetText(cost_text);
-	name_text_->SetText(text_manager_cache_->GetPerkNameText(perk_data_.key_));
-	detail_text_->SetText(text_manager_cache_->GetPerkDetailText(perk_data_.key_));
+	name_text_->SetText(text_manager_cache_->GetPerkNameText(perk_data_.type_));
+	detail_text_->SetText(text_manager_cache_->GetPerkDetailText(perk_data_.type_));
 }
 
 void UPerkPopupWidget::SetPerkData(const FPerkNodeDetail& perk_data)

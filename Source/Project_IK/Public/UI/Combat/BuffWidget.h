@@ -59,7 +59,7 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UProgressBar> buff_image_;
 
-	UPROPERTY(EditDefaultsOnly, Category = "PassiveSkillData")
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
 	TObjectPtr<UTexture2D> thumbnail_;
 	
 	UPROPERTY()

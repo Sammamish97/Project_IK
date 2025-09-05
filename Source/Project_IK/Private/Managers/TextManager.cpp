@@ -10,14 +10,14 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/TextManager.h"
 
-FText UTextManager::GetPerkNameText(const FString& key) const
+FText UTextManager::GetPerkNameText(EPerkNodeType key) const
 {
-	return FText::FromStringTable(perk_name_table_->GetStringTableId(), key);
+	return FText::FromStringTable(perk_name_table_->GetStringTableId(), PerkEnumToKey(key));
 }
 
-FText UTextManager::GetPerkDetailText(const FString& key) const
+FText UTextManager::GetPerkDetailText(EPerkNodeType key) const
 {
-	return FText::FromStringTable(perk_detail_table_->GetStringTableId(), key);
+	return FText::FromStringTable(perk_detail_table_->GetStringTableId(), PerkEnumToKey(key));
 }
 
 FText UTextManager::GetStatusText(ECharacterStatType stat_type) const
@@ -32,7 +32,7 @@ FText UTextManager::GetPopUpText(const FString& key) const
 
 FText UTextManager::GetRuneNameText(ERuneSetType set_type) const
 {
-	return FText::FromStringTable(rune_name_table_->GetStringTableId(), RuneTypeToString(set_type));
+	return FText::FromStringTable(rune_name_table_->GetStringTableId(), RuneEnumToKey(set_type));
 }
 
 FText UTextManager::GetBuffNameText(EBuffType buff_type) const
@@ -47,12 +47,12 @@ FText UTextManager::GetBuffDetailText(EBuffType buff_type) const
 
 FText UTextManager::GetGlobalBuffNameText(EGlobalBuffType global_buff_type) const
 {
-	return FText::FromStringTable(global_buff_name_table_->GetStringTableId(), GlobalBuffEnumToKey(global_buff_type));
+	return FText::FromStringTable(buff_name_table_->GetStringTableId(), BuffEnumToKey(GlobalBuffEnumToBuffEnum(global_buff_type)));
 }
 
 FText UTextManager::GetGlobalBuffDetailText(EGlobalBuffType global_buff_type) const
 {
-	return FText::FromStringTable(global_buff_detail_table_->GetStringTableId(), GlobalBuffEnumToKey(global_buff_type));
+	return FText::FromStringTable(buff_detail_table_->GetStringTableId(), BuffEnumToKey(GlobalBuffEnumToBuffEnum(global_buff_type)));
 }
 
 FText UTextManager::GetEventNameText(EEventType event_type) const
@@ -88,11 +88,11 @@ FText UTextManager::GetRuneSetBonusText(ERuneSetType set_type, ERuneSetBonusType
 	switch (bonus_type)
 	{
 	case ERuneSetBonusType::Edge:
-		return FText::FromStringTable(rune_edge_bonus_table_->GetStringTableId(), RuneTypeToString(set_type));
+		return FText::FromStringTable(rune_edge_bonus_table_->GetStringTableId(), RuneEnumToKey(set_type));
 	case ERuneSetBonusType::Triangle:
-		return FText::FromStringTable(rune_triangle_bonus_table_->GetStringTableId(), RuneTypeToString(set_type));
+		return FText::FromStringTable(rune_triangle_bonus_table_->GetStringTableId(), RuneEnumToKey(set_type));
 	case ERuneSetBonusType::Hexagon:
-		return FText::FromStringTable(rune_hexagon_bonus_table_->GetStringTableId(), RuneTypeToString(set_type));
+		return FText::FromStringTable(rune_hexagon_bonus_table_->GetStringTableId(), RuneEnumToKey(set_type));
 	default:
 		return FText::FromName("INVALID");
 	}
@@ -136,6 +136,43 @@ FText UTextManager::GetSupportSkillNameText(ESupportSkillType type) const
 FText UTextManager::GetSupportSkillDetailText(ESupportSkillType type) const
 {
 	return FText::FromStringTable(support_skill_detail_table_->GetStringTableId(), SupportSkillEnumToKey(type));
+}
+
+FString UTextManager::RuneEnumToKey(ERuneSetType type) const
+{
+	switch (type)
+	{
+	case ERuneSetType::Chariot:
+		return FString("CHARIOT");
+	case ERuneSetType::GreatBow:
+		return FString("GREATBOW");
+	case ERuneSetType::Dagger:
+		return FString("DAGGER");
+	case ERuneSetType::Quake:
+		return FString("QUAKE");
+	case ERuneSetType::Tempest:
+		return FString("TEMPEST");
+	case ERuneSetType::Viper:
+		return FString("VIPER");
+	default:
+		return FString("INVALID");
+	}
+}
+
+
+FString UTextManager::RuneSetBonusEnumToKey(ERuneSetBonusType type) const
+{
+	switch (type)
+	{
+	case ERuneSetBonusType::Edge:
+		return FString("EDGE");
+	case ERuneSetBonusType::Triangle:
+		return FString("TRIANGLE");
+	case ERuneSetBonusType::Hexagon:
+		return FString("HEXAGON");
+	default:
+		return FString("INVALID");
+	}
 }
 
 FString UTextManager::WeaponEnumToKey(EWeaponType weapon_type) const
@@ -411,7 +448,7 @@ FString UTextManager::BuffEnumToKey(EBuffType buff_type) const
 		key = "OTC";
 		break;
 	case EBuffType::ReinforcedCore:
-		key = "RIC";
+		key = "RICORE";
 		break;
 	case EBuffType::SlopedArmor:
 		key = "SPR";
@@ -426,7 +463,7 @@ FString UTextManager::BuffEnumToKey(EBuffType buff_type) const
 		key = "EP";
 		break;
 	case EBuffType::ReinforcedCamera:
-		key = "RIC";
+		key = "RICAMERA";
 		break;
 	case EBuffType::Conductor:
 		key = "CDT";
@@ -585,10 +622,26 @@ FString UTextManager::BuffEnumToKey(EBuffType buff_type) const
 		key = "PAT_RDB3";
 		break;
 	case EBuffType::Patrol_RandomBuff4:
-		key = "PAT_RD4";
+		key = "PAT_RB4";
 		break;
 	case EBuffType::Patrol_RandomDebuff4:
 		key = "PAT_RDB4";
+		break;
+
+	case EBuffType::Acquire_Shield:
+		key = "ACS";
+		break;
+
+	case EBuffType::WoundingBullets:
+		key = "WB";
+		break;
+
+	case EBuffType::Trap_RewardCandidateDebuff:
+		key = "TR_RCAD";
+		break;
+
+	case EBuffType::Trap_RewardChoiceDebuff:
+		key = "TR_RCOD";
 		break;
 	}
 	return key;
@@ -717,7 +770,7 @@ FString UTextManager::GlobalBuffEnumToKey(EGlobalBuffType global_buff_type) cons
 		key = "PAT_RDB3";
 		break;
 	case EGlobalBuffType::Patrol_RandomBuff4:
-		key = "PAT_RD4";
+		key = "PAT_RB4";
 		break;
 	case EGlobalBuffType::Patrol_RandomDebuff4:
 		key = "PAT_RDB4";
@@ -725,6 +778,135 @@ FString UTextManager::GlobalBuffEnumToKey(EGlobalBuffType global_buff_type) cons
 	}
 	return key;
 }
+
+//Global Buff와 Buff는 Text를 공유한다. 그러므로 타입을 변환하는 함수를 추가한다.
+EBuffType UTextManager::GlobalBuffEnumToBuffEnum(EGlobalBuffType global_buff_type) const
+{
+	switch (global_buff_type)
+	{
+	case EGlobalBuffType::WoundingBullets:
+		return EBuffType::WoundingBullets;
+
+	case EGlobalBuffType::Acquire_Shield:
+		return EBuffType::Acquire_Shield;
+		
+	case EGlobalBuffType::Trap_RewardCandidateDebuff:
+		return EBuffType::Trap_RewardCandidateDebuff;
+		
+	case EGlobalBuffType::Trap_RewardChoiceDebuff:
+		return EBuffType::Trap_RewardChoiceDebuff;
+		
+	case EGlobalBuffType::Deathbound_Hero1:
+	case EGlobalBuffType::Deathbound_Hero2:
+	case EGlobalBuffType::Deathbound_Hero3:
+	case EGlobalBuffType::Deathbound_Hero4:
+		return EBuffType::Deathbound;
+		
+	case EGlobalBuffType::Upgrade_Alpha:
+		return EBuffType::Upgrade_Alpha;
+		
+	case EGlobalBuffType::Upgrade_Beta:
+		return EBuffType::Upgrade_Beta;
+
+	case EGlobalBuffType::Upgrade_Gamma:
+		return EBuffType::Upgrade_Gamma;
+		
+	case EGlobalBuffType::Upgrade_Omega:
+		return EBuffType::Upgrade_Omega;
+
+	
+	case EGlobalBuffType::AirStrike_ArmorDebuff:
+		return EBuffType::AirStrikeArmorDebuff;
+		
+	case EGlobalBuffType::AirStrike_HPDebuff:
+		return EBuffType::AirStrikeHPDebuff;
+		
+	case EGlobalBuffType::Ambush_AttackSpeedDebuff:
+		return EBuffType::AmbushAttackSpeedDebuff;
+		
+	case EGlobalBuffType::Ambush_AttackPowerDebuff:
+		return EBuffType::AmbushAttackPowerDebuff;
+	
+	case EGlobalBuffType::EMP_CritBuff:
+		return EBuffType::EMPCritBuff;
+		
+	case EGlobalBuffType::EMP_AttackSpeedBuff:
+		return EBuffType::EMPAttackSpeedBuff;
+		
+	case EGlobalBuffType::EMP_HPDebuff:
+		return EBuffType::EMPHPDebuff;
+		
+	case EGlobalBuffType::ProtocolSurvive_Shield:
+		return EBuffType::ProtocolSurvive_Shield;
+		
+	case EGlobalBuffType::ProtocolSurvive_LifeSteal:
+		return EBuffType::ProtocolSurvive_LifeSteal;
+		
+	case EGlobalBuffType::ProtocolAssault_AttackPowerBuff:
+		return EBuffType::ProtocolAssault_AttackPowerBuff;
+
+	case EGlobalBuffType::ProtocolAssault_SkillPowerBuff:
+		return EBuffType::ProtocolAssault_SkillPowerBuff;
+
+	case EGlobalBuffType::ProtocolAssault_AttackSpeedBuff:
+		return EBuffType::ProtocolAssault_AttackSpeedBuff;
+
+	case EGlobalBuffType::ProtocolEfficiency_CritBuff:
+		return EBuffType::ProtocolEfficiency_CritBuff;
+
+	case EGlobalBuffType::ProtocolEfficiency_EvadeBuff:
+		return EBuffType::ProtocolEfficiency_EvadeBuff;
+
+	case EGlobalBuffType::ProtocolEfficiency_CooldownBuff:
+		return EBuffType::ProtocolEfficiency_CooldownBuff;
+
+	case EGlobalBuffType::Recon_RemoveNegativeEvents:
+		return EBuffType::Recon_RemoveNegativeEvents;
+
+	case EGlobalBuffType::Recon_RewardChoiceBuff:
+		return EBuffType::Recon_RewardChoiceBuff;
+
+	case EGlobalBuffType::Recon_CreditBonusBuff:
+		return EBuffType::Recon_CreditBonusBuff;
+
+	case EGlobalBuffType::SetTrap_HPDebuff:
+		return EBuffType::SetTrap_HPDebuff;
+		
+	case EGlobalBuffType::Core_AttackBuff:
+		return EBuffType::Core_AttackBuff;
+		
+	case EGlobalBuffType::Core_AttackDebuff:
+		return EBuffType::Core_AttackDebuff;
+		
+	case EGlobalBuffType::Patrol_RandomBuff1:
+		return EBuffType::Patrol_RandomBuff1;
+		
+	case EGlobalBuffType::Patrol_RandomDebuff1:
+		return EBuffType::Patrol_RandomDebuff1;
+		
+	case EGlobalBuffType::Patrol_RandomBuff2:
+		return EBuffType::Patrol_RandomBuff2;
+		
+	case EGlobalBuffType::Patrol_RandomDebuff2:
+		return EBuffType::Patrol_RandomDebuff2;
+		
+	case EGlobalBuffType::Patrol_RandomBuff3:
+		return EBuffType::Patrol_RandomBuff3;
+		
+	case EGlobalBuffType::Patrol_RandomDebuff3:
+		return EBuffType::Patrol_RandomDebuff3;
+		
+	case EGlobalBuffType::Patrol_RandomBuff4:
+		return EBuffType::Patrol_RandomBuff4;
+		
+	case EGlobalBuffType::Patrol_RandomDebuff4:
+		return EBuffType::Patrol_RandomDebuff4;
+
+	default:
+		return EBuffType::INVALID;
+	}
+}
+
 
 FString UTextManager::EventEnumToKey(EEventType event_type) const
 {
@@ -766,6 +948,108 @@ FString UTextManager::EventEnumToKey(EEventType event_type) const
 		break;
 	case EEventType::EMP:
 		key = "EMP";
+		break;
+	}
+	return key;
+}
+
+FString UTextManager::PerkEnumToKey(EPerkNodeType type) const
+{
+	FString key;
+	switch (type)
+	{
+	case EPerkNodeType::EXALPHA:
+		key = "EXALPHA";
+		break;
+	case EPerkNodeType::EXBETA:
+		key = "EXBETA";
+		break;
+	case EPerkNodeType::EXGAMMA:
+		key = "EXGAMMA";
+		break;
+	case EPerkNodeType::EXOMEGA:
+		key = "EXOMEGA";
+		break;
+	case EPerkNodeType::EXARM_1:
+		key = "EXARM_1";
+		break;
+	case EPerkNodeType::EXARM_2:
+		key = "EXARM_2";
+		break;
+	case EPerkNodeType::EXATK_1:
+		key = "EXATK_1";
+		break;
+	case EPerkNodeType::EXATK_2:
+		key = "EXATK_2";
+		break;
+	case EPerkNodeType::EXATS_1:
+		key = "EXATS_1";
+		break;
+	case EPerkNodeType::EXATS_2:
+		key = "EXATS_2";
+		break;
+	case EPerkNodeType::EXCREDIT_1:
+		key = "EXCREDIT_1";
+		break;
+	case EPerkNodeType::EXCREDIT_2:
+		key = "EXCREDIT_2";
+		break;
+	case EPerkNodeType::EXCRIT:
+		key = "EXCRIT";
+		break;
+	case EPerkNodeType::EXDODGE:
+		key = "EXDODGE";
+		break;
+	case EPerkNodeType::EXGOTCHA_1:
+		key = "EXGOTCHA_1";
+		break;
+	case EPerkNodeType::EXGOTCHA_2:
+		key = "EXGOTCHA_2";
+		break;
+	case EPerkNodeType::EXGOTCHA_3:
+		key = "EXGOTCHA_3";
+		break;
+	case EPerkNodeType::EXHEAL_1:
+		key = "EXHEAL_1";
+		break;
+	case EPerkNodeType::EXHEAL_2:
+		key = "EXHEAL_2";
+		break;
+	case EPerkNodeType::EXHEAL_3:
+		key = "EXHEAL_3";
+		break;
+	case EPerkNodeType::EXHP_1:
+		key = "EXHP_1";
+		break;
+	case EPerkNodeType::EXHP_2:
+		key = "EXHP_2";
+		break;
+	case EPerkNodeType::EXINITSHIELD:
+		key = "EXINITSHIELD";
+		break;
+	case EPerkNodeType::EXPASSIVE_1:
+		key = "EXPASSIVE_1";
+		break;
+	case EPerkNodeType::EXPASSIVE_2:
+		key = "EXPASSIVE_2";
+		break;
+	case EPerkNodeType::EXREWARDCHOOSE_1:
+		key = "EXREWARDCHOOSE_1";
+		break;
+	case EPerkNodeType::EXREWARDCHOOSE_2:
+		key = "EXREWARDCHOOSE_2";
+		break;
+	case EPerkNodeType::EXREWARDCOUNT_1:
+		key = "EXREWARDCOUNT_1";
+		break;
+	case EPerkNodeType::EXREWARDCOUNT_2:
+		key = "EXREWARDCOUNT_2";
+		break;
+	case EPerkNodeType::EXSKP:
+		key = "EXSKP";
+		break;
+	case EPerkNodeType::EXSURV:
+		key = "EXSURV";
 		break;
 	}
 	return key;

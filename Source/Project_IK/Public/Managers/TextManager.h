@@ -31,9 +31,8 @@ public:
 	FText GetSupportSkillNameText(ESupportSkillType type) const;
 	FText GetSupportSkillDetailText(ESupportSkillType type) const;
 
-	//Perk는 이미 Name을 Key로 사용하고 있기에, Enum이 아닌 FString을 사용한다.
-	FText GetPerkNameText(const FString& key) const;
-	FText GetPerkDetailText(const FString& key) const;
+	FText GetPerkNameText(EPerkNodeType key) const;
+	FText GetPerkDetailText(EPerkNodeType key) const;
 
 	FText GetRuneNameText(ERuneSetType set_type) const;
 	FText GetRuneSetBonusText(ERuneSetType set_type, ERuneSetBonusType bonus_type) const;
@@ -52,6 +51,8 @@ public:
 	FText GetEventOptionText(EEventType event_type, int32 option_idx) const;
 
 private:
+	FString RuneEnumToKey(ERuneSetType type) const;
+	FString RuneSetBonusEnumToKey(ERuneSetBonusType type) const;
 	FString WeaponEnumToKey(EWeaponType weapon_type) const;
 	FString ActiveSkillEnumToKey(EActiveSkillType active_skill_type) const;
 	FString PassiveSkillEnumToKey(EPassiveSkillType passive_skill_type) const;
@@ -60,7 +61,10 @@ private:
 	FString StatusEnumToKey(ECharacterStatType stat_type) const;
 	FString BuffEnumToKey(EBuffType buff_type) const;
 	FString GlobalBuffEnumToKey(EGlobalBuffType global_buff_type) const;
+	EBuffType GlobalBuffEnumToBuffEnum(EGlobalBuffType global_buff_type) const;
+
 	FString EventEnumToKey(EEventType event_type) const;
+	FString PerkEnumToKey(EPerkNodeType perk_name) const;
 
 private:
 	
@@ -116,14 +120,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> buff_detail_table_;
-
-	//
-
-	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TObjectPtr<UStringTable> global_buff_name_table_;
-
-	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TObjectPtr<UStringTable> global_buff_detail_table_;
 
 	//
 

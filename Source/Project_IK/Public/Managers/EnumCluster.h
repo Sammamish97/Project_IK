@@ -510,28 +510,6 @@ enum class ERuneSetType : uint8
 	Viper UMETA(DisplayName = "Viper"),
 };
 
-inline FString RuneTypeToString(ERuneSetType type)
-{
-	switch (type)
-	{
-	case ERuneSetType::Chariot:
-		return FString("CHARIOT");
-	case ERuneSetType::GreatBow:
-		return FString("GREATBOW");
-	case ERuneSetType::Dagger:
-		return FString("DAGGER");
-	case ERuneSetType::Quake:
-		return FString("QUAKE");
-	case ERuneSetType::Tempest:
-		return FString("TEMPEST");
-	case ERuneSetType::Viper:
-		return FString("VIPER");
-	default:
-		return FString("INVALID");
-	}
-}
-
-UENUM(BlueprintType)
 enum class ERuneSetBonusType : uint8
 {
 	INVALID UMETA(DisplayName = "INVALID"),
@@ -539,21 +517,6 @@ enum class ERuneSetBonusType : uint8
 	Triangle UMETA(DisplayName = "Triangle"),
 	Hexagon UMETA(DisplayName = "Hexagon"),
 };
-
-inline FString RuneSetBonusTypeToString(ERuneSetBonusType type)
-{
-	switch (type)
-	{
-	case ERuneSetBonusType::Edge:
-		return FString("EDGE");
-	case ERuneSetBonusType::Triangle:
-		return FString("TRIANGLE");
-	case ERuneSetBonusType::Hexagon:
-		return FString("HEXAGON");
-	default:
-		return FString("INVALID");
-	}
-}
 
 UENUM(BlueprintType)
 enum class EGlobalBuffType : uint8
@@ -829,6 +792,11 @@ enum class EBuffType : uint8
 	Patrol_RandomDebuff3 UMETA(DisplayName = "Patrol random debuff 3"),
 	Patrol_RandomBuff4 UMETA(DisplayName = "Patrol random buff 4"),
 	Patrol_RandomDebuff4 UMETA(DisplayName = "Patrol random debuff 4"),
+
+	WoundingBullets UMETA(DisplayName = "Wounding Bullets"),
+	Acquire_Shield UMETA(DisplayName = "Acquire_Shield"),
+	Trap_RewardCandidateDebuff UMETA(DisplayName = "Trap Reward Candidate Debuff"),
+	Trap_RewardChoiceDebuff UMETA(DisplayName = "Trap Reward Choice Debuff")
 };
 
 UENUM(BlueprintType)
@@ -866,4 +834,40 @@ enum class EAudioType : uint8
 	Encourage UMETA(DisplayName = "Encourage"),
 	MagnetizedBulletsActivated UMETA(DisplayName = "MagnetizedBullets Activated"),
 	Ricochet UMETA(DisplayName = "Ricochet"),
+};
+
+UENUM(BlueprintType)
+enum class EPerkNodeType : uint8
+{
+	EXALPHA UMETA(DisplayName = "EXALPHA"),
+	EXBETA UMETA(DisplayName = "EXBETA"),
+	EXGAMMA UMETA(DisplayName = "EXGAMMA"),
+	EXOMEGA UMETA(DisplayName = "EXOMEGA"),
+	EXARM_1 UMETA(DisplayName = "EXARM_1"),
+	EXARM_2 UMETA(DisplayName = "EXARM_2"),
+	EXATK_1 UMETA(DisplayName = "EXATK_1"),
+	EXATK_2 UMETA(DisplayName = "EXATK_2"),
+	EXATS_1 UMETA(DisplayName = "EXATS_1"),
+	EXATS_2 UMETA(DisplayName = "EXATS_2"),
+	EXCREDIT_1 UMETA(DisplayName = "EXCREDIT_1"),
+	EXCREDIT_2 UMETA(DisplayName = "EXCREDIT_2"),
+	EXCRIT UMETA(DisplayName = "EXCRIT"),
+	EXDODGE UMETA(DisplayName = "EXDODGE"),
+	EXGOTCHA_1 UMETA(DisplayName = "EXGOTCHA_1"),
+	EXGOTCHA_2 UMETA(DisplayName = "EXGOTCHA_2"),
+	EXGOTCHA_3 UMETA(DisplayName = "EXGOTCHA_3"),
+	EXHEAL_1 UMETA(DisplayName = "EXHEAL_1"),
+	EXHEAL_2 UMETA(DisplayName = "EXHEAL_2"),
+	EXHEAL_3 UMETA(DisplayName = "EXHEAL_3"),
+	EXHP_1 UMETA(DisplayName = "EXHP_1"),
+	EXHP_2 UMETA(DisplayName = "EXHP_2"),
+	EXINITSHIELD UMETA(DisplayName = "EXINITSHIELD"),
+	EXPASSIVE_1 UMETA(DisplayName = "EXPASSIVE_1"),
+	EXPASSIVE_2 UMETA(DisplayName = "EXPASSIVE_2"),
+	EXREWARDCHOOSE_1 UMETA(DisplayName = "EXREWARDCHOOSE_1"),
+	EXREWARDCHOOSE_2 UMETA(DisplayName = "EXREWARDCHOOSE_2"),
+	EXREWARDCOUNT_1 UMETA(DisplayName = "EXREWARDCOUNT_1"),
+	EXREWARDCOUNT_2 UMETA(DisplayName = "EXREWARDCOUNT_2"),
+	EXSKP UMETA(DisplayName = "EXSKP"),
+	EXSURV UMETA(DisplayName = "EXSURV"),
 };

@@ -141,9 +141,9 @@ void URuneBoardWidget::LoadRuneBoardWidget(EHeroType hero_type)
 		TArray rune_slot_type_array = {EInventorySlotType::Rune_0, EInventorySlotType::Rune_1, EInventorySlotType::Rune_2, EInventorySlotType::Rune_3, EInventorySlotType::Rune_4, EInventorySlotType::Rune_5};
 		for (int32 i = 0; i < rune_data_array.Num(); i++)
 		{
-			if (rune_data_array[i].IsSet())
+			if (rune_data_array[i].set_type != ERuneSetType::INVALID)
 			{
-				rune_slots[i]->SetRuneSetSlotData(rune_data_array[i].GetValue());
+				rune_slots[i]->SetRuneSetSlotData(rune_data_array[i]);
 			}
 			else
 			{
@@ -170,7 +170,7 @@ void URuneBoardWidget::UpdateRuneBoard()
 			{
 				if (rune_slots[i]->IsEmpty())
 				{
-					rune_data_array[i].Reset();
+					rune_data_array[i] = FRuneData();
 				}
 				else
 				{

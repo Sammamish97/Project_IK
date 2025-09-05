@@ -24,9 +24,9 @@ class PROJECT_IK_API UPerkProgressSubsystem : public UGameInstanceSubsystem
 public:
 	virtual void Initialize(FSubsystemCollectionBase& collection) override;
 
-	void SavePerkDetails(FName key, FPerkNodeDetail detail);
-	FPerkNodeDetail LoadPerkDetails(FName key);
-	TMap<FName, FPerkNodeDetail> LoadAllPerkDetails();
+	void SavePerkDetails(EPerkNodeType type, FPerkNodeDetail detail);
+	FPerkNodeDetail LoadPerkDetails(EPerkNodeType key);
+	TMap<EPerkNodeType, FPerkNodeDetail> LoadAllPerkDetails();
 
 	void SavePerkPoint(int32 perk_point);
 	int32 LoadPerkPoint();
@@ -36,5 +36,5 @@ protected:
 	int32 perk_points_;
 	
 	UPROPERTY()
-	TMap<FName, FPerkNodeDetail> perk_node_map_;	
+	TMap<EPerkNodeType, FPerkNodeDetail> perk_node_map_;	
 };

@@ -215,9 +215,7 @@ ESlateVisibility UPerkNodeWidget::SetCheckVisibility()
 
 void UPerkNodeWidget::SaveSkill()
 {
-	FString string_name = perk_detail_.key_;
-	FName name = FName(*string_name);
-	progress_system_cache_->SavePerkDetails(name, perk_detail_);
+	progress_system_cache_->SavePerkDetails(perk_detail_.type_, perk_detail_);
 }
 
 void UPerkNodeWidget::OnButtonPressed()

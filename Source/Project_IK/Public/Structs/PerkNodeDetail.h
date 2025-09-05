@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Managers/EnumCluster.h"
 #include "UObject/Object.h"
 #include "PerkNodeDetail.generated.h"
 
@@ -36,5 +37,5 @@ struct PROJECT_IK_API FPerkNodeDetail
 	bool purchased_ = false;
 
 	UPROPERTY(EditAnywhere)
-	FString key_;
+	EPerkNodeType type_;
 };

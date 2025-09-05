@@ -9,7 +9,6 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Managers/DataTableManager.h"
-#include "Structs/RuneSetData.h"
 
 #include "DataAssets/ActiveSkillDataAsset.h"
 #include "DataAssets/RuneDataAsset.h"
@@ -20,7 +19,6 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/CrowdControlInfoDataAsset.h"
 #include "DataAssets/CharacterStatDataAsset.h"
 #include "DataAssets/HeroDataAsset.h"
-#include "DataAssets/SupportSkillDataAsset.h"
 #include "DataAssets/UnitTypeDataAsset.h"
 #include "DataAssets/WeaponAnimDataAsset.h"
 #include "DataAssets/PerkTreeDataAsset.h"
@@ -47,26 +45,6 @@ TArray<FWeaponData> UDataTableManager::GetUniqueWeaponDataRandomly(int32 n, ERar
 	return weapon_data_asset_->GetUniqueWeaponDataRandomly(n, weight_rarity);
 }
 
-FRuneSetData UDataTableManager::GetRuneSetData(ERuneSetType type) const
-{
-	return rune_data_asset_->GetRuneSetData(type);
-}
-
-FRuneSetData UDataTableManager::GetRuneSetDataRandomly(ERarity weight_rarity) const
-{
-	return rune_data_asset_->GetRuneSetDataRandomly(weight_rarity);
-}
-
-TArray<FRuneSetData> UDataTableManager::GetRuneSetDataRandomly(int32 n, ERarity weight_rarity) const
-{
-	return rune_data_asset_->GetRuneSetDataRandomly(n, weight_rarity);
-}
-
-TArray<FRuneSetData> UDataTableManager::GetUniqueRuneSetDataRandomly(int32 n, ERarity weight_rarity) const
-{
-	return rune_data_asset_->GetUniqueRuneSetDataRandomly(n, weight_rarity);
-}
-
 FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num) const
 {
 	if (slot_num < 0 || slot_num > 5)
@@ -76,7 +54,9 @@ FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num) const
 	}
 	if (rune_data_asset_)
 	{
-		return rune_data_asset_->GetRuneSetData(type).rune_set_data_[slot_num];
+		auto rune_data = rune_data_asset_->GetRuneSetData(type);
+		rune_data.slot_number = slot_num;
+		return rune_data;
 	}
 	UE_LOG(LogTemp, Error, TEXT("rune_data_asset_ is invalid!"));
 	return FRuneData();
@@ -84,18 +64,20 @@ FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num) const
 
 FRuneData UDataTableManager::GetRuneDataRandomly(ERarity weight_rarity) const
 {
-	FRuneSetData randomly_chosen_set = rune_data_asset_->GetRuneSetDataRandomly(weight_rarity);
-	return randomly_chosen_set.rune_set_data_[FMath::RandRange(0, 5)];
+	FRuneData randomly_chosen_set = rune_data_asset_->GetRuneSetDataRandomly(weight_rarity);
+	randomly_chosen_set.slot_number = FMath::RandRange(0, 5);
+	return randomly_chosen_set;
 }
 
 TArray<FRuneData> UDataTableManager::GetRuneDataRandomly(int32 n, ERarity weight_rarity) const
 {
-	TArray<FRuneSetData> set_array = rune_data_asset_->GetRuneSetDataRandomly(n, weight_rarity);
+	TArray<FRuneData> set_array = rune_data_asset_->GetRuneSetDataRandomly(n, weight_rarity);
 
 	TArray<FRuneData> result;
-	for (const FRuneSetData& element : set_array)
+	for (FRuneData element : set_array)
 	{
-		result.Add(element.rune_set_data_[FMath::RandRange(0, 5)]);
+		element.slot_number = FMath::RandRange(0, 5);
+		result.Add(element);
 	}
 	return result;
 }
@@ -103,12 +85,12 @@ TArray<FRuneData> UDataTableManager::GetRuneDataRandomly(int32 n, ERarity weight
 TArray<FRuneData> UDataTableManager::GetUniqueRuneDataRandomly(int32 n, ERarity weight_rarity) const
 {
 	// @@ TODO: It will return less than N items if set_array has more than 6 same set types.
-	TArray<FRuneSetData> set_array = rune_data_asset_->GetRuneSetDataRandomly(n, weight_rarity);
+	TArray<FRuneData> set_array = rune_data_asset_->GetRuneSetDataRandomly(n, weight_rarity);
 
 	TMap<ERuneSetType, TSet<int32>> unique_runes;
 	TArray<FRuneData> result;
 
-	for (const FRuneSetData& element : set_array)
+	for (const FRuneData& element : set_array)
 	{
 		// Shuffle indices 0-5 to ensure random selection without repeating from same set
 		TArray<int32> indices = { 0, 1, 2, 3, 4, 5 };
@@ -116,7 +98,7 @@ TArray<FRuneData> UDataTableManager::GetUniqueRuneDataRandomly(int32 n, ERarity 
 
 		for (int32 idx : indices)
 		{
-			const FRuneData& rune = element.rune_set_data_[idx];
+			const FRuneData& rune = element;
 			if (!unique_runes.Find(rune.set_type))
 			{
 				unique_runes.Add(rune.set_type);
@@ -141,7 +123,7 @@ TArray<FRuneData> UDataTableManager::GetUniqueRuneDataRandomly(int32 n, ERarity 
 
 UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type) const
 {
-	return GetRuneSetData(type).thumbnail_;
+	return rune_data_asset_->GetRuneSetData(type).thumbnail_;
 }
 
 FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type) const

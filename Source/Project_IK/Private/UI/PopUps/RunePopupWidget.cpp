@@ -52,11 +52,9 @@ void URunePopupWidget::UpdateRuneData(EHeroType type)
 			bonus_type_text = NSLOCTEXT("UI", "RunePopupBonusTypeHexagon", "Hexagon: ");
 			break;
 		}
-
-		auto cur_set_data = data_table_cache_->GetRuneSetData(elem.Key);
 		
 		auto new_widget = CreateWidget<URunePopupDetailWidget>(this, rune_popup_detail_widget_class_);
-		new_widget->thumbnail_->SetBrushFromTexture(cur_set_data.thumbnail_);
+		new_widget->thumbnail_->SetBrushFromTexture( data_table_cache_->GetRuneSetThumbnail(elem.Key));
 		new_widget->set_bonus_type_->SetText(bonus_type_text);
 		//IKTODO: String table 사용하기.
 		//new_widget->set_bonus_detail_->SetText(cur_set_data.bonus_details_[bonus_type_]);
