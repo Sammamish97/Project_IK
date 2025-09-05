@@ -866,4 +866,6 @@ enum class EAudioType : uint8
 	MagnetizedGunShot UMETA(DisplayName = "Magnetized GunShot"),
 	BeginFallingSentryGun UMETA(DisplayName = "Begin falling sentry gun"),
 	DeploySentryGun UMETA(DisplayName = "Deoloy sentry gun"),
+	ChargeShotCharge UMETA(DisplayName = "ChargeShot Charge"),
+	ChargeShotFire UMETA(DisplayName = "ChargeShot Fire"),
 };
