@@ -19,6 +19,9 @@ See LICENSE file in the project root for full license information.
 #include "Engine/World.h"
 #include "WorldSettings/IKGameModeBase.h"
 
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+
 // Sets default values for this component's properties
 UTargetingComponent::UTargetingComponent()
 {
@@ -69,7 +72,7 @@ void UTargetingComponent::CancelTargeting()
 	StopTargeting();
 }
 
-void UTargetingComponent::CleanUpVisuals()
+void UTargetingComponent::GetReadyTargetingVisuals()
 {
 	UMaterialInstanceDynamic* dynamic_material = nullptr;
 	switch (target_parameters_.current_mode_)
@@ -78,19 +81,23 @@ void UTargetingComponent::CleanUpVisuals()
 		break;
 	case ETargetingMode::Actor:
 		player_controller_->CurrentMouseCursor = EMouseCursor::Crosshairs;
-		radius_decal_->SetVisibility(false);
+		radius_component_->DeactivateImmediate();
 		range_decal_->SetVisibility(true);
 		sector_decal_->SetVisibility(false);
 		break;
 	case ETargetingMode::Location:
 		player_controller_->CurrentMouseCursor = EMouseCursor::GrabHand;
-		radius_decal_->DecalSize = FVector(target_parameters_.radius_);
-		radius_decal_->SetVisibility(true);
+		radius_component_->SetFloatParameter(FName("Radius"), target_parameters_.radius_);
+		if (radius_component_->IsActive())
+		{
+			radius_component_->DeactivateImmediate();
+		}
+		radius_component_->Activate(true);
 		range_decal_->SetVisibility(true);
 		sector_decal_->SetVisibility(false);
 		break;
 	case ETargetingMode::Direction:
-		radius_decal_->SetVisibility(false);
+		radius_component_->DeactivateImmediate();
 		range_decal_->SetVisibility(true);
 		sector_decal_->SetVisibility(true);
 		sector_decal_->DecalSize = FVector(target_parameters_.range_);
@@ -114,7 +121,7 @@ void UTargetingComponent::StartTargeting(FTargetParameters target_params, AActor
 	target_parameters_ = target_params;
 	range_decal_->DecalSize = FVector(target_parameters_.range_);
 
-	CleanUpVisuals();
+	GetReadyTargetingVisuals();
 }
 
 FTargetResult UTargetingComponent::DecideTargetings()
@@ -308,15 +315,14 @@ void UTargetingComponent::InitializeTargetingVisuals()
 			}
 			range_decal_->RegisterComponent();
 
-			radius_decal_ = NewObject<UDecalComponent>(targeting_visual_actor_);
-			radius_decal_->SetupAttachment(root_component);
-			radius_decal_->SetRelativeRotation(FRotator(90.0, 0.0, 0.0));
-			if (radius_material_)
+			radius_component_ = NewObject<UNiagaraComponent>(targeting_visual_actor_);
+			radius_component_->SetupAttachment(root_component);
+			if (radius_niagara_)
 			{
-				radius_decal_->SetDecalMaterial(radius_material_);
+				radius_component_->SetAsset(radius_niagara_);
 			}
-			radius_decal_->SetVisibility(false);
-			radius_decal_->RegisterComponent();
+			radius_component_->RegisterComponent();
+			radius_component_->DeactivateImmediate();
 
 			sector_decal_ = NewObject<UDecalComponent>(targeting_visual_actor_);
 			sector_decal_->SetupAttachment(root_component);
@@ -355,7 +361,7 @@ void UTargetingComponent::UpdateTargetingVisuals()
 		break;
 	case ETargetingMode::Location:
 		HandleLocationTargeting(result);
-		radius_decal_->SetWorldLocation(result.target_location_);
+		radius_component_->SetWorldLocation(result.target_location_);
 		range_decal_->SetWorldLocation(invoker_location);
 		break;
 	case ETargetingMode::Direction:
@@ -377,9 +383,9 @@ void UTargetingComponent::CleanupTargetingVisuals()
 	{
 		range_decal_->SetVisibility(false);
 	}
-	if (radius_decal_)
+	if (radius_component_)
 	{
-		radius_decal_->SetVisibility(false);
+		radius_component_->DeactivateImmediate();
 	}
 	if (sector_decal_)
 	{

@@ -21,6 +21,9 @@ See LICENSE file in the project root for full license information.
 enum class ETargetingMode : uint8;
 enum class ETargetType : uint8;
 
+class UNiagaraSystem;
+class UNiagaraComponent;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTargetingCanceled);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -63,14 +66,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Targeting")
 	UMaterialInterface* range_material_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Targeting")
-	UMaterialInterface* radius_material_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Targeting")
+	TObjectPtr<UNiagaraSystem> radius_niagara_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Targeting")
 	UMaterialInterface* arc_material_;
 	
 private:
-	void CleanUpVisuals();
+	void GetReadyTargetingVisuals();
 
 private:
 	UPROPERTY() 
@@ -85,7 +88,7 @@ private:
 	UPROPERTY()
 	UDecalComponent* range_decal_;
 	UPROPERTY()
-	UDecalComponent* radius_decal_;
+	TObjectPtr<UNiagaraComponent> radius_component_;
 	UPROPERTY()
 	UDecalComponent* sector_decal_;
 

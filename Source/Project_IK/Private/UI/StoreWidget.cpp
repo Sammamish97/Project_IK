@@ -75,6 +75,7 @@ void UStoreWidget::NativeConstruct()
 	UDataTableManager* manager = game_instance->GetDataTableManager();
 	if (store_widget_class_)
 	{
+		// IKTODO: 웨폰데이터 추가 후 복구
 		//weapons_ = manager->GetUniqueWeaponDataRandomly(STOCK);
 		//AddItems(weapons_, weapon_slot_container_, weapon_slots_);
 		active_skills_ = manager->GetUniqueActiveSkillDataRandomly(STOCK);
@@ -137,6 +138,7 @@ void UStoreWidget::OnStoreSlotClicked()
 	total_cost_ = 0;
 	for (int32 i = 0; i < STOCK; i++)
 	{
+		// IKTODO: 웨폰데이터 추가 후 복구
 		//if (weapon_slots_[i]->IsChecked())
 		//{
 		//	total_cost_ += weapon_slots_[i]->GetPrice();
@@ -201,6 +203,7 @@ void UStoreWidget::GoToNextLevel()
 	FWrapperEquipmentData data;
 	for (int32 i = 0; i < STOCK; i++)
 	{
+		// IKTODO: 웨폰데이터 추가 후 복구
 		//if (weapon_slots_[i]->IsChecked())
 		//{
 		//	data += weapons_[i];
