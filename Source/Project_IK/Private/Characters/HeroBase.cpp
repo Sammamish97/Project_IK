@@ -264,3 +264,13 @@ UPassiveSkillMechanics* AHeroBase::GetPassiveSkillMechanics()
 {
 	return passive_skill_mechanics_;
 }
+
+void AHeroBase::ChangeGunShotSoundTemporariliy(EAudioType temporary_gunshot_audio, float duration)
+{
+	weapon_mechanics_->ChangeGunShotSoundTemporariliy(temporary_gunshot_audio, duration);
+}
+
+void AHeroBase::RecoverGunShotSound()
+{
+	weapon_mechanics_->RecoverGunShotSound();
+}

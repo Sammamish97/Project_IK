@@ -33,6 +33,9 @@ public:
 	TSoftObjectPtr<USoundClass> soft_sound_channel_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSoftObjectPtr<USoundConcurrency> soft_sound_concurrency_ = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float volume_ = 1.f;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float pitch_ = 1.f;

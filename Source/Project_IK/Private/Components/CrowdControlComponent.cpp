@@ -17,6 +17,8 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "AI/MeleeAIController.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 // Sets default values for this component's properties
 UCrowdControlComponent::UCrowdControlComponent()
 {
@@ -208,13 +210,23 @@ void UCrowdControlComponent::Bleeding(float duration, AActor* applier, bool is_a
 
 void UCrowdControlComponent::ApplyBleedDamage()
 {
+	AUnit* unit = Cast<AUnit>(GetOwner());
+
+	if (unit == nullptr || unit->IsDead())
+	{
+		bleeding_remains_.Empty();
+		GetWorld()->GetTimerManager().ClearTimer(bleeding_timer_);
+		return;
+	}
+
+	UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::DOT, GetOwner()->GetActorLocation());
+
 	FDamageData bleeding_data;
 	bleeding_data.atk_base_dmg_ = BLEEDING_DAMAGE;
 	bleeding_data.damage_type_ = EDamageType::Dot;
 
 	for (FBleedingData& remains : bleeding_remains_)
 	{
-		AUnit* unit = Cast<AUnit>(GetOwner());
 		unit->GetDamage(bleeding_data);
 
 		--remains.tick_remains_;

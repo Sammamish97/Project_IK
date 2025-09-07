@@ -155,11 +155,21 @@ void AGunBase::PlayFireFXs() const
 		ejection_particle_component_->Activate(true);
 	}
 
+	PlayFireSound();
+}
+
+// This function has built upon a condition that gun shot change happened only on heroes.
+// In a situation that enemy has speicial skills changing fire SFX, this function need to be changed.
+// But no worries, it would be easy.
+void AGunBase::PlayFireSound() const
+{
 	if (AUnit* owner = weak_gun_owner_.Get())
 	{
 		if (owner->IsA<AHeroBase>())
 		{
-			UAudioManagerSubsystem::Get(this)->PlayAtLocation(gunshot_audio_type_, GetActorLocation());
+			EAudioType fire_sound = (temporary_gunshot_audio_type_ == EAudioType::NONE) ? gunshot_audio_type_ : temporary_gunshot_audio_type_;
+
+			UAudioManagerSubsystem::Get(this)->PlayAtLocation(fire_sound, GetActorLocation());
 			return;
 		}
 	}
@@ -183,6 +193,12 @@ void AGunBase::OnGunDied()
 void AGunBase::OnDieFinished()
 {
 	Destroy();
+}
+
+void AGunBase::RecoverGunShotSound()
+{
+	temporary_gunshot_audio_type_ = EAudioType::NONE;
+	GetWorld()->GetTimerManager().ClearTimer(temporary_gunshot_sound_timer_);
 }
 
 void AGunBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -344,4 +360,14 @@ void AGunBase::RemoveAfterReloadOnHitComponent(TSubclassOf<class UBulletOnHitEff
 void AGunBase::ClearAfterReloadOnHitComponents()
 {
 	on_hit_after_reload_.Empty();
+}
+
+void AGunBase::ChangeGunShotSoundTemporariliy(EAudioType temporary_gunshot_audio, float duration)
+{
+	temporary_gunshot_audio_type_ = temporary_gunshot_audio;
+	
+	if (duration > 0.f)
+	{
+		GetWorld()->GetTimerManager().SetTimer(temporary_gunshot_sound_timer_, this, &AGunBase::RecoverGunShotSound, duration);
+	}
 }

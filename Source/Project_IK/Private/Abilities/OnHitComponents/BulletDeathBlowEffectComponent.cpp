@@ -11,6 +11,8 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/Unit.h"
 #include "Components/CharacterStatComponent.h"
+
+#include "Subsystems/AudioManagerSubsystem.h"
 void UBulletDeathBlowEffectComponent::OnHit(AActor* target)
 {
 	Super::OnHit(target);
@@ -20,6 +22,7 @@ void UBulletDeathBlowEffectComponent::OnHit(AActor* target)
 		auto casted_unit = Cast<AUnit>(casted_target);
 		if (casted_unit->GetCharacterStat()->GetHitPoint() / casted_unit->GetCharacterStat()->GetMaxHitPoint() <= death_blow_percentage_)
 		{
+			UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::Deathblow, casted_unit->GetActorLocation());
 			casted_unit->Die();
 		}
 	}

@@ -16,6 +16,9 @@ See LICENSE file in the project root for full license information.
 #include "Components/AudioComponent.h"
 #include "Abilities/Buffs/BF_MagnetizedBullet.h"
 
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+
 UAT_MagnetizedBullet::UAT_MagnetizedBullet()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Allies, 0.f, 0.f, true);
@@ -30,6 +33,18 @@ void UAT_MagnetizedBullet::InitActiveSkill(AActor* skill_owner, const FActiveSki
 
 bool UAT_MagnetizedBullet::ActivateSkill(const FTargetResult& TargetResult)
 {
+	AHeroBase* hero = Cast<AHeroBase>(skill_owner_);
+	if (hero)
+	{
+		buff_->ApplyBuff(hero);
+
+		ApplyFXs(hero);
+	}
+	return Super::ActivateSkill(TargetResult);
+}
+
+void UAT_MagnetizedBullet::ApplyFXs(AHeroBase* hero)
+{
 	UAudioComponent* audio_component = nullptr;
 	if (skill_owner_)
 	{
@@ -40,15 +55,28 @@ bool UAT_MagnetizedBullet::ActivateSkill(const FTargetResult& TargetResult)
 		audio_component = UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::MagnetizedBulletsActivated);
 	}
 
-	if (audio_component)
+	float duration = 5.f;
+	UBF_MagnetizedBullet* buff_mb = Cast<UBF_MagnetizedBullet>(buff_);
+	if (buff_mb)
 	{
-		UBF_MagnetizedBullet* buff_mb = Cast<UBF_MagnetizedBullet>(buff_);
-		if (buff_mb)
-		{
-			audio_component->FadeOut(buff_mb->GetDuration(), 0.2f);
-		}
+		duration = buff_mb->GetDuration();
 	}
 
-	buff_->ApplyBuff(Cast<AUnit>(skill_owner_));
-	return Super::ActivateSkill(TargetResult);
+	if (audio_component)
+	{
+		audio_component->FadeOut(duration, 0.2f);
+	}
+
+	hero->ChangeGunShotSoundTemporariliy(EAudioType::MagnetizedGunShot, duration);
+
+
+	if (magnetized_invoked_particle_.IsValid() == false)
+	{
+		magnetized_invoked_particle_.LoadSynchronous();
+	}
+	UNiagaraComponent* niagara_component = UNiagaraFunctionLibrary::SpawnSystemAttached(magnetized_invoked_particle_.Get(), skill_owner_->GetRootComponent(), FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::KeepRelativeOffset, true);
+	if (niagara_component)
+	{
+		niagara_component->SetVariableFloat(FName("duration"), duration);
+	}
 }
