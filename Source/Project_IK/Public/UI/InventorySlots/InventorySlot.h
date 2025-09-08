@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Structs/ItemData.h"
+#include "Managers/EventManager.h"
 #include "InventorySlot.generated.h"
 
 class USlotDragDropImage;
@@ -66,8 +66,6 @@ protected:
 	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<UImage> highlight_image_;
 	
-	FItemData item_data_cache_;
-
 	bool is_read_only_ = false;
 	bool is_empty_ = true;
 	bool is_board_slot_ = true;

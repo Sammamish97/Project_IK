@@ -16,7 +16,6 @@ See LICENSE file in the project root for full license information.
 #include "Interfaces/UnitInterface.h"
 #include "Unit.generated.h"
 
-class UDisplayDataAsset;
 class UHitPointsUI;
 class UObjectPoolComponent;
 class UWidgetComponent;
@@ -30,10 +29,9 @@ struct FBuffStatusData;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUnitEvent);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnApplyBuffDelegate, EBuffType, buff_type, UDisplayDataAsset*, buff_data, bool, is_permanant, float, duration);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnApplyBuffDelegate, EBuffType, buff_type, UTexture2D*, thumbnail, bool, is_permanant, float, duration);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuffExpired, EBuffType, buff_type);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnFinishAction, UBehaviorTreeComponent*, bt_component, bool, is_interrupted);
-
 
 UCLASS(Abstract)
 class PROJECT_IK_API AUnit : public ACharacter, public IAttackable, public IDamageable, public IUnitInterface
@@ -83,8 +81,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	virtual void ApplyStatusBuff(EBuffType buff_type, FBuffStatusData buff_status);
-	virtual void AddBuffUI(EBuffType type, UDisplayDataAsset* ui_data);
-	virtual void AddBuffUI(EBuffType type, UDisplayDataAsset* ui_data, float duration_);
+	virtual void AddBuffUI(EBuffType type, UTexture2D* thumbnail);
+	virtual void AddBuffUI(EBuffType type, UTexture2D* thumbnail, float duration_);
 	virtual void RemoveBuffUI(EBuffType type);
 
 	UFUNCTION(BlueprintCallable)

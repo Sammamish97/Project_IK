@@ -19,17 +19,20 @@ class PROJECT_IK_API UTextManager : public UObject
 {
 	GENERATED_BODY()
 public:
-	FText GetActiveSkillNameText(const FString& key) const;
-	FText GetActiveSkillDetailText(const FString& key) const;
+	FText GetWeaponNameText(EWeaponType type) const;
+	FText GetWeaponDetailText(EWeaponType type) const;
+	
+	FText GetActiveSkillNameText(EActiveSkillType type) const;
+	FText GetActiveSkillDetailText(EActiveSkillType type) const;
 
-	FText GetPassiveSkillNameText(const FString& key) const;
-	FText GetPassiveSkillDetailText(const FString& key) const;
+	FText GetPassiveSkillNameText(EPassiveSkillType type) const;
+	FText GetPassiveSkillDetailText(EPassiveSkillType type) const;
 
-	FText GetSupportSkillNameText(const FString& key) const;
-	FText GetSupportSkillDetailText(const FString& key) const;
+	FText GetSupportSkillNameText(ESupportSkillType type) const;
+	FText GetSupportSkillDetailText(ESupportSkillType type) const;
 
-	FText GetPerkNameText(const FString& key) const;
-	FText GetPerkDetailText(const FString& key) const;
+	FText GetPerkNameText(EPerkNodeType key) const;
+	FText GetPerkDetailText(EPerkNodeType key) const;
 
 	FText GetRuneNameText(ERuneSetType set_type) const;
 	FText GetRuneSetBonusText(ERuneSetType set_type, ERuneSetBonusType bonus_type) const;
@@ -43,16 +46,36 @@ public:
 	FText GetGlobalBuffNameText(EGlobalBuffType stat_type) const;
 	FText GetGlobalBuffDetailText(EGlobalBuffType stat_type) const;
 
+	FText GetEventNameText(EEventType event_type) const;
+	FText GetEventDetailText(EEventType event_type) const;
+	FText GetEventOptionText(EEventType event_type, int32 option_idx) const;
+
 private:
-	FString ActiveSkillEnumToKey(EActiveSkillType active_skill_type);
-	FString PassiveSkillEnumToKey(EActiveSkillType active_skill_type);
-	FString SupportSkillEnumToKey(EActiveSkillType active_skill_type);
+	FString RuneEnumToKey(ERuneSetType type) const;
+	FString RuneSetBonusEnumToKey(ERuneSetBonusType type) const;
+	FString WeaponEnumToKey(EWeaponType weapon_type) const;
+	FString ActiveSkillEnumToKey(EActiveSkillType active_skill_type) const;
+	FString PassiveSkillEnumToKey(EPassiveSkillType passive_skill_type) const;
+	FString SupportSkillEnumToKey(ESupportSkillType support_skill_type) const;
 
 	FString StatusEnumToKey(ECharacterStatType stat_type) const;
 	FString BuffEnumToKey(EBuffType buff_type) const;
 	FString GlobalBuffEnumToKey(EGlobalBuffType global_buff_type) const;
+	EBuffType GlobalBuffEnumToBuffEnum(EGlobalBuffType global_buff_type) const;
+
+	FString EventEnumToKey(EEventType event_type) const;
+	FString PerkEnumToKey(EPerkNodeType perk_name) const;
 
 private:
+	
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> weapon_name_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> weapon_detail_table_;
+	
+	//
+	
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> active_skill_name_table_;
 
@@ -101,34 +124,34 @@ private:
 	//
 
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TObjectPtr<UStringTable> global_buff_name_table_;
+	TObjectPtr<UStringTable> event_name_table_;
 
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TObjectPtr<UStringTable> global_buff_detail_table_;
+	TObjectPtr<UStringTable> event_detail_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> event_option_1_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> event_option_2_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> event_option_3_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> event_option_4_table_;
 	
 	//
 	
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> rune_name_table_;
+	
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> rune_edge_bonus_table_;
 
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TObjectPtr<UStringTable> rune_chariot_set_bonus_table_;
+	TObjectPtr<UStringTable> rune_triangle_bonus_table_;
 
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TObjectPtr<UStringTable> rune_dagger_set_bonus_table_;
-
-	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TObjectPtr<UStringTable> rune_greatbow_set_bonus_table_;
-
-	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TObjectPtr<UStringTable> rune_poet_set_bonus_table_;
-
-	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TObjectPtr<UStringTable> rune_quake_set_bonus_table_;
-
-	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TObjectPtr<UStringTable> rune_tempest_bonus_table_;
-
-	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
-	TObjectPtr<UStringTable> rune_viper_bonus_table_;
+	TObjectPtr<UStringTable> rune_hexagon_bonus_table_;
 };

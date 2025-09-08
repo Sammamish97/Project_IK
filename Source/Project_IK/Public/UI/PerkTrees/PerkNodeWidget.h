@@ -84,9 +84,6 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UImage> unlocked_image;
 
-	UPROPERTY()
-	TObjectPtr<UIKSaveGame> save_ref_;
-	
 	//
 	UPROPERTY(EditAnywhere)
 	TArray<int32> connected_indices_;

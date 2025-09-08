@@ -21,9 +21,6 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/DataTableManager.h"
 
-#include "DataAssets/DisplayDataAsset.h"
-#include "UI/GlobalBuffWidget.h"
-
 void UGlobalBuffDisplayer::NativeConstruct()
 {
 	UGlobalBuffSubsystem* global_buff_subsystem = GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>();
@@ -49,10 +46,8 @@ void UGlobalBuffDisplayer::NativeConstruct()
 	{
 		UImage* image = WidgetTree->ConstructWidget<UImage>();
 		FSlateBrush brush = image->GetBrush();
-		if (buffs[i].display_data_)
-		{
-			brush.SetResourceObject(buffs[i].display_data_->thumbnail);
-		}
+		
+		brush.SetResourceObject(buffs[i].thumbnail_);
 		brush.SetImageSize(FVector2D(128.f, 128.f));
 		image->SetBrush(brush);
 		

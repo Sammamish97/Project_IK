@@ -11,11 +11,9 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Structs/FormattedText.h"
 #include "UObject/Object.h"
 #include "BuffHandler.generated.h"
 
-class UDisplayDataAsset;
 class AUnit;
 enum class EBuffType : uint8;
 
@@ -30,7 +28,7 @@ public:
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Buffs")
 	EBuffType buff_type_;
-	
+
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Buffs")
-	TObjectPtr<UDisplayDataAsset> display_data_;
+	TObjectPtr<UTexture2D> thumbnail_;
 };

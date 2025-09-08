@@ -22,7 +22,6 @@ void UWeaponSlotWidget::SetWeaponSlotData(const FWeaponData& weapon_data)
 {
 	is_empty_ = false;
 	weapon_data_cache_ = weapon_data;
-	item_data_cache_ = weapon_data_cache_.item_data_;
 	SetImageTexture();
 }
 
@@ -67,9 +66,9 @@ void UWeaponSlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 	if (is_empty_ == false)
 	{
 		FText detail;
-		inventory_widget_cache_->CreateWeaponPopupWidget(item_data_cache_.display_data_->thumbnail,
-			text_manager_cache_->GetActiveSkillNameText(item_data_cache_.display_data_->text_key_),
-			detail,
+		inventory_widget_cache_->CreateWeaponPopupWidget(weapon_data_cache_.thumbnail_,
+			text_manager_cache_->GetWeaponNameText(weapon_data_cache_.type_),
+			text_manager_cache_->GetWeaponDetailText(weapon_data_cache_.type_),
 			weapon_data_cache_.status_data_);
 	}
 }
@@ -82,7 +81,7 @@ FWeaponData UWeaponSlotWidget::GetStoredWeaponData()
 void UWeaponSlotWidget::SetImageTexture()
 {
 	Super::SetImageTexture();
-	image_->SetBrushFromTexture(weapon_data_cache_.item_data_.display_data_->thumbnail);
+	image_->SetBrushFromTexture(weapon_data_cache_.thumbnail_);
 }
 
 void UWeaponSlotWidget::ClearData()

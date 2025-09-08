@@ -21,5 +21,5 @@ void UBF_UpgradeBeta::ApplyBuff(AUnit* target)
 
 	target->ApplyStatusBuff(EBuffType::Upgrade_Beta, FBuffStatusData(ECharacterStatType::MagazineBonus, target->GetCharacterStat()->GetAttackSpeed() * scaler_, false, true));
 
-	target->AddBuffUI(buff_type_, display_data_);
+	target->AddBuffUI(buff_type_, thumbnail_);
 }

@@ -11,31 +11,31 @@ See LICENSE file in the project root for full license information.
 #include "UI/GlobalBuffWidget.h"
 
 #include "Components/Image.h"
-#include "DataAssets/DisplayDataAsset.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/TextManager.h"
 #include "UI/PopUps/BasicPopupWidget.h"
 #include "UI/PopUps/GlobalBuffPopupWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 
-void UGlobalBuffWidget::InitGlobalBuffWidget(UDisplayDataAsset* display_data, UBasicPopupWidget* popup_widget_ptr,
-	int32 left_duration)
+void UGlobalBuffWidget::InitGlobalBuffWidget(UBasicPopupWidget* popup_widget_ptr, FGlobalBuffData global_buff_data)
 {
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	text_manager_cache_ = game_instance->GetTextManager();
-	display_data_cache_ = display_data;
-	image_->SetBrushFromTexture(display_data_cache_->thumbnail);
+	global_buff_data_ = global_buff_data;
+	image_->SetBrushFromTexture(global_buff_data_.thumbnail_);
 	popup_widget_cache_ = popup_widget_ptr;
-	left_duration_ = left_duration;
+	left_duration_ = global_buff_data_.duration_;
 }
+
+
 
 void UGlobalBuffWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
 	
-	popup_widget_cache_->UpdatePopupData(display_data_cache_->thumbnail,
-		text_manager_cache_->GetActiveSkillNameText(display_data_cache_->text_key_),
-		text_manager_cache_->GetActiveSkillDetailText(display_data_cache_->text_key_));
+	popup_widget_cache_->UpdatePopupData(global_buff_data_.thumbnail_,
+		text_manager_cache_->GetGlobalBuffNameText(global_buff_data_.buff_type_),
+		text_manager_cache_->GetGlobalBuffDetailText(global_buff_data_.buff_type_));
 	Cast<UGlobalBuffPopupWidget>(popup_widget_cache_)->UpdateLeftDuration(left_duration_);
 }
 

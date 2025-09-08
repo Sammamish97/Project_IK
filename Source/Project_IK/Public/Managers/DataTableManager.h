@@ -47,10 +47,6 @@ public:
 	FWeaponData GetWeaponDataByRarity(ERarity rarity = ERarity::Common) const;
 	TArray<FWeaponData> GetUniqueWeaponDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 
-	FRuneSetData GetRuneSetData(ERuneSetType type) const;
-	FRuneSetData GetRuneSetDataRandomly(ERarity weight_rarity = ERarity::Common) const;
-	TArray<FRuneSetData> GetRuneSetDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
-	TArray<FRuneSetData> GetUniqueRuneSetDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
 	FRuneData GetRuneData(ERuneSetType type, int slot_num) const;
 	FRuneData GetRuneDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	TArray<FRuneData> GetRuneDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;

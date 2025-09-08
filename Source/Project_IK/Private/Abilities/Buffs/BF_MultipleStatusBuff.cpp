@@ -21,5 +21,5 @@ void UBF_MultipleStatusBuff::ApplyBuff(AUnit* target)
 	{
 		target->ApplyStatusBuff(buff_type_, data);
 	}
-	target->AddBuffUI(buff_type_, display_data_);
+	target->AddBuffUI(buff_type_, thumbnail_);
 }

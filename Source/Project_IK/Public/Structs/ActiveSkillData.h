@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "CharacterData.h"
-#include "ItemData.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/EnumCluster.h"
 #include "Managers/TextManager.h"
@@ -30,8 +29,11 @@ struct PROJECT_IK_API FActiveSkillData
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UActiveSkillBase> active_skill_class;
 
-	UPROPERTY(EditDefaultsOnly)
-	FItemData item_data_;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "PassiveSkillData")
+	TObjectPtr<UTexture2D> thumbnail_;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "PassiveSkillData")
+	ERarity rarity_;
 	
 	UPROPERTY(EditDefaultsOnly)
 	TArray<float> skill_power_scales_;
@@ -45,7 +47,7 @@ struct PROJECT_IK_API FActiveSkillData
 		UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(world));
 		UTextManager* text_manager = game_instance->GetTextManager();
 		
-		FText detail_base = text_manager->GetActiveSkillDetailText(item_data_.display_data_->text_key_);
+		FText detail_base = text_manager->GetActiveSkillDetailText(type_);
 		int32 scale_amount = skill_power_scales_.Num();
 		
 		//영웅에게 장착되어 있다면 총 데미지를 계산해야 한다.
@@ -64,7 +66,7 @@ struct PROJECT_IK_API FActiveSkillData
 		UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(world));
 		UTextManager* text_manager = game_instance->GetTextManager();
 		
-		FText detail_base = text_manager->GetActiveSkillDetailText(item_data_.display_data_->text_key_);
+		FText detail_base = text_manager->GetActiveSkillDetailText(type_);
 		int32 scale_amount = skill_power_scales_.Num();
 		//1. 먼저 value에 해당하는 string을 format을 통해 조립한다.
 		TArray<FText> val_elems;

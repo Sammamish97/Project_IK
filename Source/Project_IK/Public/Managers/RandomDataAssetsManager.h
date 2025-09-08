@@ -11,10 +11,8 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
 #include "RandomDataAssetsManager.generated.h"
 
-struct FItemData;
 enum class EItemType : uint8;
 enum class ERarity : uint8;
 
@@ -62,7 +60,7 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetDataAssetRandomly(int32 n,
 
 	for (const auto& element : map)
 	{
-		if (element.Value.item_data_.rarity_ == rarity)
+		if (element.Value.rarity_ == rarity)
 		{
 			asset_candidates.Add(element.Key);
 		}
@@ -107,7 +105,7 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetUniqueDataAssetsRandomly(i
 	keys_classified_by_rarity.FindOrAdd(ERarity::Legendary);
 	for (const auto& [Key, Value] : map)
 	{
-		keys_classified_by_rarity[Value.item_data_.rarity_].Add(Key);
+		keys_classified_by_rarity[Value.rarity_].Add(Key);
 	}
 
 	TMap<ERarity, int32> rarities = GetRaritiesRandomly(rarity, n, map, keys_classified_by_rarity);
@@ -165,7 +163,7 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetDataAssetByRarity(int32 n,
 
 	for (const auto& element : map)
 	{
-		if (element.Value.item_data_.rarity_ == rarity)
+		if (element.Value.rarity_ == rarity)
 		{
 			asset_candidates.Add(element.Key);
 		}

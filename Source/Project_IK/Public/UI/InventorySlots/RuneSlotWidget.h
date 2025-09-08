@@ -13,7 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "InventorySlot.h"
 #include "Blueprint/UserWidget.h"
-#include "Structs/RuneSetData.h"
+#include "Structs/RuneData.h"
 #include "RuneSlotWidget.generated.h"
 class UBorder;
 class UTextBlock;

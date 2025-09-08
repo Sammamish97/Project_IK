@@ -26,6 +26,6 @@ public:
 	TArray<FActiveSkillData> GetUniqueActiveSkillDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
 
 private:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Active Skill Data", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Active Skill Data", meta = (AllowPrivateAccess = "true"))
 	TMap<EActiveSkillType, FActiveSkillData> active_skill_data_map_;
 };

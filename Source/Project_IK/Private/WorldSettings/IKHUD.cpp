@@ -25,7 +25,6 @@ See LICENSE file in the project root for full license information.
 #include "Structs/HeroData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
-#include "Structs/ItemData.h"
 #include "Structs/SpawnData.h"
 
 #include "Subsystems/LevelTransitionSubsystem.h"
@@ -121,7 +120,7 @@ void AIKHUD::BindHeroWidgetUI()
 				auto cur_skill_data = cur_active_skill_mechanics->GetEquippedActiveSkillData();
 				auto cur_skill = cur_active_skill_mechanics->GetActiveSkill();
 				
-				cur_skill_button_widget->SetThumbnailTexture(cur_skill_data.item_data_.display_data_->thumbnail);
+				cur_skill_button_widget->SetThumbnailTexture(cur_skill_data.thumbnail_);
 				cur_skill->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 			}
 			else
@@ -149,14 +148,15 @@ void AIKHUD::BindSupportSkills()
 	auto game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
 	auto support_skill_data = game_state->GetSupportSkillData();
 	auto support_skills = game_state->GetSupportSkills();
+	TArray support_type_array = {ESupportSkillType::Reposition, ESupportSkillType::SetAttackTarget, ESupportSkillType::Maintain};
 	for (int32 i = 0; i < 3; i++)
 	{
-		if (support_skills[i] != nullptr)
+		if (support_skills[support_type_array[i]] != nullptr)
 		{
 			auto cur_skill_button_widget = button_bar_widget_->GetSupportSkillButtonWidget(i);
-			cur_skill_button_widget->SetThumbnailTexture(support_skill_data[i]->display_data_->thumbnail);
-			cur_skill_button_widget->SetSupportSkillCost(support_skills[i]->GetCost());
-			support_skills[i]->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
+			cur_skill_button_widget->SetThumbnailTexture(support_skill_data[support_type_array[i]]->thumbnail_);
+			cur_skill_button_widget->SetSupportSkillCost(support_skills[support_type_array[i]]->GetCost());
+			support_skills[support_type_array[i]]->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 		}
 	}
 }

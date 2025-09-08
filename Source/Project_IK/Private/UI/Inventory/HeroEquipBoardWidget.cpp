@@ -40,26 +40,25 @@ void UHeroEquipBoardWidget::LoadHeroData()
 	{
 		FSpawnData data_cache = transition_system->GetSpawnData(hero_type_);
 
-		if (data_cache.weapon_data_.IsSet())
+		if (data_cache.weapon_data_.type_ != EWeaponType::INVALID)
 		{
-			weapon_slot_->SetWeaponSlotData(data_cache.weapon_data_.GetValue());
+			weapon_slot_->SetWeaponSlotData(data_cache.weapon_data_);
 		}
-		if (data_cache.active_skill_data_.IsSet())
+		if (data_cache.active_skill_data_.type_ != EActiveSkillType::INVALID)
 		{
-			active_skill_slot_->SetActiveSkillSlotData(data_cache.active_skill_data_.GetValue());
+			active_skill_slot_->SetActiveSkillSlotData(data_cache.active_skill_data_);
 		}
-		if (data_cache.passive_skill_data_1_.IsSet())
+		if (data_cache.passive_skill_data_1_.type_ != EPassiveSkillType::INVALID)
 		{
-			passive_skill_1_slot_->SetPassiveSkillSlotData(data_cache.passive_skill_data_1_.GetValue());
+			passive_skill_1_slot_->SetPassiveSkillSlotData(data_cache.passive_skill_data_1_);
 		}
-		if (data_cache.passive_skill_data_2_.IsSet())
+		if (data_cache.passive_skill_data_2_.type_ != EPassiveSkillType::INVALID)
 		{
-			passive_skill_2_slot_->SetPassiveSkillSlotData(data_cache.passive_skill_data_2_.GetValue());
-
+			passive_skill_2_slot_->SetPassiveSkillSlotData(data_cache.passive_skill_data_2_);
 		}
-		if (data_cache.passive_skill_data_3_.IsSet())
+		if (data_cache.passive_skill_data_3_.type_ != EPassiveSkillType::INVALID)
 		{
-			passive_skill_3_slot_->SetPassiveSkillSlotData(data_cache.passive_skill_data_3_.GetValue());
+			passive_skill_3_slot_->SetPassiveSkillSlotData(data_cache.passive_skill_data_3_);
 		}
 	}
 }
@@ -78,7 +77,7 @@ void UHeroEquipBoardWidget::UpdateHeroData()
 		}
 		else
 		{
-			data_cache.weapon_data_.Reset();
+			data_cache.weapon_data_ = FWeaponData();
 		}
 		
 		if (active_skill_slot_->IsEmpty() == false)
@@ -87,7 +86,7 @@ void UHeroEquipBoardWidget::UpdateHeroData()
 		}
 		else
 		{
-			data_cache.active_skill_data_.Reset();
+			data_cache.active_skill_data_ = FActiveSkillData();
 		}
 		
 		if (passive_skill_1_slot_->IsEmpty() == false)
@@ -96,7 +95,7 @@ void UHeroEquipBoardWidget::UpdateHeroData()
 		}
 		else
 		{
-			data_cache.passive_skill_data_1_.Reset();
+			data_cache.passive_skill_data_1_ = FPassiveSkillData();
 		}
 
 		if (passive_skill_2_slot_->IsEmpty() == false)
@@ -105,7 +104,7 @@ void UHeroEquipBoardWidget::UpdateHeroData()
 		}
 		else
 		{
-			data_cache.passive_skill_data_2_.Reset();
+			data_cache.passive_skill_data_2_ = FPassiveSkillData();
 		}
 
 		if (passive_skill_3_slot_->IsEmpty() == false)
@@ -114,7 +113,7 @@ void UHeroEquipBoardWidget::UpdateHeroData()
 		}
 		else
 		{
-			data_cache.passive_skill_data_3_.Reset();
+			data_cache.passive_skill_data_3_ = FPassiveSkillData();
 		}
 		
 		transition_system->UpdateSpawnDataIdx(hero_type_, data_cache);

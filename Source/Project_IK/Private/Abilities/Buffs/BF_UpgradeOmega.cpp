@@ -21,5 +21,5 @@ void UBF_UpgradeOmega::ApplyBuff(AUnit* target)
 	target->ApplyStatusBuff(EBuffType::Upgrade_Gamma, FBuffStatusData(ECharacterStatType::AttackPower, max_hp * attack_power_scaler_, false, true));
 	target->ApplyStatusBuff(EBuffType::Upgrade_Gamma, FBuffStatusData(ECharacterStatType::SkillPower, max_hp * skill_power_scaler_, false, true));
 
-	target->AddBuffUI(buff_type_, display_data_);
+	target->AddBuffUI(buff_type_, thumbnail_);
 }

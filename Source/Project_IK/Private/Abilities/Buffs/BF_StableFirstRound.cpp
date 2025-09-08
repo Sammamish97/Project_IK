@@ -19,7 +19,7 @@ void UBF_StableFirstRound::ApplyBuff(AUnit* target)
 	auto world_cache = GetWorld();
 	world_cache->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnCriticalRateCalculation(target, this, &UBF_StableFirstRound::CritBuffOnReload);
 	world_cache->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(target, EUnitEvent::OnReload, this, &UBF_StableFirstRound::OnReload);
-	target->AddBuffUI(buff_type_, display_data_);
+	target->AddBuffUI(buff_type_, thumbnail_);
 }
 
 void UBF_StableFirstRound::OnReload()
