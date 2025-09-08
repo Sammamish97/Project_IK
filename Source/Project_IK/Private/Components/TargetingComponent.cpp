@@ -83,7 +83,7 @@ void UTargetingComponent::GetReadyTargetingVisuals()
 		player_controller_->CurrentMouseCursor = EMouseCursor::Crosshairs;
 		radius_component_->DeactivateImmediate();
 		range_decal_->SetVisibility(true);
-		sector_decal_->SetVisibility(false);
+		sector_component_->DeactivateImmediate();
 		break;
 	case ETargetingMode::Location:
 		player_controller_->CurrentMouseCursor = EMouseCursor::GrabHand;
@@ -94,18 +94,18 @@ void UTargetingComponent::GetReadyTargetingVisuals()
 		}
 		radius_component_->Activate(true);
 		range_decal_->SetVisibility(true);
-		sector_decal_->SetVisibility(false);
+		sector_component_->DeactivateImmediate();
 		break;
 	case ETargetingMode::Direction:
 		radius_component_->DeactivateImmediate();
 		range_decal_->SetVisibility(true);
-		sector_decal_->SetVisibility(true);
-		sector_decal_->DecalSize = FVector(target_parameters_.range_);
-		dynamic_material = sector_decal_->CreateDynamicMaterialInstance();
-		if (dynamic_material)
+		if (sector_component_->IsActive())
 		{
-			dynamic_material->SetScalarParameterValue(FName("ArcWidth"), target_parameters_.radius_ / 360);
+			sector_component_->DeactivateImmediate();
 		}
+		sector_component_->Activate(true);
+		sector_component_->SetFloatParameter(FName("Radius"), target_parameters_.range_);
+		sector_component_->SetFloatParameter(FName("ArcWidth"), target_parameters_.radius_ / 360);
 		break;
 	default:
 		break;
@@ -324,15 +324,14 @@ void UTargetingComponent::InitializeTargetingVisuals()
 			radius_component_->RegisterComponent();
 			radius_component_->DeactivateImmediate();
 
-			sector_decal_ = NewObject<UDecalComponent>(targeting_visual_actor_);
-			sector_decal_->SetupAttachment(root_component);
-			sector_decal_->SetVisibility(false);
-			sector_decal_->SetRelativeRotation(FRotator(90.0, 0.0, 0.0));
-			if (arc_material_)
+			sector_component_ = NewObject<UNiagaraComponent>(targeting_visual_actor_);
+			sector_component_->SetupAttachment(root_component);
+			if (arc_niagara_)
 			{
-				sector_decal_->SetDecalMaterial(arc_material_);
+				sector_component_->SetAsset(arc_niagara_);
 			}
-			sector_decal_->RegisterComponent();
+			sector_component_->RegisterComponent();
+			sector_component_->DeactivateImmediate();
 		}
 	}
 }
@@ -365,8 +364,8 @@ void UTargetingComponent::UpdateTargetingVisuals()
 		range_decal_->SetWorldLocation(invoker_location);
 		break;
 	case ETargetingMode::Direction:
-		sector_decal_->SetWorldLocation(invoker_location);
-		sector_decal_->SetWorldRotation(UKismetMathLibrary::MakeRotFromZ(HandleDirectionTargeting(result)).Quaternion() * FRotator(0.0f, 90.0f, 0.0f).Quaternion());
+		sector_component_->SetWorldLocation(invoker_location);
+		sector_component_->SetWorldRotation(HandleDirectionTargeting(result).Rotation());
 		range_decal_->SetWorldLocation(invoker_location);
 		break;
 	default:
@@ -387,9 +386,9 @@ void UTargetingComponent::CleanupTargetingVisuals()
 	{
 		radius_component_->DeactivateImmediate();
 	}
-	if (sector_decal_)
+	if (sector_component_)
 	{
-		sector_decal_->SetVisibility(false);
+		sector_component_->DeactivateImmediate();
 	}
 }
 

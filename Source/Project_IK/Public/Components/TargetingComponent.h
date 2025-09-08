@@ -70,7 +70,7 @@ public:
 	TObjectPtr<UNiagaraSystem> radius_niagara_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Targeting")
-	UMaterialInterface* arc_material_;
+	TObjectPtr<UNiagaraSystem> arc_niagara_;
 	
 private:
 	void GetReadyTargetingVisuals();
@@ -90,7 +90,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<UNiagaraComponent> radius_component_;
 	UPROPERTY()
-	UDecalComponent* sector_decal_;
+	TObjectPtr<UNiagaraComponent> sector_component_;
 
 	UPROPERTY()
 	TObjectPtr<AActor> invoker_;
