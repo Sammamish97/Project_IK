@@ -224,7 +224,9 @@ void UStoreWidget::GoToNextLevel()
 			data += runes_[i];
 		}
 	}
-	game_instance->GetInventoryManager()->OpenInventoryWidgetReward(data);
+	game_instance->GetInventoryManager()->OpenInventoryWidgetReward(data, [&]() 
+		{
+			GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
+		});
 
-	// game_instance->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
 }

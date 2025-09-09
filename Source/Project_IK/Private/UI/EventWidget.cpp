@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/TextBlock.h"
 #include "Structs/EventData.h"
 
+#include "Subsystems/LevelTransitionSubsystem.h"
+
 void UEventWidget::InitEventWidget(FEventData input_data)
 {
 	situation_->SetBrushFromTexture(input_data.situation_);
@@ -43,6 +45,10 @@ void UEventWidget::ClearButtonBinding()
 	{
 		button_4_->OnClicked.Clear();
 	}
+	if (end_button_->OnClicked.IsBound())
+	{
+		end_button_->OnClicked.Clear();
+	}
 }
 
 void UEventWidget::EnableButtons(int32 num)
@@ -59,10 +65,16 @@ void UEventWidget::EnableButtons(int32 num)
 void UEventWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+	end_button_->OnClicked.AddDynamic(this, &UEventWidget::OnEndButtonClicked);
 }
 
 void UEventWidget::NativeDestruct()
 {
 	ClearButtonBinding();
 	Super::NativeDestruct();
+}
+
+void UEventWidget::OnEndButtonClicked()
+{
+	GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
 }

@@ -142,7 +142,17 @@ void UEquipmentRewardWidget::OnConfirmButtonClicked()
 		}
 
 		UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-		game_instance->GetInventoryManager()->OpenInventoryWidgetReward(selected_reward_data);
+
 		hud->SwitchUIByState(ECombatEndState::ShowingInventoryUI);
+
+		game_instance->GetInventoryManager()->OpenInventoryWidgetReward(selected_reward_data,
+			[&]() 
+			{
+				AIKHUD* hud = Cast<AIKHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+				if (hud)
+				{
+					hud->SwitchUIByState(ECombatEndState::ShowingMapUI);
+				}
+			});
 	}
 }

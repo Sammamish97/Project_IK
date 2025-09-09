@@ -353,7 +353,7 @@ void UEventManager::Event_AbandonedSupply_FirstOptionResult()
 	UIKGameInstance* instance = Cast<UIKGameInstance>(world->GetGameInstance());
 	FWrapperEquipmentData data;
 	data.active_skills_.Add(instance->GetDataTableManager()->GetActiveSkillDataByRarity(ERarity::Rare));
-	inventory_manager_->OpenInventoryWidgetReward(data);
+	OpenInventory(data);
 }
 
 void UEventManager::Event_AbandonedSupply_SecondOptionResult()
@@ -367,7 +367,7 @@ void UEventManager::Event_AbandonedSupply_SecondOptionResult()
 	UIKGameInstance* instance = Cast<UIKGameInstance>(world->GetGameInstance());
 	FWrapperEquipmentData data;
 	data.passive_skills_ = instance->GetDataTableManager()->GetPassiveSkillDataByRarity(2, ERarity::Rare);
-	inventory_manager_->OpenInventoryWidgetReward(data);
+	OpenInventory(data);
 }
 
 void UEventManager::Event_AbandonedSupply_ThirdOptionResult()
@@ -381,7 +381,7 @@ void UEventManager::Event_AbandonedSupply_ThirdOptionResult()
 	UIKGameInstance* instance = Cast<UIKGameInstance>(world->GetGameInstance());
 	FWrapperEquipmentData data;
 	data.weapons_.Add(instance->GetDataTableManager()->GetWeaponDataByRarity(ERarity::Rare));
-	inventory_manager_->OpenInventoryWidgetReward(data);
+	OpenInventory(data);
 }
 
 void UEventManager::Event_Recon_FirstOptionResult()
@@ -534,4 +534,11 @@ void UEventManager::SetNextNodeToElite(UIKMaps* map, int32 row, int32 col, int32
 bool UEventManager::IsNegativeEventsRemoved() const
 {
 	return only_positive_event_counter_ > 0;
+}
+
+void UEventManager::OpenInventory(FWrapperEquipmentData data)
+{
+	inventory_manager_->OpenInventoryWidgetReward(data, [&]() {
+		GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
+		});
 }

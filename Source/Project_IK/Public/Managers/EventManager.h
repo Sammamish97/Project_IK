@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 
 class UIKMaps;
 enum class EHeroType : uint8;
+struct FWrapperEquipmentData;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UEventManager : public UObject
@@ -130,6 +131,7 @@ public:
 private:
 	void SetNextNodeToElite(UIKMaps* map, int32 row, int32 col, int32 left_level);
 	bool IsNegativeEventsRemoved() const;
+	void OpenInventory(FWrapperEquipmentData data);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Data Table", meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UDataTable> event_table_;

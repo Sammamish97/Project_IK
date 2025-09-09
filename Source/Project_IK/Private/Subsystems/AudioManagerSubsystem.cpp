@@ -31,7 +31,7 @@ void UAudioManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 		soft_bgm_channel_ = settings->bgm_channel_;
 		soft_sfx_channel_ = settings->sfx_channel_;
 
-		ApplyVolumes(settings->master_volume_, settings->bgm_volume_, settings->sfx_volume_);
+		ApplyVolumes(master_volume_, bgm_volume_, sfx_volume_);
 	}
 }
 
@@ -118,28 +118,37 @@ USoundBase* UAudioManagerSubsystem::GetSoundClass(EAudioType audio_type, float& 
 	return sound;
 }
 
+float UAudioManagerSubsystem::GetMasterVolume() const
+{
+	return master_volume_;
+}
+
+float UAudioManagerSubsystem::GetBGMVolume() const
+{
+	return bgm_volume_;
+}
+
+float UAudioManagerSubsystem::GetSFXVolume() const
+{
+	return sfx_volume_;
+}
+
 void UAudioManagerSubsystem::SetMasterVolume(float V)
 {
-	auto* settings = GetMutableDefault<UAudioConfigSettings>();
-	settings->master_volume_ = V; 
-	settings->SaveConfig();
-	ApplyVolumes(settings->master_volume_, settings->bgm_volume_, settings->sfx_volume_);
+	master_volume_ = V;
+	ApplyVolumes(master_volume_, bgm_volume_, sfx_volume_);
 }
 
 void UAudioManagerSubsystem::SetBGMVolume(float V)
 {
-	auto* settings = GetMutableDefault<UAudioConfigSettings>();
-	settings->bgm_volume_ = V; 
-	settings->SaveConfig();
-	ApplyVolumes(settings->master_volume_, settings->bgm_volume_, settings->sfx_volume_);
+	bgm_volume_ = V;
+	ApplyVolumes(master_volume_, bgm_volume_, sfx_volume_);
 }
 
 void UAudioManagerSubsystem::SetSFXVolume(float V)
 {
-	auto* settings = GetMutableDefault<UAudioConfigSettings>();
-	settings->sfx_volume_ = V; 
-	settings->SaveConfig();
-	ApplyVolumes(settings->master_volume_, settings->bgm_volume_, settings->sfx_volume_);
+	sfx_volume_ = V;
+	ApplyVolumes(master_volume_, bgm_volume_, sfx_volume_);
 }
 
 UAudioComponent* UAudioManagerSubsystem::Play2D(EAudioType audio_type, float volume, float pitch)

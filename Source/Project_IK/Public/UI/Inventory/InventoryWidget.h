@@ -74,6 +74,8 @@ public:
 	void SetHighlightVisibility(int32 rune_idx, ESlateVisibility visibility);
 	void RemoveHighlight();
 
+	void SetOnConfirm(TFunction<void()> OnConfirm);
+
 private:
 	UFUNCTION()
 	void OnHero_0_Board_Clicked();
@@ -148,4 +150,6 @@ private:
 	EGearType last_highlighted_gear_type = EGearType::INVALID;
 
 	bool is_read_only_;
+
+	TFunction<void()> OnConfirm_;
 };

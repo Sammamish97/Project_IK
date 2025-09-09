@@ -37,8 +37,4 @@ public:
 	TSoftObjectPtr<USoundClass> bgm_channel_;
 	UPROPERTY(EditAnywhere, Config)
 	TSoftObjectPtr<USoundClass> sfx_channel_;
-
-	float master_volume_ = 1.f;
-	float bgm_volume_ = 1.f;
-	float sfx_volume_ = 1.f;
 };
