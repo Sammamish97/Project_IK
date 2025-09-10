@@ -155,7 +155,7 @@ void AIKHUD::BindSupportSkills()
 		{
 			auto cur_skill_button_widget = button_bar_widget_->GetSupportSkillButtonWidget(i);
 			cur_skill_button_widget->SetThumbnailTexture(support_skill_data[support_type_array[i]]->thumbnail_);
-			cur_skill_button_widget->SetSupportSkillCost(support_skills[support_type_array[i]]->GetCost());
+			cur_skill_button_widget->SetSupportSkillCost(support_skill_data[support_type_array[i]]->cost_);
 			support_skills[support_type_array[i]]->on_activate_skill_.AddDynamic(cur_skill_button_widget, &USkillButtonWidget::OnSkillInvoked);
 		}
 	}

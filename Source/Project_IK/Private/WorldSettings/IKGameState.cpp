@@ -112,9 +112,10 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 
 void AIKGameState::ActivateSupportSkill(ESupportSkillType type)
 {
+
 	if (support_skills_[type] != nullptr)
 	{
-		if (energy_system_component_->GetEnergy() > support_skills_[type]->GetCost())
+		if (energy_system_component_->GetEnergy() > support_skill_data_[type]->cost_)
 		{
 			player_controller_cache_->StartTargeting(support_skills_[type]->GetTargetParameters());
 			selected_support_skill_ = support_skills_[type];
@@ -147,7 +148,7 @@ bool AIKGameState::OnDecide(const FTargetResult& result)
 			break;
 		case ESelectedSkill::SupportSKill:
 			{
-				energy_system_component_->UseEnergy(Cast<USupportSkillBase>(selected_support_skill_)->GetCost());
+				energy_system_component_->UseEnergy(support_skill_data_[selected_support_skill_type_]->cost_);
 				if (selected_support_skill_->ActivateSkill(result))
 				{			
 					ClearTargetingState();
