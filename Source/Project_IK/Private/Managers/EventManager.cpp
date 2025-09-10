@@ -25,6 +25,8 @@ See LICENSE file in the project root for full license information.
 #include "Managers/DataTableManager.h"
 #include "Structs/WrapperEquipmentData.h"
 
+#include "DataAssets/EventDataAsset.h"
+
 void UEventManager::InitEventManager(TObjectPtr<UIKGameInstance> instance,
 	TObjectPtr<UInventoryManager> inventory_manager)
 {
@@ -34,55 +36,7 @@ void UEventManager::InitEventManager(TObjectPtr<UIKGameInstance> instance,
 
 FEventData UEventManager::GetRandomEventData()
 {
-	int32 zero_event_index = 0;
-	int32 max_event_index = 11;
-	if (IsNegativeEventsRemoved())
-	{
-		zero_event_index = 4;
-	}
-	int32 rand_idx = FMath::RandRange(zero_event_index, max_event_index);
-	if (event_table_)
-	{
-		switch (rand_idx)
-		{
-		case 0:
-			return *event_table_->FindRow<FEventData>(FName("AirStrike"), TEXT(""));
-
-		case 1:
-			return *event_table_->FindRow<FEventData>(FName("Ambush"), TEXT(""));
-
-		case 2:
-			return *event_table_->FindRow<FEventData>(FName("Trap"), TEXT(""));
-
-		case 3:
-			return *event_table_->FindRow<FEventData>(FName("EMP"), TEXT(""));
-
-		case 4:
-			return *event_table_->FindRow<FEventData>(FName("Protocol:Survive"), TEXT(""));
-
-		case 5:
-			return *event_table_->FindRow<FEventData>(FName("Protocol:Assault"), TEXT(""));
-
-		case 6:
-			return *event_table_->FindRow<FEventData>(FName("Protocol:Efficiency"), TEXT(""));
-
-		case 7:
-			return *event_table_->FindRow<FEventData>(FName("AbandonedSupply"), TEXT(""));
-
-		case 8:
-			return *event_table_->FindRow<FEventData>(FName("Recon"), TEXT(""));
-
-		case 9:
-			return *event_table_->FindRow<FEventData>(FName("SetTrap"), TEXT(""));
-
-		case 10:
-			return *event_table_->FindRow<FEventData>(FName("Core"), TEXT(""));
-
-		case 11:
-			return *event_table_->FindRow<FEventData>(FName("Patrol"), TEXT(""));
-		}
-	}
-	return FEventData();
+	return event_data_asset_->GetActiveSkillDataRandomly(IsNegativeEventsRemoved());
 }
 
 void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> widget)
@@ -190,10 +144,10 @@ void UEventManager::Event_AirStrike_FirstOptionResult()
 	// Discard a weapon randomly.
 	ULevelTransitionSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
 	auto spawn_data = subsystem->GetSpawnData();
-	TArray<TOptional<FWeaponData>*> weapon_data_ref;
+	TArray<FWeaponData*> weapon_data_ref;
 	for (auto& [Key, Value] : spawn_data)
 	{
-		if (Value.weapon_data_.IsSet())
+		if (Value.weapon_data_.type_ != EWeaponType::INVALID)
 		{
 			weapon_data_ref.Add(&Value.weapon_data_);
 		}
@@ -202,7 +156,7 @@ void UEventManager::Event_AirStrike_FirstOptionResult()
 	if (!weapon_data_ref.IsEmpty())
 	{
 		int32 index = FMath::RandRange(0, weapon_data_ref.Num() - 1);
-		weapon_data_ref[index]->Reset();
+		*weapon_data_ref[index] = FWeaponData();
 	}
 }
 
@@ -223,10 +177,10 @@ void UEventManager::Event_Ambush_FirstOptionResult()
 	// Discard a active skill randomly.
 	ULevelTransitionSubsystem* subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
 	auto spawn_data = subsystem->GetSpawnData();
-	TArray<TOptional<FActiveSkillData>*> active_data_ref;
+	TArray<FActiveSkillData*> active_data_ref;
 	for (auto& [Key, Value] : spawn_data)
 	{
-		if (Value.active_skill_data_.IsSet())
+		if (Value.active_skill_data_.type_ != EActiveSkillType::INVALID)
 		{
 			active_data_ref.Add(&Value.active_skill_data_);
 		}
@@ -235,7 +189,7 @@ void UEventManager::Event_Ambush_FirstOptionResult()
 	if (!active_data_ref.IsEmpty())
 	{
 		int32 index = FMath::RandRange(0, active_data_ref.Num() - 1);
-		active_data_ref[index]->Reset();
+		*active_data_ref[index] = FActiveSkillData();
 	}
 }
 

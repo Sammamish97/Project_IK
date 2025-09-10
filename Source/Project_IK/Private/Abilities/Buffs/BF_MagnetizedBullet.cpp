@@ -25,7 +25,7 @@ void UBF_MagnetizedBullet::ApplyBuff(AUnit* target)
 	}
 	FTimerDelegate timer_delegate = FTimerDelegate::CreateUObject(this, &UBF_MagnetizedBullet::RemoveBuff, target);
 	GetWorld()->GetTimerManager().SetTimer(duration_timer_handle_, timer_delegate, duration_, false);
-	target->AddBuffUI(buff_type_, display_data_, duration_);
+	target->AddBuffUI(buff_type_, thumbnail_, duration_);
 }
 
 void UBF_MagnetizedBullet::RemoveBuff(AUnit* target)

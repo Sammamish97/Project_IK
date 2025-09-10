@@ -81,9 +81,9 @@ void AHeroBase::SyncWithSpawnData(const FSpawnData& spawn_data)
 {
 	character_stat_component_->SetCharacterData(spawn_data.character_data_);
 
-	if (spawn_data.weapon_data_.IsSet())
+	if (spawn_data.weapon_data_.type_ != EWeaponType::INVALID)
 	{
-		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_.GetValue());
+		weapon_mechanics_->EquipWeapon(spawn_data.weapon_data_);
 	}
 	else
 	{
@@ -92,32 +92,30 @@ void AHeroBase::SyncWithSpawnData(const FSpawnData& spawn_data)
 		weapon_mechanics_->EquipWeapon(weapon_data);
 	}
 
-	if (spawn_data.active_skill_data_.IsSet())
+	if (spawn_data.active_skill_data_.type_ != EActiveSkillType::INVALID)
 	{
-		active_skill_mechanics_->EquipActiveSkill(spawn_data.active_skill_data_.GetValue());
+		active_skill_mechanics_->EquipActiveSkill(spawn_data.active_skill_data_);
 	}
 	
-	if (spawn_data.passive_skill_data_1_.IsSet())
+	if (spawn_data.passive_skill_data_1_.type_ != EPassiveSkillType::INVALID)
 	{
-		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_1_.GetValue(), 0);
+		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_1_, 0);
 	}
-	if (spawn_data.passive_skill_data_2_.IsSet())
+	if (spawn_data.passive_skill_data_2_.type_ != EPassiveSkillType::INVALID)
 	{
-		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_2_.GetValue(), 1);
+		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_2_, 1);
 	}
-	if (spawn_data.passive_skill_data_3_.IsSet())
+	if (spawn_data.passive_skill_data_3_.type_ != EPassiveSkillType::INVALID)
 	{
-		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_3_.GetValue(), 2);
+		passive_skill_mechanics_->EquipPassiveSkill(spawn_data.passive_skill_data_3_, 2);
 	}
-
-
+	
 	TArray rune_data_array = {spawn_data.rune_data_1, spawn_data.rune_data_2, spawn_data.rune_data_3, spawn_data.rune_data_4, spawn_data.rune_data_5, spawn_data.rune_data_6};
-
 	for (int32 i = 0; i < rune_data_array.Num(); i++)
 	{
-		if (rune_data_array[i].IsSet())
+		if (rune_data_array[i].set_type != ERuneSetType::INVALID)
 		{
-			rune_mechanics_->EquipRune(rune_data_array[i].GetValue().set_type, i);
+			rune_mechanics_->EquipRune(rune_data_array[i].set_type, i);
 		}
 	}
 	rune_mechanics_->ApplySetBonuses();
@@ -228,11 +226,6 @@ FTargetParameters AHeroBase::GetActiveSkillTargetParameters() const
 bool AHeroBase::HasActiveSkill() const
 {
 	return active_skill_mechanics_->HasActiveSkill();
-}
-
-const FItemData& AHeroBase::GetActiveSkillItemData() const
-{
-	return active_skill_mechanics_->GetEquippedActiveSkillData().item_data_;
 }
 
 void AHeroBase::ReduceActiveSkillCoolDown(float amount)

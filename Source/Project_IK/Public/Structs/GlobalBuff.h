@@ -13,7 +13,6 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "GlobalBuff.generated.h"
 
-class UDisplayDataAsset;
 class UGlobalBuffLogicBase;
 
 USTRUCT(BlueprintType)
@@ -21,8 +20,8 @@ struct FGlobalBuffData
 {
 	GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TObjectPtr<UDisplayDataAsset> display_data_ = nullptr;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "PassiveSkillData")
+	TObjectPtr<UTexture2D> thumbnail_;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TSubclassOf<UGlobalBuffLogicBase> buff_logic_class_ = nullptr;

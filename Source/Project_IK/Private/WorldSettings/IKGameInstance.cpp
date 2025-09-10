@@ -147,17 +147,26 @@ void UIKGameInstance::InitEventManager()
 
 void UIKGameInstance::InitializePerkEffectsAlreadyUnlocked()
 {
-	// Enhance data by recorded progress.
-	UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
-	for (const auto&[name, perk] : progress_system->LoadAllPerkDetails())
+	//Enhance data by recorded progress.
+	// UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
+	// for (const auto&[name, perk] : progress_system->LoadAllPerkDetails())
+	// {
+	// 	if (perk.purchased_)
+	// 	{
+	//   		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
+	//   		{
+	//   			perk_effect->ApplyEffect();
+	//   			perk_effects_.Push(perk_effect);
+	//   		}
+	// 	}
+	// }
+
+	//GLOBAL BUFF TEST PURPOSE
+	for (const auto& elem :  GetTree())
 	{
-		if (perk.purchased_)
+		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, elem.effect_class_))
 		{
-	  		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
-	  		{
-	  			perk_effect->ApplyEffect();
-	  			perk_effects_.Push(perk_effect);
-	  		}
+			perk_effect->ApplyEffect();
 		}
 	}
 }

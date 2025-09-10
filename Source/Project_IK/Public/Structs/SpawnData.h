@@ -30,35 +30,35 @@ struct PROJECT_IK_API FSpawnData
 	FCharacterData character_data_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	TOptional<FWeaponData> weapon_data_;
+	FWeaponData weapon_data_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	TOptional<FPassiveSkillData> passive_skill_data_1_;
+	FPassiveSkillData passive_skill_data_1_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	TOptional<FPassiveSkillData> passive_skill_data_2_;
+	FPassiveSkillData passive_skill_data_2_;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	TOptional<FPassiveSkillData> passive_skill_data_3_;
+	FPassiveSkillData passive_skill_data_3_;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	TOptional<FActiveSkillData> active_skill_data_;
+	FActiveSkillData active_skill_data_;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	TOptional<FRuneData> rune_data_1;
+	FRuneData rune_data_1;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	TOptional<FRuneData> rune_data_2;
+	FRuneData rune_data_2;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	TOptional<FRuneData> rune_data_3;
+	FRuneData rune_data_3;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	TOptional<FRuneData> rune_data_4;
+	FRuneData rune_data_4;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	TOptional<FRuneData> rune_data_5;
+	FRuneData rune_data_5;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpawnData")
-	TOptional<FRuneData> rune_data_6;
+	FRuneData rune_data_6;
 };

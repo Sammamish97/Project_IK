@@ -13,9 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/CanvasPanelSlot.h"
 #include "Components/TextBlock.h"
-#include "DataAssets/DisplayDataAsset.h"
 #include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetTextLibrary.h"
 #include "Managers/TextManager.h"
 #include "WorldSettings/IKGameInstance.h"
 
@@ -77,14 +75,14 @@ void UPerkPopupWidget::UpdateSkillDetail()
 	}
 	
 	cost_text_->SetText(cost_text);
-	name_text_->SetText(text_manager_cache_->GetPerkNameText(perk_data_.display_data_->text_key_));
-	detail_text_->SetText(text_manager_cache_->GetPerkDetailText(perk_data_.display_data_->text_key_));
+	name_text_->SetText(text_manager_cache_->GetPerkNameText(perk_data_.type_));
+	detail_text_->SetText(text_manager_cache_->GetPerkDetailText(perk_data_.type_));
 }
 
 void UPerkPopupWidget::SetPerkData(const FPerkNodeDetail& perk_data)
 {
 	perk_data_ = perk_data;
-	if (perk_data_.display_data_ == nullptr)
+	if (perk_data_.thumbnail_ == nullptr)
 	{
 		SetVisibility(ESlateVisibility::Hidden);
 	}

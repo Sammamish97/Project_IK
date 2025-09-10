@@ -81,7 +81,7 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UImage> unlocked_image;
-	
+
 	//
 	UPROPERTY(EditAnywhere)
 	TArray<int32> connected_indices_;

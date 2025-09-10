@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/Button.h"
 #include "Components/WidgetSwitcher.h"
 #include "Kismet/GameplayStatics.h"
+#include "Subsystems/LevelTransitionSubsystem.h"
 #include "UI/Inventory/HeroEquipBoardWidget.h"
 #include "UI/RewardContainerWidget.h"
 #include "UI/Inventory/RuneBoardWidget.h"

@@ -12,13 +12,11 @@ See LICENSE file in the project root for full license information.
 #include "Components/Border.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
-#include "DataAssets/DisplayDataAsset.h"
 #include "UI/Inventory/InventoryWidget.h"
 
 void URuneSlotWidget::SetRuneSetSlotData(const FRuneData& rune_data)
 {
 	rune_data_cache_ = rune_data;
-	item_data_cache_ = rune_data_cache_.item_data_;
 	rune_idx_text_->SetText(FText::AsNumber(rune_data.slot_number));
 	switch (rune_data.slot_number)
 	{ 
@@ -52,7 +50,6 @@ void URuneSlotWidget::SetRuneSetSlotData(EInventorySlotType slot_type)
 {
 	rune_data_cache_ = FRuneData();
 	slot_type_ = slot_type;
-	item_data_cache_ = FItemData();
 	SetRuneRelatedWidgetsVisibility(ESlateVisibility::Hidden);
 }
 
@@ -100,9 +97,10 @@ void URuneSlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPoi
 {
 	if (is_empty_ == false)
 	{
-		inventory_widget_cache_->CreateRunePopupWidget(item_data_cache_.display_data_->thumbnail,
-				text_manager_cache_->GetActiveSkillNameText(item_data_cache_.display_data_->text_key_),
-				text_manager_cache_->GetActiveSkillDetailText(item_data_cache_.display_data_->text_key_),
+		inventory_widget_cache_->CreateRunePopupWidget(rune_data_cache_.thumbnail_,
+				text_manager_cache_->GetRuneNameText(rune_data_cache_.set_type),
+				//IKTODO: EDGE대신 룬 요약 텍스트 삽입.
+				text_manager_cache_->GetRuneSetBonusText(rune_data_cache_.set_type, ERuneSetBonusType::Edge),
 				rune_data_cache_.set_type);
 	}
 }
@@ -110,7 +108,7 @@ void URuneSlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPoi
 void URuneSlotWidget::SetImageTexture()
 {
 	Super::SetImageTexture();
-	image_->SetBrushFromTexture(rune_data_cache_.item_data_.display_data_->thumbnail);
+	image_->SetBrushFromTexture(rune_data_cache_.thumbnail_);
 }
 
 void URuneSlotWidget::ClearData()

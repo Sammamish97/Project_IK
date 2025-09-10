@@ -10,10 +10,10 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Managers/EnumCluster.h"
 #include "UObject/Object.h"
 #include "PerkNodeDetail.generated.h"
 
-class UDisplayDataAsset;
 class UPerkEffectBase;
 
 USTRUCT()
@@ -22,8 +22,8 @@ struct PROJECT_IK_API FPerkNodeDetail
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere)
-	TObjectPtr<UDisplayDataAsset> display_data_ = nullptr;
-
+	TObjectPtr<UTexture2D> thumbnail_;
+	
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UPerkEffectBase> perk_effect_class = nullptr;
 	
@@ -35,4 +35,7 @@ struct PROJECT_IK_API FPerkNodeDetail
 
 	UPROPERTY(EditAnywhere)
 	bool purchased_ = false;
+
+	UPROPERTY(EditAnywhere)
+	EPerkNodeType type_;
 };

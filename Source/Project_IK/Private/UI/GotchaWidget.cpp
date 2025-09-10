@@ -129,19 +129,19 @@ void UGotchaWidget::Gotcha(int32 pulls)
 			FWrapperEquipmentData pulled_data = data_table_manager->GetEquipmentDataRandomly();
 			if (!pulled_data.weapons_.IsEmpty())
 			{
-				textures.Add(pulled_data.weapons_[0].item_data_.display_data_->thumbnail);
+				textures.Add(pulled_data.weapons_[0].thumbnail_);
 			}
 			else if (!pulled_data.active_skills_.IsEmpty())
 			{
-				textures.Add(pulled_data.active_skills_[0].item_data_.display_data_->thumbnail);
+				textures.Add(pulled_data.active_skills_[0].thumbnail_);
 			}
 			else if (!pulled_data.passive_skills_.IsEmpty())
 			{
-				textures.Add(pulled_data.passive_skills_[0].item_data_.display_data_->thumbnail);
+				textures.Add(pulled_data.passive_skills_[0].thumbnail_);
 			}
 			else
 			{
-				textures.Add(pulled_data.runes_[0].item_data_.display_data_->thumbnail);
+				textures.Add(pulled_data.runes_[0].thumbnail_);
 			}
 			pulled_equipments_ += pulled_data;
 		}

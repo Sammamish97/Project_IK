@@ -29,8 +29,8 @@ void URewardSelectWidget::SetRewardData(const FActiveSkillData& data)
 	reward_data_.gear_type_ = EGearType::ActiveSkill;
 	reward_data_.active_skill_data_ = data;
 	
-	thumbnail_->SetBrushFromTexture(reward_data_.active_skill_data_.item_data_.display_data_->thumbnail);
-	name_->SetText(text_manager->GetActiveSkillNameText(reward_data_.active_skill_data_.item_data_.display_data_->text_key_));
+	thumbnail_->SetBrushFromTexture(reward_data_.active_skill_data_.thumbnail_);
+	name_->SetText(text_manager->GetActiveSkillNameText(reward_data_.active_skill_data_.type_));
 	detail_->SetText(reward_data_.active_skill_data_.BuildDetailText(GetWorld()));
 }
 
@@ -42,9 +42,9 @@ void URewardSelectWidget::SetRewardData(const FPassiveSkillData& data)
 	reward_data_.gear_type_ = EGearType::PassiveSkill;
 	reward_data_.passive_skill_data_ = data;
 
-	thumbnail_->SetBrushFromTexture(reward_data_.passive_skill_data_.item_data_.display_data_->thumbnail);
-	name_->SetText(text_manager->GetActiveSkillNameText(reward_data_.passive_skill_data_.item_data_.display_data_->text_key_));
-	detail_->SetText(text_manager->GetActiveSkillDetailText(reward_data_.passive_skill_data_.item_data_.display_data_->text_key_));
+	thumbnail_->SetBrushFromTexture(reward_data_.passive_skill_data_.thumbnail_);
+	name_->SetText(text_manager->GetPassiveSkillNameText(reward_data_.passive_skill_data_.type_));
+	detail_->SetText(text_manager->GetPassiveSkillDetailText(reward_data_.passive_skill_data_.type_));
 }
 
 void URewardSelectWidget::SetRewardData(const FRuneData& data)
@@ -55,9 +55,10 @@ void URewardSelectWidget::SetRewardData(const FRuneData& data)
 	reward_data_.gear_type_ = EGearType::Rune;
 	reward_data_.rune_data_ = data;
 
-	thumbnail_->SetBrushFromTexture(reward_data_.rune_data_.item_data_.display_data_->thumbnail);
-	name_->SetText(text_manager->GetActiveSkillNameText(reward_data_.rune_data_.item_data_.display_data_->text_key_));
-	detail_->SetText(text_manager->GetActiveSkillDetailText(reward_data_.rune_data_.item_data_.display_data_->text_key_));
+	thumbnail_->SetBrushFromTexture(reward_data_.rune_data_.thumbnail_);
+	name_->SetText(text_manager->GetRuneNameText(reward_data_.rune_data_.set_type));
+	//IKTODO: EDGE대신 Rune별로 General한 설명 넣기.
+	detail_->SetText(text_manager->GetRuneSetBonusText(reward_data_.rune_data_.set_type, ERuneSetBonusType::Edge));
 }
 
 void URewardSelectWidget::SetRewardData(const FWeaponData& data)
@@ -68,9 +69,9 @@ void URewardSelectWidget::SetRewardData(const FWeaponData& data)
 	reward_data_.gear_type_ = EGearType::Weapon;
 	reward_data_.weapon_data_ = data;
 
-	thumbnail_->SetBrushFromTexture(reward_data_.weapon_data_.item_data_.display_data_->thumbnail);
-	name_->SetText(text_manager->GetActiveSkillNameText(reward_data_.weapon_data_.item_data_.display_data_->text_key_));
-	detail_->SetText(text_manager->GetActiveSkillDetailText(reward_data_.weapon_data_.item_data_.display_data_->text_key_));
+	thumbnail_->SetBrushFromTexture(reward_data_.weapon_data_.thumbnail_);
+	name_->SetText(text_manager->GetWeaponNameText(reward_data_.weapon_data_.type_));
+	detail_->SetText(text_manager->GetWeaponDetailText(reward_data_.weapon_data_.type_));
 }
 
 void URewardSelectWidget::SetEquipmentWidgetCache(UEquipmentRewardWidget* equipment_widget_ptr)

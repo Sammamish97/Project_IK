@@ -18,16 +18,16 @@ void UPerkProgressSubsystem::Initialize(FSubsystemCollectionBase& collection)
 	Super::Initialize(collection);
 }
 
-void UPerkProgressSubsystem::SavePerkDetails(FName key, FPerkNodeDetail detail)
+void UPerkProgressSubsystem::SavePerkDetails(EPerkNodeType type, FPerkNodeDetail detail)
 {
-	if (perk_node_map_.Contains(key))
+	if (perk_node_map_.Contains(type))
 	{
-		perk_node_map_.Remove(key);
+		perk_node_map_.Remove(type);
 	}
-	perk_node_map_.Add(key, detail);
+	perk_node_map_.Add(type, detail);
 }
 
-FPerkNodeDetail UPerkProgressSubsystem::LoadPerkDetails(FName key)
+FPerkNodeDetail UPerkProgressSubsystem::LoadPerkDetails(EPerkNodeType key)
 {
 	if (perk_node_map_.Contains(key))
 	{
@@ -36,7 +36,7 @@ FPerkNodeDetail UPerkProgressSubsystem::LoadPerkDetails(FName key)
 	return FPerkNodeDetail();
 }
 
-TMap<FName, FPerkNodeDetail> UPerkProgressSubsystem::LoadAllPerkDetails()
+TMap<EPerkNodeType, FPerkNodeDetail> UPerkProgressSubsystem::LoadAllPerkDetails()
 {
 	return perk_node_map_;
 }

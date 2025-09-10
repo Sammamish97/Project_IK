@@ -12,19 +12,24 @@ See LICENSE file in the project root for full license information.
 #include "Components/Image.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
+#include "Kismet/GameplayStatics.h"
+#include "Managers/TextManager.h"
 #include "Structs/EventData.h"
+#include "WorldSettings/IKGameInstance.h"
 
 #include "Subsystems/LevelTransitionSubsystem.h"
 
 void UEventWidget::InitEventWidget(FEventData input_data)
 {
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	UTextManager* text_manager = game_instance->GetTextManager();
 	situation_->SetBrushFromTexture(input_data.situation_);
-	event_title_->SetText(input_data.event_title_);
-	text_body_->SetText(input_data.text_body_);
-	first_option_->SetText(input_data.option_1);
-	second_option_->SetText(input_data.option_2);
-	third_option_->SetText(input_data.option_3);
-	fourth_option_->SetText(input_data.option_4);
+	event_title_->SetText(text_manager->GetEventNameText(input_data.event_type_));
+	text_body_->SetText(text_manager->GetEventDetailText(input_data.event_type_));
+	first_option_->SetText(text_manager->GetEventOptionText(input_data.event_type_, 0));
+	second_option_->SetText(text_manager->GetEventOptionText(input_data.event_type_, 1));
+	third_option_->SetText(text_manager->GetEventOptionText(input_data.event_type_, 2));
+	fourth_option_->SetText(text_manager->GetEventOptionText(input_data.event_type_, 3));
 }
 
 void UEventWidget::ClearButtonBinding()

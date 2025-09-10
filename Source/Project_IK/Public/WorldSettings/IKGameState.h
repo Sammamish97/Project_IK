@@ -48,7 +48,7 @@ public:
 	UFUNCTION()
 	void ActivateSkillTargeting(EHeroType hero_type);
 	UFUNCTION()
-	void ActivateSupportSkill(int32 support_num);
+	void ActivateSupportSkill(ESupportSkillType type);
 	UFUNCTION()
 	bool OnDecide(const FTargetResult& result);
 	UFUNCTION()
@@ -60,8 +60,8 @@ public:
 	UFUNCTION()
 	void ToggleFocusMode();
 
-	const TArray<TObjectPtr<USupportSkillDataAsset>>& GetSupportSkillData();
-	const TArray<TObjectPtr<USupportSkillBase>>& GetSupportSkills();
+	const TMap<ESupportSkillType, TObjectPtr<USupportSkillDataAsset>>& GetSupportSkillData();
+	const TMap<ESupportSkillType, TObjectPtr<USupportSkillBase>>& GetSupportSkills();
 
 public:
 	FOnToggleFocusMode OnToggleDetailMode;
@@ -90,10 +90,11 @@ private:
 	TMap<EHeroType, FTimerHandle> active_skill_timers_;
 
 	UPROPERTY()
-	TArray<TObjectPtr<USupportSkillDataAsset>> support_skill_data_;
+	TMap<ESupportSkillType, TObjectPtr<USupportSkillDataAsset>> support_skill_data_;
+
 	
 	UPROPERTY()
-	TArray<TObjectPtr<USupportSkillBase>> support_skills_;
+	TMap<ESupportSkillType, TObjectPtr<USupportSkillBase>> support_skills_;
 
 	UPROPERTY()
 	TObjectPtr<UActiveSkillMechanics> selected_active_skill_mechanics_;
@@ -103,7 +104,7 @@ private:
 	
 	ESelectedSkill selected_skill_type_;
 	EHeroType selected_hero_type_;
-	int32 selected_support_num_;
+	ESupportSkillType selected_support_skill_type_;
 
 	bool on_focus_mode_ = false;
 };

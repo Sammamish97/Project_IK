@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "WeaponStatusData.h"
 #include "Managers/EnumCluster.h"
-#include "Structs/ItemData.h"
 #include "WeaponData.generated.h"
 
 USTRUCT(BlueprintType)
@@ -25,10 +24,13 @@ struct PROJECT_IK_API FWeaponData
 	
 	UPROPERTY(EditDefaultsOnly)
 	EWeaponType type_ = EWeaponType::INVALID;
-	
+
 	UPROPERTY(EditDefaultsOnly)
-	FItemData item_data_;
+	TObjectPtr<UTexture2D> thumbnail_ = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
 	FWeaponStatusData status_data_;
+
+	UPROPERTY(EditDefaultsOnly)
+	ERarity rarity_;
 };

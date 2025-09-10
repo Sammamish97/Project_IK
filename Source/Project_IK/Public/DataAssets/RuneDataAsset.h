@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Managers/EnumCluster.h"
-#include "Structs/RuneSetData.h"
+#include "Structs/RuneData.h"
 #include "RuneDataAsset.generated.h"
 
 UCLASS(Blueprintable)
@@ -20,13 +20,12 @@ class PROJECT_IK_API URuneDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 public:
-	virtual void PostLoad() override;
-	FRuneSetData GetRuneSetData(ERuneSetType type);
-	FRuneSetData GetRuneSetDataRandomly(ERarity weight_rarity = ERarity::Common);
-	TArray<FRuneSetData> GetRuneSetDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
-	TArray<FRuneSetData> GetUniqueRuneSetDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
+	FRuneData GetRuneSetData(ERuneSetType type);
+	FRuneData GetRuneSetDataRandomly(ERarity weight_rarity = ERarity::Common);
+	TArray<FRuneData> GetRuneSetDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
+	TArray<FRuneData> GetUniqueRuneSetDataRandomly(int32 n, ERarity weight_rarity = ERarity::Common);
 	
 private:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, meta = (AllowPrivateAccess = true))
-	TMap<ERuneSetType, FRuneSetData> rune_data_map_;
+	TMap<ERuneSetType, FRuneData> rune_data_map_;
 };

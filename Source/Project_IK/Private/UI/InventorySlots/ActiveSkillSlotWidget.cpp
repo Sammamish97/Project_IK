@@ -28,7 +28,6 @@ void UActiveSkillSlotWidget::SetActiveSkillSlotData(FActiveSkillData active_skil
 {
 	is_empty_ = false;
 	active_skill_data_cache_ = active_skill_data;
-	item_data_cache_ = active_skill_data_cache_.item_data_;
 	SetImageTexture();
 }
 
@@ -52,7 +51,6 @@ bool UActiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDr
 		{
 			Swap(casted_slot->active_skill_data_cache_, active_skill_data_cache_);
 			Swap(casted_slot->is_empty_, is_empty_);
-			Swap(casted_slot->item_data_cache_, item_data_cache_);
 			SetImageTexture();
 			casted_slot->SetImageTexture();
 		}
@@ -88,8 +86,8 @@ void UActiveSkillSlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, con
 		{
 			detail = active_skill_data_cache_.BuildDetailText(GetWorld());
 		}
-		inventory_widget_cache_->CreateActiveSkillPopupWidget(item_data_cache_.display_data_->thumbnail,
-			text_manager_cache_->GetActiveSkillNameText(item_data_cache_.display_data_->text_key_),
+		inventory_widget_cache_->CreateActiveSkillPopupWidget(active_skill_data_cache_.thumbnail_,
+			text_manager_cache_->GetActiveSkillNameText(active_skill_data_cache_.type_),
 			detail,
 			active_skill_data_cache_.cool_time_);
 	}
@@ -105,7 +103,7 @@ void UActiveSkillSlotWidget::SetImageTexture()
 	Super::SetImageTexture();
 	if (is_empty_ == false)
 	{
-		image_->SetBrushFromTexture(active_skill_data_cache_.item_data_.display_data_->thumbnail);
+		image_->SetBrushFromTexture(active_skill_data_cache_.thumbnail_);
 	}
 }
 

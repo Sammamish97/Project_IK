@@ -22,7 +22,6 @@ void UPassiveSkillSlotWidget::SetPassiveSkillSlotData(const FPassiveSkillData& p
 {
 	is_empty_ = false;
 	passive_skill_data_cache_ = passive_skill_data;
-	item_data_cache_ = passive_skill_data_cache_.item_data_;
 	SetImageTexture();
 }
 
@@ -47,7 +46,6 @@ bool UPassiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FD
 		{
 			Swap(casted_slot->passive_skill_data_cache_, passive_skill_data_cache_);
 			Swap(casted_slot->is_empty_, is_empty_);
-			Swap(casted_slot->item_data_cache_, item_data_cache_);
 			SetImageTexture();
 			casted_slot->SetImageTexture();
 		}
@@ -68,6 +66,16 @@ bool UPassiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FD
 	return false;
 }
 
+void UPassiveSkillSlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	if (is_empty_ == false)
+	{
+		inventory_widget_cache_->CreatePassiveSkillPopupWidget(passive_skill_data_cache_.thumbnail_,
+			text_manager_cache_->GetPassiveSkillNameText(passive_skill_data_cache_.type_),
+			text_manager_cache_->GetPassiveSkillDetailText(passive_skill_data_cache_.type_));
+	}
+}
+
 const FPassiveSkillData& UPassiveSkillSlotWidget::GetStoredPassiveSkillData()
 {
 	return passive_skill_data_cache_;
@@ -76,7 +84,7 @@ const FPassiveSkillData& UPassiveSkillSlotWidget::GetStoredPassiveSkillData()
 void UPassiveSkillSlotWidget::SetImageTexture()
 {
 	Super::SetImageTexture();
-	image_->SetBrushFromTexture(passive_skill_data_cache_.item_data_.display_data_->thumbnail);
+	image_->SetBrushFromTexture(passive_skill_data_cache_.thumbnail_);
 }
 
 void UPassiveSkillSlotWidget::ClearData()

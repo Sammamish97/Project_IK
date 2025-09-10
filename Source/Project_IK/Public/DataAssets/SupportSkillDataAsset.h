@@ -14,7 +14,6 @@ See LICENSE file in the project root for full license information.
 #include "Engine/DataAsset.h"
 #include "SupportSkillDataAsset.generated.h"
 
-class UDisplayDataAsset;
 UCLASS()
 class PROJECT_IK_API USupportSkillDataAsset : public UPrimaryDataAsset
 {
@@ -22,9 +21,9 @@ class PROJECT_IK_API USupportSkillDataAsset : public UPrimaryDataAsset
 public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class USupportSkillBase> support_skill_class_;
-	
-	UPROPERTY(EditDefaultsOnly)
-	TObjectPtr<UDisplayDataAsset> display_data_;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "PassiveSkillData")
+	TObjectPtr<UTexture2D> thumbnail_;
 
 	UPROPERTY(EditDefaultsOnly)
 	int32 cost_;

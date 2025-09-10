@@ -21,7 +21,7 @@ void UBF_CloseQuatersMastery::ApplyBuff(AUnit* target)
 		UE_LOG(LogTemp, Warning, TEXT("BindOnCriticalRateCalculation has failed in UPS_CloseQuartersMastery::InitEquipmentSkill."));
 		check(TEXT("BindOnCriticalRateCalculation has failed in UPS_CloseQuartersMastery::InitEquipmentSkill."));
 	}
-	target->AddBuffUI(buff_type_, display_data_);
+	target->AddBuffUI(buff_type_, thumbnail_);
 }
 
 void UBF_CloseQuatersMastery::CloseQuatersMastery(float& critical_rate)

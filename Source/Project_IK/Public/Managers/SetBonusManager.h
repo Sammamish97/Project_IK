@@ -44,9 +44,6 @@ private:
 	TSubclassOf<USetBonusBase> dagger_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bonus", meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<USetBonusBase> poet_;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bonus", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<USetBonusBase> tempest_;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Bonus", meta = (AllowPrivateAccess = "true"))

@@ -12,7 +12,6 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/SetBonuses/SetBonus_Chariot.h"
 #include "Abilities/SetBonuses/SetBonus_Dagger.h"
 #include "Abilities/SetBonuses/SetBonus_GreatBow.h"
-#include "Abilities/SetBonuses/SetBonus_Poet.h"
 #include "Abilities/SetBonuses/SetBonus_Quake.h"
 #include "Abilities/SetBonuses/SetBonus_Tempest.h"
 #include "Abilities/SetBonuses/SetBonus_Viper.h"
@@ -38,10 +37,6 @@ TObjectPtr<USetBonusBase> USetBonusManager::GetSetBonus(AActor* hero_ptr, ERuneS
 
 	case ERuneSetType::Quake:
 		return NewObject<USetBonus_Quake>(hero_ptr, quake_);
-		
-	case ERuneSetType::Poet:
-		return NewObject<USetBonus_Poet>(hero_ptr, poet_);
-	
 	}
 	return nullptr;
 }
