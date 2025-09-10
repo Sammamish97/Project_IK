@@ -24,7 +24,7 @@ void AEnemy_RifleMan::BeginPlay()
 {
 	Super::BeginPlay();
 	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
-	auto weapon_data = instance->GetDataTableManager()->GetWeaponData(weapon_type_);
+	auto weapon_data = instance->GetDataTableManager()->GetEnemyWeaponData(weapon_type_);
 	weapon_mechanics_->EquipWeapon(weapon_data);
 }
 

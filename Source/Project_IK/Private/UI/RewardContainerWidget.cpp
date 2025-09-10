@@ -127,7 +127,7 @@ void URewardContainerWidget::NativeConstruct()
 
 
 	//
-	reward_cache_.weapons_.Push(data_table_manager_->GetWeaponData(EWeaponType::Pistol_B));
+	reward_cache_.weapons_.Push(data_table_manager_->GetHeroWeaponData(EWeaponType::Pistol_B));
 	// reward_cache_.weapons_.Push(data_table_manager_->GetWeaponData(EWeaponType::AssaultRifle_B));
 	// reward_cache_.weapons_.Push(data_table_manager_->GetWeaponData(EWeaponType::AssaultRifle_A));
 

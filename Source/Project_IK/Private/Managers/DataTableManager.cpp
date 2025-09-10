@@ -25,24 +25,29 @@ See LICENSE file in the project root for full license information.
 #include "Structs/WrapperEquipmentData.h"
 
 
-FWeaponData UDataTableManager::GetWeaponData(EWeaponType type) const
+FWeaponData UDataTableManager::GetEnemyWeaponData(EWeaponType type) const
 {
-	return weapon_data_asset_->GetWeaponData(type);
+	return enemy_weapon_data_asset_->GetWeaponData(type);
+}
+
+FWeaponData UDataTableManager::GetHeroWeaponData(EWeaponType type) const
+{
+	return hero_weapon_data_asset_->GetWeaponData(type);
 }
 
 FWeaponData UDataTableManager::GetWeaponDataRandomly(ERarity weight_rarity) const
 {
-	return weapon_data_asset_->GetWeaponDataRandomly(weight_rarity);
+	return hero_weapon_data_asset_->GetWeaponDataRandomly(weight_rarity);
 }
 
 FWeaponData UDataTableManager::GetWeaponDataByRarity(ERarity rarity) const
 {
-	return weapon_data_asset_->GetWeaponDataByRarity(rarity);
+	return hero_weapon_data_asset_->GetWeaponDataByRarity(rarity);
 }
 
 TArray<FWeaponData> UDataTableManager::GetUniqueWeaponDataRandomly(int32 n, ERarity weight_rarity) const
 {
-	return weapon_data_asset_->GetUniqueWeaponDataRandomly(n, weight_rarity);
+	return hero_weapon_data_asset_->GetUniqueWeaponDataRandomly(n, weight_rarity);
 }
 
 FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num) const
