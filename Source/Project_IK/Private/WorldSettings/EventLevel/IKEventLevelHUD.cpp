@@ -43,5 +43,8 @@ void AIKEventLevelHUD::BeginPlay()
 
 void AIKEventLevelHUD::AfterPickOption()
 {
-	GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
+	event_widget_->button_1_->SetIsEnabled(false);
+	event_widget_->button_2_->SetIsEnabled(false);
+	event_widget_->button_3_->SetIsEnabled(false);
+	event_widget_->button_4_->SetIsEnabled(false);
 }

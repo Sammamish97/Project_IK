@@ -56,7 +56,6 @@ public:
 
 
 	void ChangeGunShotSoundTemporariliy(EAudioType temporary_gunshot_audio, float duration = 0.f);
-	void RecoverGunShotSound();
 
 protected:
 	//Mechanics

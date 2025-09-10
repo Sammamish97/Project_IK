@@ -12,6 +12,12 @@ See LICENSE file in the project root for full license information.
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+
+#include "Structs/WeaponData.h"
+#include "Structs/ActiveSkillData.h"
+#include "Structs/PassiveSkillData.h"
+#include "Structs/RuneData.h"
+
 #include "StoreWidget.generated.h"
 
 enum class ERarity : uint8;
@@ -21,6 +27,7 @@ class UButton;
 class UStoreSlot;
 class UConfirmationWidget;
 class UCreditWidget;
+
 
 /**
  * 
@@ -33,7 +40,8 @@ class PROJECT_IK_API UStoreWidget : public UUserWidget
 public:
 	virtual bool Initialize() override;
 
-	static constexpr int32 STOCK = 3;
+	static constexpr int32 STOCK = 2;
+	static constexpr int32 RUNE_STOCK = 6;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UStoreSlot> store_widget_class_;
@@ -62,8 +70,22 @@ protected:
 	UFUNCTION()
 	void GoToNextLevel();
 
+private:
+	template<typename ItemType, typename ItemContainer, typename SlotContainer>
+	void AddItems(TArray<ItemType> items, ItemContainer& item_container, SlotContainer& slot_container);
+
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FMargin slot_margin_;
+
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UHorizontalBox> item_container_;
+	TObjectPtr<UHorizontalBox> weapon_slot_container_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UHorizontalBox> active_slot_container_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UHorizontalBox> passive_slot_container_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UHorizontalBox> rune_slot_container_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> total_cost_text_;
@@ -81,6 +103,19 @@ protected:
 	TObjectPtr<UCreditWidget> credit_widget_;
 
 	UPROPERTY()
+	TArray<TObjectPtr<UStoreSlot>> weapon_slots_;
+	UPROPERTY()
+	TArray<TObjectPtr<UStoreSlot>> active_slots_;
+	UPROPERTY()
+	TArray<TObjectPtr<UStoreSlot>> passive_slots_;
+	UPROPERTY()
+	TArray<TObjectPtr<UStoreSlot>> rune_slots_;
+
+	TArray<FWeaponData> weapons_;
+	TArray<FActiveSkillData> active_skills_;
+	TArray<FPassiveSkillData> passive_skills_;
+	TArray<FRuneData> runes_;
+
 	int32 total_cost_;
 	int32 credits_;
 };

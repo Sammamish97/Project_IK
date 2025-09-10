@@ -36,6 +36,10 @@ public:
 
 	static UAudioManagerSubsystem* Get(const UObject* world_context);
 
+	float GetMasterVolume() const;
+	float GetBGMVolume() const;
+	float GetSFXVolume() const;
+
 	void SetMasterVolume(float V);
 	void SetBGMVolume(float V);
 	void SetSFXVolume(float V);
@@ -80,6 +84,10 @@ protected:
 	TObjectPtr<USoundClass> bgm_channel_ = nullptr;
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<USoundClass> sfx_channel_ = nullptr;
+
+	float master_volume_ = 1.f;
+	float bgm_volume_ = 1.f;
+	float sfx_volume_ = 1.f;
 };
 
 template<typename T>

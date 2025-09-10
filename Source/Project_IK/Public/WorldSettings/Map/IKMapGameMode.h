@@ -24,6 +24,7 @@ class PROJECT_IK_API AIKMapGameMode : public AGameModeBase
 protected:
 	virtual void BeginPlay() override;
 
-
 	void HealHeroesAfterCombat();
+
+	void SaveGameData();
 };

@@ -275,6 +275,11 @@ void UInventoryWidget::RemoveHighlight()
 	}
 }
 
+void UInventoryWidget::SetOnConfirm(TFunction<void()> OnConfirm)
+{
+	OnConfirm_ = OnConfirm;
+}
+
 void UInventoryWidget::UpdateInventoryData()
 {
 	//현재 룬 보드 정보 저장
@@ -331,13 +336,13 @@ void UInventoryWidget::OnStatusSwitchButtonClicked()
 
 void UInventoryWidget::OnConfirm()
 {
-	if (is_read_only_)
-	{
-		SetVisibility(ESlateVisibility::Hidden);
-	}
-	else
+	SetVisibility(ESlateVisibility::Hidden);
+	if (is_read_only_ == false)
 	{
 		UpdateInventoryData();
-		UGameplayStatics::GetGameInstance(GetWorld())->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
+		if (OnConfirm_)
+		{
+			OnConfirm_();
+		}
 	}
 }

@@ -69,9 +69,6 @@ public:
 
 	void ChangeGunShotSoundTemporariliy(EAudioType temporary_gunshot_audio, float duration = 0.f);
 
-	UFUNCTION()
-	void RecoverGunShotSound();
-
 protected:
 	void FireSingleBullet(FVector target_pos, const FDamageData& dmg_data);
 	void FireBuckShot(FVector target_pos, const FDamageData& dmg_data);
@@ -85,6 +82,9 @@ protected:
 
 	UFUNCTION()
 	void OnDieFinished();
+
+	UFUNCTION()
+	void RecoverGunShotSound();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon" )
@@ -152,8 +152,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
 	EAudioType gunshot_audio_type_ = EAudioType::NONE;
 
-	EAudioType temporary_gunshot_audio_type_ = EAudioType::NONE;
-	FTimerHandle temporary_gunshot_sound_timer_;
+	TArray<EAudioType> temporary_gunshot_audio_type_stack_;
 
 public:
 	FOnFinishReload OnFinishReload;

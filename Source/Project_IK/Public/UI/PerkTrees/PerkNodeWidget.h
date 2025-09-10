@@ -15,8 +15,6 @@ See LICENSE file in the project root for full license information.
 #include "Structs/PerkNodeDetail.h"
 #include "PerkNodeWidget.generated.h"
 
-class USaveGame;
-class UIKSaveGame;
 class UPerkConnectionWidget;
 class UPerkProgressSubsystem;
 class UImage;

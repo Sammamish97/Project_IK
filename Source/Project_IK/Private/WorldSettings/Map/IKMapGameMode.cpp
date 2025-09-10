@@ -16,9 +16,15 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "Managers/DataTableManager.h"
 
+#include "Subsystems/GlobalBuffSubsystem.h"
+#include "Kismet/GameplayStatics.h"
+#include "SaveGame/SaveRunProgress.h"
+#include "Managers/InventoryManager.h"
 
 void AIKMapGameMode::BeginPlay()
 {
+	SaveGameData();
+
 	HealHeroesAfterCombat();
 }
 
@@ -48,4 +54,34 @@ void AIKMapGameMode::HealHeroesAfterCombat()
 
 	ULevelTransitionSubsystem* level_transition_subsystem = game_instance->GetSubsystem<ULevelTransitionSubsystem>();
 	level_transition_subsystem->HealHeroesSpawnDataPercentage(heal_percentage);
+}
+
+void AIKMapGameMode::SaveGameData()
+{
+	USaveRunProgress* save_game_instance = Cast<USaveRunProgress>(UGameplayStatics::CreateSaveGameObject(USaveRunProgress::StaticClass()));
+
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(GetGameInstance());
+
+	if (save_game_instance && game_instance)
+	{
+		UIKMaps* map = game_instance->GetMapPtr();
+		save_game_instance->rand_seed_for_map_ = map->GetRandSeedForMap();
+		save_game_instance->map_height_ = map->GetHeight();
+		save_game_instance->map_width_ = map->GetWidth();
+		save_game_instance->player_visited_path_ = map->GetPlayerVisitedPath();
+
+		save_game_instance->spawn_data_ = game_instance->GetSubsystem<ULevelTransitionSubsystem>()->GetSpawnData();
+		save_game_instance->credits_ = game_instance->GetInventoryManager()->GetCredits();
+
+		UGlobalBuffSubsystem* subsystem = game_instance->GetSubsystem<UGlobalBuffSubsystem>();
+		TArray<FGlobalBuffData> buffs = subsystem->GetBuffs();
+		for (const FGlobalBuffData& global_buff : buffs)
+		{
+			save_game_instance->applied_global_buffs_.Add(global_buff.buff_type_, global_buff.duration_);
+		}
+
+		save_game_instance->rand_seed_ = FMath::GetRandSeed();
+
+		UGameplayStatics::SaveGameToSlot(save_game_instance, save_game_instance->GetSaveSlotName(), 0);
+	}
 }
