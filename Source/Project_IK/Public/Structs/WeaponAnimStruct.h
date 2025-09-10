@@ -25,7 +25,7 @@ struct PROJECT_IK_API FWeaponAnimStruct
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Weapon Anim Data")
 	TSoftObjectPtr<UAnimBlueprint> weapon_anim_instance_;
-	
+
 	const TSoftObjectPtr<UAnimMontage>& operator[] (EWeaponAction action_type) const
 	{
 		switch (action_type)
@@ -39,10 +39,10 @@ struct PROJECT_IK_API FWeaponAnimStruct
 		case EWeaponAction::INVALID:
 		default:
 			checkNoEntry()
+				return fire_montage_;
 		}
-		return fire_montage_;
 	}
-	
+
 	TSoftObjectPtr<UAnimMontage>& operator[] (EWeaponAction rhs)
 	{
 		return const_cast<TSoftObjectPtr<UAnimMontage>&>(const_cast<const FWeaponAnimStruct*>(this)->operator[](rhs));

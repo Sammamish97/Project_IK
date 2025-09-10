@@ -22,7 +22,7 @@ class PROJECT_IK_API USavePerkProgress : public UBaseSaveGame
 
 public:
 	UPROPERTY(VisibleAnywhere)
-	TMap<FName, FPerkNodeDetail> perk_node_map_;
+	TMap<EPerkNodeType, FPerkNodeDetail> perk_node_map_;
 
 	UPROPERTY(VisibleAnywhere)
 	int32 perk_points_;

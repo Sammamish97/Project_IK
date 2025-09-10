@@ -48,26 +48,6 @@ typedef TPair<ERuneSetType, TArray<int32>> RuneSetBonus;
 
 void AIKHUD::BeginPlay()
 {
-	UWorld* world = GetWorld();
-
-	// Create the widget and add it to the viewport
-	if (button_widget_class_)
-	{
-		button_bar_widget_ = CreateWidget<UButtonBarWidget>(world, button_widget_class_);
-		BindHeroWidgetUI();
-		BindSupportSkills();
-		
-		if (button_bar_widget_)
-		{
-			button_bar_widget_->AddToViewport();
-		}
-	}
-	
-	combat_level_result_manager_ = NewObject<UCombatLevelResultManager>(world, combat_level_widget_class_);
-	if (combat_level_result_manager_)
-	{
-		combat_level_result_manager_->InitializeUI();
-	}
 }
 
 void AIKHUD::BindEnemyHPUI(AActor* enemy)
@@ -180,4 +160,28 @@ void AIKHUD::SwitchUIByState(ECombatEndState state)
 UButtonBarWidget* AIKHUD::GetButtonBarWidget()
 {
 	return button_bar_widget_;
+}
+
+void AIKHUD::InitializeHUDAfterGameModeInit()
+{
+	UWorld* world = GetWorld();
+
+	// Create the widget and add it to the viewport
+	if (button_widget_class_)
+	{
+		button_bar_widget_ = CreateWidget<UButtonBarWidget>(world, button_widget_class_);
+		BindHeroWidgetUI();
+		BindSupportSkills();
+
+		if (button_bar_widget_)
+		{
+			button_bar_widget_->AddToViewport();
+		}
+	}
+
+	combat_level_result_manager_ = NewObject<UCombatLevelResultManager>(world, combat_level_widget_class_);
+	if (combat_level_result_manager_)
+	{
+		combat_level_result_manager_->InitializeUI();
+	}
 }

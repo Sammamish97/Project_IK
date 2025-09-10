@@ -38,8 +38,8 @@ inline void UStoreWidget::AddItems(TArray<ItemType> items, ItemContainer& item_c
 	for (int32 i = 0; i < items.Num(); i++)
 	{
 		UStoreSlot* slot = WidgetTree->ConstructWidget<UStoreSlot>(store_widget_class_);
-		slot->SetTexture(items[i].item_data_.display_data_->thumbnail);
-		slot->SetPrice(GetPriceByRarity(items[i].item_data_.rarity_));
+		slot->SetTexture(items[i].thumbnail_);
+		slot->SetPrice(GetPriceByRarity(items[i].rarity_));
 		slot->OnStoreSlotClickedDelegate.AddDynamic(this, &UStoreWidget::OnStoreSlotClicked);
 		UHorizontalBoxSlot* box_slot = item_container->AddChildToHorizontalBox(slot);
 		if (box_slot)
