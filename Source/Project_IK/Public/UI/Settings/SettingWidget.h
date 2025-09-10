@@ -50,6 +50,8 @@ protected:
 	UFUNCTION()
 	void OnConfirmButtonClicked();
 
+	void SaveSettingData();
+
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<USlider> master_slider_;
 	UPROPERTY(meta = (BindWidget))

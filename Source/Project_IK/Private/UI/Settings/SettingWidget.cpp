@@ -17,6 +17,10 @@ See LICENSE file in the project root for full license information.
 
 #include "Subsystems/AudioManagerSubsystem.h"
 
+// Save files
+#include "Kismet/GameplayStatics.h"
+#include "SaveGame/SaveSettings.h"
+
 void USettingWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -96,5 +100,24 @@ void USettingWidget::SFXSliderCaptureEnd()
 
 void USettingWidget::OnConfirmButtonClicked()
 {
-	RemoveFromViewport();
+	SaveSettingData();
+
+	// In order to prevent using deprecated api,
+	RemoveFromParent();
+}
+
+void USettingWidget::SaveSettingData()
+{
+	// Save data in save game thread
+	// May cause hitches because it writes to the disc
+
+	USaveSettings* save_game_instance = Cast<USaveSettings>(UGameplayStatics::CreateSaveGameObject(USaveSettings::StaticClass()));
+	if (save_game_instance)
+	{
+		save_game_instance->master_volume_ = master_volume_;
+		save_game_instance->music_volume_ = music_volume_;
+		save_game_instance->sfx_volume_ = sfx_volume_;
+	}
+
+	UGameplayStatics::SaveGameToSlot(save_game_instance, save_game_instance->GetSaveSlotName(), 0);
 }

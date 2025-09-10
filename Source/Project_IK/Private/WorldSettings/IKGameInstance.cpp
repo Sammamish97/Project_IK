@@ -23,7 +23,13 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "Subsystems/GlobalBuffSubsystem.h"
-#include "WorldSettings/IKSaveGame.h"
+
+// Header files for saved data
+#include "SaveGame/SavePerkProgress.h"
+#include "SaveGame/SaveRunProgress.h"
+#include "SaveGame/SaveSettings.h"
+#include "Kismet/GameplayStatics.h"
+#include "Subsystems/AudioManagerSubsystem.h"
 
 UIKGameInstance::UIKGameInstance()
 	:Super::UGameInstance()
@@ -40,9 +46,10 @@ void UIKGameInstance::Init()
 	InitEventManager();
 	InitTextManager();
 
+	LoadSaveData();
+
 	// Function call matters. PerkEffects -> InitSpawnData
 	InitializePerkEffectsAlreadyUnlocked();
-	InitSpawnData();
 }
 
 void UIKGameInstance::Shutdown()
@@ -52,7 +59,6 @@ void UIKGameInstance::Shutdown()
 		perk_effect->RemoveEffect();
 	}
 	
-	//TODO: 여기서 ULevelTransitionSubsystem의 저장이 필요한 data들을 disk에 write해야 함.
 	Super::Shutdown();
 }
 
@@ -159,7 +165,6 @@ void UIKGameInstance::InitializePerkEffectsAlreadyUnlocked()
 void UIKGameInstance::InitializeMaps()
 {
 	maps_ = NewObject<UIKMaps>();
-	maps_->GenerateMaps(10, 5);
 }
 
 void UIKGameInstance::InitInventoryManager()
@@ -183,4 +188,73 @@ void UIKGameInstance::InitSetBonusManager()
 void UIKGameInstance::InitTextManager()
 {
 	text_manager_ = NewObject<UTextManager>(this, text_manager_class_);
+}
+
+void UIKGameInstance::LoadSaveData()
+{
+	USaveSettings* settings = Cast<USaveSettings>(UGameplayStatics::LoadGameFromSlot(USaveSettings::StaticClass()->GetDefaultObject<USaveSettings>()->GetSaveSlotName(), 0));
+	if (settings)
+	{
+		UAudioManagerSubsystem* audio_subsystem = UAudioManagerSubsystem::Get(this);
+		if (audio_subsystem)
+		{
+			audio_subsystem->SetMasterVolume(settings->master_volume_);
+			audio_subsystem->SetBGMVolume(settings->music_volume_);
+			audio_subsystem->SetSFXVolume(settings->sfx_volume_);
+		}
+	}
+	else
+	{
+		// No save data
+	}
+
+
+	USavePerkProgress* saved_perk_progress = Cast<USavePerkProgress>(UGameplayStatics::LoadGameFromSlot(USavePerkProgress::StaticClass()->GetDefaultObject<USavePerkProgress>()->GetSaveSlotName(), 0));
+	if (saved_perk_progress)
+	{
+		UPerkProgressSubsystem* perk_progress_subsystem = GetSubsystem<UPerkProgressSubsystem>();
+		if (perk_progress_subsystem)
+		{
+			for (const auto& [perk_name, perk_node_detail] : saved_perk_progress->perk_node_map_)
+			{
+				perk_progress_subsystem->SavePerkDetails(perk_name, perk_node_detail);
+			}
+			perk_progress_subsystem->SavePerkPoint(saved_perk_progress->perk_points_);
+		}
+	}
+	else
+	{
+		// No save data
+	}
+	
+	USaveRunProgress* saved_run = Cast<USaveRunProgress>(UGameplayStatics::LoadGameFromSlot(USaveRunProgress::StaticClass()->GetDefaultObject<USaveRunProgress>()->GetSaveSlotName(), 0));
+	if (saved_run)
+	{
+		maps_->RecoverMaps(saved_run->rand_seed_for_map_, saved_run->map_height_, saved_run->map_width_, saved_run->player_visited_path_);
+
+		ULevelTransitionSubsystem* level_transition_subsystem = GetSubsystem<ULevelTransitionSubsystem>();
+		if (level_transition_subsystem)
+		{
+			level_transition_subsystem->UpdateSpawnData(saved_run->spawn_data_);
+		}
+		inventory_manager_->SetCredits(saved_run->credits_);
+
+		UGlobalBuffSubsystem* global_buff_subsystem = GetSubsystem<UGlobalBuffSubsystem>();
+		if (global_buff_subsystem)
+		{
+			global_buff_subsystem->RecoverBuffs(saved_run->applied_global_buffs_);
+		}
+
+		FMath::SRandInit(saved_run->rand_seed_);
+	}
+	else
+	{
+		// No save data
+
+		// Initialize map data to prevent game crash during developments.
+		// @@ TODO: Need to remove the line. 
+		// Probably game start menu of the main manu is the only place generating a new map.
+		maps_->GenerateMaps(10, 5);
+		InitSpawnData();
+	}
 }

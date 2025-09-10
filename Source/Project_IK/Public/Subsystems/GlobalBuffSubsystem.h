@@ -49,7 +49,11 @@ public:
 	// Naively implement for sake of implementation of displaying everlasting buffs rapidly.
 	const TSet<EGlobalBuffType> GetEverlastingBuffTypes() const;
 
+	void RecoverBuffs(TMap<EGlobalBuffType, int32> applied_global_buffs);
+
 protected:
+	void FlushIndexContainer();
+
 	TMap<EGlobalBuffType, int32> buff_lookup_;
 	TMap<EGlobalBuffType, int32> newly_added_buff_lookup_;
 

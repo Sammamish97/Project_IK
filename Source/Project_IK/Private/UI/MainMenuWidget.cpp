@@ -15,6 +15,9 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/Settings/SettingWidget.h"
 
+#include "WorldSettings/IKGameInstance.h"
+#include "UI/Map/IKMaps.h"
+
 void UMainMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -38,6 +41,14 @@ void UMainMenuWidget::OnNewGameButtonClicked()
 {
 	//세이브 데이터 초기화
 	//네러티브 레벨로 이동
+
+	// Generate map data
+	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+	if (instance)
+	{
+		UIKMaps* map = instance->GetMapPtr();
+		map->GenerateMaps(10, 5);
+	}
 }
 
 void UMainMenuWidget::OnContinueButtonClicked()
