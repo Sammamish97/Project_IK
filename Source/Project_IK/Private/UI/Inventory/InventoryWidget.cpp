@@ -199,7 +199,7 @@ void UInventoryWidget::SetPopupWidgetPos(FVector2D pos)
 {
 	if(equip_popup_ptr_)
 	{
-		equip_popup_ptr_->SetPositionInViewport(pos);
+		equip_popup_ptr_->SetPositionInViewport(pos, false);
 	}
 }
 
