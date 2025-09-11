@@ -195,6 +195,7 @@ FString UTextManager::WeaponEnumToKey(EWeaponType weapon_type) const
 	case EWeaponType::SniperRifle_B:
 		key = "SNR_B";
 		break;
+	//
 	case EWeaponType::Pistol_A:
 		key = "PT_A";
 		break;
@@ -207,6 +208,13 @@ FString UTextManager::WeaponEnumToKey(EWeaponType weapon_type) const
 	case EWeaponType::SniperRifle_A:
 		key = "SNR_A";
 		break;
+	//
+	case EWeaponType::SoldierWeapon:
+		key = "SDW";
+		break;
+	case EWeaponType::SniperWeapon:
+		key = "SNW";
+		break;
 	case EWeaponType::HeavyGunnerWeapon:
 		key = "HGW";
 		break;
@@ -216,6 +224,17 @@ FString UTextManager::WeaponEnumToKey(EWeaponType weapon_type) const
 	case EWeaponType::AssassinWeapon:
 		key = "ASW";
 		break;
+	//
+	case EWeaponType::SoldierWeapon_A:
+		key = "SDW_A";
+		break;
+	case EWeaponType::HeavyGunnerWeapon_A:
+		key = "HGW_A";
+		break;
+	case EWeaponType::OfficerWeapon_A:
+		key = "OFW_A";
+		break;
+		
 	}
 	return key;
 }

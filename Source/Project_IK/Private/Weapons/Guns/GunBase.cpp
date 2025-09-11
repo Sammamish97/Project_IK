@@ -298,10 +298,8 @@ FDamageData AGunBase::GetWeaponFireDamageData()
 	{
 		UCharacterStatComponent* stat_component = gun_owner->GetCharacterStat();
 		float total_atk_dmg = weapon_data_cache_.status_data_.basic_dmg_ + stat_component->GetAttackPower() * weapon_data_cache_.status_data_.attack_scale;
-		float total_skill_dmg = stat_component->GetSkillPower() * weapon_data_cache_.status_data_.skill_power_scale;
 		FDamageData dmg_data;
 		dmg_data.atk_base_dmg_ = total_atk_dmg;
-		dmg_data.skill_power_base_dmg_ = total_skill_dmg;
 		dmg_data.damage_type_ = EDamageType::Projectile;
 		dmg_data.attacker_ = weak_gun_owner_;
 
@@ -330,6 +328,17 @@ void AGunBase::InitWeapon(const FWeaponData& data, TWeakObjectPtr<AUnit> gun_own
 	for (auto elem : bullet_pool_component_->GetObjectPool())
 	{
 		Cast<ABullet>(elem)->SetCollisionPreset(is_hero);
+	}
+	if (data.status_data_.extra_skill_power_ > 0.f)
+	{
+		//장착한 무기에 있는 스킬 위력을 얻는다.
+		if (auto owner = weak_gun_owner_.Get())
+		{
+			owner->ApplyStatusBuff(EBuffType::WeaponExtraSkillPower, FBuffStatusData(ECharacterStatType::SkillPower,
+				data.status_data_.extra_skill_power_,
+				false,
+				true));
+		}
 	}
 	InstantReload();
 }

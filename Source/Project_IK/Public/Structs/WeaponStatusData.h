@@ -43,7 +43,7 @@ struct PROJECT_IK_API FWeaponStatusData
 
 	//스킬 위력 계수
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
-	float skill_power_scale = 0.f;
+	float extra_skill_power_ = 0.f;
 
 	//무기 치명타 확률
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WeaponData")
