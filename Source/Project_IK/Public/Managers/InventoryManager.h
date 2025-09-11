@@ -21,7 +21,7 @@ class PROJECT_IK_API UInventoryManager : public UObject
 	GENERATED_BODY()
 
 public:
-	void OpenInventoryWidgetReward(const FWrapperEquipmentData& rewards);
+	void OpenInventoryWidgetReward(const FWrapperEquipmentData& rewards, TFunction<void()> OnConfirm = []() {});
 	void OpenReadOnlyInventoryWidget();
 	
 	UFUNCTION(BlueprintCallable)

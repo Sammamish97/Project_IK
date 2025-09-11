@@ -193,8 +193,7 @@ void UGlobalBuffSubsystem::UpdateBuffDurations()
 		}
 	}
 
-	buff_lookup_.Append(newly_added_buff_lookup_);
-	newly_added_buff_lookup_.Reset();
+	FlushIndexContainer();
 }
 
 const TArray<FGlobalBuffData>& UGlobalBuffSubsystem::GetBuffs() const
@@ -232,4 +231,20 @@ void UGlobalBuffSubsystem::RemoveEverlastingBuff(EGlobalBuffType buff_type)
 const TSet<EGlobalBuffType> UGlobalBuffSubsystem::GetEverlastingBuffTypes() const
 {
 	return everlasting_buff_;
+}
+
+void UGlobalBuffSubsystem::RecoverBuffs(TMap<EGlobalBuffType, int32> applied_global_buffs)
+{
+	for (const auto& [buff_type, duration] : applied_global_buffs)
+	{
+		AddBuff(buff_type);
+		buffs_[newly_added_buff_lookup_[buff_type]].duration_ = duration;
+	}
+	FlushIndexContainer();
+}
+
+void UGlobalBuffSubsystem::FlushIndexContainer()
+{
+	buff_lookup_.Append(newly_added_buff_lookup_);
+	newly_added_buff_lookup_.Reset();
 }

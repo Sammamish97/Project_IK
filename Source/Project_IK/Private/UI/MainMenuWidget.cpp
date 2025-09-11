@@ -13,16 +13,27 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/KismetSystemLibrary.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 
+#include "UI/Settings/SettingWidget.h"
+
+#include "WorldSettings/IKGameInstance.h"
+#include "UI/Map/IKMaps.h"
+
 void UMainMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	new_game_button_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnNewGameButtonClicked);
 	continue_button_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnContinueButtonClicked);
+	setting_button_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnSettingButtonClicked);
 	exit_button_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitButtonClicked);
 }
 
 void UMainMenuWidget::NativeDestruct()
 {
+	new_game_button_->OnClicked.Clear();
+	continue_button_->OnClicked.Clear();
+	setting_button_->OnClicked.Clear();
+	exit_button_->OnClicked.Clear();
+
 	Super::NativeDestruct();
 }
 
@@ -30,6 +41,14 @@ void UMainMenuWidget::OnNewGameButtonClicked()
 {
 	//세이브 데이터 초기화
 	//네러티브 레벨로 이동
+
+	// Generate map data
+	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+	if (instance)
+	{
+		UIKMaps* map = instance->GetMapPtr();
+		map->GenerateMaps(10, 5);
+	}
 }
 
 void UMainMenuWidget::OnContinueButtonClicked()
@@ -39,6 +58,16 @@ void UMainMenuWidget::OnContinueButtonClicked()
 	//만약 세이브 파일이 없다면 disable되어 클릭할 수 없어야 함.
 	ULevelTransitionSubsystem* level_transition_subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
 	level_transition_subsystem->OpenLevel(GetWorld(), ELevelState::LobbyLevel);
+}
+
+void UMainMenuWidget::OnSettingButtonClicked()
+{
+	UUserWidget* setting_ui = CreateWidget<USettingWidget>(GetWorld(), setting_ui_class_);
+
+	if (setting_ui)
+	{
+		setting_ui->AddToViewport();
+	}
 }
 
 void UMainMenuWidget::OnExitButtonClicked()

@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "Managers/InventoryManager.h"
 #include "Managers/DataTableManager.h"
+#include "Structs/WrapperEquipmentData.h"
 
 #include "WorldSettings/StoreLevel/IKStoreHUD.h"
 
@@ -26,9 +27,29 @@ See LICENSE file in the project root for full license information.
 #include "Components/HorizontalBoxSlot.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
-#include "Managers/DataTableManager.h"
 
 #include "Subsystems/LevelTransitionSubsystem.h"
+
+
+
+template<typename ItemType, typename ItemContainer, typename SlotContainer>
+inline void UStoreWidget::AddItems(TArray<ItemType> items, ItemContainer& item_container, SlotContainer& slot_container)
+{
+	for (int32 i = 0; i < items.Num(); i++)
+	{
+		UStoreSlot* slot = WidgetTree->ConstructWidget<UStoreSlot>(store_widget_class_);
+		slot->SetTexture(items[i].item_data_.display_data_->thumbnail);
+		slot->SetPrice(GetPriceByRarity(items[i].item_data_.rarity_));
+		slot->OnStoreSlotClickedDelegate.AddDynamic(this, &UStoreWidget::OnStoreSlotClicked);
+		UHorizontalBoxSlot* box_slot = item_container->AddChildToHorizontalBox(slot);
+		if (box_slot)
+		{
+			box_slot->SetPadding(slot_margin_);
+		}
+		slot_container.Add(slot);
+	}
+}
+
 
 bool UStoreWidget::Initialize()
 {
@@ -49,13 +70,20 @@ void UStoreWidget::NativeConstruct()
 	}
 
 	credits_ = game_instance->GetInventoryManager()->GetCredits();
-	
+
+
+	UDataTableManager* manager = game_instance->GetDataTableManager();
 	if (store_widget_class_)
 	{
-		for (int32 i = 0; i < STOCK; i++)
-		{
-			// Fill here to list items
-		}
+		// IKTODO: 웨폰데이터 추가 후 복구
+		//weapons_ = manager->GetUniqueWeaponDataRandomly(STOCK);
+		//AddItems(weapons_, weapon_slot_container_, weapon_slots_);
+		active_skills_ = manager->GetUniqueActiveSkillDataRandomly(STOCK);
+		AddItems(active_skills_, active_slot_container_, active_slots_);
+		passive_skills_ = manager->GetUniquePassiveSkillDataRandomly(STOCK);
+		AddItems(passive_skills_, passive_slot_container_, passive_slots_);
+		runes_ = manager->GetUniqueRuneDataRandomly(RUNE_STOCK);
+		AddItems(runes_, rune_slot_container_, rune_slots_);
 	}
 
 	if (confirmation_widget_class_)
@@ -110,7 +138,26 @@ void UStoreWidget::OnStoreSlotClicked()
 	total_cost_ = 0;
 	for (int32 i = 0; i < STOCK; i++)
 	{
-		// Mark an item that user mouse is hovering
+		// IKTODO: 웨폰데이터 추가 후 복구
+		//if (weapon_slots_[i]->IsChecked())
+		//{
+		//	total_cost_ += weapon_slots_[i]->GetPrice();
+		//}
+		if (active_slots_[i]->IsChecked())
+		{
+			total_cost_ += active_slots_[i]->GetPrice();
+		}
+		if (passive_slots_[i]->IsChecked())
+		{
+			total_cost_ += passive_slots_[i]->GetPrice();
+		}
+	}
+	for (int32 i = 0; i < RUNE_STOCK; i++)
+	{
+		if (rune_slots_[i]->IsChecked())
+		{
+			total_cost_ += rune_slots_[i]->GetPrice();
+		}
 	}
 
 	total_cost_text_->SetText(FText::AsNumber(total_cost_));
@@ -151,12 +198,35 @@ void UStoreWidget::GoToNextLevel()
 	UInventoryManager* inventory_manager = game_instance->GetInventoryManager();
 	inventory_manager->SetCredits(credits_ - total_cost_);
 	credit_widget_->UpdateCreditText();
-	
 
+
+	FWrapperEquipmentData data;
 	for (int32 i = 0; i < STOCK; i++)
 	{
-		// Add purchased items to inventory
+		// IKTODO: 웨폰데이터 추가 후 복구
+		//if (weapon_slots_[i]->IsChecked())
+		//{
+		//	data += weapons_[i];
+		//}
+		if (active_slots_[i]->IsChecked())
+		{
+			data += active_skills_[i];
+		}
+		if (passive_slots_[i]->IsChecked())
+		{
+			data += passive_skills_[i];
+		}
 	}
+	for (int32 i = 0; i < RUNE_STOCK; i++)
+	{
+		if (rune_slots_[i]->IsChecked())
+		{
+			data += runes_[i];
+		}
+	}
+	game_instance->GetInventoryManager()->OpenInventoryWidgetReward(data, [&]() 
+		{
+			GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
+		});
 
-	game_instance->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
 }

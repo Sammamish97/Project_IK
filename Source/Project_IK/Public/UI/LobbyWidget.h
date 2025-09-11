@@ -31,6 +31,8 @@ public:
 	void OnBeginRunButtonClicked();
 	
 private:
+	void SavePerkData();
+
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> open_perk_tree_button_;
 

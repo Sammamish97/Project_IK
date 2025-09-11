@@ -67,6 +67,7 @@ private:
 	void InitSetBonusManager();
 	void InitEventManager();
 	void InitTextManager();
+	void LoadSaveData();
 	
 	UPROPERTY()
 	TObjectPtr<UIKMaps> maps_;

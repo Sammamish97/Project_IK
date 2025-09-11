@@ -36,4 +36,32 @@ struct FWrapperEquipmentData
 
 		return *this;
 	}
+
+	FWrapperEquipmentData& operator+=(const FWeaponData& rhs)
+	{
+		weapons_.Add(rhs);
+
+		return *this;
+	}
+
+	FWrapperEquipmentData& operator+=(const FActiveSkillData& rhs)
+	{
+		active_skills_.Add(rhs);
+
+		return *this;
+	}
+
+	FWrapperEquipmentData& operator+=(const FPassiveSkillData& rhs)
+	{
+		passive_skills_.Add(rhs);
+
+		return *this;
+	}
+
+	FWrapperEquipmentData& operator+=(const FRuneData& rhs)
+	{
+		runes_.Add(rhs);
+
+		return *this;
+	}
 };

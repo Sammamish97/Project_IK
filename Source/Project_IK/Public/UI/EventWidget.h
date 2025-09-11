@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Structs/EventData.h"
 #include "EventWidget.generated.h"
 
+class UButton;
+
 UCLASS()
 class PROJECT_IK_API UEventWidget : public UUserWidget
 {
@@ -28,6 +30,15 @@ public:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 	
+protected:
+
+
+	UFUNCTION()
+	void OnEndButtonClicked();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (BindWidget))
+	TObjectPtr<UButton> end_button_;
+
 private:
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta=(AllowPrivateAccess=true, BindWidget))

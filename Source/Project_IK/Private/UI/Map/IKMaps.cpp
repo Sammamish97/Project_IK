@@ -27,13 +27,16 @@ void UIKMaps::GenerateMaps(int32 row, int32 col)
 	{
 		map[i].SetNum(col);
 	}
+	
+	
+	rand_seed_for_map_ = rng.GetCurrentSeed();
 
 	// The First Rooms randomly chosen at the 1rst Floor cannot be the same.
 	int32 departures_num = FMath::CeilToInt(col / 2.f);
 	TArray<int32> departures;
 	while (departures.Num() < departures_num)
 	{
-		int32 d = FMath::RandRange(0, col - 1);
+		int32 d = rng.RandRange(0, col - 1);
 		departures.AddUnique(d);
 	}
 	departures.Sort();
@@ -42,11 +45,11 @@ void UIKMaps::GenerateMaps(int32 row, int32 col)
 	for (int32 i = 0; i < departures_num; i++)
 	{
 		const int32 c = departures[i];
-		int32 paths = FMath::Min(FMath::CeilToInt32(FMath::RandRange(0.f, 1.1f)), AvaiableBranchNum(0, c));
+		int32 paths = FMath::Min(FMath::CeilToInt32(rng.FRandRange(0.f, 1.1f)), AvaiableBranchNum(0, c));
 		map[0][c].type = QueryNodeType();
 		while (map[0][c].next.Num() < paths)
 		{
-			int32 next = FMath::Clamp(c + FMath::RandRange(-1, 1), 0, col - 1);
+			int32 next = FMath::Clamp(c + rng.RandRange(-1, 1), 0, col - 1);
 			if (!IsPathCrossed(0, c, next))
 			{
 				map[0][c].next.AddUnique(next);
@@ -69,10 +72,10 @@ void UIKMaps::GenerateMaps(int32 row, int32 col)
 
 					int32 old_path_num = node.next.Num();
 
-					int32 new_path_num = FMath::Min(FMath::CeilToInt32(FMath::RandRange(0.f, 1.1f)) + old_path_num, AvaiableBranchNum(i + 1, target));
+					int32 new_path_num = FMath::Min(FMath::CeilToInt32(rng.FRandRange(0.f, 1.1f)) + old_path_num, AvaiableBranchNum(i + 1, target));
 					while (old_path_num < new_path_num)
 					{
-						int32 next = FMath::Clamp(target + FMath::RandRange(-1, 1), 0, col - 1);
+						int32 next = FMath::Clamp(target + rng.RandRange(-1, 1), 0, col - 1);
 						// If it is invalid path, consider path adding has been done. Did not add though
 						if (!IsPathCrossed(i + 1, target, next))
 						{
@@ -135,6 +138,23 @@ const TArray<FIntPoint>& UIKMaps::GetPlayerVisitedPath() const
 	return player_visited_path_;
 }
 
+int32 UIKMaps::GetRandSeedForMap() const
+{
+	return rand_seed_for_map_;
+}
+
+void UIKMaps::RecoverMaps(int32 rand_seed_for_map, int32 map_height, int32 map_width, const TArray<FIntPoint>& player_visited_path)
+{
+	rng.Initialize(rand_seed_for_map);
+	GenerateMaps(map_height, map_width);
+
+	player_visited_path_ = player_visited_path;
+	if (player_visited_path_.IsEmpty() == false)
+	{
+		player_grid_position_ = player_visited_path_.Top();
+	}
+}
+
 void UIKMaps::ClearMaps()
 {
 	for (int32 i = 0; i < map.Num(); i++)
@@ -180,7 +200,7 @@ NodeType UIKMaps::QueryNodeType(const TArray<NodeType>& excluded_types) const
 		return NodeType::Enemy;
 	}
 
-	int32 rand = FMath::RandRange(0, return_types.Num() - 1);
+	int32 rand = rng.RandRange(0, return_types.Num() - 1);
 	return return_types[rand];
 }
 
@@ -212,7 +232,7 @@ int32 UIKMaps::AvaiableBranchNum(int32 row, int32 col) const
 }
 
 // This function reassigning node to obey the below rules.
-	// 1. Merchant and Event nodes can��t be assigned below the 2th Floor.
+	// 1. Merchant and Event nodes cannot be assigned below the 2th Floor.
 	// 4. All nodes before the Boss should be *Enemy* node.
 	// 2. Merchant and Event nodes cannot be consecutive.
 	// 3. A Room that that has 2 or more Paths going out 

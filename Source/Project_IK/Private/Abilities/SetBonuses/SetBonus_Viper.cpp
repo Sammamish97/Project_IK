@@ -16,6 +16,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/WeaponMechanics.h"
 #include "Weapons/Guns/GunBase.h"
 
+#include "NiagaraFunctionLibrary.h"
+
 //2세트: 공격 속도20%
 void USetBonus_Viper::ActivateEdgeBonus()
 {
@@ -43,7 +45,10 @@ void USetBonus_Viper::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
 
+	UNiagaraFunctionLibrary::SpawnSystemAttached(viper_activated_particle_, hero_cache_->GetRootComponent(), FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::KeepRelativeOffset, true);
 	hero_cache_->ChangeGunShotSoundTemporariliy(EAudioType::ViperGunShot);
+
+
 	auto weapon_actor = hero_cache_->GetWeaponMechanics()->GetWeaponActor();
 	if (hexagon_on_hit_)
 	{

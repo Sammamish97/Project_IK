@@ -20,6 +20,8 @@ class UProjectileMovementComponent;
 class UNiagaraSystem;
 class UNiagaraComponent;
 
+class UAudioComponent;
+
 UCLASS()
 class PROJECT_IK_API AChargeShot : public AActor
 {

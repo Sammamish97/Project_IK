@@ -167,7 +167,7 @@ void AGunBase::PlayFireSound() const
 	{
 		if (owner->IsA<AHeroBase>())
 		{
-			EAudioType fire_sound = (temporary_gunshot_audio_type_ == EAudioType::NONE) ? gunshot_audio_type_ : temporary_gunshot_audio_type_;
+			EAudioType fire_sound = (temporary_gunshot_audio_type_stack_.IsEmpty()) ? gunshot_audio_type_ : temporary_gunshot_audio_type_stack_.Top();
 
 			UAudioManagerSubsystem::Get(this)->PlayAtLocation(fire_sound, GetActorLocation());
 			return;
@@ -197,8 +197,10 @@ void AGunBase::OnDieFinished()
 
 void AGunBase::RecoverGunShotSound()
 {
-	temporary_gunshot_audio_type_ = EAudioType::NONE;
-	GetWorld()->GetTimerManager().ClearTimer(temporary_gunshot_sound_timer_);
+	if (temporary_gunshot_audio_type_stack_.IsEmpty() == false)
+	{
+		temporary_gunshot_audio_type_stack_.Pop();
+	}
 }
 
 void AGunBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -373,10 +375,12 @@ void AGunBase::ClearAfterReloadOnHitComponents()
 
 void AGunBase::ChangeGunShotSoundTemporariliy(EAudioType temporary_gunshot_audio, float duration)
 {
-	temporary_gunshot_audio_type_ = temporary_gunshot_audio;
+
+	temporary_gunshot_audio_type_stack_.Push(temporary_gunshot_audio);
 	
 	if (duration > 0.f)
 	{
+		FTimerHandle temporary_gunshot_sound_timer_;
 		GetWorld()->GetTimerManager().SetTimer(temporary_gunshot_sound_timer_, this, &AGunBase::RecoverGunShotSound, duration);
 	}
 }

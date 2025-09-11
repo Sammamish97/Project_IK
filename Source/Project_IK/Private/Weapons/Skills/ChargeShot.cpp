@@ -19,6 +19,9 @@ See LICENSE file in the project root for full license information.
 
 #include "NiagaraComponent.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+#include "Components/AudioComponent.h"
+
 // Sets default values
 AChargeShot::AChargeShot()
 {
@@ -48,6 +51,12 @@ void AChargeShot::SetDamageData(const FDamageData& dmg_data)
 void AChargeShot::SetCastingTime(float casting_time)
 {
 	casting_time_ = casting_time;
+
+	UAudioComponent* component = UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::ChargeShotCharge, GetActorLocation());
+	if (component)
+	{
+		component->StopDelayed(casting_time_);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -79,6 +88,9 @@ void AChargeShot::Tick(float DeltaTime)
 		movement_->Velocity = GetActorForwardVector() * movement_->InitialSpeed;
 		movement_->Activate();
 		has_dispatched_ = true;
+
+
+		UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::ChargeShotFire, GetActorLocation());
 	}
 }
 

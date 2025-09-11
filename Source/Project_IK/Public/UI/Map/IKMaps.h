@@ -75,11 +75,17 @@ public:
 
 	const TArray<FIntPoint>& GetPlayerVisitedPath() const;
 
+	int32 GetRandSeedForMap() const;
+
+	void RecoverMaps(int32 rand_seed_for_map, int32 map_height, int32 map_width, const TArray<FIntPoint>& player_visited_path);
+
 protected:
 	TArray<TArray<FMapNode>> map;
 	FIntPoint player_grid_position_;
 
 	TArray<FIntPoint> player_visited_path_;
+
+	int32 rand_seed_for_map_ = 0;
 
 	void ClearMaps();
 	bool IsPathCrossed(int32 row, int32 col, int32 path_to) const;
@@ -90,4 +96,6 @@ protected:
 	void ApplyRule2(int32 row, int32 col);
 	void ApplyRule3(int32 row, int32 col);
 	void ApplyRule4(int32 row, int32 col);
+	
+	FRandomStream rng;
 };
