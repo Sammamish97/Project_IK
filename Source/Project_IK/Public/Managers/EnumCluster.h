@@ -316,11 +316,13 @@ enum class EWeaponType : uint8
 
 	SoldierWeapon UMETA(DisplayName = "SoldierWeapon"),
 	SniperWeapon UMETA(DisplayName = "SniperWeapon"),
+	KnightWeapon UMETA(DisplayName = "KnightWeapon"),
 	HeavyGunnerWeapon UMETA(DisplayName = "HeavyGunnerWeapon"),
 	OfficerWeapon UMETA(DisplayName = "OfficerWeapon"),
 	AssassinWeapon UMETA(DisplayName = "AssassinWeapon"),
 
 	SoldierWeapon_A UMETA(DisplayName = "SoldierWeapon_A"),
+	KnightWeapon_A UMETA(DisplayName = "KnightWeapon_A"),
 	HeavyGunnerWeapon_A UMETA(DisplayName = "HeavyGunnerWeapon_A"),
 	OfficerWeapon_A UMETA(DisplayName = "OfficerWeapon_A"),
 };
