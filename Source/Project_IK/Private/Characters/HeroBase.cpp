@@ -88,7 +88,7 @@ void AHeroBase::SyncWithSpawnData(const FSpawnData& spawn_data)
 	else
 	{
 		UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
-		auto weapon_data = instance->GetDataTableManager()->GetWeaponData(EWeaponType::Pistol_B);
+		auto weapon_data = instance->GetDataTableManager()->GetHeroWeaponData(EWeaponType::Pistol_B);
 		weapon_mechanics_->EquipWeapon(weapon_data);
 	}
 

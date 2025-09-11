@@ -42,7 +42,8 @@ class PROJECT_IK_API UDataTableManager : public UObject
 	GENERATED_BODY()
 
 public:
-	FWeaponData GetWeaponData(EWeaponType type) const;
+	FWeaponData GetEnemyWeaponData(EWeaponType type) const;
+	FWeaponData GetHeroWeaponData(EWeaponType type) const;
 	FWeaponData GetWeaponDataRandomly(ERarity weight_rarity = ERarity::Common) const;
 	FWeaponData GetWeaponDataByRarity(ERarity rarity = ERarity::Common) const;
 	TArray<FWeaponData> GetUniqueWeaponDataRandomly(int32 n = 1, ERarity weight_rarity = ERarity::Common) const;
@@ -87,7 +88,10 @@ public:
 
 protected:
 	UPROPERTY(EditDefaultsOnly)
-	TObjectPtr<class UWeaponDataAsset> weapon_data_asset_;
+	TObjectPtr<class UWeaponDataAsset> hero_weapon_data_asset_;
+
+	UPROPERTY(EditDefaultsOnly)
+    TObjectPtr<class UWeaponDataAsset> enemy_weapon_data_asset_;
 
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<class UPassiveSkillDataAsset> passive_skill_data_asset_;

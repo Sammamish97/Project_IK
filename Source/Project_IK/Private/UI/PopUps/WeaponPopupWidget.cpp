@@ -34,7 +34,7 @@ void UWeaponPopupWidget::UpdateWeaponData(const FWeaponStatusData& data)
 	args.Empty();
 
 	base = text_manager->GetPopUpText("SKP");
-	args.Add("SKP", FText::AsNumber(data.skill_power_scale));
+	args.Add("SKP", FText::AsNumber(data.extra_skill_power_));
 	skill_power_ratio_text_->SetText( FText::Format(base, args));
 	args.Empty();
 

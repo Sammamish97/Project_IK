@@ -314,9 +314,17 @@ enum class EWeaponType : uint8
 	ShotGun_A UMETA(DisplayName = "ShotGun_A"),
 	SniperRifle_A UMETA(DisplayName = "SniperRifle_A"),
 
+	SoldierWeapon UMETA(DisplayName = "SoldierWeapon"),
+	SniperWeapon UMETA(DisplayName = "SniperWeapon"),
+	KnightWeapon UMETA(DisplayName = "KnightWeapon"),
 	HeavyGunnerWeapon UMETA(DisplayName = "HeavyGunnerWeapon"),
 	OfficerWeapon UMETA(DisplayName = "OfficerWeapon"),
-	AssassinWeapon UMETA(DisplayName = "AssassinWeapon")
+	AssassinWeapon UMETA(DisplayName = "AssassinWeapon"),
+
+	SoldierWeapon_A UMETA(DisplayName = "SoldierWeapon_A"),
+	KnightWeapon_A UMETA(DisplayName = "KnightWeapon_A"),
+	HeavyGunnerWeapon_A UMETA(DisplayName = "HeavyGunnerWeapon_A"),
+	OfficerWeapon_A UMETA(DisplayName = "OfficerWeapon_A"),
 };
 
 UENUM(BlueprintType)
@@ -718,6 +726,9 @@ enum class EBuffType : uint8
 
 	//Support
 	Maintain UMETA(DisplayName = "Maintain"),
+
+	//Weapon
+	WeaponExtraSkillPower UMETA(DisplayName = "WeaponExtraSkillPower"),
 	
 	//Rune
 	Chariot_Edge UMETA(DisplayName = "Chariot_Edge"),

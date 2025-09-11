@@ -23,14 +23,10 @@ class PROJECT_IK_API USupportSkillBase : public USkillBase
 	GENERATED_BODY()
 	
 public:
-	float GetCost() const;
 	USupportSkillDataAsset* GetSupportSkillData() const;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 protected:
 	UPROPERTY()
 	TObjectPtr<USupportSkillDataAsset> skill_data_;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	float cost_ = 0.f;
 };
