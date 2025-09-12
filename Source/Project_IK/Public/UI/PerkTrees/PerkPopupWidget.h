@@ -27,7 +27,6 @@ class PROJECT_IK_API UPerkPopupWidget : public UUserWidget
 	
 public:
 	UFUNCTION()
-	virtual void NativePreConstruct() override;
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	

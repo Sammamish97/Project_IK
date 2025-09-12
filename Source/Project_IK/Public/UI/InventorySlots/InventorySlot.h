@@ -33,7 +33,6 @@ public:
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	virtual void NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 
-	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	virtual FReply NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	
@@ -65,6 +64,9 @@ protected:
 
 	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<UImage> highlight_image_;
+
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UTexture2D> empty_image_;
 	
 	bool is_read_only_ = false;
 	bool is_empty_ = true;

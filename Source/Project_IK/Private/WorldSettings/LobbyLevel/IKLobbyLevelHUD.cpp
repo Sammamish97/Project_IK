@@ -11,6 +11,8 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/LobbyLevel/IKLobbyLevelHUD.h"
 #include "Blueprint/UserWidget.h"
 #include "UI/LobbyWidget.h"
+#include "UI/PerkTrees/PerkHUDWidget.h"
+
 void AIKLobbyLevelHUD::BeginPlay()
 {
 	if (lobby_widget_class_)
@@ -21,4 +23,9 @@ void AIKLobbyLevelHUD::BeginPlay()
 			lobby_widget_->AddToViewport();
 		}
 	}
+}
+
+TObjectPtr<UPerkHUDWidget> AIKLobbyLevelHUD::GetPerkHUDWidget()
+{
+	return lobby_widget_->GetPerkTreeWidget();
 }

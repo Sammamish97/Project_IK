@@ -73,11 +73,6 @@ void UMapHUDWidget::NativeConstruct()
 	{
 		auto cur_global_buff_widget = CreateWidget<UGlobalBuffWidget>(global_buff_widget_holder_, global_buff_widget_class_);
 		cur_global_buff_widget->InitGlobalBuffWidget(global_buff_popup_widget_, buffs[i]);
-		if (auto GridSlot = Cast<UUniformGridSlot>(cur_global_buff_widget->Slot))
-		{
-			GridSlot->SetHorizontalAlignment(HAlign_Center);
-			GridSlot->SetVerticalAlignment(VAlign_Center);
-		}
 		global_buff_widget_holder_->AddChildToUniformGrid(cur_global_buff_widget, i / grid_column_, i % grid_column_);
 	}
 	

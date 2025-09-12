@@ -87,18 +87,6 @@ void UInventorySlot::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent
 	Super::NativeOnDragCancelled(InDragDropEvent, InOperation);
 }
 
-void UInventorySlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
-{
-	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
-	if (is_empty_ == false)
-	{
-		//IKTODO: Passive SKill를 위한 Widget을 다시 만들기.
-		// inventory_widget_cache_->CreatePassiveSkillPopupWidget(item_data_cache_.display_data_->thumbnail,
-		// 	text_manager_cache_->GetActiveSkillNameText(item_data_cache_.display_data_->text_key_),
-		// 	text_manager_cache_->GetActiveSkillDetailText(item_data_cache_.display_data_->text_key_));
-	}
-}
-
 FReply UInventorySlot::NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseMove(InGeometry, InMouseEvent);
@@ -118,14 +106,14 @@ void UInventorySlot::ClearData()
 {
 	is_empty_ = true;
 	//IKTODO: 이후 비워두는 것이 아닌, 빈칸 텍스쳐를 띄워야 함.
-	image_->SetBrushFromTexture(nullptr);
+	image_->SetBrushFromTexture(empty_image_);
 }
 
 void UInventorySlot::SetImageTexture()
 {
 	if (is_empty_)
 	{
-		image_->SetBrushFromTexture(nullptr);
+		image_->SetBrushFromTexture(empty_image_);
 	}
 }
 
