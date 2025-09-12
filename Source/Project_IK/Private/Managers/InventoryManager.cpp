@@ -14,6 +14,12 @@ See LICENSE file in the project root for full license information.
 
 void UInventoryManager::OpenInventoryWidgetReward(const FWrapperEquipmentData& rewards, TFunction<void()> OnConfirm)
 {
+	if (rewards.IsEmpty())
+	{
+		OnConfirm();
+		return;
+	}
+
 	if(inventory_widget_class_)
 	{
 		inventory_widget_ = CreateWidget<UInventoryWidget>(GetWorld(), inventory_widget_class_);

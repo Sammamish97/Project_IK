@@ -115,46 +115,6 @@ void URewardContainerWidget::RemoveWidgetFromRewardContainer(UInventorySlot* rem
 void URewardContainerWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	//TEST purpose
-	auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
-	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ThunderStorm_A));
-	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::FateSpiral_A));
-	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Encourage_A));
-	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::MagnetizedBullet_A));
-	// reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Ricochet_A));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::DeploySentryGun_B));
-	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::DeploySentryGun_A));
-
-
-	//
-	reward_cache_.weapons_.Push(data_table_manager_->GetHeroWeaponData(EWeaponType::Pistol_B));
-	// reward_cache_.weapons_.Push(data_table_manager_->GetWeaponData(EWeaponType::AssaultRifle_B));
-	// reward_cache_.weapons_.Push(data_table_manager_->GetWeaponData(EWeaponType::AssaultRifle_A));
-
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 0));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 1));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 2));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 3));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 4));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Dagger, 5));
-	//
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 0));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 1));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 2));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 3));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 4));
-	// reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::Viper, 5));
-
-	//reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::GreatBow, 0));
-	//reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::GreatBow, 1));
-	//reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::GreatBow, 2));
-	//reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::GreatBow, 3));
-	//reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::GreatBow, 4));
-	//reward_cache_.runes_.Push(data_table_manager_->GetRuneData(ERuneSetType::GreatBow, 5));
-
-	reward_cache_.passive_skills_.Push(data_table_manager_->GetPassiveSkillData(EPassiveSkillType::Agility));
-
-	//
 	
 	for (auto weapon_data : reward_cache_.weapons_)
 	{

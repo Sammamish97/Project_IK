@@ -44,11 +44,28 @@ AIKGameModeBase::AIKGameModeBase()
 void AIKGameModeBase::StartPlay()
 {
 	Super::StartPlay();
+
+
+	AIKHUD* hud = Cast<AIKHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
+	if (hud)
+	{
+		hud->InitializeHUDAfterGameModeInit();
+	}
+
+	for (auto& elem : heroes_)
+	{
+		if (AHeroBase* hero = Cast<AHeroBase>(elem))
+		{
+			hero->GetPassiveSkillMechanics()->InitPassiveSkill();
+			GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->ApplyBuff(hero);
+		}
+	}
+	// SpawnEnemies function should be called after SpawnHeroes has been called.
+	SpawnEnemies();
 }
 
 void AIKGameModeBase::BeginPlay()
 {
-	Super::BeginPlay();
 
 	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::CombatAmbient);
 
@@ -59,23 +76,7 @@ void AIKGameModeBase::BeginPlay()
 
 	SpawnHeroes();
 
-	for (auto& elem : heroes_)
-	{
-		if (AHeroBase* hero = Cast<AHeroBase>(elem))
-		{
-			hero->GetPassiveSkillMechanics()->InitPassiveSkill();
-			GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->ApplyBuff(hero);
-		}
-	}
-
-	//AIKHUD* hud = Cast<AIKHUD>(NewPlayer->GetHUD());
-	AIKHUD* hud = Cast<AIKHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
-	if (hud)
-	{
-		hud->InitializeHUDAfterGameModeInit();
-	}
-	// SpawnEnemies function should be called after SpawnHeroes has been called.
-	SpawnEnemies();
+	Super::BeginPlay();
 }
 
 
