@@ -48,6 +48,8 @@ typedef TPair<ERuneSetType, TArray<int32>> RuneSetBonus;
 
 void AIKHUD::BeginPlay()
 {
+	Super::BeginPlay();
+
 	UWorld* world = GetWorld();
 
 	// Create the widget and add it to the viewport
@@ -59,12 +61,6 @@ void AIKHUD::BeginPlay()
 		{
 			button_bar_widget_->AddToViewport();
 		}
-	}
-
-	combat_level_result_manager_ = NewObject<UCombatLevelResultManager>(world, combat_level_widget_class_);
-	if (combat_level_result_manager_)
-	{
-		combat_level_result_manager_->InitializeUI();
 	}
 }
 
@@ -186,5 +182,11 @@ void AIKHUD::InitializeHUDAfterGameModeInit()
 	{
 		BindHeroWidgetUI();
 		BindSupportSkills();
+	}
+
+	combat_level_result_manager_ = NewObject<UCombatLevelResultManager>(GetWorld(), combat_level_widget_class_);
+	if (combat_level_result_manager_)
+	{
+		combat_level_result_manager_->InitializeUI();
 	}
 }

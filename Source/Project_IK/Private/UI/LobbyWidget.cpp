@@ -16,6 +16,8 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/PerkProgressSubsystem.h"
 
+#include "WorldSettings/IKGameInstance.h"
+
 void ULobbyWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -45,7 +47,15 @@ void ULobbyWidget::OnOpenPerkTreeButtonClicked()
 
 void ULobbyWidget::OnBeginRunButtonClicked()
 {
-	GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>()->SavePerkDataToDisk();
+	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+	if (!instance)
+	{
+		return;
+	}
+
+	instance->GetSubsystem<UPerkProgressSubsystem>()->SavePerkDataToDisk();
+
+	instance->LoadRunSaveData();
 
 	//가챠 레벨로 이동.
 	ULevelTransitionSubsystem* level_transition_subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();

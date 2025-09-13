@@ -32,6 +32,8 @@ public:
 	void SetOnConfirm(TFunction<void()> on_confirm);
 
 protected:
+	// A function grants only once
+	void GrantsPerkPoints();
 
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
@@ -51,4 +53,6 @@ protected:
 	int32 store_num_ = 0;
 
 	TFunction<void()> on_confirm_;
+
+	bool has_granted_ = false;
 };

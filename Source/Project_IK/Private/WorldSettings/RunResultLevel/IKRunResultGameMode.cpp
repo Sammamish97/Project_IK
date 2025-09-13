@@ -30,20 +30,6 @@ void AIKRunResultGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
 		instance->ClearRunData();
 	}
 
-	ManageSaveFilesAfterRun();
-
 
 	Super::EndPlay(EndPlayReason);
-}
-
-void AIKRunResultGameMode::ManageSaveFilesAfterRun()
-{
-	FString run_progress_slot_name = USaveRunProgress::StaticClass()->GetDefaultObject<USaveRunProgress>()->GetSaveSlotName();
-
-	if (UGameplayStatics::DoesSaveGameExist(run_progress_slot_name, 0))
-	{
-		UGameplayStatics::DeleteGameInSlot(run_progress_slot_name, 0);
-	}
-
-	GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>()->SavePerkDataToDisk();
 }

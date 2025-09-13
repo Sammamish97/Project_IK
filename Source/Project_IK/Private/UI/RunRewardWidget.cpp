@@ -23,6 +23,7 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/Map/IKMaps.h"
 #include "Subsystems/PerkProgressSubsystem.h"
+#include "SaveGame/SaveRunProgress.h"
 
 void URunRewardWidget::NativeConstruct()
 {
@@ -78,13 +79,12 @@ void URunRewardWidget::NativeConstruct()
 void URunRewardWidget::NativeDestruct()
 {
 	Super::NativeDestruct();
-
-	UPerkProgressSubsystem* subsystem = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
-	subsystem->SavePerkPoint(subsystem->LoadPerkPoint() + perk_points_reward_);
 }
 
 FReply URunRewardWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
+	GrantsPerkPoints();
+
 	if (on_confirm_)
 	{
 		on_confirm_();
@@ -99,6 +99,8 @@ FReply URunRewardWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKey
 
 FReply URunRewardWidget::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
+	GrantsPerkPoints();
+
 	if (on_confirm_)
 	{
 		on_confirm_();
@@ -114,4 +116,21 @@ FReply URunRewardWidget::NativeOnMouseButtonDown(const FGeometry& InGeometry, co
 void URunRewardWidget::SetOnConfirm(TFunction<void()> on_confirm)
 {
 	on_confirm_ = on_confirm;
+}
+
+
+void URunRewardWidget::GrantsPerkPoints()
+{
+	if (has_granted_)
+	{
+		return;
+	}
+	else
+	{
+		UPerkProgressSubsystem* subsystem = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
+		subsystem->SavePerkPoint(subsystem->LoadPerkPoint() + perk_points_reward_);
+		subsystem->SavePerkDataToDisk();
+
+		has_granted_ = true;
+	}
 }

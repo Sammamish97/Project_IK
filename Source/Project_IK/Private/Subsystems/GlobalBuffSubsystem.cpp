@@ -235,10 +235,14 @@ const TSet<EGlobalBuffType> UGlobalBuffSubsystem::GetEverlastingBuffTypes() cons
 
 void UGlobalBuffSubsystem::RecoverBuffs(TMap<EGlobalBuffType, int32> applied_global_buffs)
 {
+	ClearBuffs();
 	for (const auto& [buff_type, duration] : applied_global_buffs)
 	{
 		AddBuff(buff_type);
-		buffs_[newly_added_buff_lookup_[buff_type]].duration_ = duration;
+		if (newly_added_buff_lookup_.Contains(buff_type))
+		{
+			buffs_[newly_added_buff_lookup_[buff_type]].duration_ = duration;
+		}
 	}
 	FlushIndexContainer();
 }
