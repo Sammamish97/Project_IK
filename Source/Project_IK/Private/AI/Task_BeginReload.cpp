@@ -19,7 +19,7 @@ UTask_BeginReload::UTask_BeginReload()
 {
 	NodeName = "BeginReload";
 }
-
+ 
 EBTNodeResult::Type UTask_BeginReload::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	auto casted_pawn = OwnerComp.GetAIOwner()->GetPawn();
@@ -27,6 +27,7 @@ EBTNodeResult::Type UTask_BeginReload::ExecuteTask(UBehaviorTreeComponent& Owner
 	if(auto weapon_mechanics = Cast<UWeaponMechanics>(component))
 	{
 		weapon_mechanics->Reload();
+		//IKTODO: 여기서 Delegate 관련 에러 발생.
 		weapon_mechanics->GetWeaponActor()->OnFinishReload.AddDynamic(this, &UTask_BeginReload::OnFinishReload);
 		return EBTNodeResult::InProgress;
 	}

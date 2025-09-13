@@ -14,10 +14,13 @@ See LICENSE file in the project root for full license information.
 #include "Structs/RewardData.h"
 #include "RewardSelectWidget.generated.h"
 
+class UBorder;
 class UEquipmentRewardWidget;
 class UTextBlock;
 class UImage;
 class UCheckBox;
+class UBasicPopupWidget;
+class UTextManager;
 
 UCLASS()
 class PROJECT_IK_API URewardSelectWidget : public UUserWidget
@@ -25,6 +28,11 @@ class PROJECT_IK_API URewardSelectWidget : public UUserWidget
 	GENERATED_BODY()
 public:
 	virtual void NativeConstruct() override;
+	
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
+	virtual FReply NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	
 	void SetRewardData(const FActiveSkillData& data);
 	void SetRewardData(const FPassiveSkillData& data);
 	void SetRewardData(const FRuneData& data);
@@ -43,19 +51,19 @@ private:
 	TObjectPtr<UCheckBox> check_box_;
 	
 	UPROPERTY(meta=(BindWidget))
-	TObjectPtr<UImage> check_image_;
-
-	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<UImage> thumbnail_;
 
 	UPROPERTY(meta=(BindWidget))
-	TObjectPtr<UTextBlock> name_;
+	TObjectPtr<UBorder> rune_idx_border_;
 
 	UPROPERTY(meta=(BindWidget))
-	TObjectPtr<UTextBlock> detail_;
-
+	TObjectPtr<UTextBlock> rune_idx_text_;
+	
 	UPROPERTY(Transient)
 	TObjectPtr<UEquipmentRewardWidget> equipment_reward_widget_cache_;
+
+	UPROPERTY()
+	TObjectPtr<UTextManager> text_manager_cache_;
 
 	FRewardData reward_data_;
 };

@@ -51,16 +51,6 @@ enum class ECombatEndState : uint8
 };
 
 UENUM(BlueprintType)
-enum class EItemType : uint8
-{
-	HPPotion UMETA(DisplayName = "HPPotion"),
-	Missile UMETA(DisplayName = "Missile"),
-	Stimuli UMETA(DisplayName = "Stimuli"),
-	SmokeGrenade UMETA(DisplayName = "SmokeGrenade"),
-	Flashbang UMETA(DisplayName = "Flashbang"),
-};
-
-UENUM(BlueprintType)
 enum class ETargetingMode : uint8
 {
 	None UMETA(DisplayName = "None"),

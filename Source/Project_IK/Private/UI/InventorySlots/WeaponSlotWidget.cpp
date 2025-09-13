@@ -65,7 +65,6 @@ void UWeaponSlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 {
 	if (is_empty_ == false)
 	{
-		FText detail;
 		inventory_widget_cache_->CreateWeaponPopupWidget(weapon_data_cache_.thumbnail_,
 			text_manager_cache_->GetWeaponNameText(weapon_data_cache_.type_),
 			text_manager_cache_->GetWeaponDetailText(weapon_data_cache_.type_),
