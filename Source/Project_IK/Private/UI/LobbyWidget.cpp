@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/PerkProgressSubsystem.h"
+#include "UI/PerkTrees/PerkHUDWidget.h"
 
 #include "WorldSettings/IKGameInstance.h"
 
@@ -23,7 +24,7 @@ void ULobbyWidget::NativeConstruct()
 	Super::NativeConstruct();
 	open_perk_tree_button_->OnClicked.AddDynamic(this, &ULobbyWidget::OnOpenPerkTreeButtonClicked);
 	begin_run_button_->OnClicked.AddDynamic(this, &ULobbyWidget::OnBeginRunButtonClicked);
-	perk_unlock_widget_->SetVisibility(ESlateVisibility::Hidden);
+	perk_tree_hud_widget_->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void ULobbyWidget::NativeDestruct()
@@ -33,16 +34,7 @@ void ULobbyWidget::NativeDestruct()
 
 void ULobbyWidget::OnOpenPerkTreeButtonClicked()
 {
-	//PerkTreeWidget열기
-	if (is_perk_unlock_widget_opened)
-	{
-		perk_unlock_widget_->SetVisibility(ESlateVisibility::Hidden);
-	}
-	else
-	{
-		perk_unlock_widget_->SetVisibility(ESlateVisibility::Visible);
-	}
-	is_perk_unlock_widget_opened = !is_perk_unlock_widget_opened;
+	perk_tree_hud_widget_->SetVisibility(ESlateVisibility::Visible);
 }
 
 void ULobbyWidget::OnBeginRunButtonClicked()
@@ -60,4 +52,8 @@ void ULobbyWidget::OnBeginRunButtonClicked()
 	//가챠 레벨로 이동.
 	ULevelTransitionSubsystem* level_transition_subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
 	level_transition_subsystem->OpenLevel(GetWorld(), ELevelState::MapLevel);
+}
+UPerkHUDWidget* ULobbyWidget::GetPerkTreeWidget()
+{
+	return perk_tree_hud_widget_;
 }

@@ -21,14 +21,11 @@ See LICENSE file in the project root for full license information.
 #include "UI/PerkTrees/PerkConnectionWidget.h"
 #include "UI/PerkTrees/PerkHUDWidget.h"
 #include "Subsystems/PerkProgressSubsystem.h"
-#include "WorldSettings/PerkUnlockLevel/IKPerkUnlockHUD.h"
+#include "WorldSettings/LobbyLevel/IKLobbyLevelHUD.h"
 
 void UPerkNodeWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
-	SetAlignment();
-	FTimerDelegate timerDelegate = FTimerDelegate::CreateUObject(this, &UPerkNodeWidget::ConnectPerkNodes);
-	GetWorld()->GetTimerManager().SetTimerForNextTick(timerDelegate);
 }
 
 void UPerkNodeWidget::NativeConstruct()
@@ -38,6 +35,10 @@ void UPerkNodeWidget::NativeConstruct()
 	{
 		progress_system_cache_ = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
 	}
+
+	SetAlignment();
+	FTimerDelegate timerDelegate = FTimerDelegate::CreateUObject(this, &UPerkNodeWidget::ConnectPerkNodes);
+	GetWorld()->GetTimerManager().SetTimerForNextTick(timerDelegate);
 
 	//IKTODO: 이후, progress_system_cache_에 있는 것들만 대입 시켜야 함. 만약 변화가 없으면 해당 코드를 실행시킬 이유가 없음.
 	//perk_detail_ = progress_system_cache_->LoadPerkDetails( FName(perk_detail_.key_));
@@ -83,9 +84,8 @@ void UPerkNodeWidget::RemoveSkillPoint(int32 amount)
 	int32 left_point = progress_system_cache_->LoadPerkPoint();
 	progress_system_cache_->SavePerkPoint(left_point - amount);
 	
-	auto hud = Cast<AIKPerkUnlockHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+	auto hud = Cast<AIKLobbyLevelHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 	hud->GetPerkHUDWidget()->SetPerkPointText();
-	
 }
 
 bool UPerkNodeWidget::IsPurchased()
@@ -102,6 +102,7 @@ void UPerkNodeWidget::ConnectPerkNodes()
 		if (skill_connection_overlay_->GetChildrenCount() != connected_indices_.Num())
 		{
 			FVector2D connection_begin_point = UWidgetLayoutLibrary::SlotAsCanvasSlot(this)->GetPosition();
+			//IKTODO: 여기서 자주 터짐.
 			FVector2D connection_end_point =  UWidgetLayoutLibrary::SlotAsCanvasSlot(widget)->GetPosition();
 			FVector2D end_to_begin = connection_end_point - connection_begin_point;
 
@@ -248,12 +249,12 @@ void UPerkNodeWidget::OnButtonReleased()
 
 void UPerkNodeWidget::OnButtonHovered()
 {
-	auto hud = Cast<AIKPerkUnlockHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+	auto hud = Cast<AIKLobbyLevelHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 	hud->GetPerkHUDWidget()->SetPopupDetail(perk_detail_);
 }
 
 void UPerkNodeWidget::OnButtonUnhovered()
 {
-	auto hud = Cast<AIKPerkUnlockHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+	auto hud = Cast<AIKLobbyLevelHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 	hud->GetPerkHUDWidget()->SetPopupDetail(FPerkNodeDetail());
 }

@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/UserWidget.h"
 #include "LobbyWidget.generated.h"
 
+class UPerkHUDWidget;
 class UPerkUnlockWidget;
 class UButton;
 
@@ -29,6 +30,9 @@ public:
 
 	UFUNCTION()
 	void OnBeginRunButtonClicked();
+
+	UFUNCTION()
+	UPerkHUDWidget* GetPerkTreeWidget();
 	
 private:
 
@@ -39,7 +43,5 @@ private:
 	TObjectPtr<UButton> begin_run_button_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UPerkUnlockWidget> perk_unlock_widget_;
-
-	bool is_perk_unlock_widget_opened = false;
+	TObjectPtr<UPerkHUDWidget> perk_tree_hud_widget_;
 };

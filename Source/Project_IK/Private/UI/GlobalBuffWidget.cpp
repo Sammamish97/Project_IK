@@ -27,8 +27,6 @@ void UGlobalBuffWidget::InitGlobalBuffWidget(UBasicPopupWidget* popup_widget_ptr
 	left_duration_ = global_buff_data_.duration_;
 }
 
-
-
 void UGlobalBuffWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);

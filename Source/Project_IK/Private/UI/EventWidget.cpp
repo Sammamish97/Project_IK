@@ -9,6 +9,8 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "UI/EventWidget.h"
+
+#include "Components/Border.h"
 #include "Components/Image.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"

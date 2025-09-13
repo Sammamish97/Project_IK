@@ -39,6 +39,9 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UTextBlock> cool_down_text_;
 
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UTexture2D> empty_texture_;
+
 protected:
 	float left_cool_down_;
 	float cool_time_;

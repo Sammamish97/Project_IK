@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/UserWidget.h"
 #include "PerkHUDWidget.generated.h"
 
+class UButton;
 class UTextBlock;
 class UBorder;
 class UPerkConnectionWidget;
@@ -26,7 +27,6 @@ class PROJECT_IK_API UPerkHUDWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	virtual void NativePreConstruct() override;
 	void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
@@ -37,7 +37,9 @@ public:
 	void SetPopupDetail(const FPerkNodeDetail& node_detail);
 	void SetPerkPointText();
 	bool IsMenuOpened() const;
-	void ToggleMenu(bool open);
+
+	UFUNCTION()
+	void ClosePerkTree();
 
 private:
 	//void UpdatePerkTreeConnectionOpacity();
@@ -47,6 +49,9 @@ private:
 private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UBorder> parent_border_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> visibility_button_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UUserWidget> perk_tree_widget_;
@@ -66,7 +71,7 @@ private:
 	UPROPERTY(Transient)
 	TObjectPtr<UPerkProgressSubsystem> progress_system_cache_;
 	
-	bool is_menu_opened_ = true;
+	bool is_menu_opened_ = false;
 	bool is_mouse_down_;
 	FVector2D mouse_position_;
 	float mouse_wheel_delta_;

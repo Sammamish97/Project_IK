@@ -14,7 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "IKLobbyLevelHUD.generated.h"
 
 class ULobbyWidget;
-
+class UPerkHUDWidget;
 UCLASS()
 class PROJECT_IK_API AIKLobbyLevelHUD : public AHUD
 {
@@ -23,6 +23,8 @@ public:
 	// Need to add TSubclassOf and ptr of MapWidget
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 	TSubclassOf<ULobbyWidget> lobby_widget_class_;
+	
+	TObjectPtr<UPerkHUDWidget> GetPerkHUDWidget();
 	
 protected:
 	virtual void BeginPlay() override;
