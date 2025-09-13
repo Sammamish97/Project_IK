@@ -17,15 +17,36 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/EnemySpawnDataAsset.h"
 #include "WorldSettings/IKHUD.h"
 
+#include "WorldSettings/IKGameInstance.h"
+#include "UI/Map/IKMaps.h"
+
 UEnemySpawnerManager::UEnemySpawnerManager()
 	:spawn_distance_(), enemy_waves_(0), spawn_position_(), enemy_spacing_(300)
 {
 }
 
-void UEnemySpawnerManager::Initialize(FVector base_spawn_position, int32 waves)
+void UEnemySpawnerManager::Initialize(FVector base_spawn_position)
 {
 	spawn_position_ = base_spawn_position;
-	enemy_waves_ = waves;
+
+
+	int32 path_num = Cast<UIKGameInstance>(GetWorld()->GetGameInstance())->GetMapPtr()->GetPlayerVisitedPath().Num();
+
+	if (path_num < 5)
+	{
+		enemy_waves_ = 2;
+		spawn_data_ptr_ = enemy_spawn_data_asset_early_;
+	}
+	else if(path_num < 10)
+	{
+		enemy_waves_ = 3;
+		spawn_data_ptr_ = enemy_spawn_data_asset_mid_;
+	}
+	else
+	{
+		enemy_waves_ = 4;
+		spawn_data_ptr_ = enemy_spawn_data_asset_late_;
+	}
 
 	//Test Perpose
 	if (revenge_buff_ ==nullptr)
@@ -51,10 +72,18 @@ void UEnemySpawnerManager::SpawnEnemies()
 	// Spawn enemies in a distance from the point.
 	spawn_position_ += spawn_distance_;
 
-	FEnemySpawnData enemy_spawn_data = enemy_spawn_data_asset_->GetRandomEnemySpawnData();
+	if (spawn_data_ptr_ == nullptr)
+	{
+		spawn_data_ptr_ = enemy_spawn_data_asset_early_;
+	}
+	FEnemySpawnData enemy_spawn_data = spawn_data_ptr_->GetRandomEnemySpawnData();
 	for (const FEnemySpawnUnit& unit : enemy_spawn_data.enemy_spawn_unit_array_->spawn_units_)
 	{
-		AEnemyBase* enemy = GetWorld()->SpawnActor<AEnemyBase>(unit.enemy_class_, spawn_position_ + unit.spawn_offset_, FRotator::ZeroRotator);
+		FActorSpawnParameters param;
+		param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+		param.bNoFail = true;
+
+		AEnemyBase* enemy = GetWorld()->SpawnActor<AEnemyBase>(unit.enemy_class_, spawn_position_ + unit.spawn_offset_, FRotator::ZeroRotator, param);
 		if (enemy)
 		{
 			enemies_.Add(enemy);

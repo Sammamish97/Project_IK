@@ -99,7 +99,10 @@ void AIKGameModeBase::SpawnHeroes()
 	{
 		if (save_data_array[hero_type].is_dead_ == false)
 		{
-			AHeroBase* hero = GetWorld()->SpawnActor<AHeroBase>(hero_bp_class_[hero_type], hero_spawn_position_ + FVector(0, (300.f * (save_data_array.Num() - 1) / -2.f) + (counter * 300), 90), spawn_rotation);
+			FActorSpawnParameters param;
+			param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+			param.bNoFail = true;
+			AHeroBase* hero = GetWorld()->SpawnActor<AHeroBase>(hero_bp_class_[hero_type], hero_spawn_position_ + FVector(0, (300.f * (save_data_array.Num() - 1) / -2.f) + (counter * 300), 90), spawn_rotation, param);
 			hero->SyncWithSpawnData(save_data_array[hero_type]);
 			heroes_.Add(hero);
 			counter += 1;
@@ -114,18 +117,7 @@ void AIKGameModeBase::SpawnHeroes()
 void AIKGameModeBase::SpawnEnemies()
 {
 	enemy_spawner_manager_ = NewObject<UEnemySpawnerManager>(this, enemy_spawner_manager_class_);
-
-	FIntPoint player_position = Cast<UIKGameInstance>(GetGameInstance())->GetMapPtr()->GetPlayerGridPosition();
-	// Decide the number of enemy waves using player's current progress.
-	if (player_position.X < 3)
-	{
-		// Hero spawn position initialized after SpawnHeroes has been called.
-		enemy_spawner_manager_->Initialize(hero_spawn_position_, 2);
-	}
-	else
-	{
-		enemy_spawner_manager_->Initialize(hero_spawn_position_, 4);
-	}
+	enemy_spawner_manager_->Initialize(hero_spawn_position_);
 	enemy_spawner_manager_->SpawnEnemies();
 }
 
