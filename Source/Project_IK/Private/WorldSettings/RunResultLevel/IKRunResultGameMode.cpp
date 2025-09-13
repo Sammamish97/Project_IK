@@ -13,11 +13,23 @@ See LICENSE file in the project root for full license information.
 
 #include "WorldSettings/IKGameInstance.h"
 
+#include "Kismet/GameplayStatics.h"
+#include "Subsystems/PerkProgressSubsystem.h"
+#include "SaveGame/SaveRunProgress.h"
+
 void AIKRunResultGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void AIKRunResultGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
 	if (instance)
 	{
 		instance->ClearRunData();
 	}
+
+
+	Super::EndPlay(EndPlayReason);
 }

@@ -58,6 +58,7 @@ public:
 	UFUNCTION(BlueprintPure)
 	class UEventManager* GetEventManager() const noexcept;
 
+	void LoadRunSaveData();
 private:
 	void InitializePerkEffectsAlreadyUnlocked();
 	void InitializeMaps();

@@ -22,6 +22,8 @@ See LICENSE file in the project root for full license information.
 #include "Managers/InventoryManager.h"
 
 #include "UI/Map/IKMaps.h"
+#include "Subsystems/PerkProgressSubsystem.h"
+#include "SaveGame/SaveRunProgress.h"
 
 void URunRewardWidget::NativeConstruct()
 {
@@ -49,6 +51,13 @@ void URunRewardWidget::NativeConstruct()
 				{
 				case NodeType::Enemy:
 					++perk_points_reward_;
+					++combat_num_;
+					break;
+				case NodeType::Merchant:
+					++store_num_;
+					break;
+				case NodeType::Event:
+					++event_num_;
 					break;
 				case NodeType::Boss:
 					perk_points_reward_ += 2;
@@ -61,38 +70,67 @@ void URunRewardWidget::NativeConstruct()
 	}
 
 
+	combat_num_text_->SetText(FText::AsNumber(combat_num_));
+	event_num_text_->SetText(FText::AsNumber(event_num_));
+	store_num_text_->SetText(FText::AsNumber(store_num_));
 	perk_points_text_->SetText(FText::AsNumber(perk_points_reward_));
 }
 
 void URunRewardWidget::NativeDestruct()
 {
 	Super::NativeDestruct();
-
-	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	if (game_instance)
-	{
-		//IKTODO: 매 전투 PerkPoint를 더해주는것 대신, 회차 결산에서 거친 전투 레벨의 수를 통하여 perk point를 더해야 한다.
-		// UInventoryManager* inventory = game_instance->GetInventoryManager();
-		// inventory->SetPerkPoints(inventory->GetPerkPoints() + perk_points_reward_);
-	}
 }
 
 FReply URunRewardWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
-	APlayerController* pc = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	if (pc)
+	GrantsPerkPoints();
+
+	if (on_confirm_)
 	{
-		AIKRunResultHUD* hud = Cast<AIKRunResultHUD>(pc->GetHUD());
-		if (hud)
-		{
-			hud->SwitchUIByState(ERunResultState::ShowingToMainMenuUI);
-		}
+		on_confirm_();
 	}
+	else
+	{
+		RemoveFromParent();
+	}
+
 	return Super::NativeOnKeyDown(InGeometry, InKeyEvent);
 }
 
 FReply URunRewardWidget::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
-	// Left this function for future.
+	GrantsPerkPoints();
+
+	if (on_confirm_)
+	{
+		on_confirm_();
+	}
+	else
+	{
+		RemoveFromParent();
+	}
+
 	return Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
+}
+
+void URunRewardWidget::SetOnConfirm(TFunction<void()> on_confirm)
+{
+	on_confirm_ = on_confirm;
+}
+
+
+void URunRewardWidget::GrantsPerkPoints()
+{
+	if (has_granted_)
+	{
+		return;
+	}
+	else
+	{
+		UPerkProgressSubsystem* subsystem = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
+		subsystem->SavePerkPoint(subsystem->LoadPerkPoint() + perk_points_reward_);
+		subsystem->SavePerkDataToDisk();
+
+		has_granted_ = true;
+	}
 }

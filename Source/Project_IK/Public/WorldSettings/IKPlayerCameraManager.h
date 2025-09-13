@@ -63,6 +63,8 @@ protected:
 	FBox GetHeroBox() const;
 	float GetAspectRatio() const;
 
+	void LoadHeroes();
+
 	TArray<TWeakObjectPtr<AActor>> tracked_heroes_{};
 	TArray<TWeakObjectPtr<AActor>> tracked_enemies_{};
 };

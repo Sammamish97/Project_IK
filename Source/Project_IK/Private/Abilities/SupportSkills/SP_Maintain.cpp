@@ -18,12 +18,16 @@ USP_Maintain::USP_Maintain()
 
 bool USP_Maintain::ActivateSkill(const FTargetResult& target_result)
 {
-	if (target_result.target_actors_.Num() > 0 && target_result.target_actors_[0]->IsA(AHeroBase::StaticClass()))
+	if (target_result.target_actors_.Num() > 0 && 
+		target_result.target_actors_[0] &&
+		target_result.target_actors_[0]->IsA(AHeroBase::StaticClass()))
 	{
 		if (auto casted_hero = Cast<AHeroBase>(target_result.target_actors_[0]))
 		{
 			casted_hero->BeginMaintaining();
+			return true;
 		}
 	}
-	return true;
+
+	return false;
 }

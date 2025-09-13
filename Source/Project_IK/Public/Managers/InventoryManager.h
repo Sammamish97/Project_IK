@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 
 class UDataTableManager;
 struct FWrapperEquipmentData;
+class UInventoryWidget;
 UCLASS(Blueprintable, Abstract)
 class PROJECT_IK_API UInventoryManager : public UObject
 {
@@ -33,7 +34,7 @@ public:
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<class UInventoryWidget> inventory_widget_class_;
+	TSubclassOf<UInventoryWidget> inventory_widget_class_;
 	
 	UPROPERTY()
 	TObjectPtr<UInventoryWidget> inventory_widget_;
@@ -42,5 +43,5 @@ private:
 	TObjectPtr<UDataTableManager> data_table_manager_cache_;
 
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
-	int32 credits_;
+	int32 credits_ = 0;
 };

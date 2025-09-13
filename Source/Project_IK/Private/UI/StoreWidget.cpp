@@ -75,9 +75,8 @@ void UStoreWidget::NativeConstruct()
 	UDataTableManager* manager = game_instance->GetDataTableManager();
 	if (store_widget_class_)
 	{
-		// IKTODO: ���������� �߰� �� ����
-		//weapons_ = manager->GetUniqueWeaponDataRandomly(STOCK);
-		//AddItems(weapons_, weapon_slot_container_, weapon_slots_);
+		weapons_ = manager->GetUniqueWeaponDataRandomly(STOCK);
+		AddItems(weapons_, weapon_slot_container_, weapon_slots_);
 		active_skills_ = manager->GetUniqueActiveSkillDataRandomly(STOCK);
 		AddItems(active_skills_, active_slot_container_, active_slots_);
 		passive_skills_ = manager->GetUniquePassiveSkillDataRandomly(STOCK);
@@ -138,11 +137,10 @@ void UStoreWidget::OnStoreSlotClicked()
 	total_cost_ = 0;
 	for (int32 i = 0; i < STOCK; i++)
 	{
-		// IKTODO: ���������� �߰� �� ����
-		//if (weapon_slots_[i]->IsChecked())
-		//{
-		//	total_cost_ += weapon_slots_[i]->GetPrice();
-		//}
+		if (weapon_slots_[i]->IsChecked())
+		{
+			total_cost_ += weapon_slots_[i]->GetPrice();
+		}
 		if (active_slots_[i]->IsChecked())
 		{
 			total_cost_ += active_slots_[i]->GetPrice();
@@ -203,11 +201,10 @@ void UStoreWidget::GoToNextLevel()
 	FWrapperEquipmentData data;
 	for (int32 i = 0; i < STOCK; i++)
 	{
-		// IKTODO: ���������� �߰� �� ����
-		//if (weapon_slots_[i]->IsChecked())
-		//{
-		//	data += weapons_[i];
-		//}
+		if (weapon_slots_[i]->IsChecked())
+		{
+			data += weapons_[i];
+		}
 		if (active_slots_[i]->IsChecked())
 		{
 			data += active_skills_[i];

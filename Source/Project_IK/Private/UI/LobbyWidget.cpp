@@ -14,9 +14,10 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/LevelTransitionSubsystem.h"
 
 #include "Kismet/GameplayStatics.h"
-#include "SaveGame/SavePerkProgress.h"
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "UI/PerkTrees/PerkHUDWidget.h"
+
+#include "WorldSettings/IKGameInstance.h"
 
 void ULobbyWidget::NativeConstruct()
 {
@@ -38,28 +39,20 @@ void ULobbyWidget::OnOpenPerkTreeButtonClicked()
 
 void ULobbyWidget::OnBeginRunButtonClicked()
 {
-	SavePerkData();
+	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+	if (!instance)
+	{
+		return;
+	}
+
+	instance->GetSubsystem<UPerkProgressSubsystem>()->SavePerkDataToDisk();
+
+	instance->LoadRunSaveData();
 
 	//가챠 레벨로 이동.
 	ULevelTransitionSubsystem* level_transition_subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
 	level_transition_subsystem->OpenLevel(GetWorld(), ELevelState::MapLevel);
 }
-
-void ULobbyWidget::SavePerkData()
-{
-	USavePerkProgress* save_game_instance = Cast<USavePerkProgress>(UGameplayStatics::CreateSaveGameObject(USavePerkProgress::StaticClass()));
-
-	UPerkProgressSubsystem* subsystem = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
-	if (save_game_instance && subsystem)
-	{
-		save_game_instance->perk_node_map_ = subsystem->LoadAllPerkDetails();
-
-		save_game_instance->perk_points_ = subsystem->LoadPerkPoint();
-	}
-
-	UGameplayStatics::SaveGameToSlot(save_game_instance, save_game_instance->GetSaveSlotName(), 0);
-}
-
 UPerkHUDWidget* ULobbyWidget::GetPerkTreeWidget()
 {
 	return perk_tree_hud_widget_;

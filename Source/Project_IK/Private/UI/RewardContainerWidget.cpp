@@ -126,6 +126,7 @@ void URewardContainerWidget::NativeConstruct()
 	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::Ricochet_A));
 	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::DeploySentryGun_A));
 	//
+
 	for (auto weapon_data : reward_cache_.weapons_)
 	{
 		auto created_widget = CreateWidget<UWeaponSlotWidget>(this, weapon_slot_widget_class_);
