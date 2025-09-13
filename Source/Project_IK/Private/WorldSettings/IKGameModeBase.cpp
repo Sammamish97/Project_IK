@@ -140,7 +140,7 @@ void AIKGameModeBase::ProceedGameFlowAfterUI()
 		}
 		else
 		{	// game defeated.
-			hud->SwitchUIByState(ECombatEndState::ShowingToMainmenu);
+			hud->SwitchUIByState(ECombatEndState::ShowingRunResultUI);
 		}
 	}
 }

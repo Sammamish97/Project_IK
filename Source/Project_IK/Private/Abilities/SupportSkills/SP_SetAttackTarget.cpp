@@ -30,7 +30,9 @@ bool USP_SetAttackTarget::ActivateSkill(const FTargetResult& target_result)
 		return true;
 	}
 	
-	if (target_result.target_actors_.Num() > 0 && target_result.target_actors_[0]->IsA(AHeroBase::StaticClass()))
+	if (target_result.target_actors_.Num() > 0 && 
+		target_result.target_actors_[0] &&
+		target_result.target_actors_[0]->IsA(AHeroBase::StaticClass()))
 	{
 		selected_hero_ = Cast<AHeroBase>(target_result.target_actors_[0]);
 		float fire_range = selected_hero_->GetWeaponMechanics()->GetWeaponData().fire_range;

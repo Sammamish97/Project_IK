@@ -38,6 +38,10 @@ void URunResultManager::StartRunResultSequence()
 		{
 			run_reward_ui_->AddToViewport();
 			run_reward_ui_->SetVisibility(ESlateVisibility::Hidden);
+			run_reward_ui_->SetOnConfirm([&]()
+				{
+					SwitchUIByState(ERunResultState::ShowingToMainMenuUI);
+				});
 		}
 	}
 

@@ -31,6 +31,8 @@ public:
 	void SavePerkPoint(int32 perk_point);
 	int32 LoadPerkPoint();
 	
+	void SavePerkDataToDisk();
+
 protected:
 	UPROPERTY()
 	int32 perk_points_;
