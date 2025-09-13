@@ -16,6 +16,8 @@ See LICENSE file in the project root for full license information.
 #include "Structs/WrapperEquipmentData.h"
 #include "InventoryWidget.generated.h"
 
+class UImage;
+class UTextBlock;
 class UStatusWidget;
 class USupportSkillSlotWidget;
 class URewardContainerWidget;
@@ -112,6 +114,9 @@ private:
 	TObjectPtr<UHeroEquipBoardWidget> hero_board_3_;
 
 	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UImage> switch_background_;
+	
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> rune_switch_button_;
 
 	UPROPERTY(meta = (BindWidget))
@@ -132,6 +137,9 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> confirm_button_;
 
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> confirm_text_;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
 	TSubclassOf<UBasicPopupWidget> passive_skill_popup_class_;
 
@@ -146,6 +154,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UBasicPopupWidget> equip_popup_ptr_;
+
+	UPROPERTY()
+	TObjectPtr<UDataTableManager> data_table_cache_;
 
 	EGearType last_highlighted_gear_type = EGearType::INVALID;
 

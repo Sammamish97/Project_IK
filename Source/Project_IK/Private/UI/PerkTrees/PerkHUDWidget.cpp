@@ -12,7 +12,7 @@ See LICENSE file in the project root for full license information.
 
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
-#include "Components/Border.h"
+#include "Components/Button.h"
 #include "Components/CanvasPanelSlot.h"
 #include "Components/TextBlock.h"
 #include "Kismet/GameplayStatics.h"
@@ -23,16 +23,6 @@ See LICENSE file in the project root for full license information.
 #include "UI/PerkTrees/PerkPopupWidget.h"
 #include "WorldSettings/IKGameInstance.h"
 
-void UPerkHUDWidget::NativePreConstruct()
-{
-	Super::NativePreConstruct();
-	// if (IsDesignTime())
-	// {
-	// 	GetParent()->SetRenderOpacity(1.0f);
-	// 	perk_tree_widget_->SetRenderTranslation({0.f, 0.f});
-	// }
-}
-
 void UPerkHUDWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -40,6 +30,7 @@ void UPerkHUDWidget::NativeConstruct()
 	TArray<UUserWidget*> output_;
 	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), output_, UPerkConnectionWidget::StaticClass(), false);
 	perk_connections_cache_ = output_;
+	perk_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
 	
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	text_manager_cache_ = game_instance->GetTextManager();
@@ -48,6 +39,7 @@ void UPerkHUDWidget::NativeConstruct()
 	{
 		progress_system_cache_ = game_instance->GetSubsystem<UPerkProgressSubsystem>();
 	}
+	visibility_button_->OnClicked.AddDynamic(this, &UPerkHUDWidget::ClosePerkTree);
 	SetPerkPointText();
 }
 
@@ -122,25 +114,17 @@ bool UPerkHUDWidget::IsMenuOpened() const
 	return is_menu_opened_;
 }
 
-void UPerkHUDWidget::ToggleMenu(bool open)
+void UPerkHUDWidget::ClosePerkTree()
 {
-	if (open)
-	{
-		parent_border_->SetVisibility(ESlateVisibility::Visible);
-	}
-	else
-	{
-		parent_border_->SetVisibility(ESlateVisibility::HitTestInvisible);
-	}
-	is_menu_opened_ = open;
+	SetVisibility(ESlateVisibility::Hidden);
 }
 
 void UPerkHUDWidget::SetPerkPointText()
 {
 	FFormatNamedArguments args;
-	FText base_text = text_manager_cache_->GetPopUpText("PP");
+	FText base_text = text_manager_cache_->GetPopUpText("LP");
 
-	args.Add("PP", FText::AsNumber(progress_system_cache_->LoadPerkPoint()));
+	args.Add("LP", FText::AsNumber(progress_system_cache_->LoadPerkPoint()));
 	perk_point_text_->SetText(FText::Format(base_text, args));
 }
 

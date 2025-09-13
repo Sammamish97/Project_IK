@@ -17,17 +17,6 @@ See LICENSE file in the project root for full license information.
 #include "Managers/TextManager.h"
 #include "WorldSettings/IKGameInstance.h"
 
-class UIKGameInstance;
-
-void UPerkPopupWidget::NativePreConstruct()
-{
-	Super::NativePreConstruct();
-	// if (IsDesignTime())
-	// {
-	// 	UpdatePosition();
-	// }
-}
-
 void UPerkPopupWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -67,9 +56,9 @@ void UPerkPopupWidget::UpdateSkillDetail()
 	}
 	else
 	{
-		cost_text = text_manager_cache_->GetPopUpText("PP");
+		cost_text = text_manager_cache_->GetPopUpText("NP");
 		FFormatNamedArguments args;
-		args.Add("PP", FText::AsNumber(perk_data_.cost_));
+		args.Add("NP", FText::AsNumber(perk_data_.cost_));
 		
 		cost_text = FText::Format(cost_text, args);
 	}

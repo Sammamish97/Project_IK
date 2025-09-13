@@ -16,13 +16,14 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "SaveGame/SavePerkProgress.h"
 #include "Subsystems/PerkProgressSubsystem.h"
+#include "UI/PerkTrees/PerkHUDWidget.h"
 
 void ULobbyWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	open_perk_tree_button_->OnClicked.AddDynamic(this, &ULobbyWidget::OnOpenPerkTreeButtonClicked);
 	begin_run_button_->OnClicked.AddDynamic(this, &ULobbyWidget::OnBeginRunButtonClicked);
-	perk_unlock_widget_->SetVisibility(ESlateVisibility::Hidden);
+	perk_tree_hud_widget_->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void ULobbyWidget::NativeDestruct()
@@ -32,16 +33,7 @@ void ULobbyWidget::NativeDestruct()
 
 void ULobbyWidget::OnOpenPerkTreeButtonClicked()
 {
-	//PerkTreeWidget열기
-	if (is_perk_unlock_widget_opened)
-	{
-		perk_unlock_widget_->SetVisibility(ESlateVisibility::Hidden);
-	}
-	else
-	{
-		perk_unlock_widget_->SetVisibility(ESlateVisibility::Visible);
-	}
-	is_perk_unlock_widget_opened = !is_perk_unlock_widget_opened;
+	perk_tree_hud_widget_->SetVisibility(ESlateVisibility::Visible);
 }
 
 void ULobbyWidget::OnBeginRunButtonClicked()
@@ -66,4 +58,9 @@ void ULobbyWidget::SavePerkData()
 	}
 
 	UGameplayStatics::SaveGameToSlot(save_game_instance, save_game_instance->GetSaveSlotName(), 0);
+}
+
+UPerkHUDWidget* ULobbyWidget::GetPerkTreeWidget()
+{
+	return perk_tree_hud_widget_;
 }

@@ -541,8 +541,11 @@ FString UTextManager::BuffEnumToKey(EBuffType buff_type) const
 	case EBuffType::Officer_A_ForceShield:
 		key = "OF_SHIELD";
 		break;
-	case EBuffType::OnAllyDead:
-		key = "ON_ALLY_DEAD";
+	case EBuffType::Revenge:
+		key = "REV";
+		break;
+	case EBuffType::Unity:
+		key = "UNT";
 		break;
 	case EBuffType::Deathbound:
 		key = "DB";

@@ -32,16 +32,30 @@ void USkillButtonWidget::OnSkillInvoked(float cool_time)
 
 void USkillButtonWidget::SetThumbnailTexture(UTexture2D* thumbnail)
 {
-	FSlateBrush brush;
-	brush.SetResourceObject(thumbnail);
+	if (thumbnail)
+	{
+		FSlateBrush brush;
+		brush.SetResourceObject(thumbnail);
 
-	FProgressBarStyle style;
-	style.BackgroundImage = brush;
+		FProgressBarStyle style;
+		style.BackgroundImage = brush;
 	
-	style.FillImage = brush;
-	style.FillImage.TintColor = FLinearColor(0.2f, 0.2f, 0.2f);
+		style.FillImage = brush;
+		style.FillImage.TintColor = FLinearColor(0.2f, 0.2f, 0.2f);
 	
-	progress_bar_->SetWidgetStyle(style);
+		progress_bar_->SetWidgetStyle(style);
+	}
+	else
+	{
+		FSlateBrush brush;
+		FProgressBarStyle style;
+		brush.SetResourceObject(empty_texture_);
+		
+		style.BackgroundImage = brush;
+		style.FillImage = brush;
+		
+		progress_bar_->SetWidgetStyle(style);
+	}
 }
 
 void USkillButtonWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)

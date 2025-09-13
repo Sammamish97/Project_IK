@@ -10,8 +10,10 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/Inventory/InventoryWidget.h"
 #include "Components/Button.h"
+#include "Components/Image.h"
 #include "Components/WidgetSwitcher.h"
 #include "Kismet/GameplayStatics.h"
+#include "Managers/DataTableManager.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "UI/Inventory/HeroEquipBoardWidget.h"
 #include "UI/RewardContainerWidget.h"
@@ -43,9 +45,12 @@ void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount,
 		elem->SetAvailablePassiveSkillAmount(available_passive_skill_amount);
 	}
 	
+	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+	data_table_cache_ = instance->GetDataTableManager();
+
 	for(int32 i = 0; i < 4; i++)
 	{
-		hero_board_array[i]->InitHeroEquipBoard(this, hero_type_array[i]);
+		hero_board_array[i]->InitHeroEquipBoard(this, hero_type_array[i], data_table_cache_->GetHeroData(hero_type_array[i]));
 		hero_board_array[i]->LoadHeroData();
 	}
 	
@@ -61,6 +66,15 @@ void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount,
 
 	ToggleReadOnly(is_read_only);
 	is_read_only_ = is_read_only;
+	//IKTODO: 로컬라이징 기능 추가하기.
+	if (is_read_only_)
+	{
+		confirm_text_->SetText(FText::FromString("Return To Map"));
+	}
+	else
+	{
+		confirm_text_->SetText(FText::FromString("Finish Equip"));
+	}
 }
 
 void UInventoryWidget::UpdateSetBonusEffect()
@@ -298,6 +312,7 @@ void UInventoryWidget::OnHero_0_Board_Clicked()
 	rune_board_->LoadRuneBoardWidget(EHeroType::Hero1);
 	rune_board_->UpdateSetBonusEffect();
 	status_board_->LoadStatusData(EHeroType::Hero1);
+	switch_background_->SetColorAndOpacity(data_table_cache_->GetHeroData(EHeroType::Hero1).widget_color_);
 }
 
 void UInventoryWidget::OnHero_1_Board_Clicked()
@@ -306,6 +321,7 @@ void UInventoryWidget::OnHero_1_Board_Clicked()
 	rune_board_->LoadRuneBoardWidget(EHeroType::Hero2);
 	rune_board_->UpdateSetBonusEffect();
 	status_board_->LoadStatusData(EHeroType::Hero2);
+	switch_background_->SetColorAndOpacity(data_table_cache_->GetHeroData(EHeroType::Hero2).widget_color_);
 }
 
 void UInventoryWidget::OnHero_2_Board_Clicked()
@@ -314,6 +330,7 @@ void UInventoryWidget::OnHero_2_Board_Clicked()
 	rune_board_->LoadRuneBoardWidget(EHeroType::Hero3);
 	rune_board_->UpdateSetBonusEffect();
 	status_board_->LoadStatusData(EHeroType::Hero3);
+	switch_background_->SetColorAndOpacity(data_table_cache_->GetHeroData(EHeroType::Hero3).widget_color_);
 }
 
 void UInventoryWidget::OnHero_3_Board_Clicked()
@@ -322,6 +339,7 @@ void UInventoryWidget::OnHero_3_Board_Clicked()
 	rune_board_->LoadRuneBoardWidget(EHeroType::Hero4);
 	rune_board_->UpdateSetBonusEffect();
 	status_board_->LoadStatusData(EHeroType::Hero4);
+	switch_background_->SetColorAndOpacity(data_table_cache_->GetHeroData(EHeroType::Hero4).widget_color_);
 }
 
 void UInventoryWidget::OnRuneSwitchButtonClicked()

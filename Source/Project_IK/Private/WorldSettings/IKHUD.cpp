@@ -126,7 +126,6 @@ void AIKHUD::BindHeroWidgetUI()
 			else
 			{
 				auto cur_skill_button_widget = button_bar_widget_->GetActiveSkillButtonWidget(cur_hero_type);
-				//IKTODO: 이후 nullptr에서 Empty Icon같은 걸로 바꿔야 함.
 				cur_skill_button_widget->SetThumbnailTexture(nullptr);
 			}
 			cur_hero->OnApplyBuff.AddDynamic(button_bar_widget_->GetHeroWidget(cur_hero_type)->GetBuffContainer(), &UBuffContainer::EnqueueBuff);

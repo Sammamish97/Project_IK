@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Managers/EnumCluster.h"
+#include "Structs/HeroData.h"
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "HeroEquipBoardWidget.generated.h"
 
@@ -31,30 +32,33 @@ class PROJECT_IK_API UHeroEquipBoardWidget : public UUserWidget
 	
 public:
 	bool CheckDuplicatedPassiveSkill(EPassiveSkillType type);
-	void InitHeroEquipBoard(UInventoryWidget* widget_ptr, EHeroType hero_type);
+	void InitHeroEquipBoard(UInventoryWidget* widget_ptr, EHeroType hero_type, const FHeroData& hero_data);
 	void LoadHeroData();
 	void UpdateHeroData();
 	void SetAvailablePassiveSkillAmount(int32 amount);
 	void ToggleReadOnly(bool is_read_only);
 	
 private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	TObjectPtr<UWeaponSlotWidget> weapon_slot_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	TObjectPtr<UActiveSkillSlotWidget> active_skill_slot_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	TObjectPtr<UPassiveSkillSlotWidget> passive_skill_1_slot_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	TObjectPtr<UPassiveSkillSlotWidget> passive_skill_2_slot_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	TObjectPtr<UPassiveSkillSlotWidget> passive_skill_3_slot_;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EquipBoard", meta = (AllowPrivateAccess = "true", BindWidget))
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	TObjectPtr<UButton> button_;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	TObjectPtr<UImage> hero_portrait_;
 
 	UPROPERTY(Transient)
 	TObjectPtr<UInventoryWidget> inventory_widget_cache_;

@@ -755,7 +755,8 @@ enum class EBuffType : uint8
 	Officer_A_ForceShield UMETA(DisplayName = "Officer_A_ForceShield"),
 
 	//Enemy Passive
-	OnAllyDead UMETA(DisplayName = "OnAllyDead"),
+	Revenge UMETA(DisplayName = "Revenge"),
+	Unity UMETA(DisplayName = "Unity"),
 
 	//Global
 	Deathbound UMETA(DisplayName = "Deathbound"),

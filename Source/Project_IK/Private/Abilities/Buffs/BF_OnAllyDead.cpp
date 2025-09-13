@@ -26,7 +26,7 @@ void UBF_OnAllyDead::ApplyBuff(AUnit* target)
 	{
 		GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(elem, EUnitEvent::OnDie, this, &UBF_OnAllyDead::OnAllyDie);
 	}
-	target->AddBuffUI(EBuffType::OnAllyDead, thumbnail_);
+	target->AddBuffUI(buff_type_, thumbnail_);
 }
 
 void UBF_OnAllyDead::OnAllyDie()
@@ -36,7 +36,7 @@ void UBF_OnAllyDead::OnAllyDie()
 		dead_ally_ += 1;
 		FBuffStatusData atk_buff = {ECharacterStatType::AttackPower, dead_ally_ * atk_power_buff_per_ally_die_, true, true};
 		FBuffStatusData ats_buff = {ECharacterStatType::AttackPower, dead_ally_ * atk_power_buff_per_ally_die_, true, true};
-		target->ApplyStatusBuff(EBuffType::OnAllyDead, atk_buff);
-		target->ApplyStatusBuff(EBuffType::OnAllyDead, ats_buff);
+		target->ApplyStatusBuff(buff_type_, atk_buff);
+		target->ApplyStatusBuff(buff_type_, ats_buff);
 	}
 }

@@ -29,8 +29,10 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameModeBase.h"
 #include "Managers/CombatLevelResultManager.h"
+#include "Managers/DataTableManager.h"
 
 #include "Managers/EnumCluster.h"
+#include "Structs/HeroData.h"
 
 #include "Subsystems/GlobalBuffSubsystem.h"
 
@@ -67,6 +69,9 @@ void UCombatResultUI::PopulateWidgets(const TArray<TObjectPtr<AActor>>& hero_con
 		}
 	}
 
+	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+	auto data_table_cache = instance->GetDataTableManager();
+	
 	if (combat_result_block_widget_class_)
 	{
 		for(int32 i = 0; i < 4; ++i)
@@ -82,7 +87,7 @@ void UCombatResultUI::PopulateWidgets(const TArray<TObjectPtr<AActor>>& hero_con
 				block->Rename(*block_unique_name);
 				UHorizontalBoxSlot* block_slot = blocks_holder_->AddChildToHorizontalBox(block);
 				block_slot->SetPadding(FMargin(32.f));
-
+				block->SetHeroPortrait(data_table_cache->GetHeroData(IntToHeroType(i)).portrait_);
 				blocks_.Add(block);
 			}
 		}
