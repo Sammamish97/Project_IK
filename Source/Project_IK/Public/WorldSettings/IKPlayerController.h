@@ -89,7 +89,7 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UPauseManager> pause_manager_;
 
-	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UPauseManager> pause_manager_class_;
 
 	bool on_pause_ = false;

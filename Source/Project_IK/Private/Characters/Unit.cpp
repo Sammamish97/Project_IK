@@ -181,25 +181,23 @@ bool AUnit::IsDead() const
 void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 {
 	UNiagaraComponent* damage_ui = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, damage_ui_system_, hp_widget_component_->GetComponentLocation());
-	if (damage_ui == nullptr)
+
+	float ui_number = data.atk_base_dmg_ + data.skill_power_base_dmg_;
+
+	if (damage_ui == nullptr || ui_number <= 0.f)
 	{
 		return;
 	}
 	damage_ui->SetBoolParameter(FName("IsMissed"), is_evaded);
-	damage_ui->SetFloatParameter(FName("DamageAmount"), data.atk_base_dmg_ + data.skill_power_base_dmg_);
+	damage_ui->SetFloatParameter(FName("DamageAmount"), ui_number);
 	if (data.is_critical_shot_)
 	{
-		damage_ui->SetBoolParameter(FName("IsMissed"), is_evaded);
-		damage_ui->SetFloatParameter(FName("DamageAmount"), data.atk_base_dmg_ + data.skill_power_base_dmg_);
-		if (data.is_critical_shot_)
-		{
-			damage_ui->SetColorParameter(FName("Color"), FLinearColor::Red / 5.f);
-			damage_ui->SetFloatParameter(FName("SizeMultiplier"), 3.f);
-		}
-		else
-		{
-			damage_ui->SetColorParameter(FName("Color"), FLinearColor::Blue / 5.f);
-		}
+		damage_ui->SetColorParameter(FName("Color"), FLinearColor::Red / 5.f);
+		damage_ui->SetFloatParameter(FName("SizeMultiplier"), 3.f);
+	}
+	else
+	{
+		damage_ui->SetColorParameter(FName("Color"), FLinearColor::Blue / 5.f);
 	}
 }
 
@@ -232,6 +230,12 @@ void AUnit::GetDamage(FDamageData data)
 
 void AUnit::Heal(float heal)
 {
+	// Prevent minor healings (less than 1) for safe of skipping 0 Heal UI.
+	if (heal <= 1.f)
+	{
+		return;
+	}
+
 	character_stat_component_->Heal(heal);
 
 	UNiagaraComponent* damage_ui = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, damage_ui_system_, hp_widget_component_->GetComponentLocation());

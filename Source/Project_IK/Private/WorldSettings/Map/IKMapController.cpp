@@ -13,21 +13,39 @@ See LICENSE file in the project root for full license information.
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Kismet/GameplayStatics.h"
-#include "WorldSettings/Map/IKMapHUD.h"
+
+#include "Managers/PauseManager.h"
 
 void AIKMapController::BeginPlay()
 {
 	Super::BeginPlay();
 	bShowMouseCursor = true;
+	bShouldPerformFullTickWhenPaused = true;
 	
 	if (UEnhancedInputLocalPlayerSubsystem* subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		subsystem->AddMappingContext(player_input_mapping_context, 0);
 	}
+
+	pause_manager_ = NewObject<UPauseManager>(this, pause_manager_class_);
 }
 
-void AIKMapController::ChangeLevel(FKey key)
+void AIKMapController::SetupInputComponent()
 {
-	UE_LOG(LogTemp, Display, TEXT("Change Level"));
-	UGameplayStatics::OpenLevel(GetWorld(), "DummyLevel");
+	Super::SetupInputComponent();
+
+	if (UEnhancedInputComponent* enhanced_input_component = Cast<UEnhancedInputComponent>(InputComponent))
+	{
+		enhanced_input_component->BindAction(toggle_pause_action_, ETriggerEvent::Triggered, this, &AIKMapController::TogglePause);
+	}
+}
+
+void AIKMapController::TogglePause()
+{
+	on_pause_ = !on_pause_;
+	if (pause_manager_)
+	{
+		pause_manager_->TogglePause(on_pause_);
+	}
+	SetPause(on_pause_);
 }

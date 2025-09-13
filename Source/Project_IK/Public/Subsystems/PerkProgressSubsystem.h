@@ -36,6 +36,9 @@ public:
 
 	void Clear();
 
+	void ApplyPerkEffectsInMap();
+	void RemoveAllPerkEffects();
+
 protected:
 	UPROPERTY()
 	int32 perk_points_;

@@ -15,6 +15,8 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "SaveGame/SavePerkProgress.h"
 
+#include "Abilities/PerkEffects/PerkEffectBase.h"
+
 void UPerkProgressSubsystem::Initialize(FSubsystemCollectionBase& collection)
 {
 	Super::Initialize(collection);
@@ -74,6 +76,36 @@ void UPerkProgressSubsystem::SavePerkDataToDisk()
 
 void UPerkProgressSubsystem::Clear()
 {
+	RemoveAllPerkEffects();
+
 	perk_points_ = 0;
 	perk_node_map_.Empty();
+}
+
+void UPerkProgressSubsystem::ApplyPerkEffectsInMap()
+{
+	for (const auto& [name, perk] : perk_node_map_)
+	{
+		if (perk.purchased_)
+		{
+			if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
+			{
+				perk_effect->ApplyEffect();
+			}
+		}
+	}
+}
+
+void UPerkProgressSubsystem::RemoveAllPerkEffects()
+{
+	for (const auto& [perk_type, perk] : perk_node_map_)
+	{
+		if (perk.purchased_)
+		{
+			if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
+			{
+				perk_effect->RemoveEffect();
+			}
+		}
+	}
 }

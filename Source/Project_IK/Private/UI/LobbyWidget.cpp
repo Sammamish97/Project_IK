@@ -15,9 +15,11 @@ See LICENSE file in the project root for full license information.
 
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/PerkProgressSubsystem.h"
+#include "Subsystems/PerkModifierSubsystem.h"
 #include "UI/PerkTrees/PerkHUDWidget.h"
 
 #include "WorldSettings/IKGameInstance.h"
+#include "SaveGame/SaveRunProgress.h"
 
 void ULobbyWidget::NativeConstruct()
 {
@@ -47,10 +49,24 @@ void ULobbyWidget::OnBeginRunButtonClicked()
 
 	instance->LoadRunSaveData();
 
-	//가챠 레벨로 이동.
 	ULevelTransitionSubsystem* level_transition_subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
-	level_transition_subsystem->OpenLevel(GetWorld(), ELevelState::MapLevel);
+	
+	// Guides players to Gotcha level if and only if...
+		// Available an amount of gotcha pulls.
+		// Player is going to begin a new run.
+	int32 num_max_pull = GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>()->GetNumMaxPull();
+	if (num_max_pull > 0 && 
+		USaveRunProgress::StaticClass()->GetDefaultObject<USaveRunProgress>()->DoesSaveGameExist() == false)
+	{
+		level_transition_subsystem->OpenLevel(GetWorld(), ELevelState::GotchaLevel);
+	}
+	else
+	{
+		level_transition_subsystem->OpenLevel(GetWorld(), ELevelState::MapLevel);
+	}
+
 }
+
 UPerkHUDWidget* ULobbyWidget::GetPerkTreeWidget()
 {
 	return perk_tree_hud_widget_;
