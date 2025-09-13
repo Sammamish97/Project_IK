@@ -10,6 +10,8 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/Inventory/HeroEquipBoardWidget.h"
 
+#include "Components/Button.h"
+#include "Components/Image.h"
 #include "Kismet/GameplayStatics.h"
 #include "Structs/SpawnData.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
@@ -19,7 +21,8 @@ See LICENSE file in the project root for full license information.
 #include "UI/InventorySlots/ActiveSkillSlotWidget.h"
 #include "UI/InventorySlots/PassiveSkillSlotWidget.h"
 
-void UHeroEquipBoardWidget::InitHeroEquipBoard(UInventoryWidget* widget_ptr, EHeroType hero_type)
+void UHeroEquipBoardWidget::InitHeroEquipBoard(UInventoryWidget* widget_ptr, EHeroType hero_type,
+	const FHeroData& hero_data)
 {
 	hero_type_ = hero_type;
 	inventory_widget_cache_ = widget_ptr;
@@ -28,8 +31,11 @@ void UHeroEquipBoardWidget::InitHeroEquipBoard(UInventoryWidget* widget_ptr, EHe
 	{
 		elem->InitInventorySlot(inventory_widget_cache_, true, hero_type);
 	}
+	FButtonStyle style = button_->GetStyle();
+	style.Normal.TintColor = hero_data.widget_color_;
+	button_->SetStyle(style);
+	hero_portrait_->SetBrushFromTexture(hero_data.portrait_);
 }
-
 
 void UHeroEquipBoardWidget::LoadHeroData()
 {

@@ -26,6 +26,11 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameInstance.h"
 
+void UCombatResultBlock::SetHeroPortrait(UTexture2D* hero_portrait)
+{
+	hero_portrait_->SetBrushFromTexture(hero_portrait);
+}
+
 void UCombatResultBlock::SetHPPercent(float ratio)
 {
 	// @@ TODO: Make it function

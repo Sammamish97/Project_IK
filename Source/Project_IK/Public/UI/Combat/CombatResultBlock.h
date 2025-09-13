@@ -32,6 +32,9 @@ class PROJECT_IK_API UCombatResultBlock : public UUserWidget
 	GENERATED_BODY()
 public:
 	UFUNCTION(BlueprintCallable)
+	void SetHeroPortrait(UTexture2D* hero_portrait);
+	
+	UFUNCTION(BlueprintCallable)
 	void SetHPPercent(float ratio);
 
 	UFUNCTION(BlueprintPure)
