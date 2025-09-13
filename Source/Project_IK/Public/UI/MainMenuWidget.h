@@ -37,6 +37,8 @@ public:
 	void OnExitButtonClicked();
 
 protected:
+	bool IsContinuable();
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<USettingWidget> setting_ui_class_;
 	

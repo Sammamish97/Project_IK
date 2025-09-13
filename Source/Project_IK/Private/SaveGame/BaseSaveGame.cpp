@@ -18,6 +18,11 @@ FString UBaseSaveGame::GetSaveSlotName() const
 	return FString::Printf(TEXT("default_slot_name_of_%s"), *GetClass()->GetName());
 }
 
+bool UBaseSaveGame::DoesSaveGameExist() const
+{
+	return UGameplayStatics::DoesSaveGameExist(GetSaveSlotName(), 0);
+}
+
 void UBaseSaveGame::DeleteSaveFile()
 {
 	FString run_progress_slot_name = GetSaveSlotName();

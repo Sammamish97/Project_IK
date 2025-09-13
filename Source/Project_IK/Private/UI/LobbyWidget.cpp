@@ -45,8 +45,6 @@ void ULobbyWidget::OnBeginRunButtonClicked()
 		return;
 	}
 
-	instance->GetSubsystem<UPerkProgressSubsystem>()->SavePerkDataToDisk();
-
 	instance->LoadRunSaveData();
 
 	//가챠 레벨로 이동.

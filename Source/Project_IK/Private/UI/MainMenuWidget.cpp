@@ -18,11 +18,23 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKGameInstance.h"
 #include "UI/Map/IKMaps.h"
 
+#include "SaveGame/SavePerkProgress.h"
+#include "SaveGame/SaveRunProgress.h"
+#include "Subsystems/PerkProgressSubsystem.h"
+
 void UMainMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	new_game_button_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnNewGameButtonClicked);
-	continue_button_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnContinueButtonClicked);
+
+	if (IsContinuable())
+	{
+		continue_button_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnContinueButtonClicked);
+	}
+	else
+	{
+		continue_button_->SetIsEnabled(false);
+	}
 	setting_button_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnSettingButtonClicked);
 	exit_button_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitButtonClicked);
 }
@@ -40,15 +52,28 @@ void UMainMenuWidget::NativeDestruct()
 void UMainMenuWidget::OnNewGameButtonClicked()
 {
 	//세이브 데이터 초기화
+	USavePerkProgress::StaticClass()->GetDefaultObject<USavePerkProgress>()->DeleteSaveFile();
+	USaveRunProgress::StaticClass()->GetDefaultObject<USaveRunProgress>()->DeleteSaveFile();
+
+
+
 	//네러티브 레벨로 이동
 
-	// Generate map data
 	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+
+
 	if (instance)
 	{
+		// Clear memory data that loaded at the game beginning.
+		instance->ClearRunData();
+
+		// Generate map data
 		UIKMaps* map = instance->GetMapPtr();
 		map->GenerateMaps(10, 5);
+		instance->GetSubsystem<UPerkProgressSubsystem>()->Clear();
 	}
+	ULevelTransitionSubsystem* level_transition_subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
+	level_transition_subsystem->OpenLevel(GetWorld(), ELevelState::LobbyLevel);
 }
 
 void UMainMenuWidget::OnContinueButtonClicked()
@@ -74,4 +99,10 @@ void UMainMenuWidget::OnExitButtonClicked()
 {
 	//게임 종료
 	UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, false);
+}
+
+bool UMainMenuWidget::IsContinuable()
+{
+	return USavePerkProgress::StaticClass()->GetDefaultObject<USavePerkProgress>()->DoesSaveGameExist() ||
+		USaveRunProgress::StaticClass()->GetDefaultObject<USaveRunProgress>()->DoesSaveGameExist();
 }

@@ -26,5 +26,6 @@ class PROJECT_IK_API UBaseSaveGame : public USaveGame
 public:
 	// Pure virtual function to return FString that passed as second parameter to call SaveGameToSlot.
 	virtual FString GetSaveSlotName() const;
+	bool DoesSaveGameExist() const;
 	void DeleteSaveFile();
 };

@@ -38,6 +38,11 @@ FPerkNodeDetail UPerkProgressSubsystem::LoadPerkDetails(EPerkNodeType key)
 	return FPerkNodeDetail();
 }
 
+bool UPerkProgressSubsystem::HasSavedPerkDetails(EPerkNodeType key)
+{
+	return perk_node_map_.Contains(key);
+}
+
 TMap<EPerkNodeType, FPerkNodeDetail> UPerkProgressSubsystem::LoadAllPerkDetails()
 {
 	return perk_node_map_;
@@ -61,9 +66,14 @@ void UPerkProgressSubsystem::SavePerkDataToDisk()
 	if (save_game_instance && subsystem)
 	{
 		save_game_instance->perk_node_map_ = subsystem->LoadAllPerkDetails();
-
 		save_game_instance->perk_points_ = subsystem->LoadPerkPoint();
-	}
 
-	UGameplayStatics::SaveGameToSlot(save_game_instance, save_game_instance->GetSaveSlotName(), 0);
+		UGameplayStatics::SaveGameToSlot(save_game_instance, save_game_instance->GetSaveSlotName(), 0);
+	}
+}
+
+void UPerkProgressSubsystem::Clear()
+{
+	perk_points_ = 0;
+	perk_node_map_.Empty();
 }

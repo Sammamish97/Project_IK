@@ -54,9 +54,17 @@ void UIKGameInstance::Init()
 
 void UIKGameInstance::Shutdown()
 {
-	for (const auto& perk_effect : perk_effects_)
+	UPerkProgressSubsystem* subsystem = GetSubsystem<UPerkProgressSubsystem>();
+	TMap<EPerkNodeType, FPerkNodeDetail> perks = subsystem->LoadAllPerkDetails();
+	for (const auto& [perk_type, perk] : perks)
 	{
-		perk_effect->RemoveEffect();
+		if (perk.purchased_)
+		{
+			if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
+			{
+				perk_effect->RemoveEffect();
+			}
+		}
 	}
 	
 	Super::Shutdown();
@@ -146,27 +154,17 @@ void UIKGameInstance::InitEventManager()
 void UIKGameInstance::InitializePerkEffectsAlreadyUnlocked()
 {
 	//Enhance data by recorded progress.
-	// UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
-	// for (const auto&[name, perk] : progress_system->LoadAllPerkDetails())
-	// {
-	// 	if (perk.purchased_)
-	// 	{
-	//   		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
-	//   		{
-	//   			perk_effect->ApplyEffect();
-	//   			perk_effects_.Push(perk_effect);
-	//   		}
-	// 	}
-	// }
-
-	//GLOBAL BUFF TEST PURPOSE
-	for (const auto& elem :  GetTree())
-	{
-		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, elem.effect_class_))
-		{
-			perk_effect->ApplyEffect();
-		}
-	}
+	 UPerkProgressSubsystem* progress_system = GetSubsystem<UPerkProgressSubsystem>();
+	 for (const auto&[name, perk] : progress_system->LoadAllPerkDetails())
+	 {
+	 	if (perk.purchased_)
+	 	{
+	   		if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk.perk_effect_class))
+	   		{
+	   			perk_effect->ApplyEffect();
+	   		}
+	 	}
+	 }
 }
 
 void UIKGameInstance::InitializeMaps()
