@@ -68,9 +68,7 @@ void UIKGameInstance::ClearRunData()
 	UGlobalBuffSubsystem* global_buff_subsystem = GetSubsystem<UGlobalBuffSubsystem>();
 	global_buff_subsystem->ClearBuffs();
 
-	int32 height = maps_->GetHeight();
-	int32 width = maps_->GetWidth();
-	maps_->GenerateMaps(height, width);
+	USaveRunProgress::StaticClass()->GetDefaultObject<USaveRunProgress>()->DeleteSaveFile();
 
 	InitSpawnData();
 }
@@ -181,7 +179,7 @@ void UIKGameInstance::InitInventoryManager()
 	inventory_manager_ = NewObject<UInventoryManager>(this, inventory_manager_class_);
 
 	// DEBUG PURPOSE.
-	inventory_manager_->SetCredits(999);
+	inventory_manager_->SetCredits(0);
 }
 
 void UIKGameInstance::InitDataTableManager()
@@ -235,7 +233,15 @@ void UIKGameInstance::LoadSaveData()
 	{
 		// No save data
 	}
-	
+
+	LoadRunSaveData();
+}
+
+// Move this function to USaveRunProgress
+void UIKGameInstance::LoadRunSaveData()
+{
+
+
 	USaveRunProgress* saved_run = Cast<USaveRunProgress>(UGameplayStatics::LoadGameFromSlot(USaveRunProgress::StaticClass()->GetDefaultObject<USaveRunProgress>()->GetSaveSlotName(), 0));
 	if (saved_run)
 	{
@@ -265,5 +271,6 @@ void UIKGameInstance::LoadSaveData()
 		// Probably game start menu of the main manu is the only place generating a new map.
 		maps_->GenerateMaps(10, 5);
 		InitSpawnData();
+		inventory_manager_->SetCredits(0);
 	}
 }

@@ -64,4 +64,9 @@ struct FWrapperEquipmentData
 
 		return *this;
 	}
+
+	bool IsEmpty() const
+	{
+		return weapons_.IsEmpty() && active_skills_.IsEmpty() && passive_skills_.IsEmpty() && runes_.IsEmpty();
+	}
 };

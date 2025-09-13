@@ -11,8 +11,19 @@ See LICENSE file in the project root for full license information.
 
 
 #include "SaveGame/BaseSaveGame.h"
+#include "Kismet/GameplayStatics.h"
 
 FString UBaseSaveGame::GetSaveSlotName() const
 {
 	return FString::Printf(TEXT("default_slot_name_of_%s"), *GetClass()->GetName());
+}
+
+void UBaseSaveGame::DeleteSaveFile()
+{
+	FString run_progress_slot_name = GetSaveSlotName();
+
+	if (UGameplayStatics::DoesSaveGameExist(run_progress_slot_name, 0))
+	{
+		UGameplayStatics::DeleteGameInSlot(run_progress_slot_name, 0);
+	}
 }

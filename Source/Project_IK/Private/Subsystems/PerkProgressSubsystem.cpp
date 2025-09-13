@@ -12,6 +12,8 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/PerkProgressSubsystem.h"
 
 #include "Managers/EnumCluster.h"
+#include "Kismet/GameplayStatics.h"
+#include "SaveGame/SavePerkProgress.h"
 
 void UPerkProgressSubsystem::Initialize(FSubsystemCollectionBase& collection)
 {
@@ -49,4 +51,19 @@ void UPerkProgressSubsystem::SavePerkPoint(int32 perk_point)
 int32 UPerkProgressSubsystem::LoadPerkPoint()
 {
 	return perk_points_;
+}
+
+void UPerkProgressSubsystem::SavePerkDataToDisk()
+{
+	USavePerkProgress* save_game_instance = Cast<USavePerkProgress>(UGameplayStatics::CreateSaveGameObject(USavePerkProgress::StaticClass()));
+
+	UPerkProgressSubsystem* subsystem = GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>();
+	if (save_game_instance && subsystem)
+	{
+		save_game_instance->perk_node_map_ = subsystem->LoadAllPerkDetails();
+
+		save_game_instance->perk_points_ = subsystem->LoadPerkPoint();
+	}
+
+	UGameplayStatics::SaveGameToSlot(save_game_instance, save_game_instance->GetSaveSlotName(), 0);
 }

@@ -29,13 +29,30 @@ public:
 	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	
+	void SetOnConfirm(TFunction<void()> on_confirm);
+
 protected:
+	// A function grants only once
+	void GrantsPerkPoints();
 
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 
 	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> event_num_text_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> store_num_text_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> combat_num_text_;
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> perk_points_text_;
 	
-	int32 perk_points_reward_ = 10;
+	int32 perk_points_reward_ = 1;
+	int32 combat_num_ = 0;
+	int32 event_num_ = 0;
+	int32 store_num_ = 0;
+
+	TFunction<void()> on_confirm_;
+
+	bool has_granted_ = false;
 };

@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/Combat/CombatResultUI.h"
 #include "UI/EquipmentRewardWidget.h"
 #include "UI/ToMainMenuWidget.h"
+#include "UI/RunRewardWidget.h"
 
 
 void UCombatLevelResultManager::InitializeUI()
@@ -54,6 +55,19 @@ void UCombatLevelResultManager::InitializeUI()
 			main_menu_ui_->SetVisibility(ESlateVisibility::Hidden);
 		}
 	}
+
+	if (run_reward_ui_class_)
+	{
+		run_reward_ui_ = CreateWidget<URunRewardWidget>(GetWorld(), run_reward_ui_class_);
+		if (run_reward_ui_)
+		{
+			run_reward_ui_->AddToViewport();
+			run_reward_ui_->SetVisibility(ESlateVisibility::Hidden);
+			run_reward_ui_->SetOnConfirm([&]() {
+				SwitchUIByState(ECombatEndState::ShowingToMainmenu);
+				});
+		}
+	}
 }
 
 void UCombatLevelResultManager::DisplayCombatResult(const TMap<EHeroType, float>& damage_map)
@@ -82,23 +96,35 @@ void UCombatLevelResultManager::SwitchUIByState(ECombatEndState state)
 	case ECombatEndState::ShowingCombatResultUI:
 		combat_result_widget_->SetVisibility(ESlateVisibility::Visible);
 		equipment_reward_widget_->SetVisibility(ESlateVisibility::Hidden);
+		run_reward_ui_->SetVisibility(ESlateVisibility::Hidden);
 		main_menu_ui_->SetVisibility(ESlateVisibility::Hidden);
 		break;
 	case ECombatEndState::ShowingEquipmentRewardUI:
 		combat_result_widget_->SetVisibility(ESlateVisibility::Hidden);
 		equipment_reward_widget_->SetVisibility(ESlateVisibility::Visible);
+		run_reward_ui_->SetVisibility(ESlateVisibility::Hidden);
 		main_menu_ui_->SetVisibility(ESlateVisibility::Hidden);
 			break;
 	case ECombatEndState::ShowingInventoryUI:
+		combat_result_widget_->SetVisibility(ESlateVisibility::Hidden);
 		equipment_reward_widget_->SetVisibility(ESlateVisibility::Hidden);
+		run_reward_ui_->SetVisibility(ESlateVisibility::Hidden);
+		main_menu_ui_->SetVisibility(ESlateVisibility::Hidden);
 		break;
 
 	case ECombatEndState::ShowingMapUI:
 		UGameplayStatics::GetGameInstance(GetWorld())->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());
 		break;
+	case ECombatEndState::ShowingRunResultUI:
+		combat_result_widget_->SetVisibility(ESlateVisibility::Hidden);
+		equipment_reward_widget_->SetVisibility(ESlateVisibility::Hidden);
+		run_reward_ui_->SetVisibility(ESlateVisibility::Visible);
+		main_menu_ui_->SetVisibility(ESlateVisibility::Hidden);
+		break;
 	case ECombatEndState::ShowingToMainmenu:
 		combat_result_widget_->SetVisibility(ESlateVisibility::Hidden);
 		equipment_reward_widget_->SetVisibility(ESlateVisibility::Hidden);
+		run_reward_ui_->SetVisibility(ESlateVisibility::Hidden);
 		main_menu_ui_->SetVisibility(ESlateVisibility::Visible);
 		break;
 	default:

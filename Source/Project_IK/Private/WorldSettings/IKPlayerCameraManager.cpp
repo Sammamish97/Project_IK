@@ -21,6 +21,8 @@ void AIKPlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTi
 {
 	Super::UpdateViewTarget(OutVT, DeltaTime);
 
+	LoadHeroes();
+
 	const FVector normalize_view_vector = camera_view_vector_.GetSafeNormal();
 
 	FBox bounding_box = GetHeroBox();
@@ -74,15 +76,6 @@ void AIKPlayerCameraManager::RotateCameraRight()
 void AIKPlayerCameraManager::BeginPlay()
 {
 	Super::BeginPlay();
-	UWorld* world = GetWorld();
-	AIKGameModeBase* gamemode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(world));
-	for (const auto& elem : gamemode->GetHeroContainer())
-	{
-		if(elem != nullptr)
-		{
-			tracked_heroes_.Add(elem);
-		}
-	}
 }
 
 void AIKPlayerCameraManager::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -296,4 +289,22 @@ float AIKPlayerCameraManager::GetAspectRatio() const
 	}
 
 	return aspect_ratio;
+}
+
+void AIKPlayerCameraManager::LoadHeroes()
+{
+	if (tracked_heroes_.IsEmpty() == false)
+	{
+		return;
+	}
+
+	UWorld* world = GetWorld();
+	AIKGameModeBase* gamemode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(world));
+	for (const auto& elem : gamemode->GetHeroContainer())
+	{
+		if (elem != nullptr)
+		{
+			tracked_heroes_.Add(elem);
+		}
+	}
 }

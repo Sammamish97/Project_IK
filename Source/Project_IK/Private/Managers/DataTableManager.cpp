@@ -23,6 +23,7 @@ See LICENSE file in the project root for full license information.
 #include "DataAssets/WeaponAnimDataAsset.h"
 #include "DataAssets/PerkTreeDataAsset.h"
 #include "Structs/WrapperEquipmentData.h"
+#include "Algo/RandomShuffle.h"
 
 
 FWeaponData UDataTableManager::GetEnemyWeaponData(EWeaponType type) const
@@ -89,41 +90,33 @@ TArray<FRuneData> UDataTableManager::GetRuneDataRandomly(int32 n, ERarity weight
 
 TArray<FRuneData> UDataTableManager::GetUniqueRuneDataRandomly(int32 n, ERarity weight_rarity) const
 {
-	// @@ TODO: It will return less than N items if set_array has more than 6 same set types.
 	TArray<FRuneData> set_array = rune_data_asset_->GetRuneSetDataRandomly(n, weight_rarity);
 
-	TMap<ERuneSetType, TSet<int32>> unique_runes;
-	TArray<FRuneData> result;
+	TSet<ERuneSetType> data_set;
+	for (const FRuneData& data : set_array)
+	{
+		data_set.Add(data.set_type);
+	}
 
-	for (const FRuneData& element : set_array)
+	for (ERuneSetType rune_type : data_set)
 	{
 		// Shuffle indices 0-5 to ensure random selection without repeating from same set
+		// It might caused a crash when there are at least 6 runes.
 		TArray<int32> indices = { 0, 1, 2, 3, 4, 5 };
-		indices.Sort([](int32, int32) { return FMath::RandBool(); }); // Random shuffle
+		Algo::RandomShuffle(indices);
 
-		for (int32 idx : indices)
+		int32 slot_number_index = 0;
+		for (FRuneData& rune_data : set_array)
 		{
-			const FRuneData& rune = element;
-			if (!unique_runes.Find(rune.set_type))
+			if (rune_data.set_type == rune_type)
 			{
-				unique_runes.Add(rune.set_type);
+				rune_data.slot_number = indices[slot_number_index];
+				slot_number_index += 1;
 			}
-			if (!unique_runes[rune.set_type].Contains(rune.slot_number))
-			{
-				unique_runes[rune.set_type].Add(rune.slot_number);
-				result.Add(rune);
-				break; // Move to next FRuneSetData after adding one unique rune
-			}
-		}
-
-		// Optional early exit if we already reached n unique entries
-		if (result.Num() >= n)
-		{
-			break;
 		}
 	}
 
-	return result;
+	return set_array;
 }
 
 UTexture2D* UDataTableManager::GetRuneSetThumbnail(ERuneSetType type) const

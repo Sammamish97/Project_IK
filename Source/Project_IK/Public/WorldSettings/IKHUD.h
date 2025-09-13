@@ -48,6 +48,8 @@ public:
 	// Reference to the Widget Blueprint class to create
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UCombatLevelResultManager> combat_level_widget_class_;
+
+	void InitializeHUDAfterGameModeInit();
 	
 protected:
 	UPROPERTY()

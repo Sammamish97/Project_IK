@@ -44,27 +44,39 @@ AIKGameModeBase::AIKGameModeBase()
 void AIKGameModeBase::StartPlay()
 {
 	Super::StartPlay();
+
+
+	AIKHUD* hud = Cast<AIKHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
+	if (hud)
+	{
+		hud->InitializeHUDAfterGameModeInit();
+	}
+
 	for (auto& elem : heroes_)
 	{
-		if(AHeroBase* hero = Cast<AHeroBase>(elem))
+		if (AHeroBase* hero = Cast<AHeroBase>(elem))
 		{
 			hero->GetPassiveSkillMechanics()->InitPassiveSkill();
 			GetGameInstance()->GetSubsystem<UGlobalBuffSubsystem>()->ApplyBuff(hero);
 		}
 	}
-	
 	// SpawnEnemies function should be called after SpawnHeroes has been called.
 	SpawnEnemies();
 }
 
 void AIKGameModeBase::BeginPlay()
 {
-	Super::BeginPlay();
-	hero_spawn_position_ = FVector();
-	time_dilation_manager_ = NewObject<UTimeDilationManager>(this);
-	SpawnHeroes();
 
 	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::CombatAmbient);
+
+	hero_spawn_position_ = FVector();
+	time_dilation_manager_ = NewObject<UTimeDilationManager>(this);
+
+
+
+	SpawnHeroes();
+
+	Super::BeginPlay();
 }
 
 
@@ -128,7 +140,7 @@ void AIKGameModeBase::ProceedGameFlowAfterUI()
 		}
 		else
 		{	// game defeated.
-			hud->SwitchUIByState(ECombatEndState::ShowingToMainmenu);
+			hud->SwitchUIByState(ECombatEndState::ShowingRunResultUI);
 		}
 	}
 }

@@ -27,7 +27,9 @@ bool USP_Reposition::ActivateSkill(const FTargetResult& target_result)
 		return true;
 	}
 	
-	if (target_result.target_actors_.Num() > 0 && target_result.target_actors_[0]->IsA(AHeroBase::StaticClass()))
+	if (target_result.target_actors_.Num() > 0 
+		&& target_result.target_actors_[0]
+		&& target_result.target_actors_[0]->IsA(AHeroBase::StaticClass()))
 	{
 		selected_hero_ = Cast<AHeroBase>(target_result.target_actors_[0]);
 		Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0))->GetTargetingComponent()->StartTargeting(reposition_location_params_);

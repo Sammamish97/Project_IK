@@ -19,6 +19,7 @@ enum class ECombatEndState : uint8;
 class UCombatResultUI;
 class UEquipmentRewardWidget;
 class UToMainMenuWidget;
+class URunRewardWidget;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UCombatLevelResultManager : public UObject
@@ -43,6 +44,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
 	TSubclassOf<UToMainMenuWidget> main_menu_ui_class_ = nullptr;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<URunRewardWidget> run_reward_ui_class_ = nullptr;
+
 protected:
 	UPROPERTY()
 	TObjectPtr<UCombatResultUI> combat_result_widget_;
@@ -52,4 +56,7 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UToMainMenuWidget> main_menu_ui_ = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<URunRewardWidget> run_reward_ui_ = nullptr;
 };
