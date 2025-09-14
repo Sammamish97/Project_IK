@@ -184,7 +184,7 @@ void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 
 	float ui_number = data.atk_base_dmg_ + data.skill_power_base_dmg_;
 
-	if (damage_ui == nullptr || ui_number <= 0.f)
+	if (damage_ui == nullptr)
 	{
 		return;
 	}
