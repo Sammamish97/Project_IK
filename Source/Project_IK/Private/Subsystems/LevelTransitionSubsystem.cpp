@@ -54,6 +54,10 @@ void ULevelTransitionSubsystem::OpenLevel(UWorld* world, ELevelState state)
 		UGameplayStatics::OpenLevel(world, FName("LobbyLevel"));
 		break;
 
+	case ELevelState::GotchaLevel:
+		UGameplayStatics::OpenLevel(world, FName("GotchaLevel"));
+		break;
+
 	case ELevelState::MapLevel:
 		UGameplayStatics::OpenLevel(world, FName("MapInventoryLevel"));
 		break;

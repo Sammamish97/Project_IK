@@ -88,12 +88,6 @@ private:
 	UPROPERTY()
 	TObjectPtr<UTextManager> text_manager_;
 
-	//
-	//Instance보다 더 좋은 위치가 있을 것이다.
-	UPROPERTY()
-	TArray<TObjectPtr<UPerkEffectBase>> perk_effects_;
-	//
-
 	UPROPERTY(EditDefaultsOnly, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UDataTableManager> data_table_class_;
 

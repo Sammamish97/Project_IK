@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/Button.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "WorldSettings/IKPlayerController.h"
+#include "WorldSettings/Map/IKMapController.h"
 
 void UPauseWidget::NativeConstruct()
 {
@@ -30,7 +31,14 @@ void UPauseWidget::NativeDestruct()
 void UPauseWidget::OnResumeButtonClicked()
 {
 	auto pc = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	Cast<AIKPlayerController>(pc)->TogglePause();
+	if (AIKPlayerController* ik_player_controller = Cast<AIKPlayerController>(pc))
+	{
+		ik_player_controller->TogglePause();
+	}
+	else if (AIKMapController* ik_map_controller = Cast<AIKMapController>(pc))
+	{
+		ik_map_controller->TogglePause();
+	}
 }
 
 void UPauseWidget::OnReturnToMainMenuButtonClicked()

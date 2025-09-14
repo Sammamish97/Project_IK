@@ -114,6 +114,8 @@ bool UPerkHUDWidget::IsMenuOpened() const
 void UPerkHUDWidget::ClosePerkTree()
 {
 	SetVisibility(ESlateVisibility::Hidden);
+
+	GetGameInstance()->GetSubsystem<UPerkProgressSubsystem>()->SavePerkDataToDisk();
 }
 
 void UPerkHUDWidget::SetPerkPointText()

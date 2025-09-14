@@ -23,6 +23,8 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/PerkProgressSubsystem.h"
 #include "WorldSettings/LobbyLevel/IKLobbyLevelHUD.h"
 
+#include "Abilities/PerkEffects/PerkEffectBase.h"
+
 void UPerkNodeWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
@@ -40,8 +42,11 @@ void UPerkNodeWidget::NativeConstruct()
 	FTimerDelegate timerDelegate = FTimerDelegate::CreateUObject(this, &UPerkNodeWidget::ConnectPerkNodes);
 	GetWorld()->GetTimerManager().SetTimerForNextTick(timerDelegate);
 
-	//IKTODO: 이후, progress_system_cache_에 있는 것들만 대입 시켜야 함. 만약 변화가 없으면 해당 코드를 실행시킬 이유가 없음.
-	//perk_detail_ = progress_system_cache_->LoadPerkDetails( FName(perk_detail_.key_));
+	// Save perk status if there are save files.
+	if (progress_system_cache_->HasSavedPerkDetails(perk_detail_.type_))
+	{
+		perk_detail_ = progress_system_cache_->LoadPerkDetails(perk_detail_.type_);
+	}
 	
 	button_->OnPressed.AddDynamic(this, &UPerkNodeWidget::OnButtonPressed);
 	button_->OnReleased.AddDynamic(this, &UPerkNodeWidget::OnButtonReleased);
@@ -63,6 +68,10 @@ void UPerkNodeWidget::PurchaseSkill()
 	perk_detail_.purchased_ = true;
 	RemoveSkillPoint(perk_detail_.cost_);
 	SaveSkill();
+	if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk_detail_.perk_effect_class))
+	{
+		perk_effect->ApplyEffect();
+	}
 	for (const auto& elem: GetConnectedSkills())
 	{
 		elem->UnlockSkill();
@@ -73,6 +82,7 @@ bool UPerkNodeWidget::CanPurchase()
 {
 	int32 left_point = progress_system_cache_->LoadPerkPoint();
 	return perk_detail_.cost_ < left_point &&
+	return perk_detail_.cost_ <= left_point &&
 		perk_detail_.purchased_ == false &&
 		perk_detail_.locked_ == false;
 }

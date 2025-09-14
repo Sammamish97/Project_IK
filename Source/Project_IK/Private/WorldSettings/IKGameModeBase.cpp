@@ -260,7 +260,7 @@ void AIKGameModeBase::OnGameWin()
 		{
 			// @@ TODO: Need to modify an amount of credits per combats.
 			// i.e. -> ((current node level / 2) + 1) * 10;
-			int32 credits = 10;
+			int32 credits = 50;
 			credits *= perk_modifier_subsystem->GetCombatEndCreditsBonusPercentage();
 			inventory->AddCredits(credits);
 		}

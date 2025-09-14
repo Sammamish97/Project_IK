@@ -808,6 +808,7 @@ enum class ELevelState : uint8
 	INVALID UMETA(DisplayName = "INVALID"),
 	MainMenuLevel UMETA(DisplayName = "MainMenuLevel"),
 	LobbyLevel UMETA(DisplayName = "LobbyLevel"),
+	GotchaLevel UMETA(DisplayName = "GotchaLevel"),
 	MapLevel UMETA(DisplayName = "MapLevel"),
 };
 
