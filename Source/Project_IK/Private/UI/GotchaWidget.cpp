@@ -92,7 +92,16 @@ void UGotchaWidget::PullTen()
 	{
 		return;
 	}
-	int32 pull_num = num_max_pull_ % 10;
+	int32 pull_num = 0;
+	if (num_max_pull_ >= 10)
+	{
+		pull_num = 10;
+	}
+	else
+	{
+		pull_num = num_max_pull_;
+	}
+
 	SetTickets(num_max_pull_ - pull_num);
 	Gotcha(pull_num);
 }
@@ -167,5 +176,6 @@ void UGotchaWidget::StorePulledData()
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
 	UInventoryManager* inventory_manager = game_instance->GetInventoryManager();
+	inventory_manager->OpenInventoryWidgetReward(pulled_equipments_);
 	inventory_manager->SetCredits(inventory_manager->GetCredits() + pulled_credits_);
 }

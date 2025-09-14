@@ -26,12 +26,18 @@ public:
 
 	void SavePerkDetails(EPerkNodeType type, FPerkNodeDetail detail);
 	FPerkNodeDetail LoadPerkDetails(EPerkNodeType key);
+	bool HasSavedPerkDetails(EPerkNodeType key);
 	TMap<EPerkNodeType, FPerkNodeDetail> LoadAllPerkDetails();
 
 	void SavePerkPoint(int32 perk_point);
 	int32 LoadPerkPoint();
 	
 	void SavePerkDataToDisk();
+
+	void Clear();
+
+	void ApplyPerkEffectsInMap();
+	void RemoveAllPerkEffects();
 
 protected:
 	UPROPERTY()

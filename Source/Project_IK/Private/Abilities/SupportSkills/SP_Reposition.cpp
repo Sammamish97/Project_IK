@@ -16,7 +16,7 @@ See LICENSE file in the project root for full license information.
 USP_Reposition::USP_Reposition()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Allies, 10000.f);
-	reposition_location_params_ = FTargetParameters(ETargetingMode::Location, ETargetType::None, 1000.f, 1000.f);
+	reposition_location_params_ = FTargetParameters(ETargetingMode::Location, ETargetType::None, 1000.f, 100.f);
 }
 
 bool USP_Reposition::ActivateSkill(const FTargetResult& target_result)
