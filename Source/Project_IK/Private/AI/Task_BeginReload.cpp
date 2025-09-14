@@ -27,8 +27,10 @@ EBTNodeResult::Type UTask_BeginReload::ExecuteTask(UBehaviorTreeComponent& Owner
 	if(auto weapon_mechanics = Cast<UWeaponMechanics>(component))
 	{
 		weapon_mechanics->Reload();
-		//IKTODO: 여기서 Delegate 관련 에러 발생.
-		weapon_mechanics->GetWeaponActor()->OnFinishReload.AddDynamic(this, &UTask_BeginReload::OnFinishReload);
+		if (!weapon_mechanics->GetWeaponActor()->OnFinishReload.IsAlreadyBound(this, &UTask_BeginReload::OnFinishReload))
+		{
+			weapon_mechanics->GetWeaponActor()->OnFinishReload.AddDynamic(this, &UTask_BeginReload::OnFinishReload);
+		}
 		return EBTNodeResult::InProgress;
 	}
 	return EBTNodeResult::Failed;

@@ -20,7 +20,8 @@ void UBulletDeathBlowEffectComponent::OnHit(AActor* target)
 	if (auto casted_target = target_ptr.Get())
 	{
 		auto casted_unit = Cast<AUnit>(casted_target);
-		if (casted_unit->GetCharacterStat()->GetHitPoint() / casted_unit->GetCharacterStat()->GetMaxHitPoint() <= death_blow_percentage_)
+		if (casted_unit &&
+			casted_unit->GetCharacterStat()->GetHitPoint() / casted_unit->GetCharacterStat()->GetMaxHitPoint() <= death_blow_percentage_)
 		{
 			UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::Deathblow, casted_unit->GetActorLocation());
 			casted_unit->Die();

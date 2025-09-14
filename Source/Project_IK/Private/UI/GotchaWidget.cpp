@@ -52,6 +52,8 @@ void UGotchaWidget::NativeConstruct()
 	UpdateGotchaTicketCount();
 
 	ClearContainers();
+
+	PullTen();
 }
 
 void UGotchaWidget::NativeDestruct()
@@ -176,6 +178,8 @@ void UGotchaWidget::StorePulledData()
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
 	UInventoryManager* inventory_manager = game_instance->GetInventoryManager();
-	inventory_manager->OpenInventoryWidgetReward(pulled_equipments_);
+	inventory_manager->OpenInventoryWidgetReward(pulled_equipments_, [&]() {
+		EndGotchaButtonPressed();
+		});
 	inventory_manager->SetCredits(inventory_manager->GetCredits() + pulled_credits_);
 }
