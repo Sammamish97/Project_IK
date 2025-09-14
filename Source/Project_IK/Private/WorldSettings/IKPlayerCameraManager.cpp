@@ -25,7 +25,7 @@ void AIKPlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTi
 
 	const FVector normalize_view_vector = camera_view_vector_.GetSafeNormal();
 
-	FBox bounding_box = GetHeroBox();
+	FBox bounding_box = GetUnitBox();
 
 	FVector center = bounding_box.GetCenter();
 	FVector extents = bounding_box.GetExtent();
@@ -57,9 +57,9 @@ void AIKPlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTi
 
 void AIKPlayerCameraManager::AddEnemy(AActor* tracked_enemy)
 {
-	if (tracked_enemy)
+	if (AUnit* unit = Cast<AUnit>(tracked_enemy))
 	{
-		tracked_enemies_.Add(tracked_enemy);
+		tracked_enemies_.Add(unit);
 	}
 }
 
@@ -240,36 +240,40 @@ void AIKPlayerCameraManager::RotateViewVector(float angle)
 	camera_view_vector_ = quatRotation.RotateVector(camera_view_vector_);
 }
 
-FBox AIKPlayerCameraManager::GetHeroBox() const
+FBox AIKPlayerCameraManager::GetUnitBox() const
 {
 	FBox hero_box(EForceInit::ForceInit);
-	for (TWeakObjectPtr<AActor> actor : tracked_heroes_)
+	for (TWeakObjectPtr<AUnit> unit_ptr : tracked_heroes_)
 	{
-		if (actor.IsValid())
+		if (AUnit* unit = unit_ptr.Get();
+			unit != nullptr &&
+			unit->IsDead() == false)
 		{
-			UCapsuleComponent* capsule = actor->FindComponentByClass<UCapsuleComponent>();
+			UCapsuleComponent* capsule = unit->FindComponentByClass<UCapsuleComponent>();
 			if (capsule)
 			{
 				hero_box += capsule->Bounds.GetBox();
 			}
 			else
 			{
-				hero_box += actor->GetActorLocation();
+				hero_box += unit->GetActorLocation();
 			}
 		}
 	}
-	for (TWeakObjectPtr<AActor> actor : tracked_enemies_)
+	for (TWeakObjectPtr<AUnit> unit_ptr : tracked_enemies_)
 	{
-		if (actor.IsValid())
+		if (AUnit* unit = unit_ptr.Get();
+			unit != nullptr &&
+			unit->IsDead() == false)
 		{
-			UCapsuleComponent* capsule = actor->FindComponentByClass<UCapsuleComponent>();
+			UCapsuleComponent* capsule = unit->FindComponentByClass<UCapsuleComponent>();
 			if (capsule)
 			{
 				hero_box += capsule->Bounds.GetBox();
 			}
 			else
 			{
-				hero_box += actor->GetActorLocation();
+				hero_box += unit->GetActorLocation();
 			}
 		}
 	}
@@ -302,9 +306,9 @@ void AIKPlayerCameraManager::LoadHeroes()
 	AIKGameModeBase* gamemode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(world));
 	for (const auto& elem : gamemode->GetHeroContainer())
 	{
-		if (elem != nullptr)
+		if (AUnit* hero = Cast<AUnit>(elem))
 		{
-			tracked_heroes_.Add(elem);
+			tracked_heroes_.Add(hero);
 		}
 	}
 }
