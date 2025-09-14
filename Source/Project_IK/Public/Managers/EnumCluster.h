@@ -52,16 +52,6 @@ enum class ECombatEndState : uint8
 };
 
 UENUM(BlueprintType)
-enum class EItemType : uint8
-{
-	HPPotion UMETA(DisplayName = "HPPotion"),
-	Missile UMETA(DisplayName = "Missile"),
-	Stimuli UMETA(DisplayName = "Stimuli"),
-	SmokeGrenade UMETA(DisplayName = "SmokeGrenade"),
-	Flashbang UMETA(DisplayName = "Flashbang"),
-};
-
-UENUM(BlueprintType)
 enum class ETargetingMode : uint8
 {
 	None UMETA(DisplayName = "None"),
@@ -894,4 +884,15 @@ enum class EPerkNodeType : uint8
 	EXREWARDCOUNT_2 UMETA(DisplayName = "EXREWARDCOUNT_2"),
 	EXSKP UMETA(DisplayName = "EXSKP"),
 	EXSURV UMETA(DisplayName = "EXSURV"),
+};
+
+UENUM(BlueprintType)
+enum class EStoreTextType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Purchase UMETA(DisplayName = "Purchase"),
+	Leave UMETA(DisplayName = "Leave"),
+	NotEnoughCredit UMETA(DisplayName = "NotEnoughCredit"),
+	ConfirmPurchase UMETA(DisplayName = "ConfirmPurchase"),
+	ConfirmLeave UMETA(DisplayName = "ConfirmLeave"),
 };

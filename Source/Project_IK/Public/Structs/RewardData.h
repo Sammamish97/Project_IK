@@ -21,7 +21,29 @@ USTRUCT()
 struct PROJECT_IK_API FRewardData
 {
 	GENERATED_BODY()
+	void SetData(const FWeaponData& item_data)
+	{
+		gear_type_ = EGearType::Weapon;
+		weapon_data_ = item_data;
+	}
+	void SetData(const FActiveSkillData& item_data)
+	{
+		gear_type_ = EGearType::ActiveSkill;
+		active_skill_data_ = item_data;
+	}
+	void SetData(const FPassiveSkillData& item_data)
+	{
+		gear_type_ = EGearType::PassiveSkill;
+		passive_skill_data_ = item_data;
+	}
+	void SetData(const FRuneData& item_data)
+	{
+		gear_type_ = EGearType::Rune;
+		rune_data_ = item_data;
+	}
 
+	//
+	
 	EGearType gear_type_;
 
 	FWeaponData weapon_data_;

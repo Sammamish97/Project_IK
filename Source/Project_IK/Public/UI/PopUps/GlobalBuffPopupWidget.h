@@ -18,7 +18,7 @@ class PROJECT_IK_API UGlobalBuffPopupWidget : public UBasicPopupWidget
 {
 	GENERATED_BODY()
 public:
-	void UpdateLeftDuration(float left_duration);
+	void UpdateLeftDuration(int32 left_duration);
 
 private:
 	UPROPERTY(meta = (BindWidget))

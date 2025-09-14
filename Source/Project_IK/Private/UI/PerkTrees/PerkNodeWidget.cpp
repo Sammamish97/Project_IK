@@ -204,7 +204,7 @@ FLinearColor UPerkNodeWidget::SetIconColor()
 	{
 		return FLinearColor();
 	}
-	return LinearColorLerp(0.9f);
+	return LinearColorLerp(1.5f);
 }
 
 FSlateBrush UPerkNodeWidget::SetIconBrush()

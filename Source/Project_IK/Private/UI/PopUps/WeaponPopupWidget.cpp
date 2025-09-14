@@ -20,46 +20,28 @@ void UWeaponPopupWidget::UpdateWeaponData(const FWeaponStatusData& data)
 {
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	UTextManager* text_manager = game_instance->GetTextManager();
-	FFormatNamedArguments args;
-	FText base;
 	
-	base = text_manager->GetPopUpText("BasicDmg");
-	args.Add("BasicDmg", FText::AsNumber(data.basic_dmg_));
-	basic_dmg_text_->SetText( FText::Format(base, args));
-	args.Empty();
+	basic_dmg_text_->SetText(text_manager->GetPopUpText("BasicDmg"));
+	basic_dmg_value_->SetText(FText::AsNumber(data.basic_dmg_));
 
-	base = text_manager->GetPopUpText("ATP");
-	args.Add("ATP", FText::AsNumber(data.attack_scale));
-	attack_power_ratio_text_->SetText( FText::Format(base, args));
-	args.Empty();
+	attack_power_ratio_text_->SetText(text_manager->GetPopUpText("ATP"));
+	attack_power_ratio_value_->SetText(FText::AsNumber(data.attack_scale));
 
-	base = text_manager->GetPopUpText("SKP");
-	args.Add("SKP", FText::AsNumber(data.extra_skill_power_));
-	skill_power_ratio_text_->SetText( FText::Format(base, args));
-	args.Empty();
+	skill_power_ratio_text_->SetText(text_manager->GetPopUpText("ESK"));
+	skill_power_ratio_value_->SetText(FText::AsNumber(data.extra_skill_power_));
 
-	base = text_manager->GetPopUpText("ATS");
-	args.Add("ATS", FText::AsNumber(data.fire_per_sec));
-	attack_speed_text_->SetText( FText::Format(base, args));
-	args.Empty();
+	attack_speed_text_->SetText(text_manager->GetPopUpText("ATS"));
+	attack_speed_value_->SetText(FText::AsNumber(data.fire_per_sec));
 
-	base = text_manager->GetPopUpText("RANGE");
-	args.Add("RANGE", FText::AsNumber(data.fire_range));
-	range_text_->SetText( FText::Format(base, args));
-	args.Empty();
+	range_text_->SetText(text_manager->GetPopUpText("RANGE"));
+	range_value_->SetText(FText::AsNumber(data.fire_range));
 
-	base = text_manager->GetPopUpText("CRIT");
-	args.Add("CRIT", FText::AsNumber(data.critical_hit_rate_));
-	crit_rate_text_->SetText( FText::Format(base, args));
-	args.Empty();
+	crit_rate_text_->SetText(text_manager->GetPopUpText("CRIT"));
+	crit_rate_value_->SetText(FText::AsNumber(data.critical_hit_rate_));
 
-	base = text_manager->GetPopUpText("MAGAZINE");
-	args.Add("MAGAZINE", FText::AsNumber(data.max_magazine));
-	max_magazine_text_->SetText( FText::Format(base, args));
-	args.Empty();
+	max_magazine_text_->SetText(text_manager->GetPopUpText("MAGAZINE"));
+	max_magazine_value_->SetText(FText::AsNumber(data.max_magazine));
 
-	base = text_manager->GetPopUpText("RELOADDURATION");
-	args.Add("RELOADDURATION", FText::AsNumber(data.reload_duration));
-	reload_duration_text_->SetText( FText::Format(base, args));
-	args.Empty();
+	reload_duration_text_->SetText(text_manager->GetPopUpText("RELOADDURATION"));
+	reload_duration_value_->SetText(FText::AsNumber(data.reload_duration));
 }

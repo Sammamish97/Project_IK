@@ -15,13 +15,13 @@ See LICENSE file in the project root for full license information.
 #include "Managers/TextManager.h"
 #include "WorldSettings/IKGameInstance.h"
 
-void UGlobalBuffPopupWidget::UpdateLeftDuration(float left_duration)
+void UGlobalBuffPopupWidget::UpdateLeftDuration(int32 left_duration)
 {
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	UTextManager* text_manager = game_instance->GetTextManager();
-	FText cool_down_base = text_manager->GetPopUpText("Duration");
+	FText cool_down_base = text_manager->GetPopUpText("GBUFF_DURATION");
 
 	FFormatNamedArguments args;
-	args.Add("Duration", FText::AsNumber(left_duration));
+	args.Add("GBUFF_DURATION", FText::AsNumber(left_duration));
 	left_duration_text_->SetText( FText::Format(cool_down_base, args));
 }

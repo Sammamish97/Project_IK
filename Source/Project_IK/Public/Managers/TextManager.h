@@ -36,6 +36,7 @@ public:
 
 	FText GetRuneNameText(ERuneSetType set_type) const;
 	FText GetRuneSetBonusText(ERuneSetType set_type, ERuneSetBonusType bonus_type) const;
+	FText GetRuneDetail(ERuneSetType set_type) const;
 
 	FText GetStatusText(ECharacterStatType stat_type) const;
 	FText GetPopUpText(const FString& key) const;
@@ -50,6 +51,8 @@ public:
 	FText GetEventDetailText(EEventType event_type) const;
 	FText GetEventOptionText(EEventType event_type, int32 option_idx) const;
 
+	FText GetStoreText(EStoreTextType event_type) const;
+	
 private:
 	FString RuneEnumToKey(ERuneSetType type) const;
 	FString RuneSetBonusEnumToKey(ERuneSetBonusType type) const;
@@ -65,9 +68,9 @@ private:
 
 	FString EventEnumToKey(EEventType event_type) const;
 	FString PerkEnumToKey(EPerkNodeType perk_name) const;
+	FString StoreEnumToKey(EStoreTextType store_type) const;
 
 private:
-	
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> weapon_name_table_;
 
@@ -154,4 +157,12 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> rune_hexagon_bonus_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> rune_detail_table_;
+
+	//
+	
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> store_text_table_;
 };

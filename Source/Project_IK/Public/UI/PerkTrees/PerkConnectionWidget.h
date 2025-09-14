@@ -22,7 +22,6 @@ class PROJECT_IK_API UPerkConnectionWidget : public UUserWidget
 	GENERATED_BODY()
 public:
 	void InitConnection(UPerkNodeWidget* owner, FVector2D end_point, FPerkConnectionColor connection_color);
-	virtual void NativePreConstruct() override;
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	

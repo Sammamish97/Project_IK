@@ -15,16 +15,6 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/KismetMathLibrary.h"
 #include "UI/PerkTrees/PerkNodeWidget.h"
 
-void UPerkConnectionWidget::NativePreConstruct()
-{
-	Super::NativePreConstruct();
-	if (IsDesignTime() == false)
-	{
-		//connection_color_.default_color_ = FLinearColor();
-		//connection_color_.purchased_ = FLinearColor();
-	}
-}
-
 void UPerkConnectionWidget::InitConnection(UPerkNodeWidget* owner, FVector2D end_point,
 	FPerkConnectionColor connection_color)
 {

@@ -29,7 +29,9 @@ See LICENSE file in the project root for full license information.
 #include "Components/TextBlock.h"
 
 #include "Subsystems/LevelTransitionSubsystem.h"
-
+#include "UI/PopUps/ActiveSkillPopupWidget.h"
+#include "UI/PopUps/SingleRunePopupWidget.h"
+#include "UI/PopUps/WeaponPopupWidget.h"
 
 
 template<typename ItemType, typename ItemContainer, typename SlotContainer>
@@ -38,6 +40,10 @@ inline void UStoreWidget::AddItems(TArray<ItemType> items, ItemContainer& item_c
 	for (int32 i = 0; i < items.Num(); i++)
 	{
 		UStoreSlot* slot = WidgetTree->ConstructWidget<UStoreSlot>(store_widget_class_);
+		FRewardData reward;
+		reward.SetData(items[i]);
+		slot->SetItemData(reward);
+		slot->SetStoreWidgetCache(this);
 		slot->SetTexture(items[i].thumbnail_);
 		slot->SetPrice(GetPriceByRarity(items[i].rarity_));
 		slot->OnStoreSlotClickedDelegate.AddDynamic(this, &UStoreWidget::OnStoreSlotClicked);
@@ -68,9 +74,10 @@ void UStoreWidget::NativeConstruct()
 	{
 		return;
 	}
-
+	
+	text_manager_cache_ = game_instance->GetTextManager();
 	credits_ = game_instance->GetInventoryManager()->GetCredits();
-
+	slot_margin_ = FMargin(30, 30);
 
 	UDataTableManager* manager = game_instance->GetDataTableManager();
 	if (store_widget_class_)
@@ -92,7 +99,7 @@ void UStoreWidget::NativeConstruct()
 	}
 
 	pay_button_->OnClicked.AddDynamic(this, &UStoreWidget::OnPayButtonClicked);
-	pay_button_->SetStyle(leave_style_);
+	pay_text_->SetText(text_manager_cache_->GetStoreText(EStoreTextType::Leave));
 }
 
 void UStoreWidget::NativeDestruct()
@@ -107,6 +114,61 @@ void UStoreWidget::NativeDestruct()
 	}
 }
 
+void UStoreWidget::CreateWeaponPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail,
+											   const FWeaponStatusData& data)
+{
+	equip_popup_ptr_ = CreateWidget<UBasicPopupWidget>(this, weapon_popup_class_);
+	equip_popup_ptr_->UpdatePopupData(thumbnail, name, detail);
+	Cast<UWeaponPopupWidget>(equip_popup_ptr_)->UpdateWeaponData(data);
+	equip_popup_ptr_->AddToViewport();
+	equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
+}
+
+void UStoreWidget::CreateActiveSkillPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail, float cool_down)
+{
+	equip_popup_ptr_ = CreateWidget<UBasicPopupWidget>(this, active_skill_popup_class_);
+	equip_popup_ptr_->UpdatePopupData(thumbnail, name, detail);
+	Cast<UActiveSkillPopupWidget>(equip_popup_ptr_)->UpdateCoolDown(cool_down);
+	equip_popup_ptr_->AddToViewport();
+	equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
+}
+
+void UStoreWidget::CreatePassiveSkillPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail)
+{
+	equip_popup_ptr_ = CreateWidget<UBasicPopupWidget>(this, passive_skill_popup_class_);
+	equip_popup_ptr_->UpdatePopupData(thumbnail, name, detail);
+	equip_popup_ptr_->AddToViewport();
+	equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
+}
+
+void UStoreWidget::CreateRunePopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail,
+	ERuneSetType rune_set_type)
+{
+	equip_popup_ptr_ = CreateWidget<UBasicPopupWidget>(this, rune_popup_class_);
+	equip_popup_ptr_->UpdatePopupData(thumbnail, name, detail);
+	Cast<USingleRunePopupWidget>(equip_popup_ptr_)->UpdateRuneData(rune_set_type, ERuneSetBonusType::Hexagon);
+	equip_popup_ptr_->AddToViewport();
+	equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
+}
+
+void UStoreWidget::SetPopupWidgetPos(FVector2D pos)
+{
+	if(equip_popup_ptr_)
+	{
+		equip_popup_ptr_->SetPositionInViewport(pos, false);
+	}
+}
+
+void UStoreWidget::RemovePopupWidget()
+{
+	if(equip_popup_ptr_)
+	{
+		equip_popup_ptr_->Destruct();
+		equip_popup_ptr_->SetVisibility(ESlateVisibility::Hidden);
+		equip_popup_ptr_ = nullptr;
+	}
+}
+
 void UStoreWidget::OnPayButtonClicked()
 {
 	if (!confirmation_widget_)
@@ -116,19 +178,18 @@ void UStoreWidget::OnPayButtonClicked()
 
 	if (total_cost_ <= 0)
 	{
-		confirmation_widget_->SetText(NSLOCTEXT("UI", "StoreLeave", "Are you sure you want to leave? This action cannot be undone."));
+		confirmation_widget_->SetText(text_manager_cache_->GetStoreText(EStoreTextType::ConfirmLeave));
 		confirmation_widget_->AddToViewport();
 	}
 	else if (total_cost_ <= credits_)
 	{
 		// Are you sure you want to purchase this item? This action cannot be undone.
-		FText confirm_text = FText::Format(NSLOCTEXT("UI", "StorePurchase", "Do you want to complete your purchase of items for {0}?"), FText::AsNumber(total_cost_));
-		confirmation_widget_->SetText(confirm_text);
+		confirmation_widget_->SetText(text_manager_cache_->GetStoreText(EStoreTextType::ConfirmPurchase));
 		confirmation_widget_->AddToViewport();
 	}
 	else
 	{
-		casher_text_->SetText(NSLOCTEXT("UI", "StoreNeedMoney", "Not enough money, huh? Try picking something that actually fits your purse."));
+		casher_text_->SetText(text_manager_cache_->GetStoreText(EStoreTextType::NotEnoughCredit));
 	}
 }
 
@@ -163,11 +224,11 @@ void UStoreWidget::OnStoreSlotClicked()
 	// Update button style
 	if (total_cost_ <= 0)
 	{
-		pay_button_->SetStyle(leave_style_);
+		pay_text_->SetText(text_manager_cache_->GetStoreText(EStoreTextType::Leave));
 	}
 	else
 	{
-		pay_button_->SetStyle(purchase_style_);
+		pay_text_->SetText(text_manager_cache_->GetStoreText(EStoreTextType::Purchase));
 	}
 }
 

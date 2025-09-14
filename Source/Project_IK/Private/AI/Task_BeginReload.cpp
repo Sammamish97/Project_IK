@@ -19,7 +19,7 @@ UTask_BeginReload::UTask_BeginReload()
 {
 	NodeName = "BeginReload";
 }
-
+ 
 EBTNodeResult::Type UTask_BeginReload::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	auto casted_pawn = OwnerComp.GetAIOwner()->GetPawn();

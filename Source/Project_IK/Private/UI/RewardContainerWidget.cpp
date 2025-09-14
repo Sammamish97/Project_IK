@@ -115,7 +115,7 @@ void URewardContainerWidget::RemoveWidgetFromRewardContainer(UInventorySlot* rem
 void URewardContainerWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	
+
 	for (auto weapon_data : reward_cache_.weapons_)
 	{
 		auto created_widget = CreateWidget<UWeaponSlotWidget>(this, weapon_slot_widget_class_);

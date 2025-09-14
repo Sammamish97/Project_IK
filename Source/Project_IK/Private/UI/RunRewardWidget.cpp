@@ -43,8 +43,8 @@ void URunRewardWidget::NativeConstruct()
 			{
 				FMapNode node = maps->GetNode(node_index.X, node_index.Y);
 
-				// @@ TODO: Need to add handle when the nodetype is elite enemy.
-				// @@ TODO: Need to concern result of boss battle.
+				// @@ IKTODO: Need to add handle when the nodetype is elite enemy.
+				// @@ IKTODO: Need to concern result of boss battle.
 						// Since UIKMaps::SetPlayerGridPosition record boss node has been visited whether combat result,
 						// perk_points_reward_ always provided whether boss defeated or not.
 				switch (node.type)
