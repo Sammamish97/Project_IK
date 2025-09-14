@@ -25,25 +25,41 @@ public:
 private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> basic_dmg_text_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> basic_dmg_value_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> attack_power_ratio_text_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> attack_power_ratio_value_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> skill_power_ratio_text_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> skill_power_ratio_value_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> attack_speed_text_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> attack_speed_value_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> range_text_;
-
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> range_value_;
+	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> crit_rate_text_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> crit_rate_value_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> max_magazine_text_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> max_magazine_value_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> reload_duration_text_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> reload_duration_value_;
 };

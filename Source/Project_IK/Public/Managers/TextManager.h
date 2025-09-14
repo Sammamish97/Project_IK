@@ -36,6 +36,7 @@ public:
 
 	FText GetRuneNameText(ERuneSetType set_type) const;
 	FText GetRuneSetBonusText(ERuneSetType set_type, ERuneSetBonusType bonus_type) const;
+	FText GetRuneDetail(ERuneSetType set_type) const;
 
 	FText GetStatusText(ECharacterStatType stat_type) const;
 	FText GetPopUpText(const FString& key) const;
@@ -154,4 +155,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> rune_hexagon_bonus_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> rune_detail_table_;
 };

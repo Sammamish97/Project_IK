@@ -99,8 +99,7 @@ void URuneSlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPoi
 	{
 		inventory_widget_cache_->CreateRunePopupWidget(rune_data_cache_.thumbnail_,
 				text_manager_cache_->GetRuneNameText(rune_data_cache_.set_type),
-				//IKTODO: EDGE대신 룬 요약 텍스트 삽입.
-				text_manager_cache_->GetRuneSetBonusText(rune_data_cache_.set_type, ERuneSetBonusType::Edge),
+				text_manager_cache_->GetRuneDetail(rune_data_cache_.set_type),
 				rune_data_cache_.set_type);
 	}
 }

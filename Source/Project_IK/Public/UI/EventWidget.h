@@ -29,10 +29,12 @@ public:
 	void EnableButtons(int32 num);
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
+
+	UFUNCTION()
+	void MakeEndButtonVisible();
 	
 protected:
-
-
+	
 	UFUNCTION()
 	void OnEndButtonClicked();
 

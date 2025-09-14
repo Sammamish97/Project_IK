@@ -98,6 +98,11 @@ FText UTextManager::GetRuneSetBonusText(ERuneSetType set_type, ERuneSetBonusType
 	}
 }
 
+FText UTextManager::GetRuneDetail(ERuneSetType set_type) const
+{
+	return FText::FromStringTable(rune_detail_table_->GetStringTableId(), RuneEnumToKey(set_type));
+}
+
 FText UTextManager::GetWeaponNameText(EWeaponType type) const
 {
 	return FText::FromStringTable(weapon_name_table_->GetStringTableId(), WeaponEnumToKey(type));

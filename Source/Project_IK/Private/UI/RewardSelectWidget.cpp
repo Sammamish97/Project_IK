@@ -54,8 +54,7 @@ void URewardSelectWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const 
 	case EGearType::Rune:
 		equipment_reward_widget_cache_->CreateRunePopupWidget(reward_data_.rune_data_.thumbnail_,
 				text_manager_cache_->GetRuneNameText(reward_data_.rune_data_.set_type),
-				//IKTODO: EDGE대신 룬 요약 텍스트 삽입.
-				text_manager_cache_->GetRuneSetBonusText(reward_data_.rune_data_.set_type, ERuneSetBonusType::Edge),
+				text_manager_cache_->GetRuneDetail(reward_data_.rune_data_.set_type),
 				reward_data_.rune_data_.set_type);
 		break;
 	default:

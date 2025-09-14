@@ -34,6 +34,11 @@ void UEventWidget::InitEventWidget(FEventData input_data)
 	fourth_option_->SetText(text_manager->GetEventOptionText(input_data.event_type_, 3));
 }
 
+void UEventWidget::MakeEndButtonVisible()
+{
+	end_button_->SetVisibility(ESlateVisibility::Visible);
+}
+
 void UEventWidget::ClearButtonBinding()
 {
 	if (button_1_->OnClicked.IsBound())
@@ -73,6 +78,13 @@ void UEventWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	end_button_->OnClicked.AddDynamic(this, &UEventWidget::OnEndButtonClicked);
+	end_button_->SetVisibility(ESlateVisibility::Hidden);
+
+	TArray<UButton*> buttons{ button_1_, button_2_, button_3_, button_4_ };
+	for (int32 i = 0; i < buttons.Num(); i++)
+	{
+		buttons[i]->OnClicked.AddDynamic(this, &UEventWidget::MakeEndButtonVisible);
+	}
 }
 
 void UEventWidget::NativeDestruct()
