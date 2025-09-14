@@ -14,8 +14,6 @@ See LICENSE file in the project root for full license information.
 
 AMeleeAIController::AMeleeAIController()
 {
-	debug_draw_component_ = CreateDefaultSubobject<UAIDebugDrawComponent>(TEXT("DebugDrawComponent"));
-
 	target_class_key_name_ = TEXT("TargetClass");
 	unit_state_key_name_ = TEXT("UnitState");
 	stun_state_key_name_ = TEXT("StunState");
@@ -56,7 +54,6 @@ void AMeleeAIController::OnPossess(APawn* InPawn)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("unit state enum key name is wrong!"));
 	}
-	debug_draw_component_->InitAIController(this);
 }
 
 void AMeleeAIController::GetStunned()

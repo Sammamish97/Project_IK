@@ -66,11 +66,6 @@ void UAIDebugDrawComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 		//원거리 유닛은 무기 사거리와 엄폐물 관련 debug draw역시 포함시킨다.
 		if (is_melee_ == false)
 		{
-			//엄폐물 debug draw
-			if (auto owned_cover = ai_controller_cache_->GetOwnedCover())
-			{
-				DrawDebugLine(GetWorld(), unit_cache_->GetActorLocation(), owned_cover->GetActorLocation(), FColor::Blue);
-			}
 			//무기 사거리 debug draw
 			if (weapon_mechanics_cache_)
 			{

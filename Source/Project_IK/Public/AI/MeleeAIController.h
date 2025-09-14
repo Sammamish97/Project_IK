@@ -59,9 +59,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "GunnerAIController", meta = (AllowPrivateAccess = "true"))
 	FName ai_find_target_key_name_;
 
-	UPROPERTY()
-	class UAIDebugDrawComponent* debug_draw_component_;
-
 private:
 	FTimerHandle timer_handle_;
 };
