@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Camera/PlayerCameraManager.h"
 #include "IKPlayerCameraManager.generated.h"
 
+class AUnit;
+
 /**
  * 
  */
@@ -60,11 +62,11 @@ protected:
 
 	void RotateViewVector(float angle);
 
-	FBox GetHeroBox() const;
+	FBox GetUnitBox() const;
 	float GetAspectRatio() const;
 
 	void LoadHeroes();
 
-	TArray<TWeakObjectPtr<AActor>> tracked_heroes_{};
-	TArray<TWeakObjectPtr<AActor>> tracked_enemies_{};
+	TArray<TWeakObjectPtr<AUnit>> tracked_heroes_{};
+	TArray<TWeakObjectPtr<AUnit>> tracked_enemies_{};
 };

@@ -175,7 +175,7 @@ void AGunBase::PlayFireSound() const
 	}
 
 	// Reduce volume of enemy gunshots
-	UAudioManagerSubsystem::Get(this)->PlayAtLocation(gunshot_audio_type_, GetActorLocation(), 0.5f);
+	UAudioManagerSubsystem::Get(this)->PlayAtLocation(gunshot_audio_type_, GetActorLocation(), 0.65f);
 }
 
 void AGunBase::OnGunDied()
