@@ -46,9 +46,6 @@ void UPerkHUDWidget::NativeConstruct()
 void UPerkHUDWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	//Animation
-	//UpdatePerkTreeConnectionOpacity();
-	//UpdatePerkTreeTransform();
 
 	//Update Wheel Zoom
 	mouse_wheel_delta_ = UKismetMathLibrary::FInterpTo_Constant(mouse_wheel_delta_,

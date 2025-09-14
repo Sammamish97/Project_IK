@@ -25,7 +25,7 @@ class PROJECT_IK_API UEnemySpawnerManager : public UObject
 public:
 	UEnemySpawnerManager();
 
-	void Initialize(FVector base_spawn_position, int32 waves);
+	void Initialize(FVector base_spawn_position);
 
 	void SpawnEnemies();
 
@@ -50,9 +50,17 @@ protected:
 	// How strong enemies spawned?
 	UPROPERTY(BlueprintReadWrite)
 	TArray<TObjectPtr<AActor>> enemies_;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status Info", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UEnemySpawnDataAsset> enemy_spawn_data_asset_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnemySpawner")
+	TObjectPtr<UEnemySpawnDataAsset> enemy_spawn_data_asset_early_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnemySpawner")
+	TObjectPtr<UEnemySpawnDataAsset> enemy_spawn_data_asset_mid_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnemySpawner")
+	TObjectPtr<UEnemySpawnDataAsset> enemy_spawn_data_asset_late_;
+
+	UEnemySpawnDataAsset* spawn_data_ptr_ = nullptr;
 	
 	//Test Perpose
 	UPROPERTY(EditDefaultsOnly)

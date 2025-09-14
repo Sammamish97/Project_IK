@@ -71,10 +71,8 @@ void UPerkNodeWidget::PurchaseSkill()
 
 bool UPerkNodeWidget::CanPurchase()
 {
-	//IKTODO: 어딘가에서 cost를 받아와야 함.
-	//int32 cur_point = save_ref_->LoadPerkPoint();
-	int32 cur_point = 5;
-	return perk_detail_.cost_ < cur_point &&
+	int32 left_point = progress_system_cache_->LoadPerkPoint();
+	return perk_detail_.cost_ < left_point &&
 		perk_detail_.purchased_ == false &&
 		perk_detail_.locked_ == false;
 }
@@ -197,7 +195,7 @@ FLinearColor UPerkNodeWidget::SetIconColor()
 	{
 		return FLinearColor();
 	}
-	return LinearColorLerp(0.9f);
+	return LinearColorLerp(1.5f);
 }
 
 FSlateBrush UPerkNodeWidget::SetIconBrush()

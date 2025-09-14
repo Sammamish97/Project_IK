@@ -13,8 +13,11 @@ See LICENSE file in the project root for full license information.
 void UWeaponMechanics::EquipWeapon(const FWeaponData& data)
 {
 	weapon_actor_ = GetWorld()->SpawnActor<AGunBase>(data.weapon_class_);
-	weapon_actor_->AttachToComponent(owner_ref_->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, weapon_actor_->GetGrabSocketName());
-	weapon_actor_->InitWeapon(data, owner_ref_, owner_ref_->IsHero());
+	if (weapon_actor_)
+	{
+		weapon_actor_->AttachToComponent(owner_ref_->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, weapon_actor_->GetGrabSocketName());
+		weapon_actor_->InitWeapon(data, owner_ref_, owner_ref_->IsHero());
+	}
 }
 
 void UWeaponMechanics::BeginPlay()
