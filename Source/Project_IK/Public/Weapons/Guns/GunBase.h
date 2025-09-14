@@ -93,7 +93,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon" )
 	TObjectPtr<class USphereComponent> root_sphere_mesh_;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon" )
+	UPROPERTY()
 	FWeaponData weapon_data_cache_;
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Weapon" )

@@ -81,7 +81,6 @@ void UPerkNodeWidget::PurchaseSkill()
 bool UPerkNodeWidget::CanPurchase()
 {
 	int32 left_point = progress_system_cache_->LoadPerkPoint();
-	return perk_detail_.cost_ < left_point &&
 	return perk_detail_.cost_ <= left_point &&
 		perk_detail_.purchased_ == false &&
 		perk_detail_.locked_ == false;
