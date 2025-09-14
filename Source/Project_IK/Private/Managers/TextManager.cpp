@@ -80,7 +80,11 @@ FText UTextManager::GetEventOptionText(EEventType event_type, int32 option_idx) 
 	default:
 		return FText::FromName("INVALID");
 	}
-	
+}
+
+FText UTextManager::GetStoreText(EStoreTextType event_type) const
+{
+	return FText::FromStringTable(store_text_table_->GetStringTableId(), StoreEnumToKey(event_type));
 }
 
 FText UTextManager::GetRuneSetBonusText(ERuneSetType set_type, ERuneSetBonusType bonus_type) const
@@ -1077,6 +1081,30 @@ FString UTextManager::PerkEnumToKey(EPerkNodeType type) const
 		break;
 	case EPerkNodeType::EXSURV:
 		key = "EXSURV";
+		break;
+	}
+	return key;
+}
+
+FString UTextManager::StoreEnumToKey(EStoreTextType store_type) const
+{
+	FString key;
+	switch (store_type)
+	{
+	case EStoreTextType::Purchase:
+		key = "PURCHASE";
+		break;
+	case EStoreTextType::Leave:
+		key = "LEAVE";
+		break;
+	case EStoreTextType::NotEnoughCredit:
+		key = "NECREDIT";
+		break;
+	case EStoreTextType::ConfirmPurchase:
+		key = "CFPURCHASE";
+		break;
+	case EStoreTextType::ConfirmLeave:
+		key = "CFLEAVE";
 		break;
 	}
 	return key;

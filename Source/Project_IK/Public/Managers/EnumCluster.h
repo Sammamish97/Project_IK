@@ -884,3 +884,14 @@ enum class EPerkNodeType : uint8
 	EXSKP UMETA(DisplayName = "EXSKP"),
 	EXSURV UMETA(DisplayName = "EXSURV"),
 };
+
+UENUM(BlueprintType)
+enum class EStoreTextType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	Purchase UMETA(DisplayName = "Purchase"),
+	Leave UMETA(DisplayName = "Leave"),
+	NotEnoughCredit UMETA(DisplayName = "NotEnoughCredit"),
+	ConfirmPurchase UMETA(DisplayName = "ConfirmPurchase"),
+	ConfirmLeave UMETA(DisplayName = "ConfirmLeave"),
+};

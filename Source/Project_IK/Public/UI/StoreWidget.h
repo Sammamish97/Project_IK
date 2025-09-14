@@ -27,11 +27,9 @@ class UButton;
 class UStoreSlot;
 class UConfirmationWidget;
 class UCreditWidget;
+class UBasicPopupWidget;
+class UTextManager;
 
-
-/**
- * 
- */
 UCLASS()
 class PROJECT_IK_API UStoreWidget : public UUserWidget
 {
@@ -49,12 +47,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UConfirmationWidget> confirmation_widget_class_;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	FButtonStyle purchase_style_;
+	void CreateWeaponPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail, const FWeaponStatusData& data);
+	void CreateActiveSkillPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail, float cool_down);
+	void CreatePassiveSkillPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail);
+	void CreateRunePopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail, ERuneSetType rune_set_type);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	FButtonStyle leave_style_;
-
+	void SetPopupWidgetPos(FVector2D pos);
+	void RemovePopupWidget();
 
 protected:
 	virtual void NativeConstruct() override;
@@ -96,6 +95,9 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> pay_button_;
 
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> pay_text_;
+
 	UPROPERTY()
 	TObjectPtr<UConfirmationWidget> confirmation_widget_;
 
@@ -118,4 +120,23 @@ protected:
 
 	int32 total_cost_;
 	int32 credits_;
+
+	//
+	UPROPERTY()
+	TObjectPtr<UTextManager> text_manager_cache_;
+
+	UPROPERTY()
+	TObjectPtr<UBasicPopupWidget> equip_popup_ptr_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBasicPopupWidget> passive_skill_popup_class_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBasicPopupWidget> active_skill_popup_class_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBasicPopupWidget> weapon_popup_class_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
+	TSubclassOf<UBasicPopupWidget> rune_popup_class_;
 };
