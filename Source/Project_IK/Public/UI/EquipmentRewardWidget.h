@@ -50,8 +50,8 @@ protected:
 	UFUNCTION()
 	void OnConfirmButtonClicked();
 
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> text_max_selectables_;
+	// UPROPERTY(meta = (BindWidget))
+	// TObjectPtr<UTextBlock> text_max_selectables_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UUniformGridPanel> reward_container_;
