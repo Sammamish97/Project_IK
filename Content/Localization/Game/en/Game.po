@@ -1,0 +1,3165 @@
+﻿# Game English translation.
+# Fill out your copyright notice in the Description page of Project Settings.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Game\n"
+"POT-Creation-Date: 2025-09-15 14:39\n"
+"PO-Revision-Date: 2025-09-15 14:39\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Key:	CS_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,CS_A"
+msgid "단일 적에게 {0}의 물리 피해를 가하는 탄환을 발사합니다. 만약 적이 죽는다면 쿨타임이 2초 감소합니다."
+msgstr "Fires a bullet that deals {0} physical damage to a single enemy. On kill, reduces the cooldown by 2 seconds."
+
+#. Key:	CS_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,CS_B"
+msgid "단일 적에게 {0}의 물리 피해를 가하는 탄환을 발사합니다."
+msgstr "Fires a bullet that deals {0} physical damage to a single enemy."
+
+#. Key:	DS_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,DS_A"
+msgid "{0}의 체력과 {1}의 공격력을 가진 포탑을 소환합니다. 20%의 추가 공격속도를 얻습니다."
+msgstr "Summons a turret with {0} HP and {1} attack power. Gain an additional 20% attack speed."
+
+#. Key:	DS_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,DS_B"
+msgid "{0}의 체력과 {1}의 공격력을 가진 포탑을 소환합니다."
+msgstr "Summons a turret with {0} HP and {1} attack power."
+
+#. Key:	EC_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,EC_A"
+msgid "범위 내 아군들이 5초간 {0}의 실드와 {1}의 공격력, {2}의 스킬 위력을 얻고, 액티브 스킬의 쿨타임이 1초 감소합니다."
+msgstr "Allies in range gain a {0} shield, +{1} attack power, and +{2} skill power for 5 seconds. Reduces the cooldown of active skills by 1 second."
+
+#. Key:	EC_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,EC_B"
+msgid "범위 내 아군들이 5초간 {0}의 실드와 {1}의 공격력, {2}의 스킬 위력을 얻습니다."
+msgstr "Allies in range gain a {0} shield, +{1} attack power, and +{2} skill power for 5 seconds."
+
+#. Key:	FS_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,FS_A"
+msgid "아군과 적을 5번 오가며 아군에게는 {0}의 회복, 적에게는 {1}의 데미지를 가합니다.  튕길 때 마다 회복/데미지가 15% 증가합니다."
+msgstr "A projectile bounces between allies and enemies up to 5 times, healing allies for {0} and damaging enemies for {1} on each hit. Healing and damage increase by 15% per bounce."
+
+#. Key:	FS_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,FS_B"
+msgid "아군과 적을 3번 오가며 아군에게는 {0}의 회복, 적에게는 {1}의 데미지를 가합니다. "
+msgstr "A projectile bounces between allies and enemies up to 3 times, healing allies for {0} and damaging enemies for {1} on each hit."
+
+#. Key:	MTB_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,MTB_A"
+msgid "3초간 총알에 {0}의 마법 피해가 추가됩니다. 공격속도가 15% 증가합니다."
+msgstr "For 3 seconds, bullets deal an additional {0} magic damage. Attack speed increases by 15%."
+
+#. Key:	MTB_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,MTB_B"
+msgid "3초간 총알에 {0}의 마법 피해가 추가됩니다."
+msgstr "For 3 seconds, bullets deal an additional {0} magic damage."
+
+#. Key:	RC_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,RC_A"
+msgid "3초간 총알이 근처의 적에게 도탄됩니다. 최대 3번 튕기며, 튕길 때 마다 20%씩 데미지가 감소됩니다."
+msgstr "For 3 seconds, bullets ricochet to nearby enemies, bouncing up to 3 times. Damage is reduced by 20% per bounce."
+
+#. Key:	RC_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,RC_B"
+msgid "3초간 총알이 근처의 적에게 도탄됩니다. 최대 2번 튕기며, 튕길 때 마다 30%씩 데미지가 감소됩니다."
+msgstr "For 3 seconds, bullets ricochet to nearby enemies, bouncing up to 2 times. Damage is reduced by 30% per bounce."
+
+#. Key:	TD_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,TD_A"
+msgid "단일 적에게 <SkillDMG>{0}의 마법 피해</>를 가합니다."
+msgstr "Deals <SkillDMG>{0} magic damage</> to a single enemy."
+
+#. Key:	TD_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,TD_B"
+msgid "단일 적에게 <SkillDMG>{0}의 마법 피해</>를 가합니다."
+msgstr "Deals <SkillDMG>{0} magic damage</> to a single enemy."
+
+#. Key:	TDS_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,TDS_A"
+msgid "범위 내 적에게  <SkillDMG>{0}의 마법 피해</>를 8번 가합니다."
+msgstr "Deals <SkillDMG>{0} magic damage</> to enemies in the area 8 times."
+
+#. Key:	TDS_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,TDS_B"
+msgid "범위 내 적에게  <SkillDMG>{0}의 마법 피해</>를 4번 가합니다."
+msgstr "Deals <SkillDMG>{0} magic damage</> to enemies in the area 4 times."
+
+#. Key:	TF_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,TF_A"
+msgid "현재 공격속도의 3배의 공격속도로 3발의 탄환을 발사합니다."
+msgstr "Fires three bullets at 3× your current attack speed."
+
+#. Key:	TF_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+#: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
+msgctxt "ActiveSkill_Detail,TF_B"
+msgid "현재 공격속도의 2배의 공격속도로 3발의 탄환을 발사합니다."
+msgstr "Fires three bullets at 2× your current attack speed."
+
+#. Key:	CS_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,CS_A"
+msgid "차지 샷"
+msgstr "Charge Shot"
+
+#. Key:	CS_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,CS_B"
+msgid "차지 샷"
+msgstr "Charge Shot"
+
+#. Key:	DS_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,DS_A"
+msgid "포탑 설치"
+msgstr "Deploy Turret"
+
+#. Key:	DS_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,DS_B"
+msgid "포탑 설치"
+msgstr "Deploy Turret"
+
+#. Key:	EC_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,EC_A"
+msgid "강화 파동"
+msgstr "Encourage"
+
+#. Key:	EC_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,EC_B"
+msgid "강화 파동"
+msgstr "Encourage"
+
+#. Key:	FS_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,FS_A"
+msgid "에너지 전도"
+msgstr "Fate Spiral"
+
+#. Key:	FS_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,FS_B"
+msgid "에너지 전도"
+msgstr "Fate Spiral"
+
+#. Key:	MTB_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,MTB_A"
+msgid "전자기 탄환"
+msgstr "Electric Bullets"
+
+#. Key:	MTB_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,MTB_B"
+msgid "전자기 탄환"
+msgstr "Electric Bullets"
+
+#. Key:	RC_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,RC_A"
+msgid "도탄"
+msgstr "Ricochet"
+
+#. Key:	RC_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,RC_B"
+msgid "도탄"
+msgstr "Ricochet"
+
+#. Key:	TD_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,TD_A"
+msgid "벼락"
+msgstr "Thunder"
+
+#. Key:	TD_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,TD_B"
+msgid "벼락"
+msgstr "Thunder"
+
+#. Key:	TDS_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,TDS_A"
+msgid "벼락 폭풍"
+msgstr "Thunderstorm"
+
+#. Key:	TDS_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,TDS_B"
+msgid "벼락 폭풍"
+msgstr "Thunderstorm"
+
+#. Key:	TF_A
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,TF_A"
+msgid "삼연사"
+msgstr "Triple Fire"
+
+#. Key:	TF_B
+#. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+#: /Game/StringTables/ActiveSkill/ActiveSkill_name.ActiveSkill_name
+msgctxt "ActiveSkill_name,TF_B"
+msgid "삼연사"
+msgstr "Triple Fire"
+
+#. Key:	AB_AP
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,AB_AP"
+msgid "매복 당하여 공격력이 감소되었습니다."
+msgstr "Ambushed! Attack power reduced."
+
+#. Key:	AB_AS
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,AB_AS"
+msgid "매복 당하여 공격 속도가 감소되었습니다."
+msgstr "Ambushed! Attack speed reduced."
+
+#. Key:	ACB
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,ACB"
+msgid "추가 공격 속도를 얻습니다."
+msgstr "Gain additional attack speed."
+
+#. Key:	ACS
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,ACS"
+msgid "추가 실드를 얻습니다."
+msgstr "Gain an additional shield."
+
+#. Key:	AG
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,AG"
+msgid "액티브 스킬 사용 후 공격속도가 증가합니다."
+msgstr "Gain attack speed when it casts an active skill."
+
+#. Key:	ASK_ARM
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,ASK_ARM"
+msgid "공습에 당하여 방어력이 감소되었습니다."
+msgstr "Airstrike! Armor reduced."
+
+#. Key:	ASK_HP
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,ASK_HP"
+msgid "공습에 당하여 전체 체력이 감소되었습니다."
+msgstr "Airstrike! Max HP reduced."
+
+#. Key:	BSK
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,BSK"
+msgid "체력이 낮아지면 공격 속도와 흡혈이 증가합니다."
+msgstr "Attack speed and life steal increase as HP decreases."
+
+#. Key:	C_ATP_B
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,C_ATP_B"
+msgid "정상 코어가 장착되어 공격력이 증가되었습니다."
+msgstr "Normal core installed: attack power increased."
+
+#. Key:	C_ATP_DB
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,C_ATP_DB"
+msgid "불량 코어가 장착되어 공격력이 감소하였습니다."
+msgstr "Defective core installed! Attack power reduced."
+
+#. Key:	CDT
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,CDT"
+msgid "생존률이 증가합니다."
+msgstr "Survivability increased."
+
+#. Key:	CHA_E
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,CHA_E"
+msgid "공격력과 체력이 증가합니다."
+msgstr "Attack power and HP increased."
+
+#. Key:	CHA_H
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,CHA_H"
+msgid "특정 행동 시 실드를 얻습니다."
+msgstr "Gain a shield when performing specific actions."
+
+#. Key:	CHA_T
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,CHA_T"
+msgid "장전 시 실드를 획득합니다."
+msgstr "Gain a shield when reloading."
+
+#. Key:	CPS
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,CPS"
+msgid "체력이 낮아질 수록 회피율이 증가합니다."
+msgstr "Evasion rate increases as HP decreases."
+
+#. Key:	CQM
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,CQM"
+msgid "적과 가까워 질 수록 치명타 확률이 증가되었습니다."
+msgstr "Critical hit chance increases the closer you are to enemies."
+
+#. Key:	DAG_E
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,DAG_E"
+msgid "공격 속도와 치명타 확률이 증가되었습니다."
+msgstr "Attack speed and critical hit chance increased."
+
+#. Key:	DAG_H
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,DAG_H"
+msgid "치명타 공격 시 추가 투사체를 발사합니다."
+msgstr "Fires an additional daggers on critical hits."
+
+#. Key:	DAG_T
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,DAG_T"
+msgid "장전시 추가 치명타 확률을 얻습니다."
+msgstr "Gain additional critical hit chance when reloading."
+
+#. Key:	DB
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,DB"
+msgid "한번 파괴되어 전체 체력이 감소되었습니다. 한번 더 파괴될 시 유닛이 사망합니다."
+msgstr ""
+
+#. Key:	EC
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,EC"
+msgid "추가 공격력과 스킬 위력을 얻습니다."
+msgstr ""
+
+#. Key:	EMP_AS
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,EMP_AS"
+msgid "추가 공격 속도를 얻습니다."
+msgstr ""
+
+#. Key:	EMP_CR
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,EMP_CR"
+msgid "추가 치명타 확률을 얻습니다."
+msgstr ""
+
+#. Key:	EMP_HP
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,EMP_HP"
+msgid "최대 체력이 감소하였습니다."
+msgstr ""
+
+#. Key:	EP
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,EP"
+msgid "추가 공격 속도를 얻었습니다."
+msgstr ""
+
+#. Key:	ETP
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,ETP"
+msgid "추가 방어력을 얻었습니다."
+msgstr ""
+
+#. Key:	EXC
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,EXC"
+msgid "적을 처치할 시 공격 속도가 증가하고 쿨타임이 1초 감소됩니다."
+msgstr ""
+
+#. Key:	KN_A
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,KN_A"
+msgid "체력이 낮아질 시 공격 속도와 흡혈을 얻습니다."
+msgstr ""
+
+#. Key:	MT
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,MT"
+msgid "체력을 회복합니다."
+msgstr ""
+
+#. Key:	MTB
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,MTB"
+msgid "추가 공격속도를 얻습니다."
+msgstr ""
+
+#. Key:	OF_FOCUS
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,OF_FOCUS"
+msgid "이 유닛은 표적으로 지정된 유닛을 우선 공격합니다."
+msgstr ""
+
+#. Key:	OF_MARKED
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,OF_MARKED"
+msgid "이 유닛은 표적으로 지정되었습니다."
+msgstr ""
+
+#. Key:	OF_SHIELD
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,OF_SHIELD"
+msgid "이 유닛은 에너지 방패에 보호받고 있습니다."
+msgstr ""
+
+#. Key:	OTC
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,OTC"
+msgid "추가 스킬 쿨다운을 얻었습니다."
+msgstr ""
+
+#. Key:	PAT_RB1
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PAT_RB1"
+msgid "무작위 스테이터스 버프를 얻습니다."
+msgstr ""
+
+#. Key:	PAT_RB2
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PAT_RB2"
+msgid "무작위 스테이터스 버프를 얻습니다."
+msgstr ""
+
+#. Key:	PAT_RB3
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PAT_RB3"
+msgid "무작위 스테이터스 버프를 얻습니다."
+msgstr ""
+
+#. Key:	PAT_RB4
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PAT_RB4"
+msgid "무작위 스테이터스 버프를 얻습니다."
+msgstr ""
+
+#. Key:	PAT_RDB1
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PAT_RDB1"
+msgid "무작위 스테이터스 디버프를 얻습니다."
+msgstr ""
+
+#. Key:	PAT_RDB2
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PAT_RDB2"
+msgid "무작위 스테이터스 디버프를 얻습니다."
+msgstr ""
+
+#. Key:	PAT_RDB3
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PAT_RDB3"
+msgid "무작위 스테이터스 디버프를 얻습니다."
+msgstr ""
+
+#. Key:	PAT_RDB4
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PAT_RDB4"
+msgid "무작위 스테이터스 디버프를 얻습니다."
+msgstr ""
+
+#. Key:	PRA_AS
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PRA_AS"
+msgid "추가 공격 속도를 얻었습니다."
+msgstr ""
+
+#. Key:	PRA_ATP
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PRA_ATP"
+msgid "추가 공격력을 얻었습니다."
+msgstr ""
+
+#. Key:	PRA_SP
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PRA_SP"
+msgid "추가 스킬 위력을 얻었습니다."
+msgstr ""
+
+#. Key:	PRE_CD
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PRE_CD"
+msgid "추가 스킬 쿨다운을 얻었습니다."
+msgstr ""
+
+#. Key:	PRE_CRIT
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PRE_CRIT"
+msgid "추가 치명타 확률을 얻었습니다."
+msgstr ""
+
+#. Key:	PRE_DODGE
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PRE_DODGE"
+msgid "추가 회피율을 얻었습니다."
+msgstr ""
+
+#. Key:	PRS_SHD
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PRS_SHD"
+msgid "추가 실드를 얻었습니다."
+msgstr ""
+
+#. Key:	PRS_VAMP
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,PRS_VAMP"
+msgid "추가 흡혈을 얻었습니다."
+msgstr ""
+
+#. Key:	QAK_E
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,QAK_E"
+msgid "추가 스킬 위력을 얻습니다."
+msgstr ""
+
+#. Key:	QAK_H
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,QAK_H"
+msgid "다음에 사용하는 액티브 스킬의 쿨타임이 80% 감소됩니다."
+msgstr ""
+
+#. Key:	QAK_T
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,QAK_T"
+msgid "액티브 스킬을 발동 시 공격속도가 증가됩니다."
+msgstr ""
+
+#. Key:	QH
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,QH"
+msgid "장전 속도가 증가됩니다."
+msgstr ""
+
+#. Key:	RC
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,RC"
+msgid "총알이 근처 적에게 도탄됩니다."
+msgstr ""
+
+#. Key:	RC_CR
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,RC_CR"
+msgid "전투 전리품 재화를 추가로 얻습니다."
+msgstr ""
+
+#. Key:	RC_RCH
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,RC_RCH"
+msgid "선택할 수 있는 전리품의 수를 늘립니다."
+msgstr ""
+
+#. Key:	RC_RNE
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,RC_RNE"
+msgid "부정적인 이벤트를 회피합니다."
+msgstr ""
+
+#. Key:	REV
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,REV"
+msgid "적 유닛이 죽을수록 강해집니다."
+msgstr ""
+
+#. Key:	RICAMERA
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,RICAMERA"
+msgid "추가 치명타 확률을 얻습니다."
+msgstr ""
+
+#. Key:	RICORE
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,RICORE"
+msgid "추가 스킬 위력을 얻습니다."
+msgstr ""
+
+#. Key:	RNG
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,RNG"
+msgid "영웅을 이동시킬 시 자동으로 장전됩니다."
+msgstr ""
+
+#. Key:	SD_A
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,SD_A"
+msgid "추가 공격 속도를 얻습니다."
+msgstr ""
+
+#. Key:	SFR
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,SFR"
+msgid "장전 후 첫발은 반드시 치명타 피해를 입힙니다."
+msgstr ""
+
+#. Key:	SPR
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,SPR"
+msgid "추가 회피율을 얻습니다."
+msgstr ""
+
+#. Key:	ST_HP
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,ST_HP"
+msgid "최대 체력이 감소되었습니다."
+msgstr ""
+
+#. Key:	TPF
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,TPF"
+msgid "다음 3발을 발사하는 동안 공격 속도가 증가됩니다."
+msgstr ""
+
+#. Key:	TR_RCAD
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,TR_RCAD"
+msgid "전투 전리품 선택지가 감소됩니다."
+msgstr ""
+
+#. Key:	TR_RCOD
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,TR_RCOD"
+msgid "전투 전리품을 선택할 수 있는 횟수가 감소합니다."
+msgstr ""
+
+#. Key:	UNT
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,UNT"
+msgid "적 유닛이 죽을수록 약해집니다."
+msgstr ""
+
+#. Key:	UPA
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,UPA"
+msgid "업그레이드 - 알파"
+msgstr ""
+
+#. Key:	UPB
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,UPB"
+msgid "업그레이드 - 베타"
+msgstr ""
+
+#. Key:	UPG
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,UPG"
+msgid "업그레이드 - 감마"
+msgstr ""
+
+#. Key:	UPO
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,UPO"
+msgid "업그레이드 -오메가"
+msgstr ""
+
+#. Key:	VIP_E
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,VIP_E"
+msgid "추가 공격 속도를 얻습니다."
+msgstr ""
+
+#. Key:	VIP_H
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,VIP_H"
+msgid "탄환에 도트 피해를 추가합니다."
+msgstr ""
+
+#. Key:	VIP_T
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,VIP_T"
+msgid "장전 후 첫발에 2초간 추가 피해를 입는 디버프를 추가합니다."
+msgstr ""
+
+#. Key:	WB
+#. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
+#: /Game/StringTables/BuffDetail.BuffDetail
+msgctxt "BuffDetail,WB"
+msgid "탄환이 도트 피해를 입힙니다."
+msgstr ""
+
+#. Key:	AB_AP
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,AB_AP"
+msgid "매복 당함"
+msgstr ""
+
+#. Key:	AB_AS
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,AB_AS"
+msgid "매복 당함"
+msgstr ""
+
+#. Key:	ACB
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,ACB"
+msgid "가속 총열"
+msgstr ""
+
+#. Key:	ACS
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,ACS"
+msgid "추가 실드"
+msgstr ""
+
+#. Key:	AG
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,AG"
+msgid "민첩함"
+msgstr ""
+
+#. Key:	ASK_ARM
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,ASK_ARM"
+msgid "공습 당함"
+msgstr ""
+
+#. Key:	ASK_HP
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,ASK_HP"
+msgid "공습 당함"
+msgstr ""
+
+#. Key:	BSK
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,BSK"
+msgid "광전사"
+msgstr ""
+
+#. Key:	C_ATP_B
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,C_ATP_B"
+msgid "정상 코어 장착"
+msgstr ""
+
+#. Key:	C_ATP_DB
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,C_ATP_DB"
+msgid "불량 코어 장착"
+msgstr ""
+
+#. Key:	CDT
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,CDT"
+msgid "전도체"
+msgstr ""
+
+#. Key:	CHA_E
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,CHA_E"
+msgid "전차 - 간선"
+msgstr ""
+
+#. Key:	CHA_H
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,CHA_H"
+msgid "전차 - 육각"
+msgstr ""
+
+#. Key:	CHA_T
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,CHA_T"
+msgid "전차 - 삼각"
+msgstr ""
+
+#. Key:	CPS
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,CPS"
+msgid "침착함"
+msgstr ""
+
+#. Key:	CQM
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,CQM"
+msgid "근접전"
+msgstr ""
+
+#. Key:	DAG_E
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,DAG_E"
+msgid "단검 - 간선"
+msgstr ""
+
+#. Key:	DAG_H
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,DAG_H"
+msgid "단검 - 육각"
+msgstr ""
+
+#. Key:	DAG_T
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,DAG_T"
+msgid "단검 - 삼각"
+msgstr ""
+
+#. Key:	DB
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,DB"
+msgid "취약함"
+msgstr ""
+
+#. Key:	EC
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,EC"
+msgid "강화 파동"
+msgstr ""
+
+#. Key:	EMP_AS
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,EMP_AS"
+msgid "EMP - 무기 강화"
+msgstr ""
+
+#. Key:	EMP_CR
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,EMP_CR"
+msgid "EMP - 취약점 발견"
+msgstr ""
+
+#. Key:	EMP_HP
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,EMP_HP"
+msgid "EMP - 합선됨"
+msgstr ""
+
+#. Key:	EP
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,EP"
+msgid "강화 피스톤"
+msgstr ""
+
+#. Key:	ETP
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,ETP"
+msgid "추가 장갑"
+msgstr ""
+
+#. Key:	EXC
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,EXC"
+msgid "처형인"
+msgstr ""
+
+#. Key:	KN_A
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,KN_A"
+msgid "전선 유지"
+msgstr ""
+
+#. Key:	MT
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,MT"
+msgid "정비"
+msgstr ""
+
+#. Key:	MTB
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,MTB"
+msgid "전자기 탄환"
+msgstr ""
+
+#. Key:	OF_FOCUS
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,OF_FOCUS"
+msgid "표적 사격"
+msgstr ""
+
+#. Key:	OF_MARKED
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,OF_MARKED"
+msgid "표적으로 지정됨"
+msgstr ""
+
+#. Key:	OF_SHIELD
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,OF_SHIELD"
+msgid "에너지 방패"
+msgstr ""
+
+#. Key:	ON_ALLY_DEAD
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,ON_ALLY_DEAD"
+msgid "복수"
+msgstr ""
+
+#. Key:	OTC
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,OTC"
+msgid "코어 최적화"
+msgstr ""
+
+#. Key:	PAT_RB1
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PAT_RB1"
+msgid "정찰 성공"
+msgstr ""
+
+#. Key:	PAT_RB2
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PAT_RB2"
+msgid "정찰 성공"
+msgstr ""
+
+#. Key:	PAT_RB3
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PAT_RB3"
+msgid "정찰 성공"
+msgstr ""
+
+#. Key:	PAT_RD4
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PAT_RD4"
+msgid "정찰 성공"
+msgstr ""
+
+#. Key:	PAT_RDB1
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PAT_RDB1"
+msgid "정찰 실패"
+msgstr ""
+
+#. Key:	PAT_RDB2
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PAT_RDB2"
+msgid "정찰 실패"
+msgstr ""
+
+#. Key:	PAT_RDB3
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PAT_RDB3"
+msgid "정찰 실패"
+msgstr ""
+
+#. Key:	PAT_RDB4
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PAT_RDB4"
+msgid "정찰 실패"
+msgstr ""
+
+#. Key:	PRA_AS
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PRA_AS"
+msgid "강습 프로토콜 - 가속"
+msgstr ""
+
+#. Key:	PRA_ATP
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PRA_ATP"
+msgid "강습 프로토콜 - 무기 강화"
+msgstr ""
+
+#. Key:	PRA_SP
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PRA_SP"
+msgid "강습 프로토콜 - 기술 강화"
+msgstr ""
+
+#. Key:	PRE_CD
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PRE_CD"
+msgid "효율성 프로토콜 - 기술 최적화"
+msgstr ""
+
+#. Key:	PRE_CRIT
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PRE_CRIT"
+msgid "효율성 프로토콜 - 취약점 발견"
+msgstr ""
+
+#. Key:	PRE_DODGE
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PRE_DODGE"
+msgid "효율성 프로토콜 - 회피"
+msgstr ""
+
+#. Key:	PRS_SHD
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PRS_SHD"
+msgid "생존 프로토콜 - 실드"
+msgstr ""
+
+#. Key:	PRS_VAMP
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,PRS_VAMP"
+msgid "생존 프로토콜 - 전선 유지"
+msgstr ""
+
+#. Key:	QAK_E
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,QAK_E"
+msgid "지진 - 간선"
+msgstr ""
+
+#. Key:	QAK_H
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,QAK_H"
+msgid "지진 - 육각"
+msgstr ""
+
+#. Key:	QAK_T
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,QAK_T"
+msgid "지진 - 삼각"
+msgstr ""
+
+#. Key:	QH
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,QH"
+msgid "빠른 손"
+msgstr ""
+
+#. Key:	RC
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,RC"
+msgid "도탄"
+msgstr ""
+
+#. Key:	RC_CR
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,RC_CR"
+msgid "전리품 재화 추가"
+msgstr ""
+
+#. Key:	RC_RCH
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,RC_RCH"
+msgid "전리품 탐색 강화"
+msgstr ""
+
+#. Key:	RC_RNE
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,RC_RNE"
+msgid "정찰 - 위험 회피"
+msgstr ""
+
+#. Key:	REV
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,REV"
+msgid "복수"
+msgstr ""
+
+#. Key:	RICAMERA
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,RICAMERA"
+msgid "강화 카메라"
+msgstr ""
+
+#. Key:	RICORE
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,RICORE"
+msgid "강화 코어"
+msgstr ""
+
+#. Key:	RNG
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,RNG"
+msgid "런앤건"
+msgstr ""
+
+#. Key:	SD_A
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,SD_A"
+msgid "정조준 완료"
+msgstr ""
+
+#. Key:	SFR
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,SFR"
+msgid "안정적인 초탄"
+msgstr ""
+
+#. Key:	SPR
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,SPR"
+msgid "경사 장갑"
+msgstr ""
+
+#. Key:	ST_HP
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,ST_HP"
+msgid "함정에 당함"
+msgstr ""
+
+#. Key:	TPF
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,TPF"
+msgid "삼연사"
+msgstr ""
+
+#. Key:	TR_RCAD
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,TR_RCAD"
+msgid "함정에 당함"
+msgstr ""
+
+#. Key:	TR_RCOD
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,TR_RCOD"
+msgid "함정에 당함"
+msgstr ""
+
+#. Key:	UNT
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,UNT"
+msgid "단결"
+msgstr ""
+
+#. Key:	UPA
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,UPA"
+msgid "업그레이드 - 알파"
+msgstr ""
+
+#. Key:	UPB
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,UPB"
+msgid "업그레이드 - 베타"
+msgstr ""
+
+#. Key:	UPG
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,UPG"
+msgid "업그레이드 - 감마"
+msgstr ""
+
+#. Key:	UPO
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,UPO"
+msgid "업그레이드 -오메가"
+msgstr ""
+
+#. Key:	VIP_E
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,VIP_E"
+msgid "독사 - 간선"
+msgstr ""
+
+#. Key:	VIP_H
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,VIP_H"
+msgid "독사 - 육각"
+msgstr ""
+
+#. Key:	VIP_T
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,VIP_T"
+msgid "독사 - 삼각"
+msgstr ""
+
+#. Key:	WB
+#. SourceLocation:	/Game/StringTables/BuffName.BuffName
+#: /Game/StringTables/BuffName.BuffName
+msgctxt "BuffName,WB"
+msgid "톱니 탄환"
+msgstr ""
+
+#. Key:	AIRSTRIKE
+#. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
+#: /Game/StringTables/Event/EventDetail.EventDetail
+msgctxt "EventDetail,AIRSTRIKE"
+msgid "적이 공습을 시작합니다."
+msgstr ""
+
+#. Key:	AMBUSH
+#. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
+#: /Game/StringTables/Event/EventDetail.EventDetail
+msgctxt "EventDetail,AMBUSH"
+msgid "적의 매복에 걸렸습니다."
+msgstr ""
+
+#. Key:	CORE
+#. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
+#: /Game/StringTables/Event/EventDetail.EventDetail
+msgctxt "EventDetail,CORE"
+msgid "알 수 없는 코어를 발견했습니다."
+msgstr ""
+
+#. Key:	EMP
+#. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
+#: /Game/StringTables/Event/EventDetail.EventDetail
+msgctxt "EventDetail,EMP"
+msgid "적의 EMP공격을 받았습니다."
+msgstr ""
+
+#. Key:	PATROL
+#. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
+#: /Game/StringTables/Event/EventDetail.EventDetail
+msgctxt "EventDetail,PATROL"
+msgid "정찰을 시도할 기회입니다."
+msgstr ""
+
+#. Key:	PRO_ASSAULT
+#. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
+#: /Game/StringTables/Event/EventDetail.EventDetail
+msgctxt "EventDetail,PRO_ASSAULT"
+msgid "강습 프로토콜을 발견하였습니다."
+msgstr ""
+
+#. Key:	PRO_EFFICIENCY
+#. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
+#: /Game/StringTables/Event/EventDetail.EventDetail
+msgctxt "EventDetail,PRO_EFFICIENCY"
+msgid "효율성 프로토콜을 발견하였습니다."
+msgstr ""
+
+#. Key:	PRO_SURVIVE
+#. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
+#: /Game/StringTables/Event/EventDetail.EventDetail
+msgctxt "EventDetail,PRO_SURVIVE"
+msgid "생존 프로토콜을 발견하였습니다."
+msgstr ""
+
+#. Key:	RECON
+#. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
+#: /Game/StringTables/Event/EventDetail.EventDetail
+msgctxt "EventDetail,RECON"
+msgid "적 부대를 발견하였습니다."
+msgstr ""
+
+#. Key:	SETTRAP
+#. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
+#: /Game/StringTables/Event/EventDetail.EventDetail
+msgctxt "EventDetail,SETTRAP"
+msgid "함정 설치를 시도합니다."
+msgstr ""
+
+#. Key:	SUPPLY
+#. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
+#: /Game/StringTables/Event/EventDetail.EventDetail
+msgctxt "EventDetail,SUPPLY"
+msgid "버려진 보급상자를 발견하였습니다."
+msgstr ""
+
+#. Key:	TRAP
+#. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
+#: /Game/StringTables/Event/EventDetail.EventDetail
+msgctxt "EventDetail,TRAP"
+msgid "함정을 설치할 기회입니다."
+msgstr ""
+
+#. Key:	AIRSTRIKE
+#. SourceLocation:	/Game/StringTables/Event/EventName.EventName
+#: /Game/StringTables/Event/EventName.EventName
+msgctxt "EventName,AIRSTRIKE"
+msgid "공습"
+msgstr ""
+
+#. Key:	AMBUSH
+#. SourceLocation:	/Game/StringTables/Event/EventName.EventName
+#: /Game/StringTables/Event/EventName.EventName
+msgctxt "EventName,AMBUSH"
+msgid "매복"
+msgstr ""
+
+#. Key:	CORE
+#. SourceLocation:	/Game/StringTables/Event/EventName.EventName
+#: /Game/StringTables/Event/EventName.EventName
+msgctxt "EventName,CORE"
+msgid "알 수 없는 코어"
+msgstr ""
+
+#. Key:	EMP
+#. SourceLocation:	/Game/StringTables/Event/EventName.EventName
+#: /Game/StringTables/Event/EventName.EventName
+msgctxt "EventName,EMP"
+msgid "EMP 피격"
+msgstr ""
+
+#. Key:	PATROL
+#. SourceLocation:	/Game/StringTables/Event/EventName.EventName
+#: /Game/StringTables/Event/EventName.EventName
+msgctxt "EventName,PATROL"
+msgid "정찰"
+msgstr ""
+
+#. Key:	PRO_ASSAULT
+#. SourceLocation:	/Game/StringTables/Event/EventName.EventName
+#: /Game/StringTables/Event/EventName.EventName
+msgctxt "EventName,PRO_ASSAULT"
+msgid "강습 프로토콜"
+msgstr ""
+
+#. Key:	PRO_EFFICIENCY
+#. SourceLocation:	/Game/StringTables/Event/EventName.EventName
+#: /Game/StringTables/Event/EventName.EventName
+msgctxt "EventName,PRO_EFFICIENCY"
+msgid "효율성 프로토콜"
+msgstr ""
+
+#. Key:	PRO_SURVIVE
+#. SourceLocation:	/Game/StringTables/Event/EventName.EventName
+#: /Game/StringTables/Event/EventName.EventName
+msgctxt "EventName,PRO_SURVIVE"
+msgid "생존 프로토콜"
+msgstr ""
+
+#. Key:	RECON
+#. SourceLocation:	/Game/StringTables/Event/EventName.EventName
+#: /Game/StringTables/Event/EventName.EventName
+msgctxt "EventName,RECON"
+msgid "적 진형 탐색"
+msgstr ""
+
+#. Key:	SETTRAP
+#. SourceLocation:	/Game/StringTables/Event/EventName.EventName
+#: /Game/StringTables/Event/EventName.EventName
+msgctxt "EventName,SETTRAP"
+msgid "함정 설치"
+msgstr ""
+
+#. Key:	SUPPLY
+#. SourceLocation:	/Game/StringTables/Event/EventName.EventName
+#: /Game/StringTables/Event/EventName.EventName
+msgctxt "EventName,SUPPLY"
+msgid "버려진 보급상자"
+msgstr ""
+
+#. Key:	TRAP
+#. SourceLocation:	/Game/StringTables/Event/EventName.EventName
+#: /Game/StringTables/Event/EventName.EventName
+msgctxt "EventName,TRAP"
+msgid "함정"
+msgstr ""
+
+#. Key:	AIRSTRIKE
+#. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
+#: /Game/StringTables/Event/EventOption_1.EventOption_1
+msgctxt "EventOption_1,AIRSTRIKE"
+msgid "영웅 중 한명이 무기를 잃습니다."
+msgstr ""
+
+#. Key:	AMBUSH
+#. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
+#: /Game/StringTables/Event/EventOption_1.EventOption_1
+msgctxt "EventOption_1,AMBUSH"
+msgid "영웅 중 한명이 액티브 스킬을 잃습니다."
+msgstr ""
+
+#. Key:	CORE
+#. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
+#: /Game/StringTables/Event/EventOption_1.EventOption_1
+msgctxt "EventOption_1,CORE"
+msgid "코어를 장착합니다."
+msgstr ""
+
+#. Key:	EMP
+#. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
+#: /Game/StringTables/Event/EventOption_1.EventOption_1
+msgctxt "EventOption_1,EMP"
+msgid "모든 적 유닛의 치명타 확률이 15% 증가합니다."
+msgstr ""
+
+#. Key:	PATROL
+#. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
+#: /Game/StringTables/Event/EventOption_1.EventOption_1
+msgctxt "EventOption_1,PATROL"
+msgid "알파 유닛 보내기"
+msgstr ""
+
+#. Key:	PRO_ASSAULT
+#. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
+#: /Game/StringTables/Event/EventOption_1.EventOption_1
+msgctxt "EventOption_1,PRO_ASSAULT"
+msgid "3번의 전투 시작 시 10의 공격력을 얻습니다."
+msgstr ""
+
+#. Key:	PRO_EFFICIENCY
+#. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
+#: /Game/StringTables/Event/EventOption_1.EventOption_1
+msgctxt "EventOption_1,PRO_EFFICIENCY"
+msgid "3번의 전투 시작 시 5%의 치명타 확률을 얻습니다."
+msgstr ""
+
+#. Key:	PRO_SURVIVE
+#. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
+#: /Game/StringTables/Event/EventOption_1.EventOption_1
+msgctxt "EventOption_1,PRO_SURVIVE"
+msgid "3번의 전투 시작 시 100의 실드를 얻습니다."
+msgstr ""
+
+#. Key:	RECON
+#. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
+#: /Game/StringTables/Event/EventOption_1.EventOption_1
+msgctxt "EventOption_1,RECON"
+msgid "3번 이동하는 동안 부정적 이벤트를 제거합니다."
+msgstr ""
+
+#. Key:	SETTRAP
+#. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
+#: /Game/StringTables/Event/EventOption_1.EventOption_1
+msgctxt "EventOption_1,SETTRAP"
+msgid "함정 설치를 시도합니다."
+msgstr ""
+
+#. Key:	SUPPLY
+#. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
+#: /Game/StringTables/Event/EventOption_1.EventOption_1
+msgctxt "EventOption_1,SUPPLY"
+msgid "무작위 A급 액티브 스킬을 얻습니다."
+msgstr ""
+
+#. Key:	TRAP
+#. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
+#: /Game/StringTables/Event/EventOption_1.EventOption_1
+msgctxt "EventOption_1,TRAP"
+msgid "200 크레딧을 잃습니다."
+msgstr ""
+
+#. Key:	AIRSTRIKE
+#. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
+#: /Game/StringTables/Event/EventOption_2.EventOption_2
+msgctxt "EventOption_2,AIRSTRIKE"
+msgid "3번의 전투 시작 시 최대 체력 -20%."
+msgstr ""
+
+#. Key:	AMBUSH
+#. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
+#: /Game/StringTables/Event/EventOption_2.EventOption_2
+msgctxt "EventOption_2,AMBUSH"
+msgid "3번의 전투 시작 시 공격속도 -15%."
+msgstr ""
+
+#. Key:	CORE
+#. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
+#: /Game/StringTables/Event/EventOption_2.EventOption_2
+msgctxt "EventOption_2,CORE"
+msgid "무시합니다."
+msgstr ""
+
+#. Key:	EMP
+#. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
+#: /Game/StringTables/Event/EventOption_2.EventOption_2
+msgctxt "EventOption_2,EMP"
+msgid "모든 적 유닛의 공격속도 +30%."
+msgstr ""
+
+#. Key:	PATROL
+#. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
+#: /Game/StringTables/Event/EventOption_2.EventOption_2
+msgctxt "EventOption_2,PATROL"
+msgid "베타 유닛 보내기."
+msgstr ""
+
+#. Key:	PRO_ASSAULT
+#. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
+#: /Game/StringTables/Event/EventOption_2.EventOption_2
+msgctxt "EventOption_2,PRO_ASSAULT"
+msgid "3번의 전투 시작 시 스킬 위력 20 증가."
+msgstr ""
+
+#. Key:	PRO_EFFICIENCY
+#. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
+#: /Game/StringTables/Event/EventOption_2.EventOption_2
+msgctxt "EventOption_2,PRO_EFFICIENCY"
+msgid "3번의 전투 시작 시 회피율 5% 증가."
+msgstr ""
+
+#. Key:	PRO_SURVIVE
+#. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
+#: /Game/StringTables/Event/EventOption_2.EventOption_2
+msgctxt "EventOption_2,PRO_SURVIVE"
+msgid "3번의 전투 시작 시 생명력 흡수 5% 증가."
+msgstr ""
+
+#. Key:	RECON
+#. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
+#: /Game/StringTables/Event/EventOption_2.EventOption_2
+msgctxt "EventOption_2,RECON"
+msgid "3번 이동하는 동안 전투 전리품 선택지 2개 증가."
+msgstr ""
+
+#. Key:	SETTRAP
+#. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
+#: /Game/StringTables/Event/EventOption_2.EventOption_2
+msgctxt "EventOption_2,SETTRAP"
+msgid "함정 설치를 시도하지 않습니다."
+msgstr ""
+
+#. Key:	SUPPLY
+#. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
+#: /Game/StringTables/Event/EventOption_2.EventOption_2
+msgctxt "EventOption_2,SUPPLY"
+msgid "무작위 A급 패시브 스킬 2개 획득."
+msgstr ""
+
+#. Key:	TRAP
+#. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
+#: /Game/StringTables/Event/EventOption_2.EventOption_2
+msgctxt "EventOption_2,TRAP"
+msgid "3번의 전투 시작 시 보상 선택지가 2개 감소."
+msgstr ""
+
+#. Key:	AIRSTRIKE
+#. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
+#: /Game/StringTables/Event/EventOption_3.EventOption_3
+msgctxt "EventOption_3,AIRSTRIKE"
+msgid "3번의 전투 시작 시 방어력 -20%."
+msgstr ""
+
+#. Key:	AMBUSH
+#. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
+#: /Game/StringTables/Event/EventOption_3.EventOption_3
+msgctxt "EventOption_3,AMBUSH"
+msgid "3번의 전투 시작 시 공격력 -20%."
+msgstr ""
+
+#. Key:	CORE
+#. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
+#: /Game/StringTables/Event/EventOption_3.EventOption_3
+msgctxt "EventOption_3,CORE"
+msgid "알 수 없는 코어"
+msgstr ""
+
+#. Key:	EMP
+#. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
+#: /Game/StringTables/Event/EventOption_3.EventOption_3
+msgctxt "EventOption_3,EMP"
+msgid "3번의 전투 시작 시 최대 체력 - 30%."
+msgstr ""
+
+#. Key:	PATROL
+#. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
+#: /Game/StringTables/Event/EventOption_3.EventOption_3
+msgctxt "EventOption_3,PATROL"
+msgid "감마 유닛 보내기."
+msgstr ""
+
+#. Key:	PRO_ASSAULT
+#. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
+#: /Game/StringTables/Event/EventOption_3.EventOption_3
+msgctxt "EventOption_3,PRO_ASSAULT"
+msgid "3번의 전투 시작 시 공격속도 20% 증가"
+msgstr ""
+
+#. Key:	PRO_EFFICIENCY
+#. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
+#: /Game/StringTables/Event/EventOption_3.EventOption_3
+msgctxt "EventOption_3,PRO_EFFICIENCY"
+msgid "3번의 전투 시작 시 스킬 쿨타임 감소 15% 증가"
+msgstr ""
+
+#. Key:	PRO_SURVIVE
+#. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
+#: /Game/StringTables/Event/EventOption_3.EventOption_3
+msgctxt "EventOption_3,PRO_SURVIVE"
+msgid "모든 유닛들의 체력 을 100 회복"
+msgstr ""
+
+#. Key:	RECON
+#. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
+#: /Game/StringTables/Event/EventOption_3.EventOption_3
+msgctxt "EventOption_3,RECON"
+msgid "3번의 이동간 전투 전리품 재화 25% 상승"
+msgstr ""
+
+#. Key:	SUPPLY
+#. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
+#: /Game/StringTables/Event/EventOption_3.EventOption_3
+msgctxt "EventOption_3,SUPPLY"
+msgid "무작위 A급 무기 획득"
+msgstr ""
+
+#. Key:	TRAP
+#. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
+#: /Game/StringTables/Event/EventOption_3.EventOption_3
+msgctxt "EventOption_3,TRAP"
+msgid "3번의 전투 시작 시 보상 선택 1개 감소."
+msgstr ""
+
+#. Key:	PATROL
+#. SourceLocation:	/Game/StringTables/Event/EventOption_4.EventOption_4
+#: /Game/StringTables/Event/EventOption_4.EventOption_4
+msgctxt "EventOption_4,PATROL"
+msgid "오메가 유닛 보내기."
+msgstr ""
+
+#. Key:	AB
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,AB"
+msgid "공격력 + 20"
+msgstr ""
+
+#. Key:	AG
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,AG"
+msgid "액티브 스킬 사용 후 2초간 공격속도가 15% 증가합니다."
+msgstr ""
+
+#. Key:	BSK
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,BSK"
+msgid "체력이 20% 이하라면 5%의 흡혈과 20%의 공격속도를 얻습니다."
+msgstr ""
+
+#. Key:	CDT
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,CDT"
+msgid "생존률 + 10%"
+msgstr ""
+
+#. Key:	CQM
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,CQM"
+msgid "적과 가까울수록 치명타 확률이 늘어납니다."
+msgstr ""
+
+#. Key:	CS
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,CS"
+msgid "체력이 낮아질수록 회피율이 증가합니다. 20%이하일 때 최대 효과가 발현됩니다."
+msgstr ""
+
+#. Key:	EC
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,EC"
+msgid "적에게 최후의 일격을 가했다면 1초간 15%의 공격속도를 얻고 액티브 스킬의 쿨타임이 1초 감소합니다."
+msgstr ""
+
+#. Key:	EPD
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,EPD"
+msgid "방어력 + 20"
+msgstr ""
+
+#. Key:	EPT
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,EPT"
+msgid "공격 속도 + 10%"
+msgstr ""
+
+#. Key:	OC
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,OC"
+msgid "스킬 쿨다운 + 10%"
+msgstr ""
+
+#. Key:	QH
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,QH"
+msgid "장전 소요 시간 - 30%."
+msgstr ""
+
+#. Key:	RAG
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,RAG"
+msgid "영웅을 이동 시키면 무기가 장전됩니다."
+msgstr ""
+
+#. Key:	RC
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,RC"
+msgid "치명타 확률 + 5%"
+msgstr ""
+
+#. Key:	RIC
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,RIC"
+msgid "스킬 위력 + 10"
+msgstr ""
+
+#. Key:	SA
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,SA"
+msgid "회피율 + 5%"
+msgstr ""
+
+#. Key:	SFR
+#. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+#: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
+msgctxt "PassiveSkill_Detail,SFR"
+msgid "장전 후 첫발은 반드시 치명타 피해를 입힙니다."
+msgstr ""
+
+#. Key:	AB
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,AB"
+msgid "가속 총열"
+msgstr ""
+
+#. Key:	AG
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,AG"
+msgid "민첩함"
+msgstr ""
+
+#. Key:	BSK
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,BSK"
+msgid "광전사"
+msgstr ""
+
+#. Key:	CDT
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,CDT"
+msgid "전도체"
+msgstr ""
+
+#. Key:	CQM
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,CQM"
+msgid "근접전"
+msgstr ""
+
+#. Key:	CS
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,CS"
+msgid "침착함"
+msgstr ""
+
+#. Key:	EC
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,EC"
+msgid "처형인"
+msgstr ""
+
+#. Key:	EPD
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,EPD"
+msgid "외골격 보강"
+msgstr ""
+
+#. Key:	EPT
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,EPT"
+msgid "강화 피스톤"
+msgstr ""
+
+#. Key:	OC
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,OC"
+msgid "코어 최적화"
+msgstr ""
+
+#. Key:	QH
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,QH"
+msgid "빠른 손"
+msgstr ""
+
+#. Key:	RAG
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,RAG"
+msgid "런 앤 건"
+msgstr ""
+
+#. Key:	RC
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,RC"
+msgid "강화 카메라"
+msgstr ""
+
+#. Key:	RIC
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,RIC"
+msgid "강화 코어"
+msgstr ""
+
+#. Key:	SA
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,SA"
+msgid "경사 장갑"
+msgstr ""
+
+#. Key:	SFR
+#. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
+#: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
+msgctxt "PassiveSkill_name,SFR"
+msgid "안정적인 초탄"
+msgstr ""
+
+#. Key:	EXALPHA
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXALPHA"
+msgid "알파 유닛의 공격력은 전체 공격력의 1.3배가 됩니다"
+msgstr ""
+
+#. Key:	EXARM_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXARM_1"
+msgid "방어력 + 10%"
+msgstr ""
+
+#. Key:	EXARM_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXARM_2"
+msgid "방어력 + 10%"
+msgstr ""
+
+#. Key:	EXATK_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXATK_1"
+msgid "공격력 + 5%"
+msgstr ""
+
+#. Key:	EXATK_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXATK_2"
+msgid "공격력 + 5%"
+msgstr ""
+
+#. Key:	EXATS_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXATS_1"
+msgid "공격 속도 + 5%"
+msgstr ""
+
+#. Key:	EXATS_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXATS_2"
+msgid "공격 속도 + 5%"
+msgstr ""
+
+#. Key:	EXBETA
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXBETA"
+msgid "베타 유닛은 공격속도에 비례하는 추가 탄창 보너스를 얻습니다"
+msgstr ""
+
+#. Key:	EXCREDIT_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXCREDIT_1"
+msgid "전투 전리품 재화 + 10%"
+msgstr ""
+
+#. Key:	EXCREDIT_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXCREDIT_2"
+msgid "전투 전리품 재화 + 20%"
+msgstr ""
+
+#. Key:	EXCRIT
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXCRIT"
+msgid "치명타 확률 + 5%"
+msgstr ""
+
+#. Key:	EXDODGE
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXDODGE"
+msgid "회피율 + 5%"
+msgstr ""
+
+#. Key:	EXGAMMA
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXGAMMA"
+msgid "감마 유닛은 10의 기본 스킬 위력을 가집니다"
+msgstr ""
+
+#. Key:	EXGOTCHA_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXGOTCHA_1"
+msgid "회차 시작 시 6개의 무작위 장비 획득"
+msgstr ""
+
+#. Key:	EXGOTCHA_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXGOTCHA_2"
+msgid "회차 시작 시 8개의 무작위 장비 획득"
+msgstr ""
+
+#. Key:	EXGOTCHA_3
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXGOTCHA_3"
+msgid "A급 무작위 장비가 나올 확률 상성"
+msgstr ""
+
+#. Key:	EXHEAL_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXHEAL_1"
+msgid "전투 종료 후 체력 10% 회복"
+msgstr ""
+
+#. Key:	EXHEAL_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXHEAL_2"
+msgid "전투 종료 후 체력 15% 회복"
+msgstr ""
+
+#. Key:	EXHEAL_3
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXHEAL_3"
+msgid "전투 종료 후 체력 20% 회복"
+msgstr ""
+
+#. Key:	EXHP_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXHP_1"
+msgid "체력 + 10%"
+msgstr ""
+
+#. Key:	EXHP_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXHP_2"
+msgid "체력 + 10%"
+msgstr ""
+
+#. Key:	EXINITSHIELD
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXINITSHIELD"
+msgid "전투 시작 시 50의 실드 획득"
+msgstr ""
+
+#. Key:	EXOMEGA
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXOMEGA"
+msgid "오메가 유닛은 체력에 비례하는 공격력과 스킬 위력을 얻습니다"
+msgstr ""
+
+#. Key:	EXPASSIVE_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXPASSIVE_1"
+msgid "패시브 스킬 슬롯 1개 해금"
+msgstr ""
+
+#. Key:	EXPASSIVE_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXPASSIVE_2"
+msgid "패시브 스킬 슬롯 2개 해금"
+msgstr ""
+
+#. Key:	EXREWARDCHOOSE_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXREWARDCHOOSE_1"
+msgid "전투 전리품 1개 추가 선택"
+msgstr ""
+
+#. Key:	EXREWARDCHOOSE_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXREWARDCHOOSE_2"
+msgid "전투 전리품 2개 추가 선택"
+msgstr ""
+
+#. Key:	EXREWARDCOUNT_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXREWARDCOUNT_1"
+msgid "전투 전리품 선택지 2개 증가"
+msgstr ""
+
+#. Key:	EXREWARDCOUNT_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXREWARDCOUNT_2"
+msgid "전투 전리품 선택지 4개 증가"
+msgstr ""
+
+#. Key:	EXSKP
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXSKP"
+msgid "스킬 위력 + 5"
+msgstr ""
+
+#. Key:	EXSURV
+#. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
+#: /Game/StringTables/Perk/PerkDetails.PerkDetails
+msgctxt "PerkDetails,EXSURV"
+msgid "생존율 + 10%"
+msgstr ""
+
+#. Key:	EXALPHA
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXALPHA"
+msgid "업그레이드 - 알파"
+msgstr ""
+
+#. Key:	EXARM_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXARM_1"
+msgid "경화 장갑 - 1단계"
+msgstr ""
+
+#. Key:	EXARM_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXARM_2"
+msgid "경화 장갑 - 2단계"
+msgstr ""
+
+#. Key:	EXATK_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXATK_1"
+msgid "탄환 강화 - 1단계"
+msgstr ""
+
+#. Key:	EXATK_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXATK_2"
+msgid "탄환 강화 - 2단계"
+msgstr ""
+
+#. Key:	EXATS_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXATS_1"
+msgid "탄환 가속 - 1단계"
+msgstr ""
+
+#. Key:	EXATS_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXATS_2"
+msgid "탄환 가속 - 2단계"
+msgstr ""
+
+#. Key:	EXBETA
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXBETA"
+msgid "업그레이드 - 베타"
+msgstr ""
+
+#. Key:	EXCREDIT_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXCREDIT_1"
+msgid "분해 효율 개선 - 1단계"
+msgstr ""
+
+#. Key:	EXCREDIT_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXCREDIT_2"
+msgid "분해 효율 개선 - 2단계"
+msgstr ""
+
+#. Key:	EXCRIT
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXCRIT"
+msgid "관통 탄두"
+msgstr ""
+
+#. Key:	EXDODGE
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXDODGE"
+msgid "경사 장갑"
+msgstr ""
+
+#. Key:	EXGAMMA
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXGAMMA"
+msgid "업그레이드 - 감마"
+msgstr ""
+
+#. Key:	EXGOTCHA_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXGOTCHA_1"
+msgid "제작 최적화 - 1단계"
+msgstr ""
+
+#. Key:	EXGOTCHA_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXGOTCHA_2"
+msgid "제작 최적화 - 2단계"
+msgstr ""
+
+#. Key:	EXGOTCHA_3
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXGOTCHA_3"
+msgid "제작 최적화 - 3단계"
+msgstr ""
+
+#. Key:	EXHEAL_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXHEAL_1"
+msgid "자가 수리 - 1단계"
+msgstr ""
+
+#. Key:	EXHEAL_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXHEAL_2"
+msgid "자가 수리 - 2단계"
+msgstr ""
+
+#. Key:	EXHEAL_3
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXHEAL_3"
+msgid "자가 수리 - 3단계"
+msgstr ""
+
+#. Key:	EXHP_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXHP_1"
+msgid "추가 장갑 - 1단계"
+msgstr ""
+
+#. Key:	EXHP_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXHP_2"
+msgid "추가 장갑- 2단계"
+msgstr ""
+
+#. Key:	EXINITSHIELD
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXINITSHIELD"
+msgid "보급 방어막"
+msgstr ""
+
+#. Key:	EXOMEGA
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXOMEGA"
+msgid "업그레이드 - 오메가"
+msgstr ""
+
+#. Key:	EXPASSIVE_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXPASSIVE_1"
+msgid "슬롯 추가 - 1단계"
+msgstr ""
+
+#. Key:	EXPASSIVE_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXPASSIVE_2"
+msgid "슬롯 추가 - 2단계"
+msgstr ""
+
+#. Key:	EXREWARDCHOOSE_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXREWARDCHOOSE_1"
+msgid "전리품 탐색 - 1단계"
+msgstr ""
+
+#. Key:	EXREWARDCHOOSE_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXREWARDCHOOSE_2"
+msgid "전리품 탐색 - 2단계"
+msgstr ""
+
+#. Key:	EXREWARDCOUNT_1
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXREWARDCOUNT_1"
+msgid "전리품 획득 - 1단계"
+msgstr ""
+
+#. Key:	EXREWARDCOUNT_2
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXREWARDCOUNT_2"
+msgid "전리품 획득 - 2단계"
+msgstr ""
+
+#. Key:	EXSKP
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXSKP"
+msgid "증폭기 장착"
+msgstr ""
+
+#. Key:	EXSURV
+#. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
+#: /Game/StringTables/Perk/PerkNames.PerkNames
+msgctxt "PerkNames,EXSURV"
+msgid "수리 효율 개선"
+msgstr ""
+
+#. Key:	ATP
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,ATP"
+msgid "공격력 계수:"
+msgstr ""
+
+#. Key:	ATS
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,ATS"
+msgid "초당 발사 속도:"
+msgstr ""
+
+#. Key:	BasicDmg
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,BasicDmg"
+msgid "기본 데미지:"
+msgstr ""
+
+#. Key:	CoolTime
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,CoolTime"
+msgid "쿨타임: {CoolTime}초"
+msgstr ""
+
+#. Key:	Cost
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,Cost"
+msgid "코스트: {Cost}코스트"
+msgstr ""
+
+#. Key:	CRIT
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,CRIT"
+msgid "치명타 확률"
+msgstr ""
+
+#. Key:	EDGE
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,EDGE"
+msgid "간선: "
+msgstr ""
+
+#. Key:	ESK
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,ESK"
+msgid "추가 스킬위력"
+msgstr ""
+
+#. Key:	GBUFF_DURATION
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,GBUFF_DURATION"
+msgid "남은 턴 수:  {GBUFF_DURATION}"
+msgstr ""
+
+#. Key:	HEXAGON
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,HEXAGON"
+msgid "육각형: "
+msgstr ""
+
+#. Key:	LP
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,LP"
+msgid "남은 특성 포인트: {LP}"
+msgstr ""
+
+#. Key:	MAGAZINE
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,MAGAZINE"
+msgid "장탄수"
+msgstr ""
+
+#. Key:	NP
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,NP"
+msgid "필요한 특성 포인트: {NP} "
+msgstr ""
+
+#. Key:	PURCHASED
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,PURCHASED"
+msgid "구매 완료"
+msgstr ""
+
+#. Key:	RANGE
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,RANGE"
+msgid "사거리"
+msgstr ""
+
+#. Key:	RELOADDURATION
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,RELOADDURATION"
+msgid "장전 속도"
+msgstr ""
+
+#. Key:	SKP
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,SKP"
+msgid "스킬위력 계수"
+msgstr ""
+
+#. Key:	TRIANGLE
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,TRIANGLE"
+msgid "삼각형: "
+msgstr ""
+
+#. Key:	CHARIOT
+#. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
+#: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
+msgctxt "Rune_EdgeBonus,CHARIOT"
+msgid "공격력 10% 증가 + 체력 10% 증가"
+msgstr ""
+
+#. Key:	DAGGER
+#. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
+#: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
+msgctxt "Rune_EdgeBonus,DAGGER"
+msgid "공격속도 10% 증가 + 치명타 확률 5% 증가"
+msgstr ""
+
+#. Key:	GREATBOW
+#. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
+#: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
+msgctxt "Rune_EdgeBonus,GREATBOW"
+msgid "공격력 20% 증가"
+msgstr ""
+
+#. Key:	QUAKE
+#. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
+#: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
+msgctxt "Rune_EdgeBonus,QUAKE"
+msgid "스킬 위력 20% 증가"
+msgstr ""
+
+#. Key:	TEMPEST
+#. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
+#: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
+msgctxt "Rune_EdgeBonus,TEMPEST"
+msgid "스킬 쿨다운 20% 증가"
+msgstr ""
+
+#. Key:	VIPER
+#. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
+#: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
+msgctxt "Rune_EdgeBonus,VIPER"
+msgid "공격 속도 20% 증가"
+msgstr ""
+
+#. Key:	CHARIOT
+#. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
+#: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
+msgctxt "Rune_HexagonBonus,CHARIOT"
+msgid "적 처치, 유닛 이동, 무기 장전 시 마다 전체 체력의 15%에 해당하는 실드를 얻는다."
+msgstr ""
+
+#. Key:	DAGGER
+#. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
+#: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
+msgctxt "Rune_HexagonBonus,DAGGER"
+msgid "치명타 공격을 발사할 때 마다 각각의 적에게 2발의 탄환을 소환하여 치명타 확률에 비례하는 데미지를 준다."
+msgstr ""
+
+#. Key:	GREATBOW
+#. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
+#: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
+msgctxt "Rune_HexagonBonus,GREATBOW"
+msgid "공격받은 적의 체력이 15% 미만인 적을 즉시 처치한다."
+msgstr ""
+
+#. Key:	QUAKE
+#. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
+#: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
+msgctxt "Rune_HexagonBonus,QUAKE"
+msgid "15초에 한번, 액티브 스킬이 동일한 위치/타겟에 2번 발동된다."
+msgstr ""
+
+#. Key:	TEMPEST
+#. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
+#: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
+msgctxt "Rune_HexagonBonus,TEMPEST"
+msgid "스킬을 사용할 수록 스킬 쿨다운을 얻는다. 한번에 5의 스킬 쿨다운을 얻으며, 최대 30까지 얻는다. 이는 페이즈가 끝나면 초기화된다."
+msgstr ""
+
+#. Key:	VIPER
+#. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
+#: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
+msgctxt "Rune_HexagonBonus,VIPER"
+msgid "기본 공격에 최대 20중첩의 도트 데미지가 추가된다."
+msgstr ""
+
+#. Key:	CHARIOT
+#. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
+#: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
+msgctxt "Rune_TriangleBonus,CHARIOT"
+msgid "장전 시 최대 체력의 15%에 해당하는 실드 획득."
+msgstr ""
+
+#. Key:	DAGGER
+#. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
+#: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
+msgctxt "Rune_TriangleBonus,DAGGER"
+msgid "장전 시 2초간 치명타확률 10% 증가."
+msgstr ""
+
+#. Key:	GREATBOW
+#. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
+#: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
+msgctxt "Rune_TriangleBonus,GREATBOW"
+msgid "장전 시 액티브 스킬 쿨타임 10% 감소."
+msgstr ""
+
+#. Key:	QUAKE
+#. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
+#: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
+msgctxt "Rune_TriangleBonus,QUAKE"
+msgid "액티브 스킬을 발동할 시 공격속도 15% 증가."
+msgstr ""
+
+#. Key:	TEMPEST
+#. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
+#: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
+msgctxt "Rune_TriangleBonus,TEMPEST"
+msgid "액티브 스킬을 발동할 시 자동 장전."
+msgstr ""
+
+#. Key:	VIPER
+#. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
+#: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
+msgctxt "Rune_TriangleBonus,VIPER"
+msgid "장전 후 첫발에 2초간 받는 데미지 20% 디버프 추가."
+msgstr ""
+
+#. Key:	CHARIOT
+#. SourceLocation:	/Game/StringTables/Rune/RuneDetail.RuneDetail
+#: /Game/StringTables/Rune/RuneDetail.RuneDetail
+msgctxt "RuneDetail,CHARIOT"
+msgid "전투 유지력에 특화된 코어 입니다."
+msgstr ""
+
+#. Key:	DAGGER
+#. SourceLocation:	/Game/StringTables/Rune/RuneDetail.RuneDetail
+#: /Game/StringTables/Rune/RuneDetail.RuneDetail
+msgctxt "RuneDetail,DAGGER"
+msgid "공격속도에 특화된 코어 입니다."
+msgstr ""
+
+#. Key:	GREATBOW
+#. SourceLocation:	/Game/StringTables/Rune/RuneDetail.RuneDetail
+#: /Game/StringTables/Rune/RuneDetail.RuneDetail
+msgctxt "RuneDetail,GREATBOW"
+msgid "공격력에 특화된 코어 입니다."
+msgstr ""
+
+#. Key:	QUAKE
+#. SourceLocation:	/Game/StringTables/Rune/RuneDetail.RuneDetail
+#: /Game/StringTables/Rune/RuneDetail.RuneDetail
+msgctxt "RuneDetail,QUAKE"
+msgid "스킬 위력에 특화된 코어 입니다."
+msgstr ""
+
+#. Key:	TEMPEST
+#. SourceLocation:	/Game/StringTables/Rune/RuneDetail.RuneDetail
+#: /Game/StringTables/Rune/RuneDetail.RuneDetail
+msgctxt "RuneDetail,TEMPEST"
+msgid "스킬 쿨다운에 특화된 코어 입니다."
+msgstr ""
+
+#. Key:	VIPER
+#. SourceLocation:	/Game/StringTables/Rune/RuneDetail.RuneDetail
+#: /Game/StringTables/Rune/RuneDetail.RuneDetail
+msgctxt "RuneDetail,VIPER"
+msgid "지속 데미지에 특화된 코어 입니다."
+msgstr ""
+
+#. Key:	CHARIOT
+#. SourceLocation:	/Game/StringTables/Rune/RuneNames.RuneNames
+#: /Game/StringTables/Rune/RuneNames.RuneNames
+msgctxt "RuneNames,CHARIOT"
+msgid "전차"
+msgstr ""
+
+#. Key:	DAGGER
+#. SourceLocation:	/Game/StringTables/Rune/RuneNames.RuneNames
+#: /Game/StringTables/Rune/RuneNames.RuneNames
+msgctxt "RuneNames,DAGGER"
+msgid "단검"
+msgstr ""
+
+#. Key:	GREATBOW
+#. SourceLocation:	/Game/StringTables/Rune/RuneNames.RuneNames
+#: /Game/StringTables/Rune/RuneNames.RuneNames
+msgctxt "RuneNames,GREATBOW"
+msgid "대궁"
+msgstr ""
+
+#. Key:	QUAKE
+#. SourceLocation:	/Game/StringTables/Rune/RuneNames.RuneNames
+#: /Game/StringTables/Rune/RuneNames.RuneNames
+msgctxt "RuneNames,QUAKE"
+msgid "지진"
+msgstr ""
+
+#. Key:	TEMPEST
+#. SourceLocation:	/Game/StringTables/Rune/RuneNames.RuneNames
+#: /Game/StringTables/Rune/RuneNames.RuneNames
+msgctxt "RuneNames,TEMPEST"
+msgid "폭풍"
+msgstr ""
+
+#. Key:	VIPER
+#. SourceLocation:	/Game/StringTables/Rune/RuneNames.RuneNames
+#: /Game/StringTables/Rune/RuneNames.RuneNames
+msgctxt "RuneNames,VIPER"
+msgid "독사"
+msgstr ""
+
+#. Key:	ARMOR
+#. SourceLocation:	/Game/StringTables/Status.Status
+#: /Game/StringTables/Status.Status
+msgctxt "Status,ARMOR"
+msgid "방어력"
+msgstr ""
+
+#. Key:	ATK
+#. SourceLocation:	/Game/StringTables/Status.Status
+#: /Game/StringTables/Status.Status
+msgctxt "Status,ATK"
+msgid "공격력"
+msgstr ""
+
+#. Key:	ATS
+#. SourceLocation:	/Game/StringTables/Status.Status
+#: /Game/StringTables/Status.Status
+msgctxt "Status,ATS"
+msgid "공격 속도"
+msgstr ""
+
+#. Key:	CRIT
+#. SourceLocation:	/Game/StringTables/Status.Status
+#: /Game/StringTables/Status.Status
+msgctxt "Status,CRIT"
+msgid "치명타 확률"
+msgstr ""
+
+#. Key:	DODGE
+#. SourceLocation:	/Game/StringTables/Status.Status
+#: /Game/StringTables/Status.Status
+msgctxt "Status,DODGE"
+msgid "회피율"
+msgstr ""
+
+#. Key:	HP
+#. SourceLocation:	/Game/StringTables/Status.Status
+#: /Game/StringTables/Status.Status
+msgctxt "Status,HP"
+msgid "체력"
+msgstr ""
+
+#. Key:	SKCD
+#. SourceLocation:	/Game/StringTables/Status.Status
+#: /Game/StringTables/Status.Status
+msgctxt "Status,SKCD"
+msgid "스킬 쿨다운 감소"
+msgstr ""
+
+#. Key:	SKP
+#. SourceLocation:	/Game/StringTables/Status.Status
+#: /Game/StringTables/Status.Status
+msgctxt "Status,SKP"
+msgid "스킬 위력"
+msgstr ""
+
+#. Key:	SURV
+#. SourceLocation:	/Game/StringTables/Status.Status
+#: /Game/StringTables/Status.Status
+msgctxt "Status,SURV"
+msgid "생존률"
+msgstr ""
+
+#. Key:	VAMP
+#. SourceLocation:	/Game/StringTables/Status.Status
+#: /Game/StringTables/Status.Status
+msgctxt "Status,VAMP"
+msgid "흡혈"
+msgstr ""
+
+#. Key:	CFLEAVE
+#. SourceLocation:	/Game/StringTables/StoreText.StoreText
+#: /Game/StringTables/StoreText.StoreText
+msgctxt "StoreText,CFLEAVE"
+msgid "상점에서 나가시겠습니까?"
+msgstr ""
+
+#. Key:	CFPURCHASE
+#. SourceLocation:	/Game/StringTables/StoreText.StoreText
+#: /Game/StringTables/StoreText.StoreText
+msgctxt "StoreText,CFPURCHASE"
+msgid "구입 후 상점에서 나가시겠습니까?"
+msgstr ""
+
+#. Key:	LEAVE
+#. SourceLocation:	/Game/StringTables/StoreText.StoreText
+#: /Game/StringTables/StoreText.StoreText
+msgctxt "StoreText,LEAVE"
+msgid "나가기"
+msgstr ""
+
+#. Key:	NECREDIT
+#. SourceLocation:	/Game/StringTables/StoreText.StoreText
+#: /Game/StringTables/StoreText.StoreText
+msgctxt "StoreText,NECREDIT"
+msgid "재화가 부족합니다."
+msgstr ""
+
+#. Key:	PURCHASE
+#. SourceLocation:	/Game/StringTables/StoreText.StoreText
+#: /Game/StringTables/StoreText.StoreText
+msgctxt "StoreText,PURCHASE"
+msgid "구입"
+msgstr ""
+
+#. Key:	MT
+#. SourceLocation:	/Game/StringTables/SupportSkill_Detail.SupportSkill_Detail
+#: /Game/StringTables/SupportSkill_Detail.SupportSkill_Detail
+msgctxt "SupportSkill_Detail,MT"
+msgid "선택된 아군 유닛이 실드와 도트 회복을 얻습니다."
+msgstr ""
+
+#. Key:	RP
+#. SourceLocation:	/Game/StringTables/SupportSkill_Detail.SupportSkill_Detail
+#: /Game/StringTables/SupportSkill_Detail.SupportSkill_Detail
+msgctxt "SupportSkill_Detail,RP"
+msgid "선택된 위치로 아군 유닛을 이동시킵니다."
+msgstr ""
+
+#. Key:	SAT
+#. SourceLocation:	/Game/StringTables/SupportSkill_Detail.SupportSkill_Detail
+#: /Game/StringTables/SupportSkill_Detail.SupportSkill_Detail
+msgctxt "SupportSkill_Detail,SAT"
+msgid "선택된 아군 유닛이 선택한 적을 우선적으로 공격합니다."
+msgstr ""
+
+#. Key:	MT
+#. SourceLocation:	/Game/StringTables/SupportSkill_name.SupportSkill_name
+#: /Game/StringTables/SupportSkill_name.SupportSkill_name
+msgctxt "SupportSkill_name,MT"
+msgid "정비"
+msgstr ""
+
+#. Key:	RP
+#. SourceLocation:	/Game/StringTables/SupportSkill_name.SupportSkill_name
+#: /Game/StringTables/SupportSkill_name.SupportSkill_name
+msgctxt "SupportSkill_name,RP"
+msgid "유닛 이동"
+msgstr ""
+
+#. Key:	SAT
+#. SourceLocation:	/Game/StringTables/SupportSkill_name.SupportSkill_name
+#: /Game/StringTables/SupportSkill_name.SupportSkill_name
+msgctxt "SupportSkill_name,SAT"
+msgid "공격 대상 선택"
+msgstr ""
+
+#. Key:	AR_A
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,AR_A"
+msgid "높은 공격속도를 가진 무기입니다."
+msgstr ""
+
+#. Key:	AR_B
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,AR_B"
+msgid "높은 공격속도를 가진 무기입니다."
+msgstr ""
+
+#. Key:	ASW
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,ASW"
+msgid "어쌔신 무기"
+msgstr ""
+
+#. Key:	DP
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,DP"
+msgid "기본 권총입니다."
+msgstr ""
+
+#. Key:	HGW
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,HGW"
+msgid "헤비거너 무기"
+msgstr ""
+
+#. Key:	HGW_A
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,HGW_A"
+msgid "헤비거너 무기 - A"
+msgstr ""
+
+#. Key:	OFW
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,OFW"
+msgid "장교 무기"
+msgstr ""
+
+#. Key:	OFW_A
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,OFW_A"
+msgid "장교 무기 - A"
+msgstr ""
+
+#. Key:	PT_A
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,PT_A"
+msgid "높은 스킬 위력을 제공하는 무기입니다."
+msgstr ""
+
+#. Key:	PT_B
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,PT_B"
+msgid "높은 스킬 위력을 제공하는 무기입니다."
+msgstr ""
+
+#. Key:	SDW
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,SDW"
+msgid "솔져 무기"
+msgstr ""
+
+#. Key:	SDW_A
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,SDW_A"
+msgid "솔져 무기 - A"
+msgstr ""
+
+#. Key:	SG_A
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,SG_A"
+msgid "강력한 근거리 화력을 가진 무기 입니다."
+msgstr ""
+
+#. Key:	SG_B
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,SG_B"
+msgid "강력한 근거리 화력을 가진 무기 입니다."
+msgstr ""
+
+#. Key:	SNR_A
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,SNR_A"
+msgid "긴 사거리와 강력한 화력을 가진 무기 입니다."
+msgstr ""
+
+#. Key:	SNR_B
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,SNR_B"
+msgid "긴 사거리와 강력한 화력을 가진 무기 입니다."
+msgstr ""
+
+#. Key:	SNW
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+#: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
+msgctxt "weapon_detail,SNW"
+msgid "스나이퍼 무기"
+msgstr ""
+
+#. Key:	AR_A
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,AR_A"
+msgid "돌격 소총 - A"
+msgstr ""
+
+#. Key:	AR_B
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,AR_B"
+msgid "돌격 소총 - B"
+msgstr ""
+
+#. Key:	ASW
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,ASW"
+msgid "어쌔신 무기"
+msgstr ""
+
+#. Key:	DP
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,DP"
+msgid "보급 권총"
+msgstr ""
+
+#. Key:	HGW
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,HGW"
+msgid "헤비거너 무기"
+msgstr ""
+
+#. Key:	HGW_A
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,HGW_A"
+msgid "헤비거너 무기 - A"
+msgstr ""
+
+#. Key:	OFW
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,OFW"
+msgid "장교 무기"
+msgstr ""
+
+#. Key:	OFW_A
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,OFW_A"
+msgid "장교 무기 - A"
+msgstr ""
+
+#. Key:	PT_A
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,PT_A"
+msgid "권총 - A"
+msgstr ""
+
+#. Key:	PT_B
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,PT_B"
+msgid "권총 - B"
+msgstr ""
+
+#. Key:	SDW
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,SDW"
+msgid "솔져 무기"
+msgstr ""
+
+#. Key:	SDW_A
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,SDW_A"
+msgid "솔져 무기 - A"
+msgstr ""
+
+#. Key:	SG_A
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,SG_A"
+msgid "산탄총 - A"
+msgstr ""
+
+#. Key:	SG_B
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,SG_B"
+msgid "산탄총 - B"
+msgstr ""
+
+#. Key:	SNR_A
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,SNR_A"
+msgid "저격총 - A"
+msgstr ""
+
+#. Key:	SNR_B
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,SNR_B"
+msgid "저격총 - B"
+msgstr ""
+
+#. Key:	SNW
+#. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
+#: /Game/StringTables/Weapon/Weapon_name.Weapon_name
+msgctxt "weapon_name,SNW"
+msgid "스나이퍼 무기"
+msgstr ""
+
