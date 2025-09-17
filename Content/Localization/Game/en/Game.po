@@ -284,21 +284,21 @@ msgstr "Ambushed! Attack speed reduced."
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,ACB"
 msgid "추가 공격 속도를 얻습니다."
-msgstr "Gain additional attack speed."
+msgstr "Attack speed increased!"
 
 #. Key:	ACS
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,ACS"
 msgid "추가 실드를 얻습니다."
-msgstr "Gain an additional shield."
+msgstr "Gain a shield."
 
 #. Key:	AG
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,AG"
 msgid "액티브 스킬 사용 후 공격속도가 증가합니다."
-msgstr "Gain attack speed when it casts an active skill."
+msgstr "Attack speed increased when it casts an active skill."
 
 #. Key:	ASK_ARM
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
@@ -319,7 +319,7 @@ msgstr "Airstrike! Max HP reduced."
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,BSK"
 msgid "체력이 낮아지면 공격 속도와 흡혈이 증가합니다."
-msgstr "Attack speed and life steal increase as HP decreases."
+msgstr "Attack speed and life steal scale with missing HP."
 
 #. Key:	C_ATP_B
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
@@ -368,7 +368,7 @@ msgstr "Gain a shield when reloading."
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,CPS"
 msgid "체력이 낮아질 수록 회피율이 증가합니다."
-msgstr "Evasion rate increases as HP decreases."
+msgstr "Evasion rate scales with missing HP."
 
 #. Key:	CQM
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
@@ -389,308 +389,308 @@ msgstr "Attack speed and critical hit chance increased."
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,DAG_H"
 msgid "치명타 공격 시 추가 투사체를 발사합니다."
-msgstr "Fires an additional daggers on critical hits."
+msgstr "Fires daggers on critical hits."
 
 #. Key:	DAG_T
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,DAG_T"
 msgid "장전시 추가 치명타 확률을 얻습니다."
-msgstr "Gain additional critical hit chance when reloading."
+msgstr "Critical hit chance increases when reloading."
 
 #. Key:	DB
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,DB"
 msgid "한번 파괴되어 전체 체력이 감소되었습니다. 한번 더 파괴될 시 유닛이 사망합니다."
-msgstr ""
+msgstr "Max HP reduced after being destroyed once. If destroyed again, it will be eliminated."
 
 #. Key:	EC
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,EC"
 msgid "추가 공격력과 스킬 위력을 얻습니다."
-msgstr ""
+msgstr "Attack power and skill power increased!"
 
 #. Key:	EMP_AS
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,EMP_AS"
 msgid "추가 공격 속도를 얻습니다."
-msgstr ""
+msgstr "Attack speed increased!"
 
 #. Key:	EMP_CR
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,EMP_CR"
 msgid "추가 치명타 확률을 얻습니다."
-msgstr ""
+msgstr "Critical hit chance increased!"
 
 #. Key:	EMP_HP
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,EMP_HP"
 msgid "최대 체력이 감소하였습니다."
-msgstr ""
+msgstr "Max HP reduced."
 
 #. Key:	EP
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,EP"
 msgid "추가 공격 속도를 얻었습니다."
-msgstr ""
+msgstr "Attack speed increased!"
 
 #. Key:	ETP
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,ETP"
 msgid "추가 방어력을 얻었습니다."
-msgstr ""
+msgstr "Gains bonus armor."
 
 #. Key:	EXC
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,EXC"
 msgid "적을 처치할 시 공격 속도가 증가하고 쿨타임이 1초 감소됩니다."
-msgstr ""
+msgstr "On kill: Attack speed increases and skill cooldown is reduced by 1 second. (Attack speed stacks.)"
 
 #. Key:	KN_A
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,KN_A"
 msgid "체력이 낮아질 시 공격 속도와 흡혈을 얻습니다."
-msgstr ""
+msgstr "Attack speed and life steal scale with missing HP."
 
 #. Key:	MT
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,MT"
 msgid "체력을 회복합니다."
-msgstr ""
+msgstr "Restores HP."
 
 #. Key:	MTB
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,MTB"
 msgid "추가 공격속도를 얻습니다."
-msgstr ""
+msgstr "Attack speed increased!"
 
 #. Key:	OF_FOCUS
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,OF_FOCUS"
 msgid "이 유닛은 표적으로 지정된 유닛을 우선 공격합니다."
-msgstr ""
+msgstr "Pioritizes attacking marked targets."
 
 #. Key:	OF_MARKED
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,OF_MARKED"
 msgid "이 유닛은 표적으로 지정되었습니다."
-msgstr ""
+msgstr "Has been marked."
 
 #. Key:	OF_SHIELD
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,OF_SHIELD"
 msgid "이 유닛은 에너지 방패에 보호받고 있습니다."
-msgstr ""
+msgstr "Protected by an energy shield."
 
 #. Key:	OTC
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,OTC"
 msgid "추가 스킬 쿨다운을 얻었습니다."
-msgstr ""
+msgstr "skill cooldown reduced."
 
 #. Key:	PAT_RB1
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PAT_RB1"
 msgid "무작위 스테이터스 버프를 얻습니다."
-msgstr ""
+msgstr "Gains a random stat buff."
 
 #. Key:	PAT_RB2
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PAT_RB2"
 msgid "무작위 스테이터스 버프를 얻습니다."
-msgstr ""
+msgstr "Gain a random stat buff."
 
 #. Key:	PAT_RB3
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PAT_RB3"
 msgid "무작위 스테이터스 버프를 얻습니다."
-msgstr ""
+msgstr "Gain a random stat buff."
 
 #. Key:	PAT_RB4
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PAT_RB4"
 msgid "무작위 스테이터스 버프를 얻습니다."
-msgstr ""
+msgstr "Gain a random stat buff."
 
 #. Key:	PAT_RDB1
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PAT_RDB1"
 msgid "무작위 스테이터스 디버프를 얻습니다."
-msgstr ""
+msgstr "Gain a random stat debuff."
 
 #. Key:	PAT_RDB2
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PAT_RDB2"
 msgid "무작위 스테이터스 디버프를 얻습니다."
-msgstr ""
+msgstr "Gain a random stat debuff."
 
 #. Key:	PAT_RDB3
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PAT_RDB3"
 msgid "무작위 스테이터스 디버프를 얻습니다."
-msgstr ""
+msgstr "Gain a random stat debuff."
 
 #. Key:	PAT_RDB4
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PAT_RDB4"
 msgid "무작위 스테이터스 디버프를 얻습니다."
-msgstr ""
+msgstr "Gain a random stat debuff."
 
 #. Key:	PRA_AS
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PRA_AS"
 msgid "추가 공격 속도를 얻었습니다."
-msgstr ""
+msgstr "Attack speed increased."
 
 #. Key:	PRA_ATP
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PRA_ATP"
 msgid "추가 공격력을 얻었습니다."
-msgstr ""
+msgstr "Attack power increased."
 
 #. Key:	PRA_SP
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PRA_SP"
 msgid "추가 스킬 위력을 얻었습니다."
-msgstr ""
+msgstr "Skill power increased."
 
 #. Key:	PRE_CD
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PRE_CD"
 msgid "추가 스킬 쿨다운을 얻었습니다."
-msgstr ""
+msgstr "Skill cooldown reduced."
 
 #. Key:	PRE_CRIT
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PRE_CRIT"
 msgid "추가 치명타 확률을 얻었습니다."
-msgstr ""
+msgstr "Critical hit chance increased!"
 
 #. Key:	PRE_DODGE
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PRE_DODGE"
 msgid "추가 회피율을 얻었습니다."
-msgstr ""
+msgstr "Dodge chance increased!"
 
 #. Key:	PRS_SHD
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PRS_SHD"
 msgid "추가 실드를 얻었습니다."
-msgstr ""
+msgstr "Shield gained!"
 
 #. Key:	PRS_VAMP
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,PRS_VAMP"
 msgid "추가 흡혈을 얻었습니다."
-msgstr ""
+msgstr "Lifesteal increased!"
 
 #. Key:	QAK_E
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,QAK_E"
 msgid "추가 스킬 위력을 얻습니다."
-msgstr ""
+msgstr "Skill power increased!"
 
 #. Key:	QAK_H
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,QAK_H"
 msgid "다음에 사용하는 액티브 스킬의 쿨타임이 80% 감소됩니다."
-msgstr ""
+msgstr "The next active skill used has its cooldown reduced by 80%."
 
 #. Key:	QAK_T
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,QAK_T"
 msgid "액티브 스킬을 발동 시 공격속도가 증가됩니다."
-msgstr ""
+msgstr "When it casts an active skill, its attack speed increases."
 
 #. Key:	QH
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,QH"
 msgid "장전 속도가 증가됩니다."
-msgstr ""
+msgstr "Reloading speed increased!"
 
 #. Key:	RC
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,RC"
 msgid "총알이 근처 적에게 도탄됩니다."
-msgstr ""
+msgstr "Bullets ricochet to nearby enemies."
 
 #. Key:	RC_CR
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,RC_CR"
 msgid "전투 전리품 재화를 추가로 얻습니다."
-msgstr ""
+msgstr "Combats provide bonus credits."
 
 #. Key:	RC_RCH
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,RC_RCH"
 msgid "선택할 수 있는 전리품의 수를 늘립니다."
-msgstr ""
+msgstr "Increase the number of selectable combat rewards."
 
 #. Key:	RC_RNE
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,RC_RNE"
 msgid "부정적인 이벤트를 회피합니다."
-msgstr ""
+msgstr "Avoids negative events."
 
 #. Key:	REV
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,REV"
 msgid "적 유닛이 죽을수록 강해집니다."
-msgstr ""
+msgstr "Empowered by the death of allies."
 
 #. Key:	RICAMERA
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,RICAMERA"
 msgid "추가 치명타 확률을 얻습니다."
-msgstr ""
+msgstr "Critical hit chance increased!"
 
 #. Key:	RICORE
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,RICORE"
 msgid "추가 스킬 위력을 얻습니다."
-msgstr ""
+msgstr "Skill power increased!"
 
 #. Key:	RNG
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
