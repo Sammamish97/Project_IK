@@ -697,119 +697,119 @@ msgstr "Skill power increased!"
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,RNG"
 msgid "영웅을 이동시킬 시 자동으로 장전됩니다."
-msgstr ""
+msgstr "Reloads automatically when the hero is repositioned."
 
 #. Key:	SD_A
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,SD_A"
 msgid "추가 공격 속도를 얻습니다."
-msgstr ""
+msgstr "Attack speed increased."
 
 #. Key:	SFR
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,SFR"
 msgid "장전 후 첫발은 반드시 치명타 피해를 입힙니다."
-msgstr ""
+msgstr "The first shot after reloading always deals critical damage."
 
 #. Key:	SPR
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,SPR"
 msgid "추가 회피율을 얻습니다."
-msgstr ""
+msgstr "Dodge chance increased."
 
 #. Key:	ST_HP
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,ST_HP"
 msgid "최대 체력이 감소되었습니다."
-msgstr ""
+msgstr "Max HP reduced."
 
 #. Key:	TPF
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,TPF"
 msgid "다음 3발을 발사하는 동안 공격 속도가 증가됩니다."
-msgstr ""
+msgstr "Attack speed increased for the next 3 shots."
 
 #. Key:	TR_RCAD
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,TR_RCAD"
 msgid "전투 전리품 선택지가 감소됩니다."
-msgstr ""
+msgstr "Combat reward pool size reduced."
 
 #. Key:	TR_RCOD
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,TR_RCOD"
 msgid "전투 전리품을 선택할 수 있는 횟수가 감소합니다."
-msgstr ""
+msgstr "Combat reward pick limit reduced."
 
 #. Key:	UNT
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,UNT"
 msgid "적 유닛이 죽을수록 약해집니다."
-msgstr ""
+msgstr "Gets weaker as allied units are defeated."
 
 #. Key:	UPA
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,UPA"
 msgid "업그레이드 - 알파"
-msgstr ""
+msgstr "Upgrade - Alpha"
 
 #. Key:	UPB
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,UPB"
 msgid "업그레이드 - 베타"
-msgstr ""
+msgstr "Upgrade - Beta"
 
 #. Key:	UPG
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,UPG"
 msgid "업그레이드 - 감마"
-msgstr ""
+msgstr "Upgrade - Gamma"
 
 #. Key:	UPO
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,UPO"
 msgid "업그레이드 -오메가"
-msgstr ""
+msgstr "Upgrade - Omega"
 
 #. Key:	VIP_E
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,VIP_E"
 msgid "추가 공격 속도를 얻습니다."
-msgstr ""
+msgstr "Attack speed increased."
 
 #. Key:	VIP_H
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,VIP_H"
 msgid "탄환에 도트 피해를 추가합니다."
-msgstr ""
+msgstr "Bullets apply poison damage over time."
 
 #. Key:	VIP_T
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,VIP_T"
 msgid "장전 후 첫발에 2초간 추가 피해를 입는 디버프를 추가합니다."
-msgstr ""
+msgstr "The first shot after reloading applies armor reduction."
 
 #. Key:	WB
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,WB"
 msgid "탄환이 도트 피해를 입힙니다."
-msgstr ""
+msgstr "Bullets deal damage over 2 seconds."
 
 #. Key:	AB_AP
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
