@@ -29,6 +29,7 @@ public:
 	void EnableButtons(int32 num);
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
+	void UpdateTextBody(const FText& text);
 
 	UFUNCTION()
 	void MakeEndButtonVisible();

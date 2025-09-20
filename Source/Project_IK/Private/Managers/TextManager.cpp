@@ -82,6 +82,23 @@ FText UTextManager::GetEventOptionText(EEventType event_type, int32 option_idx) 
 	}
 }
 
+FText UTextManager::GetEventResultText(EEventType event_type, int32 option_idx) const
+{
+	switch (option_idx)
+	{
+	case 0:
+			return FText::FromStringTable(event_result_1_table_->GetStringTableId(), EventEnumToKey(event_type));
+	case 1:
+			return FText::FromStringTable(event_result_2_table_->GetStringTableId(), EventEnumToKey(event_type));
+	case 2:
+		return FText::FromStringTable(event_result_3_table_->GetStringTableId(), EventEnumToKey(event_type));
+	case 3:
+		return FText::FromStringTable(event_result_4_table_->GetStringTableId(), EventEnumToKey(event_type));
+	default:
+		return FText::FromName("INVALID");
+	}
+}
+
 FText UTextManager::GetStoreText(EStoreTextType event_type) const
 {
 	return FText::FromStringTable(store_text_table_->GetStringTableId(), StoreEnumToKey(event_type));
@@ -98,6 +115,23 @@ FText UTextManager::GetRuneSetBonusText(ERuneSetType set_type, ERuneSetBonusType
 	case ERuneSetBonusType::Hexagon:
 		return FText::FromStringTable(rune_hexagon_bonus_table_->GetStringTableId(), RuneEnumToKey(set_type));
 	default:
+		return FText::FromName("INVALID");
+	}
+}
+
+FText UTextManager::GetHeroNameText(EHeroType hero_type) const
+{
+	switch (hero_type)
+	{
+	case EHeroType::Hero1:
+		return FText::FromStringTable(rune_detail_table_->GetStringTableId(), HeroEnumToKey(hero_type));
+	case EHeroType::Hero2:
+		return FText::FromStringTable(rune_detail_table_->GetStringTableId(), HeroEnumToKey(hero_type));
+	case EHeroType::Hero3:
+		return FText::FromStringTable(rune_detail_table_->GetStringTableId(), HeroEnumToKey(hero_type));
+	case EHeroType::Hero4:
+		return FText::FromStringTable(rune_detail_table_->GetStringTableId(), HeroEnumToKey(hero_type));
+		default:
 		return FText::FromName("INVALID");
 	}
 }
@@ -1105,6 +1139,27 @@ FString UTextManager::StoreEnumToKey(EStoreTextType store_type) const
 		break;
 	case EStoreTextType::ConfirmLeave:
 		key = "CFLEAVE";
+		break;
+	}
+	return key;
+}
+
+FString UTextManager::HeroEnumToKey(EHeroType hero_type) const
+{
+	FString key;
+	switch (hero_type)
+	{
+	case EHeroType::Hero1:
+		key = "ALPHA";
+		break;
+	case EHeroType::Hero2:
+		key = "BETA";
+		break;
+	case EHeroType::Hero3:
+		key = "GAMMA";
+		break;
+	case EHeroType::Hero4:
+		key = "OMEGA";
 		break;
 	}
 	return key;
