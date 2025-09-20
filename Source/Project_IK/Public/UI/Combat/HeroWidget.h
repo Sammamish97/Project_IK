@@ -39,6 +39,7 @@ public:
 	USegmentedHPUI* GetHPWidget();
 	USkillButtonWidget* GetSkillButtonWidget();
 	UBuffContainer* GetBuffContainer();
+	void SetActiveSkillInputText(const FText& text);
 
 protected:
 	UPROPERTY(meta = (BindWidget))

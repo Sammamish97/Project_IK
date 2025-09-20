@@ -30,11 +30,20 @@ void UButtonBarWidget::NativeConstruct()
 	support_skill_button_1_->button_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSupportSkillButtonClicked1);
 	support_skill_button_2_->button_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnSupportSkillButtonClicked2);
 
+	support_skill_button_0_->SetInputText(FText::FromString("A"));
+	support_skill_button_1_->SetInputText(FText::FromString("S"));
+	support_skill_button_2_->SetInputText(FText::FromString("D"));
+
 	hero_widget_0_->GetSkillButtonWidget()->button_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnActiveSkillButtonClicked0);
 	hero_widget_1_->GetSkillButtonWidget()->button_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnActiveSkillButtonClicked1);
 	hero_widget_2_->GetSkillButtonWidget()->button_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnActiveSkillButtonClicked2);
 	hero_widget_3_->GetSkillButtonWidget()->button_->OnClicked.AddDynamic(this, &UButtonBarWidget::OnActiveSkillButtonClicked3);
 
+	hero_widget_0_->SetActiveSkillInputText(FText::FromString("Q"));
+	hero_widget_1_->SetActiveSkillInputText(FText::FromString("W"));
+	hero_widget_2_->SetActiveSkillInputText(FText::FromString("E"));
+	hero_widget_3_->SetActiveSkillInputText(FText::FromString("R"));
+	
 	active_skill_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
 	support_skill_popup_widget_->SetVisibility(ESlateVisibility::Hidden);
 	rune_popup_widget_->SetVisibility(ESlateVisibility::Hidden);

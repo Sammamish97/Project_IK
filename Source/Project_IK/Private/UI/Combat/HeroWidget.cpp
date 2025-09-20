@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/Combat/BuffContainer.h"
 #include "Components/Border.h"
 #include "Structs/HeroData.h"
+#include "UI/SkillButtonWidget.h"
 #include "UI/Combat/SegmentedHPUI.h"
 #include "UI/Combat/MiniRuneBoardWidget.h"
 
@@ -45,4 +46,9 @@ USkillButtonWidget* UHeroWidget::GetSkillButtonWidget()
 UBuffContainer* UHeroWidget::GetBuffContainer()
 {
 	return buff_container_;
+}
+
+void UHeroWidget::SetActiveSkillInputText(const FText& text)
+{
+	skill_button_widget_->SetInputText(text);
 }
