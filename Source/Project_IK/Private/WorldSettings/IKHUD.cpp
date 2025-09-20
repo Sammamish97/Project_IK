@@ -129,7 +129,7 @@ void AIKHUD::BindHeroWidgetUI()
 		}
 		else
 		{
-			//IKTODO: 만약 죽은 영웅이라면?
+			button_bar_widget_->GetHeroWidget(cur_hero_type)->ClearHeroWidget();
 		}
 	}
 	auto rune_pop_up_widget = button_bar_widget_->GetRunePopupWidget();

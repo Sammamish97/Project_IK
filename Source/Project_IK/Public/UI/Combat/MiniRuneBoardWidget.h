@@ -36,7 +36,7 @@ public:
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	
 	void InitMiniRuneBoard(class URuneMechanics* rune_mechanics, URunePopupWidget* rune_popup_widget, EHeroType type);
-
+	void ClearMiniRuneBoard();
 private:
 	TArray<FVector2D> ComputeVertices(float radius);
 	TArray<Edge> ComputeEdges(const TArray<FVector2D>& vertices);

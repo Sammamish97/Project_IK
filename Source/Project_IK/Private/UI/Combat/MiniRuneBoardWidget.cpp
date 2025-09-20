@@ -101,6 +101,21 @@ void UMiniRuneBoardWidget::InitMiniRuneBoard(URuneMechanics* rune_mechanics, URu
     }
 }
 
+void UMiniRuneBoardWidget::ClearMiniRuneBoard()
+{
+	TArray line_array = {line_0_, line_1_, line_2_, line_3_, line_4_, line_5_, line_6_, line_7_, line_8_, line_9_, line_10_, line_11_};
+	TArray rune_widget_array = {rune_0_, rune_1_, rune_2_, rune_3_, rune_4_, rune_5_};
+	for (auto& elem : line_array)
+	{
+		elem->SetVisibility(ESlateVisibility::Hidden);
+	}
+
+	for (auto& elem : rune_widget_array)
+	{
+		elem->SetVisibility(ESlateVisibility::Hidden);
+	}
+}
+
 void UMiniRuneBoardWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);

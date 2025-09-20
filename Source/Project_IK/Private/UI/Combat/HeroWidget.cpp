@@ -25,6 +25,13 @@ void UHeroWidget::InitHeroWidget(UBasicPopupWidget* popup_widget, class URuneMec
 	hp_bar_->SetHPBarColor(hero_data.hp_bar_color_);
 }
 
+void UHeroWidget::ClearHeroWidget()
+{
+	SetIsEnabled(false);
+	buff_container_->SetVisibility(ESlateVisibility::Hidden);
+	mini_rune_board_->ClearMiniRuneBoard();
+}
+
 USegmentedHPUI* UHeroWidget::GetHPWidget()
 {
 	return hp_bar_;

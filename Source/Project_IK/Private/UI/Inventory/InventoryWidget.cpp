@@ -144,8 +144,38 @@ void UInventoryWidget::LoadSelectedRewards(const FWrapperEquipmentData& rewards)
 
 void UInventoryWidget::NativeConstruct()
 {
-	OnHero_0_Board_Clicked();
 	Super::NativeConstruct();
+	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
+	if(transition_system->GetSpawnData().IsEmpty() == false)
+	{
+		auto data_cache = transition_system->GetSpawnData();
+		for (const auto& elem : data_cache)
+		{
+			if (elem.Value.is_dead_ == false)
+			{
+				switch (elem.Key)
+				{
+					case EHeroType::Hero1:
+					OnHero_0_Board_Clicked();
+					break;
+					case EHeroType::Hero2:
+					OnHero_1_Board_Clicked();
+					break;
+					case EHeroType::Hero3:
+					OnHero_2_Board_Clicked();
+					break;
+					case EHeroType::Hero4:
+					OnHero_3_Board_Clicked();
+					break;
+				default:
+					break;
+				}
+				return;
+			}
+		}
+	}
+	
 }
 
 void UInventoryWidget::NativeDestruct()

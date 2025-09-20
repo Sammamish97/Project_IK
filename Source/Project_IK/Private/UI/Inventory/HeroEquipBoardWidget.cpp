@@ -45,7 +45,11 @@ void UHeroEquipBoardWidget::LoadHeroData()
 	if(transition_system->GetSpawnData().IsEmpty() == false)
 	{
 		FSpawnData data_cache = transition_system->GetSpawnData(hero_type_);
-
+		if (data_cache.is_dead_ == true)
+		{
+			SetIsEnabled(false);
+			return;
+		}
 		if (data_cache.weapon_data_.type_ != EWeaponType::INVALID)
 		{
 			weapon_slot_->SetWeaponSlotData(data_cache.weapon_data_);
