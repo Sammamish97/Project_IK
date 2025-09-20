@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
+#include "UI/ConfirmationWidget.h"
 #include "UI/Inventory/HeroEquipBoardWidget.h"
 #include "UI/RewardContainerWidget.h"
 #include "UI/Inventory/RuneBoardWidget.h"
@@ -63,6 +64,7 @@ void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount,
 	status_switch_button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnStatusSwitchButtonClicked);
 
 	confirm_button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnConfirm);
+	confirmation_widget_->OnConfirmation.AddDynamic(this, &UInventoryWidget::OnConfirmationWidgetClicked);
 
 	ToggleReadOnly(is_read_only);
 	is_read_only_ = is_read_only;
@@ -175,7 +177,6 @@ void UInventoryWidget::NativeConstruct()
 			}
 		}
 	}
-	
 }
 
 void UInventoryWidget::NativeDestruct()
@@ -321,6 +322,10 @@ void UInventoryWidget::RemoveHighlight()
 
 void UInventoryWidget::SetOnConfirm(TFunction<void()> OnConfirm)
 {
+	if (OnConfirm_)
+	{
+		OnConfirm_();
+	}
 	OnConfirm_ = OnConfirm;
 }
 
@@ -384,13 +389,27 @@ void UInventoryWidget::OnStatusSwitchButtonClicked()
 
 void UInventoryWidget::OnConfirm()
 {
-	SetVisibility(ESlateVisibility::Hidden);
 	if (is_read_only_ == false)
 	{
 		UpdateInventoryData();
-		if (OnConfirm_)
+		if (reward_container_->IsRewardContainerEmpty() == false)
 		{
-			OnConfirm_();
+			//IKTODO: 로컬라이징 적용하기
+			confirmation_widget_->SetText(FText::FromString("The Items in reward Container will be removed after you leaved inventory. Are you sure to leave inventory?"));
+			confirmation_widget_->SetVisibility(ESlateVisibility::Visible);
 		}
+		else
+		{
+			OnConfirmationWidgetClicked();
+		}
+		
+	}
+}
+
+void UInventoryWidget::OnConfirmationWidgetClicked()
+{
+	if (OnConfirm_)
+	{
+		OnConfirm_();
 	}
 }

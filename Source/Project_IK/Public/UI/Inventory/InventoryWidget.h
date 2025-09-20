@@ -29,6 +29,7 @@ class URuneBoardWidget;
 class UWidgetSwitcher;
 class UInventorySlot;
 class UBasicPopupWidget;
+class UConfirmationWidget;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UInventoryWidget : public UUserWidget
@@ -100,6 +101,11 @@ private:
 	UFUNCTION()
 	void OnConfirm();
 
+	UFUNCTION()
+	void OnConfirmationWidgetClicked();
+
+	
+
 private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHeroEquipBoardWidget> hero_board_0_;
@@ -139,6 +145,9 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> confirm_text_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UConfirmationWidget> confirmation_widget_;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
 	TSubclassOf<UBasicPopupWidget> passive_skill_popup_class_;

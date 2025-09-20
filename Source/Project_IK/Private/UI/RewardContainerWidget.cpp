@@ -169,3 +169,8 @@ bool URewardContainerWidget::NativeOnDrop(const FGeometry& InGeometry, const FDr
 	}
 	return false;
 }
+
+bool URewardContainerWidget::IsRewardContainerEmpty() const
+{
+	return reward_slots_.IsEmpty();
+}
