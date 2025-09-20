@@ -326,7 +326,7 @@ msgstr "Attack speed and life steal scale with missing HP."
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,C_ATP_B"
 msgid "정상 코어가 장착되어 공격력이 증가되었습니다."
-msgstr "Normal core installed: attack power increased."
+msgstr "Core installed: attack power increased."
 
 #. Key:	C_ATP_DB
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
@@ -816,357 +816,357 @@ msgstr "Bullets deal damage over 2 seconds."
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,AB_AP"
 msgid "매복 당함"
-msgstr ""
+msgstr "Ambushed!"
 
 #. Key:	AB_AS
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,AB_AS"
 msgid "매복 당함"
-msgstr ""
+msgstr "Ambushed!"
 
 #. Key:	ACB
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,ACB"
 msgid "가속 총열"
-msgstr ""
+msgstr "Accelerated Barrel"
 
 #. Key:	ACS
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,ACS"
 msgid "추가 실드"
-msgstr ""
+msgstr "Shield"
 
 #. Key:	AG
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,AG"
 msgid "민첩함"
-msgstr ""
+msgstr "Agility"
 
 #. Key:	ASK_ARM
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,ASK_ARM"
 msgid "공습 당함"
-msgstr ""
+msgstr "Air Striked!"
 
 #. Key:	ASK_HP
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,ASK_HP"
 msgid "공습 당함"
-msgstr ""
+msgstr "Air Striked!"
 
 #. Key:	BSK
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,BSK"
 msgid "광전사"
-msgstr ""
+msgstr "Berserker"
 
 #. Key:	C_ATP_B
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,C_ATP_B"
 msgid "정상 코어 장착"
-msgstr ""
+msgstr "Core instanlled"
 
 #. Key:	C_ATP_DB
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,C_ATP_DB"
 msgid "불량 코어 장착"
-msgstr ""
+msgstr "Defective core"
 
 #. Key:	CDT
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,CDT"
 msgid "전도체"
-msgstr ""
+msgstr "Conductor"
 
 #. Key:	CHA_E
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,CHA_E"
 msgid "전차 - 간선"
-msgstr ""
+msgstr "Chariot - Edge"
 
 #. Key:	CHA_H
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,CHA_H"
 msgid "전차 - 육각"
-msgstr ""
+msgstr "Chariot - Hexagon"
 
 #. Key:	CHA_T
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,CHA_T"
 msgid "전차 - 삼각"
-msgstr ""
+msgstr "Chariot - Triangle"
 
 #. Key:	CPS
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,CPS"
 msgid "침착함"
-msgstr ""
+msgstr "Calmness"
 
 #. Key:	CQM
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,CQM"
 msgid "근접전"
-msgstr ""
+msgstr "Close Quarters Mastery"
 
 #. Key:	DAG_E
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,DAG_E"
 msgid "단검 - 간선"
-msgstr ""
+msgstr "Daggers - Edge"
 
 #. Key:	DAG_H
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,DAG_H"
 msgid "단검 - 육각"
-msgstr ""
+msgstr "Daggers - Hexagon"
 
 #. Key:	DAG_T
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,DAG_T"
 msgid "단검 - 삼각"
-msgstr ""
+msgstr "Daggers - Triangle"
 
 #. Key:	DB
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,DB"
 msgid "취약함"
-msgstr ""
+msgstr "Fragility"
 
 #. Key:	EC
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,EC"
 msgid "강화 파동"
-msgstr ""
+msgstr "Encourage"
 
 #. Key:	EMP_AS
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,EMP_AS"
 msgid "EMP - 무기 강화"
-msgstr ""
+msgstr "EMP - Mechanical Error"
 
 #. Key:	EMP_CR
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,EMP_CR"
 msgid "EMP - 취약점 발견"
-msgstr ""
+msgstr "EMP - Logical Error"
 
 #. Key:	EMP_HP
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,EMP_HP"
 msgid "EMP - 합선됨"
-msgstr ""
+msgstr "EMP - Short Circuit"
 
 #. Key:	EP
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,EP"
 msgid "강화 피스톤"
-msgstr ""
+msgstr "???"
 
 #. Key:	ETP
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,ETP"
 msgid "추가 장갑"
-msgstr ""
+msgstr "???"
 
 #. Key:	EXC
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,EXC"
 msgid "처형인"
-msgstr ""
+msgstr "Executioner"
 
 #. Key:	KN_A
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,KN_A"
 msgid "전선 유지"
-msgstr ""
+msgstr "Frontline"
 
 #. Key:	MT
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,MT"
 msgid "정비"
-msgstr ""
+msgstr "Maintenance"
 
 #. Key:	MTB
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,MTB"
 msgid "전자기 탄환"
-msgstr ""
+msgstr "Electronic Bullets"
 
 #. Key:	OF_FOCUS
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,OF_FOCUS"
 msgid "표적 사격"
-msgstr ""
+msgstr "Focus Attack"
 
 #. Key:	OF_MARKED
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,OF_MARKED"
 msgid "표적으로 지정됨"
-msgstr ""
+msgstr "Marked"
 
 #. Key:	OF_SHIELD
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,OF_SHIELD"
 msgid "에너지 방패"
-msgstr ""
+msgstr "Energy Shield"
 
 #. Key:	ON_ALLY_DEAD
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,ON_ALLY_DEAD"
 msgid "복수"
-msgstr ""
+msgstr "Revenge"
 
 #. Key:	OTC
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,OTC"
 msgid "코어 최적화"
-msgstr ""
+msgstr "Optimized Core"
 
 #. Key:	PAT_RB1
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RB1"
 msgid "정찰 성공"
-msgstr ""
+msgstr "Recon Success"
 
 #. Key:	PAT_RB2
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RB2"
 msgid "정찰 성공"
-msgstr ""
+msgstr "Recon Success"
 
 #. Key:	PAT_RB3
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RB3"
 msgid "정찰 성공"
-msgstr ""
+msgstr "Recon Success"
 
 #. Key:	PAT_RD4
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RD4"
 msgid "정찰 성공"
-msgstr ""
+msgstr "Recon Success"
 
 #. Key:	PAT_RDB1
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RDB1"
 msgid "정찰 실패"
-msgstr ""
+msgstr "Recon Failed"
 
 #. Key:	PAT_RDB2
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RDB2"
 msgid "정찰 실패"
-msgstr ""
+msgstr "Recon Failed"
 
 #. Key:	PAT_RDB3
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RDB3"
 msgid "정찰 실패"
-msgstr ""
+msgstr "Recon Failed"
 
 #. Key:	PAT_RDB4
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RDB4"
 msgid "정찰 실패"
-msgstr ""
+msgstr "Recon Failed"
 
 #. Key:	PRA_AS
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PRA_AS"
 msgid "강습 프로토콜 - 가속"
-msgstr ""
+msgstr "Raid Protocol - Haste"
 
 #. Key:	PRA_ATP
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PRA_ATP"
 msgid "강습 프로토콜 - 무기 강화"
-msgstr ""
+msgstr "Raid Protocol - Mass"
 
 #. Key:	PRA_SP
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PRA_SP"
 msgid "강습 프로토콜 - 기술 강화"
-msgstr ""
+msgstr "Raid Protocol - Energy"
 
 #. Key:	PRE_CD
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PRE_CD"
 msgid "효율성 프로토콜 - 기술 최적화"
-msgstr ""
+msgstr "Efficiency Protocol - Optimized"
 
 #. Key:	PRE_CRIT
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PRE_CRIT"
 msgid "효율성 프로토콜 - 취약점 발견"
-msgstr ""
+msgstr "Efficiency Protocol - Research"
 
 #. Key:	PRE_DODGE
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PRE_DODGE"
 msgid "효율성 프로토콜 - 회피"
-msgstr ""
+msgstr "Efficiency Protocol - Dodge"
 
 #. Key:	PRS_SHD
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PRS_SHD"
 msgid "생존 프로토콜 - 실드"
-msgstr ""
+msgstr "Survival Protocol - Shield"
 
 #. Key:	PRS_VAMP
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PRS_VAMP"
 msgid "생존 프로토콜 - 전선 유지"
-msgstr ""
+msgstr "Survival Protocol - Frontline"
 
 #. Key:	QAK_E
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
