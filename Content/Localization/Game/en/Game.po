@@ -914,7 +914,7 @@ msgstr "Chariot - Triangle"
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,CPS"
 msgid "침착함"
-msgstr "Calmness"
+msgstr "Composed"
 
 #. Key:	CQM
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
@@ -984,7 +984,7 @@ msgstr "EMP - Short Circuit"
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,EP"
 msgid "강화 피스톤"
-msgstr "???"
+msgstr "Enhanced Piston"
 
 #. Key:	ETP
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
@@ -1173,168 +1173,168 @@ msgstr "Survival Protocol - Frontline"
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,QAK_E"
 msgid "지진 - 간선"
-msgstr ""
+msgstr "Quake - Edge"
 
 #. Key:	QAK_H
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,QAK_H"
 msgid "지진 - 육각"
-msgstr ""
+msgstr "Quake - Hexagon"
 
 #. Key:	QAK_T
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,QAK_T"
 msgid "지진 - 삼각"
-msgstr ""
+msgstr "Quake - Triangle"
 
 #. Key:	QH
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,QH"
 msgid "빠른 손"
-msgstr ""
+msgstr "Quick Hand"
 
 #. Key:	RC
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,RC"
 msgid "도탄"
-msgstr ""
+msgstr "Ricochet"
 
 #. Key:	RC_CR
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,RC_CR"
 msgid "전리품 재화 추가"
-msgstr ""
+msgstr "Bonus Credits"
 
 #. Key:	RC_RCH
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,RC_RCH"
 msgid "전리품 탐색 강화"
-msgstr ""
+msgstr "Increase reward pool size"
 
 #. Key:	RC_RNE
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,RC_RNE"
 msgid "정찰 - 위험 회피"
-msgstr ""
+msgstr "Recon - Risk Avoidance"
 
 #. Key:	REV
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,REV"
 msgid "복수"
-msgstr ""
+msgstr "Revenge"
 
 #. Key:	RICAMERA
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,RICAMERA"
 msgid "강화 카메라"
-msgstr ""
+msgstr "Reinforced Camera"
 
 #. Key:	RICORE
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,RICORE"
 msgid "강화 코어"
-msgstr ""
+msgstr "Augmented Core"
 
 #. Key:	RNG
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,RNG"
 msgid "런앤건"
-msgstr ""
+msgstr "Run & Gun"
 
 #. Key:	SD_A
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,SD_A"
 msgid "정조준 완료"
-msgstr ""
+msgstr "Target Locked"
 
 #. Key:	SFR
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,SFR"
 msgid "안정적인 초탄"
-msgstr ""
+msgstr "Stable First Round"
 
 #. Key:	SPR
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,SPR"
 msgid "경사 장갑"
-msgstr ""
+msgstr "Sloped Armor"
 
 #. Key:	ST_HP
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,ST_HP"
 msgid "함정에 당함"
-msgstr ""
+msgstr "Trapped!"
 
 #. Key:	TPF
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,TPF"
 msgid "삼연사"
-msgstr ""
+msgstr "Triple Fire"
 
 #. Key:	TR_RCAD
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,TR_RCAD"
 msgid "함정에 당함"
-msgstr ""
+msgstr "Traped!"
 
 #. Key:	TR_RCOD
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,TR_RCOD"
 msgid "함정에 당함"
-msgstr ""
+msgstr "Traped!"
 
 #. Key:	UNT
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,UNT"
 msgid "단결"
-msgstr ""
+msgstr "Unite"
 
 #. Key:	UPA
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,UPA"
 msgid "업그레이드 - 알파"
-msgstr ""
+msgstr "Upgrade - Alpha"
 
 #. Key:	UPB
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,UPB"
 msgid "업그레이드 - 베타"
-msgstr ""
+msgstr "Upgrade - Beta"
 
 #. Key:	UPG
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,UPG"
 msgid "업그레이드 - 감마"
-msgstr ""
+msgstr "Upgrade - Gamma"
 
 #. Key:	UPO
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,UPO"
 msgid "업그레이드 -오메가"
-msgstr ""
+msgstr "Upgrade - Omega"
 
 #. Key:	VIP_E
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
