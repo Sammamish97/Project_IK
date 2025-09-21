@@ -55,6 +55,11 @@ public:
 	FText GetStoreText(EStoreTextType event_type) const;
 
 	FText GetHeroNameText(EHeroType hero_type) const;
+
+	FText GetButtonText(EButtonType button_type) const;
+	FText GetConfirmationText(EConfirmationType type) const;
+	FText GetCombatResultText(ECombatResultType type) const;
+	FText GetRunResultText(ERunResultType type) const;
 	
 private:
 	FString RuneEnumToKey(ERuneSetType type) const;
@@ -74,7 +79,12 @@ private:
 	FString StoreEnumToKey(EStoreTextType store_type) const;
 
 	FString HeroEnumToKey(EHeroType hero_type) const;
+	FString ButtonEnumToKey(EButtonType button_type) const;
+	FString ConfirmationEnumToKey(EConfirmationType type) const;
+	FString CombatResultEnumToKey(ECombatResultType type) const;
+	FString RunResultEnumToKey(ERunResultType type) const;
 
+	
 private:
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> weapon_name_table_;
@@ -184,4 +194,16 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> store_text_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> button_text_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> confirmation_text_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> combat_result_text_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> run_result_text_table_;
 };

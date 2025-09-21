@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/UserWidget.h"
 #include "MainMenuWidget.generated.h"
 
+class UTextBlock;
 class UButton;
 class USettingWidget;
 
@@ -47,11 +48,23 @@ private:
 	TObjectPtr<UButton> new_game_button_;
 
 	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> new_game_text_;
+
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> continue_button_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> setting_button_;
+	TObjectPtr<UTextBlock> continue_text_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> exit_button_;
+	TObjectPtr<UButton> option_button_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> option_text_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> quit_button_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> quit_text_;
 };

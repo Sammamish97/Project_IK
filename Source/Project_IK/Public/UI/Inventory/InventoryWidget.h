@@ -167,6 +167,9 @@ private:
 	UPROPERTY()
 	TObjectPtr<UDataTableManager> data_table_cache_;
 
+	UPROPERTY()
+	TObjectPtr<UTextManager> text_manager_cache_;
+
 	EGearType last_highlighted_gear_type = EGearType::INVALID;
 
 	bool is_read_only_;

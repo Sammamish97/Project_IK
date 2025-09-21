@@ -59,6 +59,9 @@ private:
 	TObjectPtr<UButton> open_inventory_button_;
 
 	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> open_inventory_text_;
+
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UGlobalBuffPopupWidget> global_buff_popup_widget_;
 
 	//

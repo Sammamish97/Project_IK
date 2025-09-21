@@ -13,13 +13,11 @@ See LICENSE file in the project root for full license information.
 #include "UI/RunRewardWidget.h"
 
 #include "Managers/EnumCluster.h"
-#include "WorldSettings/RunResultLevel/IKRunResultHUD.h"
 
 #include "Components/TextBlock.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKGameInstance.h"
-#include "Managers/InventoryManager.h"
 
 #include "UI/Map/IKMaps.h"
 #include "Subsystems/PerkProgressSubsystem.h"
@@ -68,12 +66,31 @@ void URunRewardWidget::NativeConstruct()
 			}
 		}
 	}
+	UTextManager* text_manager = game_instance->GetTextManager();
+	
+	FText combat_num_base = text_manager->GetRunResultText(ERunResultType::BattleAmount);
+	FFormatNamedArguments args;
+	args.Add("AMOUNT", FText::AsNumber(combat_num_));
+	combat_num_text_->SetText(FText::Format(combat_num_base, args));
+	args.Empty();
 
+	FText event_num_base = text_manager->GetRunResultText(ERunResultType::EventAmount);
+	args.Add("AMOUNT", FText::AsNumber(event_num_));
+	event_num_text_->SetText(FText::Format(event_num_base, args));
+	args.Empty();
+	
+	FText store_num_base = text_manager->GetRunResultText(ERunResultType::StoreAmount);
+	args.Add("AMOUNT", FText::AsNumber(store_num_));
+	store_num_text_->SetText(FText::Format(store_num_base, args));
+	args.Empty();
+	
+	FText perk_points_base = text_manager->GetRunResultText(ERunResultType::ReceivedPerkPoint);
+	args.Add("AMOUNT", FText::AsNumber(perk_points_reward_));
+	perk_points_text_->SetText(FText::Format(perk_points_base, args));
+	args.Empty();
 
-	combat_num_text_->SetText(FText::AsNumber(combat_num_));
-	event_num_text_->SetText(FText::AsNumber(event_num_));
-	store_num_text_->SetText(FText::AsNumber(store_num_));
-	perk_points_text_->SetText(FText::AsNumber(perk_points_reward_));
+	text_body_->SetText(text_manager->GetRunResultText(ERunResultType::RunResult));
+	click_to_return_text_->SetText(text_manager->GetRunResultText(ERunResultType::ClickToProcess));
 }
 
 void URunRewardWidget::NativeDestruct()

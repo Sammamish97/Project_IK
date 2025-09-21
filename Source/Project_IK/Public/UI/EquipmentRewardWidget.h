@@ -51,7 +51,7 @@ protected:
 	void OnConfirmButtonClicked();
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> text_max_selectables_;
+	TObjectPtr<UTextBlock> choose_reward_text_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UUniformGridPanel> reward_container_;

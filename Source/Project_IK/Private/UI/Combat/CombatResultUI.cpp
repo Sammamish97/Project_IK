@@ -224,7 +224,11 @@ void UCombatResultUI::InitializeChildWidgets()
 	}
 
 	title_ = NewObject<UTextBlock>();
-	title_->SetText(NSLOCTEXT("UI", "CombatResultTitle", "Combat Result"));
+
+	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
+	auto text_manager_cache = instance->GetTextManager();
+	title_->SetText(text_manager_cache->GetCombatResultText(ECombatResultType::CombatResult));
+	
 	UBorderSlot* title_slot = Cast<UBorderSlot>(title_holder_->AddChild(title_.Get()));
 	if (title_slot)
 	{

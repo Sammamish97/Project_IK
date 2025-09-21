@@ -26,10 +26,8 @@ See LICENSE file in the project root for full license information.
 #include "UI/InventorySlots/RuneSlotWidget.h"
 #include "UI/InventorySlots/WeaponSlotWidget.h"
 #include "UI/PopUps/ActiveSkillPopupWidget.h"
-#include "UI/PopUps/RunePopupWidget.h"
 #include "UI/PopUps/SingleRunePopupWidget.h"
 #include "UI/PopUps/WeaponPopupWidget.h"
-#include "WorldSettings/IKHUD.h"
 
 
 void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount, bool is_read_only)
@@ -48,6 +46,7 @@ void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount,
 	
 	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
 	data_table_cache_ = instance->GetDataTableManager();
+	text_manager_cache_ = instance->GetTextManager();
 
 	for(int32 i = 0; i < 4; i++)
 	{
@@ -68,14 +67,13 @@ void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount,
 
 	ToggleReadOnly(is_read_only);
 	is_read_only_ = is_read_only;
-	//IKTODO: 로컬라이징 기능 추가하기.
 	if (is_read_only_)
 	{
-		confirm_text_->SetText(FText::FromString("Return To Map"));
+		confirm_text_->SetText(text_manager_cache_->GetButtonText(EButtonType::Close));
 	}
 	else
 	{
-		confirm_text_->SetText(FText::FromString("Finish Equip"));
+		confirm_text_->SetText(text_manager_cache_->GetButtonText(EButtonType::FinishEquipment));
 	}
 }
 
@@ -394,15 +392,17 @@ void UInventoryWidget::OnConfirm()
 		UpdateInventoryData();
 		if (reward_container_->IsRewardContainerEmpty() == false)
 		{
-			//IKTODO: 로컬라이징 적용하기
-			confirmation_widget_->SetText(FText::FromString("The Items in reward Container will be removed after you leaved inventory. Are you sure to leave inventory?"));
+			confirmation_widget_->SetText(text_manager_cache_->GetConfirmationText(EConfirmationType::RemainInventoryItem));
 			confirmation_widget_->SetVisibility(ESlateVisibility::Visible);
 		}
 		else
 		{
 			OnConfirmationWidgetClicked();
 		}
-		
+	}
+	else
+	{
+		SetVisibility(ESlateVisibility::Hidden);
 	}
 }
 
