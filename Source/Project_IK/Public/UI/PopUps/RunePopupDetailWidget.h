@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Blueprint/UserWidget.h"
 #include "RunePopupDetailWidget.generated.h"
 
+class URichTextBlock;
 class UTextBlock;
 class UImage;
 class UBorder;
@@ -32,5 +33,5 @@ public:
 	TObjectPtr<UTextBlock> set_bonus_type_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> set_bonus_detail_;
+	TObjectPtr<URichTextBlock> set_bonus_detail_;
 };
