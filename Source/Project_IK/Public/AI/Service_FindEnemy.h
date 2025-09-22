@@ -26,13 +26,13 @@ public:
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blackboard", meta = (AllowPrivateAccess = "true"))
 	FBlackboardKeySelector target_class_key_;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blackboard", meta = (AllowPrivateAccess = "true"))
-	FBlackboardKeySelector last_attack_target_key_;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blackboard", meta = (AllowPrivateAccess = "true"))
 	FBlackboardKeySelector attack_target_key_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blackboard", meta = (AllowPrivateAccess = "true"))
 	FBlackboardKeySelector target_type_key_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blackboard", meta = (AllowPrivateAccess = "true"))
+	FBlackboardKeySelector is_enemy_in_range_key_;
 };

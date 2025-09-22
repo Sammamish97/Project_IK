@@ -49,6 +49,10 @@ void UService_CheckEnemyInRange::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 		else
 		{
 			blackboard->SetValueAsObject(attack_target_key_.SelectedKeyName, nullptr);
+			blackboard->SetValueAsBool(is_enemy_in_range_key_.SelectedKeyName, false);
+
+			AAIController* owner_controller_ = OwnerComp.GetAIOwner();
+			owner_controller_->SetFocus(nullptr);
 		}
 	}
 }
