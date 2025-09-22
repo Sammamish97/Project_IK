@@ -1061,56 +1061,56 @@ msgstr "Optimized Core"
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RB1"
 msgid "정찰 성공"
-msgstr "Recon Success"
+msgstr "Patrol Success"
 
 #. Key:	PAT_RB2
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RB2"
 msgid "정찰 성공"
-msgstr "Recon Success"
+msgstr "Patrol Success"
 
 #. Key:	PAT_RB3
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RB3"
 msgid "정찰 성공"
-msgstr "Recon Success"
+msgstr "Patrol Success"
 
 #. Key:	PAT_RD4
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RD4"
 msgid "정찰 성공"
-msgstr "Recon Success"
+msgstr "Patrol Success"
 
 #. Key:	PAT_RDB1
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RDB1"
 msgid "정찰 실패"
-msgstr "Recon Failed"
+msgstr "Patrol Failed"
 
 #. Key:	PAT_RDB2
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RDB2"
 msgid "정찰 실패"
-msgstr "Recon Failed"
+msgstr "Patrol Failed"
 
 #. Key:	PAT_RDB3
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RDB3"
 msgid "정찰 실패"
-msgstr "Recon Failed"
+msgstr "Patrol Failed"
 
 #. Key:	PAT_RDB4
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,PAT_RDB4"
 msgid "정찰 실패"
-msgstr "Recon Failed"
+msgstr "Patrol Failed"
 
 #. Key:	PRA_AS
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
@@ -1341,329 +1341,329 @@ msgstr "Upgrade - Omega"
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,VIP_E"
 msgid "독사 - 간선"
-msgstr ""
+msgstr "Viper - Edge"
 
 #. Key:	VIP_H
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,VIP_H"
 msgid "독사 - 육각"
-msgstr ""
+msgstr "Viper - Hexagon"
 
 #. Key:	VIP_T
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,VIP_T"
 msgid "독사 - 삼각"
-msgstr ""
+msgstr "Viper - Triangle"
 
 #. Key:	WB
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,WB"
 msgid "톱니 탄환"
-msgstr ""
+msgstr "Serrated Bullet"
 
 #. Key:	AIRSTRIKE
 #. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
 #: /Game/StringTables/Event/EventDetail.EventDetail
 msgctxt "EventDetail,AIRSTRIKE"
 msgid "적이 공습을 시작합니다."
-msgstr ""
+msgstr "Airstrike incoming!"
 
 #. Key:	AMBUSH
 #. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
 #: /Game/StringTables/Event/EventDetail.EventDetail
 msgctxt "EventDetail,AMBUSH"
 msgid "적의 매복에 걸렸습니다."
-msgstr ""
+msgstr "Caught in an enemy ambush!"
 
 #. Key:	CORE
 #. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
 #: /Game/StringTables/Event/EventDetail.EventDetail
 msgctxt "EventDetail,CORE"
 msgid "알 수 없는 코어를 발견했습니다."
-msgstr ""
+msgstr "An unidentified core has been found."
 
 #. Key:	EMP
 #. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
 #: /Game/StringTables/Event/EventDetail.EventDetail
 msgctxt "EventDetail,EMP"
 msgid "적의 EMP공격을 받았습니다."
-msgstr ""
+msgstr "Hit by enemy EMP attack."
 
 #. Key:	PATROL
 #. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
 #: /Game/StringTables/Event/EventDetail.EventDetail
 msgctxt "EventDetail,PATROL"
 msgid "정찰을 시도할 기회입니다."
-msgstr ""
+msgstr "Patrol opportunity has appeared."
 
 #. Key:	PRO_ASSAULT
 #. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
 #: /Game/StringTables/Event/EventDetail.EventDetail
 msgctxt "EventDetail,PRO_ASSAULT"
 msgid "강습 프로토콜을 발견하였습니다."
-msgstr ""
+msgstr "Execute the protocol : Assault."
 
 #. Key:	PRO_EFFICIENCY
 #. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
 #: /Game/StringTables/Event/EventDetail.EventDetail
 msgctxt "EventDetail,PRO_EFFICIENCY"
 msgid "효율성 프로토콜을 발견하였습니다."
-msgstr ""
+msgstr "Execute the protocol : Efficiency."
 
 #. Key:	PRO_SURVIVE
 #. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
 #: /Game/StringTables/Event/EventDetail.EventDetail
 msgctxt "EventDetail,PRO_SURVIVE"
 msgid "생존 프로토콜을 발견하였습니다."
-msgstr ""
+msgstr "Execute the protocol : Survive."
 
 #. Key:	RECON
 #. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
 #: /Game/StringTables/Event/EventDetail.EventDetail
 msgctxt "EventDetail,RECON"
 msgid "적 부대를 발견하였습니다."
-msgstr ""
+msgstr "Enemy troops sighted."
 
 #. Key:	SETTRAP
 #. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
 #: /Game/StringTables/Event/EventDetail.EventDetail
 msgctxt "EventDetail,SETTRAP"
 msgid "함정 설치를 시도합니다."
-msgstr ""
+msgstr "Attempting to set a trap."
 
 #. Key:	SUPPLY
 #. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
 #: /Game/StringTables/Event/EventDetail.EventDetail
 msgctxt "EventDetail,SUPPLY"
 msgid "버려진 보급상자를 발견하였습니다."
-msgstr ""
+msgstr "You’ve found an abandoned supply."
 
 #. Key:	TRAP
 #. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
 #: /Game/StringTables/Event/EventDetail.EventDetail
 msgctxt "EventDetail,TRAP"
 msgid "함정을 설치할 기회입니다."
-msgstr ""
+msgstr "Attempting to set a trap."
 
 #. Key:	AIRSTRIKE
 #. SourceLocation:	/Game/StringTables/Event/EventName.EventName
 #: /Game/StringTables/Event/EventName.EventName
 msgctxt "EventName,AIRSTRIKE"
 msgid "공습"
-msgstr ""
+msgstr "AirStrike"
 
 #. Key:	AMBUSH
 #. SourceLocation:	/Game/StringTables/Event/EventName.EventName
 #: /Game/StringTables/Event/EventName.EventName
 msgctxt "EventName,AMBUSH"
 msgid "매복"
-msgstr ""
+msgstr "Ambush"
 
 #. Key:	CORE
 #. SourceLocation:	/Game/StringTables/Event/EventName.EventName
 #: /Game/StringTables/Event/EventName.EventName
 msgctxt "EventName,CORE"
 msgid "알 수 없는 코어"
-msgstr ""
+msgstr "Unidentified Core"
 
 #. Key:	EMP
 #. SourceLocation:	/Game/StringTables/Event/EventName.EventName
 #: /Game/StringTables/Event/EventName.EventName
 msgctxt "EventName,EMP"
 msgid "EMP 피격"
-msgstr ""
+msgstr "EMP attack"
 
 #. Key:	PATROL
 #. SourceLocation:	/Game/StringTables/Event/EventName.EventName
 #: /Game/StringTables/Event/EventName.EventName
 msgctxt "EventName,PATROL"
 msgid "정찰"
-msgstr ""
+msgstr "Patrol"
 
 #. Key:	PRO_ASSAULT
 #. SourceLocation:	/Game/StringTables/Event/EventName.EventName
 #: /Game/StringTables/Event/EventName.EventName
 msgctxt "EventName,PRO_ASSAULT"
 msgid "강습 프로토콜"
-msgstr ""
+msgstr "Protocol : Assault"
 
 #. Key:	PRO_EFFICIENCY
 #. SourceLocation:	/Game/StringTables/Event/EventName.EventName
 #: /Game/StringTables/Event/EventName.EventName
 msgctxt "EventName,PRO_EFFICIENCY"
 msgid "효율성 프로토콜"
-msgstr ""
+msgstr "Protocol : Efficiency"
 
 #. Key:	PRO_SURVIVE
 #. SourceLocation:	/Game/StringTables/Event/EventName.EventName
 #: /Game/StringTables/Event/EventName.EventName
 msgctxt "EventName,PRO_SURVIVE"
 msgid "생존 프로토콜"
-msgstr ""
+msgstr "Protocol : Survive"
 
 #. Key:	RECON
 #. SourceLocation:	/Game/StringTables/Event/EventName.EventName
 #: /Game/StringTables/Event/EventName.EventName
 msgctxt "EventName,RECON"
 msgid "적 진형 탐색"
-msgstr ""
+msgstr "Recon"
 
 #. Key:	SETTRAP
 #. SourceLocation:	/Game/StringTables/Event/EventName.EventName
 #: /Game/StringTables/Event/EventName.EventName
 msgctxt "EventName,SETTRAP"
 msgid "함정 설치"
-msgstr ""
+msgstr "Set Trap"
 
 #. Key:	SUPPLY
 #. SourceLocation:	/Game/StringTables/Event/EventName.EventName
 #: /Game/StringTables/Event/EventName.EventName
 msgctxt "EventName,SUPPLY"
 msgid "버려진 보급상자"
-msgstr ""
+msgstr "Abandoned Supply"
 
 #. Key:	TRAP
 #. SourceLocation:	/Game/StringTables/Event/EventName.EventName
 #: /Game/StringTables/Event/EventName.EventName
 msgctxt "EventName,TRAP"
 msgid "함정"
-msgstr ""
+msgstr "Trap"
 
 #. Key:	AIRSTRIKE
 #. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
 #: /Game/StringTables/Event/EventOption_1.EventOption_1
 msgctxt "EventOption_1,AIRSTRIKE"
 msgid "영웅 중 한명이 무기를 잃습니다."
-msgstr ""
+msgstr "One hero loses thier weapon."
 
 #. Key:	AMBUSH
 #. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
 #: /Game/StringTables/Event/EventOption_1.EventOption_1
 msgctxt "EventOption_1,AMBUSH"
 msgid "영웅 중 한명이 액티브 스킬을 잃습니다."
-msgstr ""
+msgstr "One hero loses thier active skill."
 
 #. Key:	CORE
 #. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
 #: /Game/StringTables/Event/EventOption_1.EventOption_1
 msgctxt "EventOption_1,CORE"
 msgid "코어를 장착합니다."
-msgstr ""
+msgstr "You equipped the core."
 
 #. Key:	EMP
 #. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
 #: /Game/StringTables/Event/EventOption_1.EventOption_1
 msgctxt "EventOption_1,EMP"
 msgid "모든 적 유닛의 치명타 확률이 15% 증가합니다."
-msgstr ""
+msgstr "Enemy units gain 15% critical hit chance."
 
 #. Key:	PATROL
 #. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
 #: /Game/StringTables/Event/EventOption_1.EventOption_1
 msgctxt "EventOption_1,PATROL"
 msgid "알파 유닛 보내기"
-msgstr ""
+msgstr "Deploying Alpha on Patrol."
 
 #. Key:	PRO_ASSAULT
 #. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
 #: /Game/StringTables/Event/EventOption_1.EventOption_1
 msgctxt "EventOption_1,PRO_ASSAULT"
 msgid "3번의 전투 시작 시 10의 공격력을 얻습니다."
-msgstr ""
+msgstr "Increase attack power by 10 for the next 3 levels."
 
 #. Key:	PRO_EFFICIENCY
 #. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
 #: /Game/StringTables/Event/EventOption_1.EventOption_1
 msgctxt "EventOption_1,PRO_EFFICIENCY"
 msgid "3번의 전투 시작 시 5%의 치명타 확률을 얻습니다."
-msgstr ""
+msgstr "Increase critical hit chance by 5% for the next 3 levels."
 
 #. Key:	PRO_SURVIVE
 #. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
 #: /Game/StringTables/Event/EventOption_1.EventOption_1
 msgctxt "EventOption_1,PRO_SURVIVE"
 msgid "3번의 전투 시작 시 100의 실드를 얻습니다."
-msgstr ""
+msgstr "Gains 100 shield for the next 3 levels."
 
 #. Key:	RECON
 #. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
 #: /Game/StringTables/Event/EventOption_1.EventOption_1
 msgctxt "EventOption_1,RECON"
 msgid "3번 이동하는 동안 부정적 이벤트를 제거합니다."
-msgstr ""
+msgstr "Avoid negative events for the next 3 levels."
 
 #. Key:	SETTRAP
 #. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
 #: /Game/StringTables/Event/EventOption_1.EventOption_1
 msgctxt "EventOption_1,SETTRAP"
 msgid "함정 설치를 시도합니다."
-msgstr ""
+msgstr "Attempting to set a trap."
 
 #. Key:	SUPPLY
 #. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
 #: /Game/StringTables/Event/EventOption_1.EventOption_1
 msgctxt "EventOption_1,SUPPLY"
 msgid "무작위 A급 액티브 스킬을 얻습니다."
-msgstr ""
+msgstr "Obtain a random A-rank active skill."
 
 #. Key:	TRAP
 #. SourceLocation:	/Game/StringTables/Event/EventOption_1.EventOption_1
 #: /Game/StringTables/Event/EventOption_1.EventOption_1
 msgctxt "EventOption_1,TRAP"
 msgid "200 크레딧을 잃습니다."
-msgstr ""
+msgstr "Lose 200 credits."
 
 #. Key:	AIRSTRIKE
 #. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
 #: /Game/StringTables/Event/EventOption_2.EventOption_2
 msgctxt "EventOption_2,AIRSTRIKE"
 msgid "3번의 전투 시작 시 최대 체력 -20%."
-msgstr ""
+msgstr "Reduce max HP by 20% for the next 3 levels."
 
 #. Key:	AMBUSH
 #. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
 #: /Game/StringTables/Event/EventOption_2.EventOption_2
 msgctxt "EventOption_2,AMBUSH"
 msgid "3번의 전투 시작 시 공격속도 -15%."
-msgstr ""
+msgstr "Reduce attack speed by 15% for the next 3 levels."
 
 #. Key:	CORE
 #. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
 #: /Game/StringTables/Event/EventOption_2.EventOption_2
 msgctxt "EventOption_2,CORE"
 msgid "무시합니다."
-msgstr ""
+msgstr "Ignore it."
 
 #. Key:	EMP
 #. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
 #: /Game/StringTables/Event/EventOption_2.EventOption_2
 msgctxt "EventOption_2,EMP"
 msgid "모든 적 유닛의 공격속도 +30%."
-msgstr ""
+msgstr "Increase enemy units' attack speed by 30%."
 
 #. Key:	PATROL
 #. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
 #: /Game/StringTables/Event/EventOption_2.EventOption_2
 msgctxt "EventOption_2,PATROL"
 msgid "베타 유닛 보내기."
-msgstr ""
+msgstr "Deploying Alpha on Patrol."
 
 #. Key:	PRO_ASSAULT
 #. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
 #: /Game/StringTables/Event/EventOption_2.EventOption_2
 msgctxt "EventOption_2,PRO_ASSAULT"
 msgid "3번의 전투 시작 시 스킬 위력 20 증가."
-msgstr ""
+msgstr "Increase skill power by 20 for the next 3 levels."
 
 #. Key:	PRO_EFFICIENCY
 #. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
 #: /Game/StringTables/Event/EventOption_2.EventOption_2
 msgctxt "EventOption_2,PRO_EFFICIENCY"
 msgid "3번의 전투 시작 시 회피율 5% 증가."
-msgstr ""
+msgstr "Increase dodge chance by 5% for the next 3 levels."
 
 #. Key:	PRO_SURVIVE
 #. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
