@@ -33,7 +33,7 @@ void AHeroAIController::SetAttackTarget(AActor* target)
 void AHeroAIController::OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result)
 {
 	Super::OnMoveCompleted(RequestID, Result);
-	Cast<AHeroBase>(GetPawn())->ResetUnitState();
+	//Cast<AHeroBase>(GetPawn())->ResetUnitState();
 }
 
 // Called when the game starts or when spawned

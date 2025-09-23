@@ -143,15 +143,15 @@ void AHeroBase::SetUnitStateWithInterrupt(EUnitState type)
 	Cast<AMeleeAIController>(GetController())->SetUnitState(type);
 	switch (type)
 	{
-	case EUnitState::OnStunned:
-		Cast<AHeroAIController>(GetController())->StopMovement();
-		
 	case EUnitState::OnRepositioning:
 		active_skill_mechanics_->StopActiveSkill();
 		
 	case EUnitState::OnActiveSkill:
 	{
+		Cast<AHeroAIController>(GetController())->StopMovement();
 		weapon_mechanics_->StopReload();
+		weapon_mechanics_->FinishFire();
+		weapon_mechanics_->SetHoldAction(true);
 	}
 		
 	case EUnitState::OnReloading:
