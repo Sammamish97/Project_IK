@@ -662,7 +662,7 @@ msgstr "Combats provide bonus credits."
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,RC_RCH"
 msgid "선택할 수 있는 전리품의 수를 늘립니다."
-msgstr "Increase the number of selectable combat rewards."
+msgstr "Increase combat reward pick limit."
 
 #. Key:	RC_RNE
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
@@ -697,7 +697,7 @@ msgstr "Skill power increased!"
 #: /Game/StringTables/BuffDetail.BuffDetail
 msgctxt "BuffDetail,RNG"
 msgid "영웅을 이동시킬 시 자동으로 장전됩니다."
-msgstr "Reloads automatically when the hero is repositioned."
+msgstr "Reloads instantly when the hero is repositioned."
 
 #. Key:	SD_A
 #. SourceLocation:	/Game/StringTables/BuffDetail.BuffDetail
@@ -1236,7 +1236,7 @@ msgstr "Revenge"
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,RICAMERA"
 msgid "강화 카메라"
-msgstr "Reinforced Camera"
+msgstr "Precision Lens"
 
 #. Key:	RICORE
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
@@ -1670,1071 +1670,1071 @@ msgstr "Increase dodge chance by 5% for the next 3 levels."
 #: /Game/StringTables/Event/EventOption_2.EventOption_2
 msgctxt "EventOption_2,PRO_SURVIVE"
 msgid "3번의 전투 시작 시 생명력 흡수 5% 증가."
-msgstr ""
+msgstr "Increase life steal by 5% for the next 3 levels."
 
 #. Key:	RECON
 #. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
 #: /Game/StringTables/Event/EventOption_2.EventOption_2
 msgctxt "EventOption_2,RECON"
 msgid "3번 이동하는 동안 전투 전리품 선택지 2개 증가."
-msgstr ""
+msgstr "Increase reward pool size by 2 for the next 3 levels."
 
 #. Key:	SETTRAP
 #. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
 #: /Game/StringTables/Event/EventOption_2.EventOption_2
 msgctxt "EventOption_2,SETTRAP"
 msgid "함정 설치를 시도하지 않습니다."
-msgstr ""
+msgstr "NOT attempting to set a trap."
 
 #. Key:	SUPPLY
 #. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
 #: /Game/StringTables/Event/EventOption_2.EventOption_2
 msgctxt "EventOption_2,SUPPLY"
 msgid "무작위 A급 패시브 스킬 2개 획득."
-msgstr ""
+msgstr "Obtain 2 random A-rank passive skills."
 
 #. Key:	TRAP
 #. SourceLocation:	/Game/StringTables/Event/EventOption_2.EventOption_2
 #: /Game/StringTables/Event/EventOption_2.EventOption_2
 msgctxt "EventOption_2,TRAP"
 msgid "3번의 전투 시작 시 보상 선택지가 2개 감소."
-msgstr ""
+msgstr "Reduce reward pool size by 2 for the next 3 levels."
 
 #. Key:	AIRSTRIKE
 #. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
 #: /Game/StringTables/Event/EventOption_3.EventOption_3
 msgctxt "EventOption_3,AIRSTRIKE"
 msgid "3번의 전투 시작 시 방어력 -20%."
-msgstr ""
+msgstr "Reduce armor by 20% for the next 3 levels."
 
 #. Key:	AMBUSH
 #. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
 #: /Game/StringTables/Event/EventOption_3.EventOption_3
 msgctxt "EventOption_3,AMBUSH"
 msgid "3번의 전투 시작 시 공격력 -20%."
-msgstr ""
+msgstr "Reduce attack power by 20% for the next 3 levels."
 
 #. Key:	CORE
 #. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
 #: /Game/StringTables/Event/EventOption_3.EventOption_3
 msgctxt "EventOption_3,CORE"
 msgid "알 수 없는 코어"
-msgstr ""
+msgstr "Unidentified Core"
 
 #. Key:	EMP
 #. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
 #: /Game/StringTables/Event/EventOption_3.EventOption_3
 msgctxt "EventOption_3,EMP"
 msgid "3번의 전투 시작 시 최대 체력 - 30%."
-msgstr ""
+msgstr "Reduce "
 
 #. Key:	PATROL
 #. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
 #: /Game/StringTables/Event/EventOption_3.EventOption_3
 msgctxt "EventOption_3,PATROL"
 msgid "감마 유닛 보내기."
-msgstr ""
+msgstr "Deploying Gamma on Patrol."
 
 #. Key:	PRO_ASSAULT
 #. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
 #: /Game/StringTables/Event/EventOption_3.EventOption_3
 msgctxt "EventOption_3,PRO_ASSAULT"
 msgid "3번의 전투 시작 시 공격속도 20% 증가"
-msgstr ""
+msgstr "Increase attack speed by 20% for the next 3 levels."
 
 #. Key:	PRO_EFFICIENCY
 #. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
 #: /Game/StringTables/Event/EventOption_3.EventOption_3
 msgctxt "EventOption_3,PRO_EFFICIENCY"
 msgid "3번의 전투 시작 시 스킬 쿨타임 감소 15% 증가"
-msgstr ""
+msgstr "Reduce skill cooldowns by 15% at the next 3 battles."
 
 #. Key:	PRO_SURVIVE
 #. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
 #: /Game/StringTables/Event/EventOption_3.EventOption_3
 msgctxt "EventOption_3,PRO_SURVIVE"
 msgid "모든 유닛들의 체력 을 100 회복"
-msgstr ""
+msgstr "Restore 100 HP heroes heroes."
 
 #. Key:	RECON
 #. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
 #: /Game/StringTables/Event/EventOption_3.EventOption_3
 msgctxt "EventOption_3,RECON"
 msgid "3번의 이동간 전투 전리품 재화 25% 상승"
-msgstr ""
+msgstr "Grants 30% bonus credits for the next 3 levels."
 
 #. Key:	SUPPLY
 #. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
 #: /Game/StringTables/Event/EventOption_3.EventOption_3
 msgctxt "EventOption_3,SUPPLY"
 msgid "무작위 A급 무기 획득"
-msgstr ""
+msgstr "Obtain a random A-rank weapon."
 
 #. Key:	TRAP
 #. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
 #: /Game/StringTables/Event/EventOption_3.EventOption_3
 msgctxt "EventOption_3,TRAP"
 msgid "3번의 전투 시작 시 보상 선택 1개 감소."
-msgstr ""
+msgstr "Reduce combat reward pick limit by 1."
 
 #. Key:	PATROL
 #. SourceLocation:	/Game/StringTables/Event/EventOption_4.EventOption_4
 #: /Game/StringTables/Event/EventOption_4.EventOption_4
 msgctxt "EventOption_4,PATROL"
 msgid "오메가 유닛 보내기."
-msgstr ""
+msgstr "Deploy Omega on Patrol"
 
 #. Key:	AB
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,AB"
 msgid "공격력 + 20"
-msgstr ""
+msgstr "Attack power increased by 20."
 
 #. Key:	AG
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,AG"
 msgid "액티브 스킬 사용 후 2초간 공격속도가 15% 증가합니다."
-msgstr ""
+msgstr "After casting active skill, attack speed increases by 15% for 2 seconds."
 
 #. Key:	BSK
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,BSK"
 msgid "체력이 20% 이하라면 5%의 흡혈과 20%의 공격속도를 얻습니다."
-msgstr ""
+msgstr "Gain 5% Lifesteal and 20% Attack Speed when HP is below 20%."
 
 #. Key:	CDT
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,CDT"
 msgid "생존률 + 10%"
-msgstr ""
+msgstr "Survivability increased by 10%."
 
 #. Key:	CQM
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,CQM"
 msgid "적과 가까울수록 치명타 확률이 늘어납니다."
-msgstr ""
+msgstr "Critical hit chance increases the closer you are to enemies."
 
 #. Key:	CS
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,CS"
 msgid "체력이 낮아질수록 회피율이 증가합니다. 20%이하일 때 최대 효과가 발현됩니다."
-msgstr ""
+msgstr "Dodge chance increases as HP falls. Maximum at 20% or below."
 
 #. Key:	EC
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,EC"
 msgid "적에게 최후의 일격을 가했다면 1초간 15%의 공격속도를 얻고 액티브 스킬의 쿨타임이 1초 감소합니다."
-msgstr ""
+msgstr "On kill: Gain +15% Attack Speed for 1s and reduce Active Skill cooldown by 1s."
 
 #. Key:	EPD
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,EPD"
 msgid "방어력 + 20"
-msgstr ""
+msgstr "Increased armor by 20."
 
 #. Key:	EPT
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,EPT"
 msgid "공격 속도 + 10%"
-msgstr ""
+msgstr "Increased attack speed by 10%."
 
 #. Key:	OC
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,OC"
 msgid "스킬 쿨다운 + 10%"
-msgstr ""
+msgstr "Increased skill cooldown reduction by 10%."
 
 #. Key:	QH
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,QH"
 msgid "장전 소요 시간 - 30%."
-msgstr ""
+msgstr "Reduced reloading time by 30%."
 
 #. Key:	RAG
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,RAG"
 msgid "영웅을 이동 시키면 무기가 장전됩니다."
-msgstr ""
+msgstr "Reloads instantly when the hero is repositioned."
 
 #. Key:	RC
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,RC"
 msgid "치명타 확률 + 5%"
-msgstr ""
+msgstr "Increased critical hit chance by 5%."
 
 #. Key:	RIC
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,RIC"
 msgid "스킬 위력 + 10"
-msgstr ""
+msgstr "Increased skill power by 10."
 
 #. Key:	SA
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,SA"
 msgid "회피율 + 5%"
-msgstr ""
+msgstr "Increased dodge chance by 5%."
 
 #. Key:	SFR
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,SFR"
 msgid "장전 후 첫발은 반드시 치명타 피해를 입힙니다."
-msgstr ""
+msgstr "The first shot after reloading always deals critical damage."
 
 #. Key:	AB
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,AB"
 msgid "가속 총열"
-msgstr ""
+msgstr "Accelerated Barrel"
 
 #. Key:	AG
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,AG"
 msgid "민첩함"
-msgstr ""
+msgstr "Agility"
 
 #. Key:	BSK
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,BSK"
 msgid "광전사"
-msgstr ""
+msgstr "Berserker"
 
 #. Key:	CDT
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,CDT"
 msgid "전도체"
-msgstr ""
+msgstr "Conductor"
 
 #. Key:	CQM
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,CQM"
 msgid "근접전"
-msgstr ""
+msgstr "Close Quarters Mastery"
 
 #. Key:	CS
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,CS"
 msgid "침착함"
-msgstr ""
+msgstr "Composed"
 
 #. Key:	EC
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,EC"
 msgid "처형인"
-msgstr ""
+msgstr "Executioner"
 
 #. Key:	EPD
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,EPD"
 msgid "외골격 보강"
-msgstr ""
+msgstr "Extra Padding"
 
 #. Key:	EPT
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,EPT"
 msgid "강화 피스톤"
-msgstr ""
+msgstr "Enhanced Piston"
 
 #. Key:	OC
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,OC"
 msgid "코어 최적화"
-msgstr ""
+msgstr "Optimized Core"
 
 #. Key:	QH
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,QH"
 msgid "빠른 손"
-msgstr ""
+msgstr "Quick Hands"
 
 #. Key:	RAG
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,RAG"
 msgid "런 앤 건"
-msgstr ""
+msgstr "Run & Gun"
 
 #. Key:	RC
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,RC"
 msgid "강화 카메라"
-msgstr ""
+msgstr "Precision Lens"
 
 #. Key:	RIC
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,RIC"
 msgid "강화 코어"
-msgstr ""
+msgstr "Augmented Core"
 
 #. Key:	SA
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,SA"
 msgid "경사 장갑"
-msgstr ""
+msgstr "Sloped Armor"
 
 #. Key:	SFR
 #. SourceLocation:	/Game/StringTables/PassiveSkill_name.PassiveSkill_name
 #: /Game/StringTables/PassiveSkill_name.PassiveSkill_name
 msgctxt "PassiveSkill_name,SFR"
 msgid "안정적인 초탄"
-msgstr ""
+msgstr "Stable First Round"
 
 #. Key:	EXALPHA
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXALPHA"
 msgid "알파 유닛의 공격력은 전체 공격력의 1.3배가 됩니다"
-msgstr ""
+msgstr "Alpha deals 30% more damages."
 
 #. Key:	EXARM_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXARM_1"
 msgid "방어력 + 10%"
-msgstr ""
+msgstr "Increased armor by 10%."
 
 #. Key:	EXARM_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXARM_2"
 msgid "방어력 + 10%"
-msgstr ""
+msgstr "Increased armor by 10%."
 
 #. Key:	EXATK_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXATK_1"
 msgid "공격력 + 5%"
-msgstr ""
+msgstr "Increased attack power by 5%."
 
 #. Key:	EXATK_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXATK_2"
 msgid "공격력 + 5%"
-msgstr ""
+msgstr "Increased attack power by 5%."
 
 #. Key:	EXATS_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXATS_1"
 msgid "공격 속도 + 5%"
-msgstr ""
+msgstr "Increased attack speed by 5%."
 
 #. Key:	EXATS_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXATS_2"
 msgid "공격 속도 + 5%"
-msgstr ""
+msgstr "Increased attack speed by 5%."
 
 #. Key:	EXBETA
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXBETA"
 msgid "베타 유닛은 공격속도에 비례하는 추가 탄창 보너스를 얻습니다"
-msgstr ""
+msgstr "Beta gains bonus magazine capacity that scales with Attack Speed."
 
 #. Key:	EXCREDIT_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXCREDIT_1"
 msgid "전투 전리품 재화 + 10%"
-msgstr ""
+msgstr "10% bonus credits"
 
 #. Key:	EXCREDIT_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXCREDIT_2"
 msgid "전투 전리품 재화 + 20%"
-msgstr ""
+msgstr "20% bonus credits"
 
 #. Key:	EXCRIT
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXCRIT"
 msgid "치명타 확률 + 5%"
-msgstr ""
+msgstr "Critical hit chance increased by 5%."
 
 #. Key:	EXDODGE
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXDODGE"
 msgid "회피율 + 5%"
-msgstr ""
+msgstr "Dodge chance increased by 5%."
 
 #. Key:	EXGAMMA
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXGAMMA"
 msgid "감마 유닛은 10의 기본 스킬 위력을 가집니다"
-msgstr ""
+msgstr "Gamma gains 10 skill power."
 
 #. Key:	EXGOTCHA_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXGOTCHA_1"
 msgid "회차 시작 시 6개의 무작위 장비 획득"
-msgstr ""
+msgstr "At the start of the run, gain 6 random resources."
 
 #. Key:	EXGOTCHA_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXGOTCHA_2"
 msgid "회차 시작 시 8개의 무작위 장비 획득"
-msgstr ""
+msgstr "At the start of the run, gain 8 random resources."
 
 #. Key:	EXGOTCHA_3
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXGOTCHA_3"
 msgid "A급 무작위 장비가 나올 확률 상성"
-msgstr ""
+msgstr "A-rank gear drop rate increased."
 
 #. Key:	EXHEAL_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXHEAL_1"
 msgid "전투 종료 후 체력 10% 회복"
-msgstr ""
+msgstr "Restore 10% of Max HP after level."
 
 #. Key:	EXHEAL_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXHEAL_2"
 msgid "전투 종료 후 체력 15% 회복"
-msgstr ""
+msgstr "Restore 15% of Max HP after level."
 
 #. Key:	EXHEAL_3
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXHEAL_3"
 msgid "전투 종료 후 체력 20% 회복"
-msgstr ""
+msgstr "Restore 20% of Max HP after level."
 
 #. Key:	EXHP_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXHP_1"
 msgid "체력 + 10%"
-msgstr ""
+msgstr "Increased max HP by 10%."
 
 #. Key:	EXHP_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXHP_2"
 msgid "체력 + 10%"
-msgstr ""
+msgstr "Increased max HP by 10%."
 
 #. Key:	EXINITSHIELD
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXINITSHIELD"
 msgid "전투 시작 시 50의 실드 획득"
-msgstr ""
+msgstr "Gain 50 shield at the start of the run."
 
 #. Key:	EXOMEGA
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXOMEGA"
 msgid "오메가 유닛은 체력에 비례하는 공격력과 스킬 위력을 얻습니다"
-msgstr ""
+msgstr "Omega gains attack&skill powers that scales with max HP."
 
 #. Key:	EXPASSIVE_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXPASSIVE_1"
 msgid "패시브 스킬 슬롯 1개 해금"
-msgstr ""
+msgstr "Unlocked 1 passive skill slot."
 
 #. Key:	EXPASSIVE_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXPASSIVE_2"
 msgid "패시브 스킬 슬롯 2개 해금"
-msgstr ""
+msgstr "Unlocked 2 passive skill slot."
 
 #. Key:	EXREWARDCHOOSE_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXREWARDCHOOSE_1"
 msgid "전투 전리품 1개 추가 선택"
-msgstr ""
+msgstr "Increase combat reward pick limit by 1."
 
 #. Key:	EXREWARDCHOOSE_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXREWARDCHOOSE_2"
 msgid "전투 전리품 2개 추가 선택"
-msgstr ""
+msgstr "Increase combat reward pick limit by 2."
 
 #. Key:	EXREWARDCOUNT_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXREWARDCOUNT_1"
 msgid "전투 전리품 선택지 2개 증가"
-msgstr ""
+msgstr "Increase combat reward pool size by 2."
 
 #. Key:	EXREWARDCOUNT_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXREWARDCOUNT_2"
 msgid "전투 전리품 선택지 4개 증가"
-msgstr ""
+msgstr "Increase combat reward pool size by 4."
 
 #. Key:	EXSKP
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXSKP"
 msgid "스킬 위력 + 5"
-msgstr ""
+msgstr "Increased skill power by 5."
 
 #. Key:	EXSURV
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXSURV"
 msgid "생존율 + 10%"
-msgstr ""
+msgstr "Increased survivability by 10%."
 
 #. Key:	EXALPHA
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXALPHA"
 msgid "업그레이드 - 알파"
-msgstr ""
+msgstr "Upgrade - Alpha"
 
 #. Key:	EXARM_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXARM_1"
 msgid "경화 장갑 - 1단계"
-msgstr ""
+msgstr "Light Plate - Tier 1"
 
 #. Key:	EXARM_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXARM_2"
 msgid "경화 장갑 - 2단계"
-msgstr ""
+msgstr "Light Plate - Tier 2"
 
 #. Key:	EXATK_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXATK_1"
 msgid "탄환 강화 - 1단계"
-msgstr ""
+msgstr "Upgrade Bullets - Tier 1"
 
 #. Key:	EXATK_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXATK_2"
 msgid "탄환 강화 - 2단계"
-msgstr ""
+msgstr "Upgrade Bullets - Tier 2"
 
 #. Key:	EXATS_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXATS_1"
 msgid "탄환 가속 - 1단계"
-msgstr ""
+msgstr "Bullet Speed – Tier 1"
 
 #. Key:	EXATS_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXATS_2"
 msgid "탄환 가속 - 2단계"
-msgstr ""
+msgstr "Bullet Speed – Tier 2"
 
 #. Key:	EXBETA
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXBETA"
 msgid "업그레이드 - 베타"
-msgstr ""
+msgstr "Upgrade - Beta"
 
 #. Key:	EXCREDIT_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXCREDIT_1"
 msgid "분해 효율 개선 - 1단계"
-msgstr ""
+msgstr "Dismantling Efficiency - Tier 1"
 
 #. Key:	EXCREDIT_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXCREDIT_2"
 msgid "분해 효율 개선 - 2단계"
-msgstr ""
+msgstr "Dismantling Efficiency - Tier 2"
 
 #. Key:	EXCRIT
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXCRIT"
 msgid "관통 탄두"
-msgstr ""
+msgstr "Piercing Rounds"
 
 #. Key:	EXDODGE
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXDODGE"
 msgid "경사 장갑"
-msgstr ""
+msgstr "Sloped Armor"
 
 #. Key:	EXGAMMA
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXGAMMA"
 msgid "업그레이드 - 감마"
-msgstr ""
+msgstr "Upgrade - Gamma"
 
 #. Key:	EXGOTCHA_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXGOTCHA_1"
 msgid "제작 최적화 - 1단계"
-msgstr ""
+msgstr "Crafting Optimization - Tier 1"
 
 #. Key:	EXGOTCHA_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXGOTCHA_2"
 msgid "제작 최적화 - 2단계"
-msgstr ""
+msgstr "Crafting Optimization - Tier 2"
 
 #. Key:	EXGOTCHA_3
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXGOTCHA_3"
 msgid "제작 최적화 - 3단계"
-msgstr ""
+msgstr "Crafting Optimization - Tier 3"
 
 #. Key:	EXHEAL_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXHEAL_1"
 msgid "자가 수리 - 1단계"
-msgstr ""
+msgstr "Self Repair - Tier 1"
 
 #. Key:	EXHEAL_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXHEAL_2"
 msgid "자가 수리 - 2단계"
-msgstr ""
+msgstr "Self Repair - Tier 2"
 
 #. Key:	EXHEAL_3
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXHEAL_3"
 msgid "자가 수리 - 3단계"
-msgstr ""
+msgstr "Self Repair - Tier 3"
 
 #. Key:	EXHP_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXHP_1"
 msgid "추가 장갑 - 1단계"
-msgstr ""
+msgstr "Reinforced Plating – Tier 1"
 
 #. Key:	EXHP_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXHP_2"
 msgid "추가 장갑- 2단계"
-msgstr ""
+msgstr "Reinforced Plating – Tier 2"
 
 #. Key:	EXINITSHIELD
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXINITSHIELD"
 msgid "보급 방어막"
-msgstr ""
+msgstr "Regen Shield"
 
 #. Key:	EXOMEGA
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXOMEGA"
 msgid "업그레이드 - 오메가"
-msgstr ""
+msgstr "Upgrade - Omega"
 
 #. Key:	EXPASSIVE_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXPASSIVE_1"
 msgid "슬롯 추가 - 1단계"
-msgstr ""
+msgstr "Slot Size - Tier 1"
 
 #. Key:	EXPASSIVE_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXPASSIVE_2"
 msgid "슬롯 추가 - 2단계"
-msgstr ""
+msgstr "Slot Size - Tier 2"
 
 #. Key:	EXREWARDCHOOSE_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXREWARDCHOOSE_1"
 msgid "전리품 탐색 - 1단계"
-msgstr ""
+msgstr "Scavenge – Tier 1"
 
 #. Key:	EXREWARDCHOOSE_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXREWARDCHOOSE_2"
 msgid "전리품 탐색 - 2단계"
-msgstr ""
+msgstr "Scavenge - Tier 2"
 
 #. Key:	EXREWARDCOUNT_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXREWARDCOUNT_1"
 msgid "전리품 획득 - 1단계"
-msgstr ""
+msgstr "Loot - Tier 1"
 
 #. Key:	EXREWARDCOUNT_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXREWARDCOUNT_2"
 msgid "전리품 획득 - 2단계"
-msgstr ""
+msgstr "Loot - Tier 2"
 
 #. Key:	EXSKP
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXSKP"
 msgid "증폭기 장착"
-msgstr ""
+msgstr "Amplifier"
 
 #. Key:	EXSURV
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXSURV"
 msgid "수리 효율 개선"
-msgstr ""
+msgstr "Improved Repair Efficiency"
 
 #. Key:	ATP
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,ATP"
 msgid "공격력 계수:"
-msgstr ""
+msgstr "Attack Power:"
 
 #. Key:	ATS
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,ATS"
 msgid "초당 발사 속도:"
-msgstr ""
+msgstr "Attack speed:"
 
 #. Key:	BasicDmg
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,BasicDmg"
 msgid "기본 데미지:"
-msgstr ""
+msgstr "Damage:"
 
 #. Key:	CoolTime
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,CoolTime"
 msgid "쿨타임: {CoolTime}초"
-msgstr ""
+msgstr "Cooldown: {CoolTime} seconds"
 
 #. Key:	Cost
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,Cost"
 msgid "코스트: {Cost}코스트"
-msgstr ""
+msgstr "Cost: {Cost}Cost"
 
 #. Key:	CRIT
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,CRIT"
 msgid "치명타 확률"
-msgstr ""
+msgstr "Critical Hit Chance"
 
 #. Key:	EDGE
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,EDGE"
 msgid "간선: "
-msgstr ""
+msgstr "Edge: "
 
 #. Key:	ESK
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,ESK"
 msgid "추가 스킬위력"
-msgstr ""
+msgstr "Skill Power"
 
 #. Key:	GBUFF_DURATION
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,GBUFF_DURATION"
 msgid "남은 턴 수:  {GBUFF_DURATION}"
-msgstr ""
+msgstr "Turns Remaining: {GBUFF_DURATION}"
 
 #. Key:	HEXAGON
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,HEXAGON"
 msgid "육각형: "
-msgstr ""
+msgstr "Hexagon: "
 
 #. Key:	LP
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,LP"
 msgid "남은 특성 포인트: {LP}"
-msgstr ""
+msgstr "Remaining Perk Points: {LP}"
 
 #. Key:	MAGAZINE
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,MAGAZINE"
 msgid "장탄수"
-msgstr ""
+msgstr "Magazine Capacity"
 
 #. Key:	NP
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,NP"
 msgid "필요한 특성 포인트: {NP} "
-msgstr ""
+msgstr "Required perk points: {NP} "
 
 #. Key:	PURCHASED
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,PURCHASED"
 msgid "구매 완료"
-msgstr ""
+msgstr "Purchased"
 
 #. Key:	RANGE
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,RANGE"
 msgid "사거리"
-msgstr ""
+msgstr "Range"
 
 #. Key:	RELOADDURATION
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,RELOADDURATION"
 msgid "장전 속도"
-msgstr ""
+msgstr "Reload Time"
 
 #. Key:	SKP
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,SKP"
 msgid "스킬위력 계수"
-msgstr ""
+msgstr "Skill Power"
 
 #. Key:	TRIANGLE
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
 msgctxt "PopUps,TRIANGLE"
 msgid "삼각형: "
-msgstr ""
+msgstr "Triangle: "
 
 #. Key:	CHARIOT
 #. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 #: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 msgctxt "Rune_EdgeBonus,CHARIOT"
 msgid "공격력 10% 증가 + 체력 10% 증가"
-msgstr ""
+msgstr "Increased attack power by 10% and max HP by 10%."
 
 #. Key:	DAGGER
 #. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 #: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 msgctxt "Rune_EdgeBonus,DAGGER"
 msgid "공격속도 10% 증가 + 치명타 확률 5% 증가"
-msgstr ""
+msgstr "Increased attack speed by 10% and critical hit chance by 5%."
 
 #. Key:	GREATBOW
 #. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 #: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 msgctxt "Rune_EdgeBonus,GREATBOW"
 msgid "공격력 20% 증가"
-msgstr ""
+msgstr "Increased attack power by 20%."
 
 #. Key:	QUAKE
 #. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 #: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 msgctxt "Rune_EdgeBonus,QUAKE"
 msgid "스킬 위력 20% 증가"
-msgstr ""
+msgstr "Increased skill power by 20%."
 
 #. Key:	TEMPEST
 #. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 #: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 msgctxt "Rune_EdgeBonus,TEMPEST"
 msgid "스킬 쿨다운 20% 증가"
-msgstr ""
+msgstr "Increased skill cooldown by 20%."
 
 #. Key:	VIPER
 #. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 #: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 msgctxt "Rune_EdgeBonus,VIPER"
 msgid "공격 속도 20% 증가"
-msgstr ""
+msgstr "Increased attack speed by 20%."
 
 #. Key:	CHARIOT
 #. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 #: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 msgctxt "Rune_HexagonBonus,CHARIOT"
 msgid "적 처치, 유닛 이동, 무기 장전 시 마다 전체 체력의 15%에 해당하는 실드를 얻는다."
-msgstr ""
+msgstr "Gain a Shield equal to 15% of Max HP on kill, reposition, and reload."
 
 #. Key:	DAGGER
 #. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 #: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 msgctxt "Rune_HexagonBonus,DAGGER"
 msgid "치명타 공격을 발사할 때 마다 각각의 적에게 2발의 탄환을 소환하여 치명타 확률에 비례하는 데미지를 준다."
-msgstr ""
+msgstr "On critical hit, spawn 2 daggers that deals damage proportional to its crit chance."
 
 #. Key:	GREATBOW
 #. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 #: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 msgctxt "Rune_HexagonBonus,GREATBOW"
 msgid "공격받은 적의 체력이 15% 미만인 적을 즉시 처치한다."
-msgstr ""
+msgstr "Kills the target instantly if HP is 15% or lower.”
 
 #. Key:	QUAKE
 #. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 #: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 msgctxt "Rune_HexagonBonus,QUAKE"
 msgid "15초에 한번, 액티브 스킬이 동일한 위치/타겟에 2번 발동된다."
-msgstr ""
+msgstr "Every 15s, your next Active Skill is cast twice at the same target/location."
 
 #. Key:	TEMPEST
 #. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 #: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 msgctxt "Rune_HexagonBonus,TEMPEST"
 msgid "스킬을 사용할 수록 스킬 쿨다운을 얻는다. 한번에 5의 스킬 쿨다운을 얻으며, 최대 30까지 얻는다. 이는 페이즈가 끝나면 초기화된다."
-msgstr ""
+msgstr "Gain 5 skill cooldown reduction whenever casts skills at maximum 30. Clear each phases."
 
 #. Key:	VIPER
 #. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 #: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 msgctxt "Rune_HexagonBonus,VIPER"
 msgid "기본 공격에 최대 20중첩의 도트 데미지가 추가된다."
-msgstr ""
+msgstr "Attacks inflict Damage over Time, stacking up to 20 times.”"
 
 #. Key:	CHARIOT
 #. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 #: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 msgctxt "Rune_TriangleBonus,CHARIOT"
 msgid "장전 시 최대 체력의 15%에 해당하는 실드 획득."
-msgstr ""
+msgstr "On reload, gain a Shield equal to 15% of Max HP."
 
 #. Key:	DAGGER
 #. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 #: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 msgctxt "Rune_TriangleBonus,DAGGER"
 msgid "장전 시 2초간 치명타확률 10% 증가."
-msgstr ""
+msgstr "On reload, increases critical hit chance by 10%."
 
 #. Key:	GREATBOW
 #. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 #: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 msgctxt "Rune_TriangleBonus,GREATBOW"
 msgid "장전 시 액티브 스킬 쿨타임 10% 감소."
-msgstr ""
+msgstr "On reload, Reduce skill cooldown by 10%."
 
 #. Key:	QUAKE
 #. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 #: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 msgctxt "Rune_TriangleBonus,QUAKE"
 msgid "액티브 스킬을 발동할 시 공격속도 15% 증가."
-msgstr ""
+msgstr "On casting a skill, increases attack speed by 15%."
 
 #. Key:	TEMPEST
 #. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 #: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 msgctxt "Rune_TriangleBonus,TEMPEST"
 msgid "액티브 스킬을 발동할 시 자동 장전."
-msgstr ""
+msgstr "On casting a skill, instantly reload."
 
 #. Key:	VIPER
 #. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 #: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 msgctxt "Rune_TriangleBonus,VIPER"
 msgid "장전 후 첫발에 2초간 받는 데미지 20% 디버프 추가."
-msgstr ""
+msgstr "After reloading, the first shot reduces the target’s Armor by 20%."
 
 #. Key:	CHARIOT
 #. SourceLocation:	/Game/StringTables/Rune/RuneDetail.RuneDetail
 #: /Game/StringTables/Rune/RuneDetail.RuneDetail
 msgctxt "RuneDetail,CHARIOT"
 msgid "전투 유지력에 특화된 코어 입니다."
-msgstr ""
+msgstr "A core specialized combat endurance."
 
 #. Key:	DAGGER
 #. SourceLocation:	/Game/StringTables/Rune/RuneDetail.RuneDetail
 #: /Game/StringTables/Rune/RuneDetail.RuneDetail
 msgctxt "RuneDetail,DAGGER"
 msgid "공격속도에 특화된 코어 입니다."
-msgstr ""
+msgstr "A core specialized attack speed."
 
 #. Key:	GREATBOW
 #. SourceLocation:	/Game/StringTables/Rune/RuneDetail.RuneDetail
 #: /Game/StringTables/Rune/RuneDetail.RuneDetail
 msgctxt "RuneDetail,GREATBOW"
 msgid "공격력에 특화된 코어 입니다."
-msgstr ""
+msgstr "A core specialized attack power."
 
 #. Key:	QUAKE
 #. SourceLocation:	/Game/StringTables/Rune/RuneDetail.RuneDetail
 #: /Game/StringTables/Rune/RuneDetail.RuneDetail
 msgctxt "RuneDetail,QUAKE"
 msgid "스킬 위력에 특화된 코어 입니다."
-msgstr ""
+msgstr "A core specialized skill power."
 
 #. Key:	TEMPEST
 #. SourceLocation:	/Game/StringTables/Rune/RuneDetail.RuneDetail
 #: /Game/StringTables/Rune/RuneDetail.RuneDetail
 msgctxt "RuneDetail,TEMPEST"
 msgid "스킬 쿨다운에 특화된 코어 입니다."
-msgstr ""
+msgstr "A core specialized skill cooldown."
 
 #. Key:	VIPER
 #. SourceLocation:	/Game/StringTables/Rune/RuneDetail.RuneDetail
 #: /Game/StringTables/Rune/RuneDetail.RuneDetail
 msgctxt "RuneDetail,VIPER"
 msgid "지속 데미지에 특화된 코어 입니다."
-msgstr ""
+msgstr "A core specialized sustain DPS."
 
 #. Key:	CHARIOT
 #. SourceLocation:	/Game/StringTables/Rune/RuneNames.RuneNames
