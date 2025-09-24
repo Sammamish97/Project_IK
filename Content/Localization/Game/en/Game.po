@@ -991,7 +991,7 @@ msgstr "Enhanced Piston"
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,ETP"
 msgid "추가 장갑"
-msgstr "???"
+msgstr "Reinforced Plating."
 
 #. Key:	EXC
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
@@ -2104,14 +2104,14 @@ msgstr "Gamma gains 10 skill power."
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXGOTCHA_1"
 msgid "회차 시작 시 6개의 무작위 장비 획득"
-msgstr "At the start of the run, gain 6 random resources."
+msgstr "At the start of the run, gain 6 random items."
 
 #. Key:	EXGOTCHA_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXGOTCHA_2"
 msgid "회차 시작 시 8개의 무작위 장비 획득"
-msgstr "At the start of the run, gain 8 random resources."
+msgstr "At the start of the run, gain 8 random items."
 
 #. Key:	EXGOTCHA_3
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
@@ -2629,7 +2629,7 @@ msgstr "On critical hit, spawn 2 daggers that deals damage proportional to its c
 #: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 msgctxt "Rune_HexagonBonus,GREATBOW"
 msgid "공격받은 적의 체력이 15% 미만인 적을 즉시 처치한다."
-msgstr "Kills the target instantly if HP is 15% or lower.”
+msgstr "Kills the target instantly if HP is 15% or lower."
 
 #. Key:	QUAKE
 #. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
@@ -2741,425 +2741,425 @@ msgstr "A core specialized sustain DPS."
 #: /Game/StringTables/Rune/RuneNames.RuneNames
 msgctxt "RuneNames,CHARIOT"
 msgid "전차"
-msgstr ""
+msgstr "Chariot"
 
 #. Key:	DAGGER
 #. SourceLocation:	/Game/StringTables/Rune/RuneNames.RuneNames
 #: /Game/StringTables/Rune/RuneNames.RuneNames
 msgctxt "RuneNames,DAGGER"
 msgid "단검"
-msgstr ""
+msgstr "Dagger"
 
 #. Key:	GREATBOW
 #. SourceLocation:	/Game/StringTables/Rune/RuneNames.RuneNames
 #: /Game/StringTables/Rune/RuneNames.RuneNames
 msgctxt "RuneNames,GREATBOW"
 msgid "대궁"
-msgstr ""
+msgstr "Great Bow"
 
 #. Key:	QUAKE
 #. SourceLocation:	/Game/StringTables/Rune/RuneNames.RuneNames
 #: /Game/StringTables/Rune/RuneNames.RuneNames
 msgctxt "RuneNames,QUAKE"
 msgid "지진"
-msgstr ""
+msgstr "Quake"
 
 #. Key:	TEMPEST
 #. SourceLocation:	/Game/StringTables/Rune/RuneNames.RuneNames
 #: /Game/StringTables/Rune/RuneNames.RuneNames
 msgctxt "RuneNames,TEMPEST"
 msgid "폭풍"
-msgstr ""
+msgstr "Tempest"
 
 #. Key:	VIPER
 #. SourceLocation:	/Game/StringTables/Rune/RuneNames.RuneNames
 #: /Game/StringTables/Rune/RuneNames.RuneNames
 msgctxt "RuneNames,VIPER"
 msgid "독사"
-msgstr ""
+msgstr "Viper"
 
 #. Key:	ARMOR
 #. SourceLocation:	/Game/StringTables/Status.Status
 #: /Game/StringTables/Status.Status
 msgctxt "Status,ARMOR"
 msgid "방어력"
-msgstr ""
+msgstr "Armor"
 
 #. Key:	ATK
 #. SourceLocation:	/Game/StringTables/Status.Status
 #: /Game/StringTables/Status.Status
 msgctxt "Status,ATK"
 msgid "공격력"
-msgstr ""
+msgstr "Attack Power"
 
 #. Key:	ATS
 #. SourceLocation:	/Game/StringTables/Status.Status
 #: /Game/StringTables/Status.Status
 msgctxt "Status,ATS"
 msgid "공격 속도"
-msgstr ""
+msgstr "Attack Speed"
 
 #. Key:	CRIT
 #. SourceLocation:	/Game/StringTables/Status.Status
 #: /Game/StringTables/Status.Status
 msgctxt "Status,CRIT"
 msgid "치명타 확률"
-msgstr ""
+msgstr "Critical Hit Chance"
 
 #. Key:	DODGE
 #. SourceLocation:	/Game/StringTables/Status.Status
 #: /Game/StringTables/Status.Status
 msgctxt "Status,DODGE"
 msgid "회피율"
-msgstr ""
+msgstr "Dodge"
 
 #. Key:	HP
 #. SourceLocation:	/Game/StringTables/Status.Status
 #: /Game/StringTables/Status.Status
 msgctxt "Status,HP"
 msgid "체력"
-msgstr ""
+msgstr "HP"
 
 #. Key:	SKCD
 #. SourceLocation:	/Game/StringTables/Status.Status
 #: /Game/StringTables/Status.Status
 msgctxt "Status,SKCD"
 msgid "스킬 쿨다운 감소"
-msgstr ""
+msgstr "Skill Cooldown Reduction"
 
 #. Key:	SKP
 #. SourceLocation:	/Game/StringTables/Status.Status
 #: /Game/StringTables/Status.Status
 msgctxt "Status,SKP"
 msgid "스킬 위력"
-msgstr ""
+msgstr "Skill Power"
 
 #. Key:	SURV
 #. SourceLocation:	/Game/StringTables/Status.Status
 #: /Game/StringTables/Status.Status
 msgctxt "Status,SURV"
 msgid "생존률"
-msgstr ""
+msgstr "Survivability"
 
 #. Key:	VAMP
 #. SourceLocation:	/Game/StringTables/Status.Status
 #: /Game/StringTables/Status.Status
 msgctxt "Status,VAMP"
 msgid "흡혈"
-msgstr ""
+msgstr "Life Steal"
 
 #. Key:	CFLEAVE
 #. SourceLocation:	/Game/StringTables/StoreText.StoreText
 #: /Game/StringTables/StoreText.StoreText
 msgctxt "StoreText,CFLEAVE"
 msgid "상점에서 나가시겠습니까?"
-msgstr ""
+msgstr "Are you sure you want to leave? This action cannot be undone."
 
 #. Key:	CFPURCHASE
 #. SourceLocation:	/Game/StringTables/StoreText.StoreText
 #: /Game/StringTables/StoreText.StoreText
 msgctxt "StoreText,CFPURCHASE"
 msgid "구입 후 상점에서 나가시겠습니까?"
-msgstr ""
+msgstr "Do you want to complete your purchase of items?"
 
 #. Key:	LEAVE
 #. SourceLocation:	/Game/StringTables/StoreText.StoreText
 #: /Game/StringTables/StoreText.StoreText
 msgctxt "StoreText,LEAVE"
 msgid "나가기"
-msgstr ""
+msgstr "Leave"
 
 #. Key:	NECREDIT
 #. SourceLocation:	/Game/StringTables/StoreText.StoreText
 #: /Game/StringTables/StoreText.StoreText
 msgctxt "StoreText,NECREDIT"
 msgid "재화가 부족합니다."
-msgstr ""
+msgstr "Not enough credits to continue the order."
 
 #. Key:	PURCHASE
 #. SourceLocation:	/Game/StringTables/StoreText.StoreText
 #: /Game/StringTables/StoreText.StoreText
 msgctxt "StoreText,PURCHASE"
 msgid "구입"
-msgstr ""
+msgstr "Purchase"
 
 #. Key:	MT
 #. SourceLocation:	/Game/StringTables/SupportSkill_Detail.SupportSkill_Detail
 #: /Game/StringTables/SupportSkill_Detail.SupportSkill_Detail
 msgctxt "SupportSkill_Detail,MT"
 msgid "선택된 아군 유닛이 실드와 도트 회복을 얻습니다."
-msgstr ""
+msgstr "Selected hero gains shield and heal over time."
 
 #. Key:	RP
 #. SourceLocation:	/Game/StringTables/SupportSkill_Detail.SupportSkill_Detail
 #: /Game/StringTables/SupportSkill_Detail.SupportSkill_Detail
 msgctxt "SupportSkill_Detail,RP"
 msgid "선택된 위치로 아군 유닛을 이동시킵니다."
-msgstr ""
+msgstr "Reposition selected hero."
 
 #. Key:	SAT
 #. SourceLocation:	/Game/StringTables/SupportSkill_Detail.SupportSkill_Detail
 #: /Game/StringTables/SupportSkill_Detail.SupportSkill_Detail
 msgctxt "SupportSkill_Detail,SAT"
 msgid "선택된 아군 유닛이 선택한 적을 우선적으로 공격합니다."
-msgstr ""
+msgstr "Selected hero prioritize attacking the chosen enemy."
 
 #. Key:	MT
 #. SourceLocation:	/Game/StringTables/SupportSkill_name.SupportSkill_name
 #: /Game/StringTables/SupportSkill_name.SupportSkill_name
 msgctxt "SupportSkill_name,MT"
 msgid "정비"
-msgstr ""
+msgstr "Maintainence"
 
 #. Key:	RP
 #. SourceLocation:	/Game/StringTables/SupportSkill_name.SupportSkill_name
 #: /Game/StringTables/SupportSkill_name.SupportSkill_name
 msgctxt "SupportSkill_name,RP"
 msgid "유닛 이동"
-msgstr ""
+msgstr "Reposition"
 
 #. Key:	SAT
 #. SourceLocation:	/Game/StringTables/SupportSkill_name.SupportSkill_name
 #: /Game/StringTables/SupportSkill_name.SupportSkill_name
 msgctxt "SupportSkill_name,SAT"
 msgid "공격 대상 선택"
-msgstr ""
+msgstr "Retargeting"
 
 #. Key:	AR_A
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,AR_A"
 msgid "높은 공격속도를 가진 무기입니다."
-msgstr ""
+msgstr "A weapon with high attack speed. (A-rank)"
 
 #. Key:	AR_B
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,AR_B"
 msgid "높은 공격속도를 가진 무기입니다."
-msgstr ""
+msgstr "A weapon with high attack speed."
 
 #. Key:	ASW
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,ASW"
 msgid "어쌔신 무기"
-msgstr ""
+msgstr "A weapon for assassinate."
 
 #. Key:	DP
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,DP"
 msgid "기본 권총입니다."
-msgstr ""
+msgstr "A default weapon."
 
 #. Key:	HGW
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,HGW"
 msgid "헤비거너 무기"
-msgstr ""
+msgstr "A weapon for heavy gunner."
 
 #. Key:	HGW_A
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,HGW_A"
 msgid "헤비거너 무기 - A"
-msgstr ""
+msgstr "A weapon for heavy gunners. (A-rank)"
 
 #. Key:	OFW
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,OFW"
 msgid "장교 무기"
-msgstr ""
+msgstr "A weapon for officiers."
 
 #. Key:	OFW_A
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,OFW_A"
 msgid "장교 무기 - A"
-msgstr ""
+msgstr "A weapon for officiers. (A-rank)"
 
 #. Key:	PT_A
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,PT_A"
 msgid "높은 스킬 위력을 제공하는 무기입니다."
-msgstr ""
+msgstr "A weapon with high skill power. (A-rank)"
 
 #. Key:	PT_B
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,PT_B"
 msgid "높은 스킬 위력을 제공하는 무기입니다."
-msgstr ""
+msgstr "A weapon with high skill power."
 
 #. Key:	SDW
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,SDW"
 msgid "솔져 무기"
-msgstr ""
+msgstr "A weapon for soldiers."
 
 #. Key:	SDW_A
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,SDW_A"
 msgid "솔져 무기 - A"
-msgstr ""
+msgstr "A weapon for soldiers. (A-rank)"
 
 #. Key:	SG_A
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,SG_A"
 msgid "강력한 근거리 화력을 가진 무기 입니다."
-msgstr ""
+msgstr "A weapon for close-range fights. (A-rank)"
 
 #. Key:	SG_B
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,SG_B"
 msgid "강력한 근거리 화력을 가진 무기 입니다."
-msgstr ""
+msgstr "A weapon with powerful close-range firepower."
 
 #. Key:	SNR_A
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,SNR_A"
 msgid "긴 사거리와 강력한 화력을 가진 무기 입니다."
-msgstr ""
+msgstr "A weapon with long range and high DPS. (A-rank)"
 
 #. Key:	SNR_B
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,SNR_B"
 msgid "긴 사거리와 강력한 화력을 가진 무기 입니다."
-msgstr ""
+msgstr "A weapon with long range and high DPS."
 
 #. Key:	SNW
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 #: /Game/StringTables/Weapon/Weapon_detail.Weapon_detail
 msgctxt "weapon_detail,SNW"
 msgid "스나이퍼 무기"
-msgstr ""
+msgstr "A weapon for snipers."
 
 #. Key:	AR_A
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,AR_A"
 msgid "돌격 소총 - A"
-msgstr ""
+msgstr "Assault Rifle - A"
 
 #. Key:	AR_B
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,AR_B"
 msgid "돌격 소총 - B"
-msgstr ""
+msgstr "Assault Rifle - B"
 
 #. Key:	ASW
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,ASW"
 msgid "어쌔신 무기"
-msgstr ""
+msgstr "Assassin's Weapon"
 
 #. Key:	DP
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,DP"
 msgid "보급 권총"
-msgstr ""
+msgstr "Pistol"
 
 #. Key:	HGW
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,HGW"
 msgid "헤비거너 무기"
-msgstr ""
+msgstr "Machine Gun"
 
 #. Key:	HGW_A
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,HGW_A"
 msgid "헤비거너 무기 - A"
-msgstr ""
+msgstr "Machine Gun - B"
 
 #. Key:	OFW
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,OFW"
 msgid "장교 무기"
-msgstr ""
+msgstr "Officer's Weapon"
 
 #. Key:	OFW_A
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,OFW_A"
 msgid "장교 무기 - A"
-msgstr ""
+msgstr "Officer's Weapon - A"
 
 #. Key:	PT_A
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,PT_A"
 msgid "권총 - A"
-msgstr ""
+msgstr "Pistol - A"
 
 #. Key:	PT_B
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,PT_B"
 msgid "권총 - B"
-msgstr ""
+msgstr "Pistol - B"
 
 #. Key:	SDW
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,SDW"
 msgid "솔져 무기"
-msgstr ""
+msgstr "Soldier's Weapon"
 
 #. Key:	SDW_A
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,SDW_A"
 msgid "솔져 무기 - A"
-msgstr ""
+msgstr "Soldier's Weapon - A"
 
 #. Key:	SG_A
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,SG_A"
 msgid "산탄총 - A"
-msgstr ""
+msgstr "Shot Gun - A"
 
 #. Key:	SG_B
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,SG_B"
 msgid "산탄총 - B"
-msgstr ""
+msgstr "Shot Gun - B"
 
 #. Key:	SNR_A
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,SNR_A"
 msgid "저격총 - A"
-msgstr ""
+msgstr "Sniper Rifle - A"
 
 #. Key:	SNR_B
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,SNR_B"
 msgid "저격총 - B"
-msgstr ""
+msgstr "Sniper Rifle - B"
 
 #. Key:	SNW
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_name.Weapon_name
 #: /Game/StringTables/Weapon/Weapon_name.Weapon_name
 msgctxt "weapon_name,SNW"
 msgid "스나이퍼 무기"
-msgstr ""
+msgstr "Sniper's Weapon"
 
