@@ -85,10 +85,6 @@ void UMapHUDWidget::NativeConstruct()
 	credit_value_text_->SetText(FText::AsNumber(inventory_manager_cache_->GetCredits()));
 }
 
-void UMapHUDWidget::InitMapHUD()
-{
-}
-
 void UMapHUDWidget::OnOpenInventory()
 {
 	inventory_manager_cache_->OpenReadOnlyInventoryWidget();

@@ -30,7 +30,6 @@ class PROJECT_IK_API UMapHUDWidget : public UUserWidget
 	GENERATED_BODY()
 public:
 	virtual void NativeConstruct() override;
-	void InitMapHUD();
 
 	UFUNCTION()
 	void OnOpenInventory();

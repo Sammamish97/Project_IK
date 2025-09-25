@@ -13,8 +13,10 @@ See LICENSE file in the project root for full license information.
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Kismet/GameplayStatics.h"
+#include "Managers/InventoryManager.h"
 
 #include "Managers/PauseManager.h"
+#include "WorldSettings/IKGameInstance.h"
 
 void AIKMapController::BeginPlay()
 {
@@ -37,6 +39,7 @@ void AIKMapController::SetupInputComponent()
 	if (UEnhancedInputComponent* enhanced_input_component = Cast<UEnhancedInputComponent>(InputComponent))
 	{
 		enhanced_input_component->BindAction(toggle_pause_action_, ETriggerEvent::Triggered, this, &AIKMapController::TogglePause);
+		enhanced_input_component->BindAction(toggle_inventory_action_, ETriggerEvent::Triggered, this, &AIKMapController::ToggleInventory);
 	}
 }
 
@@ -48,4 +51,13 @@ void AIKMapController::TogglePause()
 		pause_manager_->TogglePause(on_pause_);
 	}
 	SetPause(on_pause_);
+}
+
+void AIKMapController::ToggleInventory()
+{
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	if (auto inventory_manager_ = game_instance->GetInventoryManager())
+	{
+		inventory_manager_->ToggleReadOnlyInventoryWidget();
+	}
 }
