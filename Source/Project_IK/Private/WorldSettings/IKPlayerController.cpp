@@ -105,12 +105,12 @@ void AIKPlayerController::ActivateFourthHeroActiveSkill()
 
 void AIKPlayerController::ActivateFirstSupportSkill()
 {
-	game_state_cache_->ActivateSupportSkill(ESupportSkillType::Reposition);
+	game_state_cache_->ActivateSupportSkill(ESupportSkillType::SetAttackTarget);
 }
 
 void AIKPlayerController::ActivateSecondSupportSkill()
 {
-	game_state_cache_->ActivateSupportSkill(ESupportSkillType::SetAttackTarget);
+	game_state_cache_->ActivateSupportSkill(ESupportSkillType::Reposition);
 }
 
 void AIKPlayerController::ActivateThirdSupportSkill()
