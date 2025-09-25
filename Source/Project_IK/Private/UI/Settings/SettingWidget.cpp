@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/TextBlock.h"
 #include "Components/Slider.h"
 #include "Components/Button.h"
+#include "Components/ComboBoxString.h"
 
 #include "Subsystems/AudioManagerSubsystem.h"
 
@@ -21,6 +22,8 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "SaveGame/SaveSettings.h"
 
+// Language
+#include "Kismet/KismetInternationalizationLibrary.h"
 void USettingWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -47,6 +50,8 @@ void USettingWidget::NativeConstruct()
 	sfx_slider_->OnMouseCaptureEnd.AddDynamic(this, &USettingWidget::SFXSliderCaptureEnd);
 
 	confirm_button_->OnClicked.AddDynamic(this, &USettingWidget::OnConfirmButtonClicked);
+
+	InitLanguageDropdown();
 }
 
 void USettingWidget::NativeDestruct()
@@ -120,4 +125,48 @@ void USettingWidget::SaveSettingData()
 	}
 
 	UGameplayStatics::SaveGameToSlot(save_game_instance, save_game_instance->GetSaveSlotName(), 0);
+}
+
+void USettingWidget::InitLanguageDropdown()
+{
+	language_box_->OnSelectionChanged.AddDynamic(this, &USettingWidget::OnLanguageSelected);
+	
+	PopulateDropdown();
+
+	const FString current = UKismetInternationalizationLibrary::GetCurrentCulture();
+
+	for (const auto& [label, code] : label_to_code_)
+	{
+		if (code == current)
+		{
+			language_box_->SetSelectedOption(label);
+			break;
+		}
+	}
+}
+
+void USettingWidget::OnLanguageSelected(FString selected, ESelectInfo::Type selection_type)
+{
+	if (const FString* code = label_to_code_.Find(selected))
+	{
+		UKismetInternationalizationLibrary::SetCurrentCulture(*code, true);
+	}
+}
+
+void USettingWidget::PopulateDropdown()
+{
+	language_box_->ClearOptions();
+
+	label_to_code_.Empty();
+
+	const TArray<FString> culture_codes = UKismetInternationalizationLibrary::GetLocalizedCultures(true, false, false, false);
+
+	for (const FString& code : culture_codes)
+	{
+		const FString display = UKismetInternationalizationLibrary::GetCultureDisplayName(code, true);
+		const FString label = FString::Printf(TEXT("%s [%s]"), *display, *code);
+
+		language_box_->AddOption(label);
+		label_to_code_.Add(label, code);
+	}
 }

@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 class UTextBlock;
 class USlider;
 class UButton;
+class UComboBoxString;
 
 /**
  * 
@@ -52,6 +53,14 @@ protected:
 
 	void SaveSettingData();
 
+
+	void InitLanguageDropdown();
+	UFUNCTION()
+	void OnLanguageSelected(FString selected, ESelectInfo::Type selection_type);
+	void PopulateDropdown();
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UComboBoxString> language_box_;
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<USlider> master_slider_;
 	UPROPERTY(meta = (BindWidget))
@@ -71,4 +80,6 @@ protected:
 	float master_volume_ = 0.f;
 	float music_volume_ = 0.f;
 	float sfx_volume_ = 0.f;
+
+	TMap<FString, FString> label_to_code_;
 };
