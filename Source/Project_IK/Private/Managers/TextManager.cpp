@@ -124,13 +124,13 @@ FText UTextManager::GetHeroNameText(EHeroType hero_type) const
 	switch (hero_type)
 	{
 	case EHeroType::Hero1:
-		return FText::FromStringTable(rune_detail_table_->GetStringTableId(), HeroEnumToKey(hero_type));
+		return FText::FromStringTable(hero_name_text_table_->GetStringTableId(), HeroEnumToKey(hero_type));
 	case EHeroType::Hero2:
-		return FText::FromStringTable(rune_detail_table_->GetStringTableId(), HeroEnumToKey(hero_type));
+		return FText::FromStringTable(hero_name_text_table_->GetStringTableId(), HeroEnumToKey(hero_type));
 	case EHeroType::Hero3:
-		return FText::FromStringTable(rune_detail_table_->GetStringTableId(), HeroEnumToKey(hero_type));
+		return FText::FromStringTable(hero_name_text_table_->GetStringTableId(), HeroEnumToKey(hero_type));
 	case EHeroType::Hero4:
-		return FText::FromStringTable(rune_detail_table_->GetStringTableId(), HeroEnumToKey(hero_type));
+		return FText::FromStringTable(hero_name_text_table_->GetStringTableId(), HeroEnumToKey(hero_type));
 		default:
 		return FText::FromName("INVALID");
 	}
