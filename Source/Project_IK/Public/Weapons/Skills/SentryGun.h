@@ -13,6 +13,8 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "SentryGun.generated.h"
 
+class UStaticMeshComponent;
+
 UCLASS(Abstract)
 class PROJECT_IK_API ASentryGun : public AUnit
 {
@@ -23,14 +25,22 @@ public:
 	ASentryGun();
 	
 	virtual void InitSentryGun(bool is_upgraded, float skill_power);
-	virtual void BeginFire(TWeakObjectPtr<AActor> target);
+	virtual void BeginFire(AActor* target);
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION()
-	virtual void OnFire(TWeakObjectPtr<AActor> target);
+	virtual void OnFire(AActor* target, float attack_speed);
 
 	UFUNCTION()
 	virtual void StopFire();
+protected:
+	void RotateMeshToTarget(AActor* target);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UStaticMeshComponent> mesh_base_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UStaticMeshComponent> mesh_attack_;
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SentryGun", meta = (AllowPrivateAccess = "true"))

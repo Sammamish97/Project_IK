@@ -27,7 +27,12 @@ ASentryGun::ASentryGun()
 	muzzle_ = CreateDefaultSubobject<USphereComponent>(TEXT("muzzle"));
 	bullet_pool_ = CreateDefaultSubobject<UObjectPoolComponent>(TEXT("bullet_pool"));
 
-	muzzle_->SetupAttachment(RootComponent);
+	mesh_base_ = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Base Mesh"));
+	mesh_base_->SetupAttachment(RootComponent);
+	mesh_attack_ = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Attack Mesh"));
+	mesh_attack_->SetupAttachment(RootComponent);
+
+	muzzle_->SetupAttachment(mesh_attack_);
 }
 
 void ASentryGun::InitSentryGun(bool is_upgraded, float skill_power)
@@ -45,15 +50,14 @@ void ASentryGun::InitSentryGun(bool is_upgraded, float skill_power)
 	GetCharacterStat()->ApplyExtraStatusForSummoned(extra_status);
 }
 
-void ASentryGun::BeginFire(TWeakObjectPtr<AActor> target)
+void ASentryGun::BeginFire(AActor* target)
 {
 	float total_fire_per_sec = (1 + character_stat_component_->GetAttackSpeed() / 100.f);
 	float weapon_attack_speed = 1.f / total_fire_per_sec;
 	
-	if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target.IsValid())
+	if(GetWorld()->GetTimerManager().IsTimerActive(fire_timer_handle_) == false && target)
 	{
-		FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &ASentryGun::OnFire, target);
-		GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, weapon_attack_speed, true, weapon_attack_speed); 
+		OnFire(target, weapon_attack_speed);
 	}
 }
 
@@ -79,26 +83,39 @@ void ASentryGun::Tick(float DeltaSeconds)
 		float cur_distance = FVector::DistSquared2D(owner_pos, target_pos);
 		if(cur_distance < min_distance)
 		{
-			nearest_actor = elem;
-			min_distance = cur_distance;
+			AUnit* unit = Cast<AUnit>(elem);
+			if (unit && unit->IsDead() == false)
+			{
+				nearest_actor = elem;
+				min_distance = cur_distance;
+			}
 		}
 	}
 	//2. 적이 있다면 적 방향으로 사격.
 	if (nearest_actor)
 	{
+		RotateMeshToTarget(nearest_actor);
 		BeginFire(nearest_actor);
 	}
 	else
 	{
+		float rotation_speed = 360.f / 2.f;
+		float delta_rotation = rotation_speed * DeltaSeconds;
+
+		FRotator rotator = mesh_attack_->GetComponentRotation();
+		rotator.Yaw += delta_rotation;
+		mesh_attack_->SetWorldRotation(rotator);
+
 		StopFire();
 	}
 }
 
-void ASentryGun::OnFire(TWeakObjectPtr<AActor> target)
+void ASentryGun::OnFire(AActor* target, float attack_speed)
 {
-	if (AActor* target_ptr = target.Get())
+	AUnit* unit = Cast<AUnit>(target);
+	if (unit && unit->IsDead() == false)
 	{
-		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_->GetComponentLocation(), target_ptr->GetActorLocation());
+		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_->GetComponentLocation(), target->GetActorLocation());
 		ABullet* bullet = Cast<ABullet>(bullet_pool_->SpawnFromPool(rotation, muzzle_->GetComponentLocation()));
 		if (bullet)
 		{
@@ -110,10 +127,29 @@ void ASentryGun::OnFire(TWeakObjectPtr<AActor> target)
 		{
 			UE_LOG(LogTemp, Error, TEXT("Spawning a bullet has failed!"));
 		}
+
+		FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &ASentryGun::OnFire, target, attack_speed);
+		GetWorld()->GetTimerManager().SetTimer(fire_timer_handle_, fire_del, attack_speed, false);
 	}
 }
 
 void ASentryGun::StopFire()
 {
 	GetWorld()->GetTimerManager().ClearTimer(fire_timer_handle_);
+}
+
+void ASentryGun::RotateMeshToTarget(AActor* target)
+{
+	FVector my_location = GetActorLocation();
+	FVector target_location = target->GetActorLocation();
+
+	FVector direction = target_location - my_location;
+	direction.Z = 0.f;
+	direction.Normalize();
+
+	FRotator target_rotation = direction.Rotation();
+
+	FRotator new_rotation(0.f, target_rotation.Yaw, 0.f);
+
+	mesh_attack_->SetWorldRotation(new_rotation);
 }

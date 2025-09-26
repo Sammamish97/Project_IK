@@ -148,9 +148,9 @@ bool AIKGameState::OnDecide(const FTargetResult& result)
 			break;
 		case ESelectedSkill::SupportSKill:
 			{
-				energy_system_component_->UseEnergy(support_skill_data_[selected_support_skill_type_]->cost_);
 				if (selected_support_skill_->ActivateSkill(result))
-				{			
+				{
+					energy_system_component_->UseEnergy(support_skill_data_[selected_support_skill_type_]->cost_);
 					ClearTargetingState();
 				}
 			}
