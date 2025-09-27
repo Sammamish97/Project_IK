@@ -93,6 +93,11 @@ void UEventWidget::NativeDestruct()
 	Super::NativeDestruct();
 }
 
+void UEventWidget::UpdateTextBody(const FText& text)
+{
+	text_body_->SetText(text);
+}
+
 void UEventWidget::OnEndButtonClicked()
 {
 	GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->OpenMapLevel(GetWorld());

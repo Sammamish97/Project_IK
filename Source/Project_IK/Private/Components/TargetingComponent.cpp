@@ -570,6 +570,7 @@ void UTargetingComponent::StartFocus()
 	AIKGameModeBase* game_mode = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	if (game_mode)
 	{
+		game_mode->SetDebugDrawActivated(true);
 		game_mode->SlowGlobalTimeDilation();
 	}
 }
@@ -580,6 +581,7 @@ void UTargetingComponent::EndFocus()
 
 	if (game_mode)
 	{
+		game_mode->SetDebugDrawActivated(false);
 		game_mode->RestoreGlobalTimeDilation();
 	}
 }

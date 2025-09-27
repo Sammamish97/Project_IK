@@ -22,6 +22,7 @@ public:
 	void OnFinishPreheat(AActor* target);
 	void OnFire(AActor* target);
 	void FinishFire() override;
+	void Die() override;
 
 private:
 	UPROPERTY(EditDefaultsOnly)

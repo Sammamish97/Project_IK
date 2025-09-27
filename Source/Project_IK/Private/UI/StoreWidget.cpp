@@ -91,12 +91,7 @@ void UStoreWidget::NativeConstruct()
 		runes_ = manager->GetUniqueRuneDataRandomly(RUNE_STOCK);
 		AddItems(runes_, rune_slot_container_, rune_slots_);
 	}
-
-	if (confirmation_widget_class_)
-	{
-		confirmation_widget_ = WidgetTree->ConstructWidget<UConfirmationWidget>(confirmation_widget_class_);
-		confirmation_widget_->OnConfirmation.AddDynamic(this, &UStoreWidget::GoToNextLevel);
-	}
+	confirmation_widget_->OnConfirmation.AddDynamic(this, &UStoreWidget::GoToNextLevel);
 
 	pay_button_->OnClicked.AddDynamic(this, &UStoreWidget::OnPayButtonClicked);
 	pay_text_->SetText(text_manager_cache_->GetStoreText(EStoreTextType::Leave));
@@ -179,13 +174,13 @@ void UStoreWidget::OnPayButtonClicked()
 	if (total_cost_ <= 0)
 	{
 		confirmation_widget_->SetText(text_manager_cache_->GetStoreText(EStoreTextType::ConfirmLeave));
-		confirmation_widget_->AddToViewport();
+		confirmation_widget_->SetVisibility(ESlateVisibility::Visible);
 	}
 	else if (total_cost_ <= credits_)
 	{
 		// Are you sure you want to purchase this item? This action cannot be undone.
 		confirmation_widget_->SetText(text_manager_cache_->GetStoreText(EStoreTextType::ConfirmPurchase));
-		confirmation_widget_->AddToViewport();
+		confirmation_widget_->SetVisibility(ESlateVisibility::Visible);
 	}
 	else
 	{

@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/LobbyWidget.h"
 #include "Components/Button.h"
+#include "Components/TextBlock.h"
 #include "UI/PerkUnlockWidget.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 
@@ -24,8 +25,15 @@ See LICENSE file in the project root for full license information.
 void ULobbyWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	auto text_manager_cache = game_instance->GetTextManager();
+	
 	open_perk_tree_button_->OnClicked.AddDynamic(this, &ULobbyWidget::OnOpenPerkTreeButtonClicked);
+	open_perk_tree_text_->SetText(text_manager_cache->GetButtonText(EButtonType::OpenPerkTree));
+
 	begin_run_button_->OnClicked.AddDynamic(this, &ULobbyWidget::OnBeginRunButtonClicked);
+	begin_run_text_->SetText(text_manager_cache->GetButtonText(EButtonType::BeginRun));
+	
 	perk_tree_hud_widget_->SetVisibility(ESlateVisibility::Hidden);
 }
 

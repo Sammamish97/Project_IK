@@ -65,6 +65,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void RestoreGlobalTimeDilation();
 
+	UFUNCTION()
+	void SetDebugDrawActivated(bool activated);
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Spawn")
 	TSubclassOf<UEnemySpawnerManager> enemy_spawner_manager_class_;
 

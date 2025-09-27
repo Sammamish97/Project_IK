@@ -10,6 +10,7 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/MainMenuWidget.h"
 #include "Components/Button.h"
+#include "Components/TextBlock.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 
@@ -35,16 +36,24 @@ void UMainMenuWidget::NativeConstruct()
 	{
 		continue_button_->SetIsEnabled(false);
 	}
-	setting_button_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnSettingButtonClicked);
-	exit_button_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitButtonClicked);
+	option_button_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnSettingButtonClicked);
+	quit_button_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitButtonClicked);
+
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	UTextManager* text_manager = game_instance->GetTextManager();
+	
+	new_game_text_->SetText(text_manager->GetButtonText(EButtonType::NewGame));
+	continue_text_->SetText(text_manager->GetButtonText(EButtonType::Continue));
+	option_text_->SetText(text_manager->GetButtonText(EButtonType::Option));
+	quit_text_->SetText(text_manager->GetButtonText(EButtonType::Quit));
 }
 
 void UMainMenuWidget::NativeDestruct()
 {
 	new_game_button_->OnClicked.Clear();
 	continue_button_->OnClicked.Clear();
-	setting_button_->OnClicked.Clear();
-	exit_button_->OnClicked.Clear();
+	option_button_->OnClicked.Clear();
+	quit_button_->OnClicked.Clear();
 
 	Super::NativeDestruct();
 }

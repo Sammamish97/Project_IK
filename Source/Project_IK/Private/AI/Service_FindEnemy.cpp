@@ -78,6 +78,10 @@ void UService_FindEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Node
 			if (distance_object_pairs.IsEmpty() == true)
 			{
 				blackboard->SetValueAsObject(attack_target_key_.SelectedKeyName, nullptr);
+				blackboard->SetValueAsBool(is_enemy_in_range_key_.SelectedKeyName, false);
+
+				AAIController* owner_controller_ = OwnerComp.GetAIOwner();
+				owner_controller_->SetFocus(nullptr);
 				return;
 			}
 			

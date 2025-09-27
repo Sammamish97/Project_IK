@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 
 AMeleeAIController::AMeleeAIController()
 {
+	debug_draw_component_ = CreateDefaultSubobject<UAIDebugDrawComponent>(TEXT("DebugDrawComponent"));
+	
 	target_class_key_name_ = TEXT("TargetClass");
 	unit_state_key_name_ = TEXT("UnitState");
 	stun_state_key_name_ = TEXT("StunState");
@@ -54,6 +56,7 @@ void AMeleeAIController::OnPossess(APawn* InPawn)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("unit state enum key name is wrong!"));
 	}
+	debug_draw_component_->InitAIController(this);
 }
 
 void AMeleeAIController::GetStunned()
@@ -84,6 +87,11 @@ void AMeleeAIController::SetTargetActor(AActor* target_actor)
 void AMeleeAIController::SetUnitState(EUnitState new_state)
 {
 	GetBlackboardComponent()->SetValueAsEnum(unit_state_key_name_, static_cast<uint8>(new_state));
+}
+
+void AMeleeAIController::SetDebugDrawActivated(bool activated)
+{
+	debug_draw_component_->SetActivated(activated);
 }
 
 void AMeleeAIController::SetAIFindTargetType(EAIFindTargetType type)

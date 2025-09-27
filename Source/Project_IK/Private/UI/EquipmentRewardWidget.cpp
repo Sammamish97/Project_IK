@@ -35,6 +35,13 @@ void UEquipmentRewardWidget::NativeConstruct()
 	 );
 	
 	 max_choice_ = game_instance->GetSubsystem<UPerkModifierSubsystem>()->GetCombatEndEquipmentRewardMaxChoice();
+	 auto text_manager = game_instance->GetTextManager();
+	 auto base = text_manager->GetCombatResultText(ECombatResultType::ChooseReward);
+	
+	 FFormatNamedArguments args;
+	 args.Add("AMOUNT", FText::AsNumber(max_choice_));
+
+	 choose_reward_text_->SetText(FText::Format(base, args));
 	
 	 for (const auto& elem : equipments_.active_skills_)
 	 {

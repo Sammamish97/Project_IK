@@ -10,6 +10,8 @@ See LICENSE file in the project root for full license information.
 
 
 #include "WorldSettings/IKGameModeBase.h"
+
+#include "AI/MeleeAIController.h"
 #include "Kismet/GameplayStatics.h"
 
 #include "WorldSettings/IKGameInstance.h"
@@ -334,6 +336,25 @@ void AIKGameModeBase::RestoreGlobalTimeDilation()
 	if (time_dilation_manager_)
 	{
 		time_dilation_manager_->RestoreGlobalTimeDilation(GetWorld());
+	}
+}
+
+void AIKGameModeBase::SetDebugDrawActivated(bool activated)
+{
+	for (const auto& elem :heroes_)
+	{
+		if (elem)
+		{
+			Cast<AMeleeAIController>(Cast<APawn>(elem)->GetController())->SetDebugDrawActivated(activated);
+		}
+	}
+
+	for (const auto& elem : enemy_spawner_manager_->GetEnemies())
+	{
+		if (elem)
+		{
+			Cast<AMeleeAIController>(Cast<APawn>(elem)->GetController())->SetDebugDrawActivated(activated);
+		}
 	}
 }
 

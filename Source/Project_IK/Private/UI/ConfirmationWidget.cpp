@@ -37,31 +37,27 @@ void UConfirmationWidget::NativeConstruct()
 		}
 	}
 
-	button_->OnClicked.AddDynamic(this, &UConfirmationWidget::OnButtonClicked);
+	confirm_button_->OnClicked.AddDynamic(this, &UConfirmationWidget::OnConfirmButtonClicked);
+	cancel_button_->OnClicked.AddDynamic(this, &UConfirmationWidget::OnCancelButtonClicked);
 }
 
 void UConfirmationWidget::NativeDestruct()
 {
 	Super::NativeDestruct();
 
-	if (button_->OnClicked.IsBound())
+	if (confirm_button_->OnClicked.IsBound())
 	{
-		button_->OnClicked.Clear();
+		confirm_button_->OnClicked.Clear();
 	}
 }
 
-FReply UConfirmationWidget::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
-{
-	Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
-
-	// If click is outside the confirmation button, consider it a denial.
-	RemoveFromParent();
-
-	return FReply::Handled();
-}
-
-void UConfirmationWidget::OnButtonClicked()
+void UConfirmationWidget::OnConfirmButtonClicked()
 {
 	OnConfirmation.Broadcast();
-	RemoveFromParent();
+	SetVisibility(ESlateVisibility::Hidden);
+}
+
+void UConfirmationWidget::OnCancelButtonClicked()
+{
+	SetVisibility(ESlateVisibility::Hidden);
 }

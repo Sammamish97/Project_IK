@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "RunePopupWidget.generated.h"
 
+class UDataTableManager;
+class UTextManager;
 class URunePopupDetailWidget;
 class URuneMechanics;
 class UTextBlock;
@@ -39,7 +41,16 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UVerticalBox> vertical_box_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> title_text_;
 	
 	UPROPERTY()
 	TArray<TObjectPtr<URunePopupDetailWidget>> details_;
+
+	UPROPERTY()
+	TObjectPtr<UTextManager> text_manager_cache_;
+
+	UPROPERTY()
+	TObjectPtr<UDataTableManager> data_table_cache_;
 };

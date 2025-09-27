@@ -24,7 +24,7 @@ class PROJECT_IK_API UEventManager : public UObject
 	GENERATED_BODY()
 
 public:
-	void InitEventManager(TObjectPtr<class UIKGameInstance> instance, TObjectPtr<class UInventoryManager> inventory_manager);
+	void InitEventManager(TObjectPtr<class UIKGameInstance> instance, TObjectPtr<class UInventoryManager> inventory_manager, TObjectPtr<class UTextManager> text_manager);
 	FEventData GetRandomEventData();
 	void BindEventResult(FEventData data, TObjectPtr<class UEventWidget> widget);
 	void CountUpIsNegativeEventsRemoved();
@@ -139,6 +139,9 @@ private:
 
 	TWeakObjectPtr<class UGlobalBuffSubsystem> global_buff_subsystem_;
 	TWeakObjectPtr<class UInventoryManager> inventory_manager_;
+	
+	TObjectPtr<UTextManager> text_manager_cache_;
+	TObjectPtr<UEventWidget> event_widget_cache_;
 
 	int32 only_positive_event_counter_ = 0;
 };

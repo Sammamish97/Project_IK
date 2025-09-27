@@ -30,6 +30,11 @@ void USkillButtonWidget::OnSkillInvoked(float cool_time)
 	left_cool_down_ = cool_time;
 }
 
+void USkillButtonWidget::SetInputText(const FText& text)
+{
+	input_text_->SetText(text);
+}
+
 void USkillButtonWidget::SetThumbnailTexture(UTexture2D* thumbnail)
 {
 	if (thumbnail)
