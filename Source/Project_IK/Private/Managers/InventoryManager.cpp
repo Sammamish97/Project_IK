@@ -39,14 +39,14 @@ void UInventoryManager::OpenReadOnlyInventoryWidget()
 {
 	if(inventory_widget_class_)
 	{
-		if (inventory_widget_ == nullptr)
+		if (inventory_widget_)
 		{
-			inventory_widget_ = CreateWidget<UInventoryWidget>(GetWorld(), inventory_widget_class_);
-			UPerkModifierSubsystem* perk_modifier = GetWorld()->GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>();
-			inventory_widget_->InitInventoryWidget(perk_modifier->GetInventoryPassiveSkillUnlockedSlots(), true);
-			inventory_widget_->AddToViewport();
+			inventory_widget_->RemoveFromParent();
 		}
-		inventory_widget_->SetVisibility(ESlateVisibility::Visible);
+		inventory_widget_ = CreateWidget<UInventoryWidget>(GetWorld(), inventory_widget_class_);
+		UPerkModifierSubsystem* perk_modifier = GetWorld()->GetGameInstance()->GetSubsystem<UPerkModifierSubsystem>();
+		inventory_widget_->InitInventoryWidget(perk_modifier->GetInventoryPassiveSkillUnlockedSlots(), true);
+		inventory_widget_->AddToViewport();
 		is_opened_ = true;
 	}
 }
@@ -55,7 +55,7 @@ void UInventoryManager::CloseReadOnlyInventoryWidget()
 {
 	if (inventory_widget_)
 	{
-		inventory_widget_->SetVisibility(ESlateVisibility::Hidden);
+		inventory_widget_->RemoveFromParent();
 		is_opened_ = false;
 	}
 }
