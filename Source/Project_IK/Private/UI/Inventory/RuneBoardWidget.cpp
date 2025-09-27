@@ -45,7 +45,7 @@ void URuneBoardWidget::NativeConstruct()
 	{
 		line_slots.Push(CastChecked<UOverlaySlot>(line_overlay_->GetSlots()[i]));
 	}
-	float temp_height = 2.f;
+	float temp_height = 5.f;
 
 	TArray idx_map = {0, 4, 7, 9, 11, 3, 1, 8, 2, 5, 10, 6};
 	for(int32 i = 0; i < 12; ++i)
