@@ -35,9 +35,6 @@ void ULevelTransitionSubsystem::UpdateSpawnData(const TMap<EHeroType, FSpawnData
 {
 	spawn_data_.Empty();
 	spawn_data_ = data;
-	//
-	spawn_data_[EHeroType::Hero1].is_dead_ = true;
-	//
 }
 
 void ULevelTransitionSubsystem::UpdateSpawnDataIdx(EHeroType type, FSpawnData data)
