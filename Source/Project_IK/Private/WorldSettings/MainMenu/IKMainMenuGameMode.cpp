@@ -11,3 +11,11 @@ See LICENSE file in the project root for full license information.
 
 #include "WorldSettings/MainMenu/IKMainMenuGameMode.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
+void AIKMainMenuGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::MainmenuAmbient);
+}

@@ -56,15 +56,15 @@ void UAudioManagerSubsystem::ApplyVolumes(float master, float bgm, float sfx)
 
 	if (master_channel_)
 	{
-		master_channel_->Properties.Volume = FMath::Clamp(master, 0.f, 1.f);
+		master_channel_->Properties.Volume = FMath::Clamp(master, 0.f, 2.f);
 	}
 	if (bgm_channel_)
 	{
-		bgm_channel_->Properties.Volume = FMath::Clamp(bgm, 0.f, 1.f);
+		bgm_channel_->Properties.Volume = FMath::Clamp(bgm, 0.f, 2.f);
 	}
 	if (sfx_channel_)
 	{
-		sfx_channel_->Properties.Volume = FMath::Clamp(sfx, 0.f, 1.f);
+		sfx_channel_->Properties.Volume = FMath::Clamp(sfx, 0.f, 2.f);
 	}
 
 	if (master_mix_)

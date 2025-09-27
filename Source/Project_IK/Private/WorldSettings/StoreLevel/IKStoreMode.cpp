@@ -11,3 +11,11 @@ See LICENSE file in the project root for full license information.
 
 #include "WorldSettings/StoreLevel/IKStoreMode.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
+void AIKStoreMode::BeginPlay()
+{
+	Super::BeginPlay();
+
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::StoreAmbient);
+}

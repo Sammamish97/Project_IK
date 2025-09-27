@@ -21,11 +21,17 @@ See LICENSE file in the project root for full license information.
 #include "SaveGame/SaveRunProgress.h"
 #include "Managers/InventoryManager.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 void AIKMapGameMode::BeginPlay()
 {
+	Super::BeginPlay();
+
 	SaveGameData();
 
 	HealHeroesAfterCombat();
+
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::MapAmbient);
 }
 
 void AIKMapGameMode::HealHeroesAfterCombat()
