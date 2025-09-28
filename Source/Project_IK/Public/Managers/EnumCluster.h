@@ -855,6 +855,7 @@ enum class EAudioType : uint8
 	StoreAmbient UMETA(DisplayName = "StoreAmbient"),
 	MapAmbient UMETA(DisplayName = "MapAmbient"),
 	RunResultAmbient UMETA(DisplayName = "RunResultAmbient"),
+	CriticalHit UMETA(DisplayName = "CriticalHit"),
 };
 
 UENUM(BlueprintType)

@@ -12,9 +12,9 @@ See LICENSE file in the project root for full license information.
 #include "Characters/Unit.h"
 #include "Structs/BuffStatusData.h"
 
-void UBulletDebuffEffectComponent::OnHit(AActor* target)
+void UBulletDebuffEffectComponent::OnHit(AActor* target, const FHitResult& hit_result)
 {
-	Super::OnHit(target);
+	Super::OnHit(target, hit_result);
 	auto casted_unit = Cast<AUnit>(target);
 	if (casted_unit)
 	{

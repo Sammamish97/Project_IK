@@ -31,6 +31,8 @@ See LICENSE file in the project root for full license information.
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 // Sets default values
 AUnit::AUnit()
 {
@@ -194,6 +196,8 @@ void AUnit::SetDamageUI(FDamageData data, bool is_evaded)
 	{
 		damage_ui->SetColorParameter(FName("Color"), FLinearColor::Red / 5.f);
 		damage_ui->SetFloatParameter(FName("SizeMultiplier"), 3.f);
+
+		UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::CriticalHit, GetActorLocation());
 	}
 	else
 	{

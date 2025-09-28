@@ -15,6 +15,8 @@ See LICENSE file in the project root for full license information.
 #include "Structs/DamageData.h"
 #include "SetBonus_GreatBow.generated.h"
 
+class UBulletDeathBlowEffectComponent;
+
 UCLASS()
 class PROJECT_IK_API USetBonus_GreatBow : public USetBonusBase
 {
@@ -27,6 +29,10 @@ public:
 
 	UFUNCTION()
 	void TriangleReloadCoolDownBonus();
+
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UBulletDeathBlowEffectComponent> effect_class_;
 
 private:
 	float active_cooldown_amount_ = 3.f;

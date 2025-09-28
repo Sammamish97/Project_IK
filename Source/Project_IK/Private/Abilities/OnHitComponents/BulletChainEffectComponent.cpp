@@ -21,9 +21,9 @@ See LICENSE file in the project root for full license information.
 
 #include "Subsystems/AudioManagerSubsystem.h"
 
-void UBulletChainEffectComponent::OnHit(AActor* target)
+void UBulletChainEffectComponent::OnHit(AActor* target, const FHitResult& hit_result)
 {
-	Super::OnHit(target);
+	Super::OnHit(target, hit_result);
 
 	//1. 총알의 전도는 일단 유닛 하나가 총알에 맞고 시작한다. 해당 유닛은 대상에서 제외해야 한다.
 	TArray<AActor*> visited;

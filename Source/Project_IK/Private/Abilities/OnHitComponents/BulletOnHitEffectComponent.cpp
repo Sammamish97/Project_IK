@@ -16,7 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "NiagaraComponent.h"
 #include "Weapons/Guns/Bullet.h"
 
-void UBulletOnHitEffectComponent::OnHit(AActor* target)
+void UBulletOnHitEffectComponent::OnHit(AActor* target, const FHitResult& hit_result)
 {
 }
 

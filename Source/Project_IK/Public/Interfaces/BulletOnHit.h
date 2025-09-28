@@ -13,6 +13,8 @@ See LICENSE file in the project root for full license information.
 #include "UObject/Interface.h"
 #include "BulletOnHit.generated.h"
 
+struct FHitResult;
+
 // This class does not need to be modified.
 UINTERFACE()
 class UBulletOnHit : public UInterface
@@ -25,5 +27,5 @@ class PROJECT_IK_API IBulletOnHit
 	GENERATED_BODY()
 
 public:
-	virtual void OnHit(AActor* target) = 0;
+	virtual void OnHit(AActor* target, const FHitResult& hit_result) = 0;
 };

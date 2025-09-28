@@ -19,7 +19,7 @@ class PROJECT_IK_API UBulletMagnetizeEffectComponent : public UBulletOnHitEffect
 	GENERATED_BODY()
 
 public:
-	virtual void OnHit(AActor* target) override;
+	virtual void OnHit(AActor* target, const FHitResult& hit_result) override;
 	virtual void ApplyEffect(ABullet* bullet_actor) const override;
 
 private:

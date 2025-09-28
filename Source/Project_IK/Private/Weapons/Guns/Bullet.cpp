@@ -160,7 +160,7 @@ void ABullet::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 	if (casted_damage_logic) casted_damage_logic->GetDamage(dmg_data_);
 	for (const auto& elem : on_hit_components_)
 	{
-		elem->OnHit(OtherActor);
+		elem->OnHit(OtherActor, SweepResult);
 	}
 	ReturnToPool();
 }

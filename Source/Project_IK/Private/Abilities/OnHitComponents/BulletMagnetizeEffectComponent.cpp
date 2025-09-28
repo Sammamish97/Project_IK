@@ -20,9 +20,9 @@ See LICENSE file in the project root for full license information.
 
 class UNiagaraComponent;
 
-void UBulletMagnetizeEffectComponent::OnHit(AActor* target)
+void UBulletMagnetizeEffectComponent::OnHit(AActor* target, const FHitResult& hit_result)
 {
-	Super::OnHit(target);
+	Super::OnHit(target, hit_result);
 	if (AUnit* target_unit = Cast<AUnit>(target))
 	{
 		auto shooter = GetOwner<ABullet>()->GetShooter();
