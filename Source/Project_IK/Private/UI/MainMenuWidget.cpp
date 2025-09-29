@@ -82,7 +82,7 @@ void UMainMenuWidget::OnNewGameButtonClicked()
 		instance->GetSubsystem<UPerkProgressSubsystem>()->Clear();
 	}
 	ULevelTransitionSubsystem* level_transition_subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
-	level_transition_subsystem->OpenLevel(GetWorld(), ELevelState::LobbyLevel);
+	level_transition_subsystem->OpenLevel(GetWorld(), ELevelState::Opening);
 }
 
 void UMainMenuWidget::OnContinueButtonClicked()

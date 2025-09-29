@@ -62,6 +62,14 @@ void ULevelTransitionSubsystem::OpenLevel(UWorld* world, ELevelState state)
 		UGameplayStatics::OpenLevel(world, FName("MapInventoryLevel"));
 		break;
 
+	case ELevelState::Opening:
+		UGameplayStatics::OpenLevel(world, FName("Opening"));
+		break;
+
+	case ELevelState::Ending:
+		UGameplayStatics::OpenLevel(world, FName("Ending"));
+		break;
+
 	default:
 		checkNoEntry();
 	}
