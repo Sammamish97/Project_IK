@@ -136,6 +136,11 @@ FText UTextManager::GetHeroNameText(EHeroType hero_type) const
 	}
 }
 
+FText UTextManager::GetOpeningText(int32 idx) const
+{
+	return FText::FromStringTable(opening_text_table_->GetStringTableId(), FString::FromInt(idx));
+}
+
 FText UTextManager::GetRunResultText(ERunResultType type) const
 {
 	return FText::FromStringTable(run_result_text_table_->GetStringTableId(), RunResultEnumToKey(type));

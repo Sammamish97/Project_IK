@@ -810,6 +810,8 @@ enum class ELevelState : uint8
 	LobbyLevel UMETA(DisplayName = "LobbyLevel"),
 	GotchaLevel UMETA(DisplayName = "GotchaLevel"),
 	MapLevel UMETA(DisplayName = "MapLevel"),
+	Opening UMETA(DisplayName = "Opening"),
+	Ending UMETA(DisplayName = "Ending"),
 };
 
 UENUM(BlueprintType)
