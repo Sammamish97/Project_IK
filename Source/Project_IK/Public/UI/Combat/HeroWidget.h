@@ -35,9 +35,11 @@ class PROJECT_IK_API UHeroWidget : public UUserWidget
 public:
 	void InitHeroWidget(UBasicPopupWidget* popup_widget, class URuneMechanics* rune_mechanics, class URunePopupWidget* rune_popup_widget,
 		EHeroType hero_type, float max_hp, float cur_hp, const FHeroData& hero_data);
+	void ClearHeroWidget();
 	USegmentedHPUI* GetHPWidget();
 	USkillButtonWidget* GetSkillButtonWidget();
 	UBuffContainer* GetBuffContainer();
+	void SetActiveSkillInputText(const FText& text);
 
 protected:
 	UPROPERTY(meta = (BindWidget))

@@ -23,20 +23,20 @@ public:
 	
 private:
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> edge_name_;
+	TObjectPtr<URichTextBlock> edge_name_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> triangle_name_;
+	TObjectPtr<URichTextBlock> triangle_name_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> hexagon_name_;
+	TObjectPtr<URichTextBlock> hexagon_name_;
 	
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> edge_bonus_;
+	TObjectPtr<URichTextBlock> edge_bonus_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> triangle_bonus_;
+	TObjectPtr<URichTextBlock> triangle_bonus_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> hexagon_bonus_;
+	TObjectPtr<URichTextBlock> hexagon_bonus_;
 };

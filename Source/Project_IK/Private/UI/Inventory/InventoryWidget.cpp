@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
+#include "UI/ConfirmationWidget.h"
 #include "UI/Inventory/HeroEquipBoardWidget.h"
 #include "UI/RewardContainerWidget.h"
 #include "UI/Inventory/RuneBoardWidget.h"
@@ -25,10 +26,8 @@ See LICENSE file in the project root for full license information.
 #include "UI/InventorySlots/RuneSlotWidget.h"
 #include "UI/InventorySlots/WeaponSlotWidget.h"
 #include "UI/PopUps/ActiveSkillPopupWidget.h"
-#include "UI/PopUps/RunePopupWidget.h"
 #include "UI/PopUps/SingleRunePopupWidget.h"
 #include "UI/PopUps/WeaponPopupWidget.h"
-#include "WorldSettings/IKHUD.h"
 
 
 void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount, bool is_read_only)
@@ -47,6 +46,7 @@ void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount,
 	
 	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
 	data_table_cache_ = instance->GetDataTableManager();
+	text_manager_cache_ = instance->GetTextManager();
 
 	for(int32 i = 0; i < 4; i++)
 	{
@@ -63,17 +63,17 @@ void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount,
 	status_switch_button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnStatusSwitchButtonClicked);
 
 	confirm_button_->OnClicked.AddDynamic(this, &UInventoryWidget::OnConfirm);
+	confirmation_widget_->OnConfirmation.AddDynamic(this, &UInventoryWidget::OnConfirmationWidgetClicked);
 
 	ToggleReadOnly(is_read_only);
 	is_read_only_ = is_read_only;
-	//IKTODO: 로컬라이징 기능 추가하기.
 	if (is_read_only_)
 	{
-		confirm_text_->SetText(FText::FromString("Return To Map"));
+		confirm_text_->SetText(text_manager_cache_->GetButtonText(EButtonType::Close));
 	}
 	else
 	{
-		confirm_text_->SetText(FText::FromString("Finish Equip"));
+		confirm_text_->SetText(text_manager_cache_->GetButtonText(EButtonType::FinishEquipment));
 	}
 }
 
@@ -144,8 +144,37 @@ void UInventoryWidget::LoadSelectedRewards(const FWrapperEquipmentData& rewards)
 
 void UInventoryWidget::NativeConstruct()
 {
-	OnHero_0_Board_Clicked();
 	Super::NativeConstruct();
+	TObjectPtr<UIKGameInstance> ik_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	TObjectPtr<ULevelTransitionSubsystem> transition_system = ik_instance->GetLevelTransitionSubsystem();
+	if(transition_system->GetSpawnData().IsEmpty() == false)
+	{
+		auto data_cache = transition_system->GetSpawnData();
+		for (const auto& elem : data_cache)
+		{
+			if (elem.Value.is_dead_ == false)
+			{
+				switch (elem.Key)
+				{
+					case EHeroType::Hero1:
+					OnHero_0_Board_Clicked();
+					break;
+					case EHeroType::Hero2:
+					OnHero_1_Board_Clicked();
+					break;
+					case EHeroType::Hero3:
+					OnHero_2_Board_Clicked();
+					break;
+					case EHeroType::Hero4:
+					OnHero_3_Board_Clicked();
+					break;
+				default:
+					break;
+				}
+				return;
+			}
+		}
+	}
 }
 
 void UInventoryWidget::NativeDestruct()
@@ -291,6 +320,10 @@ void UInventoryWidget::RemoveHighlight()
 
 void UInventoryWidget::SetOnConfirm(TFunction<void()> OnConfirm)
 {
+	if (OnConfirm_)
+	{
+		OnConfirm_();
+	}
 	OnConfirm_ = OnConfirm;
 }
 
@@ -354,13 +387,29 @@ void UInventoryWidget::OnStatusSwitchButtonClicked()
 
 void UInventoryWidget::OnConfirm()
 {
-	SetVisibility(ESlateVisibility::Hidden);
 	if (is_read_only_ == false)
 	{
 		UpdateInventoryData();
-		if (OnConfirm_)
+		if (reward_container_->IsRewardContainerEmpty() == false)
 		{
-			OnConfirm_();
+			confirmation_widget_->SetText(text_manager_cache_->GetConfirmationText(EConfirmationType::RemainInventoryItem));
+			confirmation_widget_->SetVisibility(ESlateVisibility::Visible);
 		}
+		else
+		{
+			OnConfirmationWidgetClicked();
+		}
+	}
+	else
+	{
+		SetVisibility(ESlateVisibility::Hidden);
+	}
+}
+
+void UInventoryWidget::OnConfirmationWidgetClicked()
+{
+	if (OnConfirm_)
+	{
+		OnConfirm_();
 	}
 }

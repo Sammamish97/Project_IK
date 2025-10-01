@@ -37,15 +37,24 @@ protected:
 
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
-
+	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> event_num_text_;
+	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> store_num_text_;
+	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> combat_num_text_;
+	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> perk_points_text_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> text_body_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> click_to_return_text_;
 	
 	int32 perk_points_reward_ = 1;
 	int32 combat_num_ = 0;

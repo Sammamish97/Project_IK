@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/Combat/BuffContainer.h"
 #include "Components/Border.h"
 #include "Structs/HeroData.h"
+#include "UI/SkillButtonWidget.h"
 #include "UI/Combat/SegmentedHPUI.h"
 #include "UI/Combat/MiniRuneBoardWidget.h"
 
@@ -23,6 +24,13 @@ void UHeroWidget::InitHeroWidget(UBasicPopupWidget* popup_widget, class URuneMec
 	mini_rune_board_->InitMiniRuneBoard(rune_mechanics, rune_popup_widget, hero_type);
 	color_border_->SetBrushColor(hero_data.widget_color_);
 	hp_bar_->SetHPBarColor(hero_data.hp_bar_color_);
+}
+
+void UHeroWidget::ClearHeroWidget()
+{
+	SetIsEnabled(false);
+	buff_container_->SetVisibility(ESlateVisibility::Hidden);
+	mini_rune_board_->ClearMiniRuneBoard();
 }
 
 USegmentedHPUI* UHeroWidget::GetHPWidget()
@@ -38,4 +46,9 @@ USkillButtonWidget* UHeroWidget::GetSkillButtonWidget()
 UBuffContainer* UHeroWidget::GetBuffContainer()
 {
 	return buff_container_;
+}
+
+void UHeroWidget::SetActiveSkillInputText(const FText& text)
+{
+	skill_button_widget_->SetInputText(text);
 }

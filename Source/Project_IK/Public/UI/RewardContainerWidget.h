@@ -29,6 +29,7 @@ public:
 	void RemoveWidgetFromRewardContainer(UInventorySlot* remove_target);
 	virtual void NativeConstruct() override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+	bool IsRewardContainerEmpty() const;
 	
 private:
 	UPROPERTY(meta = (BindWidget))

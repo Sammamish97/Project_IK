@@ -39,7 +39,9 @@ void UPerkHUDWidget::NativeConstruct()
 	{
 		progress_system_cache_ = game_instance->GetSubsystem<UPerkProgressSubsystem>();
 	}
-	visibility_button_->OnClicked.AddDynamic(this, &UPerkHUDWidget::ClosePerkTree);
+	close_button_->OnClicked.AddDynamic(this, &UPerkHUDWidget::ClosePerkTree);
+	
+	close_text_->SetText(text_manager_cache_->GetButtonText(EButtonType::Close)); 
 	SetPerkPointText();
 }
 

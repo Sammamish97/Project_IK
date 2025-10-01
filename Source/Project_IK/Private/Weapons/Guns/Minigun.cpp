@@ -74,3 +74,9 @@ void AMinigun::FinishFire()
 	Cast<UMinigunAnimInstance>(GetWeaponSkeletalMesh()->GetAnimInstance())->SetMinigunState(EMinigunAnimState::Cooling);
 	on_fire_ = false;
 }
+
+void AMinigun::Die()
+{
+	GetWorld()->GetTimerManager().ClearTimer(pre_heat_timer_);
+	Super::Die();
+}

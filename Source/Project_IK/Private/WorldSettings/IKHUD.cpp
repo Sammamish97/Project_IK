@@ -129,7 +129,7 @@ void AIKHUD::BindHeroWidgetUI()
 		}
 		else
 		{
-			//IKTODO: 만약 죽은 영웅이라면?
+			button_bar_widget_->GetHeroWidget(cur_hero_type)->ClearHeroWidget();
 		}
 	}
 	auto rune_pop_up_widget = button_bar_widget_->GetRunePopupWidget();
@@ -141,7 +141,7 @@ void AIKHUD::BindSupportSkills()
 	auto game_state = Cast<AIKGameState>(UGameplayStatics::GetGameState(GetWorld()));
 	auto support_skill_data = game_state->GetSupportSkillData();
 	auto support_skills = game_state->GetSupportSkills();
-	TArray support_type_array = {ESupportSkillType::Reposition, ESupportSkillType::SetAttackTarget, ESupportSkillType::Maintain};
+	TArray support_type_array = {ESupportSkillType::SetAttackTarget, ESupportSkillType::Reposition , ESupportSkillType::Maintain};
 	for (int32 i = 0; i < 3; i++)
 	{
 		if (support_skills[support_type_array[i]] != nullptr)

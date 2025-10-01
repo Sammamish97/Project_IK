@@ -23,12 +23,13 @@ class PROJECT_IK_API AIKMapController : public APlayerController
 public:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
-
+	
 	UFUNCTION()
 	void TogglePause();
+	
+	UFUNCTION()
+	void ToggleInventory();
 protected:
-
-
 	UPROPERTY()
 	TObjectPtr<UPauseManager> pause_manager_;
 
@@ -42,4 +43,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> toggle_pause_action_;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> toggle_inventory_action_;
 };

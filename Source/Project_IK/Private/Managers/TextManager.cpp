@@ -82,6 +82,23 @@ FText UTextManager::GetEventOptionText(EEventType event_type, int32 option_idx) 
 	}
 }
 
+FText UTextManager::GetEventResultText(EEventType event_type, int32 option_idx) const
+{
+	switch (option_idx)
+	{
+	case 0:
+			return FText::FromStringTable(event_result_1_table_->GetStringTableId(), EventEnumToKey(event_type));
+	case 1:
+			return FText::FromStringTable(event_result_2_table_->GetStringTableId(), EventEnumToKey(event_type));
+	case 2:
+		return FText::FromStringTable(event_result_3_table_->GetStringTableId(), EventEnumToKey(event_type));
+	case 3:
+		return FText::FromStringTable(event_result_4_table_->GetStringTableId(), EventEnumToKey(event_type));
+	default:
+		return FText::FromName("INVALID");
+	}
+}
+
 FText UTextManager::GetStoreText(EStoreTextType event_type) const
 {
 	return FText::FromStringTable(store_text_table_->GetStringTableId(), StoreEnumToKey(event_type));
@@ -100,6 +117,43 @@ FText UTextManager::GetRuneSetBonusText(ERuneSetType set_type, ERuneSetBonusType
 	default:
 		return FText::FromName("INVALID");
 	}
+}
+
+FText UTextManager::GetHeroNameText(EHeroType hero_type) const
+{
+	switch (hero_type)
+	{
+	case EHeroType::Hero1:
+		return FText::FromStringTable(hero_name_text_table_->GetStringTableId(), HeroEnumToKey(hero_type));
+	case EHeroType::Hero2:
+		return FText::FromStringTable(hero_name_text_table_->GetStringTableId(), HeroEnumToKey(hero_type));
+	case EHeroType::Hero3:
+		return FText::FromStringTable(hero_name_text_table_->GetStringTableId(), HeroEnumToKey(hero_type));
+	case EHeroType::Hero4:
+		return FText::FromStringTable(hero_name_text_table_->GetStringTableId(), HeroEnumToKey(hero_type));
+		default:
+		return FText::FromName("INVALID");
+	}
+}
+
+FText UTextManager::GetRunResultText(ERunResultType type) const
+{
+	return FText::FromStringTable(run_result_text_table_->GetStringTableId(), RunResultEnumToKey(type));
+}
+
+FText UTextManager::GetCombatResultText(ECombatResultType type) const
+{
+	return FText::FromStringTable(combat_result_text_table_->GetStringTableId(), CombatResultEnumToKey(type));
+}
+
+FText UTextManager::GetConfirmationText(EConfirmationType button_type) const
+{
+	return FText::FromStringTable(confirmation_text_table_->GetStringTableId(), ConfirmationEnumToKey(button_type));
+}
+
+FText UTextManager::GetButtonText(EButtonType button_type) const
+{
+	return FText::FromStringTable(button_text_table_->GetStringTableId(), ButtonEnumToKey(button_type));
 }
 
 FText UTextManager::GetRuneDetail(ERuneSetType set_type) const
@@ -1105,6 +1159,129 @@ FString UTextManager::StoreEnumToKey(EStoreTextType store_type) const
 		break;
 	case EStoreTextType::ConfirmLeave:
 		key = "CFLEAVE";
+		break;
+	}
+	return key;
+}
+
+FString UTextManager::HeroEnumToKey(EHeroType hero_type) const
+{
+	FString key;
+	switch (hero_type)
+	{
+	case EHeroType::Hero1:
+		key = "ALPHA";
+		break;
+	case EHeroType::Hero2:
+		key = "BETA";
+		break;
+	case EHeroType::Hero3:
+		key = "GAMMA";
+		break;
+	case EHeroType::Hero4:
+		key = "OMEGA";
+		break;
+	}
+	return key;
+}
+
+FString UTextManager::ButtonEnumToKey(EButtonType button_type) const
+{
+	FString key;
+	switch (button_type)
+	{
+	case EButtonType::NewGame:
+		key = "NEWGAME";
+		break;
+	case EButtonType::Continue:
+		key = "CONTINUE";
+		break;
+	case EButtonType::Option:
+		key = "OPTION";
+		break;
+	case EButtonType::Quit:
+		key = "QUIT";
+		break;
+	case EButtonType::OpenPerkTree:
+		key = "OPENPERKTREE";
+		break;
+	case EButtonType::BeginRun:
+		key = "BEGINRUN";
+		break;
+	case EButtonType::Open:
+		key = "OPEN";
+		break;
+	case EButtonType::Close:
+		key = "CLOSE";
+		break;
+	case EButtonType::OpenInventory:
+		key = "OPENINVENTORY";
+		break;
+	case EButtonType::CloseInventory:
+		key = "CLOSEINVENTORY";
+		break;
+	case EButtonType::FinishEquipment:
+		key = "FINISHEQUIPMENT";
+		break;
+	}
+	return key;
+}
+
+FString UTextManager::ConfirmationEnumToKey(EConfirmationType type) const
+{
+	FString key;
+	switch (type)
+	{
+	case EConfirmationType::ReturnToMap:
+		key = "RETURNTOMAP";
+		break;
+	case EConfirmationType::ReturnToMainMenu:
+		key = "RETURNTOMAINMENU";
+		break;
+	case EConfirmationType::RemainInventoryItem:
+		key = "REMAININVENTORYITEM";
+		break;
+	}
+	return key;
+}
+
+FString UTextManager::CombatResultEnumToKey(ECombatResultType type) const
+{
+	FString key;
+	switch (type)
+	{
+	case ECombatResultType::CombatResult:
+		key = "COMBATRESULT";
+		break;
+	case ECombatResultType::ChooseReward:
+		key = "CHOOSEREWARD";
+		break;
+	}
+	return key;
+}
+
+FString UTextManager::RunResultEnumToKey(ERunResultType type) const
+{
+	FString key;
+	switch (type)
+	{
+	case ERunResultType::RunResult:
+		key = "RUNRESULT";
+		break;
+	case ERunResultType::BattleAmount:
+		key = "BATTLEAMOUNT";
+		break;
+	case ERunResultType::EventAmount:
+		key = "EVENTAMOUNT";
+		break;
+	case ERunResultType::StoreAmount:
+		key = "STOREAMOUNT";
+		break;
+	case ERunResultType::ReceivedPerkPoint:
+		key = "RECEIVEDPERKPOINT";
+		break;
+	case ERunResultType::ClickToProcess:
+		key = "CLICKTOPROCESS";
 		break;
 	}
 	return key;

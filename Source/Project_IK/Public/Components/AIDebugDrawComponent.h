@@ -24,7 +24,7 @@ class PROJECT_IK_API UAIDebugDrawComponent : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UAIDebugDrawComponent();
-
+	void SetActivated(bool activated);
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -36,9 +36,17 @@ public:
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	bool is_melee_;
-	class AUnit* unit_cache_;
-	class UCharacterStatComponent* char_stat_cache_;
-	class UWeaponMechanics* weapon_mechanics_cache_;
-	class AMeleeAIController* ai_controller_cache_;
+	UPROPERTY()
+	TObjectPtr<class AUnit> unit_cache_;
+
+	UPROPERTY()
+	TObjectPtr<class UCharacterStatComponent> char_stat_cache_;
+	
+	UPROPERTY()
+	TObjectPtr<class UWeaponMechanics> weapon_mechanics_cache_;
+	
+	UPROPERTY()
+	TObjectPtr<class AMeleeAIController> ai_controller_cache_;
+
+	bool activated_ = false;
 };

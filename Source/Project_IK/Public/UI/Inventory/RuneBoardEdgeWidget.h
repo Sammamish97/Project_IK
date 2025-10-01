@@ -12,8 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "RuneBoardEdgeWidget.generated.h"
-
-class UProgressBar;
+class UImage;
 class USizeBox;
 class UOverlay;
 
@@ -27,5 +26,5 @@ public:
 	TObjectPtr<USizeBox> size_box_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UProgressBar> progress_bar_;
+	TObjectPtr<UImage> line_;
 };

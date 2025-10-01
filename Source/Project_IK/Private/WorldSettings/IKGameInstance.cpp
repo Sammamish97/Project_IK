@@ -43,8 +43,8 @@ void UIKGameInstance::Init()
 	InitDataTableManager();
 	InitInventoryManager();
 	InitSetBonusManager();
-	InitEventManager();
 	InitTextManager();
+	InitEventManager();
 
 	LoadSaveData();
 
@@ -138,7 +138,7 @@ UTextManager* UIKGameInstance::GetTextManager() const noexcept
 void UIKGameInstance::InitEventManager()
 {
 	event_manager_ = NewObject<UEventManager>(this, event_manager_class_);
-	event_manager_->InitEventManager(this, inventory_manager_);
+	event_manager_->InitEventManager(this, inventory_manager_, text_manager_);
 }
 
 void UIKGameInstance::InitializePerkEffectsAlreadyUnlocked()

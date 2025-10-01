@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/HUD.h"
 #include "IKMapHUD.generated.h"
 
+class UMapHUDWidget;
 class UGlobalBuffDisplayer;
 
 UCLASS()
@@ -24,12 +25,12 @@ public:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-	void ToggleMap();
+	void ToggleInventory();
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<class UUserWidget> map_widget_class_;
 	
 	UPROPERTY()
-	TObjectPtr<UUserWidget> map_widget_;
+	TObjectPtr<UMapHUDWidget> map_hud_widget_;
 };

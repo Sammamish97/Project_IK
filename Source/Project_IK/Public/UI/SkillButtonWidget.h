@@ -25,6 +25,7 @@ public:
 	void OnSkillInvoked(float cool_time);
 
 	void SetThumbnailTexture(UTexture2D* thumbnail);
+	void SetInputText(const FText& text);
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	
 	UPROPERTY(meta = (BindWidget))
@@ -38,6 +39,9 @@ public:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UTextBlock> cool_down_text_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> input_text_;
 
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UTexture2D> empty_texture_;

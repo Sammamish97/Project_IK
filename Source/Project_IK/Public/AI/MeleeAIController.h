@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "MeleeAIController.generated.h"
 
+class UAIDebugDrawComponent;
+
 UCLASS()
 class PROJECT_IK_API AMeleeAIController : public AAIController
 {
@@ -33,11 +35,18 @@ public:
 	
 	UFUNCTION(Blueprintable)
 	void SetUnitState(EUnitState new_state);
+
+	UFUNCTION(Blueprintable)
+	void SetDebugDrawActivated(bool activated);
+	
 	virtual void ResetUnitState();
 
 	virtual void SetAIFindTargetType(EAIFindTargetType type);
 	
 protected:
+	UPROPERTY()
+	TObjectPtr<UAIDebugDrawComponent> debug_draw_component_;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "MeleeAI", meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UBehaviorTree> behavior_tree_;
 
@@ -58,9 +67,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "GunnerAIController", meta = (AllowPrivateAccess = "true"))
 	FName ai_find_target_key_name_;
-
-	UPROPERTY()
-	class UAIDebugDrawComponent* debug_draw_component_;
 
 private:
 	FTimerHandle timer_handle_;

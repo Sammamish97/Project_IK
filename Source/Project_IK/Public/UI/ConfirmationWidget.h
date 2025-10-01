@@ -30,18 +30,18 @@ class PROJECT_IK_API UConfirmationWidget : public UUserWidget
 public:
 	UFUNCTION(BlueprintCallable)
 	void SetText(FText text);
-
-
+	
 	FOnConfirmation OnConfirmation;
 
 protected:
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
-
-	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	
+	UFUNCTION()
+	void OnConfirmButtonClicked();
 
 	UFUNCTION()
-	void OnButtonClicked();
+	void OnCancelButtonClicked();
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UBorder> border_;
@@ -50,5 +50,8 @@ protected:
 	TObjectPtr<UTextBlock> text_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> button_;
+	TObjectPtr<UButton> confirm_button_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UButton> cancel_button_;
 };

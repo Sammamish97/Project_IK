@@ -30,7 +30,6 @@ class PROJECT_IK_API UMapHUDWidget : public UUserWidget
 	GENERATED_BODY()
 public:
 	virtual void NativeConstruct() override;
-	void InitMapHUD();
 
 	UFUNCTION()
 	void OnOpenInventory();
@@ -57,6 +56,9 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> open_inventory_button_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> open_inventory_text_;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UGlobalBuffPopupWidget> global_buff_popup_widget_;

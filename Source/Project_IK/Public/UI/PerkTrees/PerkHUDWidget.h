@@ -42,8 +42,6 @@ public:
 	void ClosePerkTree();
 
 private:
-	//void UpdatePerkTreeConnectionOpacity();
-	//void UpdatePerkTreeTransform();
 	float ClampPerkConnectionOpacity(float value);
 	
 private:
@@ -51,7 +49,10 @@ private:
 	TObjectPtr<UBorder> parent_border_;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButton> visibility_button_;
+	TObjectPtr<UButton> close_button_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> close_text_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UUserWidget> perk_tree_widget_;

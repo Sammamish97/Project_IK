@@ -75,7 +75,7 @@ void UMiniRuneBoardWidget::InitMiniRuneBoard(URuneMechanics* rune_mechanics, URu
 
 	for(int32 i = 0; i < 12; ++i)
 	{
-		line_array[i]->progress_bar_->SetVisibility(ESlateVisibility::Hidden);
+		line_array[i]->line_->SetVisibility(ESlateVisibility::Hidden);
 	}
 
     auto result = rune_mechanics->GetSetBonusData();
@@ -83,22 +83,37 @@ void UMiniRuneBoardWidget::InitMiniRuneBoard(URuneMechanics* rune_mechanics, URu
     {
     	if (elem.Value.Num() == 2)
     	{
-    		line_array[elem.Value[0]]->progress_bar_->SetVisibility(ESlateVisibility::Visible);
+    		line_array[elem.Value[0]]->line_->SetVisibility(ESlateVisibility::Visible);
     	}
     	else if (elem.Value.Num() == 3)
     	{
-    		line_array[6 + 3 * elem.Value[0]]->progress_bar_->SetVisibility(ESlateVisibility::Visible);
-    		line_array[7 + 3 * elem.Value[0]]->progress_bar_->SetVisibility(ESlateVisibility::Visible);
-    		line_array[8 + 3 * elem.Value[0]]->progress_bar_->SetVisibility(ESlateVisibility::Visible);
+    		line_array[6 + 3 * elem.Value[0]]->line_->SetVisibility(ESlateVisibility::Visible);
+    		line_array[7 + 3 * elem.Value[0]]->line_->SetVisibility(ESlateVisibility::Visible);
+    		line_array[8 + 3 * elem.Value[0]]->line_->SetVisibility(ESlateVisibility::Visible);
     	}
     	else if (elem.Value.Num() == 6)
     	{
     		for (int i = 0; i < 6; ++i)
     		{
-    			line_array[i]->progress_bar_->SetVisibility(ESlateVisibility::Visible);
+    			line_array[i]->line_->SetVisibility(ESlateVisibility::Visible);
     		}
     	}
     }
+}
+
+void UMiniRuneBoardWidget::ClearMiniRuneBoard()
+{
+	TArray line_array = {line_0_, line_1_, line_2_, line_3_, line_4_, line_5_, line_6_, line_7_, line_8_, line_9_, line_10_, line_11_};
+	TArray rune_widget_array = {rune_0_, rune_1_, rune_2_, rune_3_, rune_4_, rune_5_};
+	for (auto& elem : line_array)
+	{
+		elem->SetVisibility(ESlateVisibility::Hidden);
+	}
+
+	for (auto& elem : rune_widget_array)
+	{
+		elem->SetVisibility(ESlateVisibility::Hidden);
+	}
 }
 
 void UMiniRuneBoardWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)

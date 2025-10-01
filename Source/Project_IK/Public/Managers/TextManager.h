@@ -50,8 +50,16 @@ public:
 	FText GetEventNameText(EEventType event_type) const;
 	FText GetEventDetailText(EEventType event_type) const;
 	FText GetEventOptionText(EEventType event_type, int32 option_idx) const;
-
+	FText GetEventResultText(EEventType event_type, int32 option_idx) const;
+	
 	FText GetStoreText(EStoreTextType event_type) const;
+
+	FText GetHeroNameText(EHeroType hero_type) const;
+
+	FText GetButtonText(EButtonType button_type) const;
+	FText GetConfirmationText(EConfirmationType type) const;
+	FText GetCombatResultText(ECombatResultType type) const;
+	FText GetRunResultText(ERunResultType type) const;
 	
 private:
 	FString RuneEnumToKey(ERuneSetType type) const;
@@ -70,6 +78,13 @@ private:
 	FString PerkEnumToKey(EPerkNodeType perk_name) const;
 	FString StoreEnumToKey(EStoreTextType store_type) const;
 
+	FString HeroEnumToKey(EHeroType hero_type) const;
+	FString ButtonEnumToKey(EButtonType button_type) const;
+	FString ConfirmationEnumToKey(EConfirmationType type) const;
+	FString CombatResultEnumToKey(ECombatResultType type) const;
+	FString RunResultEnumToKey(ERunResultType type) const;
+
+	
 private:
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> weapon_name_table_;
@@ -143,6 +158,18 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> event_option_4_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> event_result_1_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> event_result_2_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> event_result_3_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> event_result_4_table_;
 	
 	//
 	
@@ -162,7 +189,21 @@ private:
 	TObjectPtr<UStringTable> rune_detail_table_;
 
 	//
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> hero_name_text_table_;
 	
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> store_text_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> button_text_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> confirmation_text_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> combat_result_text_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> run_result_text_table_;
 };

@@ -904,3 +904,46 @@ enum class EStoreTextType : uint8
 	ConfirmPurchase UMETA(DisplayName = "ConfirmPurchase"),
 	ConfirmLeave UMETA(DisplayName = "ConfirmLeave"),
 };
+
+UENUM(BlueprintType)
+enum class EButtonType : uint8
+{
+	INVALID UMETA(DisplayName = "INVALID"),
+	NewGame UMETA(DisplayName = "NewGame"),
+	Continue UMETA(DisplayName = "Continue"),
+	Option UMETA(DisplayName = "Option"),
+	Quit UMETA(DisplayName = "Quit"),
+	OpenPerkTree UMETA(DisplayName = "OpenPerkTree"),
+	BeginRun UMETA(DisplayName = "BeginRun"),
+	Open UMETA(DisplayName = "Open"),
+	Close UMETA(DisplayName = "Close"),
+	OpenInventory UMETA(DisplayName = "OpenInventory"),
+	CloseInventory UMETA(DisplayName = "CloseInventory"),
+	FinishEquipment UMETA(DisplayName = "FinishEquipment"),
+};
+
+UENUM(BlueprintType)
+enum class EConfirmationType : uint8
+{
+	ReturnToMap UMETA(DisplayName = "ReturnToMap"),
+	ReturnToMainMenu UMETA(DisplayName = "ReturnToMainMenu"),
+	RemainInventoryItem UMETA(DisplayName = "RemainInventoryItem"),
+};
+
+UENUM(BlueprintType)
+enum class ECombatResultType : uint8
+{
+	CombatResult UMETA(DisplayName = "CombatResult"),
+	ChooseReward UMETA(DisplayName = "ChooseReward")
+};
+
+UENUM(BlueprintType)
+enum class ERunResultType : uint8
+{
+	RunResult UMETA(DisplayName = "RunResult"),
+	BattleAmount UMETA(DisplayName = "BattleAmount"),
+	EventAmount UMETA(DisplayName = "EventAmount"),
+	StoreAmount UMETA(DisplayName = "StoreAmount"),
+	ReceivedPerkPoint UMETA(DisplayName = "ReceivedPerkPoint"),
+	ClickToProcess UMETA(DisplayName = "ClickToProcess"),
+};
