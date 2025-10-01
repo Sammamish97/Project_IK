@@ -26,9 +26,6 @@ public:
 	//전투 직전 실제로 효과를 적용하기위한 함수.
 	void ActivateSetBonus(TObjectPtr<AHeroBase> owner, int32 set_amount);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UNiagaraSystem> rune_particle_;
-
 protected:
 	//2세트: 단순한 스테이터스 상승 효과.
 	virtual void ActivateEdgeBonus();

@@ -22,4 +22,6 @@ class PROJECT_IK_API AIKStoreMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+protected:
+	virtual void BeginPlay() override;
 };

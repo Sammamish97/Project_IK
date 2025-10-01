@@ -850,6 +850,14 @@ enum class EAudioType : uint8
 	DeploySentryGun UMETA(DisplayName = "Deoloy sentry gun"),
 	ChargeShotCharge UMETA(DisplayName = "ChargeShot Charge"),
 	ChargeShotFire UMETA(DisplayName = "ChargeShot Fire"),
+	MainmenuAmbient UMETA(DisplayName = "MainmenuAmbient"),
+	LobbyAmbient UMETA(DisplayName = "LobbyAmbient"),
+	GotchaAmbient UMETA(DisplayName = "GotchaAmbient"),
+	EventAmbient UMETA(DisplayName = "EventAmbient"),
+	StoreAmbient UMETA(DisplayName = "StoreAmbient"),
+	MapAmbient UMETA(DisplayName = "MapAmbient"),
+	RunResultAmbient UMETA(DisplayName = "RunResultAmbient"),
+	CriticalHit UMETA(DisplayName = "CriticalHit"),
 };
 
 UENUM(BlueprintType)

@@ -12,9 +12,9 @@ See LICENSE file in the project root for full license information.
 #include "Abilities/ActiveSkills/ATC_ViperHexagonEffect.h"
 #include "Characters/Unit.h"
 
-void UBulletViperEffectComponent::OnHit(AActor* target)
+void UBulletViperEffectComponent::OnHit(AActor* target, const FHitResult& hit_result)
 {
-	Super::OnHit(target);
+	Super::OnHit(target, hit_result);
 	if(AUnit* casted_unit = Cast<AUnit>(target))
 	{
 		if (auto viper_effect = casted_unit->FindComponentByClass<UATC_ViperHexagonEffect>())

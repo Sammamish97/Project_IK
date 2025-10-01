@@ -36,7 +36,7 @@ void USetBonus_GreatBow::ActivateTriangleBonus()
 void USetBonus_GreatBow::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
-	hero_cache_->GetWeaponMechanics()->GetWeaponActor()->AddOnHitComponent(UBulletDeathBlowEffectComponent::StaticClass());
+	hero_cache_->GetWeaponMechanics()->GetWeaponActor()->AddOnHitComponent(effect_class_);
 }
 
 void USetBonus_GreatBow::TriangleReloadCoolDownBonus()

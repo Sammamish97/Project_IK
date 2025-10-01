@@ -20,5 +20,5 @@ class PROJECT_IK_API UBulletViperEffectComponent : public UBulletOnHitEffectComp
 	GENERATED_BODY()
 
 public:
-	virtual void OnHit(AActor* target) override;
+	virtual void OnHit(AActor* target, const FHitResult& hit_result) override;
 };

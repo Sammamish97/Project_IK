@@ -19,7 +19,7 @@ class PROJECT_IK_API UBulletDebuffEffectComponent : public UBulletOnHitEffectCom
 	GENERATED_BODY()
 
 public:
-	virtual void OnHit(AActor* target) override;
+	virtual void OnHit(AActor* target, const FHitResult& hit_result) override;
 
 private:
 	float debuff_amount_ = -20.f;

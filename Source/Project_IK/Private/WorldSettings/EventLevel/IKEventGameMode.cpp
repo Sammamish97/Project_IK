@@ -10,9 +10,13 @@ See LICENSE file in the project root for full license information.
 
 #include "WorldSettings/EventLevel/IKEventGameMode.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 void AIKEventGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::EventAmbient);
 }
 
 void AIKEventGameMode::BeginDestroy()

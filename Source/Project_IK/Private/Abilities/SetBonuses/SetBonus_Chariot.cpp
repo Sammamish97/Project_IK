@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Structs/BuffStatusData.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
+#include "NiagaraFunctionLibrary.h"
+
 //2세트: 공격력 10% + 체력 10%
 void USetBonus_Chariot::ActivateEdgeBonus()
 {
@@ -42,11 +44,14 @@ void USetBonus_Chariot::ActivateHexagonBonus()
 void USetBonus_Chariot::GetShield()
 {
 	hero_cache_->AcquireShield(hero_cache_->GetCharacterStat()->GetHitPoint() * 0.15f, shield_duration_);
+
+	UNiagaraFunctionLibrary::SpawnSystemAttached(shield_effect_, hero_cache_->GetRootComponent(), FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget, true);
 }
 
 void USetBonus_Chariot::GetShieldAndLifeSteal()
 {
-	hero_cache_->AcquireShield(hero_cache_->GetCharacterStat()->GetHitPoint() * 0.15f, shield_duration_);
+	GetShield();
+
 	//IKTODO: 테스트 이후 정상화 시켜야 함.
 	//hero_cache_->ApplyBuff(FBuffStatusData("Chariot_Hexagon", ECharacterStatType::LifeSteal, life_steal_percentage, true, shield_duration_));
 }

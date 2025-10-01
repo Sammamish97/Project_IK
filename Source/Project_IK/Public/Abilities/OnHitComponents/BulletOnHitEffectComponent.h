@@ -23,7 +23,7 @@ class PROJECT_IK_API UBulletOnHitEffectComponent : public UActorComponent, publi
 	GENERATED_BODY()
 
 public:
-	virtual void OnHit(AActor* target) ;
+	virtual void OnHit(AActor* target, const FHitResult& hit_result) ;
 	virtual void ApplyEffect(ABullet* bullet_actor) const;
 	
 protected:

@@ -23,6 +23,10 @@ public:
 	virtual void ActivateTriangleBonus() override;
 	virtual void ActivateHexagonBonus() override;
 
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UNiagaraSystem> shield_effect_;
+
 private:
 	UFUNCTION()
 	void GetShield();

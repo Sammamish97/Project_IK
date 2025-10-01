@@ -21,7 +21,13 @@ class PROJECT_IK_API UBulletDeathBlowEffectComponent : public UBulletOnHitEffect
 	GENERATED_BODY()
 
 public:
-	virtual void OnHit(AActor* target) override;
+	virtual void OnHit(AActor* target, const FHitResult& hit_result) override;
+
+protected:
+	void SpawnBleedingParticle(AActor* target, const FHitResult& hit_result);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UNiagaraSystem> bleeding_particle_;
 
 private:
 	float death_blow_percentage_ = 0.5f;
