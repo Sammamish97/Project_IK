@@ -135,8 +135,8 @@ void UCharacterStatComponent::Heal(float HealAmount)
 
 void UCharacterStatComponent::AcquireShield(float ShieldAmount, float Duration)
 {
-	SetShield(ShieldAmount);
-	max_shield_ = ShieldAmount;
+	max_shield_ = shield_ + ShieldAmount;
+	SetShield(GetMaxShield());
 
 	UWorld* world = GetWorld();
 	if (world)

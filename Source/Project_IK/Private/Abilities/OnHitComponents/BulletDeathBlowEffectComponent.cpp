@@ -42,19 +42,21 @@ void UBulletDeathBlowEffectComponent::SpawnBleedingParticle(AActor* target, cons
 		return;
 	}
 
-	const FRotator facing = UKismetMathLibrary::MakeRotFromZ(hit_result.ImpactNormal);
+	const FRotator facing = UKismetMathLibrary::MakeRotFromX(hit_result.ImpactNormal);
 
+	FRotator rotator = FRotationMatrix::MakeFromX(FVector::UpVector).Rotator();
 	USceneComponent* attach_comp = hit_result.GetComponent();
 
 	const FName attach_bone = hit_result.BoneName;
 
-	UNiagaraFunctionLibrary::SpawnSystemAttached(
-		bleeding_particle_,
-		attach_comp,
-		attach_bone,
-		hit_result.ImpactPoint,
-		facing,
-		EAttachLocation::KeepWorldPosition,
-		true
-	);
+	//UNiagaraFunctionLibrary::SpawnSystemAttached(
+	//	bleeding_particle_,
+	//	attach_comp,
+	//	attach_bone,
+	//	hit_result.ImpactPoint,
+	//	facing,
+	//	EAttachLocation::KeepWorldPosition,
+	//	true
+	//);
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, bleeding_particle_, hit_result.ImpactPoint, rotator);
 }
