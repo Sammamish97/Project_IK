@@ -62,6 +62,14 @@ void ULevelTransitionSubsystem::OpenLevel(UWorld* world, ELevelState state)
 		UGameplayStatics::OpenLevel(world, FName("MapInventoryLevel"));
 		break;
 
+	case ELevelState::Opening:
+		UGameplayStatics::OpenLevel(world, FName("Opening"));
+		break;
+
+	case ELevelState::Ending:
+		UGameplayStatics::OpenLevel(world, FName("Ending"));
+		break;
+
 	default:
 		checkNoEntry();
 	}
@@ -141,7 +149,7 @@ void ULevelTransitionSubsystem::OpenNode(UWorld* world, FIntPoint map_position)
 		UGameplayStatics::OpenLevel(world, FName("EventLevel"));
 		break;
 	case NodeType::Boss:
-		UGameplayStatics::OpenLevel(world, FName("BossLevel"));
+		UGameplayStatics::OpenLevel(world, FName("Ending"));
 		break;
 	default:
 		break;
