@@ -13,6 +13,9 @@ See LICENSE file in the project root for full license information.
 #include "Structs/DamageData.h"
 #include "SetBonus_Tempest.generated.h"
 
+class UNiagaraSystem;
+class UNiagaraComponent;
+
 UCLASS()
 class PROJECT_IK_API USetBonus_Tempest : public USetBonusBase
 {
@@ -21,6 +24,13 @@ public:
 	virtual void ActivateEdgeBonus() override;
 	virtual void ActivateTriangleBonus() override;
 	virtual void ActivateHexagonBonus() override;
+
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UNiagaraSystem> rune_vfx_system_;
+
+	UPROPERTY()
+	TObjectPtr<UNiagaraComponent> rune_vfx_;
 
 private:
 	UFUNCTION()
