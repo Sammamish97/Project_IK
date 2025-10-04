@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/TextBlock.h"
 #include "UI/Inventory/InventoryWidget.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 void URuneSlotWidget::SetRuneSetSlotData(const FRuneData& rune_data)
 {
 	rune_data_cache_ = rune_data;
@@ -88,8 +90,11 @@ bool URuneSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 			inventory_widget_cache_->RemoveFromRewardContainer(casted_rune_slot_widget);
 		}
 		inventory_widget_cache_->UpdateSetBonusEffect();
+		UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Confirm);
 		return true;
 	}
+
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Deny);
 	return false;
 }
 

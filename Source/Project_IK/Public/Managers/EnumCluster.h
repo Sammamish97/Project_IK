@@ -859,6 +859,12 @@ enum class EAudioType : uint8
 	RunResultAmbient UMETA(DisplayName = "RunResultAmbient"),
 	CriticalHit UMETA(DisplayName = "CriticalHit"),
 	ChariotShield UMETA(DisplayName = "Chariot Shield"),
+	UI_Confirm UMETA(DisplayName = "UI Confirm"),
+	UI_Deny UMETA(DisplayName = "UI Deny"),
+	UI_GotchaResult UMETA(DisplayName = "UI GotchaResult"),
+	UI_PerkPurchased UMETA(DisplayName = "UI PerkPurchased"),
+	UI_PerkUnlocking UMETA(DisplayName = "UI PerkUnlocking"),
+	UI_StorePurchase UMETA(DisplayName = "UI StorePurchase"),
 };
 
 UENUM(BlueprintType)

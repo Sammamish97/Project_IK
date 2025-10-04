@@ -18,6 +18,8 @@ See LICENSE file in the project root for full license information.
 #include "Structs/CharacterData.h"
 #include "WorldSettings/IKGameInstance.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 void UActiveSkillSlotWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -66,8 +68,14 @@ bool UActiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDr
 				inventory_widget_cache_->RemoveFromRewardContainer(casted_slot);
 			}
 		}
+
+		UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Confirm);
+
 		return true;
 	}
+
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Deny);
+
 	return false;
 }
 

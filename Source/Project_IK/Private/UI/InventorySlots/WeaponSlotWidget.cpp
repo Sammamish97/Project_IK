@@ -12,6 +12,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/Image.h"
 #include "UI/Inventory/InventoryWidget.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 void UWeaponSlotWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -56,8 +58,14 @@ bool UWeaponSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDro
 			SetWeaponSlotData(casted_slot->weapon_data_cache_);
 			inventory_widget_cache_->RemoveFromRewardContainer(casted_slot);
 		}
+
+		UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Confirm);
+
 		return true;
 	}
+
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Deny);
+
 	return false;
 }
 
@@ -80,7 +88,10 @@ FWeaponData UWeaponSlotWidget::GetStoredWeaponData()
 void UWeaponSlotWidget::SetImageTexture()
 {
 	Super::SetImageTexture();
-	image_->SetBrushFromTexture(weapon_data_cache_.thumbnail_);
+	if (is_empty_ == false)
+	{
+		image_->SetBrushFromTexture(weapon_data_cache_.thumbnail_);
+	}
 }
 
 void UWeaponSlotWidget::ClearData()

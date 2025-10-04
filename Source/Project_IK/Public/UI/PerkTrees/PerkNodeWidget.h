@@ -20,6 +20,7 @@ class UPerkProgressSubsystem;
 class UImage;
 class UButton;
 class UOverlay;
+class UAudioComponent;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API UPerkNodeWidget : public UUserWidget
@@ -105,4 +106,6 @@ private:
 
 	UPROPERTY(Transient)
 	TObjectPtr<UPerkProgressSubsystem> progress_system_cache_;
+
+	UAudioComponent* unlocking_sfx_ = nullptr;
 };
