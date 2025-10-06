@@ -18,6 +18,8 @@ class UTextBlock;
 class USlider;
 class UButton;
 class UComboBoxString;
+class UCheckBox;
+class UGameUserSettings;
 
 /**
  * 
@@ -59,8 +61,29 @@ protected:
 	void OnLanguageSelected(FString selected, ESelectInfo::Type selection_type);
 	void PopulateDropdown();
 
+	static UGameUserSettings* GetGameSetting();
+
+	UFUNCTION()
+	void OnResolutionSelected(FString selected, ESelectInfo::Type selection_type);
+	void PopulateResolutions();
+	FString MakeResLabel(const FIntPoint& point);
+
+	UFUNCTION()
+	void OnWindowModeSelected(FString selected, ESelectInfo::Type selection_type);
+
+	UFUNCTION()
+	void OnVSyncChanged(bool is_checked);
+
+	void SyncUIFromGraphicsSettings();
+
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UComboBoxString> language_box_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UComboBoxString> resolution_box_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UComboBoxString> window_mode_box_;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UCheckBox> v_sync_box_;
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<USlider> master_slider_;
 	UPROPERTY(meta = (BindWidget))
@@ -82,4 +105,5 @@ protected:
 	float sfx_volume_ = 0.f;
 
 	TMap<FString, FString> label_to_code_;
+	TMap<FString, FIntPoint> resolution_map_;
 };
