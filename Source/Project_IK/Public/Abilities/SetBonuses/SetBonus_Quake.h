@@ -15,6 +15,9 @@ See LICENSE file in the project root for full license information.
 #include "Structs/DamageData.h"
 #include "SetBonus_Quake.generated.h"
 
+class UNiagaraSystem;
+class UNiagaraComponent;
+
 UCLASS(Blueprintable)
 class PROJECT_IK_API USetBonus_Quake : public USetBonusBase
 {
@@ -24,12 +27,19 @@ public:
 	virtual void ActivateTriangleBonus() override;
 	virtual void ActivateHexagonBonus() override;
 	
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UNiagaraSystem> quake_ready_vfx_system_;
+
 private:
 	UFUNCTION()
 	void TriangleAttackSpeedBuff();
 
 	UFUNCTION()
 	void HexagonSkillEcho();
+
+	UFUNCTION()
+	void HexagonSkillEchoReady();
 
 private:
 	FBuffStatusData edge_buff_data_;
@@ -38,4 +48,7 @@ private:
 	float triangle_buff_duration_ = 3.f;
 	float hexagon_effect_cooldown = 15.f;
 	FTimerHandle skill_echo_timer_handle_;
+
+	UPROPERTY()
+	TObjectPtr<UNiagaraComponent> quake_ready_vfx_;
 };
