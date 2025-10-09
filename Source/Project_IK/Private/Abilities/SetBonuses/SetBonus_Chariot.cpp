@@ -46,9 +46,6 @@ void USetBonus_Chariot::ActivateHexagonBonus()
 void USetBonus_Chariot::GetShield()
 {
 	hero_cache_->AcquireShield(hero_cache_->GetCharacterStat()->GetHitPoint() * 0.15f, shield_duration_);
-
-	UNiagaraFunctionLibrary::SpawnSystemAttached(shield_effect_, hero_cache_->GetRootComponent(), FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget, true);
-	UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::ChariotShield, hero_cache_->GetActorLocation());
 }
 
 void USetBonus_Chariot::GetShieldAndLifeSteal()

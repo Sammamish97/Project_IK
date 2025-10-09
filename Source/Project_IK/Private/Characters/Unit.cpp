@@ -286,6 +286,12 @@ void AUnit::ApplyCrowdControl(ECCType cc_type, float duration)
 void AUnit::AcquireShield(float ShieldAmount, float Duration)
 {
 	character_stat_component_->AcquireShield(ShieldAmount, Duration);
+
+	if (shield_effect_)
+	{
+		UNiagaraFunctionLibrary::SpawnSystemAttached(shield_effect_, GetRootComponent(), FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget, true);
+		UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::ChariotShield, GetActorLocation());
+	}
 }
 
 void AUnit::GetStunned(float stun_duration)

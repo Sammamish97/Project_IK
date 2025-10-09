@@ -137,6 +137,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Data")
 	ECharacterType character_type_;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UNiagaraSystem> shield_effect_;
 public:
 	UPROPERTY()
 	FOnBuffExpired OnBuffExpired;
