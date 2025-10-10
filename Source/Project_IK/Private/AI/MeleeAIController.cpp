@@ -94,6 +94,11 @@ void AMeleeAIController::SetDebugDrawActivated(bool activated)
 	debug_draw_component_->SetActivated(activated);
 }
 
+void AMeleeAIController::SetDebugDrawActivated(float activated)
+{
+	debug_draw_component_->SetActivated(activated);
+}
+
 void AMeleeAIController::SetAIFindTargetType(EAIFindTargetType type)
 {
 	GetBlackboardComponent()->SetValueAsEnum(ai_find_target_key_name_, static_cast<uint8>(type));
