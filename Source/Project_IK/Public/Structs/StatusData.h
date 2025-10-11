@@ -40,8 +40,6 @@ struct PROJECT_IK_API FStatusData
 	float evasion_rate_ = 0.f;
 	UPROPERTY(EditAnywhere, Category = "DefenseData")
 	float armor_ = 0.f;
-	UPROPERTY(EditAnywhere, Category = "DefenseData")
-	float survivability_ = 0.f;
 
 	UPROPERTY(EditAnywhere, Category = "SkillData")
 	float skill_power_ = 0.f;
@@ -73,9 +71,7 @@ struct PROJECT_IK_API FStatusData
 			return evasion_rate_;
 		case ECharacterStatType::Armor:
 			return armor_;
-		case ECharacterStatType::Survivability:
-			return survivability_;
-			
+		
 		case ECharacterStatType::SkillPower:
 			return skill_power_;
 		case ECharacterStatType::SkillCoolDown:
@@ -83,7 +79,7 @@ struct PROJECT_IK_API FStatusData
 			
 		default:
 			checkNoEntry()
-			return survivability_;
+			return accuracy_;
 		}
 	}
 
@@ -106,7 +102,6 @@ struct PROJECT_IK_API FStatusData
 		result.hit_point_ += rhs.hit_point_;
 		result.evasion_rate_ += rhs.evasion_rate_;
 		result.armor_ += rhs.armor_;
-		result.survivability_ += rhs.survivability_;
 		
 		result.skill_power_ += rhs.skill_power_;
 		result.skill_cool_down_ += rhs.skill_cool_down_;

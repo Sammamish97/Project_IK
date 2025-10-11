@@ -213,11 +213,6 @@ float UCharacterStatComponent::GetArmor() const noexcept
 	return CalculateStat(ECharacterStatType::Armor);
 }
 
-float UCharacterStatComponent::GetSurvivability() const noexcept
-{
-	return CalculateStat(ECharacterStatType::Survivability);
-}
-
 float UCharacterStatComponent::GetSkillPower() const noexcept
 {
 	return CalculateStat(ECharacterStatType::SkillPower);
@@ -292,11 +287,6 @@ void UCharacterStatComponent::SetArmor(float armor) noexcept
 {
 	OnHPChanged.Broadcast(GetHPRatio());
 	character_data_.status_data_.armor_= armor;
-}
-
-void UCharacterStatComponent::SetSurvivability(float survivability) noexcept
-{
-	character_data_.status_data_.survivability_ = survivability;
 }
 
 void UCharacterStatComponent::SetSightRange(float sight_range) noexcept

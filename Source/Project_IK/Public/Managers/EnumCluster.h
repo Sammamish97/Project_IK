@@ -270,7 +270,6 @@ enum class ECharacterStatType : uint8
 	MoveSpeed UMETA(DisplayName = "MoveSpeed"),
 	SkillPower UMETA(DisplayName = "SkillPower"),
 	SkillCoolDown UMETA(DisplayName = "SkillCoolDown"),
-	Survivability UMETA(DisplayName = "Survivability"),
 	Shield UMETA(DisplayName = "Shield"),
 };
 
@@ -346,7 +345,6 @@ enum class EPassiveSkillType : uint8
 	AcceleratedBarrel UMETA(DisplayName = "AcceleratedBarrel"),
 	EnhancedPistons UMETA(DisplayName = "EnhancedPistons"),
 	ReinforcedCamera UMETA(DisplayName = "ReinforcedCamera"),
-	Conductor UMETA(DisplayName = "Conductor"),
 };
 
 UENUM(BlueprintType)
@@ -713,8 +711,6 @@ enum class EBuffType : uint8
 	AcceleratedBarrel UMETA(DisplayName = "AcceleratedBarrel"),
 	EnhancedPiston UMETA(DisplayName = "EnhancedPiston"),
 	ReinforcedCamera UMETA(DisplayName = "ReinforcedCamera"),
-	Conductor UMETA(DisplayName = "Conductor"),
-
 	//Support
 	Maintain UMETA(DisplayName = "Maintain"),
 
@@ -893,7 +889,6 @@ enum class EPerkNodeType : uint8
 	EXREWARDCOUNT_1 UMETA(DisplayName = "EXREWARDCOUNT_1"),
 	EXREWARDCOUNT_2 UMETA(DisplayName = "EXREWARDCOUNT_2"),
 	EXSKP UMETA(DisplayName = "EXSKP"),
-	EXSURV UMETA(DisplayName = "EXSURV"),
 };
 
 UENUM(BlueprintType)

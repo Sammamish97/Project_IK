@@ -420,9 +420,6 @@ FString UTextManager::PassiveSkillEnumToKey(EPassiveSkillType passive_skill_type
 	case EPassiveSkillType::ReinforcedCamera:
 		key = "RC";
 		break;
-	case EPassiveSkillType::Conductor:
-		key = "CDT";
-		break;
 	}
 	return key;
 }
@@ -461,9 +458,6 @@ FString UTextManager::StatusEnumToKey(ECharacterStatType stat_type) const
 		break;
 	case ECharacterStatType::Armor:
 		key = "ARMOR";
-		break;
-	case ECharacterStatType::Survivability:
-		key = "SURV";
 		break;
 	case ECharacterStatType::SkillPower:
 		key = "SKP";
@@ -551,9 +545,6 @@ FString UTextManager::BuffEnumToKey(EBuffType buff_type) const
 		break;
 	case EBuffType::ReinforcedCamera:
 		key = "RICAMERA";
-		break;
-	case EBuffType::Conductor:
-		key = "CDT";
 		break;
 	case EBuffType::Maintain:
 		key = "MT";
@@ -1137,9 +1128,6 @@ FString UTextManager::PerkEnumToKey(EPerkNodeType type) const
 		break;
 	case EPerkNodeType::EXSKP:
 		key = "EXSKP";
-		break;
-	case EPerkNodeType::EXSURV:
-		key = "EXSURV";
 		break;
 	}
 	return key;

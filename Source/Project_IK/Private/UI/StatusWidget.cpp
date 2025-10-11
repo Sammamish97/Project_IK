@@ -35,10 +35,7 @@ void UStatusWidget::LoadStatusData(EHeroType hero_type)
 
 	dodge_text_->SetText(text_manager_cache_->GetStatusText(ECharacterStatType::EvasionRate));
 	dodge_value_->SetText(FText::AsNumber(cur_status_data.evasion_rate_));
-
-	survivability_text_->SetText(text_manager_cache_->GetStatusText(ECharacterStatType::Survivability));
-	survivability_value_->SetText(FText::AsNumber(cur_status_data.survivability_));
-
+	
 	attack_power_text_->SetText(text_manager_cache_->GetStatusText(ECharacterStatType::AttackPower));
 	attack_power_value_->SetText(FText::AsNumber(cur_status_data.attack_power_));
 
