@@ -38,6 +38,7 @@ bool UAT_ChargeShot::ActivateSkill(const FTargetResult& TargetResult)
 			// @@ TODO: This code is written under a condition
 			// 1. FinishFire halts all AI actions.
 	 		weapon_mechanics_cache->FinishFire();
+	 		hero->SetUnitStateWithInterrupt(EUnitState::OnActiveSkill);
 			FireChargeShot(target);
 			GetWorld()->GetTimerManager().SetTimer(handler_, this, &UAT_ChargeShot::ResumeFiring, charge_time_);
 	 		return true;
@@ -56,6 +57,12 @@ void UAT_ChargeShot::ResumeFiring()
 		{
 			// When skill owner (hero) has died,
 			chargeshot_->Destroy();
+		}
+		else
+		{
+			AHeroBase* hero = Cast<AHeroBase>(skill_owner_);
+			hero->ResetUnitState();
+			hero->FinishAction();
 		}
 	}
 }
