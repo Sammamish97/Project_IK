@@ -13,6 +13,9 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKPlayerController.h"
 
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+
 USP_Reposition::USP_Reposition()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Allies, 10000.f);
@@ -24,6 +27,12 @@ bool USP_Reposition::ActivateSkill(const FTargetResult& target_result)
 	if (selected_hero_)
 	{
 		selected_hero_->Reposition(target_result.target_location_);
+
+		if (reposition_vfx_)
+		{
+			UNiagaraComponent* component = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, reposition_vfx_, target_result.target_location_);
+			component->SetVariableFloat(FName("Radius"), reposition_location_params_.radius_);
+		}
 		return true;
 	}
 	

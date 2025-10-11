@@ -12,6 +12,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/Image.h"
 #include "UI/Inventory/InventoryWidget.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 void UPassiveSkillSlotWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -61,8 +63,14 @@ bool UPassiveSkillSlotWidget::NativeOnDrop(const FGeometry& InGeometry, const FD
 				inventory_widget_cache_->RemoveFromRewardContainer(casted_slot);
 			}
 		}
+
+		UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Confirm);
+
 		return true;
 	}
+
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Deny);
+
 	return false;
 }
 
@@ -84,7 +92,10 @@ const FPassiveSkillData& UPassiveSkillSlotWidget::GetStoredPassiveSkillData()
 void UPassiveSkillSlotWidget::SetImageTexture()
 {
 	Super::SetImageTexture();
-	image_->SetBrushFromTexture(passive_skill_data_cache_.thumbnail_);
+	if (is_empty_ == false)
+	{
+		image_->SetBrushFromTexture(passive_skill_data_cache_.thumbnail_);
+	}
 }
 
 void UPassiveSkillSlotWidget::ClearData()

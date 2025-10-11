@@ -15,6 +15,10 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/DelegateBridgeSubsystem.h"
 #include "Weapons/Guns/GunBase.h"
 
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+#include "Components/CapsuleComponent.h"
+
 //2세트: 스킬 쿨다운 20% 감소
 void USetBonus_Tempest::ActivateEdgeBonus()
 {
@@ -35,6 +39,20 @@ void USetBonus_Tempest::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
 	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnActiveSkill, this, &USetBonus_Tempest::HexagonCoolDownBuff);
+
+	if (rune_vfx_system_)
+	{
+		FVector offset = FVector(0.f, 0.f, -90.f);
+
+		UCapsuleComponent* component = Cast<UCapsuleComponent>(hero_cache_->GetRootComponent());
+		if (component)
+		{
+			offset.Z = -component->GetScaledCapsuleHalfHeight();
+		}
+
+		rune_vfx_ = UNiagaraFunctionLibrary::SpawnSystemAttached(rune_vfx_system_, hero_cache_->GetRootComponent(), FName(""), offset, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
+		rune_vfx_->SetIntParameter(FName("Level"), 0);
+	}
 }
 
 void USetBonus_Tempest::TriangleAutoReload()
@@ -50,5 +68,12 @@ void USetBonus_Tempest::HexagonCoolDownBuff()
 		//IKTODO: 테스트 이후 정상화 시켜야 함.
 		// hero_cache_->RemoveBuff(cool_down_buff_name);
 		// hero_cache_->ApplyBuff(FBuffStatusData{cool_down_buff_name, ECharacterStatType::SkillCoolDown, cur_buff_stack * 5.f, true, true});
+
+
+
+		if (rune_vfx_)
+		{
+			rune_vfx_->SetIntParameter(FName("Level"), StaticCast<int32>(cur_buff_stack / 2));
+		}
 	}
 }

@@ -24,6 +24,15 @@ UAIDebugDrawComponent::UAIDebugDrawComponent()
 void UAIDebugDrawComponent::SetActivated(bool activated)
 {
 	activated_ = activated;
+	activated_time_ = -1.f;
+	delta_time_ = 0.f;
+}
+
+void UAIDebugDrawComponent::SetActivated(float activated_time)
+{
+	activated_ = true;
+	activated_time_ = activated_time;
+	delta_time_ = 0.f;
 }
 
 // Called when the game starts
@@ -53,7 +62,21 @@ void UAIDebugDrawComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 		{
 			if (auto attack_target_actor = ai_controller_cache_->GetTargetActor())
 			{
-				DrawDebugLine(GetWorld(), unit_cache_->GetActorLocation(), attack_target_actor->GetActorLocation(), FColor::Red, false, -1, 0, 3);
+				if (activated_time_ >= 0.f)
+				{
+					if (activated_time_ < delta_time_)
+					{
+						SetActivated(false);
+						return;
+					}
+					delta_time_ += DeltaTime;
+
+					DrawDebugLine(GetWorld(), unit_cache_->GetActorLocation(), attack_target_actor->GetActorLocation(), FColor::Red, false, -1, 0, 3);
+				}
+				else
+				{
+					DrawDebugLine(GetWorld(), unit_cache_->GetActorLocation(), attack_target_actor->GetActorLocation(), FColor::Red, false, -1, 0, 3);
+				}
 			}
 		}
 	}

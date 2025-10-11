@@ -25,6 +25,7 @@ public:
 	// Sets default values for this component's properties
 	UAIDebugDrawComponent();
 	void SetActivated(bool activated);
+	void SetActivated(float activated_time);
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -49,4 +50,6 @@ private:
 	TObjectPtr<class AMeleeAIController> ai_controller_cache_;
 
 	bool activated_ = false;
+	float activated_time_ = -1.f;
+	float delta_time_ = 0.f;
 };

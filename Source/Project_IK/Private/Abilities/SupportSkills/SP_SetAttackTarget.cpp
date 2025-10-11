@@ -16,6 +16,9 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 #include "WorldSettings/IKPlayerController.h"
 
+#include "NiagaraFunctionLibrary.h"
+#include "AI/MeleeAIController.h"
+
 USP_SetAttackTarget::USP_SetAttackTarget()
 {
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Allies, 10000.f);
@@ -26,11 +29,21 @@ bool USP_SetAttackTarget::ActivateSkill(const FTargetResult& target_result)
 {
 	if (selected_hero_)
 	{
+		if (target_vfx_)
+		{
+			UNiagaraFunctionLibrary::SpawnSystemAttached(target_vfx_, target_result.target_actors_[0]->GetRootComponent(), FName(""), vfx_offset_, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
+		}
+		AMeleeAIController* controller = Cast<AMeleeAIController>(Cast<APawn>(selected_hero_)->GetController());
+		if (controller)
+		{
+			controller->SetDebugDrawActivated(1.5f);
+		}
+
 		selected_hero_->SetAttackTarget(target_result.target_actors_[0]);
 		return true;
 	}
-	
-	if (target_result.target_actors_.Num() > 0 && 
+
+	if (target_result.target_actors_.Num() > 0 &&
 		target_result.target_actors_[0] &&
 		target_result.target_actors_[0]->IsA(AHeroBase::StaticClass()))
 	{

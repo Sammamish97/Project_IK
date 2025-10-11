@@ -18,6 +18,8 @@ See LICENSE file in the project root for full license information.
 #include "UI/EquipmentRewardWidget.h"
 #include "Managers/TextManager.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 void URewardSelectWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -127,10 +129,12 @@ void URewardSelectWidget::OnCheckBoxClicked(bool checked)
 {
 	if (checked)
 	{
+		UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Confirm);
 		equipment_reward_widget_cache_->IncreaseSelectedCounter();
 	}
 	else
 	{
+		UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Deny);
 		equipment_reward_widget_cache_->DecreaseSelectedCounter();
 	}
 }

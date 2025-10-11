@@ -17,6 +17,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/TextBlock.h"
 #include "UI/StoreWidget.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 void UStoreSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
@@ -128,6 +130,15 @@ void UStoreSlot::ForwardButtonClick()
 {
 	if (OnStoreSlotClickedDelegate.IsBound())
 	{
+		if (checkbox_button_->IsChecked())
+		{
+			UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Confirm);
+		}
+		else
+		{
+			UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Deny);
+		}
+
 		OnStoreSlotClickedDelegate.Broadcast();
 	}
 }

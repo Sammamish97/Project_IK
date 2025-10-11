@@ -33,6 +33,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/PopUps/SingleRunePopupWidget.h"
 #include "UI/PopUps/WeaponPopupWidget.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
 
 template<typename ItemType, typename ItemContainer, typename SlotContainer>
 inline void UStoreWidget::AddItems(TArray<ItemType> items, ItemContainer& item_container, SlotContainer& slot_container)
@@ -173,17 +174,20 @@ void UStoreWidget::OnPayButtonClicked()
 
 	if (total_cost_ <= 0)
 	{
+		UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Confirm);
 		confirmation_widget_->SetText(text_manager_cache_->GetStoreText(EStoreTextType::ConfirmLeave));
 		confirmation_widget_->SetVisibility(ESlateVisibility::Visible);
 	}
 	else if (total_cost_ <= credits_)
 	{
+		UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_StorePurchase);
 		// Are you sure you want to purchase this item? This action cannot be undone.
 		confirmation_widget_->SetText(text_manager_cache_->GetStoreText(EStoreTextType::ConfirmPurchase));
 		confirmation_widget_->SetVisibility(ESlateVisibility::Visible);
 	}
 	else
 	{
+		UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Deny);
 		casher_text_->SetText(text_manager_cache_->GetStoreText(EStoreTextType::NotEnoughCredit));
 	}
 }

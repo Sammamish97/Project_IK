@@ -14,6 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "SP_SetAttackTarget.generated.h"
 
 class AHeroBase;
+class UNiagaraSystem;
 
 UCLASS()
 class PROJECT_IK_API USP_SetAttackTarget : public USupportSkillBase
@@ -24,6 +25,12 @@ public:
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 	virtual void ResetSkill() override;
 	
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UNiagaraSystem> target_vfx_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FVector vfx_offset_;
+
 private:
 	FTargetParameters attack_target_params_ = FTargetParameters();
 

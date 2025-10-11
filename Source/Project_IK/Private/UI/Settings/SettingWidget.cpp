@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/Slider.h"
 #include "Components/Button.h"
 #include "Components/ComboBoxString.h"
+#include "Components/CheckBox.h"
 
 #include "Subsystems/AudioManagerSubsystem.h"
 
@@ -24,6 +25,10 @@ See LICENSE file in the project root for full license information.
 
 // Language
 #include "Kismet/KismetInternationalizationLibrary.h"
+
+#include "GameFramework/GameUserSettings.h"
+#include "Engine/Engine.h"
+
 void USettingWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -49,9 +54,19 @@ void USettingWidget::NativeConstruct()
 	music_slider_->OnMouseCaptureEnd.AddDynamic(this, &USettingWidget::MusicSliderCaptureEnd);
 	sfx_slider_->OnMouseCaptureEnd.AddDynamic(this, &USettingWidget::SFXSliderCaptureEnd);
 
+
+
 	confirm_button_->OnClicked.AddDynamic(this, &USettingWidget::OnConfirmButtonClicked);
 
 	InitLanguageDropdown();
+
+	resolution_box_->OnSelectionChanged.AddDynamic(this, &USettingWidget::OnResolutionSelected);
+	window_mode_box_->OnSelectionChanged.AddDynamic(this, &USettingWidget::OnWindowModeSelected);
+	v_sync_box_->OnCheckStateChanged.AddDynamic(this, &USettingWidget::OnVSyncChanged);
+
+	PopulateResolutions();
+
+	SyncUIFromGraphicsSettings();
 }
 
 void USettingWidget::NativeDestruct()
@@ -125,12 +140,19 @@ void USettingWidget::SaveSettingData()
 	}
 
 	UGameplayStatics::SaveGameToSlot(save_game_instance, save_game_instance->GetSaveSlotName(), 0);
+
+
+	if (UGameUserSettings* settings = GetGameSetting())
+	{
+		settings->ApplySettings(false);
+		settings->SaveSettings();
+	}
 }
 
 void USettingWidget::InitLanguageDropdown()
 {
 	language_box_->OnSelectionChanged.AddDynamic(this, &USettingWidget::OnLanguageSelected);
-	
+
 	PopulateDropdown();
 
 	const FString current = UKismetInternationalizationLibrary::GetCurrentCulture();
@@ -168,5 +190,108 @@ void USettingWidget::PopulateDropdown()
 
 		language_box_->AddOption(label);
 		label_to_code_.Add(label, code);
+	}
+}
+
+UGameUserSettings* USettingWidget::GetGameSetting()
+{
+	return GEngine ? GEngine->GetGameUserSettings() : nullptr;
+}
+
+void USettingWidget::OnResolutionSelected(FString selected, ESelectInfo::Type selection_type)
+{
+	if (UGameUserSettings* setting = GetGameSetting())
+	{
+		if (const FIntPoint* resolution = resolution_map_.Find(selected))
+		{
+			setting->SetScreenResolution(*resolution);
+		}
+	}
+}
+
+void USettingWidget::PopulateResolutions()
+{
+	resolution_map_.Empty();
+	resolution_box_->ClearOptions();
+
+	const TArray<FIntPoint> resolutions = {
+		{ 1024, 768 }, { 1280, 720 }, {1600, 900}, {1920, 1080}, {2560, 1440}, {3840, 2160}
+	};
+	for (const FIntPoint& resolution : resolutions)
+	{
+		const FString label = MakeResLabel(resolution);
+		resolution_map_.Add(label, resolution);
+		resolution_box_->AddOption(label);
+	}
+}
+
+FString USettingWidget::MakeResLabel(const FIntPoint& point)
+{
+	return FString::Printf(TEXT("%d x %d"), point.X, point.Y);
+}
+
+void USettingWidget::OnWindowModeSelected(FString selected, ESelectInfo::Type selection_type)
+{
+	const int32 index = window_mode_box_->FindOptionIndex(selected);
+
+
+	if (UGameUserSettings* setting = GetGameSetting())
+	{
+		switch (index)
+		{
+		case 0:			// Fullscreen
+			setting->SetFullscreenMode(EWindowMode::Fullscreen);
+			break;
+		case 1:			// Borderless Fullscreen
+			setting->SetFullscreenMode(EWindowMode::WindowedFullscreen);
+			break;
+		case 2:			// Windowed
+			setting->SetFullscreenMode(EWindowMode::Windowed);
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void USettingWidget::OnVSyncChanged(bool is_checked)
+{
+	if (UGameUserSettings* setting = GetGameSetting())
+	{
+		setting->SetVSyncEnabled(is_checked);
+	}
+}
+
+void USettingWidget::SyncUIFromGraphicsSettings()
+{
+	if (UGameUserSettings* settings = GetGameSetting())
+	{
+		const FIntPoint current_resolution = settings->GetScreenResolution();
+		const FString current_resolution_label = MakeResLabel(current_resolution);
+
+		if (resolution_map_.Contains(current_resolution_label))
+		{
+			resolution_box_->SetSelectedOption(current_resolution_label);
+		}
+
+		switch (settings->GetFullscreenMode())
+		{
+		case EWindowMode::Fullscreen:
+			window_mode_box_->SetSelectedIndex(0);
+			break;
+
+		case EWindowMode::WindowedFullscreen:
+			window_mode_box_->SetSelectedIndex(1);
+			break;
+
+		case EWindowMode::Windowed:
+			window_mode_box_->SetSelectedIndex(2);
+			break;
+
+		default:
+			break;
+		}
+
+		v_sync_box_->SetIsChecked(settings->IsVSyncEnabled());
 	}
 }
