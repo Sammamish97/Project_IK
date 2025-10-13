@@ -949,7 +949,8 @@ enum class ECombatResultType : uint8
 UENUM(BlueprintType)
 enum class ERunResultType : uint8
 {
-	RunResult UMETA(DisplayName = "RunResult"),
+	RunResultVictory UMETA(DisplayName = "RunResultVictory"),
+	RunResultDefeat UMETA(DisplayName = "RunResultDefeat"),
 	BattleAmount UMETA(DisplayName = "BattleAmount"),
 	EventAmount UMETA(DisplayName = "EventAmount"),
 	StoreAmount UMETA(DisplayName = "StoreAmount"),

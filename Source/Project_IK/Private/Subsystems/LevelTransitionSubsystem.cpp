@@ -149,7 +149,7 @@ void ULevelTransitionSubsystem::OpenNode(UWorld* world, FIntPoint map_position)
 		UGameplayStatics::OpenLevel(world, FName("EventLevel"));
 		break;
 	case NodeType::Boss:
-		UGameplayStatics::OpenLevel(world, FName("Ending"));
+		UGameplayStatics::OpenLevel(world, FName("BossLevel"));
 		break;
 	default:
 		break;

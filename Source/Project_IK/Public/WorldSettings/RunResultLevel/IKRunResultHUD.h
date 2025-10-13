@@ -14,9 +14,7 @@ See LICENSE file in the project root for full license information.
 #include "GameFramework/HUD.h"
 #include "IKRunResultHUD.generated.h"
 
-class URunResultManager;
-
-enum class ERunResultState : uint8;
+class URunRewardWidget;
 
 /**
  * 
@@ -29,13 +27,9 @@ class PROJECT_IK_API AIKRunResultHUD : public AHUD
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<URunResultManager> run_result_manager_class_;
+	TSubclassOf<URunRewardWidget> run_reward_ui_class_ = nullptr;
 
-	void StartRunResultSequence();
-
-	void SwitchUIByState(ERunResultState state);
-
-	FReply HandleKeyboardAction(const FKeyEvent& InKeyEvent);
+	//FReply HandleKeyboardAction(const FKeyEvent& InKeyEvent);
 	
 protected:
 	virtual void BeginPlay() override;
@@ -43,5 +37,5 @@ protected:
 
 
 	UPROPERTY()
-	TObjectPtr<URunResultManager> run_result_manager_;
+	TObjectPtr<URunRewardWidget> run_reward_ui_ = nullptr;
 };

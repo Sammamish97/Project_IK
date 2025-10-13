@@ -13,34 +13,24 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/RunResultManager.h"
 
-void AIKRunResultHUD::StartRunResultSequence()
-{
-	if (run_result_manager_)
-	{
-		run_result_manager_->StartRunResultSequence();
-	}
-}
-
-void AIKRunResultHUD::SwitchUIByState(ERunResultState state)
-{
-	if (run_result_manager_)
-	{
-		run_result_manager_->SwitchUIByState(state);
-	}
-}
-
-FReply AIKRunResultHUD::HandleKeyboardAction(const FKeyEvent& InKeyEvent)
-{
-	return run_result_manager_->HandleKeyboardAction(InKeyEvent);
-}
+#include "UI/RunRewardWidget.h"
+#include "Subsystems/LevelTransitionSubsystem.h"
 
 void AIKRunResultHUD::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (run_result_manager_class_)
+
+	if (run_reward_ui_class_)
 	{
-		run_result_manager_ = NewObject<URunResultManager>(this, run_result_manager_class_);
+		run_reward_ui_ = CreateWidget<URunRewardWidget>(GetWorld(), run_reward_ui_class_);
+		if (run_reward_ui_)
+		{
+			run_reward_ui_->AddToViewport();
+			run_reward_ui_->SetOnConfirm([&]()
+				{
+					GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>()->OpenLevel(GetWorld(), ELevelState::Ending);
+				});
+		}
 	}
-	StartRunResultSequence();
 }

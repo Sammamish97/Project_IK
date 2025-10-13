@@ -47,7 +47,7 @@ void AIKRunResultPlayerController::KeyboardAction(UInputAction* input_action)
     if (AIKRunResultHUD* hud = Cast<AIKRunResultHUD>(GetHUD()))
     {
         FKey confirm_key = GetKeyFromInputAction(input_action);
-        hud->HandleKeyboardAction(FKeyEvent(confirm_key, FModifierKeysState(), 0, false, 0, 0));
+        //hud->HandleKeyboardAction(FKeyEvent(confirm_key, FModifierKeysState(), 0, false, 0, 0));
     }
 }
 

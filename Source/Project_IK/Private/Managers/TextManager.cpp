@@ -1270,8 +1270,11 @@ FString UTextManager::RunResultEnumToKey(ERunResultType type) const
 	FString key;
 	switch (type)
 	{
-	case ERunResultType::RunResult:
-		key = "RUNRESULT";
+	case ERunResultType::RunResultVictory:
+		key = "RUNRESULTVICTORY";
+		break;
+	case ERunResultType::RunResultDefeat:
+		key = "RUNRESULTDEFEAT";
 		break;
 	case ERunResultType::BattleAmount:
 		key = "BATTLEAMOUNT";
