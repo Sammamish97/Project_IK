@@ -29,7 +29,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<URunRewardWidget> run_reward_ui_class_ = nullptr;
 
-	//FReply HandleKeyboardAction(const FKeyEvent& InKeyEvent);
+	FReply HandleKeyboardAction(const FKeyEvent& InKeyEvent);
 	
 protected:
 	virtual void BeginPlay() override;

@@ -17,7 +17,6 @@ See LICENSE file in the project root for full license information.
 
 class UNiagaraSystem;
 class UNiagaraComponent;
-class USoundCue;
 struct FDamageData;
 class AIKPostProcessVolume;
 class UAudioComponent;
@@ -67,9 +66,6 @@ protected:
 	TWeakObjectPtr<AIKPostProcessVolume> post_process_volume_;
 
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
-	TArray<TObjectPtr<USoundCue>> zap_sound_cue_array_;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UNiagaraSystem> zap_particle_ = nullptr;
 

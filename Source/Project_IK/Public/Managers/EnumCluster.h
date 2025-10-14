@@ -865,6 +865,7 @@ enum class EAudioType : uint8
 	UI_PerkPurchased UMETA(DisplayName = "UI PerkPurchased"),
 	UI_PerkUnlocking UMETA(DisplayName = "UI PerkUnlocking"),
 	UI_StorePurchase UMETA(DisplayName = "UI StorePurchase"),
+	ThunderZap UMETA(DisplayName = "Thunder Zap"),
 };
 
 UENUM(BlueprintType)

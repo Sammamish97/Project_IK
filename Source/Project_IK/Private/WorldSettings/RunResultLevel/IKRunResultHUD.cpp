@@ -16,6 +16,11 @@ See LICENSE file in the project root for full license information.
 #include "UI/RunRewardWidget.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 
+FReply AIKRunResultHUD::HandleKeyboardAction(const FKeyEvent& InKeyEvent)
+{
+	return run_reward_ui_->NativeOnKeyDown(run_reward_ui_->GetCachedGeometry(), InKeyEvent);
+}
+
 void AIKRunResultHUD::BeginPlay()
 {
 	Super::BeginPlay();
