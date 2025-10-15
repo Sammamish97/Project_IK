@@ -52,7 +52,7 @@ void UAT_Thunder::InitActiveSkill(AActor* skill_owner, const FActiveSkillData& s
 
 bool UAT_Thunder::ActivateSkill(const FTargetResult& target_result)
 {
-	if(target_result.target_actors_[0])
+	if(target_result.target_actors_.IsEmpty() == false && target_result.target_actors_[0])
 	{
 		FVector location = target_result.target_actors_[0]->GetActorLocation();
 

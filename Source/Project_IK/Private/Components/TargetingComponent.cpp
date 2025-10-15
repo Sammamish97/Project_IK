@@ -22,6 +22,9 @@ See LICENSE file in the project root for full license information.
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 
+#include "WorldSettings/IKPostProcessVolume.h"
+#include "EngineUtils.h"
+
 // Sets default values for this component's properties
 UTargetingComponent::UTargetingComponent()
 {
@@ -39,6 +42,8 @@ void UTargetingComponent::BeginPlay()
 	player_controller_ = Cast<AIKPlayerController>(GetOwner());
 
 	InitializeTargetingVisuals();
+
+	FindPostProcessVolume();
 }
 
 void UTargetingComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -122,6 +127,8 @@ void UTargetingComponent::StartTargeting(FTargetParameters target_params, AActor
 	range_decal_->DecalSize = FVector(target_parameters_.range_);
 
 	GetReadyTargetingVisuals();
+
+	SetDarkening(true);
 }
 
 FTargetResult UTargetingComponent::DecideTargetings()
@@ -153,6 +160,7 @@ void UTargetingComponent::StopTargeting()
 	target_parameters_ = FTargetParameters();
 	player_controller_->CurrentMouseCursor = EMouseCursor::Default;
 	CleanupTargetingVisuals();
+	SetDarkening(false);
 }
 
 void UTargetingComponent::StopTargetingIfInvokerIs(AActor* invoker)
@@ -174,6 +182,29 @@ void UTargetingComponent::StopItemTargeting()
 		{
 			StopTargeting();
 		}
+	}
+}
+
+void UTargetingComponent::FindPostProcessVolume()
+{
+	// Search for any PostProcessVolume in the level
+	for (TActorIterator<AIKPostProcessVolume> it(GetWorld()); it; ++it)
+	{
+		AIKPostProcessVolume* found_volume = *it;
+		if (found_volume && found_volume->IsValidLowLevel())
+		{
+			post_process_volume_ = found_volume;
+			break;
+		}
+	}
+}
+
+void UTargetingComponent::SetDarkening(bool is_enabled)
+{
+	AIKPostProcessVolume* ptr = post_process_volume_.Get();
+	if (ptr)
+	{
+		ptr->SetDarkening(is_enabled);
 	}
 }
 
