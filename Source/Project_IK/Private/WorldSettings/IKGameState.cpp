@@ -85,6 +85,10 @@ UEnergySystemComponent* AIKGameState::GetEnergySystemComponent()
 void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 {
 	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (game_mode_cache->IsOnBattle() == false)
+	{
+		return;
+	}
 	if (auto selected_hero = game_mode_cache->GetHero(hero_type))
 	{
 		AHeroBase* casted_hero = Cast<AHeroBase>(selected_hero);
@@ -112,7 +116,11 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 
 void AIKGameState::ActivateSupportSkill(ESupportSkillType type)
 {
-
+	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (game_mode_cache->IsOnBattle() == false)
+	{
+		return;
+	}
 	if (support_skills_[type] != nullptr)
 	{
 		if (energy_system_component_->GetEnergy() > support_skill_data_[type]->cost_)
