@@ -25,6 +25,8 @@ See LICENSE file in the project root for full license information.
 #include "WorldSettings/IKPostProcessVolume.h"
 #include "EngineUtils.h"
 
+#include "Components/CapsuleComponent.h"
+
 // Sets default values for this component's properties
 UTargetingComponent::UTargetingComponent()
 {
@@ -86,17 +88,24 @@ void UTargetingComponent::GetReadyTargetingVisuals()
 		break;
 	case ETargetingMode::Actor:
 		player_controller_->CurrentMouseCursor = EMouseCursor::Crosshairs;
-		radius_component_->DeactivateImmediate();
+		if (radius_component_->IsActive())
+		{
+			radius_component_->DeactivateImmediate();
+		}
+		radius_component_->SetFloatParameter(FName("Radius"), 100.f);
+		radius_component_->SetFloatParameter(FName("HalfHeight"), 0.f);
+		radius_component_->Activate(true);
 		range_decal_->SetVisibility(true);
 		sector_component_->DeactivateImmediate();
 		break;
 	case ETargetingMode::Location:
 		player_controller_->CurrentMouseCursor = EMouseCursor::GrabHand;
-		radius_component_->SetFloatParameter(FName("Radius"), target_parameters_.radius_);
 		if (radius_component_->IsActive())
 		{
 			radius_component_->DeactivateImmediate();
 		}
+		radius_component_->SetFloatParameter(FName("Radius"), target_parameters_.radius_);
+		radius_component_->SetFloatParameter(FName("HalfHeight"), 0.f);
 		radius_component_->Activate(true);
 		range_decal_->SetVisibility(true);
 		sector_component_->DeactivateImmediate();
@@ -388,6 +397,14 @@ void UTargetingComponent::UpdateTargetingVisuals()
 	case ETargetingMode::Actor:
 		range_decal_->SetWorldLocation(invoker_location);
 		HandleActorTargeting(result);
+		if (result.target_actors_.IsEmpty() == false && result.target_actors_[0] != nullptr)
+		{
+			radius_component_->SetWorldLocation(result.target_actors_[0]->GetActorLocation());
+			if (UCapsuleComponent* actor_capsule = Cast<UCapsuleComponent>(result.target_actors_[0]->GetRootComponent()))
+			{
+				radius_component_->SetFloatParameter(FName("HalfHeight"), actor_capsule->GetScaledCapsuleHalfHeight());
+			}
+		}
 		break;
 	case ETargetingMode::Location:
 		HandleLocationTargeting(result);
