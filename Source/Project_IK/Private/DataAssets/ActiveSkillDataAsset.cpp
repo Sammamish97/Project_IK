@@ -17,17 +17,17 @@ FActiveSkillData UActiveSkillDataAsset::GetActiveSkillData(EActiveSkillType type
 	return active_skill_data_map_[type];	
 }
 
-FActiveSkillData UActiveSkillDataAsset::GetActiveSkillDataRandomly(ERarity weight_rarity)
+FActiveSkillData UActiveSkillDataAsset::GetActiveSkillDataRandomly(UWorld* world, ERarity weight_rarity)
 {
-	return URandomDataAssetsManager::GetDataAssetRandomly(weight_rarity, active_skill_data_map_);
+	return URandomDataAssetsManager::GetDataAssetRandomly(weight_rarity, active_skill_data_map_, world);
 }
 
-FActiveSkillData UActiveSkillDataAsset::GetActiveSkillDataByRarity(ERarity rarity)
+FActiveSkillData UActiveSkillDataAsset::GetActiveSkillDataByRarity(UWorld* world, ERarity rarity)
 {
-	return URandomDataAssetsManager::GetDataAssetByRarity(rarity, active_skill_data_map_);
+	return URandomDataAssetsManager::GetDataAssetByRarity(rarity, active_skill_data_map_, world);
 }
 
-TArray<FActiveSkillData> UActiveSkillDataAsset::GetUniqueActiveSkillDataRandomly(int32 n, ERarity weight_rarity)
+TArray<FActiveSkillData> UActiveSkillDataAsset::GetUniqueActiveSkillDataRandomly(int32 n, UWorld* world, ERarity weight_rarity)
 {
-	return URandomDataAssetsManager::GetUniqueDataAssetsRandomly(n, weight_rarity, active_skill_data_map_);
+	return URandomDataAssetsManager::GetUniqueDataAssetsRandomly(n, weight_rarity, active_skill_data_map_, world);
 }

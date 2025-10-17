@@ -21,6 +21,9 @@ See LICENSE file in the project root for full license information.
 
 #include "Structs/CharacterData.h"
 #include "Structs/DamageData.h"
+
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
+
 // Sets default values
 UCharacterStatComponent::UCharacterStatComponent()
 	: max_hit_points_(0.f)
@@ -79,7 +82,7 @@ void UCharacterStatComponent::TickComponent(float DeltaTime, ELevelTick TickType
 
 bool UCharacterStatComponent::CalcDamage(FDamageData& data_ref)
 {
-	float evasion_rand = FMath::RandRange(0.f, 1.f);
+	float evasion_rand = URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).RandRange(0.f, 1.f);
 	bool is_evaded = evasion_rand < GetEvasionRate();
 
 	if (is_evaded)

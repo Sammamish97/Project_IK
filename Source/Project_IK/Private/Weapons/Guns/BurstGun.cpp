@@ -14,6 +14,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/CharacterStatComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
+
 void ABurstGun::BeginFire(AActor* target)
 {
 	if (hold_action_)
@@ -53,7 +55,7 @@ void ABurstGun::OnFire(AActor* target, FDamageData dmg_data, float attack_speed)
 			}
 			burst_count_ += 1;
 			gun_owner->PlayAnimMontage(fire_montage_, fire_montage_->GetPlayLength() / attack_speed);
-			FVector rand_vec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, HARD_CODED_ACCURACY);
+			FVector rand_vec = UKismetMathLibrary::RandomUnitVector() * URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).FRandRange(0.f, HARD_CODED_ACCURACY);
 			FireSingleBullet(target_ptr->GetActorLocation() + rand_vec, GetWeaponFireDamageData());
 			
 			if (burst_count_ >= burst_amount_)

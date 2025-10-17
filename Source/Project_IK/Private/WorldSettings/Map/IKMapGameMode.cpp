@@ -23,6 +23,8 @@ See LICENSE file in the project root for full license information.
 
 #include "Subsystems/AudioManagerSubsystem.h"
 
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
+
 void AIKMapGameMode::BeginPlay()
 {
 	Super::BeginPlay();
@@ -86,7 +88,7 @@ void AIKMapGameMode::SaveGameData()
 			save_game_instance->applied_global_buffs_.Add(global_buff.buff_type_, global_buff.duration_);
 		}
 
-		save_game_instance->rand_seed_ = FMath::GetRandSeed();
+		save_game_instance->rand_seed_ = URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).GetCurrentSeed();
 
 		UGameplayStatics::SaveGameToSlot(save_game_instance, save_game_instance->GetSaveSlotName(), 0);
 	}

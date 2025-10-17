@@ -96,6 +96,4 @@ protected:
 	void ApplyRule2(int32 row, int32 col);
 	void ApplyRule3(int32 row, int32 col);
 	void ApplyRule4(int32 row, int32 col);
-	
-	FRandomStream rng;
 };

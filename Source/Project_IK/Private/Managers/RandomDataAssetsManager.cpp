@@ -13,11 +13,13 @@ See LICENSE file in the project root for full license information.
 
 #include "Managers/EnumCluster.h"
 
-ERarity URandomDataAssetsManager::GetRarityRandomly(ERarity weight_rarity)
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
+
+ERarity URandomDataAssetsManager::GetRarityRandomly(ERarity weight_rarity, UWorld* world)
 {
 	TArray<TPair<ERarity, int32>> weights = GetRarityWeights(weight_rarity);
 
-	int32 random_value = FMath::RandRange(0, TOTAL_WEIGHT);
+	int32 random_value = URandomNumberGeneratorSubsystem::GetRNG(world).RandRange(0, TOTAL_WEIGHT);
 
 	// Return rarity based on the random value
 	int32 cumulative_weight = 0;

@@ -20,6 +20,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/WeaponStatusData.h"
 
 #include "Subsystems/AudioManagerSubsystem.h"
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
 
 void UBulletChainEffectComponent::OnHit(AActor* target, const FHitResult& hit_result)
 {
@@ -91,7 +92,7 @@ void UBulletChainEffectComponent::PlaySFX(const TArray<AActor*>& chained_actors)
 		{
 			GetWorld()->GetTimerManager().SetTimer(audio_timer, [&, target]() {
 
-				float rand_pitch = FMath::RandRange(0.5f, 1.5f);
+				float rand_pitch = URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).RandRange(0.5f, 1.5f);
 				UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::Ricochet, target->GetActorLocation(), 1.f, rand_pitch);
 
 				}, 0.1f * i, false);

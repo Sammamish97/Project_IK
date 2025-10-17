@@ -25,6 +25,8 @@ See LICENSE file in the project root for full license information.
 #include "Structs/WrapperEquipmentData.h"
 #include "Algo/RandomShuffle.h"
 
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
+
 
 FWeaponData UDataTableManager::GetEnemyWeaponData(EWeaponType type) const
 {
@@ -38,17 +40,17 @@ FWeaponData UDataTableManager::GetHeroWeaponData(EWeaponType type) const
 
 FWeaponData UDataTableManager::GetWeaponDataRandomly(ERarity weight_rarity) const
 {
-	return hero_weapon_data_asset_->GetWeaponDataRandomly(weight_rarity);
+	return hero_weapon_data_asset_->GetWeaponDataRandomly(GetWorld(), weight_rarity);
 }
 
 FWeaponData UDataTableManager::GetWeaponDataByRarity(ERarity rarity) const
 {
-	return hero_weapon_data_asset_->GetWeaponDataByRarity(rarity);
+	return hero_weapon_data_asset_->GetWeaponDataByRarity(GetWorld(), rarity);
 }
 
 TArray<FWeaponData> UDataTableManager::GetUniqueWeaponDataRandomly(int32 n, ERarity weight_rarity) const
 {
-	return hero_weapon_data_asset_->GetUniqueWeaponDataRandomly(n, weight_rarity);
+	return hero_weapon_data_asset_->GetUniqueWeaponDataRandomly(n, GetWorld(), weight_rarity);
 }
 
 FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num) const
@@ -70,19 +72,19 @@ FRuneData UDataTableManager::GetRuneData(ERuneSetType type, int slot_num) const
 
 FRuneData UDataTableManager::GetRuneDataRandomly(ERarity weight_rarity) const
 {
-	FRuneData randomly_chosen_set = rune_data_asset_->GetRuneSetDataRandomly(weight_rarity);
-	randomly_chosen_set.slot_number = FMath::RandRange(0, 5);
+	FRuneData randomly_chosen_set = rune_data_asset_->GetRuneSetDataRandomly(GetWorld(), weight_rarity);
+	randomly_chosen_set.slot_number = URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).RandRange(0, 5);
 	return randomly_chosen_set;
 }
 
 TArray<FRuneData> UDataTableManager::GetRuneDataRandomly(int32 n, ERarity weight_rarity) const
 {
-	TArray<FRuneData> set_array = rune_data_asset_->GetRuneSetDataRandomly(n, weight_rarity);
+	TArray<FRuneData> set_array = rune_data_asset_->GetRuneSetDataRandomly(n, GetWorld(), weight_rarity);
 
 	TArray<FRuneData> result;
 	for (FRuneData element : set_array)
 	{
-		element.slot_number = FMath::RandRange(0, 5);
+		element.slot_number = URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).RandRange(0, 5);
 		result.Add(element);
 	}
 	return result;
@@ -90,7 +92,7 @@ TArray<FRuneData> UDataTableManager::GetRuneDataRandomly(int32 n, ERarity weight
 
 TArray<FRuneData> UDataTableManager::GetUniqueRuneDataRandomly(int32 n, ERarity weight_rarity) const
 {
-	TArray<FRuneData> set_array = rune_data_asset_->GetRuneSetDataRandomly(n, weight_rarity);
+	TArray<FRuneData> set_array = rune_data_asset_->GetRuneSetDataRandomly(n, GetWorld(), weight_rarity);
 
 	TSet<ERuneSetType> data_set;
 	for (const FRuneData& data : set_array)
@@ -103,6 +105,7 @@ TArray<FRuneData> UDataTableManager::GetUniqueRuneDataRandomly(int32 n, ERarity 
 		// Shuffle indices 0-5 to ensure random selection without repeating from same set
 		// It might caused a crash when there are at least 6 runes.
 		TArray<int32> indices = { 0, 1, 2, 3, 4, 5 };
+		// A unique function that does not use RNGSubsystem, but let it do his job.
 		Algo::RandomShuffle(indices);
 
 		int32 slot_number_index = 0;
@@ -131,17 +134,17 @@ FPassiveSkillData UDataTableManager::GetPassiveSkillData(EPassiveSkillType type)
 
 FPassiveSkillData UDataTableManager::GetPassiveSkillDataRandomly(ERarity weight_rarity) const
 {
-	return passive_skill_data_asset_->GetPassiveSkillDataRandomly(weight_rarity);
+	return passive_skill_data_asset_->GetPassiveSkillDataRandomly(GetWorld(), weight_rarity);
 }
 
 TArray<FPassiveSkillData> UDataTableManager::GetPassiveSkillDataByRarity(int32 n, ERarity weight_rarity) const
 {
-	return passive_skill_data_asset_->GetPassiveSkillDataByRarity(n, weight_rarity);
+	return passive_skill_data_asset_->GetPassiveSkillDataByRarity(n, GetWorld(), weight_rarity);
 }
 
 TArray<FPassiveSkillData> UDataTableManager::GetUniquePassiveSkillDataRandomly(int32 n, ERarity weight_rarity) const
 {
-	return passive_skill_data_asset_->GetUniquePassiveSkillDataRandomly(n, weight_rarity);
+	return passive_skill_data_asset_->GetUniquePassiveSkillDataRandomly(n, GetWorld(), weight_rarity);
 }
 
 FActiveSkillData UDataTableManager::GetActiveSkillData(EActiveSkillType type) const
@@ -151,17 +154,17 @@ FActiveSkillData UDataTableManager::GetActiveSkillData(EActiveSkillType type) co
 
 FActiveSkillData UDataTableManager::GetActiveSkillDataRandomly(ERarity weight_rarity) const
 {
-	return active_skill_data_asset_->GetActiveSkillDataRandomly(weight_rarity);
+	return active_skill_data_asset_->GetActiveSkillDataRandomly(GetWorld(), weight_rarity);
 }
 
 FActiveSkillData UDataTableManager::GetActiveSkillDataByRarity(ERarity rarity) const
 {
-	return active_skill_data_asset_->GetActiveSkillDataByRarity(rarity);
+	return active_skill_data_asset_->GetActiveSkillDataByRarity(GetWorld(), rarity);
 }
 
 TArray<FActiveSkillData> UDataTableManager::GetUniqueActiveSkillDataRandomly(int32 n, ERarity weight_rarity) const
 {
-	return active_skill_data_asset_->GetUniqueActiveSkillDataRandomly(n, weight_rarity);
+	return active_skill_data_asset_->GetUniqueActiveSkillDataRandomly(n, GetWorld(), weight_rarity);
 }
 
 const FCharacterData& UDataTableManager::GetCharacterData(ECharacterType char_type) const
@@ -201,7 +204,7 @@ FGlobalBuffData UDataTableManager::GetGlobalBuffData(EGlobalBuffType buff_type) 
 
 FWrapperEquipmentData UDataTableManager::GetEquipmentDataRandomly(ERarity weight_rarity) const
 {
-	int32 data_type = FMath::RandRange(0, 99);
+	int32 data_type = URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).RandRange(0, 99);
 
 	FWrapperEquipmentData result;
 
@@ -232,7 +235,7 @@ FWrapperEquipmentData UDataTableManager::GetUniqueEquipmentDataRandomly(int32 n,
 	for (int32 i = 0; i < n; i++)
 	{
 		int32 index = 0;
-		int32 probability = FMath::RandRange(0, 99);
+		int32 probability = URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).RandRange(0, 99);
 
 		if (probability <= 12)
 		{

@@ -76,7 +76,7 @@ void UEnemySpawnerManager::SpawnEnemies()
 	{
 		spawn_data_ptr_ = enemy_spawn_data_asset_early_;
 	}
-	FEnemySpawnData enemy_spawn_data = spawn_data_ptr_->GetRandomEnemySpawnData();
+	FEnemySpawnData enemy_spawn_data = spawn_data_ptr_->GetRandomEnemySpawnData(GetWorld());
 	for (const FEnemySpawnUnit& unit : enemy_spawn_data.enemy_spawn_unit_array_->spawn_units_)
 	{
 		FActorSpawnParameters param;
