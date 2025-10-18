@@ -33,7 +33,6 @@ void UCombatResultBlock::SetHeroPortrait(UTexture2D* hero_portrait)
 
 void UCombatResultBlock::SetHPPercent(float ratio)
 {
-	// @@ TODO: Make it function
 	// 10% Red, 90% Green
 	hp_->SetPercent(ratio);
 	ratio -= 0.5f;

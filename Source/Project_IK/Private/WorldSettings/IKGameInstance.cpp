@@ -245,8 +245,6 @@ void UIKGameInstance::LoadRunSaveData()
 		// No save data
 
 		// Initialize map data to prevent game crash during developments.
-		// @@ TODO: Need to remove the line. 
-		// Probably game start menu of the main manu is the only place generating a new map.
 		maps_->GenerateMaps(10, 5);
 		InitSpawnData();
 		inventory_manager_->SetCredits(0);

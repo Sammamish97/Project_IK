@@ -309,7 +309,7 @@ void UPerkUnlockWidget::OnConfirmed()
 	// }
 	// else
 	// {
-	// 	// @@ TODO: Add VFX/SFX to indicate insufficient perk points.
+	// 	// Add VFX/SFX to indicate insufficient perk points.
 	// }
 }
 

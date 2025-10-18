@@ -296,7 +296,7 @@ FVector UTargetingComponent::HandleDirectionTargeting(FTargetResult& result)
 		{
 			auto heroes = game_mode->GetHeroContainer();
 
-			for (AActor* actor  : heroes)
+			for (AActor* actor : heroes)
 			{
 				if (actor)
 				{
@@ -399,11 +399,20 @@ void UTargetingComponent::UpdateTargetingVisuals()
 		HandleActorTargeting(result);
 		if (result.target_actors_.IsEmpty() == false && result.target_actors_[0] != nullptr)
 		{
-			radius_component_->SetWorldLocation(result.target_actors_[0]->GetActorLocation());
-			if (UCapsuleComponent* actor_capsule = Cast<UCapsuleComponent>(result.target_actors_[0]->GetRootComponent()))
+			AUnit* unit = Cast<AUnit>(result.target_actors_[0]);
+			if (unit != nullptr && unit->IsDead() == false)
 			{
-				radius_component_->SetFloatParameter(FName("HalfHeight"), actor_capsule->GetScaledCapsuleHalfHeight());
+				radius_component_->SetWorldLocation(result.target_actors_[0]->GetActorLocation());
+				if (UCapsuleComponent* actor_capsule = Cast<UCapsuleComponent>(result.target_actors_[0]->GetRootComponent()))
+				{
+					radius_component_->SetFloatParameter(FName("HalfHeight"), actor_capsule->GetScaledCapsuleHalfHeight());
+				}
 			}
+		}
+		else
+		{
+			// Move it away from the camera
+			radius_component_->SetWorldLocation(FVector(-9999, -9999, -9999));
 		}
 		break;
 	case ETargetingMode::Location:
@@ -515,7 +524,7 @@ AActor* UTargetingComponent::FindClosestActor(const FVector& TargetLocation)
 	if (target_parameters_.target_type_ == ETargetType::All || target_parameters_.target_type_ == ETargetType::Allies)
 	{
 		auto characters = game_mode->GetHeroContainer();
-		for (const auto& elem  : characters)
+		for (const auto& elem : characters)
 		{
 			if (AActor* cur_actor = elem)
 			{

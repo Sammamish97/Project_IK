@@ -17,5 +17,5 @@ void AIKBossHUD::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// @@ TODO: Currently, the boss level has nothing.
+	// No boss, do nothing.
 }

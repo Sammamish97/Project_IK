@@ -74,7 +74,6 @@ void AFateSpiral::ConductLogic()
 
 	++jump_count_;
 
-	// @@ TODO: Need additional logic if departure became NULLPTR
 	if (arrival_)
 	{
 		if (arrival_->IsA<AHeroBase>())

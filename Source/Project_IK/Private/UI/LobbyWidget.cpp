@@ -11,7 +11,6 @@ See LICENSE file in the project root for full license information.
 #include "UI/LobbyWidget.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
-#include "UI/PerkUnlockWidget.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 
 #include "Kismet/GameplayStatics.h"

@@ -47,7 +47,7 @@ void UActiveSkillMechanics::InitializeComponent()
 	Super::InitializeComponent();
 }
 
-void UActiveSkillMechanics::ActivateSkill(const FTargetResult& target_result)
+bool UActiveSkillMechanics::ActivateSkill(const FTargetResult& target_result)
 {
 	if (HasActiveSkill())
 	{
@@ -74,13 +74,16 @@ void UActiveSkillMechanics::ActivateSkill(const FTargetResult& target_result)
 
 				timer_manager.SetTimer(casting_time_handle_, casting_delegate, active_skill_->GetCastingTime(), false);
 				timer_manager.SetTimer(ai_hold_time_handle_, ai_holding_delegate, active_skill_->GetAIHoldTime(), false);
+
+				return true;
 			}
 		}
 		else
 		{
-			active_skill_->ActivateSkill(target_result);
+			return active_skill_->ActivateSkill(target_result);
 		}
 	}
+	return false;
 }
 
 void UActiveSkillMechanics::StopActiveSkill()

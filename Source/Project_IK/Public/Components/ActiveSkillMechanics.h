@@ -35,7 +35,7 @@ public:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void InitializeComponent() override;
-	void ActivateSkill(const FTargetResult& TargetResult);
+	bool ActivateSkill(const FTargetResult& TargetResult);
 	void StopActiveSkill();
 
 	bool HasActiveSkill() const;

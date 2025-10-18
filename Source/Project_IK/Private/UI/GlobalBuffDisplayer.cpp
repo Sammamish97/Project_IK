@@ -27,7 +27,7 @@ void UGlobalBuffDisplayer::NativeConstruct()
 	TArray<FGlobalBuffData> buffs = global_buff_subsystem->GetBuffs();
 
 	// Naively implement for sake of implementation of displaying everlasting buffs rapidly.
-	// @@ TODO: design and improve the way displaying everlasting buffs.
+	// @@ Improvements: design and improve the way displaying everlasting buffs.
 
 	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
 	if (instance)

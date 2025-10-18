@@ -115,6 +115,10 @@ void URewardContainerWidget::RemoveWidgetFromRewardContainer(UInventorySlot* rem
 void URewardContainerWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+	
+	auto data_table_manager_ = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetDataTableManager();
+
+	reward_cache_.active_skills_.Push(data_table_manager_->GetActiveSkillData(EActiveSkillType::ChargeShot_A));
 
 	for (auto weapon_data : reward_cache_.weapons_)
 	{

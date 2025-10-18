@@ -35,15 +35,14 @@ bool UAT_ChargeShot::ActivateSkill(const FTargetResult& TargetResult)
 	 		auto weapon_mechanics_cache = hero->GetWeaponMechanics();
 	 		
 
-			// @@ TODO: This code is written under a condition
 			// 1. FinishFire halts all AI actions.
 	 		weapon_mechanics_cache->FinishFire();
 			FireChargeShot(target);
 			GetWorld()->GetTimerManager().SetTimer(handler_, this, &UAT_ChargeShot::ResumeFiring, charge_time_);
-	 		return true;
+			return Super::ActivateSkill(TargetResult);
 	 	}
 	 }
-	return Super::ActivateSkill(TargetResult);
+	 return false;
 }
 
 void UAT_ChargeShot::ResumeFiring()

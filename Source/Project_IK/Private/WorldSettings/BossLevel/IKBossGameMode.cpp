@@ -15,7 +15,7 @@ See LICENSE file in the project root for full license information.
 
 void AIKBossGameMode::BeginPlay()
 {
-	// @@ TODO: Implement game logic of boss gamemode.
+	// No boss
 
 	// Since it has nothing, redirect to run result level.
 	UGameplayStatics::OpenLevel(GetWorld(), FName("RunResultLevel"));
