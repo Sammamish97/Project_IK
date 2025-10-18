@@ -109,7 +109,6 @@ void UPerkNodeWidget::ConnectPerkNodes()
 		if (skill_connection_overlay_->GetChildrenCount() != connected_indices_.Num())
 		{
 			FVector2D connection_begin_point = UWidgetLayoutLibrary::SlotAsCanvasSlot(this)->GetPosition();
-			//IKTODO: 여기서 자주 터짐.
 			FVector2D connection_end_point =  UWidgetLayoutLibrary::SlotAsCanvasSlot(widget)->GetPosition();
 			FVector2D end_to_begin = connection_end_point - connection_begin_point;
 

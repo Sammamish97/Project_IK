@@ -78,7 +78,7 @@ void UActiveSkillMechanics::ActivateSkill(const FTargetResult& target_result)
 		}
 		else
 		{
-			active_skill_->ActivateSkill(target_result);
+ 			active_skill_->ActivateSkill(target_result);
 		}
 	}
 }

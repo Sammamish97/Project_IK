@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "SetBonus_GreatBow.generated.h"
 
 class UBulletDeathBlowEffectComponent;
+class UBuffHandler;
 
 UCLASS()
 class PROJECT_IK_API USetBonus_GreatBow : public USetBonusBase
@@ -33,6 +34,12 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UBulletDeathBlowEffectComponent> effect_class_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SkillData")
+	TSubclassOf<UBuffHandler> edge_buff_class_;
+
+	UPROPERTY();
+	TObjectPtr<UBuffHandler> edge_buff_;
 
 private:
 	float active_cooldown_amount_ = 3.f;

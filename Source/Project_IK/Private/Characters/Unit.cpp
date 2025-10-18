@@ -312,7 +312,6 @@ void AUnit::OnStunned()
 
 void AUnit::FinishStun()
 {
-	//IKTODO: AI_BEHAVIOR TREE와 연결해야 함.
 }
 
 

@@ -9,6 +9,7 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Abilities/SetBonuses/SetBonus_Tempest.h"
 
+#include "Abilities/Buffs/BuffHandler.h"
 #include "Characters/HeroBase.h"
 #include "Components/WeaponMechanics.h"
 #include "Structs/BuffStatusData.h"
@@ -19,8 +20,8 @@ See LICENSE file in the project root for full license information.
 void USetBonus_Tempest::ActivateEdgeBonus()
 {
 	Super::ActivateEdgeBonus();
-	//IKTODO: 테스트 이후 정상화 시켜야 함.
-	//hero_cache_->ApplyBuff(FBuffStatusData(TEXT("GreatBow_Edge"), ECharacterStatType::SkillCoolDown, 20.f, true, true));
+	edge_buff_ = NewObject<UBuffHandler>(this, edge_buff_class_);
+	edge_buff_->ApplyBuff(hero_cache_);
 }
 
 //3세트: 액티브 스킬을 발동할 시, 자동 장전
@@ -34,6 +35,8 @@ void USetBonus_Tempest::ActivateTriangleBonus()
 void USetBonus_Tempest::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
+	hexagon_buff_ = NewObject<UBuffHandler>(this, hexagon_buff_class_);
+	hexagon_buff_->ApplyBuff(hero_cache_);
 	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnActiveSkill, this, &USetBonus_Tempest::HexagonCoolDownBuff);
 }
 
@@ -47,8 +50,7 @@ void USetBonus_Tempest::HexagonCoolDownBuff()
 	if (cur_buff_stack < 6)
 	{
 		cur_buff_stack += 1;
-		//IKTODO: 테스트 이후 정상화 시켜야 함.
-		// hero_cache_->RemoveBuff(cool_down_buff_name);
-		// hero_cache_->ApplyBuff(FBuffStatusData{cool_down_buff_name, ECharacterStatType::SkillCoolDown, cur_buff_stack * 5.f, true, true});
+		hero_cache_->RemoveBuff(EBuffType::Tempest_Hexagon);
+		hero_cache_->ApplyStatusBuff(EBuffType::Tempest_Hexagon, FBuffStatusData{ECharacterStatType::SkillCoolDown, cur_buff_stack * 5.f, false, true});
 	}
 }

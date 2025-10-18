@@ -80,8 +80,6 @@ void UMapHUDWidget::NativeConstruct()
 	auto text_manager = instance->GetTextManager();
 	open_inventory_text_->SetText(text_manager->GetButtonText(EButtonType::OpenInventory));
 
-	//IKTODO: 재화에 로컬라이징 적용하기.
-	credit_text_->SetText(FText::FromString("Credits"));
 	credit_value_text_->SetText(FText::AsNumber(inventory_manager_cache_->GetCredits()));
 }
 

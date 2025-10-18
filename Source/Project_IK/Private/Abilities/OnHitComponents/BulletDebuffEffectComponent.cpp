@@ -9,16 +9,18 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 #include "Abilities/OnHitComponents/BulletDebuffEffectComponent.h"
 
+#include "Abilities/Buffs/BuffHandler.h"
 #include "Characters/Unit.h"
-#include "Structs/BuffStatusData.h"
 
 void UBulletDebuffEffectComponent::OnHit(AActor* target, const FHitResult& hit_result)
 {
 	Super::OnHit(target, hit_result);
-	auto casted_unit = Cast<AUnit>(target);
-	if (casted_unit)
+	if (auto casted_unit = Cast<AUnit>(target))
 	{
-		//IKTODO: 테스트 후 버프 적용
-		//casted_unit->ApplyBuff(FBuffStatusData(FName("TriangleSetBonus_Viper"), ECharacterStatType::Armor, debuff_amount_, true, debuff_duration_));
+		if (debuff_ == nullptr)
+		{
+			debuff_ = NewObject<UBuffHandler>(this, debuff_class_);
+		}
+		debuff_->ApplyBuff(casted_unit);
 	}
 }

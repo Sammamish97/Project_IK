@@ -64,13 +64,8 @@ private:
 	TObjectPtr<UGlobalBuffPopupWidget> global_buff_popup_widget_;
 
 	//
-
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> credit_text_;
-
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> credit_value_text_;
-
 	//
 
 	UPROPERTY(meta = (BindWidget))

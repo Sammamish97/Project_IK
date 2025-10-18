@@ -16,8 +16,6 @@ See LICENSE file in the project root for full license information.
 #include "Structs/TargetResult.h"
 #include "Structs/BuffStatusData.h"
 #include "Characters/HeroBase.h"
-
-//IKTODO: 실드에 계수를 추가하는것도 좋을듯 하다.
 #include "NiagaraFunctionLibrary.h"
 #include "Components/CapsuleComponent.h"
 #include "NiagaraComponent.h"

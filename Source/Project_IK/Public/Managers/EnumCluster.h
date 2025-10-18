@@ -719,12 +719,12 @@ enum class EBuffType : uint8
 	
 	//Rune
 	Chariot_Edge UMETA(DisplayName = "Chariot_Edge"),
-	Chariot_Triangle UMETA(DisplayName = "Chariot_Edge"),
+	Chariot_Triangle UMETA(DisplayName = "Chariot_Triangle"),
 	Chariot_Hexagon UMETA(DisplayName = "Chariot_Hexagon"),
 	
 	Dagger_Edge UMETA(DisplayName = "Dagger_Edge"),
 	Dagger_Triangle UMETA(DisplayName = "Dagger_Triangle"),
-	Dagger_Hexagon UMETA(DisplayName = "Dagger_Hexagon"),
+	Dagger_Hexagon UMETA(DisplayName = "Daggㅌㅁer_Hexagon"),
 	
 	Quake_Edge UMETA(DisplayName = "Quake_Edge"),
 	Quake_Triangle UMETA(DisplayName = "Quake_Triangle"),
@@ -733,6 +733,14 @@ enum class EBuffType : uint8
 	Viper_Edge UMETA(DisplayName = "Viper_Edge"),
 	Viper_Triangle UMETA(DisplayName = "Viper_Triangle"),
 	Viper_Hexagon UMETA(DisplayName = "Viper_Hexagon"),
+
+	GreatBow_Edge UMETA(DisplayName = "GreatBow_Edge"),
+	GreatBow_Triangle UMETA(DisplayName = "GreatBow_Triangle"),
+	GreatBow_Hexagon UMETA(DisplayName = "GreatBow_Hexagon"),
+
+	Tempest_Edge UMETA(DisplayName = "Tempest_Edge"),
+	Tempest_Triangle UMETA(DisplayName = "Tempest_Triangle"),
+	Tempest_Hexagon UMETA(DisplayName = "Tempest_Hexagon"),
 
 	//Enemy
 	Soldier_A UMETA(DisplayName = "Soldier_A"),

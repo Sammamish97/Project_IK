@@ -32,10 +32,18 @@ private:
 	void HexagonSkillEcho();
 
 private:
-	FBuffStatusData edge_buff_data_;
-	FBuffStatusData triangle_buff_data_;
-	
-	float triangle_buff_duration_ = 3.f;
 	float hexagon_effect_cooldown = 15.f;
 	FTimerHandle skill_echo_timer_handle_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SkillData", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UBuffHandler> edge_buff_class_;
+
+	UPROPERTY();
+	TObjectPtr<UBuffHandler> edge_buff_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SkillData", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UBuffHandler> triangle_buff_class_;
+
+	UPROPERTY();
+	TObjectPtr<UBuffHandler> triangle_buff_;
 };
