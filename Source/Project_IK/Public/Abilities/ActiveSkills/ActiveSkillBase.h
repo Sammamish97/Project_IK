@@ -26,6 +26,7 @@ class PROJECT_IK_API UActiveSkillBase : public USkillBase
 	
 public:
 	virtual void InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data);
+	virtual bool CanActivateSkill(const FTargetResult& TargetResult) override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 	virtual void OnEnterCasting();
 	

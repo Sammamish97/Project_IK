@@ -24,6 +24,20 @@ UAT_ChargeShot::UAT_ChargeShot()
 	target_param_ = FTargetParameters(ETargetingMode::Actor, ETargetType::Opponents, 1000.f);
 }
 
+bool UAT_ChargeShot::CanActivateSkill(const FTargetResult& TargetResult)
+{
+	if (TargetResult.target_actors_.IsEmpty() == false && TargetResult.target_actors_[0] != nullptr)
+	{
+		AUnit* unit = Cast<AUnit>(TargetResult.target_actors_[0]);
+		if (unit)
+		{
+			return unit->IsDead() == false;
+		}
+	}
+
+	return false;
+}
+
 bool UAT_ChargeShot::ActivateSkill(const FTargetResult& TargetResult)
 {
 	 AHeroBase* hero = Cast<AHeroBase>(skill_owner_);

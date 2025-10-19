@@ -51,6 +51,11 @@ bool UActiveSkillMechanics::ActivateSkill(const FTargetResult& target_result)
 {
 	if (HasActiveSkill())
 	{
+		if (active_skill_->CanActivateSkill(target_result) == false)
+		{
+			return false;
+		}
+
 		if (active_skill_->HasMotion())
 		{
 			if (auto casted_hero = Cast<AHeroBase>(hero_cache_))

@@ -39,8 +39,9 @@ bool UAT_MagnetizedBullet::ActivateSkill(const FTargetResult& TargetResult)
 		buff_->ApplyBuff(hero);
 
 		ApplyFXs(hero);
+		return Super::ActivateSkill(TargetResult);
 	}
-	return Super::ActivateSkill(TargetResult);
+	return false;
 }
 
 void UAT_MagnetizedBullet::ApplyFXs(AHeroBase* hero)

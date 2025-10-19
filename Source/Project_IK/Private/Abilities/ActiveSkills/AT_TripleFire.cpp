@@ -37,6 +37,11 @@ void UAT_TripleFire::InitActiveSkill(AActor* skill_owner, const FActiveSkillData
 	}
 }
 
+bool UAT_TripleFire::CanActivateSkill(const FTargetResult& TargetResult)
+{
+	return TargetResult.target_actors_.IsEmpty() == false && TargetResult.target_actors_[0] != nullptr;
+}
+
 bool UAT_TripleFire::ActivateSkill(const FTargetResult& TargetResult)
 {
 	TWeakObjectPtr<AHeroBase> owner_hero_ptr = Cast<AHeroBase>(skill_owner_);
@@ -49,9 +54,10 @@ bool UAT_TripleFire::ActivateSkill(const FTargetResult& TargetResult)
 			hero->SetAttackTarget(target);
 			hero->ApplyStatusBuff(EBuffType::TripleFire, buff_status_data_);
 			//hero->AddBuffUI({skill_data_.item_data_, EBuffType::TripleFire, 0.f, true  });
+			return Super::ActivateSkill(TargetResult);
 		}
 	}
-	return Super::ActivateSkill(TargetResult);
+	return false;
 }
 
 void UAT_TripleFire::OnTripleFire()

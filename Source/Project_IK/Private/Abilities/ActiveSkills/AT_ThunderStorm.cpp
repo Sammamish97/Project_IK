@@ -26,6 +26,11 @@ UAT_ThunderStorm::UAT_ThunderStorm()
 	damage_ = 120.f;
 }
 
+bool UAT_ThunderStorm::CanActivateSkill(const FTargetResult& TargetResult)
+{
+	return visual_actor_class_ != nullptr;
+}
+
 bool UAT_ThunderStorm::ActivateSkill(const FTargetResult& TargetResult)
 {
 	FActorSpawnParameters spawn_params;
@@ -35,9 +40,9 @@ bool UAT_ThunderStorm::ActivateSkill(const FTargetResult& TargetResult)
 	if (visual_actor_)
 	{
 		visual_actor_->SetNecessaryData(target_param_.radius_, skill_data_.skill_power_scales_[0], damage_, skill_owner_);
+		return Super::ActivateSkill(TargetResult);
 	}
-	
-	return Super::ActivateSkill(TargetResult);
+	return false;
 }
 
 void UAT_ThunderStorm::OnEnterCasting()

@@ -23,6 +23,7 @@ class PROJECT_IK_API UAT_ThunderStorm : public UActiveSkillBase
 	GENERATED_BODY()
 public:
 	UAT_ThunderStorm();
+	virtual bool CanActivateSkill(const FTargetResult& TargetResult) override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 	virtual void OnEnterCasting() override;
 

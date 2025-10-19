@@ -50,6 +50,11 @@ void UAT_Thunder::InitActiveSkill(AActor* skill_owner, const FActiveSkillData& s
 	}
 }
 
+bool UAT_Thunder::CanActivateSkill(const FTargetResult& TargetResult)
+{
+	return TargetResult.target_actors_.IsEmpty() == false && TargetResult.target_actors_[0];
+}
+
 bool UAT_Thunder::ActivateSkill(const FTargetResult& target_result)
 {
 	if(target_result.target_actors_.IsEmpty() == false && target_result.target_actors_[0])
@@ -65,6 +70,7 @@ bool UAT_Thunder::ActivateSkill(const FTargetResult& target_result)
 		PlayVFX(location);
 
 		ApplyDamage({ 0, damage_, EDamageType::Magic, skill_owner_, target_result.target_actors_[0] });
+		return Super::ActivateSkill(target_result);
 	}
-	return Super::ActivateSkill(target_result);
+	return false;
 }

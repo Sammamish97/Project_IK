@@ -23,6 +23,7 @@ class PROJECT_IK_API UAT_Thunder : public UActiveSkillBase
 public:
 	UAT_Thunder();
 	virtual void InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data) override;
+	virtual bool CanActivateSkill(const FTargetResult& TargetResult) override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 	virtual void OnEnterCasting() override;
 

@@ -25,6 +25,7 @@ class PROJECT_IK_API UAT_DeploySentryGun : public UActiveSkillBase, public FTick
 public:
 
 	UAT_DeploySentryGun();
+	virtual bool CanActivateSkill(const FTargetResult& TargetResult) override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 	virtual void OnEnterCasting() override;
 
