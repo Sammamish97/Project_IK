@@ -43,4 +43,11 @@ private:
 
 	UPROPERTY();
 	TObjectPtr<UBuffHandler> hexagon_buff_;
+
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UNiagaraSystem> shield_effect_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float shield_duration_ = 3.f;
 };
