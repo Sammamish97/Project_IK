@@ -20,6 +20,8 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/GotchaSlot.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 void UGotchaResultWidget::DisplayResults(TArray<UTexture2D*> textures)
 {
 	SetVisibility(ESlateVisibility::Visible);
@@ -144,6 +146,8 @@ void UGotchaResultWidget::PlayNextAnimation()
 	UWidgetAnimation* current_animation = slots_[current_animation_index_]->GetAnimation();
 	if (current_animation)
 	{
+		UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_GotchaResult);
+
 		slots_[current_animation_index_]->PlayAnimation(current_animation);
 
 		float animation_duration = slots_[current_animation_index_]->GetAnimation()->GetEndTime();

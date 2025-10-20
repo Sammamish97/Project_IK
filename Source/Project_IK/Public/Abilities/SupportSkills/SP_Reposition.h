@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "SupportSkillBase.h"
 #include "SP_Reposition.generated.h"
 class AHeroBase;
+class UNiagaraSystem;
 
 UCLASS()
 class PROJECT_IK_API USP_Reposition : public USupportSkillBase
@@ -23,6 +24,12 @@ public:
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 	virtual void ResetSkill() override;
 	
+
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UNiagaraSystem> reposition_vfx_;
+
+
 private:
 	FTargetParameters reposition_location_params_ = FTargetParameters();
 

@@ -13,6 +13,9 @@ See LICENSE file in the project root for full license information.
 #include "BuffHandler.h"
 #include "BF_Maintain.generated.h"
 
+class UNiagaraSystem;
+class UNiagaraComponent;
+
 UCLASS(Abstract)
 class PROJECT_IK_API UBF_Maintain : public UBuffHandler
 {
@@ -22,6 +25,11 @@ public:
 	virtual void ApplyBuff(AUnit* target) override;
 	void OnHeal(AUnit* target);
 	virtual void RemoveBuff(AUnit* target) override;
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UNiagaraSystem> maintain_vfx_;
+
+
 private:
 	virtual void Heal();
 	
@@ -39,4 +47,5 @@ private:
 	FTimerHandle heal_timer_handle_;
 	FTimerHandle heal_tick_handle_;
 
+	UNiagaraComponent* maintain_vfx_component_;
 };

@@ -35,6 +35,8 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/EnemyBase.h"
 
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
+
 // Sets default values
 AUnit::AUnit()
 {
@@ -286,6 +288,12 @@ void AUnit::ApplyCrowdControl(ECCType cc_type, float duration)
 void AUnit::AcquireShield(float ShieldAmount, float Duration)
 {
 	character_stat_component_->AcquireShield(ShieldAmount, Duration);
+
+	if (shield_effect_)
+	{
+		UNiagaraFunctionLibrary::SpawnSystemAttached(shield_effect_, GetRootComponent(), FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget, true);
+		UAudioManagerSubsystem::Get(this)->PlayAtLocation(EAudioType::ChariotShield, GetActorLocation());
+	}
 }
 
 void AUnit::GetStunned(float stun_duration)
@@ -359,7 +367,8 @@ void AUnit::Die()
 	GetCharacterMovement()->DisableMovement();
 	DetachFromControllerPendingDestroy();
 	PlayRagdollAnimation(GetMesh());
-	FVector impulse = -GetActorForwardVector() * FMath::RandRange(2500.f, 4500.f);
+	FVector impulse = -GetActorForwardVector() * URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).RandRange(2500.f, 4500.f);
+	
 	GetMesh()->AddImpulse(impulse, NAME_None, true);
 	hp_widget_component_->SetVisibility(false);
 

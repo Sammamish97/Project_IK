@@ -25,6 +25,9 @@ See LICENSE file in the project root for full license information.
 
 #include "Abilities/PerkEffects/PerkEffectBase.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+#include "Components/AudioComponent.h"
+
 void UPerkNodeWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
@@ -68,6 +71,9 @@ void UPerkNodeWidget::PurchaseSkill()
 	perk_detail_.purchased_ = true;
 	RemoveSkillPoint(perk_detail_.cost_);
 	SaveSkill();
+
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_PerkPurchased);
+
 	if (UPerkEffectBase* perk_effect = NewObject<UPerkEffectBase>(this, perk_detail_.perk_effect_class))
 	{
 		perk_effect->ApplyEffect();
@@ -229,6 +235,8 @@ void UPerkNodeWidget::OnButtonPressed()
 {
 	if (CanPurchase())
 	{
+		unlocking_sfx_ = UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_PerkUnlocking);
+
 		if (skill_connection_overlay_->HasAnyChildren())
 		{
 			for (const auto& elem : skill_connection_overlay_->GetAllChildren())
@@ -237,12 +245,24 @@ void UPerkNodeWidget::OnButtonPressed()
 			}
 		}
 	}
+	else
+	{
+		UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Deny);
+	}
 }
 
 void UPerkNodeWidget::OnButtonReleased()
 {
 	if (CanPurchase())
 	{
+		if (unlocking_sfx_)
+		{
+			unlocking_sfx_->FadeOut(0.1f, 0.f);
+			unlocking_sfx_ = nullptr;
+		}
+
+		UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Deny);
+
 		if (skill_connection_overlay_->HasAnyChildren())
 		{
 			for (const auto& elem : skill_connection_overlay_->GetAllChildren())

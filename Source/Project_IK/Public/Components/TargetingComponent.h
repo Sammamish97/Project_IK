@@ -23,6 +23,7 @@ enum class ETargetType : uint8;
 
 class UNiagaraSystem;
 class UNiagaraComponent;
+class AIKPostProcessVolume;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTargetingCanceled);
 
@@ -122,4 +123,9 @@ private:
 
 	void StartFocus();
 	void EndFocus();
+
+
+	void FindPostProcessVolume();
+	void SetDarkening(bool is_enabled);
+	TWeakObjectPtr<AIKPostProcessVolume> post_process_volume_;
 };

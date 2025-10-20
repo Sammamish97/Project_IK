@@ -22,6 +22,8 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/AudioManagerSubsystem.h"
 #include "Components/AudioComponent.h"
 
+#include "NiagaraFunctionLibrary.h"
+
 // Sets default values
 AChargeShot::AChargeShot()
 {
@@ -30,15 +32,12 @@ AChargeShot::AChargeShot()
 
 	collision_ = CreateDefaultSubobject<UBoxComponent>(FName("Sphere"));
 	movement_ = CreateDefaultSubobject<UProjectileMovementComponent>(FName("ProjectileMovement"));
-	particle_system_ = CreateDefaultSubobject<UNiagaraComponent>(FName("Particles"));
 
 	collision_->OnComponentBeginOverlap.AddDynamic(this, &AChargeShot::OnOverlapBegin);
 	collision_->SetCollisionProfileName(FName("HeroBulletPreset"));
 
 	movement_->InitialSpeed = 1000.f;
 	movement_->ProjectileGravityScale = 0.f;
-
-	particle_system_->SetupAttachment(collision_);
 
 	SetRootComponent(collision_);
 }
@@ -65,6 +64,11 @@ void AChargeShot::BeginPlay()
 	Super::BeginPlay();
 	
 	movement_->Deactivate();
+
+	if (particle_system_)
+	{
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, particle_system_, GetActorLocation(), GetActorRotation());
+	}
 }
 
 // Called every frame

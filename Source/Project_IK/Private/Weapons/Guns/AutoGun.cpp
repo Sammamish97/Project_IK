@@ -16,6 +16,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/WeaponMechanics.h"
 #include "Kismet/KismetMathLibrary.h"
 
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
+
 void AAutoGun::BeginFire(AActor* target)
 {
 	if (hold_action_)
@@ -47,7 +49,7 @@ void AAutoGun::OnFire(AActor* target, float attack_speed)
 		{
 			OnFireWeapon.Broadcast();
 			gun_owner->PlayAnimMontage(fire_montage_, fire_montage_->GetPlayLength() / attack_speed);
-			FVector rand_vec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, HARD_CODED_ACCURACY);
+			FVector rand_vec = UKismetMathLibrary::RandomUnitVector() * URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).FRandRange(0.f, HARD_CODED_ACCURACY);
 			if (weapon_data_cache_.status_data_.bullet_type == EBulletType::FMJ)
 			{
 				FireSingleBullet(target_ptr->GetActorLocation() + rand_vec, GetWeaponFireDamageData());

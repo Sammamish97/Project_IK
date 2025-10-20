@@ -14,6 +14,9 @@ See LICENSE file in the project root for full license information.
 #include "Characters/HeroBase.h"
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
+#include "NiagaraComponent.h"
+#include "NiagaraFunctionLibrary.h"
+
 //2세트: 스킬 위력 + 20%
 void USetBonus_Quake::ActivateEdgeBonus()
 {
@@ -34,6 +37,9 @@ void USetBonus_Quake::ActivateTriangleBonus()
 void USetBonus_Quake::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
+
+	HexagonSkillEchoReady();
+
 	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnActiveSkill, this, &USetBonus_Quake::HexagonSkillEcho);
 }
 
@@ -46,7 +52,27 @@ void USetBonus_Quake::HexagonSkillEcho()
 {
 	if (GetWorld()->GetTimerManager().IsTimerActive(skill_echo_timer_handle_) == false)
 	{
-		GetWorld()->GetTimerManager().SetTimer(skill_echo_timer_handle_, hexagon_effect_cooldown, false);
+		GetWorld()->GetTimerManager().SetTimer(skill_echo_timer_handle_, this, &USetBonus_Quake::HexagonSkillEchoReady, hexagon_effect_cooldown, false);
 		hero_cache_->ReduceActiveSkillCoolDownPercentage(0.8);
+
+		if (quake_ready_vfx_)
+		{
+			quake_ready_vfx_->DeactivateImmediate();
+		}
+	}
+}
+
+void USetBonus_Quake::HexagonSkillEchoReady()
+{
+	if (hero_cache_ && quake_ready_vfx_system_)
+	{
+		if (quake_ready_vfx_)
+		{
+			quake_ready_vfx_->Activate(true);
+		}
+		else
+		{
+			quake_ready_vfx_ = UNiagaraFunctionLibrary::SpawnSystemAttached(quake_ready_vfx_system_, hero_cache_->GetMesh(), FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget, false);
+		}
 	}
 }

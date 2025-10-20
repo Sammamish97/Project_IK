@@ -17,6 +17,8 @@ See LICENSE file in the project root for full license information.
 #include "NiagaraFunctionLibrary.h"
 #include "Abilities/Buffs/BuffHandler.h"
 
+#include "Subsystems/AudioManagerSubsystem.h"
+
 //2세트: 공격력 10% + 체력 10%
 void USetBonus_Chariot::ActivateEdgeBonus()
 {
@@ -46,9 +48,8 @@ void USetBonus_Chariot::ActivateHexagonBonus()
 
 void USetBonus_Chariot::GetShield()
 {
-	hero_cache_->AcquireShield(hero_cache_->GetCharacterStat()->GetHitPoint() * 0.15f, 3);
-
 	UNiagaraFunctionLibrary::SpawnSystemAttached(shield_effect_, hero_cache_->GetRootComponent(), FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget, true);
+	hero_cache_->AcquireShield(hero_cache_->GetCharacterStat()->GetHitPoint() * 0.15f, shield_duration_);
 }
 
 void USetBonus_Chariot::GetShieldAndLifeSteal()

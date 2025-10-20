@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
 #include "RandomDataAssetsManager.generated.h"
 
 enum class EItemType : uint8;
@@ -27,34 +28,34 @@ public:
 	static constexpr int32 TOTAL_WEIGHT = 100;
 
 	template<typename TMapKey, typename TMapValue>
-	static TMapValue GetDataAssetRandomly(ERarity weight_rarity, const TMap<TMapKey, TMapValue>& map);
+	static TMapValue GetDataAssetRandomly(ERarity weight_rarity, const TMap<TMapKey, TMapValue>& map, UWorld* world);
 	template<typename TMapKey, typename TMapValue>
-	static TArray<TMapValue> GetDataAssetRandomly(int32 n, ERarity weight_rarity, const TMap<TMapKey, TMapValue>& map);
+	static TArray<TMapValue> GetDataAssetRandomly(int32 n, ERarity weight_rarity, const TMap<TMapKey, TMapValue>& map, UWorld* world);
 	template<typename TMapKey, typename TMapValue>
-	static TArray<TMapValue> GetUniqueDataAssetsRandomly(int32 n, ERarity rarity, const TMap<TMapKey, TMapValue>& map);
+	static TArray<TMapValue> GetUniqueDataAssetsRandomly(int32 n, ERarity rarity, const TMap<TMapKey, TMapValue>& map, UWorld* world);
 	template<typename TMapKey, typename TMapValue>
-	static TMapValue GetDataAssetByRarity(ERarity rarity, const TMap<TMapKey, TMapValue>& map);
+	static TMapValue GetDataAssetByRarity(ERarity rarity, const TMap<TMapKey, TMapValue>& map, UWorld* world);
 	template<typename TMapKey, typename TMapValue>
-	static TArray<TMapValue> GetDataAssetByRarity(int32 n, ERarity rarity, const TMap<TMapKey, TMapValue>& map);
+	static TArray<TMapValue> GetDataAssetByRarity(int32 n, ERarity rarity, const TMap<TMapKey, TMapValue>& map, UWorld* world);
 
 protected:
-	static ERarity GetRarityRandomly(ERarity weight_rarity);
+	static ERarity GetRarityRandomly(ERarity weight_rarity, UWorld* world);
 	template<typename TMapKey, typename TMapValue>
-	static TMap<ERarity, int32> GetRaritiesRandomly(ERarity weight_rarity, int32 n, const TMap<TMapKey, TMapValue>& map, const TMap<ERarity, TArray<TMapKey>>& keys_classified_by_rarity);
+	static TMap<ERarity, int32> GetRaritiesRandomly(ERarity weight_rarity, int32 n, const TMap<TMapKey, TMapValue>& map, const TMap<ERarity, TArray<TMapKey>>& keys_classified_by_rarity, UWorld* world);
 	static TArray<TPair<ERarity, int32>> GetRarityWeights(ERarity weight_rarity);
 
 };
 
 template<typename TMapKey, typename TMapValue>
-inline TMapValue URandomDataAssetsManager::GetDataAssetRandomly(ERarity weight_rarity, const TMap<TMapKey, TMapValue>& map)
+inline TMapValue URandomDataAssetsManager::GetDataAssetRandomly(ERarity weight_rarity, const TMap<TMapKey, TMapValue>& map, UWorld* world)
 {
-	return GetDataAssetRandomly(1, weight_rarity, map)[0];
+	return GetDataAssetRandomly(1, weight_rarity, map, world)[0];
 }
 
 template<typename TMapKey, typename TMapValue>
-inline TArray<TMapValue> URandomDataAssetsManager::GetDataAssetRandomly(int32 n, ERarity weight_rarity, const TMap<TMapKey, TMapValue>& map)
+inline TArray<TMapValue> URandomDataAssetsManager::GetDataAssetRandomly(int32 n, ERarity weight_rarity, const TMap<TMapKey, TMapValue>& map, UWorld* world)
 {
-	ERarity rarity = GetRarityRandomly(weight_rarity);
+	ERarity rarity = GetRarityRandomly(weight_rarity, world);
 
 	TArray<TMapKey> asset_candidates;
 
@@ -71,11 +72,11 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetDataAssetRandomly(int32 n,
 	if (asset_candidates.IsEmpty())
 	{
 		UE_LOG(LogTemp, Error, TEXT("No elements that matches weight_rarity!"));
-		return GetDataAssetRandomly(n, ERarity::Common, map);
+		return GetDataAssetRandomly(n, ERarity::Common, map, world);
 	}
 	for (int32 i = 0; i < n; i++)
 	{
-		int32 rand_index = FMath::RandRange(0, asset_candidates.Num() - 1);
+		int32 rand_index = URandomNumberGeneratorSubsystem::GetRNG(world).RandRange(0, asset_candidates.Num() - 1);
 		results.Add(map[asset_candidates[rand_index]]);
 	}
 
@@ -83,7 +84,7 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetDataAssetRandomly(int32 n,
 }
 
 template<typename TMapKey, typename TMapValue>
-inline TArray<TMapValue> URandomDataAssetsManager::GetUniqueDataAssetsRandomly(int32 n, ERarity rarity, const TMap<TMapKey, TMapValue>& map)
+inline TArray<TMapValue> URandomDataAssetsManager::GetUniqueDataAssetsRandomly(int32 n, ERarity rarity, const TMap<TMapKey, TMapValue>& map, UWorld* world)
 {
 
 	TArray<TMapValue> return_array;
@@ -95,7 +96,7 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetUniqueDataAssetsRandomly(i
 
 	if (n <= 1)
 	{
-		return_array.Add(GetDataAssetRandomly(rarity, map));
+		return_array.Add(GetDataAssetRandomly(rarity, map, world));
 		return return_array;
 	}
 
@@ -108,7 +109,7 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetUniqueDataAssetsRandomly(i
 		keys_classified_by_rarity[Value.rarity_].Add(Key);
 	}
 
-	TMap<ERarity, int32> rarities = GetRaritiesRandomly(rarity, n, map, keys_classified_by_rarity);
+	TMap<ERarity, int32> rarities = GetRaritiesRandomly(rarity, n, map, keys_classified_by_rarity, world);
 
 
 	const TArray<TMapKey>* rarity_array = nullptr;
@@ -133,7 +134,7 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetUniqueDataAssetsRandomly(i
 
 		for (int32 i = indices.Num() - 1; i > 0; --i)
 		{
-			int32 shuffle_index = FMath::RandRange(0, i);
+			int32 shuffle_index = URandomNumberGeneratorSubsystem::GetRNG(world).RandRange(0, i);
 			if (i == shuffle_index)
 			{
 				continue;
@@ -151,13 +152,13 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetUniqueDataAssetsRandomly(i
 }
 
 template<typename TMapKey, typename TMapValue>
-inline TMapValue URandomDataAssetsManager::GetDataAssetByRarity(ERarity rarity, const TMap<TMapKey, TMapValue>& map)
+inline TMapValue URandomDataAssetsManager::GetDataAssetByRarity(ERarity rarity, const TMap<TMapKey, TMapValue>& map, UWorld* world)
 {
-	return GetDataAssetByRarity(1, rarity, map)[0];
+	return GetDataAssetByRarity(1, rarity, map, world)[0];
 }
 
 template<typename TMapKey, typename TMapValue>
-inline TArray<TMapValue> URandomDataAssetsManager::GetDataAssetByRarity(int32 n, ERarity rarity, const TMap<TMapKey, TMapValue>& map)
+inline TArray<TMapValue> URandomDataAssetsManager::GetDataAssetByRarity(int32 n, ERarity rarity, const TMap<TMapKey, TMapValue>& map, UWorld* world)
 {
 	TArray<TMapKey> asset_candidates;
 
@@ -174,11 +175,11 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetDataAssetByRarity(int32 n,
 	if (asset_candidates.IsEmpty())
 	{
 		UE_LOG(LogTemp, Error, TEXT("No elements that matches weight_rarity!"));
-		return GetDataAssetByRarity(n, ERarity::Common, map);
+		return GetDataAssetByRarity(n, ERarity::Common, map, world);
 	}
 	for (int32 i = 0; i < n; i++)
 	{
-		int32 rand_index = FMath::RandRange(0, asset_candidates.Num() - 1);
+		int32 rand_index = URandomNumberGeneratorSubsystem::GetRNG(world).RandRange(0, asset_candidates.Num() - 1);
 		results.Add(map[asset_candidates[rand_index]]);
 	}
 
@@ -186,7 +187,7 @@ inline TArray<TMapValue> URandomDataAssetsManager::GetDataAssetByRarity(int32 n,
 }
 
 template<typename TMapKey, typename TMapValue>
-inline TMap<ERarity, int32> URandomDataAssetsManager::GetRaritiesRandomly(ERarity weight_rarity, int32 n, const TMap<TMapKey, TMapValue>& map, const TMap<ERarity, TArray<TMapKey>>& keys_classified_by_rarity)
+inline TMap<ERarity, int32> URandomDataAssetsManager::GetRaritiesRandomly(ERarity weight_rarity, int32 n, const TMap<TMapKey, TMapValue>& map, const TMap<ERarity, TArray<TMapKey>>& keys_classified_by_rarity, UWorld* world)
 {
 	TArray<TPair<ERarity, int32>> weights = GetRarityWeights(weight_rarity);
 
@@ -202,7 +203,7 @@ inline TMap<ERarity, int32> URandomDataAssetsManager::GetRaritiesRandomly(ERarit
 	int32 i = 0;
 	while (i < rarities_size)
 	{
-		const int32 random_value = FMath::RandRange(0, TOTAL_WEIGHT);
+		const int32 random_value = URandomNumberGeneratorSubsystem::GetRNG(world).RandRange(0, TOTAL_WEIGHT);
 
 		// Count up rarity based on the random value
 		int32 cumulative_weight = 0;

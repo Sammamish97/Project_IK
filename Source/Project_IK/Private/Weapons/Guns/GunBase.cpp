@@ -26,6 +26,8 @@ See LICENSE file in the project root for full license information.
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "Subsystems/AudioManagerSubsystem.h"
 
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
+
 AGunBase::AGunBase()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -237,7 +239,8 @@ void AGunBase::FireBuckShot(FVector target_pos, const FDamageData& dmg_data)
 	int32 TEMP_SHOTGUN_PALLET = 5;
 	for (int32 i = 0; i < TEMP_SHOTGUN_PALLET; ++i)
 	{
-		FVector randVec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, TEMP_SPHERE_RADIUS);
+		
+		FVector randVec = UKismetMathLibrary::RandomUnitVector() * URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).FRandRange(0.f, TEMP_SPHERE_RADIUS);
 		FVector end_loc = sphere_center + randVec;
 
 		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(muzzle_location, end_loc);
@@ -305,7 +308,7 @@ FDamageData AGunBase::GetWeaponFireDamageData()
 
 		float total_crit_hit_rate = gun_owner->GetCharacterStat()->GetCriticalHitRate() + weapon_data_cache_.status_data_.critical_hit_rate_;
 		OnCriticalRateCalculation.Broadcast(total_crit_hit_rate);
-		if (FMath::RandRange(0.f, 100.f) < total_crit_hit_rate)
+		if (URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).RandRange(0.f, 100.f) < total_crit_hit_rate)
 		{
 			dmg_data.is_critical_shot_ = true;
 			dmg_data.atk_base_dmg_ *= 2;

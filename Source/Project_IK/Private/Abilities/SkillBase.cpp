@@ -14,6 +14,11 @@ FTargetParameters USkillBase::GetTargetParameters() const
 	return target_param_;
 }
 
+bool USkillBase::CanActivateSkill(const FTargetResult& TargetResult)
+{
+	return true;
+}
+
 void USkillBase::UpdateCoolDown(float cool_down)
 {
 	on_activate_skill_.Broadcast(cool_down);

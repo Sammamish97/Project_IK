@@ -22,6 +22,11 @@ See LICENSE file in the project root for full license information.
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 
+#include "WorldSettings/IKPostProcessVolume.h"
+#include "EngineUtils.h"
+
+#include "Components/CapsuleComponent.h"
+
 // Sets default values for this component's properties
 UTargetingComponent::UTargetingComponent()
 {
@@ -39,6 +44,8 @@ void UTargetingComponent::BeginPlay()
 	player_controller_ = Cast<AIKPlayerController>(GetOwner());
 
 	InitializeTargetingVisuals();
+
+	FindPostProcessVolume();
 }
 
 void UTargetingComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -81,17 +88,24 @@ void UTargetingComponent::GetReadyTargetingVisuals()
 		break;
 	case ETargetingMode::Actor:
 		player_controller_->CurrentMouseCursor = EMouseCursor::Crosshairs;
-		radius_component_->DeactivateImmediate();
+		if (radius_component_->IsActive())
+		{
+			radius_component_->DeactivateImmediate();
+		}
+		radius_component_->SetFloatParameter(FName("Radius"), 100.f);
+		radius_component_->SetFloatParameter(FName("HalfHeight"), 0.f);
+		radius_component_->Activate(true);
 		range_decal_->SetVisibility(true);
 		sector_component_->DeactivateImmediate();
 		break;
 	case ETargetingMode::Location:
 		player_controller_->CurrentMouseCursor = EMouseCursor::GrabHand;
-		radius_component_->SetFloatParameter(FName("Radius"), target_parameters_.radius_);
 		if (radius_component_->IsActive())
 		{
 			radius_component_->DeactivateImmediate();
 		}
+		radius_component_->SetFloatParameter(FName("Radius"), target_parameters_.radius_);
+		radius_component_->SetFloatParameter(FName("HalfHeight"), 0.f);
 		radius_component_->Activate(true);
 		range_decal_->SetVisibility(true);
 		sector_component_->DeactivateImmediate();
@@ -122,6 +136,8 @@ void UTargetingComponent::StartTargeting(FTargetParameters target_params, AActor
 	range_decal_->DecalSize = FVector(target_parameters_.range_);
 
 	GetReadyTargetingVisuals();
+
+	SetDarkening(true);
 }
 
 FTargetResult UTargetingComponent::DecideTargetings()
@@ -153,6 +169,7 @@ void UTargetingComponent::StopTargeting()
 	target_parameters_ = FTargetParameters();
 	player_controller_->CurrentMouseCursor = EMouseCursor::Default;
 	CleanupTargetingVisuals();
+	SetDarkening(false);
 }
 
 void UTargetingComponent::StopTargetingIfInvokerIs(AActor* invoker)
@@ -174,6 +191,29 @@ void UTargetingComponent::StopItemTargeting()
 		{
 			StopTargeting();
 		}
+	}
+}
+
+void UTargetingComponent::FindPostProcessVolume()
+{
+	// Search for any PostProcessVolume in the level
+	for (TActorIterator<AIKPostProcessVolume> it(GetWorld()); it; ++it)
+	{
+		AIKPostProcessVolume* found_volume = *it;
+		if (found_volume && found_volume->IsValidLowLevel())
+		{
+			post_process_volume_ = found_volume;
+			break;
+		}
+	}
+}
+
+void UTargetingComponent::SetDarkening(bool is_enabled)
+{
+	AIKPostProcessVolume* ptr = post_process_volume_.Get();
+	if (ptr)
+	{
+		ptr->SetDarkening(is_enabled);
 	}
 }
 
@@ -256,7 +296,7 @@ FVector UTargetingComponent::HandleDirectionTargeting(FTargetResult& result)
 		{
 			auto heroes = game_mode->GetHeroContainer();
 
-			for (AActor* actor  : heroes)
+			for (AActor* actor : heroes)
 			{
 				if (actor)
 				{
@@ -357,6 +397,23 @@ void UTargetingComponent::UpdateTargetingVisuals()
 	case ETargetingMode::Actor:
 		range_decal_->SetWorldLocation(invoker_location);
 		HandleActorTargeting(result);
+		if (result.target_actors_.IsEmpty() == false && result.target_actors_[0] != nullptr)
+		{
+			AUnit* unit = Cast<AUnit>(result.target_actors_[0]);
+			if (unit != nullptr && unit->IsDead() == false)
+			{
+				radius_component_->SetWorldLocation(result.target_actors_[0]->GetActorLocation());
+				if (UCapsuleComponent* actor_capsule = Cast<UCapsuleComponent>(result.target_actors_[0]->GetRootComponent()))
+				{
+					radius_component_->SetFloatParameter(FName("HalfHeight"), actor_capsule->GetScaledCapsuleHalfHeight());
+				}
+			}
+		}
+		else
+		{
+			// Move it away from the camera
+			radius_component_->SetWorldLocation(FVector(-9999, -9999, -9999));
+		}
 		break;
 	case ETargetingMode::Location:
 		HandleLocationTargeting(result);
@@ -467,7 +524,7 @@ AActor* UTargetingComponent::FindClosestActor(const FVector& TargetLocation)
 	if (target_parameters_.target_type_ == ETargetType::All || target_parameters_.target_type_ == ETargetType::Allies)
 	{
 		auto characters = game_mode->GetHeroContainer();
-		for (const auto& elem  : characters)
+		for (const auto& elem : characters)
 		{
 			if (AActor* cur_actor = elem)
 			{

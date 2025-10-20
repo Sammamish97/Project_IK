@@ -24,6 +24,8 @@ See LICENSE file in the project root for full license information.
 #include "Components/TextBlock.h"
 #include "UI/GotchaResultWidget.h"
 
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
+
 void UGotchaWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -129,7 +131,7 @@ void UGotchaWidget::Gotcha(int32 pulls)
 	TArray<UTexture2D*> textures;
 	for (int32 i = 0; i < pulls; i++)
 	{
-		int32 probability = FMath::RandRange(0, 99);
+		int32 probability = URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).RandRange(0, 99);
 		if (probability <= 19)
 		{
 			textures.Add(credits_texture_);

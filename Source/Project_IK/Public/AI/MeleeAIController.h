@@ -38,6 +38,7 @@ public:
 
 	UFUNCTION(Blueprintable)
 	void SetDebugDrawActivated(bool activated);
+	void SetDebugDrawActivated(float activated);
 	
 	virtual void ResetUnitState();
 

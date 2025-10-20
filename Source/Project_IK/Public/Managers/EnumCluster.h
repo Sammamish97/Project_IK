@@ -862,6 +862,16 @@ enum class EAudioType : uint8
 	MapAmbient UMETA(DisplayName = "MapAmbient"),
 	RunResultAmbient UMETA(DisplayName = "RunResultAmbient"),
 	CriticalHit UMETA(DisplayName = "CriticalHit"),
+	ChariotShield UMETA(DisplayName = "Chariot Shield"),
+	UI_Confirm UMETA(DisplayName = "UI Confirm"),
+	UI_Deny UMETA(DisplayName = "UI Deny"),
+	UI_GotchaResult UMETA(DisplayName = "UI GotchaResult"),
+	UI_PerkPurchased UMETA(DisplayName = "UI PerkPurchased"),
+	UI_PerkUnlocking UMETA(DisplayName = "UI PerkUnlocking"),
+	UI_StorePurchase UMETA(DisplayName = "UI StorePurchase"),
+	ThunderZap UMETA(DisplayName = "Thunder Zap"),
+	EndingRocketLaunch UMETA(DisplayName = "Ending Rocket Launch"),
+	EndingAmbient UMETA(DisplayName = "Ending Ambient"),
 };
 
 UENUM(BlueprintType)
@@ -945,7 +955,8 @@ enum class ECombatResultType : uint8
 UENUM(BlueprintType)
 enum class ERunResultType : uint8
 {
-	RunResult UMETA(DisplayName = "RunResult"),
+	RunResultVictory UMETA(DisplayName = "RunResultVictory"),
+	RunResultDefeat UMETA(DisplayName = "RunResultDefeat"),
 	BattleAmount UMETA(DisplayName = "BattleAmount"),
 	EventAmount UMETA(DisplayName = "EventAmount"),
 	StoreAmount UMETA(DisplayName = "StoreAmount"),

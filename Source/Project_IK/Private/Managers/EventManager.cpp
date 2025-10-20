@@ -27,6 +27,8 @@ See LICENSE file in the project root for full license information.
 
 #include "DataAssets/EventDataAsset.h"
 
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
+
 void UEventManager::InitEventManager(TObjectPtr<class UIKGameInstance> instance,
 	TObjectPtr<class UInventoryManager> inventory_manager, TObjectPtr<class UTextManager> text_manager)
 {
@@ -37,7 +39,7 @@ void UEventManager::InitEventManager(TObjectPtr<class UIKGameInstance> instance,
 
 FEventData UEventManager::GetRandomEventData()
 {
-	return event_data_asset_->GetActiveSkillDataRandomly(IsNegativeEventsRemoved());
+	return event_data_asset_->GetActiveSkillDataRandomly(GetWorld(), IsNegativeEventsRemoved());
 }
 
 void UEventManager::BindEventResult(FEventData data, TObjectPtr<UEventWidget> widget)
@@ -157,7 +159,7 @@ void UEventManager::Event_AirStrike_FirstOptionResult()
 
 	if (!weapon_data_ref.IsEmpty())
 	{
-		int32 index = FMath::RandRange(0, weapon_data_ref.Num() - 1);
+		int32 index = URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).RandRange(0, weapon_data_ref.Num() - 1);
 		*weapon_data_ref[index] = FWeaponData();
 
 		FText base = text_manager_cache_->GetEventResultText(EEventType::AirStrike, 0);
@@ -199,7 +201,7 @@ void UEventManager::Event_Ambush_FirstOptionResult()
 
 	if (!active_data_ref.IsEmpty())
 	{
-		int32 index = FMath::RandRange(0, active_data_ref.Num() - 1);
+		int32 index = URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).RandRange(0, active_data_ref.Num() - 1);
 		*active_data_ref[index] = FActiveSkillData();
 
 		FText base = text_manager_cache_->GetEventResultText(EEventType::Ambush, 0);
@@ -407,7 +409,7 @@ void UEventManager::Event_Recon_ThirdOptionResult()
 
 void UEventManager::Event_SetTrap_FirstOptionResult()
 {
-	bool is_succeed = FMath::RandBool();
+	bool is_succeed = URandomNumberGeneratorSubsystem::Get(GetWorld())->RandBool();
 
 	if (is_succeed)
 	{
@@ -440,7 +442,7 @@ void UEventManager::Event_SetTrap_FirstOptionResult()
 
 void UEventManager::Event_Core_FirstOptionResult()
 {
-	bool is_succeed = FMath::RandBool();
+	bool is_succeed = URandomNumberGeneratorSubsystem::Get(GetWorld())->RandBool();
 
 	if (is_succeed)
 	{
@@ -456,7 +458,7 @@ void UEventManager::Event_Core_FirstOptionResult()
 
 void UEventManager::Event_Patrol_FirstOptionResult()
 {
-	bool is_succeed = FMath::RandBool();
+	bool is_succeed = URandomNumberGeneratorSubsystem::Get(GetWorld())->RandBool();
 
 	if (is_succeed)
 	{
@@ -472,7 +474,7 @@ void UEventManager::Event_Patrol_FirstOptionResult()
 
 void UEventManager::Event_Patrol_SecondOptionResult()
 {
-	bool is_succeed = FMath::RandBool();
+	bool is_succeed = URandomNumberGeneratorSubsystem::Get(GetWorld())->RandBool();
 
 	if (is_succeed)
 	{
@@ -489,7 +491,7 @@ void UEventManager::Event_Patrol_SecondOptionResult()
 void UEventManager::Event_Patrol_ThirdOptionResult()
 {
 
-	bool is_succeed = FMath::RandBool();
+	bool is_succeed = URandomNumberGeneratorSubsystem::Get(GetWorld())->RandBool();
 
 	if (is_succeed)
 	{
@@ -506,7 +508,7 @@ void UEventManager::Event_Patrol_ThirdOptionResult()
 void UEventManager::Event_Patrol_FourthOptionResult()
 {
 
-	bool is_succeed = FMath::RandBool();
+	bool is_succeed = URandomNumberGeneratorSubsystem::Get(GetWorld())->RandBool();
 
 	if (is_succeed)
 	{

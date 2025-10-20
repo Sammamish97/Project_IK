@@ -29,13 +29,22 @@ void UAT_FateSpiral::OnEnterCasting()
 	Cast<AUnit>(skill_owner_)->PlayAnimMontage(casting_anim_montage_);
 }
 
+bool UAT_FateSpiral::CanActivateSkill(const FTargetResult& TargetResult)
+{
+	return actor_class_ != nullptr;
+}
+
 bool UAT_FateSpiral::ActivateSkill(const FTargetResult& TargetResult)
 {
 	if (actor_class_)
 	{
 		actor_ = skill_owner_->GetWorld()->SpawnActor<AFateSpiral>(actor_class_);
-
-		actor_->SetNecessaryData(skill_owner_, skill_owner_, TargetResult.target_actors_[0], target_param_.range_, IsUpgradedActiveSkill(skill_data_.type_));
+		if (actor_)
+		{
+			actor_->SetNecessaryData(skill_owner_, skill_owner_, TargetResult.target_actors_[0], target_param_.range_, IsUpgradedActiveSkill(skill_data_.type_));
+			
+			return Super::ActivateSkill(TargetResult);
+		}
 	}
-	return Super::ActivateSkill(TargetResult);
+	return false;
 }

@@ -22,6 +22,7 @@ class PROJECT_IK_API UAT_TripleFire : public UActiveSkillBase
 public:
 	UAT_TripleFire();
 	virtual void InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data) override;
+	virtual bool CanActivateSkill(const FTargetResult& TargetResult) override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 private:

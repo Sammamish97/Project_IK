@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "RunRewardWidget.generated.h"
 
 class UTextBlock;
+enum class ERunResultType : uint8;
 
 /**
  * 
@@ -37,6 +38,10 @@ protected:
 
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	ERunResultType result_text_type_;
+
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> event_num_text_;

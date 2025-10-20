@@ -20,6 +20,8 @@ See LICENSE file in the project root for full license information.
 
 #include "Weapons/Runes/DaggerProjectiles.h"
 
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
+
 USetBonus_Dagger::USetBonus_Dagger()
 {
 	bullet_pool_ = CreateDefaultSubobject<UObjectPoolComponent>("BulletPool");
@@ -95,5 +97,6 @@ void USetBonus_Dagger::SpawnDaggers(const FVector& target_position, const FDamag
 
 FVector USetBonus_Dagger::GetDaggerSpawnPosition()
 {
-	return hero_cache_->GetActorLocation() + position_offset + (FMath::VRand() * random_offset_radius + FVector(0.f, 0.f, random_offset_radius / 2.f));
+	URandomNumberGeneratorSubsystem::Get(GetWorld());
+	return hero_cache_->GetActorLocation() + position_offset + (URandomNumberGeneratorSubsystem::Get(GetWorld())->VRand() * random_offset_radius + FVector(0.f, 0.f, random_offset_radius / 2.f));
 }

@@ -11,8 +11,10 @@ See LICENSE file in the project root for full license information.
 
 #include "DataAssets/EnemySpawnDataAsset.h"
 
-const FEnemySpawnData& UEnemySpawnDataAsset::GetRandomEnemySpawnData() const
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
+
+const FEnemySpawnData& UEnemySpawnDataAsset::GetRandomEnemySpawnData(UWorld* world) const
 {
-	int32 rand_index = FMath::RandRange(0, enemy_spawn_data_.Num() - 1);
+	int32 rand_index = URandomNumberGeneratorSubsystem::GetRNG(world).RandRange(0, enemy_spawn_data_.Num() - 1);
 	return enemy_spawn_data_[rand_index];
 }

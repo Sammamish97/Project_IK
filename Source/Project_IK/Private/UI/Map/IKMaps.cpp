@@ -13,6 +13,8 @@ See LICENSE file in the project root for full license information.
 
 #include "UI/Map/IKMaps.h"
 
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
+
 UIKMaps::UIKMaps()
 	: Super::UObject()
 {
@@ -28,7 +30,7 @@ void UIKMaps::GenerateMaps(int32 row, int32 col)
 		map[i].SetNum(col);
 	}
 	
-	
+	FRandomStream& rng = URandomNumberGeneratorSubsystem::GetRNG(GetWorld());
 	rand_seed_for_map_ = rng.GetCurrentSeed();
 
 	// The First Rooms randomly chosen at the 1rst Floor cannot be the same.
@@ -145,7 +147,7 @@ int32 UIKMaps::GetRandSeedForMap() const
 
 void UIKMaps::RecoverMaps(int32 rand_seed_for_map, int32 map_height, int32 map_width, const TArray<FIntPoint>& player_visited_path)
 {
-	rng.Initialize(rand_seed_for_map);
+	URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).Initialize(rand_seed_for_map);
 	GenerateMaps(map_height, map_width);
 
 	player_visited_path_ = player_visited_path;
@@ -200,7 +202,7 @@ NodeType UIKMaps::QueryNodeType(const TArray<NodeType>& excluded_types) const
 		return NodeType::Enemy;
 	}
 
-	int32 rand = rng.RandRange(0, return_types.Num() - 1);
+	int32 rand = URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).RandRange(0, return_types.Num() - 1);
 	return return_types[rand];
 }
 

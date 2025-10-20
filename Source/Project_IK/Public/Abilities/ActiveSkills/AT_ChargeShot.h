@@ -22,6 +22,7 @@ class PROJECT_IK_API UAT_ChargeShot : public UActiveSkillBase
 
 public:
 	UAT_ChargeShot();
+	virtual bool CanActivateSkill(const FTargetResult& TargetResult) override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 protected:

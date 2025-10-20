@@ -26,6 +26,7 @@ public:
 
 	UAT_FateSpiral();
 	virtual void OnEnterCasting() override;
+	virtual bool CanActivateSkill(const FTargetResult& TargetResult) override;
 	virtual bool ActivateSkill(const FTargetResult& TargetResult) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

@@ -171,11 +171,18 @@ void UCrowdControlComponent::Stun(float duration, bool is_applying)
 	if (is_applying)
 	{
 		AUnit* unit = Cast<AUnit>(GetOwner());
-		unit->GetStunned(duration);
+		if (unit)
+		{
+			unit->GetStunned(duration);
+		}
 	}
 	else
 	{
-		// @@ TODO: Removing Stun
+		AUnit* unit = Cast<AUnit>(GetOwner());
+		if (unit)
+		{
+			unit->FinishStun();
+		}
 	}
 }
 
