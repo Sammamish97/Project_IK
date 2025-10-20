@@ -17,17 +17,17 @@ FPassiveSkillData UPassiveSkillDataAsset::GetPassiveSkillData(EPassiveSkillType 
 	return passive_skill_data_map_[type];
 }
 
-FPassiveSkillData UPassiveSkillDataAsset::GetPassiveSkillDataRandomly(ERarity weight_rarity)
+FPassiveSkillData UPassiveSkillDataAsset::GetPassiveSkillDataRandomly(UWorld* world, ERarity weight_rarity)
 {
-	return URandomDataAssetsManager::GetDataAssetRandomly(weight_rarity, passive_skill_data_map_);
+	return URandomDataAssetsManager::GetDataAssetRandomly(weight_rarity, passive_skill_data_map_, world);
 }
 
-TArray<FPassiveSkillData> UPassiveSkillDataAsset::GetPassiveSkillDataByRarity(int32 n, ERarity rarity)
+TArray<FPassiveSkillData> UPassiveSkillDataAsset::GetPassiveSkillDataByRarity(int32 n, UWorld* world, ERarity rarity)
 {
-	return URandomDataAssetsManager::GetDataAssetByRarity(n, rarity, passive_skill_data_map_);
+	return URandomDataAssetsManager::GetDataAssetByRarity(n, rarity, passive_skill_data_map_, world);
 }
 
-TArray<FPassiveSkillData> UPassiveSkillDataAsset::GetUniquePassiveSkillDataRandomly(int32 n, ERarity weight_rarity)
+TArray<FPassiveSkillData> UPassiveSkillDataAsset::GetUniquePassiveSkillDataRandomly(int32 n, UWorld* world, ERarity weight_rarity)
 {
-	return URandomDataAssetsManager::GetUniqueDataAssetsRandomly(n, weight_rarity, passive_skill_data_map_);
+	return URandomDataAssetsManager::GetUniqueDataAssetsRandomly(n, weight_rarity, passive_skill_data_map_, world);
 }

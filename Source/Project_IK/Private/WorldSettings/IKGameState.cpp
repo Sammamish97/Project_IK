@@ -43,18 +43,18 @@ void AIKGameState::BeginPlay()
 	Super::BeginPlay();
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	text_manager_cache_ = game_instance->GetTextManager();
-	
+
 	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	
+
 	support_skill_data_.Add(ESupportSkillType::Reposition, relocation_data_);
 	support_skill_data_.Add(ESupportSkillType::SetAttackTarget, set_attack_target_data_);
 	support_skill_data_.Add(ESupportSkillType::Maintain, maintain_data_);
-	
+
 
 	support_skills_.Add(ESupportSkillType::Reposition, NewObject<USupportSkillBase>(this, relocation_data_->support_skill_class_));
 	support_skills_.Add(ESupportSkillType::SetAttackTarget, NewObject<USupportSkillBase>(this, set_attack_target_data_->support_skill_class_));
 	support_skills_.Add(ESupportSkillType::Maintain, NewObject<USupportSkillBase>(this, maintain_data_->support_skill_class_));
-	
+
 	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	for (const auto& elem : game_mode_cache->GetHeroContainer())
 	{
@@ -96,7 +96,7 @@ void AIKGameState::ActivateSkillTargeting(EHeroType hero_type)
 				selected_active_skill_mechanics_ = casted_hero->GetActiveSkillMechanics();
 				selected_hero_type_ = hero_type;
 				selected_skill_type_ = ESelectedSkill::ActiveSkill;
-				
+
 				auto active_skill_data = casted_hero->GetActiveSkillMechanics()->GetEquippedActiveSkillData();
 				auto active_skill_popup = Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetActiveSkillPopupWidget();
 				FText name = text_manager_cache_->GetActiveSkillNameText(active_skill_data.type_);
@@ -121,11 +121,11 @@ void AIKGameState::ActivateSupportSkill(ESupportSkillType type)
 			selected_support_skill_ = support_skills_[type];
 			selected_support_skill_type_ = type;
 			selected_skill_type_ = ESelectedSkill::SupportSKill;
-			
+
 			FText name = text_manager_cache_->GetSupportSkillNameText(type);
 			FText detail = text_manager_cache_->GetSupportSkillDetailText(type);
 
-			auto support_skill_popup =Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSupportSkillPopupWidget();
+			auto support_skill_popup = Cast<AIKHUD>(player_controller_cache_->GetHUD())->GetButtonBarWidget()->GetSupportSkillPopupWidget();
 			support_skill_popup->UpdatePopupData(
 				support_skill_data_[type]->thumbnail_,
 				name,
@@ -139,22 +139,25 @@ bool AIKGameState::OnDecide(const FTargetResult& result)
 {
 	switch (selected_skill_type_)
 	{
-		case ESelectedSkill::ActiveSkill:
-			{
-				GetWorld()->GetTimerManager().SetTimer(active_skill_timers_[selected_hero_type_],selected_active_skill_mechanics_->GetCooltime(), false);
-				selected_active_skill_mechanics_->ActivateSkill(result);
-				ClearTargetingState();
-			}
-			break;
-		case ESelectedSkill::SupportSKill:
-			{
-				if (selected_support_skill_->ActivateSkill(result))
-				{
-					energy_system_component_->UseEnergy(support_skill_data_[selected_support_skill_type_]->cost_);
-					ClearTargetingState();
-				}
-			}
-			break;
+	case ESelectedSkill::ActiveSkill:
+	{
+
+		if (selected_active_skill_mechanics_->ActivateSkill(result))
+		{
+			GetWorld()->GetTimerManager().SetTimer(active_skill_timers_[selected_hero_type_], selected_active_skill_mechanics_->GetCooltime(), false);
+			ClearTargetingState();
+		}
+	}
+	break;
+	case ESelectedSkill::SupportSKill:
+	{
+		if (selected_support_skill_->ActivateSkill(result))
+		{
+			energy_system_component_->UseEnergy(support_skill_data_[selected_support_skill_type_]->cost_);
+			ClearTargetingState();
+		}
+	}
+	break;
 	}
 	return false;
 }
@@ -169,7 +172,7 @@ void AIKGameState::ClearTargetingState()
 			selected_active_skill_mechanics_ = nullptr;
 		}
 	}
-	if(selected_support_skill_)
+	if (selected_support_skill_)
 	{
 		selected_support_skill_->ResetSkill();
 		selected_support_skill_ = nullptr;
@@ -194,10 +197,10 @@ void AIKGameState::ReduceCoolDown(EHeroType hero_type, float amount)
 		else
 		{
 			left_cool_down = remaining_time - amount;
-			GetWorld()->GetTimerManager().SetTimer(active_skill_timers_[hero_type],left_cool_down, false);
+			GetWorld()->GetTimerManager().SetTimer(active_skill_timers_[hero_type], left_cool_down, false);
 		}
 	}
-	
+
 	auto game_mode_cache = Cast<AIKGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	if (auto selected_hero = game_mode_cache->GetHero(hero_type))
 	{
@@ -208,7 +211,7 @@ void AIKGameState::ReduceCoolDown(EHeroType hero_type, float amount)
 			skill->UpdateCoolDown(left_cool_down);
 		}
 	}
-	
+
 }
 
 void AIKGameState::ReduceCoolDownPercentage(EHeroType hero_type, float percentage)
@@ -221,7 +224,7 @@ void AIKGameState::ReduceCoolDownPercentage(EHeroType hero_type, float percentag
 			AHeroBase* casted_hero = Cast<AHeroBase>(selected_hero);
 			if (casted_hero->HasActiveSkill())
 			{
-				ReduceCoolDown(hero_type,Cast<UActiveSkillBase>(casted_hero->GetActiveSkill())->GetCoolTime() * percentage);
+				ReduceCoolDown(hero_type, Cast<UActiveSkillBase>(casted_hero->GetActiveSkill())->GetCoolTime() * percentage);
 			}
 		}
 	}

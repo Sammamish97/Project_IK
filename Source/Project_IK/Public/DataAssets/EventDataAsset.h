@@ -22,7 +22,7 @@ class PROJECT_IK_API UEventDataAsset : public UPrimaryDataAsset
 	GENERATED_BODY()
 public:
 	FEventData GetActiveSkillData(EEventType type);
-	FEventData GetActiveSkillDataRandomly(bool only_positive);
+	FEventData GetActiveSkillDataRandomly(UWorld* world, bool only_positive);
 	
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))

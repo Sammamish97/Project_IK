@@ -18,17 +18,17 @@ FWeaponData UWeaponDataAsset::GetWeaponData(EWeaponType type)
 	return weapon_data_map_[type];
 }
 
-FWeaponData UWeaponDataAsset::GetWeaponDataRandomly(ERarity weight_rarity)
+FWeaponData UWeaponDataAsset::GetWeaponDataRandomly(UWorld* world, ERarity weight_rarity)
 {
-	return URandomDataAssetsManager::GetDataAssetRandomly(weight_rarity, weapon_data_map_);
+	return URandomDataAssetsManager::GetDataAssetRandomly(weight_rarity, weapon_data_map_, world);
 }
 
-FWeaponData UWeaponDataAsset::GetWeaponDataByRarity(ERarity rarity)
+FWeaponData UWeaponDataAsset::GetWeaponDataByRarity(UWorld* world, ERarity rarity)
 {
-	return URandomDataAssetsManager::GetDataAssetByRarity(rarity, weapon_data_map_);
+	return URandomDataAssetsManager::GetDataAssetByRarity(rarity, weapon_data_map_, world);
 }
 
-TArray<FWeaponData> UWeaponDataAsset::GetUniqueWeaponDataRandomly(int32 n, ERarity weight_rarity)
+TArray<FWeaponData> UWeaponDataAsset::GetUniqueWeaponDataRandomly(int32 n, UWorld* world, ERarity weight_rarity)
 {
-	return URandomDataAssetsManager::GetUniqueDataAssetsRandomly(n, weight_rarity, weapon_data_map_);
+	return URandomDataAssetsManager::GetUniqueDataAssetsRandomly(n, weight_rarity, weapon_data_map_, world);
 }

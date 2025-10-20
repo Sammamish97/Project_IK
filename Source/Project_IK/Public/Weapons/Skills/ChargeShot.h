@@ -48,7 +48,7 @@ protected:
 	TObjectPtr<UProjectileMovementComponent> movement_;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChargeShot")
-	TObjectPtr<UNiagaraComponent> particle_system_;
+	TObjectPtr<UNiagaraSystem> particle_system_;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ChargeShot")
 	FDamageData dmg_data_;

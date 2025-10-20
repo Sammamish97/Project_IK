@@ -22,6 +22,7 @@ class PROJECT_IK_API USkillBase : public UObject
 	GENERATED_BODY()
 public:
 	FTargetParameters GetTargetParameters() const;
+	virtual bool CanActivateSkill(const FTargetResult& TargetResult);
 	virtual bool ActivateSkill(const FTargetResult& TargetResult);
 	virtual void UpdateCoolDown(float cool_down);
 	virtual void ResetSkill();

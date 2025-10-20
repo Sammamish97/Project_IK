@@ -12,6 +12,9 @@ See LICENSE file in the project root for full license information.
 
 #include "Characters/Unit.h"
 
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+
 void UBF_Maintain::ApplyBuff(AUnit* target)
 {
 	target_cache_ = target;
@@ -21,6 +24,11 @@ void UBF_Maintain::ApplyBuff(AUnit* target)
 
 	GetWorld()->GetTimerManager().SetTimer(heal_timer_handle_, heal_del, heal_duration_, false);
 	GetWorld()->GetTimerManager().SetTimer(heal_tick_handle_, heal_tick_del, 0.5f, true);
+	
+	if (maintain_vfx_)
+	{
+		maintain_vfx_component_ = UNiagaraFunctionLibrary::SpawnSystemAttached(maintain_vfx_, target->GetRootComponent(), FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget, false);
+	}
 }
 
 void UBF_Maintain::RemoveBuff(AUnit* target)
@@ -28,6 +36,11 @@ void UBF_Maintain::RemoveBuff(AUnit* target)
 	GetWorld()->GetTimerManager().ClearTimer(heal_timer_handle_);
 	GetWorld()->GetTimerManager().ClearTimer(heal_tick_handle_);
 	target->RemoveBuffUI(buff_type_);
+
+	if (maintain_vfx_)
+	{
+		maintain_vfx_component_->Deactivate();
+	}
 }
 
 void UBF_Maintain::Heal()

@@ -30,6 +30,11 @@ UAT_DeploySentryGun::UAT_DeploySentryGun()
 	target_param_ = FTargetParameters(ETargetingMode::Location, ETargetType::None, 1000.f, 100.f);
 }
 
+bool UAT_DeploySentryGun::CanActivateSkill(const FTargetResult& TargetResult)
+{
+	return sentry_gun_class_ != nullptr;
+}
+
 void UAT_DeploySentryGun::OnEnterCasting()
 {
 	Super::OnEnterCasting();
@@ -104,8 +109,12 @@ bool UAT_DeploySentryGun::ActivateSkill(const FTargetResult& TargetResult)
 					float half_height = component->GetScaledCapsuleHalfHeight();
 					deploying_location_.Z += half_height;
 				}
+
+
+				return Super::ActivateSkill(TargetResult);
 			}
 		}
 	}
-	return Super::ActivateSkill(TargetResult);
+
+	return false;
 }

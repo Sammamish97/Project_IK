@@ -13,6 +13,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/RuneMechanics.h"
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
+#include "Components/RichTextBlock.h"
 #include "DataAssets/RuneDataAsset.h"
 #include "Managers/DataTableManager.h"
 #include "Managers/TextManager.h"

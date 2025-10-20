@@ -89,7 +89,7 @@ void URunRewardWidget::NativeConstruct()
 	perk_points_text_->SetText(FText::Format(perk_points_base, args));
 	args.Empty();
 
-	text_body_->SetText(text_manager->GetRunResultText(ERunResultType::RunResult));
+	text_body_->SetText(text_manager->GetRunResultText(result_text_type_));
 	click_to_return_text_->SetText(text_manager->GetRunResultText(ERunResultType::ClickToProcess));
 }
 

@@ -23,7 +23,7 @@ class PROJECT_IK_API UEnemySpawnDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 public:
-	const FEnemySpawnData& GetRandomEnemySpawnData() const;
+	const FEnemySpawnData& GetRandomEnemySpawnData(UWorld* world) const;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)

@@ -18,17 +18,17 @@ FRuneData URuneDataAsset::GetRuneSetData(ERuneSetType type)
 	return rune_data_map_[type];
 }
 
-FRuneData URuneDataAsset::GetRuneSetDataRandomly(ERarity weight_rarity)
+FRuneData URuneDataAsset::GetRuneSetDataRandomly(UWorld* world, ERarity weight_rarity)
 {
-	return URandomDataAssetsManager::GetDataAssetRandomly(weight_rarity, rune_data_map_);
+	return URandomDataAssetsManager::GetDataAssetRandomly(weight_rarity, rune_data_map_, world);
 }
 
-TArray<FRuneData> URuneDataAsset::GetRuneSetDataRandomly(int32 n, ERarity weight_rarity)
+TArray<FRuneData> URuneDataAsset::GetRuneSetDataRandomly(int32 n, UWorld* world, ERarity weight_rarity)
 {
-	return URandomDataAssetsManager::GetDataAssetRandomly(n, weight_rarity, rune_data_map_);
+	return URandomDataAssetsManager::GetDataAssetRandomly(n, weight_rarity, rune_data_map_, world);
 }
 
-TArray<FRuneData> URuneDataAsset::GetUniqueRuneSetDataRandomly(int32 n, ERarity weight_rarity)
+TArray<FRuneData> URuneDataAsset::GetUniqueRuneSetDataRandomly(int32 n, UWorld* world, ERarity weight_rarity)
 {
-	return URandomDataAssetsManager::GetUniqueDataAssetsRandomly(n, weight_rarity, rune_data_map_);
+	return URandomDataAssetsManager::GetUniqueDataAssetsRandomly(n, weight_rarity, rune_data_map_, world);
 }

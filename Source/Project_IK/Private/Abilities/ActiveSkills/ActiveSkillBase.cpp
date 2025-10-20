@@ -29,6 +29,11 @@ void UActiveSkillBase::InitActiveSkill(AActor* skill_owner, const FActiveSkillDa
 	cool_time_ = skill_data.cool_time_;
 }
 
+bool UActiveSkillBase::CanActivateSkill(const FTargetResult& TargetResult)
+{
+	return Super::CanActivateSkill(TargetResult);
+}
+
 float UActiveSkillBase::GetCastingTime() const
 {
 	return casting_time_;

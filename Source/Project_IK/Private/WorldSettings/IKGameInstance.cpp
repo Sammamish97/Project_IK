@@ -30,6 +30,7 @@ See LICENSE file in the project root for full license information.
 #include "SaveGame/SaveSettings.h"
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/AudioManagerSubsystem.h"
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
 
 UIKGameInstance::UIKGameInstance()
 	:Super::UGameInstance()
@@ -150,7 +151,7 @@ void UIKGameInstance::InitializePerkEffectsAlreadyUnlocked()
 
 void UIKGameInstance::InitializeMaps()
 {
-	maps_ = NewObject<UIKMaps>();
+	maps_ = NewObject<UIKMaps>(this);
 }
 
 void UIKGameInstance::InitInventoryManager()
@@ -237,15 +238,13 @@ void UIKGameInstance::LoadRunSaveData()
 			global_buff_subsystem->RecoverBuffs(saved_run->applied_global_buffs_);
 		}
 
-		FMath::SRandInit(saved_run->rand_seed_);
+		URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).Initialize(saved_run->rand_seed_);
 	}
 	else
 	{
 		// No save data
 
 		// Initialize map data to prevent game crash during developments.
-		// @@ TODO: Need to remove the line. 
-		// Probably game start menu of the main manu is the only place generating a new map.
 		maps_->GenerateMaps(10, 5);
 		InitSpawnData();
 		inventory_manager_->SetCredits(0);

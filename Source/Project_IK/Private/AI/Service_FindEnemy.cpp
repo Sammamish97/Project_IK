@@ -21,6 +21,8 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "Kismet/KismetSystemLibrary.h"
 
+#include "Subsystems/RandomNumberGeneratorSubsystem.h"
+
 UService_FindEnemy::UService_FindEnemy()
 {
 	NodeName = "FindEnemy";
@@ -116,7 +118,7 @@ void UService_FindEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Node
 				break;
 				
 			case EAIFindTargetType::Random:
-				target = distance_object_pairs[FMath::RandRange(0, FMath::Max(0, distance_object_pairs.Num()-1))].Value;
+				target = distance_object_pairs[URandomNumberGeneratorSubsystem::GetRNG(GetWorld()).RandRange(0, FMath::Max(0, distance_object_pairs.Num()-1))].Value;
 				break;
 				
 			case EAIFindTargetType::INVALID:

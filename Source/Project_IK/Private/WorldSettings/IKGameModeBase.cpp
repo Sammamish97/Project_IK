@@ -260,7 +260,7 @@ void AIKGameModeBase::OnGameWin()
 		UPerkModifierSubsystem* perk_modifier_subsystem = instance->GetSubsystem<UPerkModifierSubsystem>();
 		if (inventory && perk_modifier_subsystem)
 		{
-			// @@ TODO: Need to modify an amount of credits per combats.
+			// @@ Improvements: Need to modify an amount of credits per combats.
 			// i.e. -> ((current node level / 2) + 1) * 10;
 			int32 credits = 50;
 			credits *= perk_modifier_subsystem->GetCombatEndCreditsBonusPercentage();

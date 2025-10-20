@@ -42,8 +42,9 @@ bool UAT_Ricochet::ActivateSkill(const FTargetResult& TargetResult)
 
 		FTimerDelegate timer_delegate = FTimerDelegate::CreateUObject(this, &UAT_Ricochet::OnFinishSkill);
 		GetWorld()->GetTimerManager().SetTimer(duration_timer_handle_, timer_delegate, duration_, false);
+		return Super::ActivateSkill(TargetResult);
 	}
-	return Super::ActivateSkill(TargetResult);
+	return false;
 }
 
 void UAT_Ricochet::OnFinishSkill()

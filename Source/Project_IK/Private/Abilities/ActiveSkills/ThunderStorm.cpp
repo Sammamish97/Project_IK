@@ -61,28 +61,27 @@ void AThunderStorm::BeginPlay()
 
 	FindPostProcessVolume();
 	BeginThunderStormPostProcess();
-		
+
 	if (visual_material_)
 	{
 		decal_->SetDecalMaterial(visual_material_);
 	}
 
-	 GetWorld()->GetTimerManager().SetTimer(
-	 	damage_handler_,
-	 	this,
-	 	&AThunderStorm::DamageEnemies,
+	GetWorld()->GetTimerManager().SetTimer(
+		damage_handler_,
+		this,
+		&AThunderStorm::DamageEnemies,
 		gap_between_damages_,
-	 	true,
-	 	first_delay_
-	 );
+		true,
+		first_delay_
+	);
 
-	 environmental_audio_component_ = UAudioManagerSubsystem::Get(this)->PlayAttached(EAudioType::ThunderStormEnvironmental, decal_);
+	environmental_audio_component_ = UAudioManagerSubsystem::Get(this)->PlayAttached(EAudioType::ThunderStormEnvironmental, decal_);
 }
 
 void AThunderStorm::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	EndThunderStormPostProcess();
-	zap_sound_cue_array_.Empty();
 	Super::EndPlay(EndPlayReason);
 }
 
@@ -103,6 +102,12 @@ void AThunderStorm::DamageEnemies()
 		{
 			FVector enemy_location = enemy->GetActorLocation();
 			FVector to_actor = enemy_location - storm_location;
+
+			AUnit* unit = Cast<AUnit>(enemy);
+			if (unit)
+			{
+				enemy_location = enemy_location + unit->GetMesh()->GetRelativeLocation();
+			}
 
 			float squared_distance_to_actor = to_actor.SizeSquared();
 			if (squared_distance_to_actor <= squared_radius)
@@ -150,15 +155,7 @@ void AThunderStorm::ApplyDamage(FDamageData DamageData)
 
 void AThunderStorm::SpawnSFX(UWorld* world, const FVector& location)
 {
-	int32 rand_sound_index = FMath::RandRange(0, zap_sound_cue_array_.Num() - 1);
-	if (zap_sound_cue_array_.IsValidIndex(rand_sound_index))
-	{
-		USoundCue* sound = zap_sound_cue_array_[rand_sound_index].Get();
-		if (sound)
-		{
-			UGameplayStatics::PlaySoundAtLocation(world, sound, location);
-		}
-	}
+	GetGameInstance()->GetSubsystem<UAudioManagerSubsystem>()->PlayAtLocation(EAudioType::ThunderZap, location);
 }
 
 void AThunderStorm::SpawnVFX(UWorld* world, const FVector& location)
@@ -171,7 +168,7 @@ void AThunderStorm::SpawnVFX(UWorld* world, const FVector& location)
 }
 
 void AThunderStorm::FindPostProcessVolume()
-{    
+{
 	// Search for any PostProcessVolume in the level
 	for (TActorIterator<AIKPostProcessVolume> it(GetWorld()); it; ++it)
 	{
