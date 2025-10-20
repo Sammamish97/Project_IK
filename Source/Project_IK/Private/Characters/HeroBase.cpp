@@ -177,7 +177,6 @@ void AHeroBase::SetUnitStateWithInterrupt(EUnitState type)
 	}
 	
 	default:
-		checkNoEntry()
 		break;
 	}
 }
