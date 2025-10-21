@@ -24,6 +24,15 @@ UAT_ThunderStorm::UAT_ThunderStorm()
 	ai_holding_time_ = 1.5f;
 }
 
+void UAT_ThunderStorm::InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data)
+{
+	Super::InitActiveSkill(skill_owner, skill_data);
+	if (IsUpgradedActiveSkill(skill_data_.type_))
+	{
+		//IKTODO: 만약 A면 번개가 6번 치면 좋겠음.
+	}
+}
+
 bool UAT_ThunderStorm::CanActivateSkill(const FTargetResult& TargetResult)
 {
 	return visual_actor_class_ != nullptr;
