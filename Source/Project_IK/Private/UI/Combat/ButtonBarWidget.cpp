@@ -15,9 +15,13 @@ See LICENSE file in the project root for full license information.
 #include "Kismet/GameplayStatics.h"
 
 #include "Components/Button.h"
+#include "Components/Image.h"
+#include "Components/Overlay.h"
+#include "Managers/TextManager.h"
 #include "UI/PopUps/ActiveSkillPopupWidget.h"
 #include "UI/PopUps/RunePopupWidget.h"
 #include "UI/PopUps/SupportSkillPopupWidget.h"
+#include "WorldSettings/IKGameInstance.h"
 
 #include "WorldSettings/IKPlayerController.h"
 
@@ -53,6 +57,13 @@ void UButtonBarWidget::NativeConstruct()
 	player_controller_cache_ = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 
 	is_item_muted_ = false;
+
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	if (game_instance->IsFirstBattle() == true)
+	{
+		FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UButtonBarWidget::OnStartTutorial);
+		GetWorld()->GetTimerManager().SetTimer(tutorial_start_timer_, fire_del, 2.f, false);
+	}
 }
 
 void UButtonBarWidget::NativeDestruct()
@@ -102,6 +113,36 @@ void UButtonBarWidget::OnSupportSkillButtonClicked1()
 void UButtonBarWidget::OnSupportSkillButtonClicked2()
 {
 	game_state_cache_->ActivateSupportSkill(ESupportSkillType::Maintain);
+}
+
+void UButtonBarWidget::OnStartTutorial()
+{
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	if (AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
+	{
+		pc->SetPause(true);
+	}
+	UTextManager* text_manager = game_instance->GetTextManager();
+	active_skill_tutorial_->SetText(text_manager->GetTutorialText(ETutorialTextType::ActiveSkillTutorial));
+	support_skill_tutorial_->SetText(text_manager->GetTutorialText(ETutorialTextType::SupportSkillTutorial));
+	speed_tutorial_->SetText(text_manager->GetTutorialText(ETutorialTextType::SpeedTutorial));
+	camera_tutorial_->SetText(text_manager->GetTutorialText(ETutorialTextType::CameraTutorial));
+	exit_tutorial_->SetText(text_manager->GetTutorialText(ETutorialTextType::ExitTutorial));
+		
+	tutorial_->SetVisibility(ESlateVisibility::Visible);
+	background_image_->OnMouseButtonDownEvent.BindDynamic(this, &UButtonBarWidget::OnExitTutorial);
+	game_instance->SetIsFirstBattleFalse();
+}
+
+FEventReply UButtonBarWidget::OnExitTutorial(FGeometry MyGeometry, const FPointerEvent& MouseEvent)
+{
+	if (AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
+	{
+		pc->SetPause(false);
+	}
+	tutorial_->SetVisibility(ESlateVisibility::Hidden);
+	GetWorld()->GetTimerManager().ClearTimer(tutorial_start_timer_);
+	return FEventReply(true);
 }
 
 USupportSkillButtonWidget* UButtonBarWidget::GetSupportSkillButtonWidget(int32 idx)

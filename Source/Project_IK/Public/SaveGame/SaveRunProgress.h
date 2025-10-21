@@ -49,4 +49,11 @@ public:
 	// Random seed
 	UPROPERTY(VisibleAnywhere)
 	int32 rand_seed_;
+
+	// Tutorial for once
+	UPROPERTY(VisibleAnywhere, SaveGame)
+	bool is_first_battle_ = true;
+
+	UPROPERTY(VisibleAnywhere, SaveGame)
+	bool is_first_inventory_ = true;
 };

@@ -59,6 +59,12 @@ public:
 	class UEventManager* GetEventManager() const noexcept;
 
 	void LoadRunSaveData();
+
+	bool IsFirstBattle();
+	bool IsFirstInventory();
+
+	void SetIsFirstBattleFalse();
+	void SetIsFirstInventoryFalse();
 private:
 	void InitializePerkEffectsAlreadyUnlocked();
 	void InitializeMaps();

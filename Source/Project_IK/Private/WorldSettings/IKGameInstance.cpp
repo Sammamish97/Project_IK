@@ -250,3 +250,45 @@ void UIKGameInstance::LoadRunSaveData()
 		inventory_manager_->SetCredits(0);
 	}
 }
+
+bool UIKGameInstance::IsFirstBattle()
+{
+	USaveRunProgress* saved_run = Cast<USaveRunProgress>(UGameplayStatics::LoadGameFromSlot(USaveRunProgress::StaticClass()->GetDefaultObject<USaveRunProgress>()->GetSaveSlotName(), 0));
+	if (saved_run)
+	{
+		return saved_run->is_first_battle_;
+	}
+	return false;
+}
+
+bool UIKGameInstance::IsFirstInventory()
+{
+	USaveRunProgress* saved_run = Cast<USaveRunProgress>(UGameplayStatics::LoadGameFromSlot(USaveRunProgress::StaticClass()->GetDefaultObject<USaveRunProgress>()->GetSaveSlotName(), 0));
+	if (saved_run)
+	{
+		return saved_run->is_first_inventory_;
+	}
+	return false;
+}
+
+void UIKGameInstance::SetIsFirstBattleFalse()
+{
+	USaveRunProgress* save_game_instance = Cast<USaveRunProgress>(UGameplayStatics::LoadGameFromSlot(USaveRunProgress::StaticClass()->GetDefaultObject<USaveRunProgress>()->GetSaveSlotName(), 0));
+	if (save_game_instance == nullptr)
+	{
+		save_game_instance = Cast<USaveRunProgress>(UGameplayStatics::CreateSaveGameObject(USaveRunProgress::StaticClass()));
+	}
+	save_game_instance->is_first_battle_ = false;
+	UGameplayStatics::SaveGameToSlot(save_game_instance, save_game_instance->GetSaveSlotName(), 0);
+}
+
+void UIKGameInstance::SetIsFirstInventoryFalse()
+{
+	USaveRunProgress* save_game_instance = Cast<USaveRunProgress>(UGameplayStatics::LoadGameFromSlot(USaveRunProgress::StaticClass()->GetDefaultObject<USaveRunProgress>()->GetSaveSlotName(), 0));
+	if (save_game_instance == nullptr)
+	{
+		save_game_instance = Cast<USaveRunProgress>(UGameplayStatics::CreateSaveGameObject(USaveRunProgress::StaticClass()));
+	}
+	save_game_instance->is_first_inventory_ = false;
+	UGameplayStatics::SaveGameToSlot(save_game_instance, save_game_instance->GetSaveSlotName(), 0);
+}

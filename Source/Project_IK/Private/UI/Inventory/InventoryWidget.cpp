@@ -11,6 +11,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/Inventory/InventoryWidget.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
+#include "Components/Overlay.h"
 #include "Components/WidgetSwitcher.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
@@ -28,6 +29,7 @@ See LICENSE file in the project root for full license information.
 #include "UI/PopUps/ActiveSkillPopupWidget.h"
 #include "UI/PopUps/SingleRunePopupWidget.h"
 #include "UI/PopUps/WeaponPopupWidget.h"
+#include "WorldSettings/IKPlayerController.h"
 
 
 void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount, bool is_read_only)
@@ -74,6 +76,13 @@ void UInventoryWidget::InitInventoryWidget(int32 available_passive_skill_amount,
 	else
 	{
 		confirm_text_->SetText(text_manager_cache_->GetButtonText(EButtonType::FinishEquipment));
+
+		UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		if (game_instance->IsFirstInventory() == true)
+		{
+			FTimerDelegate fire_del = FTimerDelegate::CreateUObject(this, &UInventoryWidget::OnStartTutorial);
+			GetWorld()->GetTimerManager().SetTimer(tutorial_start_timer_, fire_del, 1.f, false);
+		}
 	}
 }
 
@@ -181,6 +190,41 @@ void UInventoryWidget::NativeDestruct()
 {
 	UpdateInventoryData();
 	Super::NativeDestruct();
+}
+
+void UInventoryWidget::OnStartTutorial()
+{
+	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	if (auto pc = UGameplayStatics::GetPlayerController(GetWorld(), 0))
+	{
+		pc->SetPause(true);
+	}
+	equip_tutorial_text_->SetText(text_manager_cache_->GetTutorialText(ETutorialTextType::EquipTutorial));
+	weapon_tutorial_text_->SetText(text_manager_cache_->GetTutorialText(ETutorialTextType::WeaponEquipTutorial));
+	active_tutorial_text_->SetText(text_manager_cache_->GetTutorialText(ETutorialTextType::ActiveSkillEquipTutorial));
+	passive_tutorial_text_->SetText(text_manager_cache_->GetTutorialText(ETutorialTextType::PassiveSkillEquipTutorial));
+	rune_tutorial_text_->SetText(text_manager_cache_->GetTutorialText(ETutorialTextType::RuneEquipTutorial));
+	
+	rune_edge_text_->SetText(text_manager_cache_->GetTutorialText(ETutorialTextType::RuneEdgeTutorial));
+	rune_triangle_text_->SetText(text_manager_cache_->GetTutorialText(ETutorialTextType::RuneTriangleTutorial));
+	rune_hexagon_text_->SetText(text_manager_cache_->GetTutorialText(ETutorialTextType::RuneHexagonTutorial));
+	
+	exit_tutorial_text_->SetText(text_manager_cache_->GetTutorialText(ETutorialTextType::ExitTutorial));
+		
+	tutorial_widget_->SetVisibility(ESlateVisibility::Visible);
+	background_image_->OnMouseButtonDownEvent.BindDynamic(this, &UInventoryWidget::OnExitTutorial);
+	game_instance->SetIsFirstInventoryFalse();
+}
+
+FEventReply UInventoryWidget::OnExitTutorial(FGeometry MyGeometry, const FPointerEvent& MouseEvent)
+{
+	if (AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
+	{
+		pc->SetPause(false);
+	}
+	tutorial_widget_->SetVisibility(ESlateVisibility::Hidden);
+	GetWorld()->GetTimerManager().ClearTimer(tutorial_start_timer_);
+	return FEventReply(true);
 }
 
 void UInventoryWidget::ToggleReadOnly(bool is_read_only)

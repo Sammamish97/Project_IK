@@ -16,6 +16,7 @@ See LICENSE file in the project root for full license information.
 #include "Structs/WrapperEquipmentData.h"
 #include "InventoryWidget.generated.h"
 
+class UOverlay;
 class UImage;
 class UTextBlock;
 class UStatusWidget;
@@ -78,6 +79,12 @@ public:
 	void RemoveHighlight();
 
 	void SetOnConfirm(TFunction<void()> OnConfirm);
+
+	UFUNCTION()
+	void OnStartTutorial();
+
+	UFUNCTION()
+	FEventReply OnExitTutorial(FGeometry MyGeometry, const FPointerEvent& MouseEvent);
 
 private:
 	UFUNCTION()
@@ -149,6 +156,41 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UConfirmationWidget> confirmation_widget_;
 
+	//
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UOverlay> tutorial_widget_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UImage> background_image_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> equip_tutorial_text_;
+	
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> weapon_tutorial_text_;
+	
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> active_tutorial_text_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> passive_tutorial_text_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> rune_tutorial_text_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> rune_edge_text_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> rune_triangle_text_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> rune_hexagon_text_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> exit_tutorial_text_;
+	//
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
 	TSubclassOf<UBasicPopupWidget> passive_skill_popup_class_;
 
@@ -175,4 +217,6 @@ private:
 	bool is_read_only_;
 
 	TFunction<void()> OnConfirm_;
+
+	FTimerHandle tutorial_start_timer_;
 };

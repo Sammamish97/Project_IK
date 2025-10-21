@@ -960,3 +960,24 @@ enum class ERunResultType : uint8
 	ReceivedPerkPoint UMETA(DisplayName = "ReceivedPerkPoint"),
 	ClickToProcess UMETA(DisplayName = "ClickToProcess"),
 };
+
+UENUM(BlueprintType)
+enum class ETutorialTextType : uint8
+{
+	ActiveSkillTutorial UMETA(DisplayName = "ActiveSkillTutorial"),
+	SupportSkillTutorial UMETA(DisplayName = "SupportSkillTutorial"),
+	SpeedTutorial UMETA(DisplayName = "SpeedTutorial"),
+	CameraTutorial UMETA(DisplayName = "CameraTutorial"),
+	//
+	EquipTutorial UMETA(DisplayName = "EquipTutorial"),
+	WeaponEquipTutorial UMETA(DisplayName = "WeaponEquipTutorial"), 
+	ActiveSkillEquipTutorial UMETA(DisplayName = "ActiveSkillEquipTutorial"),
+	PassiveSkillEquipTutorial UMETA(DisplayName = "PassiveSkillEquipTutorial"),
+	RuneEquipTutorial UMETA(DisplayName = "RuneEquipTutorial"),
+	
+	RuneEdgeTutorial UMETA(DisplayName = "RuneEdgeTutorial"),
+	RuneTriangleTutorial UMETA(DisplayName = "RuneTriangleTutorial"),
+	RuneHexagonTutorial UMETA(DisplayName = "RuneHexagonTutorial"),
+	//
+	ExitTutorial UMETA(DisplayName = "ExitTutorial"),
+};
