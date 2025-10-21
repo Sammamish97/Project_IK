@@ -27,7 +27,7 @@ void UStoreSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerE
 	case EGearType::ActiveSkill:
 		store_widget_cache_->CreateActiveSkillPopupWidget(item_data_.active_skill_data_.thumbnail_,
 			text_manager_cache_->GetActiveSkillNameText(item_data_.active_skill_data_.type_),
-			text_manager_cache_->GetActiveSkillDetailText(item_data_.active_skill_data_.type_),
+			item_data_.active_skill_data_.BuildDetailText(GetWorld()),
 			item_data_.active_skill_data_.cool_time_);
 		break;
 
