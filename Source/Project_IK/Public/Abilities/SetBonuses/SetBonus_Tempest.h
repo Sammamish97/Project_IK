@@ -41,4 +41,16 @@ private:
 private:
 	FName cool_down_buff_name = "Tempest_Hexagon";
 	int32 cur_buff_stack = 0;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SkillData", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UBuffHandler> edge_buff_class_;
+
+	UPROPERTY();
+	TObjectPtr<UBuffHandler> edge_buff_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SkillData", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UBuffHandler> hexagon_buff_class_;
+
+	UPROPERTY();
+	TObjectPtr<UBuffHandler> hexagon_buff_;
 };

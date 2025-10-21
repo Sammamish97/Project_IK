@@ -137,9 +137,6 @@ void UCrowdControlComponent::BeginCC(ECCType cc_type, float duration, AActor* ap
 {
 	switch (cc_type)
 	{
-	case ECCType::Silence:
-		Silence();
-		break;
 	case ECCType::Stun:
 		Stun(duration);
 		break;
@@ -147,6 +144,7 @@ void UCrowdControlComponent::BeginCC(ECCType cc_type, float duration, AActor* ap
 		Bleeding(duration, applier);
 		break;
 	default:
+		checkNoEntry()
 		break;
 	}
 }
@@ -156,9 +154,6 @@ void UCrowdControlComponent::EndCC(ECCType cc_type)
 	// Do something when cc has resolved
 	switch (cc_type)
 	{
-	case ECCType::Silence:
-		Silence(false);
-		break;
 	case ECCType::Stun:
 		Stun(0.f, false);
 		break;
@@ -166,20 +161,8 @@ void UCrowdControlComponent::EndCC(ECCType cc_type)
 		Bleeding(0.f, nullptr, false);
 		break;
 	default:
+		checkNoEntry()
 		break;
-	}
-}
-
-void UCrowdControlComponent::Silence(bool is_applying)
-{
-	UWorld* world = GetWorld();
-	if (world)
-	{
-		APlayerController* player_controller = world->GetFirstPlayerController();
-		if (player_controller)
-		{
-			//IKTODO: 적절한 침묵 로직 추가.
-		}
 	}
 }
 

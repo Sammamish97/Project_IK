@@ -22,8 +22,6 @@ UAT_ThunderStorm::UAT_ThunderStorm()
 	has_casting_motion_ = true;
 	casting_time_ = 0.5f;
 	ai_holding_time_ = 1.5f;
-
-	damage_ = 120.f;
 }
 
 bool UAT_ThunderStorm::CanActivateSkill(const FTargetResult& TargetResult)

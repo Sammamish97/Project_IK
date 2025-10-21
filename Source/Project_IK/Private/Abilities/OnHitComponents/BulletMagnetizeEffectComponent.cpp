@@ -28,8 +28,8 @@ void UBulletMagnetizeEffectComponent::OnHit(AActor* target, const FHitResult& hi
 		auto shooter = GetOwner<ABullet>()->GetShooter();
 		if (auto hero = Cast<AHeroBase>(shooter))
 		{
-			FDamageData dmg_data = {0.f, 50.f, EDamageType::Projectile, hero,target_unit};
-			dmg_data.skill_power_base_dmg_ = 50.f + hero->GetCharacterStat()->GetSkillPower() * skill_power_scale_;
+			FDamageData dmg_data = {0.f, 0.f, EDamageType::Projectile, hero,target_unit};
+			dmg_data.skill_power_base_dmg_ = hero->GetCharacterStat()->GetSkillPower() * skill_power_scale_;
 			target_unit->GetDamage(dmg_data);
 			if (auto magnetized_effect = target_unit->FindComponentByClass<UATC_MagnetizedEffect>())
 			{

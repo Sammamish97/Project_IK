@@ -43,11 +43,6 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> dodge_value_;
 
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> survivability_text_;
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> survivability_value_;
-
 //Offense
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> attack_power_text_;

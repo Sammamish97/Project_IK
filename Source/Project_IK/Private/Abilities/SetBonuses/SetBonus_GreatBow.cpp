@@ -9,6 +9,8 @@ See LICENSE file in the project root for full license information.
 ******************************************************************************/
 
 #include "Abilities/SetBonuses/SetBonus_GreatBow.h"
+
+#include "Abilities/Buffs/BuffHandler.h"
 #include "Characters/HeroBase.h"
 #include "Abilities/OnHitComponents/BulletDeathBlowEffectComponent.h"
 #include "Components/WeaponMechanics.h"
@@ -20,9 +22,9 @@ See LICENSE file in the project root for full license information.
 void USetBonus_GreatBow::ActivateEdgeBonus()
 {
 	Super::ActivateEdgeBonus();
-	//IKTODO: 테스트 이후 정상화 시켜야 함.
 
-	//hero_cache_->ApplyBuff(FBuffStatusData(TEXT("GreatBow_Edge"), ECharacterStatType::AttackPower, 20.f, true, true));
+	edge_buff_ = NewObject<UBuffHandler>(this, edge_buff_class_);
+	edge_buff_->ApplyBuff(hero_cache_);
 }
 
 //3세트: 장전 시 액티브 쿨타임 1초 감소.
@@ -41,6 +43,5 @@ void USetBonus_GreatBow::ActivateHexagonBonus()
 
 void USetBonus_GreatBow::TriangleReloadCoolDownBonus()
 {
-	//IKTODO: 테스트 이후 정상화 시켜야 함.
-	//hero_cache_->ApplyBuff({"GreatBow_Cooldown", ECharacterStatType::SkillCoolDown, 20.f, false, 8.f});
+	hero_cache_->ReduceActiveSkillCoolDown(1.f);
 }

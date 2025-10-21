@@ -60,8 +60,24 @@ void AHeroBase::BeginPlay()
 	UDelegateBridgeSubsystem* subsystem = GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>();
 	if (TObjectPtr<UHPUICore> hp_core = Cast<UHPUICore>(hp_widget_component_->GetWidget()))
 	{
-		//IKTODO: 현재 HP/UI 색상이 하드코드 되었다. 더 좋은 방법을 찾아야 한다.
-		hp_core->SetHPBarColor(FLinearColor::Red);
+		switch (hero_type_)
+		{
+		case EHeroType::Hero1:
+			hp_core->SetHPBarColor(FLinearColor(0.968628, 0.345098, 0.058824,1.000000));
+			break;
+
+		case EHeroType::Hero2:
+			hp_core->SetHPBarColor(FLinearColor(1.000000,1.000000,0.000000,1.000000));
+			break;
+
+		case EHeroType::Hero3:
+			hp_core->SetHPBarColor(FLinearColor::White);
+			break;
+
+		case EHeroType::Hero4:
+			hp_core->SetHPBarColor(FLinearColor(0.333333,0.419608,0.184314,1.000000));
+			break;
+		}
 		hp_core->InitHPWidget(character_stat_component_->GetMaxHitPoint(), character_stat_component_->GetHitPoint());
 		subsystem->BindOnHPOrShieldChanged(character_stat_component_, hp_core.Get(), &UHPUICore::UpdateWidget);
 	}
@@ -162,7 +178,6 @@ void AHeroBase::SetUnitStateWithInterrupt(EUnitState type)
 	
 	default:
 		break;
-		//IKTODO: 예외처리
 	}
 }
 

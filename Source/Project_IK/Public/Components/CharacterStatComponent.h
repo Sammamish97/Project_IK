@@ -79,9 +79,7 @@ public:
 	float GetEvasionRate() const noexcept;
 	UFUNCTION(BlueprintPure)
 	float GetArmor() const noexcept;
-	UFUNCTION(BlueprintPure)
-	float GetSurvivability() const noexcept;
-
+	
 	UFUNCTION(BlueprintPure)
 	float GetSightRange() const noexcept;
 	UFUNCTION(BlueprintPure)
@@ -157,9 +155,6 @@ protected:
 	void SetEvasionRate(float evasion_rate) noexcept;
 	UFUNCTION(BlueprintCallable)
 	void SetArmor(float armor) noexcept;
-	UFUNCTION(BlueprintCallable)
-	void SetSurvivability(float survivability) noexcept;
-
 
 	UFUNCTION(BlueprintCallable)
 	void SetSightRange(float sight_range) noexcept;
