@@ -32,7 +32,6 @@ class PROJECT_IK_API UStoreSlot : public UUserWidget
 public:
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
-	virtual FReply NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 
 public:
 	void SetItemData(const FRewardData& item_data);

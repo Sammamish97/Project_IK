@@ -121,14 +121,6 @@ void UEquipmentRewardWidget::CreateRunePopupWidget(UTexture2D* thumbnail, const 
 	equip_popup_ptr_->AddToViewport();
 }
 
-void UEquipmentRewardWidget::SetPopupWidgetPos(FVector2D pos)
-{
-	if(equip_popup_ptr_)
-	{
-		//equip_popup_ptr_->SetPositionInViewport(pos, false);
-	}
-}
-
 void UEquipmentRewardWidget::RemovePopupWidget()
 {
 	if(equip_popup_ptr_)

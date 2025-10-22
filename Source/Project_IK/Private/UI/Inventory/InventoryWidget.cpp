@@ -278,14 +278,6 @@ void UInventoryWidget::CreateRunePopupWidget(UTexture2D* thumbnail, const FText&
 	equip_popup_ptr_->AddToViewport();
 }
 
-void UInventoryWidget::SetPopupWidgetPos(FVector2D pos)
-{
-	if(equip_popup_ptr_)
-	{
-		//equip_popup_ptr_->SetPositionInViewport(pos, false);
-	}
-}
-
 void UInventoryWidget::RemovePopupWidget()
 {
 	if(equip_popup_ptr_)

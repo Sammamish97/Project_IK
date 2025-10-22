@@ -61,15 +61,6 @@ void UStoreSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 	store_widget_cache_->RemovePopupWidget();
 }
 
-FReply UStoreSlot::NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
-{
-	Super::NativeOnMouseMove(InGeometry, InMouseEvent);
-	float pos_x, pos_y;
-	UWidgetLayoutLibrary::GetMousePositionScaledByDPI(store_widget_cache_->GetOwningPlayer(), pos_x, pos_y);
-	store_widget_cache_->SetPopupWidgetPos({pos_x, pos_y});
-	return FReply::Unhandled();
-}
-
 void UStoreSlot::SetStoreWidgetCache(UStoreWidget* store_widget)
 {
 	store_widget_cache_ = store_widget;

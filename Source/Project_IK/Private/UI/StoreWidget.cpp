@@ -143,14 +143,6 @@ void UStoreWidget::CreateRunePopupWidget(UTexture2D* thumbnail, const FText& nam
 	equip_popup_ptr_->AddToViewport();
 }
 
-void UStoreWidget::SetPopupWidgetPos(FVector2D pos)
-{
-	if(equip_popup_ptr_)
-	{
-		//equip_popup_ptr_->SetPositionInViewport(pos, false);
-	}
-}
-
 void UStoreWidget::RemovePopupWidget()
 {
 	if(equip_popup_ptr_)
