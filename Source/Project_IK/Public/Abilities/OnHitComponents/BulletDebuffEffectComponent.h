@@ -12,6 +12,7 @@ See LICENSE file in the project root for full license information.
 #include "BulletOnHitEffectComponent.h"
 #include "BulletDebuffEffectComponent.generated.h"
 
+class UBuffHandler;
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class PROJECT_IK_API UBulletDebuffEffectComponent : public UBulletOnHitEffectComponent
@@ -22,6 +23,9 @@ public:
 	virtual void OnHit(AActor* target, const FHitResult& hit_result) override;
 
 private:
-	float debuff_amount_ = -20.f;
-	float debuff_duration_ = 3.f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SkillData", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UBuffHandler> debuff_class_;
+
+	UPROPERTY();
+	TObjectPtr<UBuffHandler> debuff_;
 };

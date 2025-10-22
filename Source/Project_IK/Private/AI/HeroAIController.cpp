@@ -23,6 +23,7 @@ void AHeroAIController::RepositionHero(FVector target_location)
 	StopMovement();
 	SetFocus(nullptr);
 	ClearFocus(EAIFocusPriority::Default);
+	StopMovement();
 	GetBlackboardComponent()->SetValueAsVector(relocate_target_position_key_name_, target_location);
 }
 

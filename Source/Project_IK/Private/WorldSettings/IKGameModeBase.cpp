@@ -77,7 +77,7 @@ void AIKGameModeBase::BeginPlay()
 
 
 	SpawnHeroes();
-
+	on_battle_ = true;
 	Super::BeginPlay();
 }
 
@@ -222,12 +222,12 @@ void AIKGameModeBase::CheckWinLoseCondition()
 	{
 		return;
 	}
+	on_battle_ = false;
 
 	if (AIKPlayerController* pc = Cast<AIKPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
 	{
 		pc->GetTargetingComponent()->StopTargeting();
 	}
-
 
 	// Function call matters. 
 	// Need changes in CombatResultUI if the below line called after SaveHeroSpawnData.
@@ -356,6 +356,11 @@ void AIKGameModeBase::SetDebugDrawActivated(bool activated)
 			Cast<AMeleeAIController>(Cast<APawn>(elem)->GetController())->SetDebugDrawActivated(activated);
 		}
 	}
+}
+
+bool AIKGameModeBase::IsOnBattle() const
+{
+	return on_battle_;
 }
 
 void AIKGameModeBase::DisplayCombatResult()

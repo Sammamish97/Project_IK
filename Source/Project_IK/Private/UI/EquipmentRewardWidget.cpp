@@ -191,8 +191,8 @@ void UEquipmentRewardWidget::OnConfirmButtonClicked()
 					selected_reward_data.runes_.Push(reward_data.rune_data_);
 					break;
 				default:
+					checkNoEntry()
 					break;
-					//IKTODO: 예외처리
 				}
 			}
 		}

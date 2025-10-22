@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Subsystems/DelegateBridgeSubsystem.h"
 
 #include "NiagaraFunctionLibrary.h"
+#include "Abilities/Buffs/BuffHandler.h"
 
 #include "Subsystems/AudioManagerSubsystem.h"
 
@@ -22,9 +23,8 @@ See LICENSE file in the project root for full license information.
 void USetBonus_Chariot::ActivateEdgeBonus()
 {
 	Super::ActivateEdgeBonus();
-	//IKTODO: 테스트 이후 정상화 시켜야 함.
-	// hero_cache_->ApplyBuff(FBuffStatusData(TEXT("Chariot_Edge"), ECharacterStatType::AttackPower, 10.f, true, true));
-	// hero_cache_->ApplyBuff(FBuffStatusData(TEXT("Chariot_Edge"), ECharacterStatType::HitPoints, 10.f, true, true));
+	edge_buff_ = NewObject<UBuffHandler>(this, edge_buff_class_);
+	edge_buff_->ApplyBuff(hero_cache_);
 }
 
 //3세트: 장전 시 최대 체력의 15%에 해당하는 실드 획득.
@@ -34,10 +34,13 @@ void USetBonus_Chariot::ActivateTriangleBonus()
 	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnReload, this, &USetBonus_Chariot::GetShield);
 }
 
-//6세트: 적 처치/이동/CC기에 걸렸을 때 최대 체력의 15%에 해당하는 실드 획득 + 해당 실드의 지속시간 동안 10%의 흡혈 획득.
+//6세트: 적 처치/이동/CC기에 걸렸을 때 최대 체력의 15%에 해당하는 실드 획득 + 3초간 지속시간 동안 10%의 흡혈 획득.
 void USetBonus_Chariot::ActivateHexagonBonus()
 {
 	Super::ActivateHexagonBonus();
+	
+	hexagon_buff_ = NewObject<UBuffHandler>(this, hexagon_buff_class_);
+	
 	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnStun, this, &USetBonus_Chariot::GetShieldAndLifeSteal);
 	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnReposition, this, &USetBonus_Chariot::GetShieldAndLifeSteal);
 	GetWorld()->GetSubsystem<UDelegateBridgeSubsystem>()->BindOnUnitEvent(hero_cache_, EUnitEvent::OnEliminate, this, &USetBonus_Chariot::GetShieldAndLifeSteal);
@@ -45,13 +48,12 @@ void USetBonus_Chariot::ActivateHexagonBonus()
 
 void USetBonus_Chariot::GetShield()
 {
+	UNiagaraFunctionLibrary::SpawnSystemAttached(shield_effect_, hero_cache_->GetRootComponent(), FName(""), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget, true);
 	hero_cache_->AcquireShield(hero_cache_->GetCharacterStat()->GetHitPoint() * 0.15f, shield_duration_);
 }
 
 void USetBonus_Chariot::GetShieldAndLifeSteal()
 {
 	GetShield();
-
-	//IKTODO: 테스트 이후 정상화 시켜야 함.
-	//hero_cache_->ApplyBuff(FBuffStatusData("Chariot_Hexagon", ECharacterStatType::LifeSteal, life_steal_percentage, true, shield_duration_));
+	hexagon_buff_->ApplyBuff(hero_cache_);
 }

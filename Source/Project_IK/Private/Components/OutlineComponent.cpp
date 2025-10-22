@@ -42,9 +42,10 @@ int32 UOutlineComponent::EnumToDepthStencilChannel(EOutlineState state)
 		return 2;
 	case EOutlineState::Yellow:
 		return 3;
-
-		//IKTODO: 추후 예외처리 추가해야함.
 	default:
-		return 3;
+		{
+			checkNoEntry()
+			return 3;
+		}
 	}
 }

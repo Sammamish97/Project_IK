@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "SetBonus_Dagger.generated.h"
 
 class APooledActor;
+class UBuffHandler;
 
 UCLASS(Blueprintable)
 class PROJECT_IK_API USetBonus_Dagger : public USetBonusBase
@@ -49,10 +50,18 @@ protected:
 	void SpawnDaggers(const FVector& target_position, const FDamageData& damage_data);
 	FVector GetDaggerSpawnPosition();
 
-	FBuffStatusData edge_as_buff_data_;
-	FBuffStatusData edge_crit_buff_data_;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SkillData")
+	TSubclassOf<UBuffHandler> edge_buff_class_;
 
-	FBuffStatusData triangle_buff_data_;
+	UPROPERTY();
+	TObjectPtr<UBuffHandler> edge_buff_;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SkillData")
+	TSubclassOf<UBuffHandler> triangle_buff_class_;
+
+	UPROPERTY();
+	TObjectPtr<UBuffHandler> triangle_buff_;
+	
 	
 	UPROPERTY()
 	TObjectPtr<class UObjectPoolComponent> bullet_pool_;

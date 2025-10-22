@@ -68,6 +68,8 @@ public:
 	UFUNCTION()
 	void SetDebugDrawActivated(bool activated);
 
+	bool IsOnBattle() const;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Spawn")
 	TSubclassOf<UEnemySpawnerManager> enemy_spawner_manager_class_;
 
@@ -99,4 +101,6 @@ protected:
 	TObjectPtr<UEnemySpawnerManager> enemy_spawner_manager_;
 
 	bool has_game_won_ = true;
+
+	bool on_battle_ = false;
 };
