@@ -252,7 +252,6 @@ void UInventoryWidget::CreateWeaponPopupWidget(UTexture2D* thumbnail, const FTex
 	equip_popup_ptr_->UpdatePopupData(thumbnail, name, detail);
 	Cast<UWeaponPopupWidget>(equip_popup_ptr_)->UpdateWeaponData(data);
 	equip_popup_ptr_->AddToViewport();
-	equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void UInventoryWidget::CreateActiveSkillPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail, float cool_down)
@@ -261,7 +260,6 @@ void UInventoryWidget::CreateActiveSkillPopupWidget(UTexture2D* thumbnail, const
 	equip_popup_ptr_->UpdatePopupData(thumbnail, name, detail);
 	Cast<UActiveSkillPopupWidget>(equip_popup_ptr_)->UpdateCoolDown(cool_down);
 	equip_popup_ptr_->AddToViewport();
-	equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void UInventoryWidget::CreatePassiveSkillPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail)
@@ -269,7 +267,6 @@ void UInventoryWidget::CreatePassiveSkillPopupWidget(UTexture2D* thumbnail, cons
 	equip_popup_ptr_ = CreateWidget<UBasicPopupWidget>(this, passive_skill_popup_class_);
 	equip_popup_ptr_->UpdatePopupData(thumbnail, name, detail);
 	equip_popup_ptr_->AddToViewport();
-	equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void UInventoryWidget::CreateRunePopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail,
@@ -279,14 +276,13 @@ void UInventoryWidget::CreateRunePopupWidget(UTexture2D* thumbnail, const FText&
 	equip_popup_ptr_->UpdatePopupData(thumbnail, name, detail);
 	Cast<USingleRunePopupWidget>(equip_popup_ptr_)->UpdateRuneData(rune_set_type, ERuneSetBonusType::Hexagon);
 	equip_popup_ptr_->AddToViewport();
-	equip_popup_ptr_->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void UInventoryWidget::SetPopupWidgetPos(FVector2D pos)
 {
 	if(equip_popup_ptr_)
 	{
-		equip_popup_ptr_->SetPositionInViewport(pos, false);
+		//equip_popup_ptr_->SetPositionInViewport(pos, false);
 	}
 }
 
