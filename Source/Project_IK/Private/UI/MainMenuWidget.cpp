@@ -21,6 +21,7 @@ See LICENSE file in the project root for full license information.
 
 #include "SaveGame/SavePerkProgress.h"
 #include "SaveGame/SaveRunProgress.h"
+#include "SaveGame/SaveTutorialVisited.h"
 #include "Subsystems/PerkProgressSubsystem.h"
 
 void UMainMenuWidget::NativeConstruct()
@@ -63,13 +64,13 @@ void UMainMenuWidget::OnNewGameButtonClicked()
 	//세이브 데이터 초기화
 	USavePerkProgress::StaticClass()->GetDefaultObject<USavePerkProgress>()->DeleteSaveFile();
 	USaveRunProgress::StaticClass()->GetDefaultObject<USaveRunProgress>()->DeleteSaveFile();
+	USaveTutorialVisited::StaticClass()->GetDefaultObject<USaveTutorialVisited>()->DeleteSaveFile();
 
 
 
 	//네러티브 레벨로 이동
 
 	UIKGameInstance* instance = Cast<UIKGameInstance>(GetGameInstance());
-
 
 	if (instance)
 	{
@@ -80,6 +81,10 @@ void UMainMenuWidget::OnNewGameButtonClicked()
 		UIKMaps* map = instance->GetMapPtr();
 		map->GenerateMaps(10, 5);
 		instance->GetSubsystem<UPerkProgressSubsystem>()->Clear();
+
+		// Clear tutorial data.
+		instance->SetIsFirstBattle(true);
+		instance->SetIsFirstInventory(true);
 	}
 	ULevelTransitionSubsystem* level_transition_subsystem = GetWorld()->GetGameInstance()->GetSubsystem<ULevelTransitionSubsystem>();
 	level_transition_subsystem->OpenLevel(GetWorld(), ELevelState::Opening);

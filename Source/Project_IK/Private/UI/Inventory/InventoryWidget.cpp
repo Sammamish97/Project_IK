@@ -213,7 +213,7 @@ void UInventoryWidget::OnStartTutorial()
 		
 	tutorial_widget_->SetVisibility(ESlateVisibility::Visible);
 	background_image_->OnMouseButtonDownEvent.BindDynamic(this, &UInventoryWidget::OnExitTutorial);
-	game_instance->SetIsFirstInventoryFalse();
+	game_instance->SetIsFirstInventory(false);
 }
 
 FEventReply UInventoryWidget::OnExitTutorial(FGeometry MyGeometry, const FPointerEvent& MouseEvent)

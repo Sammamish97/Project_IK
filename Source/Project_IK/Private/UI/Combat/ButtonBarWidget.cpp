@@ -131,7 +131,7 @@ void UButtonBarWidget::OnStartTutorial()
 		
 	tutorial_->SetVisibility(ESlateVisibility::Visible);
 	background_image_->OnMouseButtonDownEvent.BindDynamic(this, &UButtonBarWidget::OnExitTutorial);
-	game_instance->SetIsFirstBattleFalse();
+	game_instance->SetIsFirstBattle(false);
 }
 
 FEventReply UButtonBarWidget::OnExitTutorial(FGeometry MyGeometry, const FPointerEvent& MouseEvent)
