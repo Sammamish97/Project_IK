@@ -17,6 +17,7 @@ See LICENSE file in the project root for full license information.
 
 void UBasicPopupWidget::UpdatePopupData(UTexture2D* thumbnail, const FText& name, const FText& detail)
 {
+	SetVisibility(ESlateVisibility::Visible);
 	thumbnail_->SetBrushFromTexture(thumbnail);
 	name_->SetText(name);
 	detail_->SetText(detail);
