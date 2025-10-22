@@ -15,6 +15,8 @@ See LICENSE file in the project root for full license information.
 #include "Managers/EnumCluster.h"
 #include "ButtonBarWidget.generated.h"
 
+class UTextBlock;
+class UOverlay;
 class USupportSkillPopupWidget;
 class UActiveSkillPopupWidget;
 class UBasicPopupWidget;
@@ -27,6 +29,7 @@ class UActiveSkillMechanics;
 class UCostUI;
 class UTexture2D;
 class UCreditWidget;
+class UImage;
 
 struct FTargetResult;
 
@@ -73,6 +76,13 @@ protected:
 	UFUNCTION()
 	void OnSupportSkillButtonClicked2();
 
+	//
+
+	UFUNCTION()
+	void OnStartTutorial();
+	
+	UFUNCTION()
+	FEventReply OnExitTutorial(FGeometry MyGeometry, const FPointerEvent& MouseEvent);
 	//
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Textures")
@@ -121,6 +131,29 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<URunePopupWidget> rune_popup_widget_;
 	
+	//
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UOverlay> tutorial_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UImage> background_image_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> active_skill_tutorial_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> support_skill_tutorial_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> speed_tutorial_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> camera_tutorial_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> exit_tutorial_;
+
+	FTimerHandle tutorial_start_timer_;
 	//
 	
 	UPROPERTY()

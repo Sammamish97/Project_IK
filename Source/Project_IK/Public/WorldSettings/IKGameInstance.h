@@ -59,6 +59,12 @@ public:
 	class UEventManager* GetEventManager() const noexcept;
 
 	void LoadRunSaveData();
+
+	bool IsFirstBattle();
+	bool IsFirstInventory();
+
+	void SetIsFirstBattle(bool value);
+	void SetIsFirstInventory(bool value);
 private:
 	void InitializePerkEffectsAlreadyUnlocked();
 	void InitializeMaps();
@@ -102,4 +108,10 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Game Instance", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UTextManager> text_manager_class_;
+
+	UPROPERTY(VisibleAnywhere, SaveGame)
+	bool is_first_battle_;
+
+	UPROPERTY(VisibleAnywhere, SaveGame)
+	bool is_first_inventory_;
 };

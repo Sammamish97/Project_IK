@@ -29,6 +29,7 @@ See LICENSE file in the project root for full license information.
 #include "SaveGame/SaveRunProgress.h"
 #include "SaveGame/SaveSettings.h"
 #include "Kismet/GameplayStatics.h"
+#include "SaveGame/SaveTutorialVisited.h"
 #include "Subsystems/AudioManagerSubsystem.h"
 #include "Subsystems/RandomNumberGeneratorSubsystem.h"
 
@@ -214,6 +215,17 @@ void UIKGameInstance::LoadSaveData()
 		// No save data
 	}
 
+	USaveTutorialVisited* saved_tutorial_progress = Cast<USaveTutorialVisited>(UGameplayStatics::LoadGameFromSlot(USaveTutorialVisited::StaticClass()->GetDefaultObject<USaveTutorialVisited>()->GetSaveSlotName(), 0));
+	if (saved_tutorial_progress)
+	{
+		is_first_battle_ = saved_tutorial_progress->is_first_battle_;
+		is_first_inventory_ = saved_tutorial_progress->is_first_inventory_;
+	}
+	else
+	{
+		is_first_battle_ = true;
+		is_first_inventory_ = true;
+	}
 	LoadRunSaveData();
 }
 
@@ -249,4 +261,38 @@ void UIKGameInstance::LoadRunSaveData()
 		InitSpawnData();
 		inventory_manager_->SetCredits(0);
 	}
+}
+
+bool UIKGameInstance::IsFirstBattle()
+{
+	return is_first_battle_;
+}
+
+bool UIKGameInstance::IsFirstInventory()
+{
+	return is_first_inventory_;
+}
+
+void UIKGameInstance::SetIsFirstBattle(bool value)
+{
+	is_first_battle_ = value;
+	USaveTutorialVisited* save_tutorial_instance = Cast<USaveTutorialVisited>(UGameplayStatics::LoadGameFromSlot(USaveTutorialVisited::StaticClass()->GetDefaultObject<USaveTutorialVisited>()->GetSaveSlotName(), 0));
+	if (save_tutorial_instance == nullptr)
+	{
+		save_tutorial_instance = Cast<USaveTutorialVisited>(UGameplayStatics::CreateSaveGameObject(USaveTutorialVisited::StaticClass()));
+	}
+	save_tutorial_instance->is_first_battle_ = is_first_battle_;
+	UGameplayStatics::SaveGameToSlot(save_tutorial_instance, save_tutorial_instance->GetSaveSlotName(), 0);
+}
+
+void UIKGameInstance::SetIsFirstInventory(bool value)
+{
+	is_first_inventory_ = value;
+	USaveTutorialVisited* save_tutorial_instance = Cast<USaveTutorialVisited>(UGameplayStatics::LoadGameFromSlot(USaveTutorialVisited::StaticClass()->GetDefaultObject<USaveTutorialVisited>()->GetSaveSlotName(), 0));
+	if (save_tutorial_instance == nullptr)
+	{
+		save_tutorial_instance = Cast<USaveTutorialVisited>(UGameplayStatics::CreateSaveGameObject(USaveTutorialVisited::StaticClass()));
+	}
+	save_tutorial_instance->is_first_inventory_ = is_first_inventory_;
+	UGameplayStatics::SaveGameToSlot(save_tutorial_instance, save_tutorial_instance->GetSaveSlotName(), 0);
 }

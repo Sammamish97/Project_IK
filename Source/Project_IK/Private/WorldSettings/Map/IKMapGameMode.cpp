@@ -67,7 +67,7 @@ void AIKMapGameMode::HealHeroesAfterCombat()
 void AIKMapGameMode::SaveGameData()
 {
 	USaveRunProgress* save_game_instance = Cast<USaveRunProgress>(UGameplayStatics::CreateSaveGameObject(USaveRunProgress::StaticClass()));
-
+	
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(GetGameInstance());
 
 	if (save_game_instance && game_instance)

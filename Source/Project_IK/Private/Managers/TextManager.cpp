@@ -136,6 +136,11 @@ FText UTextManager::GetHeroNameText(EHeroType hero_type) const
 	}
 }
 
+FText UTextManager::GetTutorialText(ETutorialTextType type) const
+{
+	return FText::FromStringTable(tutorial_text_table_->GetStringTableId(), TutorialEnumToKey(type));
+}
+
 FText UTextManager::GetOpeningText(int32 idx) const
 {
 	return FText::FromStringTable(opening_text_table_->GetStringTableId(), FString::FromInt(idx));
@@ -1278,6 +1283,54 @@ FString UTextManager::RunResultEnumToKey(ERunResultType type) const
 		break;
 	case ERunResultType::ClickToProcess:
 		key = "CLICKTOPROCESS";
+		break;
+	}
+	return key;
+}
+
+FString UTextManager::TutorialEnumToKey(ETutorialTextType tutorial_type) const
+{
+	FString key;
+	switch (tutorial_type)
+	{
+	case ETutorialTextType::ActiveSkillTutorial:
+		key = "AST";
+		break;
+	case ETutorialTextType::SupportSkillTutorial:
+		key = "SST";
+		break;
+	case ETutorialTextType::SpeedTutorial:
+		key = "ST";
+		break;
+	case ETutorialTextType::CameraTutorial:
+		key = "CT";
+		break;
+	case ETutorialTextType::EquipTutorial:
+		key = "EQT";
+		break;
+	case ETutorialTextType::WeaponEquipTutorial:
+		key = "WPT";
+		break;
+	case ETutorialTextType::ActiveSkillEquipTutorial:
+		key = "ASET";
+		break;
+	case ETutorialTextType::PassiveSkillEquipTutorial:
+		key = "PSET";
+		break;
+	case ETutorialTextType::RuneEquipTutorial:
+		key = "RET";
+		break;
+	case ETutorialTextType::RuneEdgeTutorial:
+		key = "RE";
+		break;
+	case ETutorialTextType::RuneTriangleTutorial:
+		key = "RT";
+		break;
+	case ETutorialTextType::RuneHexagonTutorial:
+		key = "RH";
+		break;
+	case ETutorialTextType::ExitTutorial:
+		key = "ET";
 		break;
 	}
 	return key;
