@@ -24,11 +24,6 @@ public:
 
 private:
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> basic_dmg_text_;
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> basic_dmg_value_;
-	
-	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> attack_power_ratio_text_;
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> attack_power_ratio_value_;

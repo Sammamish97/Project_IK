@@ -61,7 +61,7 @@ public:
 	FText GetCombatResultText(ECombatResultType type) const;
 	FText GetRunResultText(ERunResultType type) const;
 	FText GetOpeningText(int32 idx) const;
-
+	FText GetTutorialText(ETutorialTextType type) const;
 	
 private:
 	FString RuneEnumToKey(ERuneSetType type) const;
@@ -85,6 +85,7 @@ private:
 	FString ConfirmationEnumToKey(EConfirmationType type) const;
 	FString CombatResultEnumToKey(ECombatResultType type) const;
 	FString RunResultEnumToKey(ERunResultType type) const;
+	FString TutorialEnumToKey(ETutorialTextType tutorial_type) const;
 	
 private:
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
@@ -210,4 +211,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStringTable> opening_text_table_;
+
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStringTable> tutorial_text_table_;
 };

@@ -87,15 +87,6 @@ void UInventorySlot::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent
 	Super::NativeOnDragCancelled(InDragDropEvent, InOperation);
 }
 
-FReply UInventorySlot::NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
-{
-	Super::NativeOnMouseMove(InGeometry, InMouseEvent);
-	float pos_x, pos_y;
-	UWidgetLayoutLibrary::GetMousePositionScaledByDPI(inventory_widget_cache_->GetOwningPlayer(), pos_x, pos_y);
-	inventory_widget_cache_->SetPopupWidgetPos({pos_x, pos_y});
-	return FReply::Unhandled();
-}
-
 void UInventorySlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseLeave(InMouseEvent);

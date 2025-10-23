@@ -27,7 +27,7 @@ void UStoreSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerE
 	case EGearType::ActiveSkill:
 		store_widget_cache_->CreateActiveSkillPopupWidget(item_data_.active_skill_data_.thumbnail_,
 			text_manager_cache_->GetActiveSkillNameText(item_data_.active_skill_data_.type_),
-			text_manager_cache_->GetActiveSkillDetailText(item_data_.active_skill_data_.type_),
+			item_data_.active_skill_data_.BuildDetailText(GetWorld()),
 			item_data_.active_skill_data_.cool_time_);
 		break;
 
@@ -59,15 +59,6 @@ void UStoreSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseLeave(InMouseEvent);
 	store_widget_cache_->RemovePopupWidget();
-}
-
-FReply UStoreSlot::NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
-{
-	Super::NativeOnMouseMove(InGeometry, InMouseEvent);
-	float pos_x, pos_y;
-	UWidgetLayoutLibrary::GetMousePositionScaledByDPI(store_widget_cache_->GetOwningPlayer(), pos_x, pos_y);
-	store_widget_cache_->SetPopupWidgetPos({pos_x, pos_y});
-	return FReply::Unhandled();
 }
 
 void UStoreSlot::SetStoreWidgetCache(UStoreWidget* store_widget)

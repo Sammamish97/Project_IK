@@ -28,6 +28,9 @@ class PROJECT_IK_API UBasicPopupWidget : public UUserWidget
 public:
 	void UpdatePopupData(UTexture2D* thumbnail, const FText& name, const FText& detail);
 	void ResetWidget();
+	virtual void NativeConstruct() override;
+	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+	void MoveToInsideOfViewport();
 	
 protected:
 	UPROPERTY(meta = (BindWidget))
@@ -38,4 +41,12 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<URichTextBlock> detail_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Popup")
+	FVector2D FollowOffset = FVector2D(0.f, 0.f);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Popup")
+	float ScreenPadding = 0.f;
+
+	bool do_not_draw_single_frame_ = true;
 };

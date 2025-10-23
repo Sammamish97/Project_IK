@@ -20,9 +20,6 @@ void UWeaponPopupWidget::UpdateWeaponData(const FWeaponStatusData& data)
 {
 	UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	UTextManager* text_manager = game_instance->GetTextManager();
-	
-	basic_dmg_text_->SetText(text_manager->GetPopUpText("BasicDmg"));
-	basic_dmg_value_->SetText(FText::AsNumber(data.basic_dmg_));
 
 	attack_power_ratio_text_->SetText(text_manager->GetPopUpText("ATP"));
 	attack_power_ratio_value_->SetText(FText::AsNumber(data.attack_scale));

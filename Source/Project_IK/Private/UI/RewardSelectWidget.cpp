@@ -34,10 +34,12 @@ void URewardSelectWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const 
 	switch (reward_data_.gear_type_)
 	{
 	case EGearType::ActiveSkill:
-		equipment_reward_widget_cache_->CreateActiveSkillPopupWidget(reward_data_.active_skill_data_.thumbnail_,
-			text_manager_cache_->GetActiveSkillNameText(reward_data_.active_skill_data_.type_),
-			text_manager_cache_->GetActiveSkillDetailText(reward_data_.active_skill_data_.type_),
-			reward_data_.active_skill_data_.cool_time_);
+		{
+			equipment_reward_widget_cache_->CreateActiveSkillPopupWidget(reward_data_.active_skill_data_.thumbnail_,
+						text_manager_cache_->GetActiveSkillNameText(reward_data_.active_skill_data_.type_),
+						reward_data_.active_skill_data_.BuildDetailText(GetWorld()),
+						reward_data_.active_skill_data_.cool_time_);
+		}
 		break;
 
 	case EGearType::PassiveSkill:
@@ -68,15 +70,6 @@ void URewardSelectWidget::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseLeave(InMouseEvent);
 	equipment_reward_widget_cache_->RemovePopupWidget();
-}
-
-FReply URewardSelectWidget::NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
-{
-	Super::NativeOnMouseMove(InGeometry, InMouseEvent);
-	float pos_x, pos_y;
-	UWidgetLayoutLibrary::GetMousePositionScaledByDPI(equipment_reward_widget_cache_->GetOwningPlayer(), pos_x, pos_y);
-	equipment_reward_widget_cache_->SetPopupWidgetPos({pos_x, pos_y});
-	return FReply::Unhandled();
 }
 
 void URewardSelectWidget::SetRewardData(const FActiveSkillData& data)

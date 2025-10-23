@@ -40,7 +40,6 @@ public:
 	void CreatePassiveSkillPopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail);
 	void CreateRunePopupWidget(UTexture2D* thumbnail, const FText& name, const FText& detail, ERuneSetType rune_set_type);
 
-	void SetPopupWidgetPos(FVector2D pos);
 	void RemovePopupWidget();
 	
 protected:
