@@ -59,7 +59,7 @@ public:
 	void RemoveFromRewardContainer(UInventorySlot* slot_ptr);
 
 	UFUNCTION()
-	bool CheckDuplicatedActiveSkill(EActiveSkillType type);
+	bool CheckDuplicatedActiveSkill(EActiveSkillType cur_type, EActiveSkillType new_type);
 
 	UFUNCTION()
 	bool CheckDuplicatedPassiveSkill(EHeroType hero_type, EPassiveSkillType type);
