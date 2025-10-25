@@ -94,6 +94,8 @@ void UStoreWidget::NativeConstruct()
 	}
 	confirmation_widget_->OnConfirmation.AddDynamic(this, &UStoreWidget::GoToNextLevel);
 
+	total_text_->SetText(text_manager_cache_->GetStoreText(EStoreTextType::Total));
+	casher_text_->SetText(text_manager_cache_->GetStoreText(EStoreTextType::Welcome));
 	pay_button_->OnClicked.AddDynamic(this, &UStoreWidget::OnPayButtonClicked);
 	pay_text_->SetText(text_manager_cache_->GetStoreText(EStoreTextType::Leave));
 }

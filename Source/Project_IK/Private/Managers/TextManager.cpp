@@ -1158,6 +1158,12 @@ FString UTextManager::StoreEnumToKey(EStoreTextType store_type) const
 	case EStoreTextType::ConfirmLeave:
 		key = "CFLEAVE";
 		break;
+	case EStoreTextType::Welcome:
+		key = "WELCOME";
+		break;
+	case EStoreTextType::Total:
+		key = "TOTAL";
+		break;
 	}
 	return key;
 }

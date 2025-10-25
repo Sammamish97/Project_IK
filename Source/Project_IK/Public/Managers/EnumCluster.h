@@ -918,6 +918,8 @@ enum class EStoreTextType : uint8
 	NotEnoughCredit UMETA(DisplayName = "NotEnoughCredit"),
 	ConfirmPurchase UMETA(DisplayName = "ConfirmPurchase"),
 	ConfirmLeave UMETA(DisplayName = "ConfirmLeave"),
+	Welcome UMETA(DisplayName = "Welcome"),
+	Total UMETA(DisplayName = "Total"),
 };
 
 UENUM(BlueprintType)
