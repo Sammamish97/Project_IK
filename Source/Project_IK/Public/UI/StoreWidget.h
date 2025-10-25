@@ -81,6 +81,9 @@ protected:
 	TObjectPtr<UHorizontalBox> passive_slot_container_;
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UHorizontalBox> rune_slot_container_;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> total_text_;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> total_cost_text_;
