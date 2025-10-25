@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/WidgetSwitcher.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
+#include "Managers/InventoryManager.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "UI/ConfirmationWidget.h"
 #include "UI/Inventory/HeroEquipBoardWidget.h"
@@ -444,6 +445,11 @@ void UInventoryWidget::OnConfirm()
 
 void UInventoryWidget::OnConfirmationWidgetClicked()
 {
+	if (int32 left_item_amount = reward_container_->RewardContainerElemAmount())
+	{
+		UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		game_instance->GetInventoryManager()->AddCredits(25 * left_item_amount);
+	}
 	if (OnConfirm_)
 	{
 		OnConfirm_();

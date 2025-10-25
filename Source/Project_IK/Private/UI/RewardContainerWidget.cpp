@@ -115,7 +115,6 @@ void URewardContainerWidget::RemoveWidgetFromRewardContainer(UInventorySlot* rem
 void URewardContainerWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-
 	for (auto weapon_data : reward_cache_.weapons_)
 	{
 		auto created_widget = CreateWidget<UWeaponSlotWidget>(this, weapon_slot_widget_class_);
@@ -173,4 +172,9 @@ bool URewardContainerWidget::NativeOnDrop(const FGeometry& InGeometry, const FDr
 bool URewardContainerWidget::IsRewardContainerEmpty() const
 {
 	return reward_slots_.IsEmpty();
+}
+
+int32 URewardContainerWidget::RewardContainerElemAmount() const
+{
+	return reward_slots_.Num();
 }
