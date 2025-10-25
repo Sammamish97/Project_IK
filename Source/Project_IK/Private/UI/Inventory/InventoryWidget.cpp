@@ -15,6 +15,7 @@ See LICENSE file in the project root for full license information.
 #include "Components/WidgetSwitcher.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/DataTableManager.h"
+#include "Managers/InventoryManager.h"
 #include "Subsystems/LevelTransitionSubsystem.h"
 #include "UI/ConfirmationWidget.h"
 #include "UI/Inventory/HeroEquipBoardWidget.h"
@@ -101,23 +102,27 @@ void UInventoryWidget::RemoveFromRewardContainer(UInventorySlot* slot_ptr)
 	reward_container_->RemoveWidgetFromRewardContainer(slot_ptr);
 }
 
-bool UInventoryWidget::CheckDuplicatedActiveSkill(EActiveSkillType type)
+bool UInventoryWidget::CheckDuplicatedActiveSkill(EActiveSkillType cur_type, EActiveSkillType new_type)
 {
+	//0. 만약 현재 장착한 스킬과 동일하거나 랭크만 다른 스킬을 장착하려고 한다면 교체가 되어야 한다.
+	if (GetOppositeActiveSkillType(new_type) == cur_type)
+	{
+		return false;
+	}
 	//1. 동일한 타입이 있는지 검사한다.
 	for (const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
 	{
-		if (elem->active_skill_slot_->GetStoredActiveSkillData().type_ == type)
+		if (elem->active_skill_slot_->GetStoredActiveSkillData().type_ == new_type)
 		{
 			return true;
 		}
 	}
 	
 	//2. 자신과 type은 동일하지만 등급이 다른 스킬이 있는지 검사한다.
-	EActiveSkillType opposite_type = GetOppositeActiveSkillType(type);
+	EActiveSkillType opposite_type = GetOppositeActiveSkillType(new_type);
 	for (const auto& elem : {hero_board_0_, hero_board_1_, hero_board_2_, hero_board_3_})
 	{
 		if (elem->active_skill_slot_->GetStoredActiveSkillData().type_ == opposite_type)
-
 		{
 			return true;
 		}
@@ -440,6 +445,11 @@ void UInventoryWidget::OnConfirm()
 
 void UInventoryWidget::OnConfirmationWidgetClicked()
 {
+	if (int32 left_item_amount = reward_container_->RewardContainerElemAmount())
+	{
+		UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		game_instance->GetInventoryManager()->AddCredits(25 * left_item_amount);
+	}
 	if (OnConfirm_)
 	{
 		OnConfirm_();
