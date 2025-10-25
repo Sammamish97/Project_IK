@@ -24,6 +24,19 @@ UAT_ThunderStorm::UAT_ThunderStorm()
 	ai_holding_time_ = 1.5f;
 }
 
+void UAT_ThunderStorm::InitActiveSkill(AActor* skill_owner, const FActiveSkillData& skill_data)
+{
+	Super::InitActiveSkill(skill_owner, skill_data);
+	if (IsUpgradedActiveSkill(skill_data_.type_))
+	{
+		max_storm_count_ = 6;
+	}
+	else
+	{
+		max_storm_count_ = 4;
+	}
+}
+
 bool UAT_ThunderStorm::CanActivateSkill(const FTargetResult& TargetResult)
 {
 	return visual_actor_class_ != nullptr;
@@ -37,7 +50,7 @@ bool UAT_ThunderStorm::ActivateSkill(const FTargetResult& TargetResult)
 	visual_actor_ = skill_owner_->GetWorld()->SpawnActor<AThunderStorm>(visual_actor_class_, TargetResult.target_location_, FRotator::ZeroRotator, spawn_params);
 	if (visual_actor_)
 	{
-		visual_actor_->SetNecessaryData(target_param_.radius_, skill_data_.skill_power_scales_[0], damage_, skill_owner_);
+		visual_actor_->SetNecessaryData(target_param_.radius_, skill_data_.skill_power_scales_[0], damage_, skill_owner_, max_storm_count_);
 		return Super::ActivateSkill(TargetResult);
 	}
 	return false;
