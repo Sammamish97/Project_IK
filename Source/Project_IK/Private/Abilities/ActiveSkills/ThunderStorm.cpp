@@ -39,7 +39,7 @@ AThunderStorm::AThunderStorm()
 	decal_->SetRelativeRotation(FRotator(90.0, 0.0, 0.0));
 }
 
-void AThunderStorm::SetNecessaryData(float radius, float scaling_factor, float damage, AActor* skill_owner, float max_damage_count)
+void AThunderStorm::SetNecessaryData(float radius, float scaling_factor, float damage, AActor* skill_owner, int32 max_damage_count)
 {
 	radius_ = radius;
 	decal_->DecalSize = FVector(radius);

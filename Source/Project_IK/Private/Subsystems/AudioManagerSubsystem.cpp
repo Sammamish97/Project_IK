@@ -174,22 +174,42 @@ void UAudioManagerSubsystem::LoadReferences()
 	if (!audio_cues_)
 	{
 		audio_cues_ = LoadSync(soft_audio_cues_);
+		if (audio_cues_ == nullptr)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Failed to load audio_Cues_"));
+		}
 	}
 	if (!master_mix_)
 	{
 		master_mix_ = LoadSync(soft_master_mix_);
+		if (master_mix_ == nullptr)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Failed to load master_mix_"));
+		}
 	}
 
 	if (!master_channel_)
 	{
 		master_channel_ = LoadSync(soft_master_channel_);
+		if (master_channel_ == nullptr)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Failed to load master_channel_"));
+		}
 	}
 	if (!bgm_channel_)
 	{
 		bgm_channel_ = LoadSync(soft_bgm_channel_);
+		if (bgm_channel_ == nullptr)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Failed to load bgm_channel_"));
+		}
 	}
 	if (!sfx_channel_)
 	{
 		sfx_channel_ = LoadSync(soft_sfx_channel_);
+		if (sfx_channel_ == nullptr)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Failed to load sfx_channel_"));
+		}
 	}
 }
