@@ -189,8 +189,17 @@ void UEquipmentRewardWidget::OnConfirmButtonClicked()
 			}
 		}
 
+
 		UIKGameInstance* game_instance = Cast<UIKGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
+		// Increase credits as much as choice not used.
+		if (max_choice_ - selected_amount_ >= 0)
+		{
+			game_instance->GetInventoryManager()->AddCredits((max_choice_ - selected_amount_) * 25);
+		}
+
+
+		// Go next step.
 		hud->SwitchUIByState(ECombatEndState::ShowingInventoryUI);
 
 		game_instance->GetInventoryManager()->OpenInventoryWidgetReward(selected_reward_data,

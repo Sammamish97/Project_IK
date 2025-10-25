@@ -30,9 +30,9 @@ protected:
 	TObjectPtr<UNiagaraSystem> reposition_vfx_;
 
 
-private:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FTargetParameters reposition_location_params_ = FTargetParameters();
 
-	UPROPERTY(Transient)
+	UPROPERTY()
 	TObjectPtr<AHeroBase> selected_hero_ = nullptr;
 };

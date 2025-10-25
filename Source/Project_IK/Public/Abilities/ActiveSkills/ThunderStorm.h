@@ -31,7 +31,7 @@ public:
 	AThunderStorm();
 
 	UFUNCTION(BlueprintCallable)
-	void SetNecessaryData(float radius, float scaling_factor, float damage, AActor* skill_owner, float max_damage_count = 4);
+	void SetNecessaryData(float radius, float scaling_factor, float damage, AActor* skill_owner, int32 max_damage_count = 4);
 
 	void DamageEnemies();
 	void BeginThunderStormPostProcess();

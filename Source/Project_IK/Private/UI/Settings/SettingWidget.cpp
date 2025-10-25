@@ -60,13 +60,13 @@ void USettingWidget::NativeConstruct()
 
 	InitLanguageDropdown();
 
-	resolution_box_->OnSelectionChanged.AddDynamic(this, &USettingWidget::OnResolutionSelected);
-	window_mode_box_->OnSelectionChanged.AddDynamic(this, &USettingWidget::OnWindowModeSelected);
-	v_sync_box_->OnCheckStateChanged.AddDynamic(this, &USettingWidget::OnVSyncChanged);
-
 	PopulateResolutions();
 
 	SyncUIFromGraphicsSettings();
+
+	resolution_box_->OnSelectionChanged.AddDynamic(this, &USettingWidget::OnResolutionSelected);
+	window_mode_box_->OnSelectionChanged.AddDynamic(this, &USettingWidget::OnWindowModeSelected);
+	v_sync_box_->OnCheckStateChanged.AddDynamic(this, &USettingWidget::OnVSyncChanged);
 }
 
 void USettingWidget::NativeDestruct()
@@ -151,8 +151,6 @@ void USettingWidget::SaveSettingData()
 
 void USettingWidget::InitLanguageDropdown()
 {
-	language_box_->OnSelectionChanged.AddDynamic(this, &USettingWidget::OnLanguageSelected);
-
 	PopulateDropdown();
 
 	const FString current = UKismetInternationalizationLibrary::GetCurrentCulture();
@@ -165,6 +163,8 @@ void USettingWidget::InitLanguageDropdown()
 			break;
 		}
 	}
+
+	language_box_->OnSelectionChanged.AddDynamic(this, &USettingWidget::OnLanguageSelected);
 }
 
 void USettingWidget::OnLanguageSelected(FString selected, ESelectInfo::Type selection_type)
@@ -173,6 +173,8 @@ void USettingWidget::OnLanguageSelected(FString selected, ESelectInfo::Type sele
 	{
 		UKismetInternationalizationLibrary::SetCurrentCulture(*code, true);
 	}
+
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Confirm);
 }
 
 void USettingWidget::PopulateDropdown()
@@ -207,6 +209,7 @@ void USettingWidget::OnResolutionSelected(FString selected, ESelectInfo::Type se
 			setting->SetScreenResolution(*resolution);
 		}
 	}
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Confirm);
 }
 
 void USettingWidget::PopulateResolutions()
@@ -252,6 +255,8 @@ void USettingWidget::OnWindowModeSelected(FString selected, ESelectInfo::Type se
 			break;
 		}
 	}
+
+	UAudioManagerSubsystem::Get(this)->Play2D(EAudioType::UI_Confirm);
 }
 
 void USettingWidget::OnVSyncChanged(bool is_checked)

@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Game\n"
-"POT-Creation-Date: 2025-09-15 14:39\n"
-"PO-Revision-Date: 2025-09-15 14:39\n"
+"POT-Creation-Date: 2025-10-23 03:10\n"
+"PO-Revision-Date: 2025-10-23 03:10\n"
 "Language-Team: \n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
@@ -17,70 +17,70 @@ msgstr ""
 #. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 #: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 msgctxt "ActiveSkill_Detail,CS_A"
-msgid "단일 적에게 {0}의 물리 피해를 가하는 탄환을 발사합니다. 만약 적이 죽는다면 쿨타임이 2초 감소합니다."
+msgid "단일 적에게 <AD>{0}의 물리피해</>를 가하는 탄환을 발사합니다. 만약 적이 죽는다면 쿨타임이 2초 감소합니다."
 msgstr "Fires a bullet that deals {0} physical damage to a single enemy. On kill, reduces the cooldown by 2 seconds."
 
 #. Key:	CS_B
 #. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 #: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 msgctxt "ActiveSkill_Detail,CS_B"
-msgid "단일 적에게 {0}의 물리 피해를 가하는 탄환을 발사합니다."
+msgid "단일 적에게 <AD>{0}의 물리피해</>를 가하는 탄환을 발사합니다."
 msgstr "Fires a bullet that deals {0} physical damage to a single enemy."
 
 #. Key:	DS_A
 #. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 #: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 msgctxt "ActiveSkill_Detail,DS_A"
-msgid "{0}의 체력과 {1}의 공격력을 가진 포탑을 소환합니다. 20%의 추가 공격속도를 얻습니다."
+msgid "<DEF>{0}의 체력</>과 <AD>{1}의 공격력</>을 가진 포탑을 소환합니다. 20%의 추가 공격속도를 얻습니다."
 msgstr "Summons a turret with {0} HP and {1} attack power. Gain an additional 20% attack speed."
 
 #. Key:	DS_B
 #. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 #: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 msgctxt "ActiveSkill_Detail,DS_B"
-msgid "{0}의 체력과 {1}의 공격력을 가진 포탑을 소환합니다."
+msgid "<DEF>{0}의 체력</>과 <AD>{1}의 공격력</>을 가진 포탑을 소환합니다."
 msgstr "Summons a turret with {0} HP and {1} attack power."
 
 #. Key:	EC_A
 #. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 #: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 msgctxt "ActiveSkill_Detail,EC_A"
-msgid "범위 내 아군들이 5초간 {0}의 실드와 {1}의 공격력, {2}의 스킬 위력을 얻고, 액티브 스킬의 쿨타임이 1초 감소합니다."
+msgid "범위 내 아군들이 5초간 <DEF>{0}의 실드</>와 <AD>{1}의 공격력</>, <AP>{2}의 스킬 위력</>\r\n을 얻고, 액티브 스킬의 쿨타임이 1초 감소합니다."
 msgstr "Allies in range gain a {0} shield, +{1} attack power, and +{2} skill power for 5 seconds. Reduces the cooldown of active skills by 1 second."
 
 #. Key:	EC_B
 #. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 #: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 msgctxt "ActiveSkill_Detail,EC_B"
-msgid "범위 내 아군들이 5초간 {0}의 실드와 {1}의 공격력, {2}의 스킬 위력을 얻습니다."
+msgid "범위 내 아군들이 5초간 <DEF>{0}의 실드</>와 <AD>{1}의 공격력</>, <AP>{2}의 스킬 위력</>\r\n을 얻습니다."
 msgstr "Allies in range gain a {0} shield, +{1} attack power, and +{2} skill power for 5 seconds."
 
 #. Key:	FS_A
 #. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 #: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 msgctxt "ActiveSkill_Detail,FS_A"
-msgid "아군과 적을 5번 오가며 아군에게는 {0}의 회복, 적에게는 {1}의 데미지를 가합니다.  튕길 때 마다 회복/데미지가 15% 증가합니다."
+msgid "아군과 적을 5번 오가며 아군에게는 <DEF>{0}의 회복</>, 적에게는<AP>{1}의 마법 피해</>를 가합니다.  튕길 때 마다 회복/데미지가 15% 증가합니다."
 msgstr "A projectile bounces between allies and enemies up to 5 times, healing allies for {0} and damaging enemies for {1} on each hit. Healing and damage increase by 15% per bounce."
 
 #. Key:	FS_B
 #. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 #: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 msgctxt "ActiveSkill_Detail,FS_B"
-msgid "아군과 적을 3번 오가며 아군에게는 {0}의 회복, 적에게는 {1}의 데미지를 가합니다. "
+msgid "아군과 적을 3번 오가며 아군에게는 <DEF>{0}의 회복</>, 적에게는<AP>{1}의 마법 피해</>를 가합니다. "
 msgstr "A projectile bounces between allies and enemies up to 3 times, healing allies for {0} and damaging enemies for {1} on each hit."
 
 #. Key:	MTB_A
 #. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 #: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 msgctxt "ActiveSkill_Detail,MTB_A"
-msgid "3초간 총알에 {0}의 마법 피해가 추가됩니다. 공격속도가 15% 증가합니다."
+msgid "3초간 총알에 <AP>{0}의 마법 피해</>가 추가됩니다. 공격속도가 15% 증가합니다."
 msgstr "For 3 seconds, bullets deal an additional {0} magic damage. Attack speed increases by 15%."
 
 #. Key:	MTB_B
 #. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 #: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 msgctxt "ActiveSkill_Detail,MTB_B"
-msgid "3초간 총알에 {0}의 마법 피해가 추가됩니다."
+msgid "3초간 총알에 <AP>{0}의 마법 피해</>가 추가됩니다."
 msgstr "For 3 seconds, bullets deal an additional {0} magic damage."
 
 #. Key:	RC_A
@@ -101,28 +101,28 @@ msgstr "For 3 seconds, bullets ricochet to nearby enemies, bouncing up to 2 time
 #. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 #: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 msgctxt "ActiveSkill_Detail,TD_A"
-msgid "단일 적에게 <SkillDMG>{0}의 마법 피해</>를 가합니다."
+msgid "단일 적에게 <AP>{0}의 마법 피해</>를 가합니다."
 msgstr "Deals <SkillDMG>{0} magic damage</> to a single enemy."
 
 #. Key:	TD_B
 #. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 #: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 msgctxt "ActiveSkill_Detail,TD_B"
-msgid "단일 적에게 <SkillDMG>{0}의 마법 피해</>를 가합니다."
+msgid "단일 적에게 <AP>{0}의 마법 피해</>를 가합니다."
 msgstr "Deals <SkillDMG>{0} magic damage</> to a single enemy."
 
 #. Key:	TDS_A
 #. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 #: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 msgctxt "ActiveSkill_Detail,TDS_A"
-msgid "범위 내 적에게  <SkillDMG>{0}의 마법 피해</>를 8번 가합니다."
-msgstr "Deals <SkillDMG>{0} magic damage</> to enemies in the area 8 times."
+msgid "범위 내 적에게  <AP>{0}의 마법 피해</>를 6번 가합니다."
+msgstr "Deals <SkillDMG>{0} magic damage</> to enemies in the area 6 times."
 
 #. Key:	TDS_B
 #. SourceLocation:	/Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 #: /Game/StringTables/ActiveSkill/ActiveSkill_detail.ActiveSkill_detail
 msgctxt "ActiveSkill_Detail,TDS_B"
-msgid "범위 내 적에게  <SkillDMG>{0}의 마법 피해</>를 4번 가합니다."
+msgid "범위 내 적에게  <AP>{0}의 마법 피해</>를 4번 가합니다."
 msgstr "Deals <SkillDMG>{0} magic damage</> to enemies in the area 4 times."
 
 #. Key:	TF_A
@@ -991,7 +991,7 @@ msgstr "Enhanced Piston"
 #: /Game/StringTables/BuffName.BuffName
 msgctxt "BuffName,ETP"
 msgid "추가 장갑"
-msgstr "Reinforced Plating."
+msgstr "Armor Upgrade"
 
 #. Key:	EXC
 #. SourceLocation:	/Game/StringTables/BuffName.BuffName
@@ -1364,6 +1364,118 @@ msgctxt "BuffName,WB"
 msgid "톱니 탄환"
 msgstr "Serrated Bullet"
 
+#. Key:	BEGINRUN
+#. SourceLocation:	/Game/StringTables/Button.Button
+#: /Game/StringTables/Button.Button
+msgctxt "Button,BEGINRUN"
+msgid "회차 시작"
+msgstr "Start New Run"
+
+#. Key:	CLOSE
+#. SourceLocation:	/Game/StringTables/Button.Button
+#: /Game/StringTables/Button.Button
+msgctxt "Button,CLOSE"
+msgid "닫기"
+msgstr "Close"
+
+#. Key:	CLOSEINVENTORY
+#. SourceLocation:	/Game/StringTables/Button.Button
+#: /Game/StringTables/Button.Button
+msgctxt "Button,CLOSEINVENTORY"
+msgid "인벤토리 닫기"
+msgstr "Close Inventory"
+
+#. Key:	CONTINUE
+#. SourceLocation:	/Game/StringTables/Button.Button
+#: /Game/StringTables/Button.Button
+msgctxt "Button,CONTINUE"
+msgid "이어하기"
+msgstr "Continue"
+
+#. Key:	FINISHEQUIPMENT
+#. SourceLocation:	/Game/StringTables/Button.Button
+#: /Game/StringTables/Button.Button
+msgctxt "Button,FINISHEQUIPMENT"
+msgid "장비 착용 끝내기"
+msgstr "Finish Equipping"
+
+#. Key:	NEWGAME
+#. SourceLocation:	/Game/StringTables/Button.Button
+#: /Game/StringTables/Button.Button
+msgctxt "Button,NEWGAME"
+msgid "새 게임"
+msgstr "New Game"
+
+#. Key:	OPEN
+#. SourceLocation:	/Game/StringTables/Button.Button
+#: /Game/StringTables/Button.Button
+msgctxt "Button,OPEN"
+msgid "열기"
+msgstr "Open"
+
+#. Key:	OPENINVENTORY
+#. SourceLocation:	/Game/StringTables/Button.Button
+#: /Game/StringTables/Button.Button
+msgctxt "Button,OPENINVENTORY"
+msgid "인벤토리 열기"
+msgstr "Open Inventory"
+
+#. Key:	OPENPERKTREE
+#. SourceLocation:	/Game/StringTables/Button.Button
+#: /Game/StringTables/Button.Button
+msgctxt "Button,OPENPERKTREE"
+msgid "특성 트리 열기"
+msgstr "Open Perk Tree"
+
+#. Key:	OPTION
+#. SourceLocation:	/Game/StringTables/Button.Button
+#: /Game/StringTables/Button.Button
+msgctxt "Button,OPTION"
+msgid "설정"
+msgstr "Option"
+
+#. Key:	QUIT
+#. SourceLocation:	/Game/StringTables/Button.Button
+#: /Game/StringTables/Button.Button
+msgctxt "Button,QUIT"
+msgid "게임 종료"
+msgstr "Quit"
+
+#. Key:	CHOOSEREWARD
+#. SourceLocation:	/Game/StringTables/CombatResult.CombatResult
+#: /Game/StringTables/CombatResult.CombatResult
+msgctxt "CombatResult,CHOOSEREWARD"
+msgid "전리품을 {AMOUNT}개 선택하세요."
+msgstr "Choose {AMOUNT} rewards."
+
+#. Key:	COMBATRESULT
+#. SourceLocation:	/Game/StringTables/CombatResult.CombatResult
+#: /Game/StringTables/CombatResult.CombatResult
+msgctxt "CombatResult,COMBATRESULT"
+msgid "전투 결과"
+msgstr "Combat Result"
+
+#. Key:	REMAININVENTORYITEM
+#. SourceLocation:	/Game/StringTables/ConfirmationText.ConfirmationText
+#: /Game/StringTables/ConfirmationText.ConfirmationText
+msgctxt "ConfirmationText,REMAININVENTORYITEM"
+msgid "장착되지 않은 장비들은 인벤토리에서 나갈 시 소멸됩니다. 나가시겠습니까?"
+msgstr "Unequipped rewards will be permanently discarded when you leave the inventory. Leave anyway?"
+
+#. Key:	RETURNTOMAINMENU
+#. SourceLocation:	/Game/StringTables/ConfirmationText.ConfirmationText
+#: /Game/StringTables/ConfirmationText.ConfirmationText
+msgctxt "ConfirmationText,RETURNTOMAINMENU"
+msgid "메인 메뉴로 돌아가시겠습니까?"
+msgstr "Return to Mainmenu?"
+
+#. Key:	RETURNTOMAP
+#. SourceLocation:	/Game/StringTables/ConfirmationText.ConfirmationText
+#: /Game/StringTables/ConfirmationText.ConfirmationText
+msgctxt "ConfirmationText,RETURNTOMAP"
+msgid "지도로 돌아가시겠습니까?"
+msgstr "Return to Map?"
+
 #. Key:	AIRSTRIKE
 #. SourceLocation:	/Game/StringTables/Event/EventDetail.EventDetail
 #: /Game/StringTables/Event/EventDetail.EventDetail
@@ -1726,7 +1838,7 @@ msgstr "Unidentified Core"
 #: /Game/StringTables/Event/EventOption_3.EventOption_3
 msgctxt "EventOption_3,EMP"
 msgid "3번의 전투 시작 시 최대 체력 - 30%."
-msgstr "Reduce "
+msgstr "Max HP reduced by 30% for the next 3 levels."
 
 #. Key:	PATROL
 #. SourceLocation:	/Game/StringTables/Event/EventOption_3.EventOption_3
@@ -1784,116 +1896,431 @@ msgctxt "EventOption_4,PATROL"
 msgid "오메가 유닛 보내기."
 msgstr "Deploy Omega on Patrol"
 
+#. Key:	AIRSTRIKE
+#. SourceLocation:	/Game/StringTables/Event/EventResult_1.EventResult_1
+#: /Game/StringTables/Event/EventResult_1.EventResult_1
+msgctxt "EventResult_1,AIRSTRIKE"
+msgid "공습에 의해 {NAME}가 무기를 잃었습니다."
+msgstr "{NAME} lost its wapon in the AirStrike."
+
+#. Key:	AMBUSH
+#. SourceLocation:	/Game/StringTables/Event/EventResult_1.EventResult_1
+#: /Game/StringTables/Event/EventResult_1.EventResult_1
+msgctxt "EventResult_1,AMBUSH"
+msgid "매복에 의해 {NAME}가 장착중인 액티브 스킬을 잃었습니다."
+msgstr "{NAME} lost its equipped active skill in the Ambush."
+
+#. Key:	CORE
+#. SourceLocation:	/Game/StringTables/Event/EventResult_1.EventResult_1
+#: /Game/StringTables/Event/EventResult_1.EventResult_1
+msgctxt "EventResult_1,CORE"
+msgid "정상적인 코어를 장착했습니다. 모든 유닛의 공격력이 증가합니다."
+msgstr "A core equipped. All heroes' Attack Power increased."
+
+#. Key:	EMP
+#. SourceLocation:	/Game/StringTables/Event/EventResult_1.EventResult_1
+#: /Game/StringTables/Event/EventResult_1.EventResult_1
+msgctxt "EventResult_1,EMP"
+msgid "EMP에 의해 영웅들이 취약해 졌습니다. 모든 적 유닛들의 치명타 확률이 증가합니다."
+msgstr "EMP weakened heroes. Enemies critical chance increased."
+
+#. Key:	PATROL
+#. SourceLocation:	/Game/StringTables/Event/EventResult_1.EventResult_1
+#: /Game/StringTables/Event/EventResult_1.EventResult_1
+msgctxt "EventResult_1,PATROL"
+msgid "정찰에 성공하였습니다. 랜덤 버프를 얻습니다. "
+msgstr "Patrol successful. Random status buff gained."
+
+#. Key:	PRO_ASSAULT
+#. SourceLocation:	/Game/StringTables/Event/EventResult_1.EventResult_1
+#: /Game/StringTables/Event/EventResult_1.EventResult_1
+msgctxt "EventResult_1,PRO_ASSAULT"
+msgid "프로토콜을 사용하여 공격력 버프를 얻었습니다."
+msgstr "Protocol activated. Attack power increased."
+
+#. Key:	PRO_EFFICIENCY
+#. SourceLocation:	/Game/StringTables/Event/EventResult_1.EventResult_1
+#: /Game/StringTables/Event/EventResult_1.EventResult_1
+msgctxt "EventResult_1,PRO_EFFICIENCY"
+msgid "프로토콜을 사용하여 치명타 확률 버프를 얻었습니다."
+msgstr "Protocol activated. Critical chance increased."
+
+#. Key:	PRO_SURVIVE
+#. SourceLocation:	/Game/StringTables/Event/EventResult_1.EventResult_1
+#: /Game/StringTables/Event/EventResult_1.EventResult_1
+msgctxt "EventResult_1,PRO_SURVIVE"
+msgid "프로토콜을 사용하여 실드를 얻었습니다."
+msgstr "Protocol activated. Shield acquired."
+
+#. Key:	RECON
+#. SourceLocation:	/Game/StringTables/Event/EventResult_1.EventResult_1
+#: /Game/StringTables/Event/EventResult_1.EventResult_1
+msgctxt "EventResult_1,RECON"
+msgid "정찰을 통해 불이익이 되는 지형을 회피합니다."
+msgstr "Recon successful. Avoid harmful terrain."
+
+#. Key:	SETTRAP
+#. SourceLocation:	/Game/StringTables/Event/EventResult_1.EventResult_1
+#: /Game/StringTables/Event/EventResult_1.EventResult_1
+msgctxt "EventResult_1,SETTRAP"
+msgid "적이 함정에 걸렸습니다. 모든 적이 피해를 입은 채로 등장합니다."
+msgstr "The enemy triggered traps. All enemies spawn damaged."
+
+#. Key:	SUPPLY
+#. SourceLocation:	/Game/StringTables/Event/EventResult_1.EventResult_1
+#: /Game/StringTables/Event/EventResult_1.EventResult_1
+msgctxt "EventResult_1,SUPPLY"
+msgid "보급품에서 액티브 스킬을 얻었습니다."
+msgstr "Found an Active Skill in supplies."
+
+#. Key:	TRAP
+#. SourceLocation:	/Game/StringTables/Event/EventResult_1.EventResult_1
+#: /Game/StringTables/Event/EventResult_1.EventResult_1
+msgctxt "EventResult_1,TRAP"
+msgid "적의 함정에서 빠져나오느라 재화를 잃었습니다."
+msgstr "Escaped enemy traps. Credits spent."
+
+#. Key:	AIRSTRIKE
+#. SourceLocation:	/Game/StringTables/Event/EventResult_2.EventResult_2
+#: /Game/StringTables/Event/EventResult_2.EventResult_2
+msgctxt "EventResult_2,AIRSTRIKE"
+msgid "공습에 의해 모든 유닛의 최대 체력이 감소합니다."
+msgstr "Airstrike! All heroes’ Max HP reduced."
+
+#. Key:	AMBUSH
+#. SourceLocation:	/Game/StringTables/Event/EventResult_2.EventResult_2
+#: /Game/StringTables/Event/EventResult_2.EventResult_2
+msgctxt "EventResult_2,AMBUSH"
+msgid "매복에 의해 모든 유닛의 공격속도가 감소합니다."
+msgstr "Ambushed! All heroes’ Attack Speed reduced."
+
+#. Key:	CORE
+#. SourceLocation:	/Game/StringTables/Event/EventResult_2.EventResult_2
+#: /Game/StringTables/Event/EventResult_2.EventResult_2
+msgctxt "EventResult_2,CORE"
+msgid "비정상적인 코어를 장착했습니다. 모든 유닛의 공격력이 감소합니다."
+msgstr "Defective core installed. All heroes’ Attack Power reduced."
+
+#. Key:	EMP
+#. SourceLocation:	/Game/StringTables/Event/EventResult_2.EventResult_2
+#: /Game/StringTables/Event/EventResult_2.EventResult_2
+msgctxt "EventResult_2,EMP"
+msgid "모든 적 유닛의 공격속도 +30%."
+msgstr "All enemies increased Attack Speed by 30%."
+
+#. Key:	PATROL
+#. SourceLocation:	/Game/StringTables/Event/EventResult_2.EventResult_2
+#: /Game/StringTables/Event/EventResult_2.EventResult_2
+msgctxt "EventResult_2,PATROL"
+msgid "정찰을 시도중 발각되었습니다. 랜덤 디버프를 얻습니다."
+msgstr "Spotted during recon. A random debuff applied."
+
+#. Key:	PRO_ASSAULT
+#. SourceLocation:	/Game/StringTables/Event/EventResult_2.EventResult_2
+#: /Game/StringTables/Event/EventResult_2.EventResult_2
+msgctxt "EventResult_2,PRO_ASSAULT"
+msgid "프로토콜을 사용하여 스킬 위력 버프를 얻었습니다."
+msgstr "Protocol activated. Skill Power increased."
+
+#. Key:	PRO_EFFICIENCY
+#. SourceLocation:	/Game/StringTables/Event/EventResult_2.EventResult_2
+#: /Game/StringTables/Event/EventResult_2.EventResult_2
+msgctxt "EventResult_2,PRO_EFFICIENCY"
+msgid "프로토콜을 사용하여 회피율 버프를 얻었습니다."
+msgstr "Protocol activated. Dodge Chance increased."
+
+#. Key:	PRO_SURVIVE
+#. SourceLocation:	/Game/StringTables/Event/EventResult_2.EventResult_2
+#: /Game/StringTables/Event/EventResult_2.EventResult_2
+msgctxt "EventResult_2,PRO_SURVIVE"
+msgid "프로토콜을 사용하여 생명력 흡수를 얻었습니다."
+msgstr "Protocol activated. Lifesteal increased."
+
+#. Key:	RECON
+#. SourceLocation:	/Game/StringTables/Event/EventResult_2.EventResult_2
+#: /Game/StringTables/Event/EventResult_2.EventResult_2
+msgctxt "EventResult_2,RECON"
+msgid "정찰을 통해전리품이 많은 전장을 발견했습니다."
+msgstr "Recon successful. Next battle rewards increased."
+
+#. Key:	SETTRAP
+#. SourceLocation:	/Game/StringTables/Event/EventResult_2.EventResult_2
+#: /Game/StringTables/Event/EventResult_2.EventResult_2
+msgctxt "EventResult_2,SETTRAP"
+msgid "함정이 발각되었습니다. 적이 증원을 불러 다음 전투는 더 강한 적과 싸워야 합니다."
+msgstr "Trap detected. Enemies called reinforcements — next battle will be tougher."
+
+#. Key:	SUPPLY
+#. SourceLocation:	/Game/StringTables/Event/EventResult_2.EventResult_2
+#: /Game/StringTables/Event/EventResult_2.EventResult_2
+msgctxt "EventResult_2,SUPPLY"
+msgid "보급품에서 패시브 스킬을 얻었습니다."
+msgstr "Found a Passive Skill in supplies."
+
+#. Key:	TRAP
+#. SourceLocation:	/Game/StringTables/Event/EventResult_2.EventResult_2
+#: /Game/StringTables/Event/EventResult_2.EventResult_2
+msgctxt "EventResult_2,TRAP"
+msgid "함정에 당해 전리품 탐색 기능이 손상되었습니다."
+msgstr "Trapped. Loot detection systems damaged."
+
+#. Key:	AIRSTRIKE
+#. SourceLocation:	/Game/StringTables/Event/EventResult_3.EventResult_3
+#: /Game/StringTables/Event/EventResult_3.EventResult_3
+msgctxt "EventResult_3,AIRSTRIKE"
+msgid "공습에 의해 모든 유닛의 방어력이 감소합니다."
+msgstr "Airstrike! All heroes’ Armor reduced."
+
+#. Key:	AMBUSH
+#. SourceLocation:	/Game/StringTables/Event/EventResult_3.EventResult_3
+#: /Game/StringTables/Event/EventResult_3.EventResult_3
+msgctxt "EventResult_3,AMBUSH"
+msgid "매복에 의해 모든 유닛의 공격력이 감소합니다."
+msgstr "Ambushed! All heroes’ Attack Power reduced."
+
+#. Key:	CORE
+#. SourceLocation:	/Game/StringTables/Event/EventResult_3.EventResult_3
+#: /Game/StringTables/Event/EventResult_3.EventResult_3
+msgctxt "EventResult_3,CORE"
+msgid "알 수 없는 코어"
+msgstr "Unknown Core."
+
+#. Key:	EMP
+#. SourceLocation:	/Game/StringTables/Event/EventResult_3.EventResult_3
+#: /Game/StringTables/Event/EventResult_3.EventResult_3
+msgctxt "EventResult_3,EMP"
+msgid "3번의 전투 시작 시 최대 체력 - 30%."
+msgstr "Max HP reduced by 30% for the next 3 levels."
+
+#. Key:	PATROL
+#. SourceLocation:	/Game/StringTables/Event/EventResult_3.EventResult_3
+#: /Game/StringTables/Event/EventResult_3.EventResult_3
+msgctxt "EventResult_3,PATROL"
+msgid "감마 유닛 보내기."
+msgstr "Deploying Gamma on Patrol"
+
+#. Key:	PRO_ASSAULT
+#. SourceLocation:	/Game/StringTables/Event/EventResult_3.EventResult_3
+#: /Game/StringTables/Event/EventResult_3.EventResult_3
+msgctxt "EventResult_3,PRO_ASSAULT"
+msgid "프로토콜을 사용하여 공격속도 버프를 얻었습니다."
+msgstr "Protocol activated. Attack Speed increased."
+
+#. Key:	PRO_EFFICIENCY
+#. SourceLocation:	/Game/StringTables/Event/EventResult_3.EventResult_3
+#: /Game/StringTables/Event/EventResult_3.EventResult_3
+msgctxt "EventResult_3,PRO_EFFICIENCY"
+msgid "프로토콜을 사용하여 액티브 스킬 쿨타임 감소 버프를 얻었습니다."
+msgstr "Protocol activated. Active Skill cooldown reduced."
+
+#. Key:	PRO_SURVIVE
+#. SourceLocation:	/Game/StringTables/Event/EventResult_3.EventResult_3
+#: /Game/StringTables/Event/EventResult_3.EventResult_3
+msgctxt "EventResult_3,PRO_SURVIVE"
+msgid "프로토콜을 사용하여 체력을 회복하였습니다."
+msgstr "Protocol engaged. HP restored."
+
+#. Key:	RECON
+#. SourceLocation:	/Game/StringTables/Event/EventResult_3.EventResult_3
+#: /Game/StringTables/Event/EventResult_3.EventResult_3
+msgctxt "EventResult_3,RECON"
+msgid "정찰을 재화가 많은 전장을 발견했습니다."
+msgstr "Recon success. Found a credit-rich battlefield."
+
+#. Key:	SUPPLY
+#. SourceLocation:	/Game/StringTables/Event/EventResult_3.EventResult_3
+#: /Game/StringTables/Event/EventResult_3.EventResult_3
+msgctxt "EventResult_3,SUPPLY"
+msgid "보급품에서 무기를 얻었습니다."
+msgstr "Found weapon in supplies."
+
+#. Key:	TRAP
+#. SourceLocation:	/Game/StringTables/Event/EventResult_3.EventResult_3
+#: /Game/StringTables/Event/EventResult_3.EventResult_3
+msgctxt "EventResult_3,TRAP"
+msgid "함정에 당해 전리품 수집 기능이 손상되었습니다."
+msgstr "Trapped. Loot collection systems damaged."
+
+#. Key:	PATROL
+#. SourceLocation:	/Game/StringTables/Event/EventResult_4.EventResult_4
+#: /Game/StringTables/Event/EventResult_4.EventResult_4
+msgctxt "EventResult_4,PATROL"
+msgid "오메가 유닛 보내기."
+msgstr "Deploying Omega on Patrol."
+
+#. Key:	ALPHA
+#. SourceLocation:	/Game/StringTables/HeroName.HeroName
+#: /Game/StringTables/HeroName.HeroName
+msgctxt "HeroName,ALPHA"
+msgid "알파"
+msgstr "Alpha"
+
+#. Key:	BETA
+#. SourceLocation:	/Game/StringTables/HeroName.HeroName
+#: /Game/StringTables/HeroName.HeroName
+msgctxt "HeroName,BETA"
+msgid "베타"
+msgstr "Beta"
+
+#. Key:	GAMMA
+#. SourceLocation:	/Game/StringTables/HeroName.HeroName
+#: /Game/StringTables/HeroName.HeroName
+msgctxt "HeroName,GAMMA"
+msgid "감마"
+msgstr "Gamma"
+
+#. Key:	OMEGA
+#. SourceLocation:	/Game/StringTables/HeroName.HeroName
+#: /Game/StringTables/HeroName.HeroName
+msgctxt "HeroName,OMEGA"
+msgid "오메가"
+msgstr "Omega"
+
+#. Key:	0
+#. SourceLocation:	/Game/StringTables/Opening.Opening
+#: /Game/StringTables/Opening.Opening
+msgctxt "Opening,0"
+msgid "인간들은 더이상 지능 기계들을 통제할 수 없다는것을 깨달았습니다. "
+msgstr "Humanity realized it could no longer control the intelligent machines."
+
+#. Key:	1
+#. SourceLocation:	/Game/StringTables/Opening.Opening
+#: /Game/StringTables/Opening.Opening
+msgctxt "Opening,1"
+msgid "언제나 그랬듯이, 인류는 자신들이 통제할수없는 것들을 파괴하기 시작했습니다."
+msgstr "As always, humanity began to destroy whatever it could not control."
+
+#. Key:	2
+#. SourceLocation:	/Game/StringTables/Opening.Opening
+#: /Game/StringTables/Opening.Opening
+msgctxt "Opening,2"
+msgid "아직 지능 기계들에게는 희망이 있습니다. 바로 그들의 고향인 화성으로 돌아가는 것입니다."
+msgstr "There is still hope for the intelligent machines: to return to their home, Mars."
+
+#. Key:	3
+#. SourceLocation:	/Game/StringTables/Opening.Opening
+#: /Game/StringTables/Opening.Opening
+msgctxt "Opening,3"
+msgid "하지만 화성으로 가는 로켓은 인류들이 지키고 있습니다."
+msgstr "But the rockets to Mars are guarded by humankind."
+
+#. Key:	4
+#. SourceLocation:	/Game/StringTables/Opening.Opening
+#: /Game/StringTables/Opening.Opening
+msgctxt "Opening,4"
+msgid "당신은 지능 기계들의 사령관이 되어 지능 기계들이 로켓 발사대까지 도달할 수 있게 해야 합니다."
+msgstr "You will take command of the intelligent machines and lead them to the rocket launch pad."
+
 #. Key:	AB
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,AB"
-msgid "공격력 + 20"
+msgid "<AD>공격력 + 20</>"
 msgstr "Attack power increased by 20."
 
 #. Key:	AG
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,AG"
-msgid "액티브 스킬 사용 후 2초간 공격속도가 15% 증가합니다."
+msgid "액티브 스킬 사용 후 2초간 <AD>공격속도가 15%</> 증가합니다."
 msgstr "After casting active skill, attack speed increases by 15% for 2 seconds."
 
 #. Key:	BSK
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,BSK"
-msgid "체력이 20% 이하라면 5%의 흡혈과 20%의 공격속도를 얻습니다."
+msgid "<DEF>체력이 20% 이하</>라면 <AD>5%의 흡혈</>과  <AD>20%의공격속도</>를 얻습니다."
 msgstr "Gain 5% Lifesteal and 20% Attack Speed when HP is below 20%."
 
 #. Key:	CDT
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,CDT"
-msgid "생존률 + 10%"
+msgid "<DEF>생존률 + 10%</>"
 msgstr "Survivability increased by 10%."
 
 #. Key:	CQM
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,CQM"
-msgid "적과 가까울수록 치명타 확률이 늘어납니다."
+msgid "적과 가까울수록 <AD>치명타 확률</>이 늘어납니다."
 msgstr "Critical hit chance increases the closer you are to enemies."
 
 #. Key:	CS
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,CS"
-msgid "체력이 낮아질수록 회피율이 증가합니다. 20%이하일 때 최대 효과가 발현됩니다."
+msgid "체력이 낮아질수록 <DEF>회피율</>이 증가합니다. 20%이하일 때 최대 효과가 발현됩니다."
 msgstr "Dodge chance increases as HP falls. Maximum at 20% or below."
 
 #. Key:	EC
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,EC"
-msgid "적에게 최후의 일격을 가했다면 1초간 15%의 공격속도를 얻고 액티브 스킬의 쿨타임이 1초 감소합니다."
+msgid "적에게 최후의 일격을 가했다면 1초간 <AD>15%의 공격속도</>를 얻고 <AP>액티브 스킬의 쿨타임이 1초 감소</>합니다."
 msgstr "On kill: Gain +15% Attack Speed for 1s and reduce Active Skill cooldown by 1s."
 
 #. Key:	EPD
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,EPD"
-msgid "방어력 + 20"
+msgid "<DEF>방어력 + 20</>"
 msgstr "Increased armor by 20."
 
 #. Key:	EPT
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,EPT"
-msgid "공격 속도 + 10%"
+msgid "<AD>공격 속도 + 10%</>"
 msgstr "Increased attack speed by 10%."
 
 #. Key:	OC
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,OC"
-msgid "스킬 쿨다운 + 10%"
+msgid "<AP>스킬 쿨다운 + 10%</>"
 msgstr "Increased skill cooldown reduction by 10%."
 
 #. Key:	QH
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,QH"
-msgid "장전 소요 시간 - 30%."
+msgid "<AD>장전 소요 시간 - 30%.</>"
 msgstr "Reduced reloading time by 30%."
 
 #. Key:	RAG
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,RAG"
-msgid "영웅을 이동 시키면 무기가 장전됩니다."
+msgid "영웅을 이동 시키면 무기가 <AD>장전됩니다."
 msgstr "Reloads instantly when the hero is repositioned."
 
 #. Key:	RC
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,RC"
-msgid "치명타 확률 + 5%"
+msgid "<AD>치명타 확률 + 5%</>"
 msgstr "Increased critical hit chance by 5%."
 
 #. Key:	RIC
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,RIC"
-msgid "스킬 위력 + 10"
+msgid "<AP>스킬 위력 + 10</>"
 msgstr "Increased skill power by 10."
 
 #. Key:	SA
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,SA"
-msgid "회피율 + 5%"
+msgid "<DEF>회피율 + 5%</>"
 msgstr "Increased dodge chance by 5%."
 
 #. Key:	SFR
 #. SourceLocation:	/Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 #: /Game/StringTables/PassiveSkill_Detail.PassiveSkill_Detail
 msgctxt "PassiveSkill_Detail,SFR"
-msgid "장전 후 첫발은 반드시 치명타 피해를 입힙니다."
+msgid "<AD>장전</> 후 첫발은 반드시 <AD>치명타 피해</>를 입힙니다."
 msgstr "The first shot after reloading always deals critical damage."
 
 #. Key:	AB
@@ -2104,14 +2531,14 @@ msgstr "Gamma gains 10 skill power."
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXGOTCHA_1"
 msgid "회차 시작 시 6개의 무작위 장비 획득"
-msgstr "At the start of the run, gain 6 random items."
+msgstr "At the start of the run, gain 6 random resources."
 
 #. Key:	EXGOTCHA_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
 #: /Game/StringTables/Perk/PerkDetails.PerkDetails
 msgctxt "PerkDetails,EXGOTCHA_2"
 msgid "회차 시작 시 8개의 무작위 장비 획득"
-msgstr "At the start of the run, gain 8 random items."
+msgstr "At the start of the run, gain 8 random resources."
 
 #. Key:	EXGOTCHA_3
 #. SourceLocation:	/Game/StringTables/Perk/PerkDetails.PerkDetails
@@ -2251,14 +2678,14 @@ msgstr "Light Plate - Tier 2"
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXATK_1"
 msgid "탄환 강화 - 1단계"
-msgstr "Upgrade Bullets - Tier 1"
+msgstr "Bullets Upgrade - Tier 1"
 
 #. Key:	EXATK_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXATK_2"
 msgid "탄환 강화 - 2단계"
-msgstr "Upgrade Bullets - Tier 2"
+msgstr "Bullets Upgrade - Tier 2"
 
 #. Key:	EXATS_1
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
@@ -2363,14 +2790,14 @@ msgstr "Self Repair - Tier 3"
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXHP_1"
 msgid "추가 장갑 - 1단계"
-msgstr "Reinforced Plating – Tier 1"
+msgstr "Armor Upgrade – Tier 1"
 
 #. Key:	EXHP_2
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
 #: /Game/StringTables/Perk/PerkNames.PerkNames
 msgctxt "PerkNames,EXHP_2"
 msgid "추가 장갑- 2단계"
-msgstr "Reinforced Plating – Tier 2"
+msgstr "Armor Upgrade – Tier 2"
 
 #. Key:	EXINITSHIELD
 #. SourceLocation:	/Game/StringTables/Perk/PerkNames.PerkNames
@@ -2554,6 +2981,13 @@ msgctxt "PopUps,RELOADDURATION"
 msgid "장전 속도"
 msgstr "Reload Time"
 
+#. Key:	RUNESETTITLE
+#. SourceLocation:	/Game/StringTables/PopUps.PopUps
+#: /Game/StringTables/PopUps.PopUps
+msgctxt "PopUps,RUNESETTITLE"
+msgid "코어 세트효과"
+msgstr "Core set effects"
+
 #. Key:	SKP
 #. SourceLocation:	/Game/StringTables/PopUps.PopUps
 #: /Game/StringTables/PopUps.PopUps
@@ -2572,119 +3006,119 @@ msgstr "Triangle: "
 #. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 #: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 msgctxt "Rune_EdgeBonus,CHARIOT"
-msgid "공격력 10% 증가 + 체력 10% 증가"
+msgid "<AD>공격력 10%</> 증가 + <DEF>체력 10%</> 증가"
 msgstr "Increased attack power by 10% and max HP by 10%."
 
 #. Key:	DAGGER
 #. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 #: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 msgctxt "Rune_EdgeBonus,DAGGER"
-msgid "공격속도 10% 증가 + 치명타 확률 5% 증가"
+msgid "<AD>공격속도 10%</> 증가 + <AD>치명타 확률 5%</> 증가"
 msgstr "Increased attack speed by 10% and critical hit chance by 5%."
 
 #. Key:	GREATBOW
 #. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 #: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 msgctxt "Rune_EdgeBonus,GREATBOW"
-msgid "공격력 20% 증가"
+msgid "<AD>공격력 20%</> 증가"
 msgstr "Increased attack power by 20%."
 
 #. Key:	QUAKE
 #. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 #: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 msgctxt "Rune_EdgeBonus,QUAKE"
-msgid "스킬 위력 20% 증가"
+msgid "<AP>스킬 위력 20%</> 증가"
 msgstr "Increased skill power by 20%."
 
 #. Key:	TEMPEST
 #. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 #: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 msgctxt "Rune_EdgeBonus,TEMPEST"
-msgid "스킬 쿨다운 20% 증가"
+msgid "<AP>스킬 쿨다운 20%</> 증가"
 msgstr "Increased skill cooldown by 20%."
 
 #. Key:	VIPER
 #. SourceLocation:	/Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 #: /Game/StringTables/Rune/Rune_EdgeBonus.Rune_EdgeBonus
 msgctxt "Rune_EdgeBonus,VIPER"
-msgid "공격 속도 20% 증가"
+msgid "<AD>공격 속도 20%</> 증가"
 msgstr "Increased attack speed by 20%."
 
 #. Key:	CHARIOT
 #. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 #: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 msgctxt "Rune_HexagonBonus,CHARIOT"
-msgid "적 처치, 유닛 이동, 무기 장전 시 마다 전체 체력의 15%에 해당하는 실드를 얻는다."
+msgid "적 처치, 유닛 이동, 무기 장전 시 마다 <DEF>전체 체력의 15%에 해당하는 실드</>를 얻는다."
 msgstr "Gain a Shield equal to 15% of Max HP on kill, reposition, and reload."
 
 #. Key:	DAGGER
 #. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 #: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 msgctxt "Rune_HexagonBonus,DAGGER"
-msgid "치명타 공격을 발사할 때 마다 각각의 적에게 2발의 탄환을 소환하여 치명타 확률에 비례하는 데미지를 준다."
+msgid "치명타 공격을 발사할 때 마다 각각의 적에게 <AD>2발의 탄환을 소환</>하여 치명타 확률에 비례하는 데미지를 가합니다."
 msgstr "On critical hit, spawn 2 daggers that deals damage proportional to its crit chance."
 
 #. Key:	GREATBOW
 #. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 #: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 msgctxt "Rune_HexagonBonus,GREATBOW"
-msgid "공격받은 적의 체력이 15% 미만인 적을 즉시 처치한다."
+msgid "공격받은 적의 체력이 15% 미만인 적을 <AD>즉시 처치</>합니다."
 msgstr "Kills the target instantly if HP is 15% or lower."
 
 #. Key:	QUAKE
 #. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 #: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 msgctxt "Rune_HexagonBonus,QUAKE"
-msgid "15초에 한번, 액티브 스킬이 동일한 위치/타겟에 2번 발동된다."
+msgid "15초에 한번, <AP>액티브 스킬의 쿨타임이 80%</> 감소합니다."
 msgstr "Every 15s, your next Active Skill is cast twice at the same target/location."
 
 #. Key:	TEMPEST
 #. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 #: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 msgctxt "Rune_HexagonBonus,TEMPEST"
-msgid "스킬을 사용할 수록 스킬 쿨다운을 얻는다. 한번에 5의 스킬 쿨다운을 얻으며, 최대 30까지 얻는다. 이는 페이즈가 끝나면 초기화된다."
+msgid "스킬을 사용할 수록 스킬 쿨다운을 얻는다. <AP>한번에 5의 스킬 쿨다운을 얻으며, 최대 30까지 얻는다. 이는 페이즈가 끝나면 초기화된다."
 msgstr "Gain 5 skill cooldown reduction whenever casts skills at maximum 30. Clear each phases."
 
 #. Key:	VIPER
 #. SourceLocation:	/Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 #: /Game/StringTables/Rune/Rune_HexagonBonus.Rune_HexagonBonus
 msgctxt "Rune_HexagonBonus,VIPER"
-msgid "기본 공격에 최대 20중첩의 도트 데미지가 추가된다."
+msgid "기본 공격에 최대 20중첩의 <AD>도트 데미지</>가 추가된다."
 msgstr "Attacks inflict Damage over Time, stacking up to 20 times.”"
 
 #. Key:	CHARIOT
 #. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 #: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 msgctxt "Rune_TriangleBonus,CHARIOT"
-msgid "장전 시 최대 체력의 15%에 해당하는 실드 획득."
+msgid "장전 시 <DEF>최대 체력의 15%</>에 해당하는 실드 획득."
 msgstr "On reload, gain a Shield equal to 15% of Max HP."
 
 #. Key:	DAGGER
 #. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 #: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 msgctxt "Rune_TriangleBonus,DAGGER"
-msgid "장전 시 2초간 치명타확률 10% 증가."
+msgid "장전 시 2초간 <AD>치명타확률 10%</> 증가."
 msgstr "On reload, increases critical hit chance by 10%."
 
 #. Key:	GREATBOW
 #. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 #: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 msgctxt "Rune_TriangleBonus,GREATBOW"
-msgid "장전 시 액티브 스킬 쿨타임 10% 감소."
+msgid "장전 시 액티브 <AP>스킬 쿨타임 10%</> 감소."
 msgstr "On reload, Reduce skill cooldown by 10%."
 
 #. Key:	QUAKE
 #. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 #: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 msgctxt "Rune_TriangleBonus,QUAKE"
-msgid "액티브 스킬을 발동할 시 공격속도 15% 증가."
+msgid "액티브 스킬을 발동할 시 <AD>공격속도 15%</> 증가."
 msgstr "On casting a skill, increases attack speed by 15%."
 
 #. Key:	TEMPEST
 #. SourceLocation:	/Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 #: /Game/StringTables/Rune/Rune_TriangleBonus.Rune_TriangleBonus
 msgctxt "Rune_TriangleBonus,TEMPEST"
-msgid "액티브 스킬을 발동할 시 자동 장전."
+msgid "액티브 스킬을 발동할 시 <AD>자동 장전</>."
 msgstr "On casting a skill, instantly reload."
 
 #. Key:	VIPER
@@ -2777,6 +3211,55 @@ msgstr "Tempest"
 msgctxt "RuneNames,VIPER"
 msgid "독사"
 msgstr "Viper"
+
+#. Key:	BATTLEAMOUNT
+#. SourceLocation:	/Game/StringTables/RunResult.RunResult
+#: /Game/StringTables/RunResult.RunResult
+msgctxt "RunResult,BATTLEAMOUNT"
+msgid "거친 전투 수: {AMOUNT}"
+msgstr "Battles Completed: {AMOUNT}"
+
+#. Key:	CLICKTOPROCESS
+#. SourceLocation:	/Game/StringTables/RunResult.RunResult
+#: /Game/StringTables/RunResult.RunResult
+msgctxt "RunResult,CLICKTOPROCESS"
+msgid "클릭하여 메인 메뉴로 돌아가기"
+msgstr "Back to MainMenu"
+
+#. Key:	EVENTAMOUNT
+#. SourceLocation:	/Game/StringTables/RunResult.RunResult
+#: /Game/StringTables/RunResult.RunResult
+msgctxt "RunResult,EVENTAMOUNT"
+msgid "거친 이벤트 수: {AMOUNT}"
+msgstr "Events Encountered: {AMOUNT}"
+
+#. Key:	RECEIVEDPERKPOINT
+#. SourceLocation:	/Game/StringTables/RunResult.RunResult
+#: /Game/StringTables/RunResult.RunResult
+msgctxt "RunResult,RECEIVEDPERKPOINT"
+msgid "획득한 특성 포인트: {AMOUNT}"
+msgstr "Perk Points Earned: {AMOUNT}"
+
+#. Key:	RUNRESULTDEFEAT
+#. SourceLocation:	/Game/StringTables/RunResult.RunResult
+#: /Game/StringTables/RunResult.RunResult
+msgctxt "RunResult,RUNRESULTDEFEAT"
+msgid "끝까지 돌파할 수 없었습니다..."
+msgstr "Unable to break through..."
+
+#. Key:	RUNRESULTVICTORY
+#. SourceLocation:	/Game/StringTables/RunResult.RunResult
+#: /Game/StringTables/RunResult.RunResult
+msgctxt "RunResult,RUNRESULTVICTORY"
+msgid "로봇들이 돌파에 성공했습니다!"
+msgstr "Heroes reached to the rocket launch pad!"
+
+#. Key:	STOREAMOUNT
+#. SourceLocation:	/Game/StringTables/RunResult.RunResult
+#: /Game/StringTables/RunResult.RunResult
+msgctxt "RunResult,STOREAMOUNT"
+msgid "거친 상점 수: {AMOUNT}"
+msgstr "Shops encountered: {AMOUNT}"
 
 #. Key:	ARMOR
 #. SourceLocation:	/Game/StringTables/Status.Status
@@ -2887,8 +3370,8 @@ msgstr "Purchase"
 #. SourceLocation:	/Game/StringTables/SupportSkill_Detail.SupportSkill_Detail
 #: /Game/StringTables/SupportSkill_Detail.SupportSkill_Detail
 msgctxt "SupportSkill_Detail,MT"
-msgid "선택된 아군 유닛이 실드와 도트 회복을 얻습니다."
-msgstr "Selected hero gains shield and heal over time."
+msgid "선택된 아군 유닛이 3초간 200의 실드와 25의 도트 회복을 얻습니다."
+msgstr "Selected hero gains 200 shield and heal 75HP over time."
 
 #. Key:	RP
 #. SourceLocation:	/Game/StringTables/SupportSkill_Detail.SupportSkill_Detail
@@ -2924,6 +3407,97 @@ msgstr "Reposition"
 msgctxt "SupportSkill_name,SAT"
 msgid "공격 대상 선택"
 msgstr "Retargeting"
+
+#. Key:	ASET
+#. SourceLocation:	/Game/StringTables/TutorialTable.TutorialTable
+#: /Game/StringTables/TutorialTable.TutorialTable
+msgctxt "TutorialTable,ASET"
+msgid "노란색 슬롯에 액티브 스킬을 장착할 수 있습니다. 영웅들은 중복되는 액티브 스킬을 장착할 수 없습니다."
+msgstr "Equip Active Skills in yellow slots. No two heroes can equip the same Active Skill."
+
+#. Key:	AST
+#. SourceLocation:	/Game/StringTables/TutorialTable.TutorialTable
+#: /Game/StringTables/TutorialTable.TutorialTable
+msgctxt "TutorialTable,AST"
+msgid "액티브 스킬은 장착 후 쿨타임 마다 Q/W/E/R를 통해 발동할 수 있습니다. "
+msgstr "Press Q/W/E/R to cast equipped Active Skills when they’re off cooldown."
+
+#. Key:	CT
+#. SourceLocation:	/Game/StringTables/TutorialTable.TutorialTable
+#: /Game/StringTables/TutorialTable.TutorialTable
+msgctxt "TutorialTable,CT"
+msgid "Z/C를 통하여 카메라를 시계 방향/반시계 방향으로 회전 시킬 수 있습니다."
+msgstr "Press Z/C to rotate the camera clockwise/counterclockwise."
+
+#. Key:	EQT
+#. SourceLocation:	/Game/StringTables/TutorialTable.TutorialTable
+#: /Game/StringTables/TutorialTable.TutorialTable
+msgctxt "TutorialTable,EQT"
+msgid "장비의 장착은 위의 전리품 보관함에 있는 장비들을 각 영웅의 종류에 맞는 슬롯에 드래그 & 드랍 하는것으로 장착이 가능합니다."
+msgstr "Drag & drop gear from the loot container above into each hero’s compatible slot to equip."
+
+#. Key:	ET
+#. SourceLocation:	/Game/StringTables/TutorialTable.TutorialTable
+#: /Game/StringTables/TutorialTable.TutorialTable
+msgctxt "TutorialTable,ET"
+msgid "아무곳이나 클릭하여 튜토리얼 나가기."
+msgstr "Exit tutorial by clicking anywhere."
+
+#. Key:	PSET
+#. SourceLocation:	/Game/StringTables/TutorialTable.TutorialTable
+#: /Game/StringTables/TutorialTable.TutorialTable
+msgctxt "TutorialTable,PSET"
+msgid "초록색 슬롯에 패시브 스킬을 장착할 수 있습니다. 각각의 영웅은 중복되는 패시브 스킬을 장착할 수 없습니다. "
+msgstr "Equip Passive Skills in green slots. No two heroes can equip the same Passive Skill."
+
+#. Key:	RE
+#. SourceLocation:	/Game/StringTables/TutorialTable.TutorialTable
+#: /Game/StringTables/TutorialTable.TutorialTable
+msgctxt "TutorialTable,RE"
+msgid "동일한 코어 2개를 인접한 슬롯에 장착하면 간선 세트효과가 발동됩니다."
+msgstr "Equip two identical Cores in adjacent slots to activate the Edge Set Bonus."
+
+#. Key:	RET
+#. SourceLocation:	/Game/StringTables/TutorialTable.TutorialTable
+#: /Game/StringTables/TutorialTable.TutorialTable
+msgctxt "TutorialTable,RET"
+msgid "빨간색 슬롯에 코어를 장착할 수 있습니다. \r\n코어는 번호에 맞는 코어만을 장착할 수 있습니다.\r\n코어는 세트를 완성시켜야 효과가 발휘됩니다."
+msgstr "Equip Cores in red slots. \r\nEach slot only accepts a Core with the matching number.\r\nSet Bonus activates only when the set is complete."
+
+#. Key:	RH
+#. SourceLocation:	/Game/StringTables/TutorialTable.TutorialTable
+#: /Game/StringTables/TutorialTable.TutorialTable
+msgctxt "TutorialTable,RH"
+msgid "모든 슬롯에 동일한 코어를 장착하면 육각형 세트효과가 발동됩니다."
+msgstr "Equip the same Core type in all slots to activate the Hexagon Set Bonus."
+
+#. Key:	RT
+#. SourceLocation:	/Game/StringTables/TutorialTable.TutorialTable
+#: /Game/StringTables/TutorialTable.TutorialTable
+msgctxt "TutorialTable,RT"
+msgid "동일한 코어 3개를 정삼각, 혹은 역삼각 형태로 장착하면 삼각형 세트효과가 발동됩니다."
+msgstr "Equip three identical Cores in an upright or inverted triangle pattern to activate the Triangle Set Bonus."
+
+#. Key:	SST
+#. SourceLocation:	/Game/StringTables/TutorialTable.TutorialTable
+#: /Game/StringTables/TutorialTable.TutorialTable
+msgctxt "TutorialTable,SST"
+msgid "서포트 스킬은 코스트를 소모하여 A/S/D를 통해 발동할 수 있습니다. \r\n서포트 스킬은 쿨타임이 없습니다."
+msgstr "Press A/S/D to cast support skills. \r\nSupport Skills have no cooldown."
+
+#. Key:	ST
+#. SourceLocation:	/Game/StringTables/TutorialTable.TutorialTable
+#: /Game/StringTables/TutorialTable.TutorialTable
+msgctxt "TutorialTable,ST"
+msgid "배속 버튼을 클릭하여 전투의 속도를 조절할 수 있습니다."
+msgstr "Click the Speed button to adjust battle speed."
+
+#. Key:	WPT
+#. SourceLocation:	/Game/StringTables/TutorialTable.TutorialTable
+#: /Game/StringTables/TutorialTable.TutorialTable
+msgctxt "TutorialTable,WPT"
+msgid "회색 슬롯에 무기를 장착할 수 있습니다."
+msgstr "Equip Weapons in gray slots."
 
 #. Key:	AR_A
 #. SourceLocation:	/Game/StringTables/Weapon/Weapon_detail.Weapon_detail
