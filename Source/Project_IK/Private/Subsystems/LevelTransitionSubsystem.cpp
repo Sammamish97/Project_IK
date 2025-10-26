@@ -63,7 +63,7 @@ void ULevelTransitionSubsystem::OpenLevel(UWorld* world, ELevelState state)
 		break;
 
 	case ELevelState::Opening:
-		UGameplayStatics::OpenLevel(world, FName("Opening"));
+		UGameplayStatics::OpenLevel(world, FName("/Game/_Scenes/Opening"));
 		break;
 
 	case ELevelState::Ending:
