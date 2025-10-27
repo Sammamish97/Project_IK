@@ -89,3 +89,4 @@ DerivedDataCache/*
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+SteamPublishRelatedFiles
